@@ -1,8 +1,8 @@
 #![allow(missing_docs)]
 
 use relayscrubber::{
-    manifest, CORPUS_BYTES, CORPUS_SHA256, MANIFEST_JSON, MAX_SCRUB_CHARS, REDACTION_TOKEN,
-    RULESET_SOURCE_SHA256, SCRUB_RULESET_VERSION, SEGMENTER_SHA256,
+    manifest, raw_scrub_marker, CORPUS_BYTES, CORPUS_SHA256, MANIFEST_JSON, MAX_SCRUB_CHARS,
+    REDACTION_TOKEN, RULESET_SOURCE_SHA256, SCRUB_RULESET, SCRUB_RULESET_VERSION, SEGMENTER_SHA256,
 };
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -12,6 +12,18 @@ fn sha256(text: &str) -> String {
         "{:x}",
         Sha256::digest(text.replace("\r\n", "\n").as_bytes())
     )
+}
+
+#[test]
+fn history_marker_is_exactly_the_two_field_raw_scrub_contract() {
+    let marker = serde_json::to_value(raw_scrub_marker()).expect("serialize raw.scrub marker");
+    assert_eq!(
+        marker,
+        serde_json::json!({
+            "ruleset": SCRUB_RULESET,
+            "version": SCRUB_RULESET_VERSION,
+        })
+    );
 }
 
 #[test]

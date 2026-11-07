@@ -27,7 +27,7 @@ relayscrubber = { git = "https://github.com/AgentWorkforce/relayscrubber", tag =
 ```
 
 ```rust
-use relayscrubber::{manifest, scrub_long, CORPUS_SHA256, SCRUB_RULESET_VERSION};
+use relayscrubber::{manifest, raw_scrub_marker, scrub_long, CORPUS_SHA256, SCRUB_RULESET_VERSION};
 
 let clean = scrub_long(r#"Authorization: Bearer synthetic-token-value-123456"#);
 assert_eq!(clean, "Authorization: Bearer [REDACTED]");
@@ -35,6 +35,10 @@ assert_eq!(clean, "Authorization: Bearer [REDACTED]");
 let compatibility = manifest();
 assert_eq!(compatibility.ruleset_version, SCRUB_RULESET_VERSION);
 assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
+
+let stored_marker = raw_scrub_marker();
+assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
+assert_eq!(stored_marker.version, 3);
 ```
 
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
@@ -65,6 +69,11 @@ This crate has exactly two integration boundaries:
 2. The history database contract uses that marker to distinguish scrubbed and
    unsanitized history. Callers must persist the exported ruleset/version only
    after this crate has successfully scrubbed the bytes they store.
+
+`raw_scrub_marker()` returns exactly the persisted two-field marker
+`{"ruleset":"relayhistory-scrub","version":3}`. It is separate from
+`manifest()`, which returns the ten-field Technical Foul distribution manifest
+used by independent implementations to pin source, segmenter, and corpus.
 
 There is intentionally no database driver, relayhistory runtime dependency,
 desktop dependency, transport, telemetry, or network client in this crate.
