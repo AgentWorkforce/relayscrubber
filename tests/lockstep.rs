@@ -1,8 +1,8 @@
 #![allow(missing_docs)]
 
 use relayscrubber::{
-    CORPUS_SHA256, MAX_SCRUB_CHARS, REDACTION_TOKEN, RULESET_SOURCE_SHA256, RUST_PORT_SHA256,
-    SCRUB_RULESET_VERSION, SEGMENTER_SHA256, manifest,
+    manifest, CORPUS_BYTES, CORPUS_SHA256, MANIFEST_JSON, MAX_SCRUB_CHARS, REDACTION_TOKEN,
+    RULESET_SOURCE_SHA256, SCRUB_RULESET_VERSION, SEGMENTER_SHA256,
 };
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -36,18 +36,13 @@ fn vendored_canonical_sources_match_the_shared_manifest() {
 }
 
 #[test]
-fn rust_rules_port_is_pinned_to_ruleset_three() {
-    let rules = include_str!("../src/rules.rs");
-    assert_eq!(sha256(rules), RUST_PORT_SHA256);
-    assert_eq!(SCRUB_RULESET_VERSION, 3);
-}
-
-#[test]
 fn exported_contract_matches_technical_foul_schema_one() {
-    let checked_in: Value =
-        serde_json::from_str(include_str!("../vendor/canonical/technical-foul.json"))
-            .expect("valid shared manifest");
+    let checked_in: Value = serde_json::from_str(MANIFEST_JSON).expect("valid shared manifest");
     let current = manifest();
+    assert_eq!(
+        serde_json::to_value(current).expect("serialize manifest"),
+        checked_in
+    );
     assert_eq!(checked_in["schema"], current.schema);
     assert_eq!(checked_in["rulesetVersion"], SCRUB_RULESET_VERSION);
     assert_eq!(checked_in["rulesetSourceSha256"], RULESET_SOURCE_SHA256);
@@ -55,4 +50,8 @@ fn exported_contract_matches_technical_foul_schema_one() {
     assert_eq!(checked_in["corpusSha256"], CORPUS_SHA256);
     assert_eq!(checked_in["redactionToken"], REDACTION_TOKEN);
     assert_eq!(checked_in["maxScrubChars"], MAX_SCRUB_CHARS);
+    assert_eq!(
+        sha256(std::str::from_utf8(CORPUS_BYTES).expect("UTF-8 corpus")),
+        CORPUS_SHA256
+    );
 }

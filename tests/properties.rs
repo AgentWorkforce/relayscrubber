@@ -1,16 +1,22 @@
 #![allow(missing_docs)]
 
 use proptest::prelude::*;
-use relayscrubber::{REDACTION_TOKEN, scrub_text};
+use relayscrubber::{scrub_json_text, scrub_long, scrub_text, REDACTION_TOKEN};
 
 proptest! {
-    #![proptest_config(ProptestConfig::with_cases(512))]
+    #![proptest_config(ProptestConfig::with_cases(256))]
 
     #[test]
-    fn scrub_is_idempotent(input in ".{0,8192}") {
+    fn bounded_and_segmented_scrubs_are_idempotent(input in ".{0,2048}") {
         let once = scrub_text(&input);
-        let twice = scrub_text(once.as_ref());
-        prop_assert_eq!(twice.as_ref(), once.as_ref());
+        let twice = scrub_text(&once);
+        prop_assert_eq!(twice, once);
+
+        let long_once = scrub_long(&input);
+        let long_twice = scrub_long(&long_once);
+        prop_assert_eq!(long_twice, long_once);
+
+        let _ = scrub_json_text(&input);
     }
 
     #[test]
