@@ -1,0 +1,37 @@
+[package]
+name = "relayscrubber"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "Apache-2.0"
+description = "Deterministic Technical Foul secret and PII scrubbing for Agent Relay"
+repository = "https://github.com/AgentWorkforce/relayscrubber"
+readme = "README.md"
+keywords = ["redaction", "secrets", "pii", "agent-relay"]
+categories = ["text-processing"]
+include = [
+  "src/**",
+  "tests/**",
+  "examples/**",
+  "vendor/**",
+  "Cargo.toml",
+  "Cargo.lock",
+  "README.md",
+]
+
+[dependencies]
+regex = "1.12"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+
+[dev-dependencies]
+proptest = "1.9"
+sha2 = "0.10"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
