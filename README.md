@@ -23,7 +23,7 @@ Until a crates.io release is desired, consumers should pin a release tag:
 
 ```toml
 [dependencies]
-relayscrubber = { git = "https://github.com/AgentWorkforce/relayscrubber", tag = "v0.1.0" }
+relayscrubber = { git = "https://github.com/AgentWorkforce/relayscrubber", tag = "v0.1.1" }
 ```
 
 ```rust
