@@ -191,8 +191,9 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
 
 /// [`scrub_json`] over a JSON text, suffixing colliding keys in the
 /// `Object.entries` order that `JSON.parse` reads (array-index keys ascending,
-/// then document order). `None` for invalid or out-of-range JSON. This does not
-/// enable global `serde_json` map-order or arbitrary-number features.
+/// then document order). `None` for invalid, out-of-range, or more-than-128-level
+/// JSON. This does not enable global `serde_json` map-order or arbitrary-number
+/// features.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
     let node = json::parse_text(text)?;
