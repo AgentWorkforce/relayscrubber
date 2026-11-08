@@ -283,8 +283,7 @@ fn divergence_proto_keys_are_kept_and_scrubbed() {
 
 /// Keys of an object in the order the scrub walks them.
 fn walk_order(text: &str) -> Vec<(String, Value)> {
-    let value: Value = serde_json::from_str(text).unwrap();
-    let json::Node::Object(entries) = json::Node::from(&value) else {
+    let json::Node::Object(entries) = json::parse_text(text).unwrap() else {
         panic!("not an object");
     };
     let mut count = 0;
@@ -305,19 +304,26 @@ fn key_collisions_are_suffixed_in_document_order() {
         json!({ "[REDACTED]": "b", "c": 1, "[REDACTED] (2)": "a", "[REDACTED] (3)": "b1" })
     );
     assert_eq!(redactions, 3);
-    // A serde_json value preserves document order, so both entry points agree.
+    // A programmatic serde_json value uses its consumer-selected map order;
+    // only the text entry point promises JSON.parse document order.
     let value: Value = serde_json::from_str(text).unwrap();
-    assert_eq!(scrub_json(&value), scrub_json_text(text).unwrap());
-    assert_eq!(scrub_json(&value).0["[REDACTED]"], "b");
+    assert_eq!(scrub_json(&value).0["[REDACTED]"], "a");
 }
 
 #[test]
-fn arbitrary_precision_numbers_remain_numbers_with_their_exact_spelling() {
+fn finite_large_numbers_follow_default_serde_json_semantics() {
     let text = r#"{"huge":123456789012345678901234567890,"decimal":1.234567890123456789}"#;
     let (clean, redactions) = scrub_json_text(text).unwrap();
     assert_eq!(redactions, 0);
     assert!(clean["huge"].is_number() && clean["decimal"].is_number());
-    assert_eq!(serde_json::to_string(&clean).unwrap(), text);
+    assert_eq!(clean["huge"], json!(1.2345678901234568e29));
+    assert_eq!(clean["decimal"], json!(1.2345678901234567));
+}
+
+#[test]
+fn out_of_range_numbers_fail_without_global_arbitrary_precision() {
+    let text = format!(r#"{{"too_large":{}}}"#, "9".repeat(10_000));
+    assert!(scrub_json_text(&text).is_none());
 }
 
 #[test]

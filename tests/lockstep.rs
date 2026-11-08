@@ -88,6 +88,18 @@ fn rust_rule_modules_match_the_reviewed_port_digest() {
 }
 
 #[test]
+fn public_serde_json_dependency_does_not_change_consumer_semantics() {
+    let manifest = include_str!("../Cargo.toml");
+    let dependency = manifest
+        .lines()
+        .find(|line| line.starts_with("serde_json ="))
+        .expect("serde_json dependency");
+    assert_eq!(dependency, "serde_json = \"1.0\"");
+    assert!(!manifest.contains("arbitrary_precision"));
+    assert!(!manifest.contains("preserve_order"));
+}
+
+#[test]
 fn exported_contract_matches_technical_foul_schema_one() {
     let checked_in: Value = serde_json::from_str(MANIFEST_JSON).expect("valid shared manifest");
     let current = manifest();

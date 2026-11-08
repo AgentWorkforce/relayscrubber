@@ -4,8 +4,11 @@
 
 use super::numbers::is_card_digits;
 use super::{scrub_long, REDACTION_TOKEN};
+use serde::de::{MapAccess, SeqAccess, Visitor};
+use serde::Deserialize;
 use serde_json::{Map, Number, Value};
 use std::collections::HashMap;
+use std::fmt;
 
 /// Largest integer JavaScript holds exactly (`Number.MAX_SAFE_INTEGER`).
 const MAX_SAFE_INTEGER: u64 = (1 << 53) - 1;
@@ -31,6 +34,7 @@ pub(super) fn scrub_number(n: &Number) -> Option<Value> {
 }
 
 /// A JSON value whose objects keep their entries in `Object.entries` order.
+#[derive(Debug)]
 pub(super) enum Node {
     Leaf(Value),
     Array(Vec<Node>),
@@ -55,106 +59,99 @@ fn js_order(mut entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
     entries
 }
 
-/// serde_json's arbitrary-precision representation reserves this object key.
-/// Protect user strings with the same spelling before parsing so an ordinary
-/// object can never be mistaken for the library's internal number wrapper.
-const NUMBER_TOKEN: &str = "$serde_json::private::Number";
+struct NodeVisitor;
 
-/// Find user strings that collide with serde_json's token and the longest
-/// already-used NUL suffix. Non-candidate strings are scanned without an
-/// allocation; the actual parser remains the authority on JSON validity.
-fn protected_strings(text: &str) -> Option<(Vec<(usize, usize)>, usize)> {
-    let bytes = text.as_bytes();
-    let mut replacements = Vec::new();
-    let mut max_nuls = 0;
-    let mut i = 0;
-    while i < bytes.len() {
-        if bytes[i] != b'"' {
-            i += 1;
-            continue;
+impl<'de> Visitor<'de> for NodeVisitor {
+    type Value = Node;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("a JSON value")
+    }
+
+    fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::Bool(value)))
+    }
+
+    fn visit_i64<E>(self, value: i64) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::Number(value.into())))
+    }
+
+    fn visit_u64<E>(self, value: u64) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::Number(value.into())))
+    }
+
+    fn visit_f64<E>(self, value: f64) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Number::from_f64(value)
+            .map(Value::Number)
+            .map(Node::Leaf)
+            .ok_or_else(|| E::custom("non-finite JSON number"))
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::String(value.to_owned())))
+    }
+
+    fn visit_string<E>(self, value: String) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::String(value)))
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::Null))
+    }
+
+    fn visit_unit<E>(self) -> Result<Self::Value, E> {
+        Ok(Node::Leaf(Value::Null))
+    }
+
+    fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
+        let mut items = Vec::with_capacity(seq.size_hint().unwrap_or(0));
+        while let Some(item) = seq.next_element()? {
+            items.push(item);
         }
-        let start = i;
-        i += 1;
-        let mut escaped = false;
-        let mut closed = false;
-        while i < bytes.len() {
-            let byte = bytes[i];
-            i += 1;
-            if escaped {
-                escaped = false;
-            } else if byte == b'\\' {
-                escaped = true;
-            } else if byte == b'"' {
-                closed = true;
-                if matches!(bytes.get(start + 1), Some(b'$' | b'\\')) {
-                    let value: String = serde_json::from_str(&text[start..i]).ok()?;
-                    if let Some(suffix) = value.strip_prefix(NUMBER_TOKEN) {
-                        if suffix.bytes().all(|byte| byte == 0) {
-                            max_nuls = max_nuls.max(suffix.len());
-                            if suffix.is_empty() {
-                                replacements.push((start, i));
-                            }
-                        }
-                    }
-                }
-                break;
+        Ok(Node::Array(items))
+    }
+
+    fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        let mut entries: Vec<(String, Node)> = Vec::with_capacity(map.size_hint().unwrap_or(0));
+        let mut positions: HashMap<String, usize> = HashMap::new();
+        while let Some(key) = map.next_key::<String>()? {
+            let value = map.next_value()?;
+            if let Some(index) = positions.get(&key).copied() {
+                entries[index].1 = value;
+            } else {
+                positions.insert(key.clone(), entries.len());
+                entries.push((key, value));
             }
         }
-        if !closed {
-            return None;
-        }
+        Ok(Node::Object(js_order(entries)))
     }
-    Some((replacements, max_nuls))
 }
 
-/// Parse a JSON text without exposing serde_json's private arbitrary-number
-/// marker as an observable key collision.
-pub(super) fn parse_text(text: &str) -> Option<Value> {
-    let (replacements, max_nuls) = protected_strings(text)?;
-    if replacements.is_empty() {
-        return serde_json::from_str(text).ok();
+impl<'de> Deserialize<'de> for Node {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_any(NodeVisitor)
     }
-
-    let mut protected = NUMBER_TOKEN.to_owned();
-    for _ in 0..=max_nuls {
-        protected.push('\0');
-    }
-
-    let replacement = serde_json::to_string(&protected).ok()?;
-    let mut rewritten = String::with_capacity(text.len());
-    let mut copied = 0;
-    for (start, end) in replacements {
-        rewritten.push_str(&text[copied..start]);
-        rewritten.push_str(&replacement);
-        copied = end;
-    }
-    rewritten.push_str(&text[copied..]);
-
-    let mut value: Value = serde_json::from_str(&rewritten).ok()?;
-    restore_protected(&mut value, &protected);
-    Some(value)
 }
 
-fn restore_protected(value: &mut Value, protected: &str) {
-    match value {
-        Value::String(text) if text == protected => *text = NUMBER_TOKEN.to_owned(),
-        Value::Array(items) => {
-            for item in items {
-                restore_protected(item, protected);
-            }
-        }
-        Value::Object(map) => {
-            let old = std::mem::take(map);
-            for (mut key, mut item) in old {
-                if key == protected {
-                    key = NUMBER_TOKEN.to_owned();
-                }
-                restore_protected(&mut item, protected);
-                map.insert(key, item);
-            }
-        }
-        _ => {}
-    }
+/// Parse JSON while retaining the key order seen by `JSON.parse` without
+/// enabling `serde_json/preserve_order` for every crate in the dependency
+/// graph. Numbers use serde_json's default JavaScript-compatible finite-number
+/// representation; out-of-range inputs fail parsing instead of changing a
+/// consumer's global number semantics.
+pub(super) fn parse_text(text: &str) -> Option<Node> {
+    serde_json::from_str(text).ok()
 }
 
 impl From<&Value> for Node {
