@@ -128,6 +128,9 @@ for (const [id, input] of [
   vectors.push({ id, input, expected: scrubText(input) });
 }
 for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
+  const separatorId = [...separator]
+    .map((unit) => unit.codePointAt(0)?.toString(16))
+    .join("-");
   for (const quote of ['"', "'", "`"]) {
     const value = `short${separator}${"v".repeat(4_097)}UNIQUE_TAIL`;
     for (const [suffix, close] of [
@@ -136,7 +139,7 @@ for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
     ] as const) {
       const input = `${quote}token${quote}: ${quote}${value}${close}`;
       vectors.push({
-        id: `v4/${separator.codePointAt(0)?.toString(16)}/${quote.charCodeAt(0)}/${suffix}`,
+        id: `v4/${separatorId}/${quote.charCodeAt(0)}/${suffix}`,
         input,
         expected: scrubText(input),
       });
@@ -145,7 +148,7 @@ for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
     const within = `short${separator}${"v".repeat(withinLength)}`;
     const withinInput = `${quote}token${quote}: ${quote}${within}${quote} after`;
     vectors.push({
-      id: `v4/${separator.codePointAt(0)?.toString(16)}/${quote.charCodeAt(0)}/within`,
+      id: `v4/${separatorId}/${quote.charCodeAt(0)}/within`,
       input: withinInput,
       expected: scrubText(withinInput),
     });
