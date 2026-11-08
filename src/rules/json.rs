@@ -4,11 +4,8 @@
 
 use super::numbers::is_card_digits;
 use super::{scrub_long, REDACTION_TOKEN};
-use serde::de::{MapAccess, SeqAccess, Visitor};
-use serde::Deserialize;
 use serde_json::{Map, Number, Value};
 use std::collections::HashMap;
-use std::fmt;
 
 /// Largest integer JavaScript holds exactly (`Number.MAX_SAFE_INTEGER`).
 const MAX_SAFE_INTEGER: u64 = (1 << 53) - 1;
@@ -59,89 +56,181 @@ fn js_order(mut entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
     entries
 }
 
-struct NodeVisitor;
+const MAX_JSON_DEPTH: usize = 128;
 
-impl<'de> Visitor<'de> for NodeVisitor {
-    type Value = Node;
+struct Parser<'a> {
+    text: &'a str,
+    bytes: &'a [u8],
+    at: usize,
+}
 
-    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        formatter.write_str("a JSON value")
-    }
-
-    fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::Bool(value)))
-    }
-
-    fn visit_i64<E>(self, value: i64) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::Number(value.into())))
-    }
-
-    fn visit_u64<E>(self, value: u64) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::Number(value.into())))
-    }
-
-    fn visit_f64<E>(self, value: f64) -> Result<Self::Value, E>
-    where
-        E: serde::de::Error,
-    {
-        Number::from_f64(value)
-            .map(Value::Number)
-            .map(Node::Leaf)
-            .ok_or_else(|| E::custom("non-finite JSON number"))
-    }
-
-    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::String(value.to_owned())))
-    }
-
-    fn visit_string<E>(self, value: String) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::String(value)))
-    }
-
-    fn visit_none<E>(self) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::Null))
-    }
-
-    fn visit_unit<E>(self) -> Result<Self::Value, E> {
-        Ok(Node::Leaf(Value::Null))
-    }
-
-    fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
-    where
-        A: SeqAccess<'de>,
-    {
-        let mut items = Vec::with_capacity(seq.size_hint().unwrap_or(0));
-        while let Some(item) = seq.next_element()? {
-            items.push(item);
+impl<'a> Parser<'a> {
+    fn new(text: &'a str) -> Self {
+        Self {
+            text,
+            bytes: text.as_bytes(),
+            at: 0,
         }
-        Ok(Node::Array(items))
     }
 
-    fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
-    where
-        A: MapAccess<'de>,
-    {
-        let mut entries: Vec<(String, Node)> = Vec::with_capacity(map.size_hint().unwrap_or(0));
+    fn skip_space(&mut self) {
+        while matches!(self.bytes.get(self.at), Some(b' ' | b'\t' | b'\r' | b'\n')) {
+            self.at += 1;
+        }
+    }
+
+    fn take(&mut self, byte: u8) -> bool {
+        if self.bytes.get(self.at) == Some(&byte) {
+            self.at += 1;
+            true
+        } else {
+            false
+        }
+    }
+
+    fn literal(&mut self, text: &[u8], value: Value) -> Option<Node> {
+        if self.bytes.get(self.at..self.at + text.len())? != text {
+            return None;
+        }
+        self.at += text.len();
+        Some(Node::Leaf(value))
+    }
+
+    fn string(&mut self) -> Option<String> {
+        let start = self.at;
+        if !self.take(b'"') {
+            return None;
+        }
+        let mut escaped = false;
+        while let Some(&byte) = self.bytes.get(self.at) {
+            self.at += 1;
+            if escaped {
+                escaped = false;
+            } else if byte == b'\\' {
+                escaped = true;
+            } else if byte == b'"' {
+                return serde_json::from_str(&self.text[start..self.at]).ok();
+            } else if byte < 0x20 {
+                return None;
+            }
+        }
+        None
+    }
+
+    fn digits(&mut self) -> bool {
+        let start = self.at;
+        while self.bytes.get(self.at).is_some_and(u8::is_ascii_digit) {
+            self.at += 1;
+        }
+        self.at > start
+    }
+
+    fn number(&mut self) -> Option<Node> {
+        let start = self.at;
+        let negative = self.take(b'-');
+        match self.bytes.get(self.at) {
+            Some(b'0') => {
+                self.at += 1;
+                if self.bytes.get(self.at).is_some_and(u8::is_ascii_digit) {
+                    return None;
+                }
+            }
+            Some(b'1'..=b'9') if self.digits() => {}
+            _ => return None,
+        }
+
+        let mut integral = true;
+        if self.take(b'.') {
+            integral = false;
+            if !self.digits() {
+                return None;
+            }
+        }
+        if matches!(self.bytes.get(self.at), Some(b'e' | b'E')) {
+            integral = false;
+            self.at += 1;
+            if matches!(self.bytes.get(self.at), Some(b'+' | b'-')) {
+                self.at += 1;
+            }
+            if !self.digits() {
+                return None;
+            }
+        }
+
+        let token = &self.text[start..self.at];
+        let number = if integral && negative {
+            token.parse::<i64>().ok().map(Number::from)
+        } else if integral {
+            token.parse::<u64>().ok().map(Number::from)
+        } else {
+            None
+        }
+        .or_else(|| token.parse::<f64>().ok().and_then(Number::from_f64))?;
+        Some(Node::Leaf(Value::Number(number)))
+    }
+
+    fn array(&mut self, depth: usize) -> Option<Node> {
+        self.take(b'[').then_some(())?;
+        self.skip_space();
+        let mut items = Vec::new();
+        if self.take(b']') {
+            return Some(Node::Array(items));
+        }
+        loop {
+            items.push(self.value(depth + 1)?);
+            self.skip_space();
+            if self.take(b']') {
+                return Some(Node::Array(items));
+            }
+            self.take(b',').then_some(())?;
+            self.skip_space();
+        }
+    }
+
+    fn object(&mut self, depth: usize) -> Option<Node> {
+        self.take(b'{').then_some(())?;
+        self.skip_space();
+        let mut entries: Vec<(String, Node)> = Vec::new();
         let mut positions: HashMap<String, usize> = HashMap::new();
-        while let Some(key) = map.next_key::<String>()? {
-            let value = map.next_value()?;
+        if self.take(b'}') {
+            return Some(Node::Object(entries));
+        }
+        loop {
+            let key = self.string()?;
+            self.skip_space();
+            self.take(b':').then_some(())?;
+            self.skip_space();
+            let value = self.value(depth + 1)?;
             if let Some(index) = positions.get(&key).copied() {
                 entries[index].1 = value;
             } else {
                 positions.insert(key.clone(), entries.len());
                 entries.push((key, value));
             }
+            self.skip_space();
+            if self.take(b'}') {
+                return Some(Node::Object(js_order(entries)));
+            }
+            self.take(b',').then_some(())?;
+            self.skip_space();
         }
-        Ok(Node::Object(js_order(entries)))
     }
-}
 
-impl<'de> Deserialize<'de> for Node {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        deserializer.deserialize_any(NodeVisitor)
+    fn value(&mut self, depth: usize) -> Option<Node> {
+        if depth > MAX_JSON_DEPTH {
+            return None;
+        }
+        self.skip_space();
+        match self.bytes.get(self.at)? {
+            b'n' => self.literal(b"null", Value::Null),
+            b't' => self.literal(b"true", Value::Bool(true)),
+            b'f' => self.literal(b"false", Value::Bool(false)),
+            b'"' => self.string().map(Value::String).map(Node::Leaf),
+            b'[' => self.array(depth),
+            b'{' => self.object(depth),
+            b'-' | b'0'..=b'9' => self.number(),
+            _ => None,
+        }
     }
 }
 
@@ -151,7 +240,10 @@ impl<'de> Deserialize<'de> for Node {
 /// representation; out-of-range inputs fail parsing instead of changing a
 /// consumer's global number semantics.
 pub(super) fn parse_text(text: &str) -> Option<Node> {
-    serde_json::from_str(text).ok()
+    let mut parser = Parser::new(text);
+    let value = parser.value(1)?;
+    parser.skip_space();
+    (parser.at == parser.bytes.len()).then_some(value)
 }
 
 impl From<&Value> for Node {

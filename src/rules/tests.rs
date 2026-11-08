@@ -321,6 +321,13 @@ fn finite_large_numbers_follow_default_serde_json_semantics() {
 }
 
 #[test]
+fn decimal_card_numbers_are_redacted_by_the_text_entry_point() {
+    let (clean, redactions) = scrub_json_text(r#"{"card":4111111111111111.0}"#).unwrap();
+    assert_eq!(clean["card"], REDACTION_TOKEN);
+    assert_eq!(redactions, 1);
+}
+
+#[test]
 fn out_of_range_numbers_fail_without_global_arbitrary_precision() {
     let text = format!(r#"{{"too_large":{}}}"#, "9".repeat(10_000));
     assert!(scrub_json_text(&text).is_none());
