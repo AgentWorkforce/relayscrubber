@@ -1,8 +1,8 @@
 [package]
 name = "relayscrubber"
-version = "0.1.0"
-edition = "2024"
-rust-version = "1.85"
+version = "0.2.0"
+edition = "2021"
+rust-version = "1.88"
 license = "Apache-2.0"
 description = "Deterministic Technical Foul secret and PII scrubbing for Agent Relay"
 repository = "https://github.com/AgentWorkforce/relayscrubber"
@@ -13,6 +13,7 @@ include = [
   "src/**",
   "tests/**",
   "examples/**",
+  "scripts/**",
   "vendor/**",
   "Cargo.toml",
   "Cargo.lock",
@@ -21,9 +22,8 @@ include = [
 ]
 
 [dependencies]
-regex = "1.12"
 serde = { version = "1.0", features = ["derive"] }
-serde_json = { version = "1.0", features = ["preserve_order"] }
+serde_json = { version = "1.0", features = ["arbitrary_precision", "preserve_order"] }
 
 [dev-dependencies]
 proptest = "1.9"
@@ -35,4 +35,5 @@ missing_docs = "warn"
 
 [lints.clippy]
 all = "warn"
-pedantic = "warn"
+# The rule modules intentionally mirror the reviewed JavaScript/Desktop control
+# flow. Pedantic style rewrites would make security audits harder to compare.

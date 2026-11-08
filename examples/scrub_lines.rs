@@ -7,9 +7,6 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).expect("read stdin");
     let values: Vec<String> = serde_json::from_str(&input).expect("JSON string array");
-    let output: Vec<String> = values
-        .iter()
-        .map(|value| scrub_text(value).into_owned())
-        .collect();
+    let output: Vec<String> = values.iter().map(|value| scrub_text(value)).collect();
     serde_json::to_writer(io::stdout(), &output).expect("write JSON result");
 }
