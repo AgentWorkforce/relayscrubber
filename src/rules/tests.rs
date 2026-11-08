@@ -355,6 +355,16 @@ fn v4_redacts_an_over_cap_quoted_one_password_reference() {
 }
 
 #[test]
+fn v4_segmenter_preserves_an_over_cap_unquoted_one_password_reference() {
+    let reference = format!("op://{}", "aB3dE5fG7hJ9".repeat(350));
+    let head = "x".repeat(MAX_SCRUB_CHARS - 19);
+    let text = format!(r#"{head} "token": {reference}"#);
+    let out = scrub_long(&text);
+    assert_eq!(out, text);
+    assert_ne!(out, REDACTION_TOKEN);
+}
+
+#[test]
 fn programmatic_json_beyond_the_parser_depth_limit_fails_closed() {
     let mut value = Value::Null;
     for _ in 0..129 {

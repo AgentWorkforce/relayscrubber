@@ -153,7 +153,13 @@ fn closes_at(t: &[u16], i: usize, vs: usize, bs: usize) -> bool {
 }
 
 /// The span of a quoted value, plus whether its close is past the v4 cap.
-fn quoted_value(t: &[u16], vs: usize, bs: usize, quote: u16, prefix: bool) -> (usize, usize, bool) {
+fn quoted_value(
+    t: &[u16],
+    vs: usize,
+    bs: usize,
+    quote: u16,
+    prefix: bool,
+) -> (usize, usize, bool, bool) {
     let limit = t.len().min(vs.saturating_add(MAX_QUOTED_VALUE + 1));
     let mut close = None;
     let mut line_end = None;
@@ -173,21 +179,21 @@ fn quoted_value(t: &[u16], vs: usize, bs: usize, quote: u16, prefix: bool) -> (u
     if close.is_none() && (i - vs > MAX_QUOTED_VALUE || prefix) {
         while i < t.len() {
             if t[i] == quote && closes_at(t, i, vs, bs) {
-                return (vs, i - bs, true);
+                return (vs, i - bs, true, false);
             }
             i += 1;
         }
-        return (vs, t.len(), true);
+        return (vs, t.len(), true, false);
     }
     if let Some(at) = close.filter(|_| line_end.is_none()) {
-        return (vs, at - bs, false);
+        return (vs, at - bs, false, false);
     }
     let window = slice(t, vs, vs + MAX_QUOTED_VALUE);
     let end = window
         .iter()
         .position(|&c| is_space(c))
         .map_or(t.len().min(vs + MAX_QUOTED_VALUE), |w| vs + w);
-    (vs, end, false)
+    (vs, end, false, false)
 }
 
 /// `-?\d+(?:\.\d+)?(?:e[+-]?\d+)?`, whole.
@@ -228,7 +234,7 @@ fn non_secret_bare(s: &[u16]) -> bool {
 }
 
 /// The span of an unquoted value after a one-word key, when it looks generated.
-fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, usize, bool)> {
+fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, usize, bool, bool)> {
     if bs > 0 || key.iter().any(|&c| is(c, b' ')) {
         return None;
     }
@@ -250,7 +256,7 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, u
             value_end += 1;
         }
     }
-    Some((end, value_end, over_bound))
+    Some((end, value_end, false, over_bound))
 }
 
 /// `name` without leading and trailing whitespace (`String.prototype.trim`).
@@ -272,7 +278,7 @@ fn keep(value: &[u16]) -> bool {
 }
 
 /// The value span after a secret key match, if the rule takes one.
-fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<(usize, usize, bool)> {
+fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<(usize, usize, bool, bool)> {
     let end = m.end;
     let bs = run_end_capped(t, end, 16, is_backslash) - end;
     match t.get(end + bs).copied().filter(|&c| is_quote(c)) {
@@ -294,19 +300,22 @@ fn redact(t: &[u16], mut spans: Option<&mut Vec<(usize, usize)>>, prefix: bool) 
         if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
             continue;
         }
-        let Some((vs, ve, over_cap)) = value_span(t, &m, prefix) else {
+        let Some((vs, ve, long_value, over_bound)) = value_span(t, &m, prefix) else {
             continue;
         };
-        if over_cap {
+        if long_value && ve <= vs {
             if let Some(found) = spans.as_deref_mut() {
                 found.push((m.start, ve));
             }
-        }
-        if over_cap && ve <= vs {
             continue;
         }
-        if ve <= vs || (!over_cap && keep(slice(t, vs, ve))) {
+        if ve <= vs || (!long_value && keep(slice(t, vs, ve))) {
             continue;
+        }
+        if long_value || over_bound {
+            if let Some(found) = spans.as_deref_mut() {
+                found.push((m.start, ve));
+            }
         }
         out.extend_from_slice(slice(t, last, vs));
         out.extend_from_slice(&REDACTED16);

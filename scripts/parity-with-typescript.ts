@@ -187,6 +187,7 @@ const longVectors = [
   `${fill.slice(0, 260_000)} "token": "short\n${"v".repeat(4_097)}UNIQUE_TAIL" after`,
   `${fill.slice(0, 259_000)} ${"x ".repeat(4_000)} bob@example.test done`,
   `${fill.slice(0, 261_000)} -----BEGIN PRIVATE KEY-----\n${"A".repeat(2_000)}\n-----END PRIVATE KEY----- after`,
+  `${"x".repeat(262_125)} "token": op://${"aB3dE5fG7hJ9".repeat(350)}`,
 ];
 const longChild = Bun.spawn(
   ["cargo", "run", "--quiet", "--example", "scrub_lines", "--", "--long"],
