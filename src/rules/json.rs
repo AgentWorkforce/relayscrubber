@@ -158,7 +158,11 @@ impl<'a> Parser<'a> {
         }
 
         let token = &self.text[start..self.at];
-        let number = if integral && negative {
+        // JavaScript preserves the sign bit of JSON `-0` (`Object.is(JSON.parse("-0"), -0)`).
+        // Parsing it as `i64` would silently normalize it to positive zero.
+        let number = if integral && token == "-0" {
+            Number::from_f64(-0.0)
+        } else if integral && negative {
             token.parse::<i64>().ok().map(Number::from)
         } else if integral {
             token.parse::<u64>().ok().map(Number::from)

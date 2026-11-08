@@ -328,6 +328,18 @@ fn finite_large_numbers_follow_default_serde_json_semantics() {
 }
 
 #[test]
+fn text_json_preserves_negative_zero() {
+    let (clean, redactions) =
+        scrub_json_text(r#"{"offset":-0,"decimal":-0.0,"exponent":-0e1}"#).unwrap();
+    assert_eq!(redactions, 0);
+    for key in ["offset", "decimal", "exponent"] {
+        let number = clean[key].as_f64().unwrap();
+        assert_eq!(number, 0.0);
+        assert!(number.is_sign_negative(), "{key} lost its negative sign");
+    }
+}
+
+#[test]
 fn decimal_card_numbers_are_redacted_by_the_text_entry_point() {
     let (clean, redactions) = scrub_json_text(r#"{"card":4111111111111111.0}"#).unwrap();
     assert_eq!(clean["card"], REDACTION_TOKEN);
