@@ -111,7 +111,7 @@ const fuzzAtoms = () => [
   `${"rth"}_at_${generated(20)}`,
   `ordinary ${generated(12)} text`,
 ];
-for (let index = 0; index < 1_000; index++) {
+for (let index = 0; index < 20_000; index++) {
   const atoms = fuzzAtoms();
   const count = 1 + (next() % 5);
   let input = "";
@@ -141,6 +141,14 @@ for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
         expected: scrubText(input),
       });
     }
+    const withinLength = 4_096 - `short${separator}`.length;
+    const within = `short${separator}${"v".repeat(withinLength)}`;
+    const withinInput = `${quote}token${quote}: ${quote}${within}${quote} after`;
+    vectors.push({
+      id: `v4/${separator.codePointAt(0)?.toString(16)}/${quote.charCodeAt(0)}/within`,
+      input: withinInput,
+      expected: scrubText(withinInput),
+    });
   }
 }
 const child = Bun.spawn(
@@ -206,5 +214,5 @@ for (const [index, input] of longVectors.entries()) {
 }
 
 console.log(
-  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 1002 deterministic fuzz + 36 v4 multiline-cap regressions) and ${longVectors.length} scrubLong vectors, byte-identical`,
+  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 20002 deterministic fuzz + 54 v4 multiline-cap regressions) and ${longVectors.length} scrubLong vectors, byte-identical`,
 );
