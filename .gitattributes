@@ -1,0 +1,4 @@
+# Canonical Technical Foul artifacts are hashed and vendored byte-for-byte.
+vendor/canonical/*.json text eol=lf
+vendor/canonical/*.ts text eol=lf
+vendor/corpus/*.json text eol=lf
