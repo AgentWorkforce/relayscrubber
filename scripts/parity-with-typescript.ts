@@ -17,6 +17,13 @@ const modulePath = resolve(canonical, "packages/pipeline/src/lib/scrub.ts");
 const { scrubText } = (await import(pathToFileURL(modulePath).href)) as {
   scrubText(value: string): string;
 };
+const rawChunksPath = resolve(
+  canonical,
+  "packages/pipeline/src/lib/pipeline/raw-chunks.ts",
+);
+const { scrubLong } = (await import(pathToFileURL(rawChunksPath).href)) as {
+  scrubLong(value: string): string;
+};
 
 type Part = [string, number | string];
 type Generator = { prefix?: string; suffix?: string; parts: Part[] };
@@ -120,6 +127,22 @@ for (const [id, input] of [
 ] as const) {
   vectors.push({ id, input, expected: scrubText(input) });
 }
+for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
+  for (const quote of ['"', "'", "`"]) {
+    const value = `short${separator}${"v".repeat(4_097)}UNIQUE_TAIL`;
+    for (const [suffix, close] of [
+      ["closed", `${quote} after`],
+      ["open", ""],
+    ] as const) {
+      const input = `${quote}token${quote}: ${quote}${value}${close}`;
+      vectors.push({
+        id: `v4/${separator.codePointAt(0)?.toString(16)}/${quote.charCodeAt(0)}/${suffix}`,
+        input,
+        expected: scrubText(input),
+      });
+    }
+  }
+}
 const child = Bun.spawn(
   ["cargo", "run", "--quiet", "--example", "scrub_lines"],
   {
@@ -150,6 +173,38 @@ for (const [index, vector] of vectors.entries()) {
   }
 }
 
+const fill = "lorem ipsum dolor sit amet ".repeat(11_000);
+const longVectors = [
+  `${fill} ordinary tail`,
+  `${fill.slice(0, 260_000)} "token": "short\n${"v".repeat(4_097)}UNIQUE_TAIL" after`,
+  `${fill.slice(0, 259_000)} ${"x ".repeat(4_000)} bob@example.test done`,
+  `${fill.slice(0, 261_000)} -----BEGIN PRIVATE KEY-----\n${"A".repeat(2_000)}\n-----END PRIVATE KEY----- after`,
+];
+const longChild = Bun.spawn(
+  ["cargo", "run", "--quiet", "--example", "scrub_lines", "--", "--long"],
+  {
+    cwd: repo,
+    env: { ...Bun.env, TMPDIR: resolve(repo, ".task-tmp") },
+    stdin: "pipe",
+    stdout: "pipe",
+    stderr: "pipe",
+  },
+);
+longChild.stdin.write(JSON.stringify(longVectors));
+longChild.stdin.end();
+const [longExit, longStdout, longStderr] = await Promise.all([
+  longChild.exited,
+  new Response(longChild.stdout).text(),
+  new Response(longChild.stderr).text(),
+]);
+if (longExit !== 0) throw new Error(longStderr);
+const rustLong = JSON.parse(longStdout) as string[];
+for (const [index, input] of longVectors.entries()) {
+  if (rustLong[index] !== scrubLong(input)) {
+    throw new Error(`scrubLong/${index}: Rust output differs from canonical TypeScript`);
+  }
+}
+
 console.log(
-  `parity ok: ${vectors.length} vectors (${corpus.cases.length} corpus cases x 5 rounds + 1002 deterministic fuzz), byte-identical`,
+  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 1002 deterministic fuzz + 36 v4 multiline-cap regressions) and ${longVectors.length} scrubLong vectors, byte-identical`,
 );

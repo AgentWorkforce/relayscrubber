@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from relayhistory-pipeline 86eaefea (#312).
+/// Vendored byte for byte from relayhistory-pipeline f64393f2 (#334).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860";
+const CORPUS_SHA256: &str = "41947da0df0547f01f0f0b1706b1f2844d37c9292f43d23de78c793b5aef95ab";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -660,16 +660,50 @@ fn a_long_url_userinfo_password_is_never_split_at_a_distant_comma() {
 }
 
 #[test]
-fn an_over_cap_quoted_secret_fails_closed_without_exposing_its_suffix() {
+fn an_over_cap_quoted_secret_is_redacted_through_its_close() {
     let value = "A1b2C3d4".repeat(600);
     assert!(value.encode_utf16().count() > 4096);
     let text = format!(r#"{{"password":"{value}","safe":"kept"}}"#);
-    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
+    assert_eq!(
+        scrub_long(&text),
+        r#"{"password":"[REDACTED]","safe":"kept"}"#
+    );
 
     let crossing = format!(
         r#"{} {{"password":"{value}"}}"#,
         filler(MAX_SCRUB_CHARS - 2000)
     );
     assert!(crossing.encode_utf16().count() > MAX_SCRUB_CHARS);
-    assert_eq!(scrub_long(&crossing), REDACTION_TOKEN);
+    let out = scrub_long(&crossing);
+    assert!(!out.contains(&value));
+    assert!(out.ends_with(r#" {"password":"[REDACTED]"}"#));
+}
+
+#[test]
+fn v4_counts_total_quoted_value_length_across_every_separator() {
+    for separator in ["\r", "\n", "\r\n", "\u{2028}", "\u{2029}", "\u{0085}"] {
+        for quote in ['"', '\'', '`'] {
+            let value = format!("short{separator}{}UNIQUE_TAIL", "v".repeat(4097));
+            let text = format!("{quote}token{quote}: {quote}{value}{quote} after");
+            assert_eq!(
+                scrub_long(&text),
+                format!("{quote}token{quote}: {quote}{REDACTION_TOKEN}{quote} after"),
+                "separator={separator:?} quote={quote:?}"
+            );
+
+            let open = format!("{quote}token{quote}: {quote}{value}");
+            assert_eq!(
+                scrub_long(&open),
+                format!("{quote}token{quote}: {quote}{REDACTION_TOKEN}"),
+                "open separator={separator:?} quote={quote:?}"
+            );
+        }
+    }
+}
+
+#[test]
+fn v4_segmenter_never_cuts_inside_an_over_cap_quoted_value() {
+    let value = format!("short\n{}UNIQUE_TAIL", "v".repeat(MAX_SCRUB_CHARS + 100));
+    let text = format!("`token`: `{value}` after");
+    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
 }

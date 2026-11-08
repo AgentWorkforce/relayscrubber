@@ -9,7 +9,7 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline commit 86eaefea (#312).
+//! relayhistory-pipeline commit f64393f2 (#334).
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
@@ -43,7 +43,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 3;
+pub const RULESET_VERSION: u32 = 4;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -54,7 +54,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// sha256 of the Cloud's `scrub.ts` this port was made from, as the Cloud's
 /// `technical-foul.json` manifest records it.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "e7607073a3afca3db6b015945f0b5fab256202f355b740f515987ec162bf3076";
+    "429200e870dea6b5602f6ffa6b7a577cf2016b27aa9d99e6a3e61b55e5ec612c";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.
@@ -152,8 +152,7 @@ pub fn scrub_text(value: &str) -> String {
 }
 
 /// Scrub a string of any length whole, segmented as the Cloud's `scrubLong`
-/// does; a remainder with no safe cut, or an over-cap quoted secret that v3
-/// cannot safely finish, becomes the redaction token.
+/// does; a remainder with no safe cut becomes the redaction token.
 #[must_use]
 pub fn scrub_long(value: &str) -> String {
     let units: Vec<u16> = value.encode_utf16().collect();

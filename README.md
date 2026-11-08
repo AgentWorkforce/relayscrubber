@@ -11,9 +11,9 @@ Linux and Windows. Its runtime dependencies are only `serde` and `serde_json`.
 The current compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
-- version: `3`
-- rules/source SHA-256: `e7607073a3afca3db6b015945f0b5fab256202f355b740f515987ec162bf3076`
-- corpus SHA-256: `9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860`
+- version: `4`
+- rules/source SHA-256: `429200e870dea6b5602f6ffa6b7a577cf2016b27aa9d99e6a3e61b55e5ec612c`
+- corpus SHA-256: `41947da0df0547f01f0f0b1706b1f2844d37c9292f43d23de78c793b5aef95ab`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
 
@@ -23,7 +23,7 @@ Consumers should pin the exact crates.io release:
 
 ```toml
 [dependencies]
-relayscrubber = "=0.2.0"
+relayscrubber = "=0.3.0"
 ```
 
 ```rust
@@ -38,7 +38,7 @@ assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
 
 let stored_marker = raw_scrub_marker();
 assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
-assert_eq!(stored_marker.version, 3);
+assert_eq!(stored_marker.version, 4);
 ```
 
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
@@ -65,14 +65,14 @@ This crate has exactly two integration boundaries:
 
 1. The relayhistory schema records the scrub marker. A sealed history chunk
    writes `raw.scrub.ruleset = "relayhistory-scrub"` and
-   `raw.scrub.version = 3`; object metadata uses `scrub-ruleset` and
+   `raw.scrub.version = 4`; object metadata uses `scrub-ruleset` and
    `scrub-version` with the same values. Existing chunks are never relabeled.
 2. The history database contract uses that marker to distinguish scrubbed and
    unsanitized history. Callers must persist the exported ruleset/version only
    after this crate has successfully scrubbed the bytes they store.
 
 `raw_scrub_marker()` returns exactly the persisted two-field marker
-`{"ruleset":"relayhistory-scrub","version":3}`. It is separate from
+`{"ruleset":"relayhistory-scrub","version":4}`. It is separate from
 `manifest()`, which returns the ten-field Technical Foul distribution manifest
 used by independent implementations to pin source, segmenter, and corpus.
 
@@ -104,7 +104,7 @@ Changes are atomic across owners:
    runs a direct byte-for-byte comparison against canonical `scrub.ts`.
 4. relay-desktop updates its Cargo tag only after that release is available.
 
-The TypeScript server remains canonical for version 3. It may later consume
+The TypeScript server remains canonical for version 4. It may later consume
 this crate through WASM or a native binding, but this crate does not require or
 assume that migration.
 
@@ -112,9 +112,9 @@ For upload safety the crate deliberately matches the reviewed Desktop behavior
 where the Cloud currently refuses input: it also tries a verified comma cut for
 compact text, and replaces an uncuttable remainder wholesale. The comma
 fallback is disabled when a URL scheme occurs before the cut because unbounded
-userinfo cannot be proven safe with finite context. Until the canonical rule
-owns the same regression, an over-cap quoted secret also makes `scrub_long`
-redact the whole input rather than expose its suffix. The crate additionally
+userinfo cannot be proven safe with finite context. V4 redacts an over-cap
+quoted secret through its matching close or end of input and protects that
+entire span from segment cuts. The crate additionally
 checks exact unsigned JSON integers for cards and retains `__proto__` as an
 ordinary key. Each divergence has a dedicated test.
 

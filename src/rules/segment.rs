@@ -153,10 +153,21 @@ fn search_cut(t: &[u16], boundary: fn(u16) -> bool) -> Option<usize> {
     let top = open_at(t, MAX_SCRUB_CHARS).unwrap_or(MAX_SCRUB_CHARS);
     let floor = MAX_SCRUB_CHARS.saturating_sub(CUT_SEARCH_CHARS).max(1);
     let keys = key_block_spans(slice(t, 0, top));
+    let look = t
+        .len()
+        .min(top.saturating_add(quoted::MAX_QUOTED_VALUE + 256));
+    let long_values = quoted::over_cap_quoted_value_spans(slice(t, 0, look), look < t.len())
+        .into_iter()
+        .map(|(start, end)| (start, if end >= look { t.len() } else { end }))
+        .collect::<Vec<_>>();
     let mut budget = Budget::default();
     let mut cut = top;
     while cut >= floor && budget.open() {
         if let Some((start, _)) = block_around(&keys, cut) {
+            cut = start;
+            continue;
+        }
+        if let Some((start, _)) = block_around(&long_values, cut) {
             cut = start;
             continue;
         }
@@ -194,16 +205,9 @@ fn long_cut(t: &[u16]) -> Option<usize> {
 /// each scrubbed whole. Where the Cloud throws for a remainder with no safe
 /// cut, the desktop replaces that remainder with the redaction token: no
 /// part of it is sent, and the upload is never refused. Segments already cut
-/// off at safe cuts are kept. An over-cap quoted secret instead replaces the
-/// whole input, because even an earlier segment may contain its exposed
-/// prefix and v3 cannot prove any part of that value safe.
+/// off at safe cuts are kept. V4 protects the full key/value span of an
+/// over-cap quoted secret, so the value is scrubbed whole in one segment.
 pub(super) fn scrub_long16(t: &[u16]) -> Vec<u16> {
-    // Canonical v3 caps quoted-value inspection at 4,096 UTF-16 units and can
-    // expose the suffix. Uploads fail closed until the canonical ruleset owns
-    // the same regression: no part of an over-cap value leaves the device.
-    if quoted::has_overlong_secret_value(t) {
-        return REDACTION_TOKEN.encode_utf16().collect();
-    }
     let mut out = Vec::with_capacity(t.len());
     let mut rest = t;
     while rest.len() > MAX_SCRUB_CHARS {
