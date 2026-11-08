@@ -18,7 +18,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    # Windows stays on GitHub-hosted. Linux uses the CI_LINUX_RUNNER (Blacksmith)
+    # for same-repo events; pull requests from forks stay on GitHub-hosted runners.
+    runs-on: ${{ matrix.os == 'windows-latest' && 'windows-latest' || ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork) && 'ubuntu-latest' || vars.CI_LINUX_RUNNER || 'ubuntu-latest') }}
     steps:
       - uses: actions/checkout@v4
       # TMPDIR is job-wide; create it before any step (rust-toolchain runs mktemp) uses it.
