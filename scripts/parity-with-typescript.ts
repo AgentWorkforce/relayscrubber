@@ -10,9 +10,13 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const repo = resolve(import.meta.dir, "..");
-const canonical = resolve(
-  process.argv[2] ?? "../relayhistory-pipeline-pr306-review.qkw05V",
-);
+const canonicalArgument = process.argv[2];
+if (!canonicalArgument) {
+  throw new Error(
+    "usage: bun scripts/parity-with-typescript.ts /path/to/relayhistory-pipeline",
+  );
+}
+const canonical = resolve(canonicalArgument);
 const modulePath = resolve(canonical, "packages/pipeline/src/lib/scrub.ts");
 const { scrubJson, scrubText } = (await import(
   pathToFileURL(modulePath).href
