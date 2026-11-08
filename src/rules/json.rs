@@ -237,8 +237,9 @@ impl<'a> Parser<'a> {
 /// Parse JSON while retaining the key order seen by `JSON.parse` without
 /// enabling `serde_json/preserve_order` for every crate in the dependency
 /// graph. Numbers use serde_json's default JavaScript-compatible finite-number
-/// representation; out-of-range inputs fail parsing instead of changing a
-/// consumer's global number semantics.
+/// representation; out-of-range inputs and values nested past 128 levels fail
+/// parsing instead of changing a consumer's global number semantics or risking
+/// an unbounded recursive parse.
 pub(super) fn parse_text(text: &str) -> Option<Node> {
     let mut parser = Parser::new(text);
     let value = parser.value(1)?;

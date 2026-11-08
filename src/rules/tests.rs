@@ -307,7 +307,14 @@ fn key_collisions_are_suffixed_in_document_order() {
     // A programmatic serde_json value uses its consumer-selected map order;
     // only the text entry point promises JSON.parse document order.
     let value: Value = serde_json::from_str(text).unwrap();
-    assert_eq!(scrub_json(&value).0["[REDACTED]"], "a");
+    let first_collision_value = value
+        .as_object()
+        .unwrap()
+        .iter()
+        .find(|(key, _)| key.contains("@x.io"))
+        .map(|(_, value)| value)
+        .unwrap();
+    assert_eq!(scrub_json(&value).0["[REDACTED]"], *first_collision_value);
 }
 
 #[test]
