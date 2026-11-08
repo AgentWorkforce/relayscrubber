@@ -5,6 +5,7 @@
  * Usage:
  *   bun scripts/parity-with-typescript.ts ../relayhistory-pipeline
  */
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -18,16 +19,48 @@ if (!canonicalArgument) {
 }
 const canonical = resolve(canonicalArgument);
 const modulePath = resolve(canonical, "packages/pipeline/src/lib/scrub.ts");
+const rawChunksPath = resolve(
+  canonical,
+  "packages/pipeline/src/lib/pipeline/raw-chunks.ts",
+);
+const pinnedManifest = JSON.parse(
+  readFileSync(resolve(repo, "vendor/canonical/technical-foul.json"), "utf8"),
+) as { rulesetSourceSha256: string; segmenterSha256: string };
+const normalized = (path: string) =>
+  readFileSync(path, "utf8").replaceAll("\r\n", "\n");
+const digest = (text: string) =>
+  createHash("sha256").update(text).digest("hex");
+const scrubSource = normalized(modulePath);
+const rawChunksSource = normalized(rawChunksPath);
+const startMarker = "// <scrub-segmenter>";
+const endMarker = "// </scrub-segmenter>";
+const start = rawChunksSource.indexOf(startMarker);
+const endStart = rawChunksSource.indexOf(endMarker, start);
+if (start < 0 || endStart < 0) {
+  throw new Error("canonical raw-chunks.ts is missing scrub-segmenter markers");
+}
+const segmenterSource = rawChunksSource.slice(
+  start,
+  endStart + endMarker.length,
+);
+const segmenterDigest = digest(segmenterSource);
+const rulesetDigest = digest(`${scrubSource}\n${segmenterSource}`);
+if (segmenterDigest !== pinnedManifest.segmenterSha256) {
+  throw new Error(
+    `canonical segmenter digest ${segmenterDigest} does not match pinned ${pinnedManifest.segmenterSha256}`,
+  );
+}
+if (rulesetDigest !== pinnedManifest.rulesetSourceSha256) {
+  throw new Error(
+    `canonical ruleset digest ${rulesetDigest} does not match pinned ${pinnedManifest.rulesetSourceSha256}`,
+  );
+}
 const { scrubJson, scrubText } = (await import(
   pathToFileURL(modulePath).href
 )) as {
   scrubJson<T>(value: T): T;
   scrubText(value: string): string;
 };
-const rawChunksPath = resolve(
-  canonical,
-  "packages/pipeline/src/lib/pipeline/raw-chunks.ts",
-);
 const { scrubLong } = (await import(pathToFileURL(rawChunksPath).href)) as {
   scrubLong(value: string): string;
 };

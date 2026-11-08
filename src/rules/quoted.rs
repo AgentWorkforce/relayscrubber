@@ -424,6 +424,16 @@ fn redact(
                 if start < value.start && end <= value.end {
                     // Preserve the block through its footer for the PEM rule, but redact
                     // the secret-keyed suffix now because that rule removes the key context.
+                    // If the suffix opens another PEM block whose footer is past the
+                    // value, consume that block too; otherwise this pass would erase its
+                    // header while leaving the body outside the quote unprotected.
+                    if let Some(open) = pem::unclosed_start(slice(t, end, value.end)) {
+                        let absolute = end + open;
+                        value.end = pem::key_block_spans(slice(t, absolute, t.len()))
+                            .first()
+                            .map_or(t.len(), |&(_, block_end)| absolute + block_end);
+                        next = next.max(value.end);
+                    }
                     if end < value.end {
                         out.extend_from_slice(slice(t, last, end));
                         out.extend_from_slice(&REDACTED16);

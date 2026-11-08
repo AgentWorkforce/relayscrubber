@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from pipeline merge c048238c (#354; head 6809ac9c).
+/// Vendored byte for byte from pipeline merge 546d31fe (#362; head cb01a9c2).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "cdb3ab249e185d86d44822a029ab4b80c673af8f39b37377ff6c5c148d024342";
+const CORPUS_SHA256: &str = "eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -549,6 +549,16 @@ fn v5_preserves_an_embedded_pem_footer_without_exposing_a_suffix() {
     assert!(!suffix_out.contains("SECRETTAIL"));
     assert!(suffix_out.contains("KEEPTRAIL"));
     assert_eq!(scrub_long(&with_suffix), suffix_out);
+
+    let chained = format!(
+        "-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}\n-----BEGIN PRIVATE KEY-----\"\nSECRETBODY\n-----END PRIVATE KEY-----\nKEEPTRAIL"
+    );
+    let chained_out = scrub_text(&chained);
+    assert!(!chained_out.contains("SECRETBODY"));
+    assert!(!chained_out.contains("BEGIN PRIVATE KEY"));
+    assert!(!chained_out.contains("END PRIVATE KEY"));
+    assert!(chained_out.contains("KEEPTRAIL"));
+    assert_eq!(scrub_long(&chained), chained_out);
 }
 
 #[test]
