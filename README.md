@@ -57,7 +57,9 @@ network access. All scans and cut-search budgets are bounded.
 string value and card-shaped integral number. Key collisions receive numbered
 suffixes in JavaScript `Object.entries` order. `scrub_json_text` parses with
 document order preserved, applies collision suffixes in that order, and
-returns `None` for invalid JSON.
+returns `None` for invalid or out-of-range JSON. The crate does not enable
+`serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
+does not change JSON behavior elsewhere in a consumer's dependency graph.
 
 ## History schema and contract
 

@@ -161,10 +161,11 @@ pub fn scrub_long(value: &str) -> String {
 
 /// Scrub every string value and key of a JSON value, and card numbers among
 /// its numbers (`scrubJson`). Returns the scrubbed value and how many
-/// strings, keys and numbers were redacted. Maps preserve insertion order;
-/// array-index keys are visited first, as `Object.entries` lists them. Values
-/// nested beyond serde_json's default 128-level parsing limit fail closed to a
-/// single redaction token rather than risking a recursive stack overflow.
+/// strings, keys and numbers were redacted. Maps use the order provided by the
+/// consumer's `serde_json::Value`; array-index keys are visited first, as
+/// `Object.entries` lists them. Values nested beyond serde_json's default
+/// 128-level parsing limit fail closed to a single redaction token rather than
+/// risking a recursive stack overflow.
 #[must_use]
 pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
     const MAX_JSON_DEPTH: usize = 128;
@@ -188,13 +189,13 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
     (clean, count)
 }
 
-/// [`scrub_json`] over a JSON text, preserving numeric spelling and suffixing
-/// colliding keys in the `Object.entries` order that `JSON.parse` reads
-/// (array-index keys ascending, then document order). `None` for invalid JSON.
+/// [`scrub_json`] over a JSON text, suffixing colliding keys in the
+/// `Object.entries` order that `JSON.parse` reads (array-index keys ascending,
+/// then document order). `None` for invalid or out-of-range JSON. This does not
+/// enable global `serde_json` map-order or arbitrary-number features.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
-    let value = json::parse_text(text)?;
-    let node = json::Node::from(&value);
+    let node = json::parse_text(text)?;
     let mut count = 0;
     let clean = json::scrub_node(&node, &mut count);
     Some((clean, count))
