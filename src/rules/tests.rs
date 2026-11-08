@@ -5,7 +5,7 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from relayhistory-pipeline PR #354 head 6809ac9c.
+/// Vendored byte for byte from pipeline merge c048238c (#354; head 6809ac9c).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).

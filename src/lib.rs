@@ -30,7 +30,7 @@ pub const RULESET_SOURCE_SHA256: &str = PINNED_RULESET_SOURCE_SHA256;
 /// SHA-256 of the ordered Rust rule-module sources, including path sentinels.
 /// This detects accidental port drift separately from the canonical TS digest.
 pub const RUST_PORT_SHA256: &str =
-    "7cff3c818d700ae4f05288fb6d12d58c409dc2b09a15d020b451fe0e209a139b";
+    "924f94c25a993003e253f8b491f52a1f09bfdd955b11071f6f8989bbcb1fba86";
 
 /// SHA-256 of the canonical secret corpus after CRLF-to-LF normalization.
 pub const CORPUS_SHA256: &str = "cdb3ab249e185d86d44822a029ab4b80c673af8f39b37377ff6c5c148d024342";

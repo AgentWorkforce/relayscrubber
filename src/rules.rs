@@ -9,7 +9,7 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline PR #354 head 6809ac9c.
+//! relayhistory-pipeline merge c048238c (#354; reviewed head 6809ac9c).
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
