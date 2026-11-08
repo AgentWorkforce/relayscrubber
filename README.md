@@ -11,9 +11,9 @@ Linux and Windows. Its runtime dependencies are only `serde` and `serde_json`.
 The current compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
-- version: `5`
-- rules/source SHA-256: `848c490bd11340cb79f5bb666d0de9a3e3f18c141bf4f4ee6358c005bd371133`
-- corpus SHA-256: `eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091`
+- version: `6`
+- rules/source SHA-256: `28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11`
+- corpus SHA-256: `d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
 
@@ -38,7 +38,7 @@ assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
 
 let stored_marker = raw_scrub_marker();
 assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
-assert_eq!(stored_marker.version, 5);
+assert_eq!(stored_marker.version, 6);
 ```
 
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
@@ -73,14 +73,14 @@ This crate has exactly two integration boundaries:
 
 1. The relayhistory schema records the scrub marker. A sealed history chunk
    writes `raw.scrub.ruleset = "relayhistory-scrub"` and
-   `raw.scrub.version = 5`; object metadata uses `scrub-ruleset` and
+   `raw.scrub.version = 6`; object metadata uses `scrub-ruleset` and
    `scrub-version` with the same values. Existing chunks are never relabeled.
 2. The history database contract uses that marker to distinguish scrubbed and
    unsanitized history. Callers must persist the exported ruleset/version only
    after this crate has successfully scrubbed the bytes they store.
 
 `raw_scrub_marker()` returns exactly the persisted two-field marker
-`{"ruleset":"relayhistory-scrub","version":5}`. It is separate from
+`{"ruleset":"relayhistory-scrub","version":6}`. It is separate from
 `manifest()`, which returns the ten-field Technical Foul distribution manifest
 used by independent implementations to pin source, segmenter, and corpus.
 
@@ -112,7 +112,7 @@ Changes are atomic across owners:
    runs a direct byte-for-byte comparison against canonical `scrub.ts`.
 4. relay-desktop updates its Cargo tag only after that release is available.
 
-The TypeScript server remains canonical for version 5. It may later consume
+The TypeScript server remains canonical for version 6. It may later consume
 this crate through WASM or a native binding, but this crate does not require or
 assume that migration.
 
@@ -120,12 +120,14 @@ For upload safety the crate deliberately matches the reviewed Desktop behavior
 where the Cloud currently refuses input: it also tries a verified comma cut for
 compact text, and replaces an uncuttable remainder wholesale. The comma
 fallback is disabled when a URL scheme occurs before the cut because unbounded
-userinfo cannot be proven safe with finite context. V5 redacts every quoted
+userinfo cannot be proven safe with finite context. V6 redacts every quoted
 secret through its matching close or end of input, measures over-cap values
-before any shrinking rule, and protects every over-cap or multi-line value
-from segment cuts. The crate additionally
+before any shrinking rule, redacts every over-bound unquoted secret value, and
+protects every over-cap or multi-line value from segment cuts. Its private-key
+pre-pass preserves header/footer pairing without leaving later quoted or
+unquoted credential tails exposed. The crate additionally
 checks exact unsigned JSON integers for cards and retains `__proto__` as an
-ordinary key. Rule set 5 also redacts quoted secret values through their close
+ordinary key. Rule set 6 also redacts quoted secret values through their close
 or end of input across line separators, inherits secret-key context through
 JSON descendants, and preserves only complete three- or four-segment
 `op://` references. Each divergence has a dedicated test.
