@@ -22,7 +22,7 @@ fn history_marker_is_exactly_the_two_field_raw_scrub_contract() {
         marker,
         serde_json::json!({
             "ruleset": "relayhistory-scrub",
-            "version": 5,
+            "version": 6,
         })
     );
 }

@@ -258,27 +258,22 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<ValueSpan
     if bs > 0 || key.iter().any(|&c| is(c, b' ')) {
         return None;
     }
-    let window = slice(t, end, end + MAX_QUOTED_VALUE);
-    let n = window
+    let n = t
+        .get(end..)
+        .unwrap_or_default()
         .iter()
         .take_while(|&&c| !(is_space(c) || one_of(c, b"\"'`,;{}[]\\")))
         .count();
     if n == 0 {
         return None;
     }
-    let mut value_end = end + n;
-    let over_bound = n == MAX_QUOTED_VALUE;
-    if over_bound {
-        while value_end < t.len()
-            && !(is_space(t[value_end]) || one_of(t[value_end], b"\"'`,;{}[]\\"))
-        {
-            value_end += 1;
-        }
-    }
-    // Classify the complete token. A numeric-looking capped prefix may have a generated
-    // tail beyond the bound; deciding from the prefix would incorrectly keep that tail.
+    let value_end = end + n;
+    let over_bound = n >= MAX_QUOTED_VALUE;
+    // Rule set 6 classifies the complete token. Every over-bound value is redacted,
+    // even a pure number or a low-entropy run; only shorter values get the literal and
+    // generated-looking exceptions.
     let bare = slice(t, end, value_end);
-    if non_secret_bare(bare) || !looks_generated(bare) {
+    if !over_bound && (non_secret_bare(bare) || !looks_generated(bare)) {
         return None;
     }
     Some(ValueSpan {
@@ -384,18 +379,14 @@ fn redact(
     let mut out = Vec::new();
     let mut last = 0;
     let mut next = 0;
-    let pem_blocks = if only_over_cap {
-        pem::key_block_spans(t)
-    } else {
-        Vec::new()
-    };
-    let mut pem_index = 0;
+    let mut pem_from = 0;
+    let mut pairing = pem::Pairing::default();
     while let Some(m) = find_key(t, next) {
         next = m.end;
         if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
             continue;
         }
-        let Some(mut value) = value_span(t, &m, prefix) else {
+        let Some(value) = value_span(t, &m, prefix) else {
             continue;
         };
         if value.long && value.end <= value.start {
@@ -413,46 +404,85 @@ fn redact(
             }
         }
         next = next.max(value.end);
-        if only_over_cap && !value.long && !value.over_bound {
-            continue;
-        }
         if only_over_cap {
-            while pem_index < pem_blocks.len() && pem_blocks[pem_index].1 <= value.start {
-                pem_index += 1;
+            let base = out.len() + pem_from - last;
+            pairing = pem::pair_private_keys(
+                slice(t, pem_from, value.start),
+                pairing.open,
+                pairing.at,
+                base,
+            );
+            pem_from = value.start;
+            let inside =
+                pem::pair_private_keys(slice(t, value.start, value.end), pairing.open, None, 0);
+            let from_header = inside.closed_outer;
+            let to_footer = inside.at.is_some();
+            if !value.long && !value.over_bound && !from_header && !to_footer {
+                continue;
             }
-            if let Some(&(start, end)) = pem_blocks.get(pem_index) {
-                if start < value.start && end <= value.end {
-                    // Preserve the block through its footer for the PEM rule, but redact
-                    // the secret-keyed suffix now because that rule removes the key context.
-                    // If the suffix opens another PEM block whose footer is past the
-                    // value, consume that block too; otherwise this pass would erase its
-                    // header while leaving the body outside the quote unprotected.
-                    if let Some(open) = pem::unclosed_start(slice(t, end, value.end)) {
-                        let absolute = end + open;
-                        value.end = pem::key_block_spans(slice(t, absolute, t.len()))
-                            .first()
-                            .map_or(t.len(), |&(_, block_end)| absolute + block_end);
-                        next = next.max(value.end);
+
+            let bs = run_end_capped(t, m.end, 16, is_backslash) - m.end;
+            let quoted = t.get(m.end + bs).is_some_and(|&c| is_quote(c));
+            let close_length = if quoted { bs + 1 } else { 0 };
+            let close_end = t.len().min(value.end + close_length);
+            let mut redact_end = value.end;
+            let mut restore_close = !from_header;
+            if to_footer {
+                let footer = pem::find_footer(t, close_end);
+                redact_end = footer.map_or(t.len(), |(_, end)| end);
+                if let Some((footer_start, _)) = footer {
+                    if slice(t, close_end, footer_start)
+                        .iter()
+                        .any(|&c| is_quote(c))
+                    {
+                        restore_close = false;
+                        if from_header {
+                            redact_end = t.len();
+                        }
+                    } else if redact_end < t.len() {
+                        let mut glued_end = redact_end;
+                        while glued_end < t.len() && !is_space(t[glued_end]) {
+                            glued_end += 1;
+                        }
+                        if glued_end >= redact_end + 10
+                            && has(t, glued_end - 10, "-----BEGIN")
+                            && pem::header_starts_at(t, glued_end - 10)
+                        {
+                            glued_end -= 10;
+                        }
+                        redact_end = if slice(t, redact_end, glued_end).iter().any(|&c| is_quote(c))
+                        {
+                            t.len()
+                        } else {
+                            glued_end
+                        };
                     }
-                    if end < value.end {
-                        out.extend_from_slice(slice(t, last, end));
-                        out.extend_from_slice(&REDACTED16);
-                        last = value.end;
-                    }
-                    continue;
                 }
+            } else if from_header {
+                redact_end = close_end;
             }
-            let inside = slice(t, value.start, value.end);
-            if let Some(open) = pem::unclosed_start(inside) {
-                let suffix = slice(t, value.start, t.len());
-                if let Some((_, end)) = pem::key_block_spans(suffix)
-                    .into_iter()
-                    .find(|&(start, _)| start == open)
-                {
-                    value.end = value.start + end;
-                    next = next.max(value.end);
-                }
+
+            out.extend_from_slice(slice(t, last, value.start));
+            if from_header {
+                out.truncate(
+                    pairing
+                        .at
+                        .expect("outer private-key header has an output index"),
+                );
             }
+            out.extend_from_slice(&REDACTED16);
+            if restore_close && redact_end > value.end {
+                out.extend_from_slice(slice(t, value.end, close_end));
+            }
+            last = redact_end;
+            pem_from = redact_end;
+            pairing = pem::Pairing {
+                open: !to_footer && inside.open,
+                at: pairing.at,
+                closed_outer: false,
+            };
+            next = next.max(redact_end);
+            continue;
         }
         out.extend_from_slice(slice(t, last, value.start));
         out.extend_from_slice(&REDACTED16);

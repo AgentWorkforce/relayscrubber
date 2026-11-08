@@ -9,8 +9,9 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline merge 546d31fe (#362; reviewed head cb01a9c2),
-//! including #354's complete-bare and first PEM-boundary fixes.
+//! relayhistory-pipeline merge bfab2d4b (#356; reviewed head bb0bb0f8),
+//! with shipped rule set 5 frozen and the complete-bare and private-key
+//! boundary fixes carried forward in rule set 6.
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
@@ -46,7 +47,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 5;
+pub const RULESET_VERSION: u32 = 6;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -57,7 +58,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
 /// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "848c490bd11340cb79f5bb666d0de9a3e3f18c141bf4f4ee6358c005bd371133";
+    "28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.

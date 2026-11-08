@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from pipeline merge 546d31fe (#362; head cb01a9c2).
+/// Vendored byte for byte from pipeline merge bfab2d4b (#356; head bb0bb0f8).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091";
+const CORPUS_SHA256: &str = "d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -518,7 +518,7 @@ fn v5_measures_over_cap_values_before_token_rules_shrink_them() {
 }
 
 #[test]
-fn v5_classifies_the_complete_over_cap_bare_value() {
+fn v6_redacts_every_complete_over_cap_bare_value() {
     let prefix = format!("{}012345", "0123456789".repeat(409));
     let tail = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".repeat(100);
     assert_eq!(prefix.encode_utf16().count(), 4096);
@@ -527,7 +527,7 @@ fn v5_classifies_the_complete_over_cap_bare_value() {
     assert_eq!(scrub_long(&input), r#""token": [REDACTED] after"#);
 
     let number = format!(r#""token": {} after"#, "1".repeat(4196));
-    assert_eq!(scrub_text(&number), number);
+    assert_eq!(scrub_text(&number), r#""token": [REDACTED] after"#);
 }
 
 #[test]
@@ -559,6 +559,29 @@ fn v5_preserves_an_embedded_pem_footer_without_exposing_a_suffix() {
     assert!(!chained_out.contains("END PRIVATE KEY"));
     assert!(chained_out.contains("KEEPTRAIL"));
     assert_eq!(scrub_long(&chained), chained_out);
+}
+
+#[test]
+fn v6_private_key_prepass_consumes_later_unquoted_credential_tails() {
+    let suffix = "Ab3dE5fG7hJ9K2mN4pQ6rS8tU0vW1xY3zA5cB7dE";
+    for later in [
+        format!("token=abc-----END PRIVATE KEY-----SECRETTAIL{suffix}"),
+        format!("Authorization: Bearer abc-----END PRIVATE KEY-----SECRETTAIL{suffix}"),
+        format!(
+            "https://example.test/cb?access_token=abc-----END PRIVATE KEY-----SECRETTAIL{suffix}"
+        ),
+    ] {
+        let input =
+            format!(r#""password": "abc-----BEGIN PRIVATE KEY-----" KEEPMID {later} KEEPTRAIL"#);
+        let expected = r#""password": "[REDACTED]" KEEPTRAIL"#;
+        assert_eq!(scrub_text(&input), expected, "{later}");
+        assert_eq!(scrub_long(&input), expected, "{later}");
+
+        let record = json!({ "content": input });
+        let (clean, redactions) = scrub_json(&record);
+        assert_eq!(clean["content"], expected, "{later}");
+        assert_eq!(redactions, 1, "{later}");
+    }
 }
 
 #[test]

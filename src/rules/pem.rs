@@ -54,8 +54,63 @@ fn find_header_before(t: &[u16], from: usize, before: usize) -> Option<(usize, u
 }
 
 /// The first footer at or after `from`, as `(start, end)`.
-fn find_footer(t: &[u16], from: usize) -> Option<(usize, usize)> {
+pub(super) fn find_footer(t: &[u16], from: usize) -> Option<(usize, usize)> {
     (from..t.len()).find_map(|i| footer_at(t, i).map(|end| (i, end)))
+}
+
+/// Whether a private-key header starts exactly at `at`.
+pub(super) fn header_starts_at(t: &[u16], at: usize) -> bool {
+    header_at(t, at).is_some()
+}
+
+/// The private-key pairing state after one slice of the text.
+#[derive(Clone, Copy, Default)]
+pub(super) struct Pairing {
+    pub open: bool,
+    pub at: Option<usize>,
+    pub closed_outer: bool,
+}
+
+/// Pair private-key headers and footers left to right, exactly as the PEM
+/// redaction rule does. `at` is the output position of a header opened before
+/// this slice; a header opened in this slice is recorded at `base + index`.
+pub(super) fn pair_private_keys(
+    t: &[u16],
+    mut open: bool,
+    mut at: Option<usize>,
+    base: usize,
+) -> Pairing {
+    let mut closed_outer = false;
+    let mut outer = open;
+    let mut pos = 0;
+    loop {
+        if open {
+            let Some((_, end)) = find_footer(t, pos) else {
+                return Pairing {
+                    open,
+                    at,
+                    closed_outer,
+                };
+            };
+            pos = end;
+            if outer {
+                closed_outer = true;
+            }
+            outer = false;
+            open = false;
+        } else {
+            let Some((start, end)) = find_header(t, pos) else {
+                return Pairing {
+                    open,
+                    at: None,
+                    closed_outer,
+                };
+            };
+            pos = end;
+            open = true;
+            at = Some(base + start);
+        }
+    }
 }
 
 /// The PEM rule: each block from its header to its footer, or to the end of
