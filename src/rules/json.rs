@@ -47,22 +47,114 @@ fn array_index(key: &str) -> Option<u32> {
         .filter(|n| canonical && *n < u32::MAX)
 }
 
-/// Entries in `Object.entries` order, from entries in document order: a
-/// repeated key keeps its first place and its last value (`JSON.parse`),
-/// array-index keys come first in ascending order, then the rest as given.
-fn js_order(entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
-    let mut place: HashMap<String, usize> = HashMap::new();
-    let mut out: Vec<(String, Node)> = Vec::with_capacity(entries.len());
-    for (key, item) in entries {
-        if let Some(&i) = place.get(&key) {
-            out[i].1 = item;
-        } else {
-            place.insert(key.clone(), out.len());
-            out.push((key, item));
+/// Entries in `Object.entries` order. `serde_json::Map` has already applied
+/// JSON.parse's repeated-key rule (first position, last value), so only the
+/// array-index ordering remains here.
+fn js_order(mut entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
+    entries.sort_by_key(|(key, _)| array_index(key).map_or((1, 0), |n| (0, n)));
+    entries
+}
+
+/// serde_json's arbitrary-precision representation reserves this object key.
+/// Protect user strings with the same spelling before parsing so an ordinary
+/// object can never be mistaken for the library's internal number wrapper.
+const NUMBER_TOKEN: &str = "$serde_json::private::Number";
+
+/// Find user strings that collide with serde_json's token and the longest
+/// already-used NUL suffix. Non-candidate strings are scanned without an
+/// allocation; the actual parser remains the authority on JSON validity.
+fn protected_strings(text: &str) -> Option<(Vec<(usize, usize)>, usize)> {
+    let bytes = text.as_bytes();
+    let mut replacements = Vec::new();
+    let mut max_nuls = 0;
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] != b'"' {
+            i += 1;
+            continue;
+        }
+        let start = i;
+        i += 1;
+        let mut escaped = false;
+        let mut closed = false;
+        while i < bytes.len() {
+            let byte = bytes[i];
+            i += 1;
+            if escaped {
+                escaped = false;
+            } else if byte == b'\\' {
+                escaped = true;
+            } else if byte == b'"' {
+                closed = true;
+                if matches!(bytes.get(start + 1), Some(b'$' | b'\\')) {
+                    let value: String = serde_json::from_str(&text[start..i]).ok()?;
+                    if let Some(suffix) = value.strip_prefix(NUMBER_TOKEN) {
+                        if suffix.bytes().all(|byte| byte == 0) {
+                            max_nuls = max_nuls.max(suffix.len());
+                            if suffix.is_empty() {
+                                replacements.push((start, i));
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        if !closed {
+            return None;
         }
     }
-    out.sort_by_key(|(key, _)| array_index(key).map_or((1, 0), |n| (0, n)));
-    out
+    Some((replacements, max_nuls))
+}
+
+/// Parse a JSON text without exposing serde_json's private arbitrary-number
+/// marker as an observable key collision.
+pub(super) fn parse_text(text: &str) -> Option<Value> {
+    let (replacements, max_nuls) = protected_strings(text)?;
+    if replacements.is_empty() {
+        return serde_json::from_str(text).ok();
+    }
+
+    let mut protected = NUMBER_TOKEN.to_owned();
+    for _ in 0..=max_nuls {
+        protected.push('\0');
+    }
+
+    let replacement = serde_json::to_string(&protected).ok()?;
+    let mut rewritten = String::with_capacity(text.len());
+    let mut copied = 0;
+    for (start, end) in replacements {
+        rewritten.push_str(&text[copied..start]);
+        rewritten.push_str(&replacement);
+        copied = end;
+    }
+    rewritten.push_str(&text[copied..]);
+
+    let mut value: Value = serde_json::from_str(&rewritten).ok()?;
+    restore_protected(&mut value, &protected);
+    Some(value)
+}
+
+fn restore_protected(value: &mut Value, protected: &str) {
+    match value {
+        Value::String(text) if text == protected => *text = NUMBER_TOKEN.to_owned(),
+        Value::Array(items) => {
+            for item in items {
+                restore_protected(item, protected);
+            }
+        }
+        Value::Object(map) => {
+            let old = std::mem::take(map);
+            for (mut key, mut item) in old {
+                if key == protected {
+                    key = NUMBER_TOKEN.to_owned();
+                }
+                restore_protected(&mut item, protected);
+                map.insert(key, item);
+            }
+        }
+        _ => {}
+    }
 }
 
 impl From<&Value> for Node {

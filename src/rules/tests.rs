@@ -321,6 +321,28 @@ fn arbitrary_precision_numbers_remain_numbers_with_their_exact_spelling() {
 }
 
 #[test]
+fn serde_json_private_number_marker_remains_an_ordinary_object_key() {
+    let marker = "$serde_json::private::Number";
+    let text = format!(
+        r#"{{"{marker}":"123","nested":{{"$serde_json::private::\u004eumber":"456"}},"{marker}\u0000":"kept"}}"#
+    );
+    let (clean, redactions) = scrub_json_text(&text).unwrap();
+    assert_eq!(redactions, 0);
+    assert_eq!(clean[marker], "123");
+    assert_eq!(clean["nested"][marker], "456");
+    assert_eq!(clean[format!("{marker}\0")], "kept");
+    assert!(clean.is_object() && clean["nested"].is_object());
+}
+
+#[test]
+fn over_cap_one_password_references_remain_allowed() {
+    // One unit beyond the canonical quoted-value inspection cap.
+    let reference = format!("op://{}", "a".repeat(4_097));
+    let text = format!(r#"CF_TOKEN_REF="{reference}" unrelated text"#);
+    assert_eq!(scrub_long(&text), text);
+}
+
+#[test]
 fn programmatic_json_beyond_the_parser_depth_limit_fails_closed() {
     let mut value = Value::Null;
     for _ in 0..129 {

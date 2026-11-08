@@ -194,7 +194,9 @@ fn long_cut(t: &[u16]) -> Option<usize> {
 /// each scrubbed whole. Where the Cloud throws for a remainder with no safe
 /// cut, the desktop replaces that remainder with the redaction token: no
 /// part of it is sent, and the upload is never refused. Segments already cut
-/// off at safe cuts are kept.
+/// off at safe cuts are kept. An over-cap quoted secret instead replaces the
+/// whole input, because even an earlier segment may contain its exposed
+/// prefix and v3 cannot prove any part of that value safe.
 pub(super) fn scrub_long16(t: &[u16]) -> Vec<u16> {
     // Canonical v3 caps quoted-value inspection at 4,096 UTF-16 units and can
     // expose the suffix. Uploads fail closed until the canonical ruleset owns

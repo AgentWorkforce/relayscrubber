@@ -194,7 +194,7 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
 /// (array-index keys ascending, then document order). `None` for invalid JSON.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
-    let value: serde_json::Value = serde_json::from_str(text).ok()?;
+    let value = json::parse_text(text)?;
     let node = json::Node::from(&value);
     let mut count = 0;
     let clean = json::scrub_node(&node, &mut count);

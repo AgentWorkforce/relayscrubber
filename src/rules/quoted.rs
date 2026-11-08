@@ -206,6 +206,12 @@ pub(super) fn has_overlong_secret_value(t: &[u16]) -> bool {
             continue;
         };
         let start = m.end + bs + 1;
+        // The canonical quoted rule deliberately keeps 1Password references,
+        // regardless of their length. The fail-closed upload preflight must
+        // make the same decision.
+        if has(t, start, "op://") {
+            continue;
+        }
         let mut i = start;
         while i < t.len() && i - start <= MAX_QUOTED_VALUE {
             let c = t[i];
