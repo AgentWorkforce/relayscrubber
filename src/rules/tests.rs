@@ -335,11 +335,23 @@ fn serde_json_private_number_marker_remains_an_ordinary_object_key() {
 }
 
 #[test]
-fn over_cap_one_password_references_remain_allowed() {
-    // One unit beyond the canonical quoted-value inspection cap.
+fn assignment_one_password_references_remain_allowed() {
     let reference = format!("op://{}", "a".repeat(4_097));
     let text = format!(r#"CF_TOKEN_REF="{reference}" unrelated text"#);
     assert_eq!(scrub_long(&text), text);
+}
+
+#[test]
+fn v4_redacts_an_over_cap_quoted_one_password_reference() {
+    let long = format!("op://{}", "a".repeat(8_192));
+    assert_eq!(
+        scrub_long(&format!(r#""password": "{long}""#)),
+        r#""password": "[REDACTED]""#
+    );
+    assert_eq!(
+        scrub_long(r#""password": "op://vault/item/field""#),
+        r#""password": "op://vault/item/field""#
+    );
 }
 
 #[test]
