@@ -340,6 +340,17 @@ fn text_json_preserves_negative_zero() {
 }
 
 #[test]
+fn text_json_rejects_unpaired_surrogates_but_accepts_pairs() {
+    // JSON.parse can produce a JavaScript string with an unpaired UTF-16
+    // surrogate, but Rust String/serde_json::Value cannot represent it.
+    assert!(scrub_json_text(r#"{"value":"\ud800"}"#).is_none());
+    assert!(scrub_json_text(r#"{"value":"\udc00"}"#).is_none());
+    let (clean, redactions) = scrub_json_text(r#"{"value":"\ud83d\udca3"}"#).unwrap();
+    assert_eq!(redactions, 0);
+    assert_eq!(clean["value"], "💣");
+}
+
+#[test]
 fn decimal_card_numbers_are_redacted_by_the_text_entry_point() {
     let (clean, redactions) = scrub_json_text(r#"{"card":4111111111111111.0}"#).unwrap();
     assert_eq!(clean["card"], REDACTION_TOKEN);

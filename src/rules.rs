@@ -15,9 +15,11 @@
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
 //! string and key is scrubbed whole with [`scrub_long`], as the Cloud's
 //! raw-chunk path does, and a text is only ever split where the ported
-//! `cutIsSafe` holds. Colliding keys get their ` (2)`, ` (3)` suffixes in
-//! `Object.entries` order. Where this port differs from the Cloud on
-//! purpose, the difference is noted where it is made and covered by a test:
+//! `cutIsSafe` holds. [`scrub_json_text`] gives colliding keys their ` (2)`,
+//! ` (3)` suffixes in `JSON.parse`/`Object.entries` order; [`scrub_json`]
+//! follows the map iteration order of the consumer-provided `Value`. Where
+//! this port differs from the Cloud on purpose, the difference is noted where
+//! it is made and covered by a test:
 //!  - [`scrub_long`] also tries a cut after a comma where text has no
 //!    whitespace to cut after (compact JSON, minified code); a comma is a
 //!    cut only if it passes the same `cutIsSafe` check as whitespace, so it
@@ -51,8 +53,8 @@ pub const REDACTION_TOKEN: &str = "[REDACTED]";
 /// The longest text one bounded scrub takes (`MAX_SCRUB_CHARS`), in UTF-16 units.
 pub const MAX_SCRUB_CHARS: usize = 262_144;
 
-/// sha256 of the Cloud's `scrub.ts` this port was made from, as the Cloud's
-/// `technical-foul.json` manifest records it.
+/// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
+/// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
     "ed8d5c35bfddbcdbe03416c03e08b3d0a0bbcf7c276bc08fe12f14d8756ee933";
 
@@ -192,8 +194,10 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
 /// [`scrub_json`] over a JSON text, suffixing colliding keys in the
 /// `Object.entries` order that `JSON.parse` reads (array-index keys ascending,
 /// then document order). `None` for invalid, out-of-range, or more-than-128-level
-/// JSON. This does not enable global `serde_json` map-order or arbitrary-number
-/// features.
+/// JSON. JSON string escapes containing an unpaired UTF-16 surrogate return
+/// `None` because Rust strings cannot represent them; callers must retain their
+/// existing invalid/unrepresentable-JSON fallback. This does not enable global
+/// `serde_json` map-order or arbitrary-number features.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
     let node = json::parse_text(text)?;

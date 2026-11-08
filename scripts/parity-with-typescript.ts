@@ -323,7 +323,7 @@ const recordVectors = corpus.cases
       const filled = instantiate(c, round);
       return {
         id: `${c.id}/${round}`,
-        input: JSON.parse(filled.input) as unknown,
+        input: filled.input,
         expected: JSON.parse(
           c.expectedRecord
             ? instantiate({ ...c, input: c.expectedRecord }, round).input
@@ -332,8 +332,26 @@ const recordVectors = corpus.cases
       };
     }),
   );
+recordVectors.push({
+  id: "collision/document-order",
+  input: '{"b@x.io":"b","c":1,"a@x.io":"a","b+1@x.io":"b1"}',
+  expected: {
+    "[REDACTED]": "b",
+    c: 1,
+    "[REDACTED] (2)": "a",
+    "[REDACTED] (3)": "b1",
+  },
+});
 const jsonChild = Bun.spawn(
-  ["cargo", "run", "--quiet", "--example", "scrub_lines", "--", "--json"],
+  [
+    "cargo",
+    "run",
+    "--quiet",
+    "--example",
+    "scrub_lines",
+    "--",
+    "--json-text",
+  ],
   {
     cwd: repo,
     env: { ...Bun.env, TMPDIR: resolve(repo, ".task-tmp") },
@@ -362,7 +380,7 @@ const stable = (value: unknown): unknown =>
         )
       : value;
 for (const [index, vector] of recordVectors.entries()) {
-  const typescript = scrubJson(vector.input);
+  const typescript = scrubJson(JSON.parse(vector.input) as unknown);
   if (
     JSON.stringify(stable(typescript)) !==
     JSON.stringify(stable(vector.expected))
