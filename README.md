@@ -12,7 +12,7 @@ The current compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
 - version: `6`
-- rules/source SHA-256: `28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11`
+- combined source SHA-256 (`scrub.ts` + newline + segmenter region): `28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11`
 - corpus SHA-256: `d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
