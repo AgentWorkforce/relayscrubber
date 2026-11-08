@@ -27,6 +27,11 @@ pub const SCRUB_RULESET_VERSION: u32 = RULESET_VERSION;
 /// Compatibility alias for the canonical combined rule-and-segmenter digest.
 pub const RULESET_SOURCE_SHA256: &str = PINNED_RULESET_SOURCE_SHA256;
 
+/// SHA-256 of the ordered Rust rule-module sources, including path sentinels.
+/// This detects accidental port drift separately from the canonical TS digest.
+pub const RUST_PORT_SHA256: &str =
+    "8ac7dcf1048aeb967b4936b3f5bb74268ca30dfcc0d4bfb13a5f0c90bc5762c5";
+
 /// SHA-256 of the canonical secret corpus after CRLF-to-LF normalization.
 pub const CORPUS_SHA256: &str = "9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860";
 

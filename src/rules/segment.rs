@@ -6,7 +6,7 @@
 
 use super::js::{at, before, has_ci, is, is_alnum, is_digit, is_space, one_of, run_start, slice};
 use super::pem::{block_around, key_block_spans, open_at};
-use super::{scrub16, MAX_SCRUB_CHARS, REDACTION_TOKEN};
+use super::{quoted, scrub16, web, MAX_SCRUB_CHARS, REDACTION_TOKEN};
 
 /// Longest whitespace run a cut may sit in.
 const MAX_CUT_GAP: usize = 1024;
@@ -180,7 +180,14 @@ fn search_cut(t: &[u16], boundary: fn(u16) -> bool) -> Option<usize> {
 /// rule match ever straddles it. Where the Cloud finds no cut it refuses the
 /// text; the desktop then redacts it (see [`scrub_long16`]).
 fn long_cut(t: &[u16]) -> Option<usize> {
-    search_cut(t, is_space).or_else(|| search_cut(t, |c| is(c, b',')))
+    search_cut(t, is_space).or_else(|| {
+        // URL userinfo may span arbitrarily far past a comma. If a scheme is
+        // in the candidate prefix, bounded context cannot prove that a comma
+        // is outside credentials, so fail closed instead of splitting.
+        (!web::has_scheme_before(t, MAX_SCRUB_CHARS))
+            .then(|| search_cut(t, |c| is(c, b',')))
+            .flatten()
+    })
 }
 
 /// `scrubLong`: segments of at most [`MAX_SCRUB_CHARS`] split at safe cuts,
@@ -189,6 +196,12 @@ fn long_cut(t: &[u16]) -> Option<usize> {
 /// part of it is sent, and the upload is never refused. Segments already cut
 /// off at safe cuts are kept.
 pub(super) fn scrub_long16(t: &[u16]) -> Vec<u16> {
+    // Canonical v3 caps quoted-value inspection at 4,096 UTF-16 units and can
+    // expose the suffix. Uploads fail closed until the canonical ruleset owns
+    // the same regression: no part of an over-cap value leaves the device.
+    if quoted::has_overlong_secret_value(t) {
+        return REDACTION_TOKEN.encode_utf16().collect();
+    }
     let mut out = Vec::with_capacity(t.len());
     let mut rest = t;
     while rest.len() > MAX_SCRUB_CHARS {

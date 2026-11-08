@@ -145,13 +145,16 @@ fn scrub16(t: &[u16]) -> Vec<u16> {
 /// [`MAX_SCRUB_CHARS`] is truncated after whitespace and the cut announced.
 /// Uploads never take this: they are scrubbed with [`scrub_long`], which
 /// does not truncate.
+#[must_use]
 pub fn scrub_text(value: &str) -> String {
     let units: Vec<u16> = value.encode_utf16().collect();
     String::from_utf16_lossy(&scrub16(&units))
 }
 
 /// Scrub a string of any length whole, segmented as the Cloud's `scrubLong`
-/// does; a remainder with no safe cut becomes the redaction token.
+/// does; a remainder with no safe cut, or an over-cap quoted secret that v3
+/// cannot safely finish, becomes the redaction token.
+#[must_use]
 pub fn scrub_long(value: &str) -> String {
     let units: Vec<u16> = value.encode_utf16().collect();
     String::from_utf16_lossy(&segment::scrub_long16(&units))
@@ -159,21 +162,40 @@ pub fn scrub_long(value: &str) -> String {
 
 /// Scrub every string value and key of a JSON value, and card numbers among
 /// its numbers (`scrubJson`). Returns the scrubbed value and how many
-/// strings, keys and numbers were redacted. A serde_json map has lost its
-/// document order, so colliding keys are suffixed in the order it
-/// serializes in (with array-index keys first, as `Object.entries` lists
-/// them); [`scrub_json_text`] keeps the order of a JSON text.
+/// strings, keys and numbers were redacted. Maps preserve insertion order;
+/// array-index keys are visited first, as `Object.entries` lists them. Values
+/// nested beyond serde_json's default 128-level parsing limit fail closed to a
+/// single redaction token rather than risking a recursive stack overflow.
+#[must_use]
 pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
+    const MAX_JSON_DEPTH: usize = 128;
+    let mut pending = vec![(value, 1usize)];
+    while let Some((item, depth)) = pending.pop() {
+        if depth > MAX_JSON_DEPTH {
+            return (serde_json::Value::String(REDACTION_TOKEN.to_owned()), 1);
+        }
+        match item {
+            serde_json::Value::Array(items) => {
+                pending.extend(items.iter().map(|item| (item, depth + 1)));
+            }
+            serde_json::Value::Object(map) => {
+                pending.extend(map.values().map(|item| (item, depth + 1)));
+            }
+            _ => {}
+        }
+    }
     let mut count = 0;
     let clean = json::scrub_node(&json::Node::from(value), &mut count);
     (clean, count)
 }
 
-/// [`scrub_json`] over a JSON text, with colliding keys suffixed in the
-/// `Object.entries` order of the text as `JSON.parse` reads it (array-index
-/// keys ascending, then document order). `None` when the text is not JSON.
+/// [`scrub_json`] over a JSON text, preserving numeric spelling and suffixing
+/// colliding keys in the `Object.entries` order that `JSON.parse` reads
+/// (array-index keys ascending, then document order). `None` for invalid JSON.
+#[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
-    let node: json::Node = serde_json::from_str(text).ok()?;
+    let value: serde_json::Value = serde_json::from_str(text).ok()?;
+    let node = json::Node::from(&value);
     let mut count = 0;
     let clean = json::scrub_node(&node, &mut count);
     Some((clean, count))

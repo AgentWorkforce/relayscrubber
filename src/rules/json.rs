@@ -4,7 +4,6 @@
 
 use super::numbers::is_card_digits;
 use super::{scrub_long, REDACTION_TOKEN};
-use serde::de::{Deserialize, Deserializer, MapAccess, SeqAccess, Visitor};
 use serde_json::{Map, Number, Value};
 use std::collections::HashMap;
 
@@ -67,8 +66,8 @@ fn js_order(entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
 }
 
 impl From<&Value> for Node {
-    /// A serde_json map has lost its document order; its own (sorted) order,
-    /// which is also the order it serializes in, stands in for it.
+    /// Preserve the map's insertion order, then apply JavaScript's special
+    /// ordering for array-index keys.
     fn from(value: &Value) -> Self {
         match value {
             Value::Array(items) => Node::Array(items.iter().map(Node::from).collect()),
@@ -79,59 +78,6 @@ impl From<&Value> for Node {
             )),
             _ => Node::Leaf(value.clone()),
         }
-    }
-}
-
-struct NodeVisitor;
-
-impl<'de> Visitor<'de> for NodeVisitor {
-    type Value = Node;
-
-    fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        f.write_str("any JSON value")
-    }
-    fn visit_bool<E>(self, v: bool) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::Bool(v)))
-    }
-    fn visit_i64<E>(self, v: i64) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::Number(v.into())))
-    }
-    fn visit_u64<E>(self, v: u64) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::Number(v.into())))
-    }
-    fn visit_f64<E>(self, v: f64) -> Result<Node, E> {
-        Ok(Node::Leaf(
-            Number::from_f64(v).map_or(Value::Null, Value::Number),
-        ))
-    }
-    fn visit_str<E>(self, v: &str) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::String(v.to_owned())))
-    }
-    fn visit_string<E>(self, v: String) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::String(v)))
-    }
-    fn visit_unit<E>(self) -> Result<Node, E> {
-        Ok(Node::Leaf(Value::Null))
-    }
-    fn visit_seq<A: SeqAccess<'de>>(self, mut seq: A) -> Result<Node, A::Error> {
-        let mut items = Vec::new();
-        while let Some(item) = seq.next_element()? {
-            items.push(item);
-        }
-        Ok(Node::Array(items))
-    }
-    fn visit_map<A: MapAccess<'de>>(self, mut map: A) -> Result<Node, A::Error> {
-        let mut entries = Vec::new();
-        while let Some(entry) = map.next_entry::<String, Node>()? {
-            entries.push(entry);
-        }
-        Ok(Node::Object(js_order(entries)))
-    }
-}
-
-impl<'de> Deserialize<'de> for Node {
-    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        deserializer.deserialize_any(NodeVisitor)
     }
 }
 

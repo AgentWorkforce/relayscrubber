@@ -2,7 +2,8 @@
 
 use relayscrubber::{
     manifest, raw_scrub_marker, CORPUS_BYTES, CORPUS_SHA256, MANIFEST_JSON, MAX_SCRUB_CHARS,
-    REDACTION_TOKEN, RULESET_SOURCE_SHA256, SCRUB_RULESET, SCRUB_RULESET_VERSION, SEGMENTER_SHA256,
+    REDACTION_TOKEN, RULESET_SOURCE_SHA256, RUST_PORT_SHA256, SCRUB_RULESET_VERSION,
+    SEGMENTER_SHA256,
 };
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -20,8 +21,8 @@ fn history_marker_is_exactly_the_two_field_raw_scrub_contract() {
     assert_eq!(
         marker,
         serde_json::json!({
-            "ruleset": SCRUB_RULESET,
-            "version": SCRUB_RULESET_VERSION,
+            "ruleset": "relayhistory-scrub",
+            "version": 3,
         })
     );
 }
@@ -45,6 +46,45 @@ fn vendored_canonical_sources_match_the_shared_manifest() {
 
     let corpus = include_str!("../vendor/corpus/scrub-secret-corpus.json");
     assert_eq!(sha256(corpus), CORPUS_SHA256);
+}
+
+#[test]
+fn rust_rule_modules_match_the_reviewed_port_digest() {
+    let files = [
+        ("src/rules.rs", include_str!("../src/rules.rs")),
+        (
+            "src/rules/assign.rs",
+            include_str!("../src/rules/assign.rs"),
+        ),
+        ("src/rules/js.rs", include_str!("../src/rules/js.rs")),
+        ("src/rules/json.rs", include_str!("../src/rules/json.rs")),
+        (
+            "src/rules/numbers.rs",
+            include_str!("../src/rules/numbers.rs"),
+        ),
+        ("src/rules/pem.rs", include_str!("../src/rules/pem.rs")),
+        (
+            "src/rules/quoted.rs",
+            include_str!("../src/rules/quoted.rs"),
+        ),
+        (
+            "src/rules/segment.rs",
+            include_str!("../src/rules/segment.rs"),
+        ),
+        (
+            "src/rules/tokens.rs",
+            include_str!("../src/rules/tokens.rs"),
+        ),
+        ("src/rules/web.rs", include_str!("../src/rules/web.rs")),
+    ];
+    let mut source = String::new();
+    for (path, text) in files {
+        source.push_str(path);
+        source.push('\n');
+        source.push_str(&text.replace("\r\n", "\n"));
+        source.push('\n');
+    }
+    assert_eq!(sha256(&source), RUST_PORT_SHA256);
 }
 
 #[test]

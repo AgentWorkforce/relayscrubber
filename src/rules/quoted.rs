@@ -188,6 +188,39 @@ fn quoted_value(
     (vs, end)
 }
 
+/// Whether a secret key owns a quoted value whose closing quote is beyond the
+/// canonical 4,096-unit inspection cap. The v3 bounded rule would redact only
+/// a prefix of such a value, so the upload path must fail closed.
+pub(super) fn has_overlong_secret_value(t: &[u16]) -> bool {
+    if t.len() <= MAX_QUOTED_VALUE || !t.iter().any(|&c| one_of(c, b":=")) {
+        return false;
+    }
+    let mut next = 0;
+    while let Some(m) = find_key(t, next) {
+        next = m.end;
+        if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
+            continue;
+        }
+        let bs = run_end_capped(t, m.end, 16, is_backslash) - m.end;
+        let Some(quote) = t.get(m.end + bs).copied().filter(|&c| is_quote(c)) else {
+            continue;
+        };
+        let start = m.end + bs + 1;
+        let mut i = start;
+        while i < t.len() && i - start <= MAX_QUOTED_VALUE {
+            let c = t[i];
+            if is(c, b'\n') || is(c, b'\r') || (c == quote && closes_at(t, i, start, bs)) {
+                break;
+            }
+            i += 1;
+        }
+        if i - start > MAX_QUOTED_VALUE {
+            return true;
+        }
+    }
+    false
+}
+
 /// `-?\d+(?:\.\d+)?(?:e[+-]?\d+)?`, whole.
 fn is_number(s: &[u16]) -> bool {
     let digits = |from: usize| {

@@ -283,7 +283,8 @@ fn divergence_proto_keys_are_kept_and_scrubbed() {
 
 /// Keys of an object in the order the scrub walks them.
 fn walk_order(text: &str) -> Vec<(String, Value)> {
-    let json::Node::Object(entries) = serde_json::from_str(text).unwrap() else {
+    let value: Value = serde_json::from_str(text).unwrap();
+    let json::Node::Object(entries) = json::Node::from(&value) else {
         panic!("not an object");
     };
     let mut count = 0;
@@ -304,12 +305,28 @@ fn key_collisions_are_suffixed_in_document_order() {
         json!({ "[REDACTED]": "b", "c": 1, "[REDACTED] (2)": "a", "[REDACTED] (3)": "b1" })
     );
     assert_eq!(redactions, 3);
-    // A serde_json value has lost its document order; its serialized
-    // (sorted) order stands in, so it scrubs as its own text does.
+    // A serde_json value preserves document order, so both entry points agree.
     let value: Value = serde_json::from_str(text).unwrap();
-    let sorted = serde_json::to_string(&value).unwrap();
-    assert_eq!(scrub_json(&value), scrub_json_text(&sorted).unwrap());
-    assert_eq!(scrub_json(&value).0["[REDACTED]"], "a");
+    assert_eq!(scrub_json(&value), scrub_json_text(text).unwrap());
+    assert_eq!(scrub_json(&value).0["[REDACTED]"], "b");
+}
+
+#[test]
+fn arbitrary_precision_numbers_remain_numbers_with_their_exact_spelling() {
+    let text = r#"{"huge":123456789012345678901234567890,"decimal":1.234567890123456789}"#;
+    let (clean, redactions) = scrub_json_text(text).unwrap();
+    assert_eq!(redactions, 0);
+    assert!(clean["huge"].is_number() && clean["decimal"].is_number());
+    assert_eq!(serde_json::to_string(&clean).unwrap(), text);
+}
+
+#[test]
+fn programmatic_json_beyond_the_parser_depth_limit_fails_closed() {
+    let mut value = Value::Null;
+    for _ in 0..129 {
+        value = Value::Array(vec![value]);
+    }
+    assert_eq!(scrub_json(&value), (json!(REDACTION_TOKEN), 1));
 }
 
 #[test]
@@ -525,7 +542,7 @@ fn adversarial_inputs_stay_linear() {
     ];
     for input in &inputs {
         let start = std::time::Instant::now();
-        scrub_text(input);
+        let _ = scrub_text(input);
         let elapsed = start.elapsed();
         // Generous for an unoptimized test build on a loaded host; quadratic
         // behaviour on these inputs takes minutes.
@@ -597,10 +614,40 @@ fn a_comma_inside_a_secret_is_never_a_cut() {
                         "{secret:?} cut at {comma}-{below} leaked {fragment:?}"
                     );
                 }
-                assert!(out.contains(&whole), "{secret:?} cut at {comma}-{below}");
+                if secret.starts_with("https://") {
+                    assert_eq!(out, REDACTION_TOKEN, "{secret:?} cut at {comma}-{below}");
+                } else {
+                    assert!(out.contains(&whole), "{secret:?} cut at {comma}-{below}");
+                }
                 assert!(!out.contains("[relayhistory: truncated"));
                 assert_eq!(scrub_long(&out), out);
             }
         }
     }
+}
+
+#[test]
+fn a_long_url_userinfo_password_is_never_split_at_a_distant_comma() {
+    let mut password = "a".repeat(MAX_SCRUB_CHARS + 4096);
+    password.replace_range(MAX_SCRUB_CHARS - 20..MAX_SCRUB_CHARS - 19, ",");
+    let text = format!("https://deploy:{password}@db.example.test/path");
+    assert!(text.encode_utf16().count() > MAX_SCRUB_CHARS);
+    // The Desktop-only comma fallback cannot prove a cut safe once a URL
+    // scheme is in the candidate prefix, so the upload path fails closed.
+    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
+}
+
+#[test]
+fn an_over_cap_quoted_secret_fails_closed_without_exposing_its_suffix() {
+    let value = "A1b2C3d4".repeat(600);
+    assert!(value.encode_utf16().count() > 4096);
+    let text = format!(r#"{{"password":"{value}","safe":"kept"}}"#);
+    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
+
+    let crossing = format!(
+        r#"{} {{"password":"{value}"}}"#,
+        filler(MAX_SCRUB_CHARS - 2000)
+    );
+    assert!(crossing.encode_utf16().count() > MAX_SCRUB_CHARS);
+    assert_eq!(scrub_long(&crossing), REDACTION_TOKEN);
 }

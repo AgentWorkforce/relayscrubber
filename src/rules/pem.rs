@@ -44,7 +44,13 @@ fn footer_at(t: &[u16], i: usize) -> Option<usize> {
 
 /// The first header at or after `from`, as `(start, end)`.
 pub(super) fn find_header(t: &[u16], from: usize) -> Option<(usize, usize)> {
-    (from..t.len()).find_map(|i| header_at(t, i).map(|end| (i, end)))
+    find_header_before(t, from, t.len())
+}
+
+/// The first header whose start is in `[from, before)`. Its marker and footer
+/// may extend past `before`; only the search for a possible start is bounded.
+fn find_header_before(t: &[u16], from: usize, before: usize) -> Option<(usize, usize)> {
+    (from..before.min(t.len())).find_map(|i| header_at(t, i).map(|end| (i, end)))
 }
 
 /// The first footer at or after `from`, as `(start, end)`.
@@ -100,10 +106,7 @@ pub(super) fn block_around(spans: &[(usize, usize)], cut: usize) -> Option<(usiz
 /// footer ends past `top`), among blocks whose header starts before `top`.
 pub(super) fn open_at(t: &[u16], top: usize) -> Option<usize> {
     let mut at = 0;
-    while let Some((start, head)) = find_header(t, at) {
-        if start >= top {
-            return None;
-        }
+    while let Some((start, head)) = find_header_before(t, at, top) {
         match find_footer(t, head) {
             Some((_, end)) if end <= top => at = end,
             _ => return Some(start),

@@ -44,6 +44,13 @@ fn scheme(t: &[u16], i: usize) -> Option<usize> {
     (r - (i + 1) <= 31 && has(t, r, "://")).then_some(r + 3)
 }
 
+/// Whether a URL scheme starts before `before`. A compact long text with such
+/// a scheme cannot safely use the Desktop-only comma fallback: URL userinfo is
+/// unbounded, so its terminating `@` may be outside the context window.
+pub(super) fn has_scheme_before(t: &[u16], before: usize) -> bool {
+    (0..before.min(t.len())).any(|i| scheme(t, i).is_some())
+}
+
 /// `([a-z][a-z0-9+.-]{0,31}:\/\/[^:\s/@]+:)[^@\s/]+(@)` → `$1[REDACTED]$2`, gi.
 fn userinfo_password(t: &[u16], i: usize) -> Option<Hit> {
     let s = scheme(t, i)?;

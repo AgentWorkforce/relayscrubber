@@ -19,11 +19,11 @@ The current compatibility tuple is:
 
 ## Use
 
-Until a crates.io release is desired, consumers should pin a release tag:
+Consumers should pin the exact crates.io release:
 
 ```toml
 [dependencies]
-relayscrubber = { git = "https://github.com/AgentWorkforce/relayscrubber", tag = "v0.1.1" }
+relayscrubber = "=0.2.0"
 ```
 
 ```rust
@@ -55,8 +55,9 @@ network access. All scans and cut-search budgets are bounded.
 
 `scrub_json` returns `(Value, redaction_count)` after scrubbing every key,
 string value and card-shaped integral number. Key collisions receive numbered
-suffixes in JavaScript `Object.entries` order. `scrub_json_text` preserves the
-document order of parsed JSON text and returns `None` for invalid JSON.
+suffixes in JavaScript `Object.entries` order. `scrub_json_text` parses with
+document order preserved, applies collision suffixes in that order, and
+returns `None` for invalid JSON.
 
 ## History schema and contract
 
@@ -109,7 +110,11 @@ assume that migration.
 
 For upload safety the crate deliberately matches the reviewed Desktop behavior
 where the Cloud currently refuses input: it also tries a verified comma cut for
-compact text, and replaces an uncuttable remainder wholesale. It additionally
+compact text, and replaces an uncuttable remainder wholesale. The comma
+fallback is disabled when a URL scheme occurs before the cut because unbounded
+userinfo cannot be proven safe with finite context. Until the canonical rule
+owns the same regression, an over-cap quoted secret also makes `scrub_long`
+redact the whole input rather than expose its suffix. The crate additionally
 checks exact unsigned JSON integers for cards and retains `__proto__` as an
 ordinary key. Each divergence has a dedicated test.
 
