@@ -60,6 +60,9 @@ document order preserved, applies collision suffixes in that order, and
 returns `None` for invalid or out-of-range JSON. The crate does not enable
 `serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
 does not change JSON behavior elsewhere in a consumer's dependency graph.
+The returned `Value` serializes in the map order selected by the consumer's
+`serde_json` features; document order controls collision naming, not output
+byte order.
 
 ## History schema and contract
 
