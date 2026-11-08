@@ -9,7 +9,7 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline commit 8bb18be5 (#352).
+//! relayhistory-pipeline PR #354 head 6809ac9c.
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
@@ -56,7 +56,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
 /// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "ed8d5c35bfddbcdbe03416c03e08b3d0a0bbcf7c276bc08fe12f14d8756ee933";
+    "595fecdf98a2a309a53131d3c797af0f449f0c65a2c19cc789eed961081b6a07";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.

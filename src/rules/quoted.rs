@@ -263,8 +263,7 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<ValueSpan
         .iter()
         .take_while(|&&c| !(is_space(c) || one_of(c, b"\"'`,;{}[]\\")))
         .count();
-    let bare = slice(window, 0, n);
-    if n == 0 || non_secret_bare(bare) || !looks_generated(bare) {
+    if n == 0 {
         return None;
     }
     let mut value_end = end + n;
@@ -275,6 +274,12 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<ValueSpan
         {
             value_end += 1;
         }
+    }
+    // Classify the complete token. A numeric-looking capped prefix may have a generated
+    // tail beyond the bound; deciding from the prefix would incorrectly keep that tail.
+    let bare = slice(t, end, value_end);
+    if non_secret_bare(bare) || !looks_generated(bare) {
+        return None;
     }
     Some(ValueSpan {
         start: end,
@@ -379,6 +384,12 @@ fn redact(
     let mut out = Vec::new();
     let mut last = 0;
     let mut next = 0;
+    let pem_blocks = if only_over_cap {
+        pem::key_block_spans(t)
+    } else {
+        Vec::new()
+    };
+    let mut pem_index = 0;
     while let Some(m) = find_key(t, next) {
         next = m.end;
         if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
@@ -406,6 +417,21 @@ fn redact(
             continue;
         }
         if only_over_cap {
+            while pem_index < pem_blocks.len() && pem_blocks[pem_index].1 <= value.start {
+                pem_index += 1;
+            }
+            if let Some(&(start, end)) = pem_blocks.get(pem_index) {
+                if start < value.start && end <= value.end {
+                    // Preserve the block through its footer for the PEM rule, but redact
+                    // the secret-keyed suffix now because that rule removes the key context.
+                    if end < value.end {
+                        out.extend_from_slice(slice(t, last, end));
+                        out.extend_from_slice(&REDACTED16);
+                        last = value.end;
+                    }
+                    continue;
+                }
+            }
             let inside = slice(t, value.start, value.end);
             if let Some(open) = pem::unclosed_start(inside) {
                 let suffix = slice(t, value.start, t.len());

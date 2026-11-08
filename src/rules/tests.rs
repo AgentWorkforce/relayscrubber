@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from relayhistory-pipeline 8bb18be5 (#352).
+/// Vendored byte for byte from relayhistory-pipeline PR #354 head 6809ac9c.
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "6d5823b9d96412ddf17c01a34091bee3f75bdda3ca211a19689523008c2b2313";
+const CORPUS_SHA256: &str = "cdb3ab249e185d86d44822a029ab4b80c673af8f39b37377ff6c5c148d024342";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -515,6 +515,40 @@ fn v5_measures_over_cap_values_before_token_rules_shrink_them() {
         assert!(!out.contains("SECRETTAILMARK"), "{out:?}");
         assert_eq!(out.matches(REDACTION_TOKEN).count(), 1, "{out:?}");
     }
+}
+
+#[test]
+fn v5_classifies_the_complete_over_cap_bare_value() {
+    let prefix = format!("{}012345", "0123456789".repeat(409));
+    let tail = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".repeat(100);
+    assert_eq!(prefix.encode_utf16().count(), 4096);
+    let input = format!(r#""token": {prefix}{tail} after"#);
+    assert_eq!(scrub_text(&input), r#""token": [REDACTED] after"#);
+    assert_eq!(scrub_long(&input), r#""token": [REDACTED] after"#);
+
+    let number = format!(r#""token": {} after"#, "1".repeat(4196));
+    assert_eq!(scrub_text(&number), number);
+}
+
+#[test]
+fn v5_preserves_an_embedded_pem_footer_without_exposing_a_suffix() {
+    let value = format!(
+        "{}-----END PRIVATE KEY-----",
+        "A".repeat(quoted::MAX_QUOTED_VALUE + 1)
+    );
+    let input = format!("-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}\" KEEPTRAIL");
+    let out = scrub_text(&input);
+    assert!(out.contains("KEEPTRAIL"));
+    assert!(!out.contains("BEGIN PRIVATE KEY"));
+    assert!(!out.contains("END PRIVATE KEY"));
+    assert_eq!(scrub_long(&input), out);
+
+    let with_suffix =
+        format!("-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}SECRETTAIL\" KEEPTRAIL");
+    let suffix_out = scrub_text(&with_suffix);
+    assert!(!suffix_out.contains("SECRETTAIL"));
+    assert!(suffix_out.contains("KEEPTRAIL"));
+    assert_eq!(scrub_long(&with_suffix), suffix_out);
 }
 
 #[test]

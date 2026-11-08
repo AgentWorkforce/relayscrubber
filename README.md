@@ -12,8 +12,8 @@ The current compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
 - version: `5`
-- rules/source SHA-256: `ed8d5c35bfddbcdbe03416c03e08b3d0a0bbcf7c276bc08fe12f14d8756ee933`
-- corpus SHA-256: `6d5823b9d96412ddf17c01a34091bee3f75bdda3ca211a19689523008c2b2313`
+- rules/source SHA-256: `595fecdf98a2a309a53131d3c797af0f449f0c65a2c19cc789eed961081b6a07`
+- corpus SHA-256: `cdb3ab249e185d86d44822a029ab4b80c673af8f39b37377ff6c5c148d024342`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
 
