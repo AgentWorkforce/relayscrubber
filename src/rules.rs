@@ -168,10 +168,9 @@ pub fn scrub_long(value: &str) -> String {
 /// risking a recursive stack overflow.
 #[must_use]
 pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
-    const MAX_JSON_DEPTH: usize = 128;
     let mut pending = vec![(value, 1usize)];
     while let Some((item, depth)) = pending.pop() {
-        if depth > MAX_JSON_DEPTH {
+        if depth > json::MAX_JSON_DEPTH {
             return (serde_json::Value::String(REDACTION_TOKEN.to_owned()), 1);
         }
         match item {
