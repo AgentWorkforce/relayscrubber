@@ -48,15 +48,15 @@ fn array_index(key: &str) -> Option<u32> {
         .filter(|n| canonical && *n < u32::MAX)
 }
 
-/// Entries in `Object.entries` order. `serde_json::Map` has already applied
-/// JSON.parse's repeated-key rule (first position, last value), so only the
-/// array-index ordering remains here.
+/// Entries in `Object.entries` order. Callers have already applied JSON.parse's
+/// repeated-key rule (first position, last value), so only the array-index
+/// ordering remains here.
 fn js_order(mut entries: Vec<(String, Node)>) -> Vec<(String, Node)> {
     entries.sort_by_key(|(key, _)| array_index(key).map_or((1, 0), |n| (0, n)));
     entries
 }
 
-const MAX_JSON_DEPTH: usize = 128;
+pub(super) const MAX_JSON_DEPTH: usize = 128;
 
 struct Parser<'a> {
     text: &'a str,
