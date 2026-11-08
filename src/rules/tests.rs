@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from relayhistory-pipeline f64393f2 (#334).
+/// Vendored byte for byte from relayhistory-pipeline 8bb18be5 (#352).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "41947da0df0547f01f0f0b1706b1f2844d37c9292f43d23de78c793b5aef95ab";
+const CORPUS_SHA256: &str = "6d5823b9d96412ddf17c01a34091bee3f75bdda3ca211a19689523008c2b2313";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -362,7 +362,7 @@ fn assignment_one_password_references_remain_allowed() {
 }
 
 #[test]
-fn v4_redacts_an_over_cap_quoted_one_password_reference() {
+fn v5_redacts_an_over_cap_quoted_one_password_reference() {
     let long = format!("op://{}", "a".repeat(8_192));
     assert_eq!(
         scrub_long(&format!(r#""password": "{long}""#)),
@@ -375,13 +375,126 @@ fn v4_redacts_an_over_cap_quoted_one_password_reference() {
 }
 
 #[test]
-fn v4_segmenter_preserves_an_over_cap_unquoted_one_password_reference() {
+fn v5_redacts_an_invalid_unquoted_one_password_reference() {
     let reference = format!("op://{}", "aB3dE5fG7hJ9".repeat(350));
     let head = "x".repeat(MAX_SCRUB_CHARS - 19);
     let text = format!(r#"{head} "token": {reference}"#);
     let out = scrub_long(&text);
-    assert_eq!(out, text);
-    assert_ne!(out, REDACTION_TOKEN);
+    assert!(out.ends_with(r#" "token": [REDACTED]"#));
+    assert!(!out.contains(&reference));
+}
+
+#[test]
+fn v5_keeps_only_complete_three_or_four_segment_one_password_references() {
+    for reference in [
+        "op://vault/item/field",
+        "op://Team Vault/Item Name/section/field",
+    ] {
+        let text = format!(r#""password":"{reference}""#);
+        assert_eq!(scrub_text(&text), text);
+        assert_eq!(
+            scrub_json(&json!({ "password": reference })).0,
+            json!({ "password": reference })
+        );
+    }
+    for reference in [
+        "op://vault/item",
+        "op://vault/item/section/field/tail",
+        "op://vault/item/field?x=1",
+        "op://vault/item/double  space",
+        r"op://vault/item/field\nSECRETTAIL",
+        "op://vault/item/field/",
+        "op://vault//field",
+        "op://váult/item/field",
+    ] {
+        let text = format!(r#""password":"{reference}""#);
+        assert_eq!(
+            scrub_text(&text),
+            r#""password":"[REDACTED]""#,
+            "{reference:?}"
+        );
+        assert_eq!(
+            scrub_json(&json!({ "password": reference })).0,
+            json!({ "password": REDACTION_TOKEN }),
+            "{reference:?}"
+        );
+    }
+}
+
+#[test]
+fn v5_inherits_secret_context_through_composite_json_values() {
+    let value = json!({
+        "password": {
+            "nested": [
+                "ordinary words",
+                { "leaf": "still ordinary words", "empty": "", "ref": "op://vault/item/field" },
+                7,
+                true,
+                null
+            ]
+        },
+        "safe": { "nested": "ordinary words" }
+    });
+    let (clean, redactions) = scrub_json(&value);
+    assert_eq!(clean["password"]["nested"][0], REDACTION_TOKEN);
+    assert_eq!(clean["password"]["nested"][1]["leaf"], REDACTION_TOKEN);
+    assert_eq!(clean["password"]["nested"][1]["empty"], "");
+    assert_eq!(
+        clean["password"]["nested"][1]["ref"],
+        "op://vault/item/field"
+    );
+    assert_eq!(clean["password"]["nested"][2], 7);
+    assert_eq!(clean["safe"]["nested"], "ordinary words");
+    assert_eq!(redactions, 2);
+}
+
+#[test]
+fn v5_redacts_multiline_quoted_values_through_close_or_end() {
+    for separator in ["\r", "\n", "\r\n", "\u{2028}", "\u{2029}", "\u{0085}"] {
+        for quote in ['"', '\'', '`'] {
+            let value = format!("short{separator}SECRETTAIL");
+            let closed = format!("{quote}password{quote}: {quote}{value}{quote} after");
+            assert_eq!(
+                scrub_text(&closed),
+                format!("{quote}password{quote}: {quote}{REDACTION_TOKEN}{quote} after")
+            );
+            let open = format!("{quote}password{quote}: {quote}{value}");
+            assert_eq!(
+                scrub_text(&open),
+                format!("{quote}password{quote}: {quote}{REDACTION_TOKEN}")
+            );
+        }
+    }
+}
+
+#[test]
+fn v5_measures_over_cap_values_before_token_rules_shrink_them() {
+    let capy = format!("capy_{}", "Ab1".repeat(12));
+    let value = format!("{}\nSECRETTAILMARK", format!("{capy} ").repeat(130));
+    assert!(value.encode_utf16().count() > 4096);
+    assert!(value.replace(&capy, REDACTION_TOKEN).encode_utf16().count() < 4096);
+    for text in [
+        format!(r#""password": "{value}" after"#),
+        format!(r#"'secret': '{value}' after"#),
+        format!("`secret`: `{value}` after"),
+        format!(r#"{{\"api_key\": \"{value}\"}}"#),
+    ] {
+        let out = scrub_text(&text);
+        assert!(!out.contains("SECRETTAILMARK"), "{out:?}");
+        assert_eq!(out.matches(REDACTION_TOKEN).count(), 1, "{out:?}");
+    }
+}
+
+#[test]
+fn v5_segmenter_never_cuts_inside_a_multiline_quoted_value() {
+    let head = filler(MAX_SCRUB_CHARS - 2_000);
+    let value = format!("SECRETTAIL one\n{}\nSECRETTAIL two", "word ".repeat(1_000));
+    let text = format!(r#"{head}"password":"{value}" after {}"#, filler(4_000));
+    let out = scrub_long(&text);
+    assert!(!out.contains("SECRETTAIL"));
+    assert!(out.contains(r#""password":"[REDACTED]" after "#));
+    assert!(out.len() > head.len());
+    assert_eq!(scrub_long(&out), out);
 }
 
 #[test]
@@ -722,7 +835,7 @@ fn an_over_cap_quoted_secret_is_redacted_through_its_close() {
 }
 
 #[test]
-fn v4_counts_total_quoted_value_length_across_every_separator() {
+fn v5_counts_total_quoted_value_length_across_every_separator() {
     for separator in ["\r", "\n", "\r\n", "\u{2028}", "\u{2029}", "\u{0085}"] {
         for quote in ['"', '\'', '`'] {
             let value = format!("short{separator}{}UNIQUE_TAIL", "v".repeat(4097));
@@ -744,7 +857,7 @@ fn v4_counts_total_quoted_value_length_across_every_separator() {
 }
 
 #[test]
-fn v4_segmenter_never_cuts_inside_an_over_cap_quoted_value() {
+fn v5_segmenter_never_cuts_inside_an_over_cap_quoted_value() {
     let value = format!("short\n{}UNIQUE_TAIL", "v".repeat(MAX_SCRUB_CHARS + 100));
     let text = format!("`token`: `{value}` after");
     assert_eq!(scrub_long(&text), REDACTION_TOKEN);

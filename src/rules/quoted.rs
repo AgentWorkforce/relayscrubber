@@ -5,6 +5,7 @@ use super::js::{
     at, at_is, before, has, has_ci, is, is_alnum, is_digit, is_letter, is_lower, is_space,
     is_upper, looks_generated, one_of, run_end_capped, slice, REDACTED16,
 };
+use super::pem;
 /// Longest quoted value the rule looks through for its closing quote.
 pub(super) const MAX_QUOTED_VALUE: usize = 4096;
 
@@ -152,21 +153,28 @@ fn closes_at(t: &[u16], i: usize, vs: usize, bs: usize) -> bool {
     }
 }
 
+#[derive(Clone, Copy)]
+struct ValueSpan {
+    start: usize,
+    end: usize,
+    long: bool,
+    over_bound: bool,
+    line: bool,
+}
+
+fn is_line_break(c: u16) -> bool {
+    one_of(c, b"\r\n") || matches!(c, 0x0085 | 0x2028 | 0x2029)
+}
+
 /// The span of a quoted value, plus whether its close is past the v4 cap.
-fn quoted_value(
-    t: &[u16],
-    vs: usize,
-    bs: usize,
-    quote: u16,
-    prefix: bool,
-) -> (usize, usize, bool, bool) {
+fn quoted_value(t: &[u16], vs: usize, bs: usize, quote: u16, prefix: bool) -> ValueSpan {
     let limit = t.len().min(vs.saturating_add(MAX_QUOTED_VALUE + 1));
     let mut close = None;
     let mut line_end = None;
     let mut i = vs;
     while i < limit {
         let c = t[i];
-        if line_end.is_none() && (is(c, b'\n') || is(c, b'\r')) {
+        if line_end.is_none() && is_line_break(c) {
             line_end = Some(i);
         }
         if c == quote && closes_at(t, i, vs, bs) {
@@ -179,21 +187,33 @@ fn quoted_value(
     if close.is_none() && (i - vs > MAX_QUOTED_VALUE || prefix) {
         while i < t.len() {
             if t[i] == quote && closes_at(t, i, vs, bs) {
-                return (vs, i - bs, true, false);
+                return ValueSpan {
+                    start: vs,
+                    end: i - bs,
+                    long: true,
+                    over_bound: false,
+                    line: false,
+                };
             }
             i += 1;
         }
-        return (vs, t.len(), true, false);
+        return ValueSpan {
+            start: vs,
+            end: t.len(),
+            long: true,
+            over_bound: false,
+            line: false,
+        };
     }
-    if let Some(at) = close.filter(|_| line_end.is_none()) {
-        return (vs, at - bs, false, false);
+    // Rule set 5 takes every quoted secret value whole, across line breaks,
+    // through its matching close or to end of input when it is unterminated.
+    ValueSpan {
+        start: vs,
+        end: close.map_or(t.len(), |at| at - bs),
+        long: false,
+        over_bound: false,
+        line: line_end.is_some(),
     }
-    let window = slice(t, vs, vs + MAX_QUOTED_VALUE);
-    let end = window
-        .iter()
-        .position(|&c| is_space(c))
-        .map_or(t.len().min(vs + MAX_QUOTED_VALUE), |w| vs + w);
-    (vs, end, false, false)
 }
 
 /// `-?\d+(?:\.\d+)?(?:e[+-]?\d+)?`, whole.
@@ -234,7 +254,7 @@ fn non_secret_bare(s: &[u16]) -> bool {
 }
 
 /// The span of an unquoted value after a one-word key, when it looks generated.
-fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, usize, bool, bool)> {
+fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<ValueSpan> {
     if bs > 0 || key.iter().any(|&c| is(c, b' ')) {
         return None;
     }
@@ -256,7 +276,13 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, u
             value_end += 1;
         }
     }
-    Some((end, value_end, false, over_bound))
+    Some(ValueSpan {
+        start: end,
+        end: value_end,
+        long: false,
+        over_bound,
+        line: false,
+    })
 }
 
 /// `name` without leading and trailing whitespace (`String.prototype.trim`).
@@ -272,13 +298,65 @@ fn trim(name: &[u16]) -> &[u16] {
     slice(name, start, end)
 }
 
-/// Values the rule keeps: already redacted, or a 1Password reference.
+fn op_segment(segment: &[u16]) -> bool {
+    if segment.is_empty() {
+        return false;
+    }
+    let mut word = false;
+    let mut previous_space = false;
+    for &c in segment {
+        let atom = is_alnum(c) || one_of(c, b"._-");
+        if atom {
+            word = true;
+            previous_space = false;
+        } else if is(c, b' ') && word && !previous_space {
+            previous_space = true;
+        } else {
+            return false;
+        }
+    }
+    word && !previous_space
+}
+
+/// A complete `op://vault/item/field` or `op://vault/item/section/field`.
+fn op_reference(value: &[u16]) -> bool {
+    if !has(value, 0, "op://") {
+        return false;
+    }
+    let mut segments = 0usize;
+    let mut start = 5usize;
+    for i in 5..=value.len() {
+        if i == value.len() || is(value[i], b'/') {
+            if !op_segment(slice(value, start, i)) {
+                return false;
+            }
+            segments += 1;
+            start = i + 1;
+        }
+    }
+    matches!(segments, 3 | 4)
+}
+
+/// Values the rule keeps: already redacted, or a complete 1Password reference.
 fn keep(value: &[u16]) -> bool {
-    value == REDACTED16 || has(value, 0, "op://")
+    value == REDACTED16 || op_reference(value)
+}
+
+pub(super) fn is_secret_record_key(key: &str) -> bool {
+    let units: Vec<u16> = key.encode_utf16().collect();
+    is_secret_key_name(trim(&units))
+}
+
+pub(super) fn redacts_secret_keyed_value(value: &str) -> bool {
+    if value.is_empty() {
+        return false;
+    }
+    let units: Vec<u16> = value.encode_utf16().collect();
+    !keep(&units)
 }
 
 /// The value span after a secret key match, if the rule takes one.
-fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<(usize, usize, bool, bool)> {
+fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<ValueSpan> {
     let end = m.end;
     let bs = run_end_capped(t, end, 16, is_backslash) - end;
     match t.get(end + bs).copied().filter(|&c| is_quote(c)) {
@@ -287,8 +365,14 @@ fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<(usize, usize, bo
     }
 }
 
-/// Apply the quoted rule and optionally collect v4 over-cap spans.
-fn redact(t: &[u16], mut spans: Option<&mut Vec<(usize, usize)>>, prefix: bool) -> Vec<u16> {
+/// Apply the quoted rule and optionally collect spans the segmenter cannot split.
+fn redact(
+    t: &[u16],
+    mut spans: Option<&mut Vec<(usize, usize)>>,
+    prefix: bool,
+    only_over_cap: bool,
+    multi_line: bool,
+) -> Vec<u16> {
     if !t.iter().any(|&c| one_of(c, b":=")) {
         return t.to_vec();
     }
@@ -300,27 +384,43 @@ fn redact(t: &[u16], mut spans: Option<&mut Vec<(usize, usize)>>, prefix: bool) 
         if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
             continue;
         }
-        let Some((vs, ve, long_value, over_bound)) = value_span(t, &m, prefix) else {
+        let Some(mut value) = value_span(t, &m, prefix) else {
             continue;
         };
-        if long_value && ve <= vs {
+        if value.long && value.end <= value.start {
             if let Some(found) = spans.as_deref_mut() {
-                found.push((m.start, ve));
+                found.push((m.start, value.end));
             }
             continue;
         }
-        if ve <= vs || (!long_value && keep(slice(t, vs, ve))) {
+        if value.end <= value.start || (!value.long && keep(slice(t, value.start, value.end))) {
             continue;
         }
-        if long_value || over_bound {
+        if value.long || value.over_bound || (multi_line && value.line) {
             if let Some(found) = spans.as_deref_mut() {
-                found.push((m.start, ve));
+                found.push((m.start, value.end));
             }
         }
-        out.extend_from_slice(slice(t, last, vs));
+        next = next.max(value.end);
+        if only_over_cap && !value.long && !value.over_bound {
+            continue;
+        }
+        if only_over_cap {
+            let inside = slice(t, value.start, value.end);
+            if let Some(open) = pem::unclosed_start(inside) {
+                let suffix = slice(t, value.start, t.len());
+                if let Some((_, end)) = pem::key_block_spans(suffix)
+                    .into_iter()
+                    .find(|&(start, _)| start == open)
+                {
+                    value.end = value.start + end;
+                    next = next.max(value.end);
+                }
+            }
+        }
+        out.extend_from_slice(slice(t, last, value.start));
         out.extend_from_slice(&REDACTED16);
-        last = ve;
-        next = next.max(ve);
+        last = value.end;
     }
     if last == 0 {
         return t.to_vec();
@@ -329,16 +429,20 @@ fn redact(t: &[u16], mut spans: Option<&mut Vec<(usize, usize)>>, prefix: bool) 
     out
 }
 
-/// V4 over-cap key/value spans. Prefix mode treats an undecided open value
-/// at the end of a look-ahead window as extending beyond that window.
-pub(super) fn over_cap_quoted_value_spans(t: &[u16], prefix: bool) -> Vec<(usize, usize)> {
+/// Every over-cap span and every multi-line quoted secret value span.
+pub(super) fn unsplittable_quoted_value_spans(t: &[u16], prefix: bool) -> Vec<(usize, usize)> {
     let mut spans = Vec::new();
-    let _ = redact(t, Some(&mut spans), prefix);
+    let _ = redact(t, Some(&mut spans), prefix, false, true);
     spans
+}
+
+/// Rule set 5's first rule, measured before any shrinking token rule.
+pub(super) fn redact_over_cap_quoted_values(t: &[u16]) -> Vec<u16> {
+    redact(t, None, false, true, false)
 }
 
 /// Redact the value of every quoted secret key, keeping the key, the
 /// separator and the value's quotes.
 pub(super) fn redact_quoted_secret_values(t: &[u16]) -> Vec<u16> {
-    redact(t, None, false)
+    redact(t, None, false, false, false)
 }

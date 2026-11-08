@@ -3,7 +3,7 @@
 //! `Object.entries` order.
 
 use super::numbers::is_card_digits;
-use super::{scrub_long, REDACTION_TOKEN};
+use super::{quoted, scrub_long, REDACTION_TOKEN};
 use serde_json::{Map, Number, Value};
 use std::collections::HashMap;
 
@@ -276,7 +276,7 @@ fn free_name(output: &Map<String, Value>, base: &str, next: &mut HashMap<String,
 }
 
 /// Scrub one object in `Object.entries` order, counting what changed.
-fn scrub_object(entries: &[(String, Node)], count: &mut usize) -> Value {
+fn scrub_object(entries: &[(String, Node)], count: &mut usize, inherited: bool) -> Value {
     let mut output = Map::new();
     let mut next = HashMap::new();
     for (key, item) in entries {
@@ -289,15 +289,23 @@ fn scrub_object(entries: &[(String, Node)], count: &mut usize) -> Value {
         } else {
             base
         };
-        output.insert(name, scrub_node(item, count));
+        let secret = inherited || quoted::is_secret_record_key(key);
+        output.insert(name, scrub_node_with_context(item, count, secret));
     }
     Value::Object(output)
 }
 
 /// Scrub one leaf, counting a redacted string or number.
-fn scrub_leaf(value: &Value, count: &mut usize) -> Value {
+fn scrub_leaf(value: &Value, count: &mut usize, secret: bool) -> Value {
     let clean = match value {
-        Value::String(text) => Some(Value::String(scrub_long(text))).filter(|v| v != value),
+        Value::String(text) => {
+            let text = if secret && quoted::redacts_secret_keyed_value(text) {
+                REDACTION_TOKEN.to_owned()
+            } else {
+                scrub_long(text)
+            };
+            Some(Value::String(text)).filter(|v| v != value)
+        }
         Value::Number(n) => scrub_number(n),
         _ => None,
     };
@@ -313,12 +321,20 @@ fn scrub_leaf(value: &Value, count: &mut usize) -> Value {
 /// Scrub `node`, adding the number of strings, keys and numbers it redacted
 /// to `count`. Strings and keys of any length are scrubbed whole with the
 /// segmenter, as the Cloud's raw-chunk path does.
-pub(super) fn scrub_node(node: &Node, count: &mut usize) -> Value {
+fn scrub_node_with_context(node: &Node, count: &mut usize, inherited: bool) -> Value {
     match node {
-        Node::Leaf(value) => scrub_leaf(value, count),
-        Node::Array(items) => {
-            Value::Array(items.iter().map(|item| scrub_node(item, count)).collect())
-        }
-        Node::Object(entries) => scrub_object(entries, count),
+        Node::Leaf(value) => scrub_leaf(value, count, inherited),
+        Node::Array(items) => Value::Array(
+            items
+                .iter()
+                .map(|item| scrub_node_with_context(item, count, inherited))
+                .collect(),
+        ),
+        Node::Object(entries) => scrub_object(entries, count, inherited),
     }
+}
+
+/// Scrub a root JSON value with no inherited secret-key context.
+pub(super) fn scrub_node(node: &Node, count: &mut usize) -> Value {
+    scrub_node_with_context(node, count, false)
 }

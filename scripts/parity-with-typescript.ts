@@ -14,7 +14,10 @@ const canonical = resolve(
   process.argv[2] ?? "../relayhistory-pipeline-pr306-review.qkw05V",
 );
 const modulePath = resolve(canonical, "packages/pipeline/src/lib/scrub.ts");
-const { scrubText } = (await import(pathToFileURL(modulePath).href)) as {
+const { scrubJson, scrubText } = (await import(
+  pathToFileURL(modulePath).href
+)) as {
+  scrubJson<T>(value: T): T;
   scrubText(value: string): string;
 };
 const rawChunksPath = resolve(
@@ -27,7 +30,13 @@ const { scrubLong } = (await import(pathToFileURL(rawChunksPath).href)) as {
 
 type Part = [string, number | string];
 type Generator = { prefix?: string; suffix?: string; parts: Part[] };
-type Case = { id: string; input: string; expected: string };
+type Case = {
+  id: string;
+  input: string;
+  expected: string;
+  record?: boolean;
+  expectedRecord?: string;
+};
 type Corpus = { generators: Record<string, Generator>; cases: Case[] };
 const corpus = JSON.parse(
   readFileSync(resolve(repo, "vendor/corpus/scrub-secret-corpus.json"), "utf8"),
@@ -54,14 +63,18 @@ function generate(generator: Generator, seed: number): string {
       const alphabet = charsets[kind];
       if (!alphabet) throw new Error(`unknown charset ${kind}`);
       for (let index = 0; index < Number(length); index++) {
-        output += alphabet[(index * 17 + seed * 31 + partIndex * 7) % alphabet.length];
+        output +=
+          alphabet[(index * 17 + seed * 31 + partIndex * 7) % alphabet.length];
       }
     }
   });
   return output + (generator.suffix ?? "");
 }
 
-function instantiate(c: Case, round: number): { input: string; expected: string } {
+function instantiate(
+  c: Case,
+  round: number,
+): { input: string; expected: string } {
   const values = new Map<string, string>();
   const fill = (template: string) =>
     template.replace(/\{\{([a-z0-9_]+)\}\}/g, (_match, name: string) => {
@@ -76,7 +89,10 @@ function instantiate(c: Case, round: number): { input: string; expected: string 
 }
 
 const vectors = corpus.cases.flatMap((c) =>
-  Array.from({ length: 5 }, (_, round) => ({ id: `${c.id}/${round}`, ...instantiate(c, round) })),
+  Array.from({ length: 5 }, (_, round) => ({
+    id: `${c.id}/${round}`,
+    ...instantiate(c, round),
+  })),
 );
 
 let fuzzState = 0x6d2b79f5;
@@ -88,7 +104,9 @@ const next = () => {
 };
 const generated = (length: number) => {
   const alphabet = charsets.alnum;
-  return Array.from({ length }, () => alphabet[next() % alphabet.length]).join("");
+  return Array.from({ length }, () => alphabet[next() % alphabet.length]).join(
+    "",
+  );
 };
 const fuzzAtoms = () => [
   `Bearer ${generated(40)}`,
@@ -117,7 +135,9 @@ for (let index = 0; index < 20_000; index++) {
   let input = "";
   for (let part = 0; part < count; part++) {
     const separators = [" ", "\n", " | ", " => ", "{}"];
-    input += (part === 0 ? "" : separators[next() % separators.length]) + atoms[next() % atoms.length];
+    input +=
+      (part === 0 ? "" : separators[next() % separators.length]) +
+      atoms[next() % atoms.length];
   }
   vectors.push({ id: `fuzz/${index}`, input, expected: scrubText(input) });
 }
@@ -139,7 +159,7 @@ for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
     ] as const) {
       const input = `${quote}token${quote}: ${quote}${value}${close}`;
       vectors.push({
-        id: `v4/${separatorId}/${quote.charCodeAt(0)}/${suffix}`,
+        id: `quoted-cap/${separatorId}/${quote.charCodeAt(0)}/${suffix}`,
         input,
         expected: scrubText(input),
       });
@@ -148,9 +168,82 @@ for (const separator of ["\r", "\n", "\r\n", "\u2028", "\u2029", "\u0085"]) {
     const within = `short${separator}${"v".repeat(withinLength)}`;
     const withinInput = `${quote}token${quote}: ${quote}${within}${quote} after`;
     vectors.push({
-      id: `v4/${separatorId}/${quote.charCodeAt(0)}/within`,
+      id: `quoted-cap/${separatorId}/${quote.charCodeAt(0)}/within`,
       input: withinInput,
       expected: scrubText(withinInput),
+    });
+  }
+}
+const escapedQuote = (depth: number) => `${"\\".repeat(2 ** depth - 1)}"`;
+const nestedSecretDocument = (depth: number, body: string, eoi: boolean) => {
+  let inner = `{${escapedQuote(depth)}api_key${escapedQuote(depth)}:${escapedQuote(depth)}${body}${eoi ? "" : `${escapedQuote(depth)}}`}`;
+  for (let level = depth - 1; level >= 0; level -= 1) {
+    inner = `{${escapedQuote(level)}content${escapedQuote(level)}:${escapedQuote(level)}${inner}${eoi ? "" : `${escapedQuote(level)}}`}`;
+  }
+  return inner;
+};
+const escapedAt = (depth: number, value: string) =>
+  value.replace(/\\/g, "\\".repeat(2 ** depth));
+const opBodies: Array<[string, (depth: number) => string]> = [];
+for (const [name, literal, escaped] of [
+  ["lf", "\n", "\\n"],
+  ["cr", "\r", "\\r"],
+  ["crlf", "\r\n", "\\r\\n"],
+  ["u2028", "\u2028", "\\u2028"],
+  ["u2029", "\u2029", "\\u2029"],
+  ["u0085", "\u0085", "\\u0085"],
+] as const) {
+  opBodies.push([
+    `${name}/literal`,
+    () => `op://vault/item${literal}SECRETTAIL`,
+  ]);
+  opBodies.push([
+    `${name}/escaped`,
+    (depth) => `op://vault/item${escapedAt(depth, escaped)}SECRETTAIL`,
+  ]);
+}
+opBodies.push(
+  [
+    "escaped-quote",
+    (depth) => `op://vault/item${"\\".repeat(2 ** (depth + 1) - 1)}"SECRETTAIL`,
+  ],
+  [
+    "escaped-backslash",
+    (depth) => `op://vault/item${"\\".repeat(2 ** (depth + 1))}SECRETTAIL`,
+  ],
+  ["two-segments", () => "op://vault/item"],
+  ["five-segments", () => "op://vault/item/section/field/SECRETTAIL"],
+  ["six-segments", () => "op://vault/item/section/field/x/SECRETTAIL"],
+  ["double-space", () => "op://vault/item  SECRETTAIL"],
+  ["query", () => "op://vault/item/field?attribute=otp"],
+  ["trailing-slash", () => "op://vault/item/field/"],
+  ["empty-segment", () => "op://vault//field"],
+  ["non-ascii", () => "op://váult/item/field"],
+);
+for (const [name, body] of opBodies) {
+  for (const depth of [0, 1, 2]) {
+    for (const eoi of [false, true]) {
+      const input = nestedSecretDocument(depth, body(depth), eoi);
+      vectors.push({
+        id: `v5/op/${name}/depth-${depth}/${eoi ? "eoi" : "closed"}`,
+        input,
+        expected: scrubText(input),
+      });
+    }
+  }
+}
+for (const reference of [
+  "op://vault/item/field",
+  "op://Engineering/cloudflare/credential",
+  "op://My Vault/item name/field",
+  "op://vault/item/section/field",
+]) {
+  for (const depth of [0, 1, 2]) {
+    const input = nestedSecretDocument(depth, reference, false);
+    vectors.push({
+      id: `v5/op/valid/depth-${depth}/${reference}`,
+      input,
+      expected: input,
     });
   }
 }
@@ -177,10 +270,14 @@ const rust = JSON.parse(stdout) as string[];
 for (const [index, vector] of vectors.entries()) {
   const typescript = scrubText(vector.input);
   if (typescript !== vector.expected) {
-    throw new Error(`${vector.id}: canonical TypeScript differs from corpus expected output`);
+    throw new Error(
+      `${vector.id}: canonical TypeScript differs from corpus expected output`,
+    );
   }
   if (rust[index] !== typescript) {
-    throw new Error(`${vector.id}: Rust output differs from canonical TypeScript`);
+    throw new Error(
+      `${vector.id}: Rust output differs from canonical TypeScript`,
+    );
   }
 }
 
@@ -213,10 +310,77 @@ if (longExit !== 0) throw new Error(longStderr);
 const rustLong = JSON.parse(longStdout) as string[];
 for (const [index, input] of longVectors.entries()) {
   if (rustLong[index] !== scrubLong(input)) {
-    throw new Error(`scrubLong/${index}: Rust output differs from canonical TypeScript`);
+    throw new Error(
+      `scrubLong/${index}: Rust output differs from canonical TypeScript`,
+    );
+  }
+}
+
+const recordVectors = corpus.cases
+  .filter((c) => c.record)
+  .flatMap((c) =>
+    Array.from({ length: 5 }, (_, round) => {
+      const filled = instantiate(c, round);
+      return {
+        id: `${c.id}/${round}`,
+        input: JSON.parse(filled.input) as unknown,
+        expected: JSON.parse(
+          c.expectedRecord
+            ? instantiate({ ...c, input: c.expectedRecord }, round).input
+            : filled.expected,
+        ) as unknown,
+      };
+    }),
+  );
+const jsonChild = Bun.spawn(
+  ["cargo", "run", "--quiet", "--example", "scrub_lines", "--", "--json"],
+  {
+    cwd: repo,
+    env: { ...Bun.env, TMPDIR: resolve(repo, ".task-tmp") },
+    stdin: "pipe",
+    stdout: "pipe",
+    stderr: "pipe",
+  },
+);
+jsonChild.stdin.write(JSON.stringify(recordVectors.map(({ input }) => input)));
+jsonChild.stdin.end();
+const [jsonExit, jsonStdout, jsonStderr] = await Promise.all([
+  jsonChild.exited,
+  new Response(jsonChild.stdout).text(),
+  new Response(jsonChild.stderr).text(),
+]);
+if (jsonExit !== 0) throw new Error(jsonStderr);
+const rustJson = JSON.parse(jsonStdout) as unknown[];
+const stable = (value: unknown): unknown =>
+  Array.isArray(value)
+    ? value.map(stable)
+    : value && typeof value === "object"
+      ? Object.fromEntries(
+          Object.entries(value as Record<string, unknown>)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([key, item]) => [key, stable(item)]),
+        )
+      : value;
+for (const [index, vector] of recordVectors.entries()) {
+  const typescript = scrubJson(vector.input);
+  if (
+    JSON.stringify(stable(typescript)) !==
+    JSON.stringify(stable(vector.expected))
+  ) {
+    throw new Error(
+      `${vector.id}: canonical TypeScript differs from corpus expected record`,
+    );
+  }
+  if (
+    JSON.stringify(stable(rustJson[index])) !==
+    JSON.stringify(stable(typescript))
+  ) {
+    throw new Error(
+      `${vector.id}: Rust scrubJson differs from canonical TypeScript`,
+    );
   }
 }
 
 console.log(
-  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 20002 deterministic fuzz + 54 v4 multiline-cap regressions) and ${longVectors.length} scrubLong vectors, byte-identical`,
+  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 20002 deterministic fuzz + 54 multiline-cap regressions + 144 strict-reference depth vectors), ${longVectors.length} scrubLong vectors byte-identical, and ${recordVectors.length} scrubJson vectors semantically identical`,
 );

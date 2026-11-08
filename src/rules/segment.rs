@@ -156,7 +156,7 @@ fn search_cut(t: &[u16], boundary: fn(u16) -> bool) -> Option<usize> {
     let look = t
         .len()
         .min(top.saturating_add(quoted::MAX_QUOTED_VALUE + 256));
-    let long_values = quoted::over_cap_quoted_value_spans(slice(t, 0, look), look < t.len())
+    let long_values = quoted::unsplittable_quoted_value_spans(slice(t, 0, look), look < t.len())
         .into_iter()
         .map(|(start, end)| (start, if end >= look { t.len() } else { end }))
         .collect::<Vec<_>>();
@@ -205,8 +205,9 @@ fn long_cut(t: &[u16]) -> Option<usize> {
 /// each scrubbed whole. Where the Cloud throws for a remainder with no safe
 /// cut, the desktop replaces that remainder with the redaction token: no
 /// part of it is sent, and the upload is never refused. Segments already cut
-/// off at safe cuts are kept. V4 protects the full key/value span of an
-/// over-cap quoted secret, so the value is scrubbed whole in one segment.
+/// off at safe cuts are kept. V5 protects the full key/value span of every
+/// over-cap or multi-line quoted secret, so the value is scrubbed whole in one
+/// segment.
 pub(super) fn scrub_long16(t: &[u16]) -> Vec<u16> {
     let mut out = Vec::with_capacity(t.len());
     let mut rest = t;

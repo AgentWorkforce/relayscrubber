@@ -9,7 +9,7 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline commit f64393f2 (#334).
+//! relayhistory-pipeline commit 8bb18be5 (#352).
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
@@ -43,7 +43,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 4;
+pub const RULESET_VERSION: u32 = 5;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -54,7 +54,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// sha256 of the Cloud's `scrub.ts` this port was made from, as the Cloud's
 /// `technical-foul.json` manifest records it.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "429200e870dea6b5602f6ffa6b7a577cf2016b27aa9d99e6a3e61b55e5ec612c";
+    "ed8d5c35bfddbcdbe03416c03e08b3d0a0bbcf7c276bc08fe12f14d8756ee933";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.
@@ -100,7 +100,8 @@ fn prefixed<const N: usize>(t: &[u16]) -> Vec<u16> {
 }
 
 /// `SECRET_PATTERNS`, in the Cloud's order.
-const RULES: [Rule; 31] = [
+const RULES: [Rule; 32] = [
+    quoted::redact_over_cap_quoted_values,
     pem::redact_private_keys,
     web::redact_home_paths,
     tokens::redact_bearer,
