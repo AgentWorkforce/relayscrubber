@@ -174,6 +174,9 @@ impl<'a> Parser<'a> {
     }
 
     fn array(&mut self, depth: usize) -> Option<Node> {
+        if depth >= MAX_JSON_DEPTH {
+            return None;
+        }
         self.take(b'[').then_some(())?;
         self.skip_space();
         let mut items = Vec::new();
@@ -192,6 +195,9 @@ impl<'a> Parser<'a> {
     }
 
     fn object(&mut self, depth: usize) -> Option<Node> {
+        if depth >= MAX_JSON_DEPTH {
+            return None;
+        }
         self.take(b'{').then_some(())?;
         self.skip_space();
         let mut entries: Vec<(String, Node)> = Vec::new();
@@ -221,9 +227,6 @@ impl<'a> Parser<'a> {
     }
 
     fn value(&mut self, depth: usize) -> Option<Node> {
-        if depth > MAX_JSON_DEPTH {
-            return None;
-        }
         self.skip_space();
         match self.bytes.get(self.at)? {
             b'n' => self.literal(b"null", Value::Null),
@@ -241,9 +244,9 @@ impl<'a> Parser<'a> {
 /// Parse JSON while retaining the key order seen by `JSON.parse` without
 /// enabling `serde_json/preserve_order` for every crate in the dependency
 /// graph. Numbers use serde_json's default JavaScript-compatible finite-number
-/// representation; out-of-range inputs and values nested past 128 levels fail
-/// parsing instead of changing a consumer's global number semantics or risking
-/// an unbounded recursive parse.
+/// representation; out-of-range inputs and containers at serde_json's
+/// 128-level recursion boundary fail parsing instead of changing a consumer's
+/// global number semantics or risking an unbounded recursive parse.
 pub(super) fn parse_text(text: &str) -> Option<Node> {
     let mut parser = Parser::new(text);
     let value = parser.value(1)?;

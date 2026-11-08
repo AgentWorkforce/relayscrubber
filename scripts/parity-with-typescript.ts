@@ -227,7 +227,7 @@ for (const [name, body] of opBodies) {
       vectors.push({
         id: `v5/op/${name}/depth-${depth}/${eoi ? "eoi" : "closed"}`,
         input,
-        expected: scrubText(input),
+        expected: nestedSecretDocument(depth, "[REDACTED]", eoi),
       });
     }
   }

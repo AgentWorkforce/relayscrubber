@@ -351,6 +351,15 @@ fn text_json_rejects_unpaired_surrogates_but_accepts_pairs() {
 }
 
 #[test]
+fn text_json_matches_serde_json_container_depth_boundary() {
+    let nested = |depth: usize| format!("{}0{}", "[".repeat(depth), "]".repeat(depth));
+    assert!(serde_json::from_str::<Value>(&nested(127)).is_ok());
+    assert!(scrub_json_text(&nested(127)).is_some());
+    assert!(serde_json::from_str::<Value>(&nested(128)).is_err());
+    assert!(scrub_json_text(&nested(128)).is_none());
+}
+
+#[test]
 fn decimal_card_numbers_are_redacted_by_the_text_entry_point() {
     let (clean, redactions) = scrub_json_text(r#"{"card":4111111111111111.0}"#).unwrap();
     assert_eq!(clean["card"], REDACTION_TOKEN);

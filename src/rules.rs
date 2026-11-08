@@ -193,10 +193,11 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
 
 /// [`scrub_json`] over a JSON text, suffixing colliding keys in the
 /// `Object.entries` order that `JSON.parse` reads (array-index keys ascending,
-/// then document order). `None` for invalid, out-of-range, or more-than-128-level
-/// JSON. JSON string escapes containing an unpaired UTF-16 surrogate return
-/// `None` because Rust strings cannot represent them; callers must retain their
-/// existing invalid/unrepresentable-JSON fallback. This does not enable global
+/// then document order). `None` for invalid or out-of-range JSON, or a container
+/// at serde_json's 128-level recursion boundary. JSON string escapes containing
+/// an unpaired UTF-16 surrogate also return `None` because Rust strings cannot
+/// represent them; callers must retain their existing
+/// invalid/unrepresentable-JSON fallback. This does not enable global
 /// `serde_json` map-order or arbitrary-number features.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {

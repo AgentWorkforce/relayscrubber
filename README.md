@@ -58,9 +58,9 @@ string value and card-shaped integral number. Its collision suffixes follow
 the iteration order of the consumer-provided `Value`; original textual order
 is unavailable after a default `serde_json` parse. `scrub_json_text` parses
 with `JSON.parse` document order preserved and applies collision suffixes in
-that order. It returns `None` for invalid, out-of-range, more-than-128-level,
-or unpaired-surrogate JSON; callers retain their invalid/unrepresentable-JSON
-fallback. The crate does not enable
+that order. It returns `None` for invalid or out-of-range JSON, a container at
+serde_json's 128-level recursion boundary, or unpaired-surrogate JSON; callers
+retain their invalid/unrepresentable-JSON fallback. The crate does not enable
 `serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
 does not change JSON behavior elsewhere in a consumer's dependency graph.
 The returned `Value` serializes in the map order selected by the consumer's
