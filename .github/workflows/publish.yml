@@ -38,8 +38,11 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      # Actions and their helper scripts inherit TMPDIR too. Create it before
+      # rust-toolchain invokes mktemp, not after toolchain setup.
+      - name: Create task temp directory
+        run: mkdir -p "$TMPDIR"
       - uses: dtolnay/rust-toolchain@stable
-      - run: mkdir -p "$TMPDIR"
       - name: Read crate version
         id: version
         run: |
