@@ -1,3 +1,6 @@
+// Preserve the reviewed rule expressions byte-for-byte with the Desktop port.
+#![allow(clippy::nonminimal_bool)]
+
 //! Technical Foul: deterministic, offline secret and PII scrubbing shared by
 //! Agent Relay clients and the relayhistory ingest contract.
 //!
