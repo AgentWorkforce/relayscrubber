@@ -30,14 +30,14 @@ pub const RULESET_SOURCE_SHA256: &str = PINNED_RULESET_SOURCE_SHA256;
 /// SHA-256 of the ordered Rust rule-module sources, including path sentinels.
 /// This detects accidental port drift separately from the canonical TS digest.
 pub const RUST_PORT_SHA256: &str =
-    "9e5f892cbed5c195fbe4437a6c5a5417cdcef9297ed033fb6b4ff289b3bdd16d";
+    "5b1af9c4cf643caeb6f8836062cda8be267b6742911de1fc1cc6fa54dde96085";
 
 /// SHA-256 of the canonical secret corpus after CRLF-to-LF normalization.
-pub const CORPUS_SHA256: &str = "9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860";
+pub const CORPUS_SHA256: &str = "eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091";
 
 /// SHA-256 of the canonical marked raw-chunk segmenter alone.
 pub const SEGMENTER_SHA256: &str =
-    "83392705f4d8c06e745a56f5bd549c890cc82404d06bfdc37a7937ad967f7fed";
+    "26d0733aabe8a219a7b1833e71eaa5f0aa6dfbfe4999b4d7d9870d0b993f8a68";
 
 /// Canonical corpus bytes, vendored byte-for-byte for consumer lockstep tests.
 pub const CORPUS_BYTES: &[u8] = include_bytes!("../vendor/corpus/scrub-secret-corpus.json");
@@ -109,7 +109,7 @@ pub struct RawScrubMarker {
 /// Return the exact two-field marker for successfully scrubbed history bytes.
 ///
 /// Callers must persist this marker only after scrubbing the corresponding
-/// bytes. It serializes as `{"ruleset":"relayhistory-scrub","version":3}`.
+/// bytes. It serializes as `{"ruleset":"relayhistory-scrub","version":5}`.
 #[must_use]
 pub const fn raw_scrub_marker() -> RawScrubMarker {
     RawScrubMarker {

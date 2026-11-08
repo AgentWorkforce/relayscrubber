@@ -5,10 +5,9 @@ use super::js::{
     at, at_is, before, has, has_ci, is, is_alnum, is_digit, is_letter, is_lower, is_space,
     is_upper, looks_generated, one_of, run_end_capped, slice, REDACTED16,
 };
-use std::collections::HashMap;
-
+use super::pem;
 /// Longest quoted value the rule looks through for its closing quote.
-const MAX_QUOTED_VALUE: usize = 4096;
+pub(super) const MAX_QUOTED_VALUE: usize = 4096;
 
 const COMPOUND_KEY_HEADS: [&str; 8] = [
     "api",
@@ -79,6 +78,7 @@ pub(super) fn is_secret_key_name(name: &[u16]) -> bool {
 
 /// A match of the quoted-key pattern: the key's span and where the match ends.
 struct KeyMatch {
+    start: usize,
     key: (usize, usize),
     end: usize,
 }
@@ -120,7 +120,11 @@ fn quoted_key_at(t: &[u16], i: usize) -> Option<KeyMatch> {
         return None;
     };
     let end = run_end_capped(t, after, 16, is_blank);
-    Some(KeyMatch { key: (ks, ke), end })
+    Some(KeyMatch {
+        start: i,
+        key: (ks, ke),
+        end,
+    })
 }
 
 /// The next quoted-key match at or after `from`, with its start.
@@ -137,10 +141,6 @@ fn backslashes_before(t: &[u16], at: usize) -> usize {
     n
 }
 
-/// Per quote kind (quote and backslash count), a span already walked without
-/// finding a closing quote.
-type Unclosed = HashMap<(u16, usize), (usize, usize)>;
-
 /// Whether the quote at `i` closes a value opened at `vs` with `bs` backslashes.
 fn closes_at(t: &[u16], i: usize, vs: usize, bs: usize) -> bool {
     let period = if (bs + 1) & bs != 0 { 0 } else { 2 * (bs + 1) };
@@ -153,78 +153,67 @@ fn closes_at(t: &[u16], i: usize, vs: usize, bs: usize) -> bool {
     }
 }
 
-/// The span of a quoted value that opens at `vs`.
-fn quoted_value(
-    t: &[u16],
-    vs: usize,
-    bs: usize,
-    quote: u16,
-    unclosed: &mut Unclosed,
-) -> (usize, usize) {
-    let kind = (quote, bs);
-    let seen = unclosed.get(&kind).copied();
-    let inside = seen.is_some_and(|(a, b)| vs >= a && vs < b);
-    let mut i = if inside { t.len() } else { vs };
-    while i < t.len() && i - vs <= MAX_QUOTED_VALUE {
-        let c = t.get(i).copied().unwrap_or_default();
-        if is(c, b'\n') || is(c, b'\r') {
-            break;
+#[derive(Clone, Copy)]
+struct ValueSpan {
+    start: usize,
+    end: usize,
+    long: bool,
+    over_bound: bool,
+    line: bool,
+}
+
+fn is_line_break(c: u16) -> bool {
+    one_of(c, b"\r\n") || matches!(c, 0x0085 | 0x2028 | 0x2029)
+}
+
+/// The span of a quoted value, plus whether its close is past the v4 cap.
+fn quoted_value(t: &[u16], vs: usize, bs: usize, quote: u16, prefix: bool) -> ValueSpan {
+    let limit = t.len().min(vs.saturating_add(MAX_QUOTED_VALUE + 1));
+    let mut close = None;
+    let mut line_end = None;
+    let mut i = vs;
+    while i < limit {
+        let c = t[i];
+        if line_end.is_none() && is_line_break(c) {
+            line_end = Some(i);
         }
         if c == quote && closes_at(t, i, vs, bs) {
-            return (vs, i - bs);
+            close = Some(i);
+            break;
         }
         i += 1;
     }
-    if i < t.len() {
-        unclosed.insert(kind, (vs, i));
-    } else if !inside {
-        unclosed.insert(kind, (vs, t.len()));
-    }
-    let window = slice(t, vs, vs + MAX_QUOTED_VALUE);
-    let end = window
-        .iter()
-        .position(|&c| is_space(c))
-        .map_or(t.len().min(vs + MAX_QUOTED_VALUE), |w| vs + w);
-    (vs, end)
-}
 
-/// Whether a secret key owns a quoted value whose closing quote is beyond the
-/// canonical 4,096-unit inspection cap. The v3 bounded rule would redact only
-/// a prefix of such a value, so the upload path must fail closed.
-pub(super) fn has_overlong_secret_value(t: &[u16]) -> bool {
-    if t.len() <= MAX_QUOTED_VALUE || !t.iter().any(|&c| one_of(c, b":=")) {
-        return false;
-    }
-    let mut next = 0;
-    while let Some(m) = find_key(t, next) {
-        next = m.end;
-        if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
-            continue;
-        }
-        let bs = run_end_capped(t, m.end, 16, is_backslash) - m.end;
-        let Some(quote) = t.get(m.end + bs).copied().filter(|&c| is_quote(c)) else {
-            continue;
-        };
-        let start = m.end + bs + 1;
-        // The canonical quoted rule deliberately keeps 1Password references,
-        // regardless of their length. The fail-closed upload preflight must
-        // make the same decision.
-        if has(t, start, "op://") {
-            continue;
-        }
-        let mut i = start;
-        while i < t.len() && i - start <= MAX_QUOTED_VALUE {
-            let c = t[i];
-            if is(c, b'\n') || is(c, b'\r') || (c == quote && closes_at(t, i, start, bs)) {
-                break;
+    if close.is_none() && (i - vs > MAX_QUOTED_VALUE || prefix) {
+        while i < t.len() {
+            if t[i] == quote && closes_at(t, i, vs, bs) {
+                return ValueSpan {
+                    start: vs,
+                    end: i - bs,
+                    long: true,
+                    over_bound: false,
+                    line: false,
+                };
             }
             i += 1;
         }
-        if i - start > MAX_QUOTED_VALUE {
-            return true;
-        }
+        return ValueSpan {
+            start: vs,
+            end: t.len(),
+            long: true,
+            over_bound: false,
+            line: false,
+        };
     }
-    false
+    // Rule set 5 takes every quoted secret value whole, across line breaks,
+    // through its matching close or to end of input when it is unterminated.
+    ValueSpan {
+        start: vs,
+        end: close.map_or(t.len(), |at| at - bs),
+        long: false,
+        over_bound: false,
+        line: line_end.is_some(),
+    }
 }
 
 /// `-?\d+(?:\.\d+)?(?:e[+-]?\d+)?`, whole.
@@ -265,7 +254,7 @@ fn non_secret_bare(s: &[u16]) -> bool {
 }
 
 /// The span of an unquoted value after a one-word key, when it looks generated.
-fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, usize)> {
+fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<ValueSpan> {
     if bs > 0 || key.iter().any(|&c| is(c, b' ')) {
         return None;
     }
@@ -274,11 +263,31 @@ fn bare_value(t: &[u16], end: usize, bs: usize, key: &[u16]) -> Option<(usize, u
         .iter()
         .take_while(|&&c| !(is_space(c) || one_of(c, b"\"'`,;{}[]\\")))
         .count();
-    let bare = slice(window, 0, n);
-    if n == 0 || non_secret_bare(bare) || !looks_generated(bare) {
+    if n == 0 {
         return None;
     }
-    Some((end, end + n))
+    let mut value_end = end + n;
+    let over_bound = n == MAX_QUOTED_VALUE;
+    if over_bound {
+        while value_end < t.len()
+            && !(is_space(t[value_end]) || one_of(t[value_end], b"\"'`,;{}[]\\"))
+        {
+            value_end += 1;
+        }
+    }
+    // Classify the complete token. A numeric-looking capped prefix may have a generated
+    // tail beyond the bound; deciding from the prefix would incorrectly keep that tail.
+    let bare = slice(t, end, value_end);
+    if non_secret_bare(bare) || !looks_generated(bare) {
+        return None;
+    }
+    Some(ValueSpan {
+        start: end,
+        end: value_end,
+        long: false,
+        over_bound,
+        line: false,
+    })
 }
 
 /// `name` without leading and trailing whitespace (`String.prototype.trim`).
@@ -294,50 +303,182 @@ fn trim(name: &[u16]) -> &[u16] {
     slice(name, start, end)
 }
 
-/// Values the rule keeps: already redacted, or a 1Password reference.
+fn op_segment(segment: &[u16]) -> bool {
+    if segment.is_empty() {
+        return false;
+    }
+    let mut word = false;
+    let mut previous_space = false;
+    for &c in segment {
+        let atom = is_alnum(c) || one_of(c, b"._-");
+        if atom {
+            word = true;
+            previous_space = false;
+        } else if is(c, b' ') && word && !previous_space {
+            previous_space = true;
+        } else {
+            return false;
+        }
+    }
+    word && !previous_space
+}
+
+/// A complete `op://vault/item/field` or `op://vault/item/section/field`.
+fn op_reference(value: &[u16]) -> bool {
+    if !has(value, 0, "op://") {
+        return false;
+    }
+    let mut segments = 0usize;
+    let mut start = 5usize;
+    for i in 5..=value.len() {
+        if i == value.len() || is(value[i], b'/') {
+            if !op_segment(slice(value, start, i)) {
+                return false;
+            }
+            segments += 1;
+            start = i + 1;
+        }
+    }
+    matches!(segments, 3 | 4)
+}
+
+/// Values the rule keeps: already redacted, or a complete 1Password reference.
 fn keep(value: &[u16]) -> bool {
-    value == REDACTED16 || has(value, 0, "op://")
+    value == REDACTED16 || op_reference(value)
+}
+
+pub(super) fn is_secret_record_key(key: &str) -> bool {
+    let units: Vec<u16> = key.encode_utf16().collect();
+    is_secret_key_name(trim(&units))
+}
+
+pub(super) fn redacts_secret_keyed_value(value: &str) -> bool {
+    if value.is_empty() {
+        return false;
+    }
+    let units: Vec<u16> = value.encode_utf16().collect();
+    !keep(&units)
 }
 
 /// The value span after a secret key match, if the rule takes one.
-fn value_span(t: &[u16], m: &KeyMatch, unclosed: &mut Unclosed) -> Option<(usize, usize)> {
+fn value_span(t: &[u16], m: &KeyMatch, prefix: bool) -> Option<ValueSpan> {
     let end = m.end;
     let bs = run_end_capped(t, end, 16, is_backslash) - end;
     match t.get(end + bs).copied().filter(|&c| is_quote(c)) {
-        Some(quote) => Some(quoted_value(t, end + bs + 1, bs, quote, unclosed)),
+        Some(quote) => Some(quoted_value(t, end + bs + 1, bs, quote, prefix)),
         None => bare_value(t, end, bs, slice(t, m.key.0, m.key.1)),
     }
 }
 
-/// Redact the value of every quoted secret key, keeping the key, the
-/// separator and the value's quotes.
-pub(super) fn redact_quoted_secret_values(t: &[u16]) -> Vec<u16> {
+/// Apply the quoted rule and optionally collect spans the segmenter cannot split.
+fn redact(
+    t: &[u16],
+    mut spans: Option<&mut Vec<(usize, usize)>>,
+    prefix: bool,
+    only_over_cap: bool,
+    multi_line: bool,
+) -> Vec<u16> {
     if !t.iter().any(|&c| one_of(c, b":=")) {
         return t.to_vec();
     }
     let mut out = Vec::new();
     let mut last = 0;
     let mut next = 0;
-    let mut unclosed = Unclosed::new();
+    let pem_blocks = if only_over_cap {
+        pem::key_block_spans(t)
+    } else {
+        Vec::new()
+    };
+    let mut pem_index = 0;
     while let Some(m) = find_key(t, next) {
         next = m.end;
         if !is_secret_key_name(trim(slice(t, m.key.0, m.key.1))) {
             continue;
         }
-        let Some((vs, ve)) = value_span(t, &m, &mut unclosed) else {
+        let Some(mut value) = value_span(t, &m, prefix) else {
             continue;
         };
-        if ve <= vs || keep(slice(t, vs, ve)) {
+        if value.long && value.end <= value.start {
+            if let Some(found) = spans.as_deref_mut() {
+                found.push((m.start, value.end));
+            }
             continue;
         }
-        out.extend_from_slice(slice(t, last, vs));
+        if value.end <= value.start || (!value.long && keep(slice(t, value.start, value.end))) {
+            continue;
+        }
+        if value.long || value.over_bound || (multi_line && value.line) {
+            if let Some(found) = spans.as_deref_mut() {
+                found.push((m.start, value.end));
+            }
+        }
+        next = next.max(value.end);
+        if only_over_cap && !value.long && !value.over_bound {
+            continue;
+        }
+        if only_over_cap {
+            while pem_index < pem_blocks.len() && pem_blocks[pem_index].1 <= value.start {
+                pem_index += 1;
+            }
+            if let Some(&(start, end)) = pem_blocks.get(pem_index) {
+                if start < value.start && end <= value.end {
+                    // Preserve the block through its footer for the PEM rule, but redact
+                    // the secret-keyed suffix now because that rule removes the key context.
+                    // If the suffix opens another PEM block whose footer is past the
+                    // value, consume that block too; otherwise this pass would erase its
+                    // header while leaving the body outside the quote unprotected.
+                    if let Some(open) = pem::unclosed_start(slice(t, end, value.end)) {
+                        let absolute = end + open;
+                        value.end = pem::key_block_spans(slice(t, absolute, t.len()))
+                            .first()
+                            .map_or(t.len(), |&(_, block_end)| absolute + block_end);
+                        next = next.max(value.end);
+                    }
+                    if end < value.end {
+                        out.extend_from_slice(slice(t, last, end));
+                        out.extend_from_slice(&REDACTED16);
+                        last = value.end;
+                    }
+                    continue;
+                }
+            }
+            let inside = slice(t, value.start, value.end);
+            if let Some(open) = pem::unclosed_start(inside) {
+                let suffix = slice(t, value.start, t.len());
+                if let Some((_, end)) = pem::key_block_spans(suffix)
+                    .into_iter()
+                    .find(|&(start, _)| start == open)
+                {
+                    value.end = value.start + end;
+                    next = next.max(value.end);
+                }
+            }
+        }
+        out.extend_from_slice(slice(t, last, value.start));
         out.extend_from_slice(&REDACTED16);
-        last = ve;
-        next = next.max(ve);
+        last = value.end;
     }
     if last == 0 {
         return t.to_vec();
     }
     out.extend_from_slice(slice(t, last, t.len()));
     out
+}
+
+/// Every over-cap span and every multi-line quoted secret value span.
+pub(super) fn unsplittable_quoted_value_spans(t: &[u16], prefix: bool) -> Vec<(usize, usize)> {
+    let mut spans = Vec::new();
+    let _ = redact(t, Some(&mut spans), prefix, false, true);
+    spans
+}
+
+/// Rule set 5's first rule, measured before any shrinking token rule.
+pub(super) fn redact_over_cap_quoted_values(t: &[u16]) -> Vec<u16> {
+    redact(t, None, false, true, false)
+}
+
+/// Redact the value of every quoted secret key, keeping the key, the
+/// separator and the value's quotes.
+pub(super) fn redact_quoted_secret_values(t: &[u16]) -> Vec<u16> {
+    redact(t, None, false, false, false)
 }

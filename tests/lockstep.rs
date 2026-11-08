@@ -22,7 +22,7 @@ fn history_marker_is_exactly_the_two_field_raw_scrub_contract() {
         marker,
         serde_json::json!({
             "ruleset": "relayhistory-scrub",
-            "version": 3,
+            "version": 5,
         })
     );
 }
@@ -85,6 +85,18 @@ fn rust_rule_modules_match_the_reviewed_port_digest() {
         source.push('\n');
     }
     assert_eq!(sha256(&source), RUST_PORT_SHA256);
+}
+
+#[test]
+fn public_serde_json_dependency_does_not_change_consumer_semantics() {
+    let manifest = include_str!("../Cargo.toml");
+    let dependency = manifest
+        .lines()
+        .find(|line| line.starts_with("serde_json ="))
+        .expect("serde_json dependency");
+    assert_eq!(dependency, "serde_json = \"1.0\"");
+    assert!(!manifest.contains("arbitrary_precision"));
+    assert!(!manifest.contains("preserve_order"));
 }
 
 #[test]

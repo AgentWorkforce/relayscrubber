@@ -5,11 +5,11 @@ use super::*;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
-/// Vendored byte for byte from relayhistory-pipeline 86eaefea (#312).
+/// Vendored byte for byte from pipeline merge 546d31fe (#362; head cb01a9c2).
 const CORPUS: &str = include_str!("../../vendor/corpus/scrub-secret-corpus.json");
 const MANIFEST: &str = include_str!("../../vendor/canonical/technical-foul.json");
 /// The corpus digest the Cloud's corpus test pins (`CORPUS_SHA256`).
-const CORPUS_SHA256: &str = "9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860";
+const CORPUS_SHA256: &str = "eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091";
 
 fn sha256_hex(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
@@ -283,8 +283,7 @@ fn divergence_proto_keys_are_kept_and_scrubbed() {
 
 /// Keys of an object in the order the scrub walks them.
 fn walk_order(text: &str) -> Vec<(String, Value)> {
-    let value: Value = serde_json::from_str(text).unwrap();
-    let json::Node::Object(entries) = json::Node::from(&value) else {
+    let json::Node::Object(entries) = json::parse_text(text).unwrap() else {
         panic!("not an object");
     };
     let mut count = 0;
@@ -305,19 +304,72 @@ fn key_collisions_are_suffixed_in_document_order() {
         json!({ "[REDACTED]": "b", "c": 1, "[REDACTED] (2)": "a", "[REDACTED] (3)": "b1" })
     );
     assert_eq!(redactions, 3);
-    // A serde_json value preserves document order, so both entry points agree.
+    // A programmatic serde_json value uses its consumer-selected map order;
+    // only the text entry point promises JSON.parse document order.
     let value: Value = serde_json::from_str(text).unwrap();
-    assert_eq!(scrub_json(&value), scrub_json_text(text).unwrap());
-    assert_eq!(scrub_json(&value).0["[REDACTED]"], "b");
+    let first_collision_value = value
+        .as_object()
+        .unwrap()
+        .iter()
+        .find(|(key, _)| key.contains("@x.io"))
+        .map(|(_, value)| value)
+        .unwrap();
+    assert_eq!(scrub_json(&value).0["[REDACTED]"], *first_collision_value);
 }
 
 #[test]
-fn arbitrary_precision_numbers_remain_numbers_with_their_exact_spelling() {
+fn finite_large_numbers_follow_default_serde_json_semantics() {
     let text = r#"{"huge":123456789012345678901234567890,"decimal":1.234567890123456789}"#;
     let (clean, redactions) = scrub_json_text(text).unwrap();
     assert_eq!(redactions, 0);
     assert!(clean["huge"].is_number() && clean["decimal"].is_number());
-    assert_eq!(serde_json::to_string(&clean).unwrap(), text);
+    assert_eq!(clean["huge"], json!(1.2345678901234568e29));
+    assert_eq!(clean["decimal"], json!(1.2345678901234567));
+}
+
+#[test]
+fn text_json_preserves_negative_zero() {
+    let (clean, redactions) =
+        scrub_json_text(r#"{"offset":-0,"decimal":-0.0,"exponent":-0e1}"#).unwrap();
+    assert_eq!(redactions, 0);
+    for key in ["offset", "decimal", "exponent"] {
+        let number = clean[key].as_f64().unwrap();
+        assert_eq!(number, 0.0);
+        assert!(number.is_sign_negative(), "{key} lost its negative sign");
+    }
+}
+
+#[test]
+fn text_json_rejects_unpaired_surrogates_but_accepts_pairs() {
+    // JSON.parse can produce a JavaScript string with an unpaired UTF-16
+    // surrogate, but Rust String/serde_json::Value cannot represent it.
+    assert!(scrub_json_text(r#"{"value":"\ud800"}"#).is_none());
+    assert!(scrub_json_text(r#"{"value":"\udc00"}"#).is_none());
+    let (clean, redactions) = scrub_json_text(r#"{"value":"\ud83d\udca3"}"#).unwrap();
+    assert_eq!(redactions, 0);
+    assert_eq!(clean["value"], "💣");
+}
+
+#[test]
+fn text_json_matches_serde_json_container_depth_boundary() {
+    let nested = |depth: usize| format!("{}0{}", "[".repeat(depth), "]".repeat(depth));
+    assert!(serde_json::from_str::<Value>(&nested(127)).is_ok());
+    assert!(scrub_json_text(&nested(127)).is_some());
+    assert!(serde_json::from_str::<Value>(&nested(128)).is_err());
+    assert!(scrub_json_text(&nested(128)).is_none());
+}
+
+#[test]
+fn decimal_card_numbers_are_redacted_by_the_text_entry_point() {
+    let (clean, redactions) = scrub_json_text(r#"{"card":4111111111111111.0}"#).unwrap();
+    assert_eq!(clean["card"], REDACTION_TOKEN);
+    assert_eq!(redactions, 1);
+}
+
+#[test]
+fn out_of_range_numbers_fail_without_global_arbitrary_precision() {
+    let text = format!(r#"{{"too_large":{}}}"#, "9".repeat(10_000));
+    assert!(scrub_json_text(&text).is_none());
 }
 
 #[test]
@@ -335,11 +387,190 @@ fn serde_json_private_number_marker_remains_an_ordinary_object_key() {
 }
 
 #[test]
-fn over_cap_one_password_references_remain_allowed() {
-    // One unit beyond the canonical quoted-value inspection cap.
+fn assignment_one_password_references_remain_allowed() {
     let reference = format!("op://{}", "a".repeat(4_097));
     let text = format!(r#"CF_TOKEN_REF="{reference}" unrelated text"#);
     assert_eq!(scrub_long(&text), text);
+}
+
+#[test]
+fn v5_redacts_an_over_cap_quoted_one_password_reference() {
+    let long = format!("op://{}", "a".repeat(8_192));
+    assert_eq!(
+        scrub_long(&format!(r#""password": "{long}""#)),
+        r#""password": "[REDACTED]""#
+    );
+    assert_eq!(
+        scrub_long(r#""password": "op://vault/item/field""#),
+        r#""password": "op://vault/item/field""#
+    );
+}
+
+#[test]
+fn v5_redacts_an_invalid_unquoted_one_password_reference() {
+    let reference = format!("op://{}", "aB3dE5fG7hJ9".repeat(350));
+    let head = "x".repeat(MAX_SCRUB_CHARS - 19);
+    let text = format!(r#"{head} "token": {reference}"#);
+    let out = scrub_long(&text);
+    assert!(out.ends_with(r#" "token": [REDACTED]"#));
+    assert!(!out.contains(&reference));
+}
+
+#[test]
+fn v5_keeps_only_complete_three_or_four_segment_one_password_references() {
+    for reference in [
+        "op://vault/item/field",
+        "op://Team Vault/Item Name/section/field",
+    ] {
+        let text = format!(r#""password":"{reference}""#);
+        assert_eq!(scrub_text(&text), text);
+        assert_eq!(
+            scrub_json(&json!({ "password": reference })).0,
+            json!({ "password": reference })
+        );
+    }
+    for reference in [
+        "op://vault/item",
+        "op://vault/item/section/field/tail",
+        "op://vault/item/field?x=1",
+        "op://vault/item/double  space",
+        r"op://vault/item/field\nSECRETTAIL",
+        "op://vault/item/field/",
+        "op://vault//field",
+        "op://váult/item/field",
+    ] {
+        let text = format!(r#""password":"{reference}""#);
+        assert_eq!(
+            scrub_text(&text),
+            r#""password":"[REDACTED]""#,
+            "{reference:?}"
+        );
+        assert_eq!(
+            scrub_json(&json!({ "password": reference })).0,
+            json!({ "password": REDACTION_TOKEN }),
+            "{reference:?}"
+        );
+    }
+}
+
+#[test]
+fn v5_inherits_secret_context_through_composite_json_values() {
+    let value = json!({
+        "password": {
+            "nested": [
+                "ordinary words",
+                { "leaf": "still ordinary words", "empty": "", "ref": "op://vault/item/field" },
+                7,
+                true,
+                null
+            ]
+        },
+        "safe": { "nested": "ordinary words" }
+    });
+    let (clean, redactions) = scrub_json(&value);
+    assert_eq!(clean["password"]["nested"][0], REDACTION_TOKEN);
+    assert_eq!(clean["password"]["nested"][1]["leaf"], REDACTION_TOKEN);
+    assert_eq!(clean["password"]["nested"][1]["empty"], "");
+    assert_eq!(
+        clean["password"]["nested"][1]["ref"],
+        "op://vault/item/field"
+    );
+    assert_eq!(clean["password"]["nested"][2], 7);
+    assert_eq!(clean["safe"]["nested"], "ordinary words");
+    assert_eq!(redactions, 2);
+}
+
+#[test]
+fn v5_redacts_multiline_quoted_values_through_close_or_end() {
+    for separator in ["\r", "\n", "\r\n", "\u{2028}", "\u{2029}", "\u{0085}"] {
+        for quote in ['"', '\'', '`'] {
+            let value = format!("short{separator}SECRETTAIL");
+            let closed = format!("{quote}password{quote}: {quote}{value}{quote} after");
+            assert_eq!(
+                scrub_text(&closed),
+                format!("{quote}password{quote}: {quote}{REDACTION_TOKEN}{quote} after")
+            );
+            let open = format!("{quote}password{quote}: {quote}{value}");
+            assert_eq!(
+                scrub_text(&open),
+                format!("{quote}password{quote}: {quote}{REDACTION_TOKEN}")
+            );
+        }
+    }
+}
+
+#[test]
+fn v5_measures_over_cap_values_before_token_rules_shrink_them() {
+    let capy = format!("capy_{}", "Ab1".repeat(12));
+    let value = format!("{}\nSECRETTAILMARK", format!("{capy} ").repeat(130));
+    assert!(value.encode_utf16().count() > 4096);
+    assert!(value.replace(&capy, REDACTION_TOKEN).encode_utf16().count() < 4096);
+    for text in [
+        format!(r#""password": "{value}" after"#),
+        format!(r#"'secret': '{value}' after"#),
+        format!("`secret`: `{value}` after"),
+        format!(r#"{{\"api_key\": \"{value}\"}}"#),
+    ] {
+        let out = scrub_text(&text);
+        assert!(!out.contains("SECRETTAILMARK"), "{out:?}");
+        assert_eq!(out.matches(REDACTION_TOKEN).count(), 1, "{out:?}");
+    }
+}
+
+#[test]
+fn v5_classifies_the_complete_over_cap_bare_value() {
+    let prefix = format!("{}012345", "0123456789".repeat(409));
+    let tail = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".repeat(100);
+    assert_eq!(prefix.encode_utf16().count(), 4096);
+    let input = format!(r#""token": {prefix}{tail} after"#);
+    assert_eq!(scrub_text(&input), r#""token": [REDACTED] after"#);
+    assert_eq!(scrub_long(&input), r#""token": [REDACTED] after"#);
+
+    let number = format!(r#""token": {} after"#, "1".repeat(4196));
+    assert_eq!(scrub_text(&number), number);
+}
+
+#[test]
+fn v5_preserves_an_embedded_pem_footer_without_exposing_a_suffix() {
+    let value = format!(
+        "{}-----END PRIVATE KEY-----",
+        "A".repeat(quoted::MAX_QUOTED_VALUE + 1)
+    );
+    let input = format!("-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}\" KEEPTRAIL");
+    let out = scrub_text(&input);
+    assert!(out.contains("KEEPTRAIL"));
+    assert!(!out.contains("BEGIN PRIVATE KEY"));
+    assert!(!out.contains("END PRIVATE KEY"));
+    assert_eq!(scrub_long(&input), out);
+
+    let with_suffix =
+        format!("-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}SECRETTAIL\" KEEPTRAIL");
+    let suffix_out = scrub_text(&with_suffix);
+    assert!(!suffix_out.contains("SECRETTAIL"));
+    assert!(suffix_out.contains("KEEPTRAIL"));
+    assert_eq!(scrub_long(&with_suffix), suffix_out);
+
+    let chained = format!(
+        "-----BEGIN PRIVATE KEY-----\n\"password\": \"{value}\n-----BEGIN PRIVATE KEY-----\"\nSECRETBODY\n-----END PRIVATE KEY-----\nKEEPTRAIL"
+    );
+    let chained_out = scrub_text(&chained);
+    assert!(!chained_out.contains("SECRETBODY"));
+    assert!(!chained_out.contains("BEGIN PRIVATE KEY"));
+    assert!(!chained_out.contains("END PRIVATE KEY"));
+    assert!(chained_out.contains("KEEPTRAIL"));
+    assert_eq!(scrub_long(&chained), chained_out);
+}
+
+#[test]
+fn v5_segmenter_never_cuts_inside_a_multiline_quoted_value() {
+    let head = filler(MAX_SCRUB_CHARS - 2_000);
+    let value = format!("SECRETTAIL one\n{}\nSECRETTAIL two", "word ".repeat(1_000));
+    let text = format!(r#"{head}"password":"{value}" after {}"#, filler(4_000));
+    let out = scrub_long(&text);
+    assert!(!out.contains("SECRETTAIL"));
+    assert!(out.contains(r#""password":"[REDACTED]" after "#));
+    assert!(out.len() > head.len());
+    assert_eq!(scrub_long(&out), out);
 }
 
 #[test]
@@ -660,16 +891,50 @@ fn a_long_url_userinfo_password_is_never_split_at_a_distant_comma() {
 }
 
 #[test]
-fn an_over_cap_quoted_secret_fails_closed_without_exposing_its_suffix() {
+fn an_over_cap_quoted_secret_is_redacted_through_its_close() {
     let value = "A1b2C3d4".repeat(600);
     assert!(value.encode_utf16().count() > 4096);
     let text = format!(r#"{{"password":"{value}","safe":"kept"}}"#);
-    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
+    assert_eq!(
+        scrub_long(&text),
+        r#"{"password":"[REDACTED]","safe":"kept"}"#
+    );
 
     let crossing = format!(
         r#"{} {{"password":"{value}"}}"#,
         filler(MAX_SCRUB_CHARS - 2000)
     );
     assert!(crossing.encode_utf16().count() > MAX_SCRUB_CHARS);
-    assert_eq!(scrub_long(&crossing), REDACTION_TOKEN);
+    let out = scrub_long(&crossing);
+    assert!(!out.contains(&value));
+    assert!(out.ends_with(r#" {"password":"[REDACTED]"}"#));
+}
+
+#[test]
+fn v5_counts_total_quoted_value_length_across_every_separator() {
+    for separator in ["\r", "\n", "\r\n", "\u{2028}", "\u{2029}", "\u{0085}"] {
+        for quote in ['"', '\'', '`'] {
+            let value = format!("short{separator}{}UNIQUE_TAIL", "v".repeat(4097));
+            let text = format!("{quote}token{quote}: {quote}{value}{quote} after");
+            assert_eq!(
+                scrub_long(&text),
+                format!("{quote}token{quote}: {quote}{REDACTION_TOKEN}{quote} after"),
+                "separator={separator:?} quote={quote:?}"
+            );
+
+            let open = format!("{quote}token{quote}: {quote}{value}");
+            assert_eq!(
+                scrub_long(&open),
+                format!("{quote}token{quote}: {quote}{REDACTION_TOKEN}"),
+                "open separator={separator:?} quote={quote:?}"
+            );
+        }
+    }
+}
+
+#[test]
+fn v5_segmenter_never_cuts_inside_an_over_cap_quoted_value() {
+    let value = format!("short\n{}UNIQUE_TAIL", "v".repeat(MAX_SCRUB_CHARS + 100));
+    let text = format!("`token`: `{value}` after");
+    assert_eq!(scrub_long(&text), REDACTION_TOKEN);
 }

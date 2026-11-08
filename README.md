@@ -11,9 +11,9 @@ Linux and Windows. Its runtime dependencies are only `serde` and `serde_json`.
 The current compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
-- version: `3`
-- rules/source SHA-256: `e7607073a3afca3db6b015945f0b5fab256202f355b740f515987ec162bf3076`
-- corpus SHA-256: `9a80b081d2ab1a2be7a9f36e73bcf6f27861b7096418a372ce12b567be52a860`
+- version: `5`
+- rules/source SHA-256: `848c490bd11340cb79f5bb666d0de9a3e3f18c141bf4f4ee6358c005bd371133`
+- corpus SHA-256: `eb75074429d95fba1067bbd2f84ceb1b6e81839fe042c1542a664054dc55f091`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
 
@@ -23,7 +23,7 @@ Consumers should pin the exact crates.io release:
 
 ```toml
 [dependencies]
-relayscrubber = "=0.2.0"
+relayscrubber = "=0.3.0"
 ```
 
 ```rust
@@ -38,7 +38,7 @@ assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
 
 let stored_marker = raw_scrub_marker();
 assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
-assert_eq!(stored_marker.version, 3);
+assert_eq!(stored_marker.version, 5);
 ```
 
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
@@ -54,10 +54,18 @@ regex engine, unsafe code, async runtime, platform-specific code, I/O, or
 network access. All scans and cut-search budgets are bounded.
 
 `scrub_json` returns `(Value, redaction_count)` after scrubbing every key,
-string value and card-shaped integral number. Key collisions receive numbered
-suffixes in JavaScript `Object.entries` order. `scrub_json_text` parses with
-document order preserved, applies collision suffixes in that order, and
-returns `None` for invalid JSON.
+string value and card-shaped integral number. Its collision suffixes follow
+the iteration order of the consumer-provided `Value`; original textual order
+is unavailable after a default `serde_json` parse. `scrub_json_text` parses
+with `JSON.parse` document order preserved and applies collision suffixes in
+that order. It returns `None` for invalid or out-of-range JSON, a container at
+serde_json's 128-level recursion boundary, or unpaired-surrogate JSON; callers
+retain their invalid/unrepresentable-JSON fallback. The crate does not enable
+`serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
+does not change JSON behavior elsewhere in a consumer's dependency graph.
+The returned `Value` serializes in the map order selected by the consumer's
+`serde_json` features; document order controls collision naming, not output
+byte order.
 
 ## History schema and contract
 
@@ -65,14 +73,14 @@ This crate has exactly two integration boundaries:
 
 1. The relayhistory schema records the scrub marker. A sealed history chunk
    writes `raw.scrub.ruleset = "relayhistory-scrub"` and
-   `raw.scrub.version = 3`; object metadata uses `scrub-ruleset` and
+   `raw.scrub.version = 5`; object metadata uses `scrub-ruleset` and
    `scrub-version` with the same values. Existing chunks are never relabeled.
 2. The history database contract uses that marker to distinguish scrubbed and
    unsanitized history. Callers must persist the exported ruleset/version only
    after this crate has successfully scrubbed the bytes they store.
 
 `raw_scrub_marker()` returns exactly the persisted two-field marker
-`{"ruleset":"relayhistory-scrub","version":3}`. It is separate from
+`{"ruleset":"relayhistory-scrub","version":5}`. It is separate from
 `manifest()`, which returns the ten-field Technical Foul distribution manifest
 used by independent implementations to pin source, segmenter, and corpus.
 
@@ -104,7 +112,7 @@ Changes are atomic across owners:
    runs a direct byte-for-byte comparison against canonical `scrub.ts`.
 4. relay-desktop updates its Cargo tag only after that release is available.
 
-The TypeScript server remains canonical for version 3. It may later consume
+The TypeScript server remains canonical for version 5. It may later consume
 this crate through WASM or a native binding, but this crate does not require or
 assume that migration.
 
@@ -112,11 +120,15 @@ For upload safety the crate deliberately matches the reviewed Desktop behavior
 where the Cloud currently refuses input: it also tries a verified comma cut for
 compact text, and replaces an uncuttable remainder wholesale. The comma
 fallback is disabled when a URL scheme occurs before the cut because unbounded
-userinfo cannot be proven safe with finite context. Until the canonical rule
-owns the same regression, an over-cap quoted secret also makes `scrub_long`
-redact the whole input rather than expose its suffix. The crate additionally
+userinfo cannot be proven safe with finite context. V5 redacts every quoted
+secret through its matching close or end of input, measures over-cap values
+before any shrinking rule, and protects every over-cap or multi-line value
+from segment cuts. The crate additionally
 checks exact unsigned JSON integers for cards and retains `__proto__` as an
-ordinary key. Each divergence has a dedicated test.
+ordinary key. Rule set 5 also redacts quoted secret values through their close
+or end of input across line separators, inherits secret-key context through
+JSON descendants, and preserves only complete three- or four-segment
+`op://` references. Each divergence has a dedicated test.
 
 ## Development
 

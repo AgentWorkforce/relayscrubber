@@ -9,15 +9,18 @@
 //! the bound and the token, and run every corpus case. The fixtures are
 //! byte-exact copies of `packages/pipeline/technical-foul.json` and
 //! `packages/pipeline/test/fixtures/scrub-secret-corpus.json` at
-//! relayhistory-pipeline commit 86eaefea (#312).
+//! relayhistory-pipeline merge 546d31fe (#362; reviewed head cb01a9c2),
+//! including #354's complete-bare and first PEM-boundary fixes.
 //!
 //! Text is scrubbed as UTF-16 with JavaScript's regular-expression semantics,
 //! so a scrubbed string is byte for byte what the Cloud would store. Every
 //! string and key is scrubbed whole with [`scrub_long`], as the Cloud's
 //! raw-chunk path does, and a text is only ever split where the ported
-//! `cutIsSafe` holds. Colliding keys get their ` (2)`, ` (3)` suffixes in
-//! `Object.entries` order. Where this port differs from the Cloud on
-//! purpose, the difference is noted where it is made and covered by a test:
+//! `cutIsSafe` holds. [`scrub_json_text`] gives colliding keys their ` (2)`,
+//! ` (3)` suffixes in `JSON.parse`/`Object.entries` order; [`scrub_json`]
+//! follows the map iteration order of the consumer-provided `Value`. Where
+//! this port differs from the Cloud on purpose, the difference is noted where
+//! it is made and covered by a test:
 //!  - [`scrub_long`] also tries a cut after a comma where text has no
 //!    whitespace to cut after (compact JSON, minified code); a comma is a
 //!    cut only if it passes the same `cutIsSafe` check as whitespace, so it
@@ -43,7 +46,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 3;
+pub const RULESET_VERSION: u32 = 5;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -51,10 +54,10 @@ pub const REDACTION_TOKEN: &str = "[REDACTED]";
 /// The longest text one bounded scrub takes (`MAX_SCRUB_CHARS`), in UTF-16 units.
 pub const MAX_SCRUB_CHARS: usize = 262_144;
 
-/// sha256 of the Cloud's `scrub.ts` this port was made from, as the Cloud's
-/// `technical-foul.json` manifest records it.
+/// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
+/// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "e7607073a3afca3db6b015945f0b5fab256202f355b740f515987ec162bf3076";
+    "848c490bd11340cb79f5bb666d0de9a3e3f18c141bf4f4ee6358c005bd371133";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.
@@ -100,7 +103,8 @@ fn prefixed<const N: usize>(t: &[u16]) -> Vec<u16> {
 }
 
 /// `SECRET_PATTERNS`, in the Cloud's order.
-const RULES: [Rule; 31] = [
+const RULES: [Rule; 32] = [
+    quoted::redact_over_cap_quoted_values,
     pem::redact_private_keys,
     web::redact_home_paths,
     tokens::redact_bearer,
@@ -152,8 +156,7 @@ pub fn scrub_text(value: &str) -> String {
 }
 
 /// Scrub a string of any length whole, segmented as the Cloud's `scrubLong`
-/// does; a remainder with no safe cut, or an over-cap quoted secret that v3
-/// cannot safely finish, becomes the redaction token.
+/// does; a remainder with no safe cut becomes the redaction token.
 #[must_use]
 pub fn scrub_long(value: &str) -> String {
     let units: Vec<u16> = value.encode_utf16().collect();
@@ -162,16 +165,16 @@ pub fn scrub_long(value: &str) -> String {
 
 /// Scrub every string value and key of a JSON value, and card numbers among
 /// its numbers (`scrubJson`). Returns the scrubbed value and how many
-/// strings, keys and numbers were redacted. Maps preserve insertion order;
-/// array-index keys are visited first, as `Object.entries` lists them. Values
-/// nested beyond serde_json's default 128-level parsing limit fail closed to a
-/// single redaction token rather than risking a recursive stack overflow.
+/// strings, keys and numbers were redacted. Maps use the order provided by the
+/// consumer's `serde_json::Value`; array-index keys are visited first, as
+/// `Object.entries` lists them. Values nested beyond serde_json's default
+/// 128-level parsing limit fail closed to a single redaction token rather than
+/// risking a recursive stack overflow.
 #[must_use]
 pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
-    const MAX_JSON_DEPTH: usize = 128;
     let mut pending = vec![(value, 1usize)];
     while let Some((item, depth)) = pending.pop() {
-        if depth > MAX_JSON_DEPTH {
+        if depth > json::MAX_JSON_DEPTH {
             return (serde_json::Value::String(REDACTION_TOKEN.to_owned()), 1);
         }
         match item {
@@ -189,13 +192,17 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
     (clean, count)
 }
 
-/// [`scrub_json`] over a JSON text, preserving numeric spelling and suffixing
-/// colliding keys in the `Object.entries` order that `JSON.parse` reads
-/// (array-index keys ascending, then document order). `None` for invalid JSON.
+/// [`scrub_json`] over a JSON text, suffixing colliding keys in the
+/// `Object.entries` order that `JSON.parse` reads (array-index keys ascending,
+/// then document order). `None` for invalid or out-of-range JSON, or a container
+/// at serde_json's 128-level recursion boundary. JSON string escapes containing
+/// an unpaired UTF-16 surrogate also return `None` because Rust strings cannot
+/// represent them; callers must retain their existing
+/// invalid/unrepresentable-JSON fallback. This does not enable global
+/// `serde_json` map-order or arbitrary-number features.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
-    let value = json::parse_text(text)?;
-    let node = json::Node::from(&value);
+    let node = json::parse_text(text)?;
     let mut count = 0;
     let clean = json::scrub_node(&node, &mut count);
     Some((clean, count))
