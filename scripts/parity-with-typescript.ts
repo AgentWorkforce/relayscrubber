@@ -342,6 +342,11 @@ recordVectors.push({
     "[REDACTED] (3)": "b1",
   },
 });
+recordVectors.push({
+  id: "number/negative-zero",
+  input: '{"offset":-0}',
+  expected: { offset: -0 },
+});
 const jsonChild = Bun.spawn(
   [
     "cargo",
@@ -369,30 +374,42 @@ const [jsonExit, jsonStdout, jsonStderr] = await Promise.all([
 ]);
 if (jsonExit !== 0) throw new Error(jsonStderr);
 const rustJson = JSON.parse(jsonStdout) as unknown[];
-const stable = (value: unknown): unknown =>
-  Array.isArray(value)
-    ? value.map(stable)
-    : value && typeof value === "object"
-      ? Object.fromEntries(
-          Object.entries(value as Record<string, unknown>)
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([key, item]) => [key, stable(item)]),
-        )
-      : value;
+const semanticEqual = (left: unknown, right: unknown): boolean => {
+  if (typeof left === "number" || typeof right === "number") {
+    return typeof left === "number" &&
+      typeof right === "number" &&
+      Object.is(left, right);
+  }
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left) &&
+      Array.isArray(right) &&
+      left.length === right.length &&
+      left.every((item, index) => semanticEqual(item, right[index]));
+  }
+  if (left && right && typeof left === "object" && typeof right === "object") {
+    const leftEntries = Object.entries(left as Record<string, unknown>).sort(
+      ([a], [b]) => a.localeCompare(b),
+    );
+    const rightEntries = Object.entries(right as Record<string, unknown>).sort(
+      ([a], [b]) => a.localeCompare(b),
+    );
+    return leftEntries.length === rightEntries.length &&
+      leftEntries.every(
+        ([key, value], index) =>
+          key === rightEntries[index]?.[0] &&
+          semanticEqual(value, rightEntries[index]?.[1]),
+      );
+  }
+  return Object.is(left, right);
+};
 for (const [index, vector] of recordVectors.entries()) {
   const typescript = scrubJson(JSON.parse(vector.input) as unknown);
-  if (
-    JSON.stringify(stable(typescript)) !==
-    JSON.stringify(stable(vector.expected))
-  ) {
+  if (!semanticEqual(typescript, vector.expected)) {
     throw new Error(
       `${vector.id}: canonical TypeScript differs from corpus expected record`,
     );
   }
-  if (
-    JSON.stringify(stable(rustJson[index])) !==
-    JSON.stringify(stable(typescript))
-  ) {
+  if (!semanticEqual(rustJson[index], typescript)) {
     throw new Error(
       `${vector.id}: Rust scrubJson differs from canonical TypeScript`,
     );
