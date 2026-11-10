@@ -23,7 +23,7 @@ preserve nested generic keys; nested explicit credentials and
 remain exercised with this superseding bare-key policy.
 
 Native all-target/all-feature tests, fmt, clippy and crate packaging pass. Node
-and Bun pass 36 tests each, covering native/WASM text and structured byte parity,
+and Bun pass 37 tests each, covering native/WASM text and structured byte parity,
 second passes, multibyte 16 MiB text/record admission, 64 MiB stream admission,
 tagged call refusals and poisoned-instance refusal. Independent target-directory
 WASM reproduction and local Workers checks pass. Resource probes remain bounded.

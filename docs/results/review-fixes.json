@@ -534,8 +534,8 @@
     "structuredCases": 3,
     "nativeTextVectors": 5200,
     "nativeStructuredVectors": 5200,
-    "nodeTests": 36,
-    "bunTests": 36,
+    "nodeTests": 37,
+    "bunTests": 37,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199
   },

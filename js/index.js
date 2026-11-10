@@ -65,7 +65,7 @@ function admitRecords(bytes) {
 }
 
 function checked(expected) {
-  const manifest = JSON.parse(manifestJson());
+  const manifest = invoke(() => JSON.parse(manifestJson()));
   if (manifest.schema !== 3 || manifest.abiVersion !== 2 || typeof manifest.scrubProfile !== 'string' || !expected || ['schema', 'ruleset', 'rulesetVersion', 'rulesetSourceSha256', 'crateVersion', 'abiVersion', 'policy', 'redactionToken', 'scrubProfile'].some(key => expected[key] !== manifest[key])) {
     throw new ScrubberError('scrubber_manifest_mismatch');
   }
