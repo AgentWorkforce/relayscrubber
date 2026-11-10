@@ -400,6 +400,16 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
 
 // These exclusions require syntax, never the English meaning of a value.
 fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, colon: bool) -> bool {
+    let first = view.text.as_bytes()[value];
+    // Most credential scalars cannot be any of these structural forms. Reject
+    // them before bounded lookbehind, tokenization or regex work.
+    if !(quoted_key && colon && matches!(first, b'-' | b'0'..=b'9')
+        || matches!(first, b'?' | b'$' | b':' | b'{')
+        || view.text[key..].starts_with("Key=")
+        || view.text[key..].starts_with("idempotency-token"))
+    {
+        return false;
+    }
     let mut limit = view.line_end(value).min(value + 512);
     while !view.text.is_char_boundary(limit) {
         limit -= 1;
