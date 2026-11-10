@@ -244,8 +244,13 @@ fn benign_entity_lookahead_all_apis_stays_bounded() {
 
 #[path = "../eval/html_url_punctuation_cases.rs"]
 mod html_url_punctuation_cases;
+// The enlarged correctness matrix and its timing probe run separately so the
+// matrix itself cannot consume the probe's CPU budget. Limits/calls stay fixed.
+static HTML_PUNCTUATION_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 #[test]
 fn html_attribute_url_punctuation_property_all_apis() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
     let cases = html_url_punctuation_cases::cases();
     let mut failures = Vec::new();
     for (id, (input, expected)) in cases.iter().enumerate() {
@@ -278,6 +283,7 @@ fn html_attribute_url_punctuation_property_all_apis() {
 }
 #[test]
 fn html_attribute_punctuation_long_all_apis_is_bounded() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
     use std::time::{Duration, Instant};
     for count in [2048, 16384] {
         let secret = "7e3b15c97e3b15c9";

@@ -11,22 +11,56 @@ function encode(ch,style){
  return {'literal':ch,'decimal':`&#${n};`,'decimal-bare':`&#${n}`,'decimal-zero':`&#000${n};`,'decimal-zero-bare':`&#000${n}`,'hex':`&#x${h};`,'hex-bare':`&#x${h}`,'HEX':`&#X${H};`,'HEX-bare':`&#X${H}`,'hex-zero':`&#x000${h};`,'hex-zero-bare':`&#x000${h}`,'named':`&${name};`,'NAMED':`&${name.toUpperCase()};`,'double-named':`&amp;${name};`,'triple-named':`&amp;amp;${name};`,'double-decimal':`&amp;#${n};`,'triple-hex':`&amp;amp;#x${H};`,'percent':`%${H}`,'double-percent':`%25${H}`,'percent-entity':[...`&#${n};`].map(c=>`%${c.charCodeAt(0).toString(16).toUpperCase()}`).join(''),'entity-percent':`&#37;${H}`,'mixed':`&amp;%23x000${h};`}[style];
 }
 function attribute(url,wrapper){return wrapper===0?`<a href="${url}">open</a>`:wrapper===1?`<img src='${url}'>`:`<a data-endpoint=${url}>open</a>`;}
+const shared=JSON.parse(readFileSync(new URL('../../eval/query_separator_property.json',import.meta.url)));
+assert.deepEqual(spec.keys,shared.keys,'use the complete sensitive-key catalog');
+assert.equal(spec.keys.length,38);
+assert.equal(spec.styles.length,22);
+assert.equal(spec.coveringPrime,23);
+const punctuation=[':','/','/','/','?','&','='];
+assert.equal(spec.positions.length,punctuation.length);
+const permutations=[];
+for(let a=0;a<23;a++) for(let b=0;b<23;b++) permutations.push(punctuation.map((_,column)=>{const symbol=(a+column*b)%23;return symbol<spec.styles.length?symbol:0;}));
+for(let left=0;left<7;left++) for(let right=left+1;right<7;right++){
+ const seen=new Set(permutations.map(row=>row[left]*22+row[right]));
+ assert.equal(seen.size,22*22,`missing punctuation pair ${left}/${right}`);
+}
+function url(indices,key){
+ const p=punctuation.map((ch,i)=>encode(ch,spec.styles[indices[i]]));
+ return `https${p[0]}${p[1]}${p[2]}media.example.invalid${p[3]}${p[4]}caption${p[6]}audit${p[5]}${key}${p[6]}${spec.secret}${p[5]}sort${p[6]}asc`;
+}
 const cases=[];
-const positive=(url,wrapper)=>{const input=attribute(url,wrapper);cases.push([input,input.replace(spec.secret,'[REDACTED]')]);};
-for(const [id,style] of spec.styles.entries()){
- for(const key of spec.keys) for(let wrapper=0;wrapper<3;wrapper++){
-  positive(`https://media.example.invalid/?caption=audit&amp;${key}${encode('=',style)}${spec.secret}`,wrapper);
+const positive=(value,wrapper)=>{const input=attribute(value,wrapper);cases.push([input,input.replace(spec.secret,'[REDACTED]')]);};
+const benign=(value,wrapper)=>{const input=attribute(value,wrapper);cases.push([input,input]);};
+// Preserve the historical 3,718 witnesses before the full 38-key matrix.
+const legacy=JSON.parse(readFileSync(new URL('../../eval/html_url_punctuation_legacy_property.json',import.meta.url)));
+assert.equal(legacy.secret,spec.secret);
+for(const [id,style] of legacy.styles.entries()){
+ for(const key of legacy.keys) for(let wrapper=0;wrapper<3;wrapper++){
+  positive(`https://media.example.invalid/?caption=audit&amp;${key}${encode('=',style)}${legacy.secret}`,wrapper);
   for(const mixed of [false,true]){
-   const p=[':','/','?','&','='].map((ch,i)=>encode(ch,mixed?spec.styles[(id+i)%spec.styles.length]:style));
-   positive(`https${p[0]}${p[1]}${p[1]}media.example.invalid/${p[2]}caption${p[4]}audit${p[3]}${key}${p[4]}${spec.secret}${p[3]}sort${p[4]}asc`,wrapper);
+   const p=[':','/','?','&','='].map((ch,j)=>encode(ch,mixed?legacy.styles[(id+j)%legacy.styles.length]:style));
+   positive(`https${p[0]}${p[1]}${p[1]}media.example.invalid/${p[2]}caption${p[4]}audit${p[3]}${key}${p[4]}${legacy.secret}${p[3]}sort${p[4]}asc`,wrapper);
   }
  }
- for(const key of spec.benignKeys) for(let wrapper=0;wrapper<3;wrapper++){
-  const input=attribute(`https${encode(':',style)}${encode('/',style)}${encode('/',style)}media.example.invalid/${encode('?',style)}${key}${encode('=',style)}${spec.secret}`,wrapper);
-  cases.push([input,input]);
- }
+ for(const key of legacy.benignKeys) for(let wrapper=0;wrapper<3;wrapper++) benign(`https${encode(':',style)}${encode('/',style)}${encode('/',style)}media.example.invalid/${encode('?',style)}${key}${encode('=',style)}${legacy.secret}`,wrapper);
 }
-for(const opener of spec.styles) for(const equal of spec.styles) for(const key of spec.keys.slice(0,4)) positive(`https://media.example.invalid/${encode('?',opener)}${key}${encode('=',equal)}${spec.secret}`,0);
+for(const opener of legacy.styles) for(const equal of legacy.styles) for(const key of ['sig','signature','X-Amz-Signature','token']) positive(`https://media.example.invalid/${encode('?',opener)}${key}${encode('=',equal)}${legacy.secret}`,0);
+assert.equal(cases.length,3718,'retain every earlier punctuation witness');
+for(const [styleId,style] of spec.styles.entries()){
+ for(const key of spec.keys) for(let wrapper=0;wrapper<3;wrapper++){
+  positive(`https://media.example.invalid/?caption=audit&amp;${key}${encode('=',style)}${spec.secret}`,wrapper);
+  positive(url(Array(7).fill(styleId),key),wrapper);
+ }
+ for(let position=0;position<7;position++){
+  const indices=Array(7).fill(0);indices[position]=styleId;
+  for(const key of spec.keys) positive(url(indices,key),0);
+ }
+ for(const key of spec.benignKeys) for(let wrapper=0;wrapper<3;wrapper++) benign(url(Array(7).fill(styleId),key),wrapper);
+}
+for(const indices of permutations){
+ for(const key of spec.keys) positive(url(indices,key),0);
+ for(const key of spec.benignKeys) benign(url(indices,key),0);
+}
 function check(input,expected){
  const value={text:input}, raw=JSON.stringify(value), json=s.scrubJson(raw).value;
  const records=s.scrubRecords(new TextEncoder().encode(raw)).bytes;

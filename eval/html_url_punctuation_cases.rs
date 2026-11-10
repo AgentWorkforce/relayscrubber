@@ -1,6 +1,8 @@
 //! Independent invented HTML-attribute URL punctuation properties.
 #![allow(dead_code)]
 use serde_json::Value;
+#[path = "html_url_punctuation_legacy_cases.rs"]
+mod legacy;
 fn encode(ch: char, style: &str) -> String {
     let n = ch as u8;
     let name = match ch {
@@ -47,9 +49,61 @@ fn attribute(url: &str, wrapper: usize) -> String {
         _ => format!("<a data-endpoint={url}>open</a>"),
     }
 }
+const PUNCTUATION: [char; 7] = [':', '/', '/', '/', '?', '&', '='];
+
+// Over prime23, each pair of distinct columns is an invertible linear map
+// from (a,b) to two symbols. Map the extra symbol22 to literal encoding0.
+// The explicit coverage assertions also guard future catalog changes.
+fn permutations(styles: usize, prime: usize) -> Vec<[usize; 7]> {
+    assert_eq!(styles, 22);
+    assert_eq!(prime, 23);
+    let mut rows = Vec::new();
+    for a in 0..prime {
+        for b in 0..prime {
+            rows.push(std::array::from_fn(|column| {
+                let symbol = (a + column * b) % prime;
+                if symbol < styles {
+                    symbol
+                } else {
+                    0
+                }
+            }));
+        }
+    }
+    for left in 0..PUNCTUATION.len() {
+        for right in left + 1..PUNCTUATION.len() {
+            let mut seen = vec![false; styles * styles];
+            for row in &rows {
+                seen[row[left] * styles + row[right]] = true;
+            }
+            assert!(
+                seen.into_iter().all(|covered| covered),
+                "missing punctuation pair"
+            );
+        }
+    }
+    rows
+}
+fn url(indices: &[usize; 7], styles: &[&str], key: &str, secret: &str) -> String {
+    let p: Vec<_> = PUNCTUATION
+        .iter()
+        .enumerate()
+        .map(|(i, ch)| encode(*ch, styles[indices[i]]))
+        .collect();
+    format!(
+        "https{}{}{}media.example.invalid{}{}caption{}audit{}{key}{}{secret}{}sort{}asc",
+        p[0], p[1], p[2], p[3], p[4], p[6], p[5], p[6], p[5], p[6]
+    )
+}
 pub fn cases() -> Vec<(String, String)> {
     let spec: Value =
         serde_json::from_str(include_str!("html_url_punctuation_property.json")).unwrap();
+    let shared: Value =
+        serde_json::from_str(include_str!("query_separator_property.json")).unwrap();
+    assert_eq!(
+        spec["keys"], shared["keys"],
+        "use the complete sensitive-key catalog"
+    );
     let styles: Vec<_> = spec["styles"]
         .as_array()
         .unwrap()
@@ -62,65 +116,60 @@ pub fn cases() -> Vec<(String, String)> {
         .iter()
         .map(|v| v.as_str().unwrap())
         .collect();
+    assert_eq!(keys.len(), 38);
+    assert_eq!(
+        spec["positions"].as_array().unwrap().len(),
+        PUNCTUATION.len()
+    );
     let secret = spec["secret"].as_str().unwrap();
-    let mut cases = Vec::new();
-    for (id, style) in styles.iter().enumerate() {
+    let mut cases = legacy::cases();
+    assert_eq!(
+        cases.len(),
+        3718,
+        "retain every earlier punctuation witness"
+    );
+    for (style_id, style) in styles.iter().enumerate() {
         for key in &keys {
             for wrapper in 0..3 {
-                let equal = encode('=', style);
-                let url = format!(
-                    "https://media.example.invalid/?caption=audit&amp;{key}{equal}{secret}"
+                let equals_only = format!(
+                    "https://media.example.invalid/?caption=audit&amp;{key}{}{secret}",
+                    encode('=', style)
                 );
-                let input = attribute(&url, wrapper);
+                let input = attribute(&equals_only, wrapper);
                 cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
-                for mixed in [false, true] {
-                    let punctuation: Vec<_> = [':', '/', '?', '&', '=']
-                        .iter()
-                        .enumerate()
-                        .map(|(i, ch)| {
-                            encode(
-                                *ch,
-                                if mixed {
-                                    styles[(id + i) % styles.len()]
-                                } else {
-                                    style
-                                },
-                            )
-                        })
-                        .collect();
-                    let url = format!("https{}{}{}media.example.invalid/{}caption{}audit{}{key}{}{secret}{}sort{}asc", punctuation[0],punctuation[1],punctuation[1],punctuation[2],punctuation[4],punctuation[3],punctuation[4],punctuation[3],punctuation[4]);
-                    let input = attribute(&url, wrapper);
-                    cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
-                }
+                let input = attribute(&url(&[style_id; 7], &styles, key, secret), wrapper);
+                cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
+            }
+        }
+        for position in 0..PUNCTUATION.len() {
+            let mut indices = [0; 7];
+            indices[position] = style_id;
+            for key in &keys {
+                let input = attribute(&url(&indices, &styles, key, secret), 0);
+                cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
             }
         }
         for key in spec["benignKeys"].as_array().unwrap() {
             for wrapper in 0..3 {
-                let url = format!(
-                    "https{}{}{}media.example.invalid/{}{}{}{secret}",
-                    encode(':', style),
-                    encode('/', style),
-                    encode('/', style),
-                    encode('?', style),
-                    key.as_str().unwrap(),
-                    encode('=', style)
+                let input = attribute(
+                    &url(&[style_id; 7], &styles, key.as_str().unwrap(), secret),
+                    wrapper,
                 );
-                let input = attribute(&url, wrapper);
                 cases.push((input.clone(), input));
             }
         }
     }
-    for opener in &styles {
-        for equal in &styles {
-            for key in &keys[..4] {
-                let url = format!(
-                    "https://media.example.invalid/{}{key}{}{secret}",
-                    encode('?', opener),
-                    encode('=', equal)
-                );
-                let input = attribute(&url, 0);
-                cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
-            }
+    for indices in permutations(
+        styles.len(),
+        spec["coveringPrime"].as_u64().unwrap() as usize,
+    ) {
+        for key in &keys {
+            let input = attribute(&url(&indices, &styles, key, secret), 0);
+            cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
+        }
+        for key in spec["benignKeys"].as_array().unwrap() {
+            let input = attribute(&url(&indices, &styles, key.as_str().unwrap(), secret), 0);
+            cases.push((input.clone(), input));
         }
     }
     cases
