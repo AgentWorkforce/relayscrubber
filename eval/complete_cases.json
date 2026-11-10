@@ -383,5 +383,225 @@
     "family": "other_exemption_tail",
     "input": "// Bearer tokenVariableM8zR4vK7nP2qW6xAq9",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${{ secrets.TOKEN }} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${{ secrets.TOKEN }} # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${{ secrets.TOKEN }}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${TOKEN} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${TOKEN} # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ${TOKEN}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: $(cat \"$FILE\") M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: $(cat \"$FILE\") # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: $(cat \"$FILE\")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: *** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: *** # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: ***                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: <48> M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: <48> # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: <48>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: masked_... M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: masked_... # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: masked_...                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: [REDACTED] M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: [REDACTED] # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: [REDACTED]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: credential M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: credential # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: credential                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: cache.token M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: cache.token # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: cache.token                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: read() M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: read() # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: read()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: { name: service-db-password } M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: { name: service-db-password } # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bounded_reference_tail",
+    "input": "password: { name: service-db-password }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "embedded_literal_reference",
+    "input": "TOKEN=${TOKEN:-M8zR4vK7nP2qW6xAq9}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "embedded_literal_reference",
+    "input": "TOKEN=${{ secrets.M8zR4vK7nP2qW6xAq9 }}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "embedded_literal_reference",
+    "input": "TOKEN=process.env.M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "embedded_literal_reference",
+    "input": "TOKEN=$(echo \"M8zR4vK7nP2qW6xAq9\")",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "embedded_literal_reference",
+    "input": "TOKEN=$(printf %s M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid:8443/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://a.edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://EDGE-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.EXAMPLE.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://abcOPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "hostname_position_port",
+    "input": "https://edge.OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
   }
 ]
