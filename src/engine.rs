@@ -264,29 +264,6 @@ pub(crate) fn credential_context(name: &str) -> bool {
         "aws" | "auth" | "authentication" | "credentials" | "credential" | "secrets"
     )
 }
-fn contextual_key(view: &View, key: usize) -> bool {
-    // Inspect only the nearest structural opener, with a fixed lookbehind bound.
-    let start = key.saturating_sub(512);
-    let prefix = &view.text.as_bytes()[start..key];
-    let Some(open) = prefix
-        .iter()
-        .rposition(|b| matches!(b, b'{' | b'[' | b'}' | b']'))
-    else {
-        return false;
-    };
-    if !matches!(prefix[open], b'{' | b'[') {
-        return false;
-    }
-    let mut end = open;
-    while end > 0 && matches!(prefix[end - 1], b' ' | b'\t' | b'=' | b':' | b'"' | b'\'') {
-        end -= 1;
-    }
-    let mut begin = end;
-    while begin > 0 && word(prefix[begin - 1]) {
-        begin -= 1;
-    }
-    std::str::from_utf8(&prefix[begin..end]).is_ok_and(credential_context)
-}
 pub(crate) fn uuid(value: &str) -> bool {
     value.len() == 36
         && value.bytes().enumerate().all(|(i, b)| {
@@ -303,6 +280,13 @@ fn prose(value: &str) -> bool {
     ]
     .iter()
     .any(|p| value.starts_with(p))
+}
+fn documentation_prose(value: &str) -> bool {
+    // Established explanatory syntax stays public. Ordinary multi-word YAML
+    // scalar credentials do not become references just because they are prose.
+    value.starts_with("see ")
+        || value.starts_with("the ")
+            && (value.contains(" used for ") || value.contains(" comes from "))
 }
 fn symbolic_atom(value: &str) -> &str {
     value
@@ -415,6 +399,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     let mut i = 0;
     let mut public_until = if inherited { b.len() } else { 0 };
+    // End positions are resolved by View, so context is retained independently
+    // of byte distance. Cumulative flags make every push/pop constant time.
+    let mut contexts: Vec<(usize, bool, bool)> = Vec::new();
     while i < b.len() {
         let flag_start = i >= 2 && &b[i - 2..i] == b"--";
         if !b[i].is_ascii_alphabetic() || (i > 0 && word(b[i - 1]) && !flag_start) {
@@ -425,13 +412,20 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         while i < b.len() && word(b[i]) {
             i += 1;
         }
+        while contexts.last().is_some_and(|c| c.0 <= start) {
+            contexts.pop();
+        }
+        let (scope_end, credential, public) =
+            contexts
+                .last()
+                .copied()
+                .unwrap_or((b.len(), false, inherited));
         let name = &view.text[start..i];
         let is_secret = sensitive(name)
-            || name.eq_ignore_ascii_case("key")
-                && start >= public_until
-                && contextual_key(view, start);
+            || name.eq_ignore_ascii_case("key") && start >= public_until && credential && !public;
         let is_public = public_context(name);
-        if !is_secret && !is_public {
+        let is_credential = credential_context(name);
+        if !is_secret && !is_public && !is_credential {
             continue;
         }
         let mut sep = i;
@@ -521,6 +515,28 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             && b[line_start..value]
                 .iter()
                 .all(|c| matches!(c, b' ' | b'\t'));
+        let block_mapping = yaml_indented
+            && b[after_sep..view.line_end(after_sep)]
+                .iter()
+                .all(u8::is_ascii_whitespace);
+        if (is_credential || is_public) && (matches!(b[value], b'{' | b'[') || block_mapping) {
+            let end = if block_mapping {
+                view.indentation_end(start)
+            } else {
+                view.container_end(value)
+            };
+            contexts.push((
+                end.min(scope_end).min(view.enclosing_end(value)),
+                credential || is_credential,
+                public || is_public,
+            ));
+            if !is_secret || is_public {
+                continue;
+            }
+        }
+        if !is_secret && !is_public {
+            continue;
+        }
         // Empty env/header assignments end at their physical line. Continue
         // across it only for explicit literals, quoted JSON keys, inherited
         // public values or an indented YAML value; never consume the next env key.
@@ -599,7 +615,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 .replace(['_', '-'], "")
                 .eq_ignore_ascii_case("sessionid")
                 && uuid(raw)
-            || !quoted && prose(&view.text[value..line_end(view, value)])
+            || !quoted
+                && prose(&view.text[value..line_end(view, value)])
+                && (!yaml || documentation_prose(&view.text[value..line_end(view, value)]))
             || header && authorization_reference(raw)
             || quoted && b[value] == b'`' && raw.contains("${")
         {
@@ -719,6 +737,7 @@ pub(crate) fn reference(value: &str) -> bool {
             "null",
             "undefined",
             "None",
+            "none",
         ]
         .contains(&placeholder)
         || placeholder.strip_prefix("YOUR_").is_some_and(|s| {

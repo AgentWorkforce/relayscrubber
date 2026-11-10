@@ -64,8 +64,8 @@ jobs:
           cargo run --release --locked --example wasm_vectors > "$HOME/scrubber-eval/wasm-vectors.json"
           cargo build --release --locked --example scrub_lines
           python3 scripts/check-frozen-witnesses.py target/release/examples/scrub_lines target/release/examples/scrub_lines "$HOME/scrubber-eval/wasm-vectors.json"
-      - run: node --test js/test/wasm.test.mjs
-      - run: bun test js/test/wasm.test.mjs
+      - run: node --test js/test/*.test.mjs
+      - run: bun test js/test/*.test.mjs
       - run: bash scripts/check-reproducible.sh
       - run: bash scripts/test-workers.sh
         env:

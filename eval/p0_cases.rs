@@ -33,6 +33,11 @@ pub fn containers() -> Vec<(String, String)> {
     let mut cases = Vec::new();
     for distance in [0, 511, 512, 513, 4096, 1024 * 1024] {
         let pad = "x".repeat(distance);
+        // Exact gap from the opening brace to the key (in addition to fields).
+        for open in ["aws={", "aws = {", "\"aws\": {"] {
+            let input = format!("{open}{}key:SYNTH_ALPHA}}", " ".repeat(distance));
+            cases.push((input.clone(), input.replace("SYNTH_ALPHA", "[REDACTED]")));
+        }
         for nested in [false, true] {
             for (open, filler, key, close) in [
                 (

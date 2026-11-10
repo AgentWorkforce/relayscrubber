@@ -14,6 +14,7 @@ pub(crate) struct View {
     containers: Vec<(usize, usize)>,
     line_keys: Vec<usize>,
     line_ends: Vec<usize>,
+    indented: Vec<(usize, usize)>,
 }
 
 fn hex(b: u8) -> Option<u8> {
@@ -161,6 +162,11 @@ impl View {
             .binary_search_by_key(&position, |c| c.0)
             .map_or(self.text.len(), |n| self.containers[n].1)
     }
+    pub fn indentation_end(&self, position: usize) -> usize {
+        self.indented
+            .binary_search_by_key(&position, |c| c.0)
+            .map_or(position, |n| self.indented[n].1)
+    }
     pub fn line_key(&self, position: usize) -> bool {
         self.line_keys.binary_search(&position).is_ok()
     }
@@ -298,6 +304,31 @@ impl View {
             }
             position += 1;
         }
+        // Resolve indentation extents once. Each line enters/leaves the stack
+        // once; repeated keys never rescan an arbitrarily large YAML prefix.
+        let mut indented: Vec<(usize, usize)> = Vec::new();
+        let mut stack: Vec<(usize, usize)> = Vec::new();
+        let mut line = 0;
+        for &key in &line_keys {
+            if b[key] == b'#' {
+                continue;
+            }
+            while line < line_ends.len() && line_ends[line] < key {
+                line += 1;
+            }
+            let start = if line == 0 {
+                0
+            } else {
+                line_ends[line - 1] + 1
+            };
+            let indent = key - start;
+            while stack.last().is_some_and(|&(_, depth)| depth >= indent) {
+                let (index, _) = stack.pop().expect("indentation stack");
+                indented[index].1 = start;
+            }
+            stack.push((indented.len(), indent));
+            indented.push((key, b.len()));
+        }
         Self {
             text,
             changes,
@@ -306,6 +337,7 @@ impl View {
             containers,
             line_keys,
             line_ends,
+            indented,
         }
     }
 }

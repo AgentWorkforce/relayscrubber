@@ -24,6 +24,10 @@ test('P0 explicit YAML lowercase prose preserves only syntax and later fields', 
 test('P0 credential container context survives distance, nesting and scope exits', () => {
   for (const distance of [0,511,512,513,4096,1024*1024]) {
     const pad = 'x'.repeat(distance);
+    for (const open of ['aws={','aws = {','"aws": {']) {
+      const input = open + ' '.repeat(distance) + 'key:SYNTH_ALPHA}';
+      check(input,input.replace('SYNTH_ALPHA','[REDACTED]'));
+    }
     for (const nested of [false,true]) {
       for (const [open,filler,key,close] of [
         ['aws: \n',`  filler: ${pad}\n`, '  key: SYNTH_ALPHA','\nnext: unchanged'],
