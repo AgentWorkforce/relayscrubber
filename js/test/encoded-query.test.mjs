@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 import {loadScrubber} from '../index.js';
 const artifact=JSON.parse(readFileSync(new URL('../generated/artifact.json',import.meta.url)));
 const s=await loadScrubber({bytes:new Uint8Array(readFileSync(new URL('../generated/relayscrubber_bg.wasm',import.meta.url))),expectedManifest:artifact.manifest,expectedWasmSha256:artifact.files['relayscrubber_bg.wasm']});
-for (const family of ['entity']) {
+for (const family of ['entity', 'percent']) {
  const cases=JSON.parse(readFileSync(new URL(`../../eval/${family}_query_cases.json`,import.meta.url)));
  test(`${family} query all APIs`,()=>{
   const failures=[];

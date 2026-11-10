@@ -63,6 +63,8 @@ fn main() {
         include_str!("../eval/complete_cases.json"),
         include_str!("../eval/precision_10_1_cases.json"),
         include_str!("../eval/query_recovery_cases.json"),
+        include_str!("../eval/entity_query_cases.json"),
+        include_str!("../eval/percent_query_cases.json"),
     ] {
         let structural: serde_json::Value = serde_json::from_str(
             &source

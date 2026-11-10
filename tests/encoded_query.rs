@@ -29,3 +29,8 @@ fn check(source: &str) {
 fn entity_query_all_apis() {
     check(include_str!("../eval/entity_query_cases.json"));
 }
+
+#[test]
+fn percent_query_all_apis() {
+    check(include_str!("../eval/percent_query_cases.json"));
+}
