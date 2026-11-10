@@ -439,13 +439,12 @@ fn candidate_end(view: &View, value: usize) -> Option<usize> {
     let line = view.line_end(value).min(view.enclosing_end(value));
     let limit = line.min(value.saturating_add(512));
     let outer = matches!(b.get(value), Some(b'"' | b'\'' | b'`')).then_some(b[value]);
-    let outer_end = outer.map(|_| view.quote_end(value));
-    let mut nested_outer_quote = false;
+    let mut outer_end = outer.map(|_| view.quote_end(value));
     let mut i = value + usize::from(outer.is_some());
     let mut stack = Vec::new();
     while i < limit {
         let ch = b[i];
-        if stack.is_empty() && outer == Some(ch) && (outer_end == Some(i) || nested_outer_quote) {
+        if stack.is_empty() && outer == Some(ch) && outer_end == Some(i) {
             return Some(i + 1);
         }
         if outer.is_none() && stack.is_empty() && matches!(ch, b',' | b';' | b'}' | b']' | b')') {
@@ -456,7 +455,12 @@ fn candidate_end(view: &View, value: usize) -> Option<usize> {
             if end >= limit {
                 return None;
             }
-            nested_outer_quote |= outer_end == Some(i);
+            if outer_end == Some(i) {
+                // An inner shell quote shares the outer quote's spelling.
+                // Follow the same-spelling chain past its close; never accept
+                // a different encoded quote as the outer value's delimiter.
+                outer_end = Some(view.quote_end(end));
+            }
             i = end + 1;
             continue;
         }
@@ -1138,10 +1142,11 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         }
         // Failed structural candidates redact through their complete delimiter,
         // including opaque tails and literals inside calls/substitutions.
-        let failed_reference = !quoted
-            && (declaration
-                || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
-                || raw.contains(['(', '.']));
+        let failed_reference = raw.starts_with('$')
+            || !quoted
+                && (declaration
+                    || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
+                    || raw.contains(['(', '.']));
         if full.is_some_and(opaque_material) || failed_reference {
             let limit = complete_end.map_or_else(
                 || view.line_end(value).min(view.enclosing_end(value)),
