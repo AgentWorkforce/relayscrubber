@@ -13,7 +13,7 @@
     "redactionToken": "[REDACTED]"
   },
   "files": {
-    "relayscrubber_bg.wasm": "dac9232fb560028a901adf0ba349ee83b9d6cfe96e5600f80afc69d3ae012584",
+    "relayscrubber_bg.wasm": "90f256afd8cf3c44469d0cc4b9096455e83e8fea0018192f5c8f51bd259b9ef4",
     "relayscrubber.js": "4d9c909387697c91c0f4365d9613dbeeee1bca5bc079ee62390c5756ead1483b",
     "relayscrubber.d.ts": "ee56e82e5ddfc357760b16da7c9a746fc1a7fa0536e2ef376c237c414f9d269c",
     "relayscrubber_bg.wasm.d.ts": "f968e6b144832df606023af633e39822b6700177835afe0841aa20944bbf7daf"

@@ -1,7 +1,7 @@
 # Candidate evaluation results
 
 Frozen rules source: `150fa281818eb923592905c471029ee58f34acda0acb06d008ad2eeb07c1d0ec`.
-WASM: `dac9232fb560028a901adf0ba349ee83b9d6cfe96e5600f80afc69d3ae012584` (1,565,694 bytes).
+WASM: `90f256afd8cf3c44469d0cc4b9096455e83e8fea0018192f5c8f51bd259b9ef4` (1,562,922 bytes).
 
 Candidate 10 is not approved for adoption. Ruleset reservation and independent
 relayscrubber-lead exact-commit PASS are pending. Veto host-assisted review passed

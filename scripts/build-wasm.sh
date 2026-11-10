@@ -7,7 +7,9 @@ if [[ "$(wasm-bindgen --version)" != "wasm-bindgen 0.2.104" ]]; then
   exit 1
 fi
 export CARGO_TARGET_DIR="${RELAY_SCRUB_TARGET_DIR:-target/wasm-build}"
-export RUSTFLAGS="--remap-path-prefix=$PWD=/relayscrubber"
+unset RUSTFLAGS
+# Include dependency/toolchain caches, and preserve paths containing spaces.
+export CARGO_ENCODED_RUSTFLAGS="--remap-path-prefix=$PWD=/relayscrubber"$'\x1f'"--remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo"$'\x1f'"--remap-path-prefix=${RUSTUP_HOME:-$HOME/.rustup}=/rustup"
 cargo build --locked --release --target wasm32-unknown-unknown --features wasm
 mkdir -p js/generated
 wasm-bindgen "$CARGO_TARGET_DIR/wasm32-unknown-unknown/release/relayscrubber.wasm" --target web --out-dir js/generated --out-name relayscrubber
