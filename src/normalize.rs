@@ -39,7 +39,10 @@ fn unicode(b: &[u8], i: usize) -> Option<(u8, usize)> {
 }
 
 fn percent(b: &[u8], start: usize) -> Option<(u8, usize)> {
-    let mut p = start + 1;
+    percent_tail(b, start + 1)
+}
+
+fn percent_tail(b: &[u8], mut p: usize) -> Option<(u8, usize)> {
     while b
         .get(p..p + 2)
         .is_some_and(|s| s.eq_ignore_ascii_case(b"25"))
@@ -108,6 +111,98 @@ fn decoded(b: &[u8], start: usize) -> (u8, usize, u8) {
     }
 }
 
+// HTML attribute recognition only. Optional-semicolon numeric punctuation
+// accepts conservative prefixes even before hex-looking key/value material.
+// The tokenizer consumes every layer once, retaining the original source span.
+fn html_entity(b: &[u8], start: usize) -> Option<(u8, usize)> {
+    if b.get(start) != Some(&b'#') {
+        for (name, ch) in [
+            ("amp", b'&'),
+            ("colon", b':'),
+            ("sol", b'/'),
+            ("quest", b'?'),
+            ("equals", b'='),
+            ("percnt", b'%'),
+            ("lowbar", b'_'),
+            ("UnderBar", b'_'),
+            ("hyphen", b'-'),
+            ("dash", b'-'),
+            ("period", b'.'),
+            ("num", b'#'),
+            ("commat", b'@'),
+            ("quot", b'"'),
+            ("apos", b'\''),
+        ] {
+            let end = start + name.len();
+            if b.get(start..end)
+                .is_some_and(|s| s.eq_ignore_ascii_case(name.as_bytes()))
+                && (ch == b'&' || b.get(end) == Some(&b';'))
+            {
+                return Some((ch, end + usize::from(b.get(end) == Some(&b';'))));
+            }
+        }
+        return None;
+    }
+    let mut p = start + 1;
+    let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
+    if hexadecimal {
+        p += 1;
+    }
+    let first = p;
+    while b.get(p) == Some(&b'0') {
+        p += 1;
+    }
+    for (decimal, hexadecimal_digits, ch) in [
+        (b"58", b"3a", b':'),
+        (b"47", b"2f", b'/'),
+        (b"63", b"3f", b'?'),
+        (b"38", b"26", b'&'),
+        (b"61", b"3d", b'='),
+    ] {
+        let digits = if hexadecimal {
+            hexadecimal_digits
+        } else {
+            decimal
+        };
+        if b.get(p..p + 2)
+            .is_some_and(|s| s.eq_ignore_ascii_case(digits))
+        {
+            p += 2;
+            return Some((ch, p + usize::from(b.get(p) == Some(&b';'))));
+        }
+    }
+    let mut value = 0u32;
+    while let Some(digit) = b
+        .get(p)
+        .and_then(|ch| char::from(*ch).to_digit(if hexadecimal { 16 } else { 10 }))
+    {
+        value = value
+            .saturating_mul(if hexadecimal { 16 } else { 10 })
+            .saturating_add(digit);
+        p += 1;
+    }
+    (p > first && value < 128).then_some((value as u8, p + usize::from(b.get(p) == Some(&b';'))))
+}
+
+fn html_decoded(b: &[u8], start: usize) -> (u8, usize, u8) {
+    let mut ch = b[start];
+    let mut end = start + 1;
+    loop {
+        let next = match ch {
+            b'&' => html_entity(b, end),
+            b'%' => percent_tail(b, end),
+            _ => None,
+        };
+        match next {
+            Some((value, p)) if value.is_ascii() => {
+                ch = value;
+                end = p;
+            }
+            _ => return (ch, end, u8::from(end > start + 1)),
+        }
+    }
+}
+
 impl View {
     pub fn line_start(&self, position: usize) -> usize {
         let n = self.line_ends.partition_point(|&end| end < position);
@@ -172,13 +267,25 @@ impl View {
     }
 
     pub fn new(input: &str) -> Self {
+        Self::build(input, false)
+    }
+
+    pub fn html_url(input: &str) -> Self {
+        Self::build(input, true)
+    }
+
+    fn build(input: &str, html: bool) -> Self {
         let source = input.as_bytes();
         let mut bytes = Vec::with_capacity(source.len());
         let mut changes = Vec::new();
         let mut tags = Vec::new();
         let mut i = 0;
         while i < source.len() {
-            let (ch, end, style) = decoded(source, i);
+            let (ch, end, style) = if html {
+                html_decoded(source, i)
+            } else {
+                decoded(source, i)
+            };
             if style == 255 {
                 bytes.extend_from_slice(&source[i..end]);
                 i = end;
@@ -244,6 +351,20 @@ impl View {
                     quotes[n].1 = end;
                 }
             }
+        }
+        // URL recognition uses only source offsets, quotes and line ends.
+        // Attribute-local views do not need assignment/container indexes.
+        if html {
+            return Self {
+                text,
+                changes,
+                quotes,
+                line_ends,
+                scopes: Vec::new(),
+                containers: Vec::new(),
+                line_keys: Vec::new(),
+                indented: Vec::new(),
+            };
         }
         let mut scopes = Vec::new();
         let mut stack = Vec::new();

@@ -2034,6 +2034,65 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     recover_query_parameters(view, recovery_start, b.len(), spans);
 }
 
+// Scan each disjoint HTML attribute value once. A separate recognition view
+// decodes all URL punctuation together, then maps only the selected credential
+// ranges back through the ordinary view. Surrounding HTML is never re-encoded.
+fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    let mut in_tag = false;
+    // Repeated adjacent attribute values share relative matches. Keep only
+    // one borrowed spelling and its ranges, with no unbounded cache growth.
+    let mut previous = "";
+    let mut matches = Vec::new();
+    while cursor < b.len() {
+        match b[cursor] {
+            b'<' if b
+                .get(cursor + 1)
+                .is_some_and(|ch| ch.is_ascii_alphabetic() || *ch == b'/') =>
+            {
+                in_tag = true
+            }
+            b'>' => in_tag = false,
+            b'=' if in_tag => {
+                cursor = skip_space(b, cursor + 1);
+                if cursor >= b.len() {
+                    break;
+                }
+                let quoted = matches!(b[cursor], b'"' | b'\'' | b'`');
+                let start = cursor + usize::from(quoted);
+                let end = if quoted {
+                    view.quote_end(cursor)
+                } else {
+                    let mut end = cursor;
+                    while end < b.len() && !b[end].is_ascii_whitespace() && b[end] != b'>' {
+                        end += 1;
+                    }
+                    end
+                };
+                let value = &view.text[start..end];
+                if value.contains('&') {
+                    if value != previous {
+                        let html = View::html_url(value);
+                        let mut local = Vec::new();
+                        urls(&html, &mut local);
+                        matches = local
+                            .into_iter()
+                            .map(|r| html.source_start(r.start)..html.source_end(r.end - 1))
+                            .collect::<Vec<_>>();
+                        previous = value;
+                    }
+                    spans.extend(matches.iter().map(|r| start + r.start..start + r.end));
+                }
+                cursor = end + usize::from(quoted && end < b.len());
+                continue;
+            }
+            _ => {}
+        }
+        cursor += 1;
+    }
+}
+
 fn pii_regex() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| Regex::new(r"(?-u:\b)[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]+\.[A-Za-z]{2,24}(?-u:\b)|(?-u:\b)[0-9]{3}-[0-9]{2}-[0-9]{4}(?-u:\b)").expect("fixed PII regex"))
@@ -2166,6 +2225,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     credential_prose(&view, &mut spans);
     let mut url_values = Vec::new();
     urls(&view, &mut url_values);
+    html_attribute_urls(&view, &mut url_values);
     url_values.sort_unstable_by_key(|span| (span.start, span.end));
     assignments(&view, inherited, &mut spans, &url_values);
     spans.extend(url_values);
