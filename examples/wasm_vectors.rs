@@ -40,6 +40,24 @@ fn main() {
         let input = case[1].as_str().unwrap();
         text.push(serde_json::json!({"input":input,"output":relayscrubber::scrub_text(input)}));
     }
+    let sessions: serde_json::Value = serde_json::from_str(
+        &include_str!("../eval/session_cases.json")
+            .replace("STRIPE_LIVE_PREFIX_", &["sk", "_live_"].concat()),
+    )
+    .unwrap();
+    for inputs in sessions["benign"].as_object().unwrap().values() {
+        for input in inputs.as_array().unwrap() {
+            let input = input.as_str().unwrap();
+            assert_eq!(relayscrubber::scrub_text(input), input);
+            text.push(serde_json::json!({"input":input,"output":input}));
+        }
+    }
+    for case in sessions["positive"].as_array().unwrap() {
+        let input = case[0].as_str().unwrap();
+        let output = relayscrubber::scrub_text(input);
+        assert!(!output.contains(case[1].as_str().unwrap()));
+        text.push(serde_json::json!({"input":input,"output":output}));
+    }
     let structured: Vec<_> = text.iter().map(|case| {
         let value = serde_json::json!({"text":case["input"]});
         let json = relayscrubber::scrub_json(&value).0;

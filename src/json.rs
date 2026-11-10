@@ -68,6 +68,8 @@ fn visit(
                 };
                 let clean = if (engine::sensitive(key)
                     || credential && !public && key.eq_ignore_ascii_case("key"))
+                    && !(matches!(key.to_ascii_lowercase().as_str(), "auth" | "authentication")
+                        && item.is_object())
                     && **item != Value::String(REDACTION_TOKEN.into())
                     && **item != Value::String(String::new())
                     && !item.is_boolean()

@@ -52,6 +52,8 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "secretref",
         "secretname",
         "credentialsfile",
+        "credentialssecret",
+        "credentialsecret",
         "credentialspath",
     ]
     .contains(&n.as_str())
@@ -214,9 +216,10 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
 
 fn indented_end(view: &View, value: usize, key_indent: usize) -> usize {
     let b = view.text.as_bytes();
-    let mut end = view.line_end(value);
-    while end < b.len() {
-        let mut next = end;
+    let mut cursor = view.line_end(value);
+    let mut end = cursor;
+    while cursor < b.len() {
+        let mut next = cursor;
         if b[next] == b'\r' {
             next += 1;
         }
@@ -224,17 +227,20 @@ fn indented_end(view: &View, value: usize, key_indent: usize) -> usize {
             next += 1;
         }
         if next >= b.len() {
-            return next;
+            break;
         }
         let line_end = view.line_end(next);
         let mut content = next;
         while content < line_end && matches!(b[content], b' ' | b'\t') {
             content += 1;
         }
-        if content < line_end && content - next <= key_indent {
-            break;
+        if content < line_end {
+            if content - next <= key_indent {
+                break;
+            }
+            end = line_end;
         }
-        end = line_end;
+        cursor = line_end;
     }
     end
 }
@@ -362,6 +368,13 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     {
         return true;
     }
+    if colon
+        && ((rest.starts_with("match ") && rest.contains("=>"))
+            || rest.starts_with("async ") && rest.contains("=>")
+            || rest.starts_with("function("))
+    {
+        return true;
+    }
     if declaration || colon {
         let head = atom.split('(').next().unwrap_or(atom).trim();
         if rest.as_bytes().get(head.len()) == Some(&b'(')
@@ -389,7 +402,7 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     }
     static GENERIC_TYPE: OnceLock<Regex> = OnceLock::new();
     let generic_type = GENERIC_TYPE.get_or_init(|| {
-        Regex::new(r"^(?:[A-Za-z_][A-Za-z0-9_]*::)*[A-Z][A-Za-z0-9_]*<")
+        Regex::new(r"^(?:[A-Za-z_][A-Za-z0-9_]*(?:::|\.))*[A-Z][A-Za-z0-9_]*<")
             .expect("fixed generic type syntax")
     });
     colon
@@ -492,6 +505,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             continue;
         }
         let arrow = b.get(sep..sep + 2) == Some(b"->");
+        if b.get(sep..sep + 2) == Some(b"::") {
+            continue;
+        }
         if !(has_sep || arrow || flag && sep > i) {
             continue;
         }
@@ -518,7 +534,8 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         let quoted = matches!(b[value], b'"' | b'\'' | b'`');
         let line_start = view.line_start(value);
         let crossed_line = line_start > after_sep;
-        let yaml = b.get(sep) == Some(&b':') && view.line_key(start);
+        let yaml = b.get(sep) == Some(&b':')
+            && (view.line_key(start) || quoted_key && start > 0 && view.line_key(start - 1));
         let key_indent = start - view.line_start(start);
         let yaml_indented = yaml
             && crossed_line
@@ -541,7 +558,15 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 credential || is_credential,
                 public || is_public,
             ));
-            if !is_secret || is_public {
+            // Authentication config objects expose scheme/audience/enabled;
+            // keep scanning their explicit credential fields and scoped keys.
+            if !is_secret
+                || is_public
+                || (matches!(
+                    name.to_ascii_lowercase().as_str(),
+                    "auth" | "authentication"
+                ) && (b[value] == b'{' || block_mapping))
+            {
                 continue;
             }
         }
@@ -597,7 +622,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             continue;
         }
         let mut end = if header && !quoted {
-            line_end(view, value)
+            line_end(view, value).min(view.enclosing_end(value))
         } else {
             value_end(view, value, context)
         };
@@ -620,15 +645,24 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         {
             continue;
         }
-        if reference(symbolic_atom(raw))
+        let line_value =
+            &view.text[content..line_end(view, content).min(view.enclosing_end(content))];
+        if field_reference(name, raw)
+            || regex_value(view, start, raw)
+            || labeled_toy(view, start, raw)
+            || excerpt_value(view, start, raw)
+            || (lowercase_prose(if quoted { raw } else { line_value })
+                && !view.config_document(start))
+            || reference(symbolic_atom(raw))
             || shell_reference(raw)
             || name
                 .replace(['_', '-'], "")
                 .eq_ignore_ascii_case("sessionid")
-                && uuid(raw)
+                && session_identifier(raw)
             || !quoted
                 && prose(&view.text[value..line_end(view, value)])
-                && (!yaml || documentation_prose(name, &view.text[value..line_end(view, value)]))
+                && (!view.config_document(start)
+                    || documentation_prose(name, &view.text[value..line_end(view, value)]))
             || header && authorization_reference(raw)
             || quoted && b[value] == b'`' && raw.contains("${")
         {
@@ -654,6 +688,92 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
     }
 }
 
+fn marker_reference(value: &str) -> bool {
+    value.strip_prefix(REDACTION_TOKEN).is_some_and(|rest| {
+        rest.is_empty()
+            || rest.starts_with(char::is_whitespace)
+                && rest.bytes().all(|b| {
+                    b.is_ascii_lowercase() || b.is_ascii_whitespace() || b"().,;-".contains(&b)
+                })
+    })
+}
+
+fn lowercase_prose(value: &str) -> bool {
+    value.len() <= 512
+        && value.split_whitespace().count() >= 2
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace() || b".,;()-".contains(&b))
+}
+
+fn regex_value(view: &View, position: usize, value: &str) -> bool {
+    let prefix = bounded_prefix(view, position);
+    (prefix.contains("rg ") || prefix.contains("grep ") || prefix.contains("= /"))
+        && (value.starts_with("\\s") || value.starts_with(".*") || value.starts_with("[A-Z]"))
+}
+
+fn bounded_prefix(view: &View, position: usize) -> &str {
+    let mut start = view.line_start(position).max(position.saturating_sub(512));
+    while !view.text.is_char_boundary(start) {
+        start += 1;
+    }
+    &view.text[start..position]
+}
+
+fn labeled_toy(view: &View, position: usize, value: &str) -> bool {
+    let prefix = bounded_prefix(view, position);
+    let lower = prefix.to_ascii_lowercase();
+    let labeled = [
+        "synthetic fixture:",
+        "toy example:",
+        "test fixture:",
+        "test_vector",
+        "synthetic_fixture",
+    ]
+    .iter()
+    .any(|label| lower.contains(label));
+    labeled
+        && value.len() <= 64
+        && ["toy", "fixture", "test"]
+            .iter()
+            .any(|p| value.to_ascii_lowercase().starts_with(p))
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+}
+
+fn excerpt_value(view: &View, position: usize, value: &str) -> bool {
+    let prefix = bounded_prefix(view, position);
+    prefix.to_ascii_lowercase().contains("excerpt")
+        && value.len() <= 32
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace())
+}
+
+fn session_identifier(value: &str) -> bool {
+    uuid(value)
+        || (!value.is_empty()
+            && value.len() <= 32
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+            && value.bytes().any(|b| b.is_ascii_lowercase()))
+        || ["exec-", "call_", "toolu_"].iter().any(|p| {
+            value.strip_prefix(p).is_some_and(|s| {
+                !s.is_empty()
+                    && s.len() <= 48
+                    && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+            })
+        })
+}
+
+fn environment_reference(value: &str) -> bool {
+    value
+        .strip_prefix("process.env.")
+        .is_some_and(|s| !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+}
+
 fn authorization_reference(value: &str) -> bool {
     let value = value.trim();
     let end = value.find(char::is_whitespace).unwrap_or(value.len());
@@ -661,7 +781,12 @@ fn authorization_reference(value: &str) -> bool {
         return false;
     }
     let rest = value[end..].trim();
-    rest.is_empty() || reference(rest) || shell_reference(rest)
+    let rest = rest.trim_end_matches(['"', '\'', '`']);
+    rest.is_empty()
+        || marker_reference(rest)
+        || reference(rest)
+        || shell_reference(rest)
+        || environment_reference(rest)
 }
 
 fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
@@ -783,11 +908,13 @@ pub(crate) fn reference(value: &str) -> bool {
 
 pub(crate) fn field_reference(name: &str, value: &str) -> bool {
     reference(value)
+        || marker_reference(value)
         || shell_reference(value)
+        || environment_reference(value)
         || name
             .replace(['_', '-'], "")
             .eq_ignore_ascii_case("sessionid")
-            && uuid(value)
+            && session_identifier(value)
         || matches!(
             name.to_ascii_lowercase().as_str(),
             "authorization" | "proxy-authorization"
@@ -835,9 +962,8 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                 {
                     spans.push(colon + 1..at);
                 }
-            } else if &view.text[authority..at] != "git" {
-                spans.push(authority..at);
             }
+            // A URL username without a password is public userinfo.
         }
     }
     let mut cursor = 0;
@@ -871,9 +997,8 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                 {
                     spans.push(colon + 1..at);
                 }
-            } else if &view.text[authority..at] != "git" {
-                spans.push(authority..at);
             }
+            // A URL username without a password is public userinfo.
         }
         if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?' && view.literal(i)) {
             let mut start = query + 1;
@@ -996,7 +1121,10 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     jwts(&view, &mut spans);
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
-        if !reference(token.as_str()) {
+        if !reference(token.as_str())
+            && !environment_reference(token.as_str())
+            && !labeled_toy(&view, token.start(), token.as_str())
+        {
             spans.push(token.range());
         }
     }

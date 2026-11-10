@@ -14,6 +14,7 @@ pub(crate) struct View {
     containers: Vec<(usize, usize)>,
     line_keys: Vec<usize>,
     line_ends: Vec<usize>,
+    config_keys: Vec<usize>,
     indented: Vec<(usize, usize)>,
 }
 
@@ -169,6 +170,10 @@ impl View {
     }
     pub fn line_key(&self, position: usize) -> bool {
         self.line_keys.binary_search(&position).is_ok()
+    }
+
+    pub fn config_document(&self, position: usize) -> bool {
+        self.config_keys.binary_search(&position).is_ok()
     }
 
     pub fn new(input: &str) -> Self {
@@ -329,6 +334,82 @@ impl View {
             stack.push((indented.len(), indent));
             indented.push((key, b.len()));
         }
+        // Classify document context once, independently of credential values.
+        // Adjacent mapping fields (or an enclosing mapping) and explicit file
+        // markers/fences establish config; isolated chat lines do not.
+        let mut lines = Vec::new();
+        let mut offset = 0;
+        let mut explicit = false;
+        for line in text.split_inclusive('\n') {
+            let trimmed = line.trim();
+            let lower = trimmed.to_ascii_lowercase();
+            if lower.starts_with("```") {
+                explicit = matches!(
+                    lower.trim_start_matches('`'),
+                    "yaml" | "yml" | "toml" | "env" | ".env"
+                );
+            } else if (lower.starts_with('#') || lower.starts_with("file:"))
+                && [".yaml", ".yml", ".toml", ".env"]
+                    .iter()
+                    .any(|ext| lower.ends_with(ext))
+            {
+                explicit = true;
+            }
+            let indent = line.len() - line.trim_start().len();
+            let quoted = trimmed.starts_with(['"', '\'']);
+            let head = if quoted { &trimmed[1..] } else { trimmed };
+            let key_end = head
+                .bytes()
+                .position(|b| !b.is_ascii_alphanumeric() && b != b'_' && b != b'-')
+                .unwrap_or(head.len());
+            let tail = &head[key_end..];
+            let tail = if quoted {
+                tail.strip_prefix(&trimmed[..1]).unwrap_or(tail)
+            } else {
+                tail
+            };
+            let after = tail.trim_start();
+            let mapping = key_end > 0
+                && (after.starts_with(':') && !after.starts_with("::") || after.starts_with('='));
+            let boundary = !mapping && !trimmed.is_empty() && !trimmed.starts_with('#');
+            lines.push((
+                offset + indent + usize::from(quoted),
+                indent,
+                mapping,
+                explicit,
+                after == ":",
+                boundary,
+            ));
+            offset += line.len();
+        }
+        let mut config_keys = Vec::new();
+        let mut section = 0;
+        while section < lines.len() {
+            let end = (section..lines.len())
+                .find(|&n| lines[n].5)
+                .unwrap_or(lines.len());
+            let mut counts = std::collections::BTreeMap::<usize, usize>::new();
+            for &(_, indent, mapping, _, _, _) in &lines[section..end] {
+                if mapping {
+                    *counts.entry(indent).or_default() += 1;
+                }
+            }
+            let mut parent = None;
+            for &(key, indent, mapping, explicit, block, _) in &lines[section..end] {
+                if mapping {
+                    if explicit || counts[&indent] > 1 || parent.is_some_and(|depth| depth < indent)
+                    {
+                        config_keys.push(key);
+                    }
+                    if block {
+                        parent = Some(indent);
+                    } else if parent.is_some_and(|depth| depth >= indent) {
+                        parent = None;
+                    }
+                }
+            }
+            section = end.saturating_add(1);
+        }
         Self {
             text,
             changes,
@@ -337,6 +418,7 @@ impl View {
             containers,
             line_keys,
             line_ends,
+            config_keys,
             indented,
         }
     }
