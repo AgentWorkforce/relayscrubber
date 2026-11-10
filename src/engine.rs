@@ -2063,6 +2063,9 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
 // Protocol-relative authorities also occur outside HTML. Consume each authority
 // once, stopping before paths/queries so a later // cannot repeat its suffix.
 fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
+    if !view.text.contains('@') {
+        return;
+    }
     let b = view.text.as_bytes();
     let mut cursor = 0;
     while cursor + 1 < b.len() {
@@ -2671,7 +2674,7 @@ fn source_url_components(
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) {
-    if input.contains('%') {
+    if !view.unchanged() && input.contains('%') {
         source_url_regions(input, view, view, &[], true, spans, guards);
     }
     let entity = |text: &str| {
@@ -2704,8 +2707,12 @@ fn source_url_components(
                 })
         })
     };
-    if (view.text.contains('@') || at_entity(input) || at_entity(&view.text))
-        && (entity(input) || entity(&view.text))
+    // A plain query with no entity spelling needs no whole-input authority
+    // recovery. Do not rescan an unchanged view of the same source bytes.
+    let original_entity = entity(input);
+    let decoded_entity = !view.unchanged() && entity(&view.text);
+    if (original_entity || decoded_entity)
+        && (view.text.contains('@') || at_entity(input) || decoded_entity && at_entity(&view.text))
     {
         let mut locators = Vec::new();
         let mut text = input.to_owned();
@@ -2750,6 +2757,9 @@ fn html_attribute_urls(
     components: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) {
+    if !view.text.contains('<') {
+        return;
+    }
     let b = view.text.as_bytes();
     let mut cursor = 0;
     let mut in_tag = false;

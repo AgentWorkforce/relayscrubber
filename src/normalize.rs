@@ -227,6 +227,9 @@ impl View {
         let n = self.line_ends.partition_point(|&end| end < position);
         self.line_ends.get(n).copied().unwrap_or(self.text.len())
     }
+    pub fn unchanged(&self) -> bool {
+        self.changes.is_empty()
+    }
     pub fn literal(&self, position: usize) -> bool {
         self.changes.is_empty()
             || self
@@ -313,11 +316,25 @@ impl View {
 
     fn build(input: &str, mode: Decode) -> Self {
         let source = input.as_bytes();
-        let mut bytes = Vec::with_capacity(source.len());
+        let mut bytes = Vec::new();
         let mut changes = Vec::new();
         let mut tags = Vec::new();
         let mut i = 0;
         while i < source.len() {
+            // Copy ordinary runs in bulk. All decoder starters and quote tags
+            // still take the same single-byte path below, in every view mode.
+            let start = i;
+            while i < source.len()
+                && !matches!(source[i], b'%' | b'\\' | b'&' | b'"' | b'\'' | b'`')
+            {
+                i += 1;
+            }
+            if i > start {
+                if !changes.is_empty() {
+                    bytes.extend_from_slice(&source[start..i]);
+                }
+                continue;
+            }
             // Ordinary bytes require no decoder call or escape-state setup.
             let (ch, end, style) = match (mode, source[i]) {
                 (Decode::Html, b'&' | b'%') => html_decoded(source, i, true),
@@ -330,18 +347,26 @@ impl View {
                 _ => (source[i], i + 1, 0),
             };
             if style == 255 {
-                bytes.extend_from_slice(&source[i..end]);
+                if !changes.is_empty() {
+                    bytes.extend_from_slice(&source[i..end]);
+                }
                 i = end;
                 continue;
             }
             if end > i + 1 {
+                if changes.is_empty() {
+                    bytes.reserve(source.len());
+                    bytes.extend_from_slice(&source[..i]);
+                }
                 changes.push(Change {
                     position: bytes.len(),
                     start: i,
                     end,
                 });
             }
-            bytes.push(ch);
+            if !changes.is_empty() {
+                bytes.push(ch);
+            }
             if matches!(ch, b'"' | b'\'' | b'`') {
                 // Exact spelling/depth matters: e.g. backslash-x22 and three
                 // backslashes plus quote have equal byte length but are not
@@ -357,12 +382,23 @@ impl View {
                 } else {
                     Cow::Borrowed(spelling)
                 };
-                tags.push((bytes.len() - 1, tag));
+                let position = if changes.is_empty() {
+                    i
+                } else {
+                    bytes.len() - 1
+                };
+                tags.push((position, tag));
             }
             i = end;
         }
         // Decoding changes only ASCII. Original UTF-8 sequences survive.
-        let text = String::from_utf8(bytes).expect("normalization preserves UTF-8");
+        // An unchanged input is already valid UTF-8: clone it once instead of
+        // rebuilding and revalidating a potentially admission-sized buffer.
+        let text = if changes.is_empty() {
+            input.to_owned()
+        } else {
+            String::from_utf8(bytes).expect("normalization preserves UTF-8")
+        };
         let b = text.as_bytes();
         let all_literal = changes.is_empty();
         let line_ends: Vec<_> = b
