@@ -532,22 +532,22 @@
     "inventedBenignVariants": 78,
     "positiveControls": 25,
     "structuredCases": 3,
-    "nativeTextVectors": 19357,
-    "nativeStructuredVectors": 19362,
-    "nodeTests": 73,
-    "bunTests": 73,
+    "nativeTextVectors": 19539,
+    "nativeStructuredVectors": 19544,
+    "nodeTests": 79,
+    "bunTests": 79,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199,
     "newSessionBenignCases": 81,
     "newSessionPositiveControls": 36,
-    "nativeTests": 78,
+    "nativeTests": 79,
     "bearerPositiveCases": 43,
     "bearerBenignControls": 9,
     "completeValueCases": 141,
     "numericCredentialCases": 45,
     "ruleset10_1InventedCases": 257,
     "queryRecoveryInventedCases": 371,
-    "querySeparatorPropertyCases": 12330
+    "querySeparatorPropertyCases": 12512
   },
   "frozenWitnesses": {
     "baseExactArchivedOracle": 168,
@@ -580,7 +580,7 @@
     "published": false
   },
   "localChecks": {
-    "nativeAllTargetsAllFeatures": "Rust1.88.0:78 pass",
+    "nativeAllTargetsAllFeatures": "Rust1.88.0:79 pass",
     "clippy": "-D warnings pass",
     "fmt": "pass",
     "cargoPackage": "pass",
@@ -591,17 +591,17 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "ca279857f6a3ebe8a98cbcf39cb560b9e9c938df",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42872959587",
-    "artifactId": 13790258289,
-    "artifactArchiveSha256": "93547e5424f22aa7f741c91fd8442d8c0f3ce59807c78a7ad80e6377ffcd221a",
+    "sourceCommit": "c0d7b2f810886682bcc2f15a8e7e56b412aa65c0",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42874011699",
+    "artifactId": 13790494073,
+    "artifactArchiveSha256": "4001e35c118072d1fc99ee55c9ad3e138f78f8897e81007aca37cdcc4c0d880f",
     "sourceSha256": "766b928da907504e5e9dd5cec73bcdc6b103cbcfc36b95bd2e9117a6180892fa",
     "wasmSha256": "cee91f787580ce1a7f0af43206af889cf22ff93c77e5c3055cafffbf66e4cb4f",
     "wasmBytes": 1717498,
     "packageSha256": "c7cd53a48bcbfa13e36b4091ab04a6ec9093e33b86bdd8e6b6a059b45b74f47f",
     "packageBytes": 574230,
-    "hostedAllRuntimeChecks": "Linux/Windows Rust78 fmt/clippy pass; Node73/Bun73 with fresh19357text+19362structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only stale-pin equality failed; this receipt refreshes it.",
-    "localHostedPackageReplay": "GitHub archive SHA256 verified; package and every source manifest/WASM/glue/declaration/adapter hash verified. Downloaded hosted WASM Node73/Bun73 replay passes separator12330, entity171+percent583, query371+58 and exact16MiB, matrix1186/ruling43/residual19+17, prior257, earlier27, Bearer43+9, complete141+numeric45, tables34+13, frozen199 and fresh19357text+19362structured vectors. Workers pass.",
+    "hostedAllRuntimeChecks": "Linux/Windows Rust78 fmt/clippy and WASM Node73/Bun73, fresh19357text+19362structured, frozen199, admission/resource, reproducibility, Workers, packaging and all pin equality checks green. Follow-up benign acceptance cases require a new terminal-green successor.",
+    "localHostedPackageReplay": "Exact hosted WASM replayed with expanded acceptance fixtures: Node79/Bun79; property12512 including benign188 and all-API long malformed/entity controls; fresh19539text+19544structured vectors, frozen199, and every earlier regression suite pass. Source/WASM/glue/declaration/adapter/package hashes unchanged.",
     "pinEqualityGate": "Final receipt head must reproduce these exact source/WASM/glue/adapter/package digests with ALL Linux/Windows/WASM CI checks green; the implementation run alone is not the final handoff gate."
   },
   "additionalTestOnlyCommit": "408ac1e",
@@ -1358,14 +1358,15 @@
       ],
       "cartesianPositiveCases": 12312,
       "reviewerExactMatrixPositiveCases": 12,
-      "benignByteIdenticalCases": 6,
-      "totalCases": 12330,
+      "benignByteIdenticalCases": 188,
+      "totalCases": 12512,
       "apis": [
         "text",
         "JSON",
         "NDJSON"
       ],
-      "idempotence": "All text outputs, structured JSON outputs and NDJSON bytes checked on a second pass in Rust and Node/Bun."
+      "idempotence": "All text outputs, structured JSON outputs and NDJSON bytes checked on a second pass in Rust and Node/Bun.",
+      "batching": "Six nine-separator batches in Node/Bun retain the existing five-second default per-test timeout; no timing limit increased."
     },
     "scannerAudit": {
       "time": "Recognition cursors only advance. Entire entity atoms are skipped when data; internal semicolons cannot trigger overlapping encoded-key suffix lookahead. Nested layers never recurse, and numeric accumulation saturates without overflow.",
@@ -1385,7 +1386,7 @@
     },
     "privacy": "Invented inputs only. No sampled data, labels or reaudit*-fresh directories opened.",
     "gates": {
-      "nativeRust": "1.88.0; all-targets/all-features/locked78 pass",
+      "nativeRust": "1.88.0; all-targets/all-features/locked79 pass",
       "fmt": "pass",
       "clippy": "-D warnings pass",
       "reviewerMatrixCases": 1186,
@@ -1426,10 +1427,10 @@
         0
       ],
       "encodedQuerySecondPassChanges": 0,
-      "nodeTests": 73,
-      "bunTests": 73,
-      "freshNativeTextVectors": 19357,
-      "freshNativeStructuredVectors": 19362,
+      "nodeTests": 79,
+      "bunTests": 79,
+      "freshNativeTextVectors": 19539,
+      "freshNativeStructuredVectors": 19544,
       "workers": "hosted CI and local hash-verified hosted package pass",
       "independentWasmReproducibility": "hosted CI pass",
       "timingDeadlineSeconds": 10,
@@ -1706,7 +1707,7 @@
       },
       "vetoDiffReview": "pass; deterministic scan plus host reviewer/security/secrets phases",
       "independentPrecision": "Independent real-session re-audit pending; invented inputs are not a measurement of false-positive rates.",
-      "querySeparatorPropertyCases": 12330,
+      "querySeparatorPropertyCases": 12512,
       "querySeparatorPropertyInvalidTextJsonRecords": [
         0,
         0,
@@ -1715,18 +1716,48 @@
       "querySeparatorPropertySecondPassChanges": 0
     },
     "hostedArtifact": {
-      "sourceCommit": "ca279857f6a3ebe8a98cbcf39cb560b9e9c938df",
-      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42872959587",
-      "artifactId": 13790258289,
-      "artifactArchiveSha256": "93547e5424f22aa7f741c91fd8442d8c0f3ce59807c78a7ad80e6377ffcd221a",
+      "sourceCommit": "c0d7b2f810886682bcc2f15a8e7e56b412aa65c0",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42874011699",
+      "artifactId": 13790494073,
+      "artifactArchiveSha256": "4001e35c118072d1fc99ee55c9ad3e138f78f8897e81007aca37cdcc4c0d880f",
       "sourceSha256": "766b928da907504e5e9dd5cec73bcdc6b103cbcfc36b95bd2e9117a6180892fa",
       "wasmSha256": "cee91f787580ce1a7f0af43206af889cf22ff93c77e5c3055cafffbf66e4cb4f",
       "wasmBytes": 1717498,
       "packageSha256": "c7cd53a48bcbfa13e36b4091ab04a6ec9093e33b86bdd8e6b6a059b45b74f47f",
       "packageBytes": 574230,
-      "hostedAllRuntimeChecks": "Linux/Windows Rust78 fmt/clippy pass; Node73/Bun73 with fresh19357text+19362structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only stale-pin equality failed; this receipt refreshes it.",
-      "localHostedPackageReplay": "GitHub archive SHA256 verified; package and every source manifest/WASM/glue/declaration/adapter hash verified. Downloaded hosted WASM Node73/Bun73 replay passes separator12330, entity171+percent583, query371+58 and exact16MiB, matrix1186/ruling43/residual19+17, prior257, earlier27, Bearer43+9, complete141+numeric45, tables34+13, frozen199 and fresh19357text+19362structured vectors. Workers pass.",
+      "hostedAllRuntimeChecks": "Linux/Windows Rust78 fmt/clippy and WASM Node73/Bun73, fresh19357text+19362structured, frozen199, admission/resource, reproducibility, Workers, packaging and all pin equality checks green. Follow-up benign acceptance cases require a new terminal-green successor.",
+      "localHostedPackageReplay": "Exact hosted WASM replayed with expanded acceptance fixtures: Node79/Bun79; property12512 including benign188 and all-API long malformed/entity controls; fresh19539text+19544structured vectors, frozen199, and every earlier regression suite pass. Source/WASM/glue/declaration/adapter/package hashes unchanged.",
       "pinEqualityGate": "Final receipt head must reproduce these exact source/WASM/glue/adapter/package digests with ALL Linux/Windows/WASM CI checks green; the implementation run alone is not the final handoff gate."
+    },
+    "acceptanceFollowup": {
+      "testCommit": "44e2078",
+      "productionChanges": false,
+      "additionalBenignCases": 182,
+      "coverage": "Every separator crossed with non-sensitive sort/page/caption keys (including public64hex values), plus raw and HTML-attribute malformed/non-amp controls including &#39x, &#x2Gsig= and &#;sig=.",
+      "allApiLongControls": [
+        "&#38sort=asc",
+        "&amp;page=2",
+        "&#x26caption=ordinary",
+        "&#39x",
+        "&#x2Gsig=",
+        "&#;sig="
+      ],
+      "longCounts": [
+        2048,
+        16384
+      ],
+      "apis": [
+        "text",
+        "JSON",
+        "NDJSON"
+      ],
+      "secondPassAndOriginalSpelling": "Byte-identical benign outputs and idempotence in all native and hosted WASM APIs.",
+      "native": "Rust1.88 all-targets/all-features79 tests pass; fmt and clippy-Dwarnings pass.",
+      "exactHostedWasm": "Downloaded and archive/package/WASM/glue/declaration/adapter hash-verified artifact13790494073 from exact-head green run42874011699. Full Node79/Bun79 with fresh19539text+19544structured vectors and frozen199 pass.",
+      "pins": "Regenerated from the verified hosted artifact; all source and binary digests remain identical because this follow-up changes only fixtures/tests and receipts.",
+      "timingLimitsChanged": false,
+      "longTimingDeadlineSeconds": 10,
+      "bunDefaultTestTimeoutMilliseconds": 5000
     }
   }
 }

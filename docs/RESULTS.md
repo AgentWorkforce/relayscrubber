@@ -22,8 +22,8 @@ preserve nested generic keys; nested explicit credentials and
 `request_idempotency_key` remain sensitive. The seven earlier review witnesses
 remain exercised with this superseding bare-key policy.
 
-Rust 1.88 all-target/all-feature tests (78), fmt, clippy and crate packaging pass. Node
-and Bun pass 73 tests each, covering native/WASM text and structured byte parity,
+Rust 1.88 all-target/all-feature tests (79), fmt, clippy and crate packaging pass. Node
+and Bun pass 79 tests each, covering native/WASM text and structured byte parity,
 second passes, multibyte 16 MiB text/record admission, 64 MiB stream admission,
 tagged call refusals and poisoned-instance refusal. Independent target-directory
 WASM reproduction and local Workers checks pass. Resource probes remain bounded.
@@ -40,9 +40,10 @@ for the final immutable build links and digests.
 The separator-class repair is recorded in `querySeparatorClassRepair` in the
 behavioral receipt. Test-only commits `ca12fd1` and `db9beeb` precede implementation
 `ca27985`. The generated property crosses 54 separator spellings, 38 sensitive
-keys and six key encodings, plus the reviewer's exact 12-case matrix and six
-benign controls: 12,330 cases over text, JSON and NDJSON with second-pass checks.
-Base `b4f0252` fails 7,548 cases per API; the successor fails zero. Optional
+keys and six key encodings, plus the reviewer's exact 12-case matrix and 188
+benign controls: 12,512 cases over text, JSON and NDJSON with second-pass checks.
+The original 12,330-case base replay on `b4f0252` fails 7,548 cases per API;
+the expanded successor suite fails zero. Optional
 semicolons, arbitrary leading zeros, nested named/numeric/percent layers and
 encoded sensitive keys retain their original spelling around the replaced value.
 Long key/entity/recovery probes pass unchanged ten-second limits on Linux and
@@ -54,3 +55,19 @@ was comparison with the superseded pin. The hosted package was independently
 hash-checked and replayed locally with fresh 19,357 text and 19,362 structured
 vectors and all 199 frozen witnesses. Final handoff requires one immutable
 exact-head ALL-green Linux, Windows and WASM CI run reproducing this pin.
+
+The benign-lookahead acceptance follow-up (`44e2078`) adds 182 controls without
+an engine change. Every separator is crossed with non-sensitive sort/page/caption
+keys, including public hex values. Raw and HTML-attribute controls include
+non-amp and malformed entities such as `&#39x`, `&#x2Gsig=` and `&#;sig=`.
+Six repeated benign/malformed forms at 2,048 and 16,384 copies are checked over
+native and exact hosted WASM text/JSON/NDJSON APIs, preserving source bytes and
+second-pass identity under the existing ten-second long-input limits. Property
+batches retain Bun's existing five-second per-test default.
+
+The acceptance replay uses the [terminal-green hosted artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42874011699),
+whose source/package/WASM/glue/declaration/adapter digests were independently
+verified. Node79/Bun79 pass with fresh 19,539 text and 19,544 structured vectors
+and all frozen witnesses. The regenerated pins are unchanged because only
+fixtures, tests and receipts changed. Handoff requires one terminal-green
+exact-head successor covering these acceptance additions.
