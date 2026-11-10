@@ -1,0 +1,84 @@
+{
+  "benign": [
+    "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+    "password: match option { Some(v) => v, None => return };",
+    "mcp_auth::Signed<Mode>>",
+    "rg 'auth:\\s+' notes.txt",
+    "auth: review deployment options",
+    "Synthetic fixture: api_key=\"toyvalue\"",
+    "credentialsSecret: catalog-access-store",
+    "token=\"[REDACTED] (already removed)\"",
+    "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+    "{\"session_id\":\"build-view\"}",
+    "{\"excerpt\":\"auth: pl\"}",
+    "// Document the scheme as Bearer credentialVariable",
+    "Documentation: https://public-user@code.example.invalid/repo",
+    "Proposed schema: auth = record { issuer, audience }",
+    "test_vector = \"Bearer toyBearerMaterial\";",
+    "\"auth\": \"required for this endpoint\"",
+    "auth: see the section below",
+    "Authorization header is missing",
+    "bearer token handling is described in AUTH.md",
+    "session_id: exec-7f3a2b1c",
+    "\"session_id\": \"call_9d81c2e4a0\"",
+    "tool_use_id=toolu_01ABCDEF"
+  ],
+  "positive": [
+    {
+      "shape": "openai",
+      "input": "OPENAI_PREFIX_A7bC9dE2fG4hJ6kM8nP0qR3sT5uV1wXA7bC9dE2fG4hJ6kM8nP0qR3sT5uV1wX"
+    },
+    {
+      "shape": "github",
+      "input": "GITHUB_PREFIX_A7bC9dE2fG4hJ6kM8nP0qR3sT5uV1wX7yZ9aB2cD4"
+    },
+    {
+      "shape": "aws",
+      "input": "AWS_PREFIX_B7C9D2F4G6H8J0K2"
+    },
+    {
+      "shape": "slack",
+      "input": "SLACK_PREFIX_1234567890-2345678901-AbCdEfGhIjKlMnOpQrStUvWx"
+    },
+    {
+      "shape": "stripe",
+      "input": "STRIPE_PREFIX_A7bC9dE2fG4hJ6kM8nP0qR3s"
+    },
+    {
+      "shape": "password",
+      "input": "password=N7xQ9vL2mP4rT6aB"
+    },
+    {
+      "shape": "api_key",
+      "input": "API_KEY=Y8pR3nL6vQ2mW9zT"
+    },
+    {
+      "shape": "bearer",
+      "input": "Authorization: Bearer M8zR4vK7nP2qW6xA"
+    },
+    {
+      "shape": "url_password",
+      "input": "postgres://audit:N7xQ9vL2mP4rT6aB@db.internal.example/audit"
+    },
+    {
+      "shape": "jwt",
+      "input": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpbnZlbnRlZC1hdWRpdC1maXh0dXJlIn0.aZ7bY8cX9dW0eV1fU2gT3hS4iR5jQ6kP"
+    },
+    {
+      "shape": "pem",
+      "input": "-----BEGIN PRIVATE KEY-----\nQUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=\n-----END PRIVATE KEY-----"
+    },
+    {
+      "shape": "credential_prose",
+      "input": "API key A7bC9dE2fG4hJ6kM8nP0qR3sT5uV1wX"
+    },
+    {
+      "shape": "long_bearer",
+      "input": "Authorization: Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789"
+    },
+    {
+      "shape": "session_cookie",
+      "input": "session_id: SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789"
+    }
+  ]
+}
