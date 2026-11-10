@@ -181,6 +181,24 @@ pub fn recall(seed: u64, rounds: usize) -> Vec<Case> {
             rng.body(128, ALNUM)
         );
         out.push(case("pem", "before\n", &pem, "\nafter"));
+        let mixed = format!(
+            r#"SYNTH_ALPHA_{}\\\" SYNTH_BETA_{}"#,
+            rng.next(),
+            rng.next()
+        );
+        out.push(case(
+            "quote_form_collision_backslash",
+            r"password=\x22",
+            &mixed,
+            r"\x22",
+        ));
+        let mixed = format!("SYNTH_ALPHA_{}%5c%22 SYNTH_BETA_{}", rng.next(), rng.next());
+        out.push(case(
+            "quote_form_collision_percent",
+            "password=%u0022",
+            &mixed,
+            "%u0022",
+        ));
         let yaml_secret = format!("SYNTH_ALPHA_{}\n  SYNTH_BETA_{}", rng.next(), rng.next());
         out.push(case(
             "yaml_plain_continuation",

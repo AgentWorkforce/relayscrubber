@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "status": "pending",
-  "currentSourceSha256": "ea1c893de008556ef65104960ad3fa1f67aac5299b8442e4e04c1211405ca3b7",
+  "currentSourceSha256": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
   "adoptionApproved": false,
-  "note": "CI artifact for current lossless JSON transport is pending; recognition core is byte-identical to the evaluated e121ec3 commit."
+  "note": "CI artifact for exact quote-identity source is pending; older source artifacts are not current adoption candidates."
 }

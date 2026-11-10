@@ -29,6 +29,8 @@ fn assert_all_paths(input: &str) {
 
 #[test]
 fn known_leak_families_across_all_entry_points() {
+    assert_all_paths(r#"password=\x22SYNTH_ALPHA\\\" SYNTH_BETA\x22"#);
+    assert_all_paths(r#"password=%u0022SYNTH_ALPHA%5c%22 SYNTH_BETA%u0022"#);
     assert_all_paths(r"password\u005c\u003d\u005c\u0022SYNTH_ALPHA SYNTH_BETA\u005c\u0022");
     assert_all_paths(r"password%5C%u003D%5C%u0022SYNTH_ALPHA SYNTH_BETA%5C%u0022");
     assert_all_paths(r"password\%3D\%22SYNTH_ALPHA SYNTH_BETA\%22");

@@ -187,7 +187,16 @@ impl View {
             }
             bytes.push(ch);
             if matches!(ch, b'"' | b'\'' | b'`') {
-                tags.push((bytes.len() - 1, (ch, style, end - i)));
+                // Exact spelling/depth matters: e.g. backslash-x22 and three
+                // backslashes plus quote have equal byte length but are not
+                // interchangeable closers. Canonicalize hex/u/x letter case only.
+                tags.push((
+                    bytes.len() - 1,
+                    source[i..end]
+                        .iter()
+                        .map(u8::to_ascii_lowercase)
+                        .collect::<Vec<_>>(),
+                ));
             }
             i = end;
         }

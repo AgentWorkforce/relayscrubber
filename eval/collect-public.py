@@ -19,9 +19,9 @@ sources = [
     ("dev", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-log.adoc"),
     ("dev", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-commit.adoc"),
     ("dev", "prose", "https://www.gutenberg.org/ebooks/1342.txt.utf-8"),
-    ("heldout", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-reset.adoc"),
-    ("heldout", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-stash.adoc"),
-    ("heldout", "prose", "https://www.gutenberg.org/ebooks/84.txt.utf-8"),
+    ("heldout", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-show.adoc"),
+    ("heldout", "technical", f"https://raw.githubusercontent.com/git/git/{revision}/Documentation/git-grep.adoc"),
+    ("heldout", "prose", "https://www.gutenberg.org/ebooks/161.txt.utf-8"),
 ]
 manifest = {"created": "2026-11-10", "deleteBy": "2026-11-17", "sources": []}
 for i, (split, kind, url) in enumerate(sources):

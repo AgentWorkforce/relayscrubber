@@ -12,7 +12,8 @@ independent of hardware, allocator pressure or process scheduling.
    stay opaque; original UTF-8 bytes are not reinterpreted as single-byte text.
 2. Sparse source offsets, quote endpoints, scope changes, container endpoints and
    physical line endings are indexed. Quote endpoints use a balanced tree keyed
-   by delimiter kind/depth: O(q log q). Scope and container stacks push/pop each
+   by the exact encoded delimiter spelling/depth (hex letter case normalized).
+   Comparisons are charged to the total delimiter bytes: O(n log q). Scope and container stacks push/pop each
    entry at most once. Searches in sorted indexes cost O(log n), including
    missing quote closes and repeated nested public assignments. There is no
    per-name scan to the end of the line/input.

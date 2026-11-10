@@ -22,7 +22,7 @@ else:
                'reason': 'Independent historical-shape audit expanded Google token spans and multilingual boundaries; these observations are not current unseen-data evidence.'}
 additional=old.get('additional_retired_evaluations',[])
 if old['frozen_source_sha256']!=artifact['manifest']['rulesetSourceSha256'] and not any(r['frozen_source_sha256']==old['frozen_source_sha256'] for r in additional):
-    additional.append({'frozen_source_sha256':old['frozen_source_sha256'],'public_heldout':old['public_benign']['heldout'],'reason':'Independent empty-env and YAML-boundary precision audit changed the engine; retire its prior held-out set.'})
+    additional.append({'frozen_source_sha256':old['frozen_source_sha256'],'public_heldout':old['public_benign']['heldout'],'reason':'Independent grammar/quote-boundary audit changed the engine; retire its prior held-out set.'})
 precision = {'frozen_source_sha256': artifact['manifest']['rulesetSourceSha256'],
              'public_benign': public,
              'public_sources': [{k: v for k, v in source.items() if k != 'path'} for source in split['sources']],
@@ -37,7 +37,7 @@ complete = sum(v['complete'] for v in metrics['recall'].values())
 cases = sum(v['cases'] for v in metrics['recall'].values())
 lines = ['# Candidate evaluation results', '',
          f"Frozen rules source: `{artifact['manifest']['rulesetSourceSha256']}`.",
-         f"WASM: `{artifact['files']['relayscrubber_bg.wasm']}` ({Path('js/generated/relayscrubber_bg.wasm').stat().st_size:,} bytes).", '',
+         f"Mac development WASM: `{artifact['files']['relayscrubber_bg.wasm']}` ({Path('js/generated/relayscrubber_bg.wasm').stat().st_size:,} bytes).", '',
          'Candidate 10 is not approved for adoption. Ruleset reservation and independent',
          'relayscrubber-lead exact-commit PASS are pending. Veto host-assisted review passed',
          'with warnings about production precision evidence and Workers build verification;',
@@ -65,8 +65,8 @@ for name, obj in public.items():
     for kind, value in obj['classes'].items():
         lines.append(f"| {name} / {kind} | {value['bytes']:,} | {value['changed_spans']} | {value['spans_per_mb']:.2f} | {value['removed_bytes']} |")
 lines += ['', 'The fresh held-out set was selected/downloaded before reading, then evaluated',
-          'once on the frozen digest above. It contains Git reset/stash manuals and',
-          'public-domain Frankenstein prose. Previously evaluated source sets are retired',
+          'once on the frozen digest above. It contains Git show/grep manuals and',
+          'public-domain Sense and Sensibility prose. Previously evaluated source sets are retired',
           'with their old source digests after independent grammar/provider audits changed',
           'the engine. Their once-only observations remain in',
           '`results/precision.json`; it is not reused as unseen evidence for this candidate.',
@@ -97,7 +97,7 @@ for value in metrics['timing']:
     if value['bytes'] == 262144:
         lines.append(f"| {value['class']} | {small[value['class']]['worst_ms']:.3f} | {value['worst_ms']:.3f} | {value['mb_per_s']:.2f} |")
 lines += ['', 'Native tests, clippy, packaging, Node 26.13.0, Bun 1.3.14 and local Cloudflare',
-          'workerd (Wrangler 4.77.0) pass. Node/Bun compare 4,800 native-generated vectors,',
+          'workerd (Wrangler 4.77.0) pass. Node/Bun compare 4,928 native-generated vectors,',
           'exercise all APIs, error/pin mismatch paths and adversarial inputs. Native',
           'preserve_order feature-unification tests pass. Independent target-directory',
           'builds reproduce WASM, glue, types and adapter digests. Hosted Linux/Windows CI',

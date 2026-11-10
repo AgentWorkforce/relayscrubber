@@ -1,5 +1,5 @@
 {
-  "frozen_source_sha256": "71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80",
+  "frozen_source_sha256": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
   "public_benign": {
     "dev": {
       "classes": {
@@ -21,13 +21,13 @@
     "heldout": {
       "classes": {
         "prose": {
-          "bytes": 448885,
+          "bytes": 712852,
           "changed_spans": 0,
           "removed_bytes": 0,
           "spans_per_mb": 0.0
         },
         "technical": {
-          "bytes": 35232,
+          "bytes": 13245,
           "changed_spans": 0,
           "removed_bytes": 0,
           "spans_per_mb": 0.0
@@ -61,23 +61,23 @@
     {
       "split": "heldout",
       "class": "technical",
-      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-reset.adoc",
-      "bytes": 19205,
-      "sha256": "b0a9ab38b72b5ada40a0163257c7a25028c573ef05d6da4ca1ffc88015dc3cb2"
+      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-show.adoc",
+      "bytes": 1934,
+      "sha256": "dea0fc6fbdb0e2e8f81ab38467401e9429413a2f59507a7f7cc6076c80e60061"
     },
     {
       "split": "heldout",
       "class": "technical",
-      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-stash.adoc",
-      "bytes": 16027,
-      "sha256": "0e5c34c07fa67b535b06169ed97d7eba5ced805a2d657176492c9f91f8da443f"
+      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-grep.adoc",
+      "bytes": 11311,
+      "sha256": "cee87fe9974d5558ecfb8520fa95e0558de5798b5c2d336dd035a36c76d6cae8"
     },
     {
       "split": "heldout",
       "class": "prose",
-      "url": "https://www.gutenberg.org/ebooks/84.txt.utf-8",
-      "bytes": 448885,
-      "sha256": "2b97b7f8aad508649481d8dd4f6b54f9b965ddb3ba634e9151c815f537b49e42"
+      "url": "https://www.gutenberg.org/ebooks/161.txt.utf-8",
+      "bytes": 712852,
+      "sha256": "7bcd77c45cb32fb8d9f89402561270cc6a911c0a4e20667176d5be779fc3974a"
     }
   ],
   "retired_evaluation": {
@@ -144,6 +144,27 @@
         "split": "heldout"
       },
       "reason": "Independent empty-env and YAML-boundary precision audit changed the engine; retire its prior held-out set."
+    },
+    {
+      "frozen_source_sha256": "71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80",
+      "public_heldout": {
+        "classes": {
+          "prose": {
+            "bytes": 448885,
+            "changed_spans": 0,
+            "removed_bytes": 0,
+            "spans_per_mb": 0.0
+          },
+          "technical": {
+            "bytes": 35232,
+            "changed_spans": 0,
+            "removed_bytes": 0,
+            "spans_per_mb": 0.0
+          }
+        },
+        "split": "heldout"
+      },
+      "reason": "Independent encoded quote-identity audit changed the engine; retire its prior held-out set."
     }
   ],
   "host": "Darwin arm64",
@@ -152,21 +173,5 @@
     "node": "26.13.0",
     "bun": "1.3.14",
     "wrangler": "4.77.0"
-  },
-  "text_evaluation_source_sha256": "71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80",
-  "current_distribution_source_sha256": "ea1c893de008556ef65104960ad3fa1f67aac5299b8442e4e04c1211405ca3b7",
-  "transport_only_revision": {
-    "recognitionSourceCommit": "e121ec3af3761bf208a9170653d611cd4b299369",
-    "byteIdenticalSources": {
-      "src/lib.rs": "c8e66e95b706a9d9f34ad4c3b3927efd6dfdb77e66927d726f29c901f0c24791",
-      "src/engine.rs": "82824dec0ece48346dbcc222dcc5b7e87dbc4e41b256aedc23e0eca315f8985a",
-      "src/normalize.rs": "bfcd1efedac333404915ee63b2283411982c417bece1bb66cbc2ed4c8eef6f4d",
-      "src/json.rs": "71083382c36a5de04842ca0c16d3cead8c12c8b89ecbee5ffdcb273f99a64a87",
-      "build.rs": "ef33010e63d3f11940ccca33f20f9ffa9140a333b42ae2c89f4a6f60076b2674",
-      "Cargo.toml": "a8eb61d41771e934c4a5e8b8dc6d05b88f2f46acfd77e8562e02788621c5037f",
-      "Cargo.lock": "25b13adeffef7234d9c62e1abb14762c1f65124304e5ac2beda27709e7dc0622",
-      "rust-toolchain.toml": "dc5c00ca414155e3efb75b45cfe9caa7b3149575cd36a743a6fcf126183ca004"
-    },
-    "change": "WASM JSON envelope adds lossless Rust jsonText alongside the convenience JS value; text/record recognition sources are unchanged. Held-out was not re-read."
   }
 }
