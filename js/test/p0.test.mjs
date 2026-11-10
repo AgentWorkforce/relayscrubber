@@ -39,7 +39,9 @@ test('P0 credential container context survives distance, nesting and scope exits
         check(input,input.replace('SYNTH_ALPHA','[REDACTED]'));
       }
     }
-    for (const input of [`data={filler:"${pad}", key:SYNTH_ALPHA}`,`aws={filler:"${pad}"}; key=SYNTH_ALPHA`,`aws:\n  filler: ${pad}\nkey: SYNTH_ALPHA`,`aws={idempotency_key:{filler:"${pad}", key:SYNTH_ALPHA}}`,`idempotency_key:\n  aws:\n    filler: ${pad}\n    key: SYNTH_ALPHA`]) check(input,input);
+    const scoped = `idempotency_key:\n  aws:\n    filler: ${pad}\n    key: SYNTH_ALPHA`;
+    check(scoped,scoped.replace("SYNTH_ALPHA","[REDACTED]"));
+    for (const input of [`data={filler:"${pad}", key:SYNTH_ALPHA}`,`aws={filler:"${pad}"}; key=SYNTH_ALPHA`,`aws:\n  filler: ${pad}\nkey: SYNTH_ALPHA`,`aws={idempotency_key:{filler:"${pad}", key:SYNTH_ALPHA}}`]) check(input,input);
   }
 });
 test('P0 repeated nested credential keys stay bounded on WASM', () => {
