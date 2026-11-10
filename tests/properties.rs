@@ -68,6 +68,10 @@ proptest! {
         prop_assert_eq!(scrub_text(&input), expected.clone());
         prop_assert_eq!(scrub_text(&expected), expected);
         let secret = format!("SYNTH{}{body}", escape.replace("&#37;", "%"));
+        let userinfo=format!("<a href=\"%2F%2Falice%3A{secret}%40host\">");
+        let expected_userinfo=userinfo.replace(&secret,REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&userinfo),expected_userinfo.clone());
+        prop_assert_eq!(scrub_text(&expected_userinfo),expected_userinfo);
         let inner = format!("{prefix}?signature={secret}&sort=asc");
         let input = format!("<a href=\"/outer?url={}&page=2\">", nested_component_cases::encode(&inner));
         let expected = input.replace(&nested_component_cases::encode(&secret), REDACTION_TOKEN);

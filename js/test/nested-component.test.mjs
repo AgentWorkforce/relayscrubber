@@ -18,6 +18,9 @@ test('each nested public value opens only one percent layer',()=>{
   ['%2F%2Falice%3ASYNTH%252FALPHA%40host','SYNTH%252FALPHA'],
  ]) check(input,input.replace(secret,'[REDACTED]'));
 
+ for(const value of ['download%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc','%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc']){
+  const input=`<a href="${value}">x</a>`;check(input,input.replace('SYNTH%2526ALPHA','[REDACTED]'));
+ }
  for(const [inner,secret] of [
   ['audit%26signature=SYNTH%2526ALPHA%26sort=asc','SYNTH%2526ALPHA'],
   ['https://host/download?caption=audit%26signature=SYNTH%2526ALPHA%26sort=asc','SYNTH%2526ALPHA'],

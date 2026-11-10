@@ -1,4 +1,6 @@
 //! Export only synthetic native reference results for cross-runtime checks.
+#[path = "../eval/encoded_userinfo_cases.rs"]
+mod encoded_userinfo_cases;
 #[path = "../eval/generate.rs"]
 mod generate;
 #[path = "../eval/html_url_component_cases.rs"]
@@ -121,6 +123,7 @@ fn main() {
         .into_iter()
         .chain(html_url_component_cases::cases())
         .chain(nested_component_cases::cases())
+        .chain(encoded_userinfo_cases::cases())
     {
         assert_eq!(relayscrubber::scrub_text(&input), output);
         text.push(serde_json::json!({"input":input,"output":output}));

@@ -537,3 +537,61 @@ fn encoded_userinfo_layers_all_apis() {
     );
     assert!(failures.is_empty());
 }
+
+#[test]
+fn encoded_userinfo_exact_reviewer_cases_all_apis() {
+    let cases = encoded_userinfo_cases::cases();
+    let values: Vec<_> = cases[cases.len() - 5..]
+        .iter()
+        .map(|(input, expected)| json!({"input":input,"expected":expected}))
+        .collect();
+    check(&serde_json::to_string(&values).unwrap());
+}
+
+#[test]
+fn encoded_userinfo_exhausted_budget_fails_closed() {
+    let mut values = Vec::new();
+    for sensitive in [true, false] {
+        let mut uri = if sensitive {
+            "//alice:SYNTH%2FALPHA@host/download"
+        } else {
+            "//alice@host/download"
+        }
+        .to_string();
+        for _ in 0..5 {
+            uri = nested_component_cases::encode(&uri);
+        }
+        let input = format!("<a href=\"/outer?url={uri}&page=2\">x</a>");
+        let expected = if sensitive {
+            input.replace(&uri, REDACTION_TOKEN)
+        } else {
+            input.clone()
+        };
+        values.push(json!({"input":input,"expected":expected}));
+    }
+    check(&serde_json::to_string(&values).unwrap());
+}
+
+#[test]
+fn encoded_relative_query_layers_all_apis() {
+    let cases: Vec<_> = [
+        "<a href=\"download%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc\">x</a>",
+        "<a href=\"%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc\">x</a>",
+    ]
+    .into_iter()
+    .map(|input| json!({"input":input,"expected":input.replace("SYNTH%2526ALPHA",REDACTION_TOKEN)}))
+    .collect();
+    check(&serde_json::to_string(&cases).unwrap());
+}
+
+#[test]
+fn userinfo_guards_preserve_sensitive_assignments() {
+    let cases: Vec<_> = [
+        "<a href=\"password=SYNTH@host\">",
+        "<a href=\"//password=SYNTH@host\">",
+    ]
+    .into_iter()
+    .map(|input| json!({"input":input,"expected":input.replace("SYNTH@host",REDACTION_TOKEN)}))
+    .collect();
+    check(&serde_json::to_string(&cases).unwrap());
+}

@@ -122,5 +122,15 @@ pub fn cases() -> Vec<(String, String)> {
         .map(|(_, (input, expected))| (value(input), value(expected)))
         .collect();
     cases.extend(plain);
+    for value in [
+        "download%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc",
+        "%3Fsignature%3DSYNTH%2526ALPHA%26sort%3Dasc",
+    ] {
+        let input = format!("<a href=\"{value}\">x</a>");
+        cases.push((
+            input.clone(),
+            input.replace("SYNTH%2526ALPHA", "[REDACTED]"),
+        ));
+    }
     cases
 }

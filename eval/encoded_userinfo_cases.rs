@@ -1,10 +1,8 @@
 //! Independent encoded-authority x password-data layer coverage.
 #![allow(dead_code)]
+use super::html_url_punctuation_cases as punctuation;
+use super::nested_component_cases as nested;
 use serde_json::Value;
-#[path = "nested_component_cases.rs"]
-mod nested;
-#[path = "html_url_punctuation_cases.rs"]
-mod punctuation;
 fn wrap(url: &str, secret: &str, context: usize) -> (String, String) {
     let (url, secret) = if context >= 3 {
         (nested::encode(url), nested::encode(secret))
@@ -62,6 +60,11 @@ pub fn cases() -> Vec<(String, String)> {
                             secret = nested::encode(&secret);
                         }
                         for context in 0..4 {
+                            // Context 3 adds one URL encoding layer. Keep the
+                            // authority itself within the four-layer contract.
+                            if style == "double-percent" && depth == 2 && context == 3 {
+                                continue;
+                            }
                             cases.push(wrap(&uri, &secret, context));
                         }
                     }
@@ -74,11 +77,43 @@ pub fn cases() -> Vec<(String, String)> {
                         uri = nested::encode(&uri);
                     }
                     for context in 0..4 {
+                        if style == "double-percent" && depth == 2 && context == 3 {
+                            continue;
+                        }
                         cases.push(wrap(&uri, "", context));
                     }
                 }
             }
         }
+    }
+    for escape in ["%20", "%22", "%27", "%3E", "%09"] {
+        let secret = format!("SYNTH{escape}ALPHA");
+        for depth in 1..=4 {
+            let enc = |ch: &str| {
+                let mut text = ch.to_owned();
+                for _ in 0..depth {
+                    text = nested::encode(&text);
+                }
+                text
+            };
+            let uri = format!(
+                "{}{}alice{}{secret}{}host{}download",
+                enc("/"),
+                enc("/"),
+                enc(":"),
+                enc("@"),
+                enc("/")
+            );
+            for context in 0..2 {
+                cases.push(wrap(&uri, &secret, context));
+            }
+        }
+    }
+    for input in [
+        "<a href=\"password=SYNTH@host\">",
+        "<a href=\"//password=SYNTH@host\">",
+    ] {
+        cases.push((input.to_string(), input.replace("SYNTH@host", "[REDACTED]")));
     }
     for (input, secret) in [
         (
