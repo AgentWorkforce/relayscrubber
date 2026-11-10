@@ -1778,5 +1778,80 @@
     "family": "local_value_and_next_url",
     "input": "https://media.example.invalid/render?caption=\"notes\n&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9 trailing explanatory words\nhttps://media.example.invalid/?signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
     "expected": "https://media.example.invalid/render?caption=\"notes\n&sig=[REDACTED] trailing explanatory words\nhttps://media.example.invalid/?signature=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&sig=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&signature=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&token=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "benign_nested_scheme",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&sort=title",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic&page=2&sort=title"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&sig=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&signature=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&token=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "benign_nested_scheme",
+    "input": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&sort=title",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes custom+image://cdn.example.invalid/pic&page=2&sort=title"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&sig=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&signature=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&token=[REDACTED]"
+  },
+  {
+    "family": "nested_scheme_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "benign_nested_scheme",
+    "input": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&sort=title",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes https://cdn.example.invalid/pic?size=2&page=2&sort=title"
   }
 ]
