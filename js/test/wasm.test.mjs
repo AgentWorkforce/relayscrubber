@@ -49,3 +49,21 @@ test('64 KiB and 256 KiB adversarial inputs stay bounded', () => {
     }
   }
 });
+
+const reviewCases = [
+  ['direct_intervening_quote', 'password="SYNTH_ALPHA\nnote="SYNTH_BETA"', 'password="[REDACTED]'],
+  ['public_property_intervening_quote', 'idempotency_key="password=SYNTH_ALPHA\nnote="SYNTH_BETA"', 'idempotency_key="password=[REDACTED]'],
+  ['generic_key', 'key=SYNTH_ALPHA', 'key=[REDACTED]'],
+  ['prefixed_credential_key', 'dbPassword=SYNTH_ALPHA', 'dbPassword=[REDACTED]'],
+  ['prefixed_public_like_name', 'request_idempotency_key=SYNTH_ALPHA', 'request_idempotency_key=[REDACTED]'],
+  ['unicode_space', 'password\u00a0=SYNTH_ALPHA', 'password\u00a0=[REDACTED]'],
+  ['comparison_precision', 'const ok = password === candidate;', 'const ok = password === candidate;'],
+];
+for (const [name, input, expected] of reviewCases) test(`review: ${name}`, () => {
+  assert.equal(scrubber.scrubText(input), expected);
+  assert.equal(scrubber.scrubText(expected), expected);
+  assert.equal(scrubber.scrubJson(JSON.stringify({ text: input })).value.text, expected);
+  const result = scrubber.scrubRecords(new TextEncoder().encode(JSON.stringify({ text: input })));
+  assert.equal(JSON.parse(new TextDecoder().decode(result.bytes)).text, expected);
+  assert.deepEqual(scrubber.scrubRecords(result.bytes).bytes, result.bytes);
+});
