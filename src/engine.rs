@@ -731,6 +731,27 @@ fn expansion_reference(value: &str) -> bool {
         && command.bytes().all(|b| b.is_ascii_lowercase() || b == b'-')
 }
 
+fn environment_command(value: &str) -> bool {
+    if opaque_material(value) {
+        return false;
+    }
+    let mut words = value.split_whitespace();
+    if !words.next().is_some_and(shell_reference) {
+        return false;
+    }
+    let Some(command) = words.next() else {
+        return false;
+    };
+    !command.is_empty()
+        && command.bytes().all(|b| b.is_ascii_lowercase() || b == b'-')
+        && words.all(|arg| {
+            shell_reference(arg)
+                || arg.strip_prefix("--").is_some_and(|flag| {
+                    !flag.is_empty() && flag.bytes().all(|b| b.is_ascii_lowercase() || b == b'-')
+                })
+        })
+}
+
 fn match_arm_body(value: &str) -> bool {
     let Some((name, rhs)) = value.split_once('=') else {
         return code_expression(value);
@@ -1029,6 +1050,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         if full.is_some_and(expansion_reference) {
             continue;
         }
+        if !quoted && full.is_some_and(environment_command) {
+            continue;
+        }
         if !quoted && raw.starts_with(REDACTION_TOKEN) && full.is_some_and(marker_reference) {
             continue;
         }
@@ -1047,12 +1071,16 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         }
         // Failed structural candidates redact through their complete delimiter,
         // including opaque tails and literals inside calls/substitutions.
-        if full.is_some_and(opaque_material) {
-            end = end.max(complete_end.unwrap() - usize::from(quoted));
-        } else if complete_end.is_none()
-            && (matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*') || declaration)
-        {
-            end = end.max(view.line_end(value).min(view.enclosing_end(value)));
+        let failed_reference = !quoted
+            && (declaration
+                || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
+                || raw.contains(['(', '.']));
+        if full.is_some_and(opaque_material) || failed_reference {
+            let limit = complete_end.map_or_else(
+                || view.line_end(value).min(view.enclosing_end(value)),
+                |end| end - usize::from(quoted),
+            );
+            end = end.max(limit);
         }
         // YAML literal/folded scalar: remove all following indented lines.
         if !quoted
