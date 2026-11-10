@@ -281,12 +281,23 @@ fn prose(value: &str) -> bool {
     .iter()
     .any(|p| value.starts_with(p))
 }
-fn documentation_prose(value: &str) -> bool {
-    // Established explanatory syntax stays public. Ordinary multi-word YAML
-    // scalar credentials do not become references just because they are prose.
-    value.starts_with("see ")
-        || value.starts_with("the ")
-            && (value.contains(" used for ") || value.contains(" comes from "))
+fn documentation_prose(name: &str, value: &str) -> bool {
+    // Recognize documentary references and descriptions of language tokens,
+    // rather than exempting any credential sentence with an English prefix.
+    let guide = value.starts_with("see ")
+        && value
+            .trim_end_matches(['.', ';'])
+            .split_whitespace()
+            .last()
+            .is_some_and(|word| {
+                ["guide", "documentation", "docs", "manual", "reference"].contains(&word)
+            });
+    let language_token = name.eq_ignore_ascii_case("token")
+        && ["the parser ", "the lexer ", "the syntax "]
+            .iter()
+            .any(|prefix| value.starts_with(prefix))
+        && value.contains(" used for ");
+    guide || language_token
 }
 fn symbolic_atom(value: &str) -> &str {
     value
@@ -617,7 +628,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 && uuid(raw)
             || !quoted
                 && prose(&view.text[value..line_end(view, value)])
-                && (!yaml || documentation_prose(&view.text[value..line_end(view, value)]))
+                && (!yaml || documentation_prose(name, &view.text[value..line_end(view, value)]))
             || header && authorization_reference(raw)
             || quoted && b[value] == b'`' && raw.contains("${")
         {
