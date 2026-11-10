@@ -160,6 +160,7 @@ fn html_entity(b: &[u8], start: usize) -> Option<(u8, usize)> {
         (b"63", b"3f", b'?'),
         (b"38", b"26", b'&'),
         (b"61", b"3d", b'='),
+        (b"64", b"40", b'@'),
     ] {
         let digits = if hexadecimal {
             hexadecimal_digits

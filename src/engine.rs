@@ -2060,6 +2060,112 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     recover_query_parameters(view, recovery_start, b.len(), spans);
 }
 
+// Protocol-relative authorities also occur outside HTML. Consume each authority
+// once, stopping before paths/queries so a later // cannot repeat its suffix.
+fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    while cursor + 1 < b.len() {
+        if !matches!(b[cursor], b'/' | b'\\') || !matches!(b[cursor + 1], b'/' | b'\\') {
+            cursor += 1;
+            continue;
+        }
+        let slash = cursor;
+        cursor += 2;
+        let authority = cursor;
+        if b.get(slash.wrapping_sub(1)) == Some(&b':') {
+            let mut scheme = slash - 1;
+            while scheme > slash.saturating_sub(33)
+                && scheme > 0
+                && (b[scheme - 1].is_ascii_alphanumeric()
+                    || matches!(b[scheme - 1], b'+' | b'.' | b'-'))
+            {
+                scheme -= 1;
+            }
+            if url_regex_source(view, scheme, authority) {
+                continue;
+            }
+        }
+        while cursor < b.len()
+            && !b[cursor].is_ascii_whitespace()
+            && !matches!(
+                b[cursor],
+                b'/' | b'\\' | b'?' | b'#' | b'"' | b'\'' | b'`' | b'<' | b'>'
+            )
+        {
+            cursor += 1;
+        }
+        if let Some(at) = (authority..cursor).rev().find(|&i| b[i] == b'@') {
+            if let Some(colon) = (authority..at).find(|&i| b[i] == b':') {
+                if colon + 1 < at
+                    && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..cursor])
+                {
+                    spans.push(colon + 1..at);
+                }
+            }
+        }
+    }
+}
+
+// An attribute supplies context for bare and single-slash authorities as well
+// as // authorities. Tokens keep srcset descriptors and refresh prefixes local.
+fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    while cursor < b.len() {
+        if b[cursor].is_ascii_whitespace() || matches!(b[cursor], b',' | b'"' | b'\'') {
+            cursor += 1;
+            continue;
+        }
+        let start = cursor;
+        while cursor < b.len()
+            && !b[cursor].is_ascii_whitespace()
+            && !matches!(b[cursor], b',' | b'"' | b'\'')
+        {
+            cursor += 1;
+        }
+        let token = &view.text[start..cursor];
+        if token
+            .get(..7)
+            .is_some_and(|s| s.eq_ignore_ascii_case("mailto:"))
+        {
+            continue;
+        }
+        let mut authority = start;
+        if token
+            .get(..4)
+            .is_some_and(|s| s.eq_ignore_ascii_case("url="))
+        {
+            authority += 4;
+        }
+        for scheme in ["http:", "https:", "ftp:"] {
+            if token
+                .get(..scheme.len())
+                .is_some_and(|s| s.eq_ignore_ascii_case(scheme))
+            {
+                authority += scheme.len();
+                break;
+            }
+        }
+        while authority < cursor && matches!(b[authority], b'/' | b'\\') {
+            authority += 1;
+        }
+        let mut end = authority;
+        while end < cursor && !matches!(b[end], b'/' | b'\\' | b'?' | b'#') {
+            end += 1;
+        }
+        if let Some(at) = (authority..end).rev().find(|&i| b[i] == b'@') {
+            if let Some(colon) = (authority..at).find(|&i| b[i] == b':') {
+                if colon + 1 < at
+                    && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..end])
+                {
+                    spans.push(colon + 1..at);
+                }
+            }
+        }
+    }
+}
+
 // Scan each disjoint HTML attribute value once. A separate recognition view
 // decodes all URL punctuation together, then maps only the selected credential
 // ranges back through the ordinary view. Surrounding HTML is never re-encoded.
@@ -2067,17 +2173,52 @@ fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     let mut cursor = 0;
     let mut in_tag = false;
+    let mut raw_text: Option<&[u8]> = None;
     // Repeated adjacent attribute values share relative matches. Keep only
     // one borrowed spelling and its ranges, with no unbounded cache growth.
     let mut previous = "";
     let mut matches = Vec::new();
     while cursor < b.len() {
+        if !in_tag {
+            if let Some(name) = raw_text {
+                if b.get(cursor..cursor + 2) != Some(b"</")
+                    || !b
+                        .get(cursor + 2..cursor + 2 + name.len())
+                        .is_some_and(|s| s.eq_ignore_ascii_case(name))
+                    || !b
+                        .get(cursor + 2 + name.len())
+                        .is_some_and(|ch| ch.is_ascii_whitespace() || matches!(ch, b'>' | b'/'))
+                {
+                    cursor += 1;
+                    continue;
+                }
+                raw_text = None;
+            }
+            if b.get(cursor..cursor + 4) == Some(b"<!--") {
+                cursor += 4;
+                while cursor < b.len() && b.get(cursor..cursor + 3) != Some(b"-->") {
+                    cursor += 1;
+                }
+                cursor = (cursor + 3).min(b.len());
+                continue;
+            }
+        }
         match b[cursor] {
             b'<' if b
                 .get(cursor + 1)
                 .is_some_and(|ch| ch.is_ascii_alphabetic() || *ch == b'/') =>
             {
-                in_tag = true
+                in_tag = true;
+                for name in [b"script".as_slice(), b"style", b"textarea", b"title"] {
+                    let end = cursor + 1 + name.len();
+                    if b.get(cursor + 1..end)
+                        .is_some_and(|s| s.eq_ignore_ascii_case(name))
+                        && b.get(end)
+                            .is_some_and(|ch| ch.is_ascii_whitespace() || *ch == b'>')
+                    {
+                        raw_text = Some(name);
+                    }
+                }
             }
             b'>' => in_tag = false,
             b'=' if in_tag => {
@@ -2097,11 +2238,20 @@ fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
                     end
                 };
                 let value = &view.text[start..end];
-                if value.contains('&') {
+                if value
+                    .bytes()
+                    .any(|ch| matches!(ch, b'&' | b'?' | b'@' | b'/' | b'\\'))
+                {
                     if value != previous {
                         let html = View::html_url(value);
                         let mut local = Vec::new();
-                        urls(&html, &mut local);
+                        // The attribute supplies URL context; no scheme is
+                        // required for query recognition in this disjoint view.
+                        if let Some(query) = html.text.find('?') {
+                            recover_query_parameters(&html, query, html.text.len(), &mut local);
+                        }
+                        relative_userinfo(&html, &mut local);
+                        attribute_userinfo(&html, &mut local);
                         matches = local
                             .into_iter()
                             .map(|r| html.source_start(r.start)..html.source_end(r.end - 1))
@@ -2251,6 +2401,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     credential_prose(&view, &mut spans);
     let mut url_values = Vec::new();
     urls(&view, &mut url_values);
+    relative_userinfo(&view, &mut url_values);
     html_attribute_urls(&view, &mut url_values);
     url_values.sort_unstable_by_key(|span| (span.start, span.end));
     assignments(&view, inherited, &mut spans, &url_values);
