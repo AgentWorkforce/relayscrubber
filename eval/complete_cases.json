@@ -673,5 +673,20 @@
     "family": "rejected_reference_literal_scope",
     "input": "const accessToken = cache.token correct horse battery staple;",
     "secret": "correct horse battery staple"
+  },
+  {
+    "family": "provider_snake_hostname",
+    "input": "https://edge.capy_collect_recent_history_records.example.invalid/path",
+    "secret": "capy_collect_recent_history_records"
+  },
+  {
+    "family": "provider_snake_hostname",
+    "input": "https://edge.crsr_collect_recent_history_records.example.invalid/path",
+    "secret": "crsr_collect_recent_history_records"
+  },
+  {
+    "family": "provider_snake_hostname",
+    "input": "edge.capy_collect_recent_history_records.example.invalid",
+    "secret": "capy_collect_recent_history_records"
   }
 ]
