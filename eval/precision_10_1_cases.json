@@ -1,0 +1,615 @@
+[
+  {
+    "family": "code_expression",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+    "reaudit3": true,
+    "expected": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;"
+  },
+  {
+    "family": "numeric_session_id",
+    "input": "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+    "reaudit3": true,
+    "expected": "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})"
+  },
+  {
+    "family": "sql_parameter",
+    "input": "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+    "reaudit3": true,
+    "expected": "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";"
+  },
+  {
+    "family": "session_fixture_or_symbol",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue\"});",
+    "reaudit3": true,
+    "expected": "let fixture = json!({\"sessionId\":\"task_queue\"});"
+  },
+  {
+    "family": "type_or_enum",
+    "input": "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+    "reaudit3": true,
+    "expected": "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}"
+  },
+  {
+    "family": "code_symbol",
+    "input": "const record = {integrationKey: workspaceIdentifier};",
+    "reaudit3": true,
+    "expected": "const record = {integrationKey: workspaceIdentifier};"
+  },
+  {
+    "family": "assignment_scope_overrun",
+    "input": "TASK_TOKEN: missing\nOTHER_TOKEN: missing\nordinary: preserve this sentence",
+    "reaudit3": true,
+    "expected": "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence"
+  },
+  {
+    "family": "credential_plus_scope_overrun",
+    "input": "https://login.example.invalid/?callback_token=0123456789abcdef0123456789abcdef\n\nKeep these ordinary explanatory words.",
+    "reaudit3": true,
+    "expected": "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words."
+  },
+  {
+    "family": "credential_storage_reference",
+    "input": "adminPasswordSecret: catalog-db-password",
+    "reaudit3": true,
+    "secret": "catalog-db-password"
+  },
+  {
+    "family": "cloud_tag_key",
+    "input": "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+    "reaudit3": true,
+    "expected": "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}"
+  },
+  {
+    "family": "provider_function_identifier",
+    "input": "The callback name is capy_collect_recent_history_records in the source listing.",
+    "reaudit3": true,
+    "secret": "capy_collect_recent_history_records"
+  },
+  {
+    "family": "existing_mask_container",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+    "reaudit3": true,
+    "expected": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}"
+  },
+  {
+    "family": "existing_mask_bearer",
+    "input": "value = \"Bearer hidden_...\";",
+    "reaudit3": true,
+    "expected": "value = \"Bearer hidden_...\";"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption='audit notes'&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quotes",
+    "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&mode=preview&limit=3",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = m8zr4vk7np2qw6xaq9;",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = 12345678901234567890123456789012;",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = request.headers.get(\"M8zR4vK7nP2qW6xAq9\")?.strip_prefix(\"Bearer \")?;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = request.headers.get(\"m8zr4vk7np2qw6xaq9\")?.strip_prefix(\"Bearer \")?;",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let access_token = request.headers.get(\"12345678901234567890123456789012\")?.strip_prefix(\"Bearer \")?;",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "await tools.write_stdin({session_id:M8zR4vK7nP2qW6xAq9, chars:\"\", yield_time_ms:1000})",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "await tools.write_stdin({session_id:m8zr4vk7np2qw6xaq9, chars:\"\", yield_time_ms:1000})",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "await tools.write_stdin({session_id:12345678901234567890123456789012, chars:\"\", yield_time_ms:1000})",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let sql = \"SELECT id FROM events WHERE session_id = M8zR4vK7nP2qW6xAq9 AND active = 1\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let sql = \"SELECT id FROM events WHERE session_id = m8zr4vk7np2qw6xaq9 AND active = 1\";",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let sql = \"SELECT id FROM events WHERE session_id = 12345678901234567890123456789012 AND active = 1\";",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "let fixture = json!({\"sessionId\":\"M8zR4vK7nP2qW6xAq9\"});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "{\"output\": \"pub type CacheKey = M8zR4vK7nP2qW6xAq9;\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "{\"output\": \"pub type CacheKey = m8zr4vk7np2qw6xaq9;\"}",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "{\"output\": \"pub type CacheKey = 12345678901234567890123456789012;\"}",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "const record = {integrationKey: M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "const record = {integrationKey: m8zr4vk7np2qw6xaq9};",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "const record = {integrationKey: 12345678901234567890123456789012};",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:M8zR4vK7nP2qW6xAq9@db.example.invalid/app\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:m8zr4vk7np2qw6xaq9@db.example.invalid/app\"}",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:12345678901234567890123456789012@db.example.invalid/app\"}",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "value = \"Bearer M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "value = \"Bearer m8zr4vk7np2qw6xaq9\";",
+    "secret": "m8zr4vk7np2qw6xaq9"
+  },
+  {
+    "family": "literal_sibling",
+    "input": "value = \"Bearer 12345678901234567890123456789012\";",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: workspaceIdentifier M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: workspaceIdentifier + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: workspaceIdentifier /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: workspaceIdentifier%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: ?3 M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: ?3 + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: ?3 /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: ?3%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {sessionId: task_queue M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {sessionId: task_queue + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {sessionId: task_queue /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {sessionId: task_queue%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: (String, u32, u32, String) M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: (String, u32, u32, String) + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: (String, u32, u32, String) /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: (String, u32, u32, String)%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: hidden_... M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: hidden_... + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: hidden_... /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "appended_tail",
+    "input": "const record = {access_token: hidden_...%20M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "numeric_credential",
+    "input": "await tools.write_stdin({password:73129, chars:\"\"})",
+    "secret": "73129"
+  },
+  {
+    "family": "numeric_credential",
+    "input": "await tools.write_stdin({accessToken:73129, chars:\"\"})",
+    "secret": "73129"
+  },
+  {
+    "family": "numeric_credential",
+    "input": "await tools.write_stdin({token:73129, chars:\"\"})",
+    "secret": "73129"
+  },
+  {
+    "family": "numeric_credential",
+    "input": "await tools.write_stdin({api_key:73129, chars:\"\"})",
+    "secret": "73129"
+  },
+  {
+    "family": "numeric_credential",
+    "input": "await tools.write_stdin({client_secret:73129, chars:\"\"})",
+    "secret": "73129"
+  },
+  {
+    "family": "provider_sibling",
+    "input": "{\"Tags\":[{\"Key\":\"OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789\",\"Value\":\"development\"}]}",
+    "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  {
+    "family": "provider_sibling",
+    "input": "const record = {integrationKey: OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789};",
+    "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  {
+    "family": "provider_sibling",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789\"});",
+    "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  {
+    "family": "provider_sibling",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789.invalid/app\"}",
+    "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  {
+    "family": "provider_sibling",
+    "input": "value = \"Bearer hidden_... OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789\";",
+    "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  }
+]
