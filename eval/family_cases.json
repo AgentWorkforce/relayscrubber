@@ -92,9 +92,7 @@
     "prose_or_comment": [
       "key: the dashboard column name",
       "// password: the value comes from the environment",
-      "API key is stored in the environment",
-      "token: the parser token used for navigation",
-      "password: see the configuration guide"
+      "API key is stored in the environment"
     ],
     "code_expression_or_reference": [
       "const apiKey = settings.clientKey;",
@@ -224,6 +222,16 @@
       "numeric_literal",
       "const password = 314159265358;",
       "314159265358"
+    ],
+    [
+      "explicit_assignment_3",
+      "token: the parser token used for navigation",
+      "the parser token used for navigation"
+    ],
+    [
+      "explicit_assignment_4",
+      "password: see the configuration guide",
+      "see the configuration guide"
     ]
   ],
   "structured": [
