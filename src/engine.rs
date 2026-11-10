@@ -1629,6 +1629,11 @@ pub(crate) fn scrub(input: &str, inherited: bool, policy: Policy) -> String {
 // Exhaustion fails closed; no unbounded fixed-point loop is permitted.
 pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
     let mut report = analyze_once(input, inherited, policy);
+    // With no replacement, the next pass sees exactly the same bytes and
+    // deterministic scope. Repeating it cannot discover a new span.
+    if report.redactions.is_empty() {
+        return report;
+    }
     for _ in 0..4 {
         let next = analyze_once(&report.text, inherited, policy);
         if next.text == report.text {
