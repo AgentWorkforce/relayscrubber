@@ -94,6 +94,9 @@ fn public_context_survives_all_json_descendants() {
 fn headers_flags_connection_strings_and_private_keys() {
     for input in [
         "--password SYNTH_ALPHA",
+        "let password =\n\"SYNTH_ALPHA SYNTH_BETA\";",
+        "password:\n  SYNTH_ALPHA\n  SYNTH_BETA\nstatus: preserved",
+        "password: SYNTH_ALPHA\n  SYNTH_BETA\nstatus: preserved",
         "PASSWORD==SYNTH_ALPHA",
         "--password==SYNTH_ALPHA",
         "password=SYNTH_ALPHA%20SYNTH_BETA",
@@ -126,6 +129,11 @@ fn headers_flags_connection_strings_and_private_keys() {
 fn preserve_normal_information() {
     for input in [
         "idempotency_key=public-replay-42",
+        "PASSWORD=\nSTATUS=ok\n",
+        "PASSWORD=\n2026-11-10T00:00:00Z event\n",
+        "PASSWORD=\n{\"event\":\"normal\"}\n",
+        "password:\nstatus: okay\n",
+        "Authorization:\nstatus: okay\n",
         "IDEMPOTENCY_KEY : \"public-replay-42\"",
         "key=arrow-up",
         "public_key=ssh-ed25519 AAAATEST user@example.test",
@@ -199,6 +207,16 @@ fn pii_requires_explicit_policy() {
     let clean = scrub_text_with_policy(text, Policy::Pii);
     assert_eq!(clean, "[REDACTED] [REDACTED]");
     assert_eq!(manifest_with_policy(Policy::Pii).policy, Policy::Pii);
+}
+
+#[test]
+fn yaml_secret_blocks_preserve_sibling_fields() {
+    let input =
+        "config:\n  password: |\n    SYNTH_ALPHA\n    SYNTH_BETA\n  retries: 3\nnext: okay\n";
+    let clean = scrub_text(input);
+    assert!(!clean.contains("SYNTH_ALPHA") && !clean.contains("SYNTH_BETA"));
+    assert!(clean.contains("  retries: 3\nnext: okay\n"));
+    assert_eq!(scrub_text(&clean), clean);
 }
 
 #[test]

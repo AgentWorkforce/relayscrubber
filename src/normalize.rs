@@ -108,6 +108,14 @@ fn decoded(b: &[u8], start: usize) -> (u8, usize, u8) {
 }
 
 impl View {
+    pub fn line_start(&self, position: usize) -> usize {
+        let n = self.line_ends.partition_point(|&end| end < position);
+        if n == 0 {
+            0
+        } else {
+            self.line_ends[n - 1] + 1
+        }
+    }
     pub fn line_end(&self, position: usize) -> usize {
         let n = self.line_ends.partition_point(|&end| end < position);
         self.line_ends.get(n).copied().unwrap_or(self.text.len())

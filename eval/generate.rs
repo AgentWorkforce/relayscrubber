@@ -181,6 +181,20 @@ pub fn recall(seed: u64, rounds: usize) -> Vec<Case> {
             rng.body(128, ALNUM)
         );
         out.push(case("pem", "before\n", &pem, "\nafter"));
+        let yaml_secret = format!("SYNTH_ALPHA_{}\n  SYNTH_BETA_{}", rng.next(), rng.next());
+        out.push(case(
+            "yaml_plain_continuation",
+            "password: ",
+            &yaml_secret,
+            "\nstatus: preserved",
+        ));
+        let yaml_secret = format!("SYNTH_ALPHA_{}\n    SYNTH_BETA_{}", rng.next(), rng.next());
+        out.push(case(
+            "yaml_nested_block",
+            "config:\n  password: |\n    ",
+            &yaml_secret,
+            "\n  retries: 3\nnext: preserved",
+        ));
     }
     out
 }
@@ -218,6 +232,11 @@ pub fn benign(seed: u64, rounds: usize) -> Vec<(&'static str, String)> {
             format!("idempotency_key=public-replay-{i} public_key=ssh-ed25519 {hash}\n"),
         ));
         out.push(("uuid", format!("12345678-1234-4234-8234-{i:012}\n")));
+        out.push(("empty_env", format!("PASSWORD=\nSTATUS=okay-{i}\n")));
+        out.push((
+            "yaml_empty",
+            format!("config:\n  password:\n  count: {i}\nnext: okay\n"),
+        ));
         out.push((
             "base64_assets",
             format!(

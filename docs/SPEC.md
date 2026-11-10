@@ -64,7 +64,10 @@ Unquoted ordinary assignments end at whitespace or a structural separator.
 Unquoted YAML block scalars are sensitive through their indented body. Header
 values end at the next physical line unless quoted; sensitive JSON properties
 redact their entire value, including numbers, booleans, arrays and descendants.
-Empty values stay empty. Redaction uses the single literal `[REDACTED]`.
+Empty env/header values end at their physical line. Cross-line values require an
+explicit quoted literal, quoted JSON key, inherited public-value context, code
+assignment literal, or indented YAML value. YAML blocks stop at sibling/outer
+indentation. Empty values stay empty. Redaction uses `[REDACTED]`.
 
 ## Information preserved and PII policy
 

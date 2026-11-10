@@ -159,6 +159,33 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
     end
 }
 
+fn indented_end(view: &View, value: usize, key_indent: usize) -> usize {
+    let b = view.text.as_bytes();
+    let mut end = view.line_end(value);
+    while end < b.len() {
+        let mut next = end;
+        if b[next] == b'\r' {
+            next += 1;
+        }
+        if b.get(next) == Some(&b'\n') {
+            next += 1;
+        }
+        if next >= b.len() {
+            return next;
+        }
+        let line_end = view.line_end(next);
+        let mut content = next;
+        while content < line_end && matches!(b[content], b' ' | b'\t') {
+            content += 1;
+        }
+        if content < line_end && content - next <= key_indent {
+            break;
+        }
+        end = line_end;
+    }
+    end
+}
+
 fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     let mut i = 0;
@@ -225,6 +252,35 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             continue;
         }
         let quoted = matches!(b[value], b'"' | b'\'' | b'`');
+        let line_start = view.line_start(value);
+        let crossed_line = line_start > after_sep;
+        let yaml = b.get(sep) == Some(&b':') && view.line_key(start);
+        let key_indent = start - view.line_start(start);
+        let yaml_indented = yaml
+            && crossed_line
+            && value - line_start > key_indent
+            && b[line_start..value]
+                .iter()
+                .all(|c| matches!(c, b' ' | b'\t'));
+        // Empty env/header assignments end at their physical line. Continue
+        // across it only for explicit literals, quoted JSON keys, inherited
+        // public values or an indented YAML value; never consume the next env key.
+        let declaration = [b"let".as_slice(), b"var".as_slice(), b"const".as_slice()]
+            .iter()
+            .any(|kw| {
+                before >= kw.len()
+                    && &b[before - kw.len()..before] == *kw
+                    && (before == kw.len() || !word(b[before - kw.len() - 1]))
+            });
+        let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
+        let explicit_literal = quoted
+            || quoted_key
+            || yaml_indented
+            || start < public_until
+            || (code && matches!(b[value], b'0'..=b'9' | b'-' | b'{' | b'['));
+        if crossed_line && !explicit_literal {
+            continue;
+        }
         let context = (start < public_until).then_some(public_until);
         if is_public {
             public_until = if quoted {
@@ -240,35 +296,12 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         } else {
             value_end(view, value, context)
         };
-        if !quoted
-            && b.get(sep) == Some(&b':')
-            && view.line_key(start)
-            && !matches!(b[value], b'{' | b'[')
-        {
-            end = line_end(view, value);
-        }
         let content = value + usize::from(quoted);
         // YAML literal/folded scalar: remove all following indented lines.
-        if !quoted && matches!(b[value], b'|' | b'>') {
-            end = line_end(view, value);
-            let mut p = end;
-            while p < b.len() {
-                if b[p] == b'\r' {
-                    p += 1;
-                }
-                if b.get(p) == Some(&b'\n') {
-                    p += 1;
-                }
-                if p >= b.len() {
-                    end = p;
-                    break;
-                }
-                if !matches!(b[p], b' ' | b'\t' | b'\r' | b'\n') {
-                    break;
-                }
-                p = line_end(view, p);
-                end = p;
-            }
+        if !quoted && yaml && !matches!(b[value], b'{' | b'[') {
+            end = indented_end(view, value, key_indent)
+                .min(context.unwrap_or(b.len()))
+                .min(view.enclosing_end(value).min(b.len()));
         }
         if end > content {
             if reference(&view.text[content..end]) {

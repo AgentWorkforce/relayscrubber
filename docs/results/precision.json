@@ -1,5 +1,5 @@
 {
-  "frozen_source_sha256": "150fa281818eb923592905c471029ee58f34acda0acb06d008ad2eeb07c1d0ec",
+  "frozen_source_sha256": "71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80",
   "public_benign": {
     "dev": {
       "classes": {
@@ -21,13 +21,13 @@
     "heldout": {
       "classes": {
         "prose": {
-          "bytes": 607606,
+          "bytes": 448885,
           "changed_spans": 0,
           "removed_bytes": 0,
           "spans_per_mb": 0.0
         },
         "technical": {
-          "bytes": 36427,
+          "bytes": 35232,
           "changed_spans": 0,
           "removed_bytes": 0,
           "spans_per_mb": 0.0
@@ -37,27 +37,6 @@
     }
   },
   "public_sources": [
-    {
-      "split": "heldout",
-      "class": "technical",
-      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-status.adoc",
-      "bytes": 20380,
-      "sha256": "1cdd1c7339dfc64093687b6e072d59feee584b8639c0203ece0a1150ce23d325"
-    },
-    {
-      "split": "heldout",
-      "class": "technical",
-      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-branch.adoc",
-      "bytes": 16047,
-      "sha256": "311fc33c55adc286dcbb5a5120c1c74ea2fc78aec471bd4051154a4aba9006c3"
-    },
-    {
-      "split": "heldout",
-      "class": "prose",
-      "url": "https://www.gutenberg.org/ebooks/1661.txt.utf-8",
-      "bytes": 607606,
-      "sha256": "922e2a12ccb43a4c9544c260b2166c6ad2097aeb5957faeee113f173bb857cd0"
-    },
     {
       "split": "dev",
       "class": "technical",
@@ -78,6 +57,27 @@
       "url": "https://www.gutenberg.org/ebooks/1342.txt.utf-8",
       "bytes": 772386,
       "sha256": "3f6bb9d6f78e0293b56acd4714dd68cb7d6d1d293402031ce9d5a216bcaf9d75"
+    },
+    {
+      "split": "heldout",
+      "class": "technical",
+      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-reset.adoc",
+      "bytes": 19205,
+      "sha256": "b0a9ab38b72b5ada40a0163257c7a25028c573ef05d6da4ca1ffc88015dc3cb2"
+    },
+    {
+      "split": "heldout",
+      "class": "technical",
+      "url": "https://raw.githubusercontent.com/git/git/c44beea485f0f2feaf460e2ac87fdd5608d63cf0/Documentation/git-stash.adoc",
+      "bytes": 16027,
+      "sha256": "0e5c34c07fa67b535b06169ed97d7eba5ced805a2d657176492c9f91f8da443f"
+    },
+    {
+      "split": "heldout",
+      "class": "prose",
+      "url": "https://www.gutenberg.org/ebooks/84.txt.utf-8",
+      "bytes": 448885,
+      "sha256": "2b97b7f8aad508649481d8dd4f6b54f9b965ddb3ba634e9151c815f537b49e42"
     }
   ],
   "retired_evaluation": {
@@ -123,6 +123,29 @@
     },
     "reason": "Independent historical-shape audit expanded Google token spans and multilingual boundaries; these observations are not current unseen-data evidence."
   },
+  "additional_retired_evaluations": [
+    {
+      "frozen_source_sha256": "150fa281818eb923592905c471029ee58f34acda0acb06d008ad2eeb07c1d0ec",
+      "public_heldout": {
+        "classes": {
+          "prose": {
+            "bytes": 607606,
+            "changed_spans": 0,
+            "removed_bytes": 0,
+            "spans_per_mb": 0.0
+          },
+          "technical": {
+            "bytes": 36427,
+            "changed_spans": 0,
+            "removed_bytes": 0,
+            "spans_per_mb": 0.0
+          }
+        },
+        "split": "heldout"
+      },
+      "reason": "Independent empty-env and YAML-boundary precision audit changed the engine; retire its prior held-out set."
+    }
+  ],
   "host": "Darwin arm64",
   "runtime_versions": {
     "rust": "1.88.0",
