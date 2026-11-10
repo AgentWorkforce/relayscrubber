@@ -41,6 +41,7 @@ pub fn findings() -> Vec<(&'static str, String, String)> {
 }
 pub fn benign() -> Vec<String> {
     [
+        "fn run(mut token: credential_type) {}",
         "fn cancel(token: CancellationToken) {}",
         "fn cancel(token: &CancellationToken) {}",
         "const options = { token: cancellation.clone() };",

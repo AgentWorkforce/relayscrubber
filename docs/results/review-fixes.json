@@ -145,8 +145,8 @@
   "headWasm": {
     "namedTests": 7,
     "passing": 7,
-    "nativeTextVectors": 5096,
-    "nativeStructuredVectors": 5096,
+    "nativeTextVectors": 5097,
+    "nativeStructuredVectors": 5097,
     "nodeTests": 16,
     "bunTests": 16,
     "secondPassParity": true
@@ -215,16 +215,15 @@
     "secondPassChangedCases": 0
   },
   "hostedArtifact": {
-    "sourceCommit": "0cf80577f2cb37149962ea2093d6b6bad33f8bef",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42809009349",
-    "artifactId": 13762146735,
-    "wasmSha256": "7365c28ea4cae419563dbd56c3b484be38400860a44a538cd88f009f515f6922",
-    "packageSha256": "4aeb3357a2facf58c3ab182bc4492895b9f4fbbccae18d9ed71be5237d4dca88",
-    "packageBytes": 524011,
-    "wasmBytes": 1576362,
-    "sourceSha256": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
-    "hostedAllRuntimeChecks": "pass; initial committed-pin check intentionally failed against prior source pin; follow-up CI must match this pin",
-    "status": "Prior source artifact; next CI build must replace pin for updated source."
+    "sourceCommit": "651e080267e0e5dd30aaf1e70889f11caaef17ab",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42812901776",
+    "artifactId": 13763516805,
+    "wasmSha256": "73fa9167526aa154ce71de565bf285a52b3a527b9a1c67419f717e1aa48a5a3f",
+    "packageSha256": "1b35255d0ce722b3a5c1e116bf338c7936edd47acb6f541f7d227370ec5be442",
+    "packageBytes": 525028,
+    "wasmBytes": 1579212,
+    "sourceSha256": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
+    "hostedAllRuntimeChecks": "pass; exact-pin check caught the prior source pin, follow-up CI enforces updated pin"
   },
   "previousHeadNative": {
     "cases": [
@@ -393,5 +392,17 @@
     "confirmedFalsePositiveOriginalSpansStillOverlappingAfterFix": 0,
     "methodLimit": "Conservative local content and syntax classification for every changed span, with per-rule trace and exact canonical text/range parity. Not independent human/live-credential ground truth. All unresolved material remains ambiguous; no global zero-false-positive claim.",
     "holdoutLimit": "Engine changed after original held-out read. This formerly held-out set is now regression evidence; fresh independently labelled unseen data is still required."
+  },
+  "priorHostedArtifact": {
+    "sourceCommit": "0cf80577f2cb37149962ea2093d6b6bad33f8bef",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42809009349",
+    "artifactId": 13762146735,
+    "wasmSha256": "7365c28ea4cae419563dbd56c3b484be38400860a44a538cd88f009f515f6922",
+    "packageSha256": "4aeb3357a2facf58c3ab182bc4492895b9f4fbbccae18d9ed71be5237d4dca88",
+    "packageBytes": 524011,
+    "wasmBytes": 1576362,
+    "sourceSha256": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+    "hostedAllRuntimeChecks": "pass; initial committed-pin check intentionally failed against prior source pin; follow-up CI must match this pin",
+    "status": "Prior source artifact; next CI build must replace pin for updated source."
   }
 }
