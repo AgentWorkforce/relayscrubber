@@ -22,8 +22,8 @@ preserve nested generic keys; nested explicit credentials and
 `request_idempotency_key` remain sensitive. The seven earlier review witnesses
 remain exercised with this superseding bare-key policy.
 
-Native all-target/all-feature tests, fmt, clippy and crate packaging pass. Node
-and Bun pass 37 tests each, covering native/WASM text and structured byte parity,
+Rust 1.88 all-target/all-feature tests (78), fmt, clippy and crate packaging pass. Node
+and Bun pass 73 tests each, covering native/WASM text and structured byte parity,
 second passes, multibyte 16 MiB text/record admission, 64 MiB stream admission,
 tagged call refusals and poisoned-instance refusal. Independent target-directory
 WASM reproduction and local Workers checks pass. Resource probes remain bounded.
@@ -36,3 +36,21 @@ crate/npm release is `0.5.0-alpha.3`, npm `private: false`; it is not published.
 The portable Linux pin is rebuilt through hosted CI. Final source, binary, glue,
 adapter and package equality must pass before reviewer handoff; see the receipt
 for the final immutable build links and digests.
+
+The separator-class repair is recorded in `querySeparatorClassRepair` in the
+behavioral receipt. Test-only commits `ca12fd1` and `db9beeb` precede implementation
+`ca27985`. The generated property crosses 54 separator spellings, 38 sensitive
+keys and six key encodings, plus the reviewer's exact 12-case matrix and six
+benign controls: 12,330 cases over text, JSON and NDJSON with second-pass checks.
+Base `b4f0252` fails 7,548 cases per API; the successor fails zero. Optional
+semicolons, arbitrary leading zeros, nested named/numeric/percent layers and
+encoded sensitive keys retain their original spelling around the replaced value.
+Long key/entity/recovery probes pass unchanged ten-second limits on Linux and
+Windows; entity atoms advance together to prevent overlapping suffix lookahead.
+
+The refreshed pin comes from the SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42872959587).
+Its Node73/Bun73, reproducibility and Workers checks pass; its only failed step
+was comparison with the superseded pin. The hosted package was independently
+hash-checked and replayed locally with fresh 19,357 text and 19,362 structured
+vectors and all 199 frozen witnesses. Final handoff requires one immutable
+exact-head ALL-green Linux, Windows and WASM CI run reproducing this pin.
