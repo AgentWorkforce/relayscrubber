@@ -1,9 +1,9 @@
 {
-  "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-  "implementationCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+  "baseCommit": "03012d58db992371c647a618444370eeed699b9d",
+  "implementationCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
   "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
-  "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
-  "localWasmSha256": "ab4192acffb2dbd0531b28699ab0e1e286e76879cd75f1fdaa6b06237691cf8c",
+  "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
+  "localWasmSha256": "5ecf46e5757ca9303d3be30570385040018cbcb72a09670af6957b2034e37c51",
   "reaudit2Reproductions": [
     {
       "family": "provider_function_identifier",
@@ -2499,5 +2499,542 @@
     "Ambiguous bare dotted provider-member identifiers redact because the same syntax can be a hostname; explicit declarations/namespaces/calls remain.",
     "Unrecognized shell substitutions with arguments fail closed unless they match a reference-only command grammar.",
     "Opaque token-shaped identifiers, defaults and placeholders fail closed."
-  ]
+  ],
+  "previousImplementation": {
+    "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+    "implementationCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+    "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+    "localWasmSha256": "ab4192acffb2dbd0531b28699ab0e1e286e76879cd75f1fdaa6b06237691cf8c"
+  },
+  "hostedArtifact": {
+    "sourceCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42860437130",
+    "artifactId": 13784727507,
+    "artifactArchiveSha256": "fc90fc18bcee92bdc6355c9ba78ef990bfafe41c3379e7e887d131a8046770e3",
+    "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
+    "wasmSha256": "1152af5ad37bee04dc14a2a3bba5124eaffb304f492189f207aab38cb5d8f24c",
+    "wasmBytes": 1708827,
+    "packageSha256": "d043599bb6c9c43a4712bc904cbb9673686db72162d3a12df17928c21e456ae9",
+    "packageBytes": 572166,
+    "hostedAllRuntimeChecks": "Linux/Windows native70, fmt/clippy; Node68/Bun68, fresh5902text+5907structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate source run fails only stale-pin equality; these receipts refresh its pins.",
+    "localHostedPackageReplay": "CI archive digest verified against GitHub artifact metadata; package, all WASM/glue/declaration/adapter hashes verified. Node68/Bun68; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45; new257 and direct structured siblings; 5902text+5907structured byte parity; frozen199 across APIs; Workers pass.",
+    "pinEqualityGate": "Final exact-head rebuild must reproduce every committed source/WASM/glue/adapter/package digest."
+  },
+  "ruleset10_1": {
+    "baseCommit": "03012d58db992371c647a618444370eeed699b9d",
+    "testOnlyCommits": [
+      "8990d05",
+      "5379b6a"
+    ],
+    "implementationCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
+    "candidateVersion": "0.5.0-alpha.3",
+    "privacy": "Invented inputs only. No reaudit2-fresh, reaudit3-fresh, label files or sampled sessions opened. Supplied aggregate counts are context, not measurements by this run.",
+    "baselineEvidence": {
+      "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+      "nativeCasesAtBaselineReplay": 193,
+      "wasmCasesAtBaselineReplay": 202,
+      "nativeFailedCaseCount": 69,
+      "wasmFailedCaseCount": 77,
+      "nativeAndWasmTestsFail": true,
+      "all13AuditedRowsNativeWasmOutputsEqual": true
+    },
+    "signedUrlMiss": {
+      "input": "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+      "beforeNativeTextJsonRecords": [
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+      ],
+      "beforeWasmTextJsonRecords": [
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+      ],
+      "afterTextJsonRecords": [
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=[REDACTED]",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=[REDACTED]",
+        "https://media.example.invalid/render?caption=\"audit notes\"&sig=[REDACTED]"
+      ],
+      "namesTested": [
+        "signature",
+        "token",
+        "X-Amz-Signature",
+        "sig"
+      ],
+      "siblings": "literal/encoded single and double quotes; nested source quotes; embedded quote prefixes/suffixes; quoted signature values; multiple query parameters; physical line scope"
+    },
+    "hostedArtifact": {
+      "sourceCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42860437130",
+      "artifactId": 13784727507,
+      "artifactArchiveSha256": "fc90fc18bcee92bdc6355c9ba78ef990bfafe41c3379e7e887d131a8046770e3",
+      "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
+      "wasmSha256": "1152af5ad37bee04dc14a2a3bba5124eaffb304f492189f207aab38cb5d8f24c",
+      "wasmBytes": 1708827,
+      "packageSha256": "d043599bb6c9c43a4712bc904cbb9673686db72162d3a12df17928c21e456ae9",
+      "packageBytes": 572166,
+      "hostedAllRuntimeChecks": "Linux/Windows native70, fmt/clippy; Node68/Bun68, fresh5902text+5907structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate source run fails only stale-pin equality; these receipts refresh its pins.",
+      "localHostedPackageReplay": "CI archive digest verified against GitHub artifact metadata; package, all WASM/glue/declaration/adapter hashes verified. Node68/Bun68; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45; new257 and direct structured siblings; 5902text+5907structured byte parity; frozen199 across APIs; Workers pass.",
+      "pinEqualityGate": "Final exact-head rebuild must reproduce every committed source/WASM/glue/adapter/package digest."
+    },
+    "reaudit3Reproductions": [
+      {
+        "family": "code_expression",
+        "reaudit3SetACount": 160,
+        "reaudit3SetBCount": 121,
+        "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+        "beforeTextJsonRecords": [
+          "let access_token = [REDACTED];",
+          "let access_token = [REDACTED];",
+          "let access_token = [REDACTED];"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "let access_token = [REDACTED];",
+          "let access_token = [REDACTED];",
+          "let access_token = [REDACTED];"
+        ],
+        "afterTextJsonRecords": [
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;"
+        ],
+        "afterNativeTextJsonRecords": [
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;",
+          "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")?;"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "numeric_session_id",
+        "reaudit3SetACount": 47,
+        "reaudit3SetBCount": 69,
+        "input": "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+        "beforeTextJsonRecords": [
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:[REDACTED], chars:\"\", yield_time_ms:1000})"
+        ],
+        "afterTextJsonRecords": [
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})"
+        ],
+        "afterNativeTextJsonRecords": [
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})",
+          "await tools.write_stdin({session_id:73129, chars:\"\", yield_time_ms:1000})"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "sql_parameter",
+        "reaudit3SetACount": 11,
+        "reaudit3SetBCount": 30,
+        "input": "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+        "beforeTextJsonRecords": [
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";"
+        ],
+        "afterTextJsonRecords": [
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";"
+        ],
+        "afterNativeTextJsonRecords": [
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";",
+          "let sql = \"SELECT id FROM events WHERE session_id = ?3 AND active = 1\";"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "session_fixture_or_symbol",
+        "reaudit3SetACount": 11,
+        "reaudit3SetBCount": 26,
+        "input": "let fixture = json!({\"sessionId\":\"task_queue\"});",
+        "beforeTextJsonRecords": [
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});",
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});",
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});",
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});",
+          "let fixture = json!({\"sessionId\":\"[REDACTED]\"});"
+        ],
+        "afterTextJsonRecords": [
+          "let fixture = json!({\"sessionId\":\"task_queue\"});",
+          "let fixture = json!({\"sessionId\":\"task_queue\"});",
+          "let fixture = json!({\"sessionId\":\"task_queue\"});"
+        ],
+        "afterNativeTextJsonRecords": [
+          "let fixture = json!({\"sessionId\":\"task_queue\"});",
+          "let fixture = json!({\"sessionId\":\"task_queue\"});",
+          "let fixture = json!({\"sessionId\":\"task_queue\"});"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "type_or_enum",
+        "reaudit3SetACount": 13,
+        "reaudit3SetBCount": 24,
+        "input": "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+        "beforeTextJsonRecords": [
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}",
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}",
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}",
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}",
+          "{\"output\": \"pub type CacheKey = [REDACTED];\"}"
+        ],
+        "afterTextJsonRecords": [
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}"
+        ],
+        "afterNativeTextJsonRecords": [
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}",
+          "{\"output\": \"pub type CacheKey = (String, u32, u32, String);\"}"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "code_symbol",
+        "reaudit3SetACount": 20,
+        "reaudit3SetBCount": 9,
+        "input": "const record = {integrationKey: workspaceIdentifier};",
+        "beforeTextJsonRecords": [
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};"
+        ],
+        "afterTextJsonRecords": [
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};"
+        ],
+        "afterNativeTextJsonRecords": [
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};",
+          "const record = {integrationKey: workspaceIdentifier};"
+        ],
+        "result": "already correct on base"
+      },
+      {
+        "family": "assignment_scope_overrun",
+        "reaudit3SetACount": 10,
+        "reaudit3SetBCount": 14,
+        "input": "TASK_TOKEN: missing\nOTHER_TOKEN: missing\nordinary: preserve this sentence",
+        "beforeTextJsonRecords": [
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence"
+        ],
+        "afterTextJsonRecords": [
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence"
+        ],
+        "afterNativeTextJsonRecords": [
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence",
+          "TASK_TOKEN: [REDACTED]\nOTHER_TOKEN: [REDACTED]\nordinary: preserve this sentence"
+        ],
+        "result": "already correct on base"
+      },
+      {
+        "family": "credential_plus_scope_overrun",
+        "reaudit3SetACount": 0,
+        "reaudit3SetBCount": 2,
+        "input": "https://login.example.invalid/?callback_token=0123456789abcdef0123456789abcdef\n\nKeep these ordinary explanatory words.",
+        "beforeTextJsonRecords": [
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words."
+        ],
+        "beforeWasmTextJsonRecords": [
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words."
+        ],
+        "afterTextJsonRecords": [
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words."
+        ],
+        "afterNativeTextJsonRecords": [
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words.",
+          "https://login.example.invalid/?callback_token=[REDACTED]\n\nKeep these ordinary explanatory words."
+        ],
+        "result": "already correct on base"
+      },
+      {
+        "family": "credential_storage_reference",
+        "reaudit3SetACount": 10,
+        "reaudit3SetBCount": 3,
+        "input": "adminPasswordSecret: catalog-db-password",
+        "beforeTextJsonRecords": [
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]"
+        ],
+        "afterTextJsonRecords": [
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]"
+        ],
+        "afterNativeTextJsonRecords": [
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]",
+          "adminPasswordSecret: [REDACTED]"
+        ],
+        "result": "left redacted",
+        "reason": "The supplied scalar has no complete storage-reference grammar proving it is a reference."
+      },
+      {
+        "family": "cloud_tag_key",
+        "reaudit3SetACount": 8,
+        "reaudit3SetBCount": 0,
+        "input": "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+        "beforeTextJsonRecords": [
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"[REDACTED]\",\"Value\":\"development\"}]}"
+        ],
+        "afterTextJsonRecords": [
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}"
+        ],
+        "afterNativeTextJsonRecords": [
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}",
+          "{\"Tags\":[{\"Key\":\"department:scope\",\"Value\":\"development\"}]}"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "provider_function_identifier",
+        "reaudit3SetACount": 4,
+        "reaudit3SetBCount": 5,
+        "input": "The callback name is capy_collect_recent_history_records in the source listing.",
+        "beforeTextJsonRecords": [
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing."
+        ],
+        "beforeWasmTextJsonRecords": [
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing."
+        ],
+        "afterTextJsonRecords": [
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing."
+        ],
+        "afterNativeTextJsonRecords": [
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing.",
+          "The callback name is [REDACTED] in the source listing."
+        ],
+        "result": "left redacted",
+        "reason": "A prose callback mention does not establish a source declaration or call position."
+      },
+      {
+        "family": "existing_mask_container",
+        "reaudit3SetACount": null,
+        "reaudit3SetBCount": null,
+        "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+        "beforeTextJsonRecords": [
+          "secret: [REDACTED]",
+          "secret: [REDACTED]",
+          "secret: [REDACTED]"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "secret: [REDACTED]",
+          "secret: [REDACTED]",
+          "secret: [REDACTED]"
+        ],
+        "afterTextJsonRecords": [
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}"
+        ],
+        "afterNativeTextJsonRecords": [
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}",
+          "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"}"
+        ],
+        "result": "precision improved"
+      },
+      {
+        "family": "existing_mask_bearer",
+        "reaudit3SetACount": null,
+        "reaudit3SetBCount": null,
+        "input": "value = \"Bearer hidden_...\";",
+        "beforeTextJsonRecords": [
+          "value = \"Bearer [REDACTED]\";",
+          "value = \"Bearer [REDACTED]\";",
+          "value = \"Bearer [REDACTED]\";"
+        ],
+        "beforeWasmTextJsonRecords": [
+          "value = \"Bearer [REDACTED]\";",
+          "value = \"Bearer [REDACTED]\";",
+          "value = \"Bearer [REDACTED]\";"
+        ],
+        "afterTextJsonRecords": [
+          "value = \"Bearer hidden_...\";",
+          "value = \"Bearer hidden_...\";",
+          "value = \"Bearer hidden_...\";"
+        ],
+        "afterNativeTextJsonRecords": [
+          "value = \"Bearer hidden_...\";",
+          "value = \"Bearer hidden_...\";",
+          "value = \"Bearer hidden_...\";"
+        ],
+        "result": "precision improved"
+      }
+    ],
+    "fixedFamilies": [
+      "code_expression",
+      "numeric_session_id",
+      "sql_parameter",
+      "session_fixture_or_symbol",
+      "type_or_enum",
+      "cloud_tag_key",
+      "existing_mask_container",
+      "existing_mask_bearer"
+    ],
+    "alreadyCorrectOnBase": [
+      "code_symbol",
+      "assignment_scope_overrun",
+      "credential_plus_scope_overrun"
+    ],
+    "leftRedacted": [
+      "credential_storage_reference",
+      "provider_function_identifier"
+    ],
+    "policyUnchanged": [
+      "synthetic literals",
+      "assignment-shaped prose",
+      "public routing identifiers",
+      "field-name constants",
+      "provider tokens inside hostnames"
+    ],
+    "attacks": {
+      "code_expression": 1,
+      "numeric_session_id": 1,
+      "sql_parameter": 1,
+      "session_fixture_or_symbol": 1,
+      "type_or_enum": 1,
+      "code_symbol": 1,
+      "assignment_scope_overrun": 1,
+      "credential_plus_scope_overrun": 1,
+      "credential_storage_reference": 1,
+      "cloud_tag_key": 1,
+      "provider_function_identifier": 1,
+      "existing_mask_container": 1,
+      "existing_mask_bearer": 1,
+      "signed_url_quotes": 48,
+      "literal_sibling": 23,
+      "appended_tail": 24,
+      "numeric_credential": 5,
+      "provider_sibling": 5,
+      "signed_url_exact": 1,
+      "fixture_quote_case": 12,
+      "mask_fixture_embedded_tail": 32,
+      "complete_tail_attack": 30,
+      "signed_url_scope": 8,
+      "cloud_tag_unicode": 1,
+      "signed_url_embedded_quotes": 20,
+      "signed_url_quoted_signature": 20,
+      "code_embedded_hex_literal": 6,
+      "code_embedded_numeric_spelling": 8,
+      "fixture_embedded_hex_spelling": 1
+    },
+    "gates": {
+      "nativeRust": "1.88.0; all-targets/all-features/locked70 pass",
+      "fmt": "pass",
+      "clippy": "-D warnings pass",
+      "reviewerMatrixCases": 1186,
+      "rulingCases": 43,
+      "residualControls": [
+        19,
+        17
+      ],
+      "frozenCases": 199,
+      "frozenMissedSecretCases": 0,
+      "frozenSecondPassChanges": 0,
+      "historicalStructuralReproductionsReplayed": 34,
+      "bearerPositiveCases": 43,
+      "bearerBenignControls": 9,
+      "completeReferenceCases": 141,
+      "numericCredentialCases": 45,
+      "newInventedCases": 257,
+      "directStructuredControls": 4,
+      "newInvalidCasesTextJsonRecords": [
+        0,
+        0,
+        0
+      ],
+      "newSecondPassChanges": 0,
+      "nodeTests": 68,
+      "bunTests": 68,
+      "freshNativeTextVectors": 5902,
+      "freshNativeStructuredVectors": 5907,
+      "workers": "CI and local verified hosted package pass",
+      "independentWasmReproducibility": "CI pass",
+      "timingDeadlineSeconds": 10,
+      "timingLimitsChanged": false,
+      "timings": {
+        "ubuntu-latest": {
+          "smallContainerSeconds": 0.14,
+          "largeContainerSeconds": 2.22
+        },
+        "windows-latest": {
+          "smallContainerSeconds": 0.126,
+          "largeContainerSeconds": 2.032
+        }
+      },
+      "vetoDiffReview": "pass; host specialist phase completed after deterministic scan",
+      "independentPrecision": "Independent re-audit pending. Invented regressions are not a measurement of false-positive rates on session data."
+    }
+  }
 }

@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752"
+    "source": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8"
   },
   "headWasm": {
-    "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+    "source": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -532,19 +532,20 @@
     "inventedBenignVariants": 78,
     "positiveControls": 25,
     "structuredCases": 3,
-    "nativeTextVectors": 5645,
-    "nativeStructuredVectors": 5650,
-    "nodeTests": 66,
-    "bunTests": 66,
+    "nativeTextVectors": 5902,
+    "nativeStructuredVectors": 5907,
+    "nodeTests": 68,
+    "bunTests": 68,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199,
     "newSessionBenignCases": 81,
     "newSessionPositiveControls": 36,
-    "nativeTests": 68,
+    "nativeTests": 70,
     "bearerPositiveCases": 43,
     "bearerBenignControls": 9,
     "completeValueCases": 141,
-    "numericCredentialCases": 45
+    "numericCredentialCases": 45,
+    "ruleset10_1InventedCases": 257
   },
   "frozenWitnesses": {
     "baseExactArchivedOracle": 168,
@@ -572,7 +573,7 @@
       "call_refusal",
       "instance_poison"
     ],
-    "candidateVersion": "0.5.0-alpha.2",
+    "candidateVersion": "0.5.0-alpha.3",
     "npmPrivate": false,
     "published": false
   },
@@ -588,17 +589,18 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42850563362",
-    "artifactId": 13779504218,
-    "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
-    "wasmSha256": "d8c491e0df28c94ae65d4f943832c3417419b3c054836f559f722315c7b85a0c",
-    "wasmBytes": 1685047,
-    "packageSha256": "2d0868dc3acdc18fa223787f5996a3cc509b3cf46723420789e719f4f39fdfb0",
-    "packageBytes": 565891,
-    "hostedAllRuntimeChecks": "Linux/Windows native68, fmt/clippy; Node66/Bun66, fresh5645text+5650structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
-    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node66/Bun66; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45;5645text+5650structured byte parity; frozen199 across APIs; Workers pass.",
-    "pinEqualityGate": "Final exact-head rebuild must reproduce all committed source/WASM/glue/adapter/package digests."
+    "sourceCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42860437130",
+    "artifactId": 13784727507,
+    "artifactArchiveSha256": "fc90fc18bcee92bdc6355c9ba78ef990bfafe41c3379e7e887d131a8046770e3",
+    "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
+    "wasmSha256": "1152af5ad37bee04dc14a2a3bba5124eaffb304f492189f207aab38cb5d8f24c",
+    "wasmBytes": 1708827,
+    "packageSha256": "d043599bb6c9c43a4712bc904cbb9673686db72162d3a12df17928c21e456ae9",
+    "packageBytes": 572166,
+    "hostedAllRuntimeChecks": "Linux/Windows native70, fmt/clippy; Node68/Bun68, fresh5902text+5907structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate source run fails only stale-pin equality; these receipts refresh its pins.",
+    "localHostedPackageReplay": "CI archive digest verified against GitHub artifact metadata; package, all WASM/glue/declaration/adapter hashes verified. Node68/Bun68; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45; new257 and direct structured siblings; 5902text+5907structured byte parity; frozen199 across APIs; Workers pass.",
+    "pinEqualityGate": "Final exact-head rebuild must reproduce every committed source/WASM/glue/adapter/package digest."
   },
   "additionalTestOnlyCommit": "408ac1e",
   "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",
@@ -689,16 +691,16 @@
     "independentPrecision": "Independent re-audit pending"
   },
   "previousHostedArtifact": {
-    "sourceCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42848630888",
-    "artifactId": 13777519736,
-    "sourceSha256": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
-    "wasmSha256": "59ffd723a44ea03d4903c1a16d21f4d9cffa621ee6d425223a829ae644168769",
-    "wasmBytes": 1684909,
-    "packageSha256": "2f19e510bbd637be286b4062627cd5a6851fec12ba5e90f7185678cfd43902f6",
-    "packageBytes": 565894,
-    "hostedAllRuntimeChecks": "Linux/Windows native68, fmt/clippy; Node66/Bun66, fresh5642text+5647structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
-    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node66/Bun66; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete138+numeric45;5642text+5647structured byte parity; frozen199 across APIs; Workers pass.",
+    "sourceCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42850563362",
+    "artifactId": 13779504218,
+    "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+    "wasmSha256": "d8c491e0df28c94ae65d4f943832c3417419b3c054836f559f722315c7b85a0c",
+    "wasmBytes": 1685047,
+    "packageSha256": "2d0868dc3acdc18fa223787f5996a3cc509b3cf46723420789e719f4f39fdfb0",
+    "packageBytes": 565891,
+    "hostedAllRuntimeChecks": "Linux/Windows native68, fmt/clippy; Node66/Bun66, fresh5645text+5650structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
+    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node66/Bun66; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45;5645text+5650structured byte parity; frozen199 across APIs; Workers pass.",
     "pinEqualityGate": "Final exact-head rebuild must reproduce all committed source/WASM/glue/adapter/package digests."
   },
   "standaloneBearerFix": {
@@ -859,6 +861,78 @@
         "largeContainerSeconds": 2.415,
         "scopeAllApisSeconds": 57.932
       }
+    }
+  },
+  "ruleset10_1": {
+    "receipt": "docs/results/structural-precision.json",
+    "baseCommit": "03012d58db992371c647a618444370eeed699b9d",
+    "sourceCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
+    "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
+    "fixedFamilies": [
+      "code_expression",
+      "numeric_session_id",
+      "sql_parameter",
+      "session_fixture_or_symbol",
+      "type_or_enum",
+      "cloud_tag_key",
+      "existing_mask_container",
+      "existing_mask_bearer"
+    ],
+    "alreadyCorrectOnBase": [
+      "code_symbol",
+      "assignment_scope_overrun",
+      "credential_plus_scope_overrun"
+    ],
+    "leftRedacted": [
+      "credential_storage_reference",
+      "provider_function_identifier"
+    ],
+    "gates": {
+      "nativeRust": "1.88.0; all-targets/all-features/locked70 pass",
+      "fmt": "pass",
+      "clippy": "-D warnings pass",
+      "reviewerMatrixCases": 1186,
+      "rulingCases": 43,
+      "residualControls": [
+        19,
+        17
+      ],
+      "frozenCases": 199,
+      "frozenMissedSecretCases": 0,
+      "frozenSecondPassChanges": 0,
+      "historicalStructuralReproductionsReplayed": 34,
+      "bearerPositiveCases": 43,
+      "bearerBenignControls": 9,
+      "completeReferenceCases": 141,
+      "numericCredentialCases": 45,
+      "newInventedCases": 257,
+      "directStructuredControls": 4,
+      "newInvalidCasesTextJsonRecords": [
+        0,
+        0,
+        0
+      ],
+      "newSecondPassChanges": 0,
+      "nodeTests": 68,
+      "bunTests": 68,
+      "freshNativeTextVectors": 5902,
+      "freshNativeStructuredVectors": 5907,
+      "workers": "CI and local verified hosted package pass",
+      "independentWasmReproducibility": "CI pass",
+      "timingDeadlineSeconds": 10,
+      "timingLimitsChanged": false,
+      "timings": {
+        "ubuntu-latest": {
+          "smallContainerSeconds": 0.14,
+          "largeContainerSeconds": 2.22
+        },
+        "windows-latest": {
+          "smallContainerSeconds": 0.126,
+          "largeContainerSeconds": 2.032
+        }
+      },
+      "vetoDiffReview": "pass; host specialist phase completed after deterministic scan",
+      "independentPrecision": "Independent re-audit pending. Invented regressions are not a measurement of false-positive rates on session data."
     }
   }
 }
