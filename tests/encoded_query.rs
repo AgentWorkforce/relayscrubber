@@ -196,3 +196,33 @@ fn long_encoded_key_without_assignment_is_linear_and_unchanged() {
         assert!(elapsed < Duration::from_secs(10));
     }
 }
+
+#[test]
+fn benign_entity_lookahead_all_apis_stays_bounded() {
+    use std::time::{Duration, Instant};
+    for count in [2048, 16384] {
+        for unit in [
+            "&#38sort=asc",
+            "&amp;page=2",
+            "&#x26caption=ordinary",
+            "&#39x",
+            "&#x2Gsig=",
+            "&#;sig=",
+        ] {
+            let input = format!(
+                "https://media.example.invalid/?caption=audit{}",
+                unit.repeat(count)
+            );
+            let source = json!([{ "input": input, "expected": input }]).to_string();
+            let start = Instant::now();
+            check(&source);
+            let elapsed = start.elapsed();
+            eprintln!(
+                "benign entity lookahead: unit={unit} count={count} bytes={} seconds={:.3}",
+                input.len(),
+                elapsed.as_secs_f64()
+            );
+            assert!(elapsed < Duration::from_secs(10));
+        }
+    }
+}
