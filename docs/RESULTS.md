@@ -28,19 +28,24 @@ and exact16MiB; fix11 257; earlier27; Bearer43+9; complete141; numeric45; tables
 Rust1.88: 81 all-target/all-feature tests, fmt and clippy `-D warnings` pass.
 Node100/Bun100 pass with fresh23,257 text and23,262 structured vectors. All199
 frozen witnesses have zero annotated misses and zero second-pass changes.
-Long all-API tests cover numeric zero runs, nested entities and1.4MiB of repeated
-HTML attributes at2,048/16,384 copies, under unchanged ten-second limits. Recognition
-cursors advance monotonically and retain only a one-value cache.
-Bun's five-second default per-test timeout is unchanged; property cases are batched.
+Long all-API tests cover numeric zero runs, nested entities and1,392,743 bytes
+of repeated HTML attributes at2,048/16,384 copies, with all idempotence checks
+and the same ten-second limit. The largest case takes3.218s on Linux and9.161s
+on Windows. Earlier Windows attempts11.864s/10.291s failed; performance commits
+`3613a31` and `3afa509` retain the input and assertions while reusing exact quote
+spellings, pure JWT classifications, literal indexes and impossible-assignment
+syntax checks. Per-call caches are bounded. Bun's five-second per-test default
+is unchanged; property cases are batched.
 
-The portable pin is the SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42878437930).
-Linux81 and hosted Node100/Bun100, reproducibility, Workers, frozen witnesses and
-packaging pass; the WASM job fails only comparison with the superseded pin.
-The Windows implementation job was still queued when this receipt was prepared.
-The downloaded package was hash-verified and replayed locally through Node/Bun
-and Workers. See [the behavioral receipt](results/review-fixes.json), specifically
-`htmlAttributePunctuationRepair`, for before/after counts, mapping audit and
-portable source/WASM/glue/declaration/adapter/package digests.
+The portable pin is the SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42883603191).
+Linux/Windows81 and hosted Node100/Bun100, reproducibility, Workers, frozen
+witnesses and packaging pass. The WASM job fails only comparison with the
+superseded pin; this receipt regenerates it. The downloaded package was
+hash-verified and replayed locally through Node/Bun and Workers. See
+[the behavioral receipt](results/review-fixes.json), specifically
+`htmlAttributePunctuationRepair`, for before/after counts, API timing phases,
+mapping/cache audits and portable source/WASM/glue/declaration/adapter/package
+digests.
 
 Final handoff requires one immutable terminal-green exact-head CI on Linux,
 Windows and WASM, including unchanged timing limits and equality with the

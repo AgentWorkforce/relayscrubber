@@ -592,16 +592,16 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "98f82be1454a023ff69a1f38ca1131afdc06e2e1",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42878437930",
-    "artifactId": 13791319926,
-    "artifactArchiveSha256": "19eb51364a55d9be24a4d01244c888cd1407948ed878f06320325a800c13f35c",
-    "sourceSha256": "159f90a079cdb06d33f4cf69d653101ede5cc863790b1ab3f7b9b3c0511cf50c",
-    "wasmSha256": "d35ef1bb5ed12ff3a66c867d398bc5817165344edb9a3511f890c85a01a560bf",
-    "wasmBytes": 1723608,
-    "packageSha256": "396b9fc3346b16442e8c4406f53e27036c87390162ef46beaf6dcf949629c1c0",
-    "packageBytes": 577428,
-    "hostedAllRuntimeChecks": "Linux Rust81 fmt/clippy pass; WASM Node100/Bun100, fresh23257text+23262structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only WASM stale-pin comparison failed. Windows implementation job remained queued when this receipt was prepared; terminal exact-head successor Windows success is required before handoff.",
+    "sourceCommit": "3afa509505f4d865c94f908583f07250b938071a",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42883603191",
+    "artifactId": 13793984037,
+    "artifactArchiveSha256": "589090a83f393d3d5a739c298b049413f86be7335d153b4301413c96eb90c562",
+    "sourceSha256": "46bc13caf7798453df0dc46a47dfa6fb96890979605eb13c2fcac0be0d91dbc5",
+    "wasmSha256": "74165bb3a829a19e0c3ef66e04c6fc5fba3106ef18299fc94d4b408bb02f71ea",
+    "wasmBytes": 1729317,
+    "packageSha256": "e044e54243d94997588a5cc863edf45f706360ed2e062a13ba3e59d107a97973",
+    "packageBytes": 578700,
+    "hostedAllRuntimeChecks": "Linux/Windows Rust81 fmt/clippy pass; WASM Node100/Bun100, fresh23257text+23262structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only stale-pin comparison failed; this receipt refreshes it. Unchanged all-API attribute stress is3.218s Linux/9.161s Windows, below10s.",
     "localHostedPackageReplay": "GitHub archive SHA256 and every package/WASM/glue/declaration/adapter hash verified. Exact hosted WASM replay Node100/Bun100 with property12512+HTMLpunctuation3718, all-API long/idempotence controls, fresh23257text+23262structured vectors, frozen199 and all earlier gates passes. Workers pass.",
     "pinEqualityGate": "Final immutable receipt head must reproduce source/WASM/glue/declaration/adapter/package digests with terminal ALL-green Linux, Windows and WASM CI. This implementation artifact alone is not the handoff gate."
   },
@@ -1766,7 +1766,7 @@
     "testOnlyCommit": "bfb98337fa4447a13dec55120b2b01b3b319a964",
     "implementationCommit": "98f82be1454a023ff69a1f38ca1131afdc06e2e1",
     "candidateVersion": "0.5.0-alpha.3",
-    "sourceSha256": "159f90a079cdb06d33f4cf69d653101ede5cc863790b1ab3f7b9b3c0511cf50c",
+    "sourceSha256": "46bc13caf7798453df0dc46a47dfa6fb96890979605eb13c2fcac0be0d91dbc5",
     "baselineEvidence": {
       "toolchain": "1.88.0",
       "cases": 3718,
@@ -1830,7 +1830,8 @@
         2048,
         16384
       ],
-      "largestLongInputBytes": 1392743
+      "largestLongInputBytes": 1392743,
+      "cacheEquivalence": "Quote canonicalization is unchanged. Header/negative-JWT results depend only on exact borrowed strings, never token context; each API call starts with empty caches. Assignment-prefix rejection only bypasses work for syntax that the existing delimiter guard rejects."
     },
     "privacy": "Invented inputs only. No sampled data, labels or reaudit*-fresh directories opened.",
     "gates": {
@@ -2171,59 +2172,143 @@
         0
       ],
       "htmlAttributePunctuationSecondPassChanges": 0,
-      "htmlPunctuationHostedLinuxTimings": [
-        {
-          "family": "numeric equals zeros",
-          "count": 2048,
-          "bytes": 2131,
-          "seconds": 0.021
-        },
-        {
-          "family": "nested named equals",
-          "count": 2048,
-          "bytes": 8295,
-          "seconds": 0.039
-        },
-        {
-          "family": "many HTML attributes",
-          "count": 2048,
-          "bytes": 174183,
-          "seconds": 0.684
-        },
-        {
-          "family": "numeric equals zeros",
-          "count": 16384,
-          "bytes": 16467,
-          "seconds": 0.077
-        },
-        {
-          "family": "nested named equals",
-          "count": 16384,
-          "bytes": 65639,
-          "seconds": 0.288
-        },
-        {
-          "family": "many HTML attributes",
-          "count": 16384,
+      "windowsLongTimingGate": "The implementation Windows job passes every unchanged all-API long input under10s; the final exact-head Windows job must repeat the same checks before handoff.",
+      "htmlPunctuationHostedTimings": {
+        "ubuntu-latest": [
+          {
+            "family": "numeric equals zeros",
+            "count": 2048,
+            "bytes": 2131,
+            "seconds": 0.014
+          },
+          {
+            "family": "nested named equals",
+            "count": 2048,
+            "bytes": 8295,
+            "seconds": 0.019
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 2048,
+            "bytes": 174183,
+            "seconds": 0.389
+          },
+          {
+            "family": "numeric equals zeros",
+            "count": 16384,
+            "bytes": 16467,
+            "seconds": 0.047
+          },
+          {
+            "family": "nested named equals",
+            "count": 16384,
+            "bytes": 65639,
+            "seconds": 0.143
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 16384,
+            "bytes": 1392743,
+            "seconds": 3.218
+          }
+        ],
+        "windows-latest": [
+          {
+            "family": "numeric equals zeros",
+            "count": 2048,
+            "bytes": 2131,
+            "seconds": 0.038
+          },
+          {
+            "family": "nested named equals",
+            "count": 2048,
+            "bytes": 8295,
+            "seconds": 0.057
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 2048,
+            "bytes": 174183,
+            "seconds": 1.245
+          },
+          {
+            "family": "numeric equals zeros",
+            "count": 16384,
+            "bytes": 16467,
+            "seconds": 0.16
+          },
+          {
+            "family": "nested named equals",
+            "count": 16384,
+            "bytes": 65639,
+            "seconds": 0.528
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 16384,
+            "bytes": 1392743,
+            "seconds": 9.161
+          }
+        ]
+      },
+      "htmlPunctuationHostedApiPhases": {
+        "ubuntu-latest": {
           "bytes": 1392743,
-          "seconds": 3.734
+          "recordsSeconds": 0.49,
+          "textSeconds": 0.446,
+          "jsonSeconds": 0.455,
+          "secondPassSeconds": 1.815
+        },
+        "windows-latest": {
+          "bytes": 1392743,
+          "recordsSeconds": 1.672,
+          "textSeconds": 1.292,
+          "jsonSeconds": 1.381,
+          "secondPassSeconds": 4.771
         }
-      ],
-      "windowsLongTimingGate": "The same all-API long tests and unchanged ten-second limits must pass on the final exact-head Windows job before handoff."
+      }
     },
     "hostedArtifact": {
-      "sourceCommit": "98f82be1454a023ff69a1f38ca1131afdc06e2e1",
-      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42878437930",
-      "artifactId": 13791319926,
-      "artifactArchiveSha256": "19eb51364a55d9be24a4d01244c888cd1407948ed878f06320325a800c13f35c",
-      "sourceSha256": "159f90a079cdb06d33f4cf69d653101ede5cc863790b1ab3f7b9b3c0511cf50c",
-      "wasmSha256": "d35ef1bb5ed12ff3a66c867d398bc5817165344edb9a3511f890c85a01a560bf",
-      "wasmBytes": 1723608,
-      "packageSha256": "396b9fc3346b16442e8c4406f53e27036c87390162ef46beaf6dcf949629c1c0",
-      "packageBytes": 577428,
-      "hostedAllRuntimeChecks": "Linux Rust81 fmt/clippy pass; WASM Node100/Bun100, fresh23257text+23262structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only WASM stale-pin comparison failed. Windows implementation job remained queued when this receipt was prepared; terminal exact-head successor Windows success is required before handoff.",
+      "sourceCommit": "3afa509505f4d865c94f908583f07250b938071a",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42883603191",
+      "artifactId": 13793984037,
+      "artifactArchiveSha256": "589090a83f393d3d5a739c298b049413f86be7335d153b4301413c96eb90c562",
+      "sourceSha256": "46bc13caf7798453df0dc46a47dfa6fb96890979605eb13c2fcac0be0d91dbc5",
+      "wasmSha256": "74165bb3a829a19e0c3ef66e04c6fc5fba3106ef18299fc94d4b408bb02f71ea",
+      "wasmBytes": 1729317,
+      "packageSha256": "e044e54243d94997588a5cc863edf45f706360ed2e062a13ba3e59d107a97973",
+      "packageBytes": 578700,
+      "hostedAllRuntimeChecks": "Linux/Windows Rust81 fmt/clippy pass; WASM Node100/Bun100, fresh23257text+23262structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only stale-pin comparison failed; this receipt refreshes it. Unchanged all-API attribute stress is3.218s Linux/9.161s Windows, below10s.",
       "localHostedPackageReplay": "GitHub archive SHA256 and every package/WASM/glue/declaration/adapter hash verified. Exact hosted WASM replay Node100/Bun100 with property12512+HTMLpunctuation3718, all-API long/idempotence controls, fresh23257text+23262structured vectors, frozen199 and all earlier gates passes. Workers pass.",
       "pinEqualityGate": "Final immutable receipt head must reproduce source/WASM/glue/declaration/adapter/package digests with terminal ALL-green Linux, Windows and WASM CI. This implementation artifact alone is not the handoff gate."
+    },
+    "sourceCommit": "3afa509505f4d865c94f908583f07250b938071a",
+    "performanceCommits": [
+      "3613a3141b197cced8718699a027b794d2f172d3",
+      "3afa509505f4d865c94f908583f07250b938071a"
+    ],
+    "performanceRepair": {
+      "unchangedInputBytes": 1392743,
+      "unchangedAttributeCount": 16384,
+      "unchangedDeadlineSeconds": 10,
+      "apisAndSecondPassChecksRetained": true,
+      "priorWindowsSeconds": {
+        "d5bf214": 11.864,
+        "3613a31": 10.291
+      },
+      "latestHostedSeconds": {
+        "ubuntu-latest": 3.218,
+        "windows-latest": 9.161
+      },
+      "changes": [
+        "Borrow quote tags when existing ASCII-case canonicalization makes no changes, retaining exact quote/depth identity.",
+        "Cache one pure JWT header classification and one fully validated negative compact run using borrowed source strings; valid token spans remain computed per run.",
+        "Reject impossible assignment syntax before name hashing; retain every accepted separator prefix and Unicode whitespace.",
+        "When no source escapes changed, literal indexing bypasses empty binary searches. Ordinary non-escape bytes use the exact existing decoder fallback directly."
+      ],
+      "bounds": "All caches are per-call and bounded; decoding and scans advance monotonically. No stress input, assertion, API call or timing limit was reduced.",
+      "diagnostics": "Long native checks emit byte counts and per-API/second-pass elapsed times only, with no input excerpts.",
+      "vetoDiffReview": "Both performance follow-ups passed deterministic and host reviewer/security/secrets phases."
     }
   }
 }
