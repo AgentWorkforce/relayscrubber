@@ -584,7 +584,7 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             && depth == 0
             && rest
                 .bytes()
-                .all(|b| b.is_ascii_alphanumeric() || b"_:<>()[], &'".contains(&b));
+                .all(|b| b.is_ascii_alphanumeric() || b"_.:<>()[], &'".contains(&b));
         let simple = ["string", "boolean", "number", "bool", "&str"].contains(&rest)
             || type_context(view, key) && code_expression(rest);
         return generic || simple;
