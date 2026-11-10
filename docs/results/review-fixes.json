@@ -592,17 +592,17 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "f90a34a8e23a34e3608c69f29bbc0d649d573b1f",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42895517689",
-    "artifactId": 13799229356,
-    "artifactArchiveSha256": "8bc6304a57d8e4651429e9e60c61d79fe8a23ce195dcd2f06bfe616bcae8ba34",
-    "sourceSha256": "b8a8d21181b7e14011a0fa1c237310164814bcfbf0f45b41e2e99e9db8f775d4",
-    "wasmSha256": "eadc8b2931c66ebc6db35f37c63e92f5cf40e91a6abcc2f84a4ba7549cf5fd52",
-    "wasmBytes": 1734279,
-    "packageSha256": "cc69d98965e34f15ad605267c8bb779bf0fe7a168a3fdc20188e59ee4988fc2f",
-    "packageBytes": 580056,
-    "hostedAllRuntimeChecks": "Linux82, Windows82, Node340, Bun340, frozen199, reproducibility and Workers pass. This artifact-generation run failed only the expected old-pin equality check.",
-    "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node340/Bun340 with fresh83445text+83450structured vectors and frozen199.",
+    "sourceCommit": "0b14cda7abe1a308cf6e1655a0eef509f809d248",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42902080040",
+    "artifactId": 13804325374,
+    "artifactArchiveSha256": "fcbf0b2869a2e0da61bdc6c8fab584de1c2342e002ad81537f94fb2b71665283",
+    "sourceSha256": "8f1c36f0afbb68ae4bbabba1684b168e76a2b4f273029b32b13d76b7307e2fa3",
+    "wasmSha256": "42910e8bab81b8be8795f15324bf06102425bee52d896f8c8a2b8551822a6f50",
+    "wasmBytes": 1741340,
+    "packageSha256": "f182ca2afefcc37880a921369640fae578c6161a6b24e7a1e31743cc85df8441",
+    "packageBytes": 581225,
+    "hostedAllRuntimeChecks": "Linux88, Windows88, Node689, Bun689, frozen199, reproducibility and Workers pass. This artifact-generation run failed only the expected old-pin equality check.",
+    "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node689/Bun689 with fresh168285text+168290structured vectors and frozen199.",
     "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
   },
   "additionalTestOnlyCommit": "408ac1e",
@@ -2599,6 +2599,251 @@
       "packageBytes": 580056,
       "hostedAllRuntimeChecks": "Linux82, Windows82, Node340, Bun340, frozen199, reproducibility and Workers pass. This artifact-generation run failed only the expected old-pin equality check.",
       "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node340/Bun340 with fresh83445text+83450structured vectors and frozen199.",
+      "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
+    }
+  },
+  "urlComponentLayerRepair": {
+    "baseCommit": "69a7435d58f163e718f09fda5c6d5fc5ee9201e9",
+    "testOnlyCommit": "307ff0f",
+    "implementationCommit": "0b14cda7abe1a308cf6e1655a0eef509f809d248",
+    "candidateVersion": "0.5.0-alpha.3",
+    "sourceSha256": "8f1c36f0afbb68ae4bbabba1684b168e76a2b4f273029b32b13d76b7307e2fa3",
+    "baselineEvidence": {
+      "cases": 84831,
+      "invalidCaseApiPairs": 25155,
+      "reviewerWitnesses": 4,
+      "reviewerInvalidCaseApiPairs": 12,
+      "apis": [
+        "text",
+        "JSON",
+        "NDJSON"
+      ],
+      "scope": "Tests ran on69a7435d before production edits; final nine additional matrix cases cover username/unquoted-boundary attacks and benign controls."
+    },
+    "behavior": [
+      "Find URL component boundaries on the HTML-entity-only source view; percent escapes stay data.",
+      "Map complete credential spans back to original source bytes and give them precedence over crossing decoded matches.",
+      "Keep the prior separately encoded nested/redirect URL discovery and every old fixture expectation.",
+      "Protocol-relative userinfo respects literal authority boundaries; encoded password delimiters stay data.",
+      "Public encoded username colons survive; unquoted attribute boundaries and quote openers require source-literal bytes."
+    ],
+    "coverage": {
+      "componentCases": 84840,
+      "positiveCases": 84592,
+      "benignByteIdenticalCases": 248,
+      "priorHtmlCasesRetained": 63906,
+      "additionalEntitySeparatorCases": 4,
+      "additionalPercentQuoteOpenerCases": 1,
+      "combinedWasmHtmlCases": 148751,
+      "sensitiveKeys": 38,
+      "componentReservedEscapes": [
+        "%26",
+        "%2F",
+        "%3F",
+        "%23",
+        "%40",
+        "%3A",
+        "%3D"
+      ],
+      "componentStyles": [
+        "upper",
+        "lower",
+        "double",
+        "entity",
+        "entity-double",
+        "mix",
+        "percent-prefix"
+      ],
+      "urlShapes": [
+        "relative",
+        "root-relative",
+        "protocol-relative",
+        "query-only",
+        "absolute"
+      ],
+      "attributeQuotingForms": 3,
+      "invalidTextJsonRecords": [
+        0,
+        0,
+        0
+      ],
+      "secondPassChanges": 0,
+      "selfAttacks": [
+        "assignment-looking encoded delimiters",
+        "percent25 prefixes",
+        "plus",
+        "semicolon separator",
+        "fragment inside value",
+        "encoded username colon",
+        "percent20/3E in unquoted values",
+        "entity separator without following assignment",
+        "percent22 at unquoted attribute start"
+      ]
+    },
+    "gates": {
+      "rustToolchain": "1.88.0",
+      "nativeTestsEachPlatform": 88,
+      "fmt": "pass",
+      "clippy": "-D warnings pass",
+      "nodeTests": 689,
+      "bunTests": 689,
+      "nativeTextVectors": 168285,
+      "nativeStructuredVectors": 168290,
+      "frozenCases": 199,
+      "frozenMisses": 0,
+      "frozenSecondPassChanges": 0,
+      "workers": "pass",
+      "reproducibility": "pass",
+      "allEarlierGatesRetained": true,
+      "fixtureExpectationChanges": 0,
+      "longTimingInputBytes": 1392743,
+      "longTimingAttributeCount": 16384,
+      "deadlineSeconds": 10,
+      "apiCallsAndAssertionsRetained": true,
+      "bunDefaultWatchdogMilliseconds": 5000,
+      "newComponentLongCounts": [
+        2048,
+        16384
+      ],
+      "newComponentLongBytes": [
+        57399,
+        458807
+      ],
+      "parityBatchSize": 16384,
+      "vetoDiffReview": "pass: reviewer94/security94/secrets100; no high or critical findings.",
+      "hostedTimings": {
+        "ubuntu-latest": [
+          {
+            "family": "numeric equals zeros",
+            "count": 2048,
+            "bytes": 2131,
+            "seconds": 0.01
+          },
+          {
+            "family": "nested named equals",
+            "count": 2048,
+            "bytes": 8295,
+            "seconds": 0.032
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 2048,
+            "bytes": 174183,
+            "seconds": 0.533
+          },
+          {
+            "family": "numeric equals zeros",
+            "count": 16384,
+            "bytes": 16467,
+            "seconds": 0.055
+          },
+          {
+            "family": "nested named equals",
+            "count": 16384,
+            "bytes": 65639,
+            "seconds": 0.205
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 16384,
+            "bytes": 1392743,
+            "seconds": 3.745
+          }
+        ],
+        "windows-latest": [
+          {
+            "family": "numeric equals zeros",
+            "count": 2048,
+            "bytes": 2131,
+            "seconds": 0.014
+          },
+          {
+            "family": "nested named equals",
+            "count": 2048,
+            "bytes": 8295,
+            "seconds": 0.04
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 2048,
+            "bytes": 174183,
+            "seconds": 0.697
+          },
+          {
+            "family": "numeric equals zeros",
+            "count": 16384,
+            "bytes": 16467,
+            "seconds": 0.091
+          },
+          {
+            "family": "nested named equals",
+            "count": 16384,
+            "bytes": 65639,
+            "seconds": 0.257
+          },
+          {
+            "family": "many HTML attributes",
+            "count": 16384,
+            "bytes": 1392743,
+            "seconds": 4.282
+          }
+        ]
+      },
+      "hostedComponentTimings": {
+        "ubuntu-latest": [
+          {
+            "count": 2048,
+            "bytes": 57399,
+            "seconds": 0.038
+          },
+          {
+            "count": 16384,
+            "bytes": 458807,
+            "seconds": 0.351
+          }
+        ],
+        "windows-latest": [
+          {
+            "count": 2048,
+            "bytes": 57399,
+            "seconds": 0.035
+          },
+          {
+            "count": 16384,
+            "bytes": 458807,
+            "seconds": 0.274
+          }
+        ]
+      }
+    },
+    "scannerAudit": "Disjoint attributes and component/authority cursors advance monotonically. Each source escape chain is consumed once per view. At most one adjacent attribute spelling and match set are cached; source mappings use sorted escape indexes. Existing span sorting is retained.",
+    "privacy": "Invented inputs only; no private samples, labels or re-audit directories accessed.",
+    "baseHostedArtifact": {
+      "sourceCommit": "f90a34a8e23a34e3608c69f29bbc0d649d573b1f",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42895517689",
+      "artifactId": 13799229356,
+      "artifactArchiveSha256": "8bc6304a57d8e4651429e9e60c61d79fe8a23ce195dcd2f06bfe616bcae8ba34",
+      "sourceSha256": "b8a8d21181b7e14011a0fa1c237310164814bcfbf0f45b41e2e99e9db8f775d4",
+      "wasmSha256": "eadc8b2931c66ebc6db35f37c63e92f5cf40e91a6abcc2f84a4ba7549cf5fd52",
+      "wasmBytes": 1734279,
+      "packageSha256": "cc69d98965e34f15ad605267c8bb779bf0fe7a168a3fdc20188e59ee4988fc2f",
+      "packageBytes": 580056,
+      "hostedAllRuntimeChecks": "Linux82, Windows82, Node340, Bun340, frozen199, reproducibility and Workers pass. This artifact-generation run failed only the expected old-pin equality check.",
+      "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node340/Bun340 with fresh83445text+83450structured vectors and frozen199.",
+      "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
+    },
+    "hostedArtifact": {
+      "sourceCommit": "0b14cda7abe1a308cf6e1655a0eef509f809d248",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42902080040",
+      "artifactId": 13804325374,
+      "artifactArchiveSha256": "fcbf0b2869a2e0da61bdc6c8fab584de1c2342e002ad81537f94fb2b71665283",
+      "sourceSha256": "8f1c36f0afbb68ae4bbabba1684b168e76a2b4f273029b32b13d76b7307e2fa3",
+      "wasmSha256": "42910e8bab81b8be8795f15324bf06102425bee52d896f8c8a2b8551822a6f50",
+      "wasmBytes": 1741340,
+      "packageSha256": "f182ca2afefcc37880a921369640fae578c6161a6b24e7a1e31743cc85df8441",
+      "packageBytes": 581225,
+      "hostedAllRuntimeChecks": "Linux88, Windows88, Node689, Bun689, frozen199, reproducibility and Workers pass. This artifact-generation run failed only the expected old-pin equality check.",
+      "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node689/Bun689 with fresh168285text+168290structured vectors and frozen199.",
       "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
     }
   }
