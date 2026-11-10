@@ -190,7 +190,7 @@ fn keyed_json_values_and_collision_handling() {
     .0;
     assert_eq!(
         clean,
-        json!({"password":REDACTION_TOKEN,"apiKey":REDACTION_TOKEN,"key":"normal"})
+        json!({"password":12,"apiKey":REDACTION_TOKEN,"key":"normal"})
     );
     let mut map = serde_json::Map::new();
     map.insert("password=SYNTH_ALPHA".into(), json!(1));

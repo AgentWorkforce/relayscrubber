@@ -304,7 +304,7 @@ fn code_object_context(view: &View, key: usize) -> bool {
     }
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
-        Regex::new(r"(?s)\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{[^}]*$")
+        Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$")
             .expect("fixed object expression context")
     })
     .is_match(&view.text[start..key])
@@ -316,6 +316,12 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
         limit -= 1;
     }
     let rest = &view.text[value..limit];
+    static EXPRESSION: OnceLock<Regex> = OnceLock::new();
+    if (declaration || colon)
+        && EXPRESSION.get_or_init(|| Regex::new(r"^(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., ]*\)|\([A-Za-z0-9_., ]*\))+)[ \t]*(?:[,;)}]|$)").expect("fixed code expression syntax")).is_match(rest)
+    {
+        return true;
+    }
     let end = rest
         .find(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | '}' | ')' | '"' | '\'' | '`'))
         .unwrap_or(rest.len());
@@ -390,6 +396,128 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             ]
             .iter()
             .any(|s| rest.starts_with(s)))
+}
+
+// These exclusions require syntax, never the English meaning of a value.
+fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, colon: bool) -> bool {
+    let mut limit = view.line_end(value).min(value + 512);
+    while !view.text.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    let rest = &view.text[value..limit];
+    let prefix = bounded_prefix(view, key);
+    if prefix.ends_with("--") && view.text[key..].starts_with("idempotency-token") {
+        let atom = rest.split_whitespace().next().unwrap_or(rest);
+        if !atom.is_empty()
+            && atom
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+        {
+            return true;
+        }
+    }
+    let atom = rest
+        .split([',', ';', '}', ')', '\"', '\''])
+        .next()
+        .unwrap_or(rest)
+        .trim();
+    if quoted_key && colon && serde_json::from_str::<serde_json::Number>(atom).is_ok() {
+        return true;
+    }
+    static SQL: OnceLock<Regex> = OnceLock::new();
+    if SQL
+        .get_or_init(|| {
+            Regex::new(r"(?i)\b(?:SELECT|UPDATE|INSERT|DELETE)\b").expect("fixed SQL context")
+        })
+        .is_match(prefix)
+    {
+        static BIND: OnceLock<Regex> = OnceLock::new();
+        if BIND
+            .get_or_init(|| {
+                Regex::new(r"^(?:\?[0-9]*|\$[0-9]+|:[A-Za-z_][A-Za-z0-9_]*)$")
+                    .expect("fixed SQL bind syntax")
+            })
+            .is_match(atom)
+        {
+            return true;
+        }
+    }
+    // A resource-name mapping is a reference only when its single value is
+    // an unquoted hyphenated identifier. Quoted scalars remain fail closed.
+    static RESOURCE: OnceLock<Regex> = OnceLock::new();
+    if colon
+        && RESOURCE
+            .get_or_init(|| {
+                Regex::new(r"^\{[ \t]*name[ \t]*:[ \t]*[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)+[ \t]*\}")
+                    .expect("fixed resource mapping")
+            })
+            .is_match(rest)
+    {
+        return true;
+    }
+    static TAG: OnceLock<Regex> = OnceLock::new();
+    if prefix.contains("--tags ")
+        && prefix.contains("aws ")
+        && view.text[key..].starts_with("Key=")
+        && TAG
+            .get_or_init(|| {
+                Regex::new(r"^[A-Za-z_][A-Za-z0-9_:.-]*,Value=[A-Za-z0-9_:./-]+(?:[ \t]|$)")
+                    .expect("fixed cloud tag pair")
+            })
+            .is_match(rest)
+    {
+        return true;
+    }
+    false
+}
+
+fn expansion_reference(value: &str) -> bool {
+    if !value.starts_with("$(") && !value.starts_with("${{") {
+        return false;
+    }
+    let mut limit = value.len().min(512);
+    while !value.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    let value = &value[..limit];
+    let boundary = |tail: &str| {
+        tail.is_empty() || tail.starts_with(|c: char| c.is_whitespace() || "\"'`,;)}]".contains(c))
+    };
+    let value = value.trim_end_matches(['\"', '\'', '`']);
+    if let Some(rest) = value.strip_prefix("${{") {
+        return rest.find("}}").is_some_and(|end| {
+            let expression = rest[..end].trim();
+            boundary(&rest[end + 2..])
+                && expression.split('.').count() >= 2
+                && expression.split('.').all(|part| {
+                    !part.is_empty() && part.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+                })
+        });
+    }
+    if !value.starts_with("$(") {
+        return false;
+    }
+    let mut depth = 0;
+    for (i, b) in value.bytes().enumerate().skip(1) {
+        if b == b'(' {
+            depth += 1;
+        }
+        if b == b')' {
+            depth -= 1;
+            if depth == 0 {
+                return boundary(&value[i + 1..]);
+            }
+        }
+    }
+    false
+}
+
+fn match_arm_body(value: &str) -> bool {
+    static ARM: OnceLock<Regex> = OnceLock::new();
+    ARM.get_or_init(|| {
+        Regex::new(r"^[A-Za-z_][A-Za-z0-9_]*[ \t]*(?:=|\()").expect("fixed match arm expression")
+    })
+    .is_match(value)
 }
 
 fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
@@ -505,6 +633,32 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             continue;
         }
         let quoted = matches!(b[value], b'"' | b'\'' | b'`');
+        // Match-arm code bodies are references; PHP/Ruby hash-rocket string
+        // assignments in the same position must still redact.
+        if quoted_key
+            && b.get(sep..sep + 2) == Some(b"=>")
+            && !quoted
+            && match_arm_body(&view.text[value..view.line_end(value)])
+        {
+            continue;
+        }
+
+        // Qualified keys can select a non-scalar object or a numeric coverage
+        // counter. A string credential in the same position still redacts.
+        if quoted_key
+            && start > 0
+            && matches!(b[start - 1], b'/' | b'.' | b':')
+            && (matches!(b[value], b'{' | b'[')
+                || view.text[value..value_end(view, value, None)]
+                    .parse::<u64>()
+                    .is_ok())
+        {
+            continue;
+        }
+
+        if !quoted && structural_value(view, start, value, quoted_key, b.get(sep) == Some(&b':')) {
+            continue;
+        }
         let line_start = view.line_start(value);
         let crossed_line = line_start > after_sep;
         let yaml = b.get(sep) == Some(&b':')
@@ -549,13 +703,14 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         // Empty env/header assignments end at their physical line. Continue
         // across it only for explicit literals, quoted JSON keys, inherited
         // public values or an indented YAML value; never consume the next env key.
-        let declaration = [b"let".as_slice(), b"var".as_slice(), b"const".as_slice()]
-            .iter()
-            .any(|kw| {
-                before >= kw.len()
-                    && &b[before - kw.len()..before] == *kw
-                    && (before == kw.len() || !word(b[before - kw.len() - 1]))
-            });
+        let declaration = bounded_prefix(view, start).trim_end().ends_with("=>")
+            || [b"let".as_slice(), b"var".as_slice(), b"const".as_slice()]
+                .iter()
+                .any(|kw| {
+                    before >= kw.len()
+                        && &b[before - kw.len()..before] == *kw
+                        && (before == kw.len() || !word(b[before - kw.len() - 1]))
+                });
         let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
         if !quoted
             && start >= public_until
@@ -601,6 +756,11 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         };
         let content = value + usize::from(quoted);
         let raw = &view.text[content..end];
+        // Expansion syntax has its own balanced end; scanning it does not
+        // suppress nested assignments or provider tokens.
+        if expansion_reference(&view.text[content..view.line_end(content)]) {
+            continue;
+        }
         if view.text[content..].starts_with("${") {
             let limit = (content + 512).min(b.len());
             if let Some(close) = b[content..limit].iter().position(|b| *b == b'}') {
@@ -681,7 +841,13 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
     let prefix = bounded_prefix(view, position);
-    (prefix.contains("rg ") || prefix.contains("grep ") || prefix.contains("= /"))
+    if prefix.contains("sed ") && prefix.ends_with("/^") && value.starts_with('/') {
+        return true;
+    }
+    (prefix.contains("sed ") && prefix.ends_with("/^")
+        || prefix.contains("rg ")
+        || prefix.contains("grep ")
+        || prefix.contains("= /"))
         && (value.starts_with("\\s") || value.starts_with(".*") || value.starts_with("[A-Z]"))
 }
 
@@ -841,6 +1007,12 @@ pub(crate) fn reference(value: &str) -> bool {
     static SYMBOLIC: OnceLock<Regex> = OnceLock::new();
     let symbolic = SYMBOLIC.get_or_init(|| Regex::new(r"(?i)^(?:(?:example|dummy|fake|sample|test|placeholder|your)(?:[-_][A-Za-z][A-Za-z0-9_-]{0,63})?|replace[-_]me|change[-_]?me)$").expect("fixed symbolic placeholder syntax"));
     if symbolic.is_match(placeholder)
+        || placeholder == "masked_..."
+        || placeholder.len() >= 3 && placeholder.bytes().all(|b| b == b'*')
+        || placeholder
+            .strip_prefix('<')
+            .and_then(|s| s.strip_suffix('>'))
+            .is_some_and(|s| !s.is_empty() && s.bytes().all(|b| b.is_ascii_digit()))
         || [
             "xxx",
             "XXX",
@@ -904,6 +1076,12 @@ pub(crate) fn field_reference(name: &str, value: &str) -> bool {
 }
 
 fn documentation_url(password: &str, host: &str) -> bool {
+    if shell_reference(password)
+        || reference(password)
+        || matches!(password, "%s" | "%d" | "{}" | "{password}" | "{PASSWORD}")
+    {
+        return true;
+    }
     let host = host.split(':').next().unwrap_or(host).to_ascii_lowercase();
     let reserved = host == "localhost"
         || host == "example.com"
@@ -918,11 +1096,75 @@ fn documentation_url(password: &str, host: &str) -> bool {
     reserved && (matches!(password, "password" | "example" | "placeholder") || reference(password))
 }
 
+fn url_regex_source(view: &View, start: usize, authority: usize) -> bool {
+    let prefix = bounded_prefix(view, start);
+    (prefix.ends_with("re.search(r\"") || prefix.ends_with("re.compile(r\""))
+        && view.text[authority..].starts_with("[^")
+}
+
+fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
+    if !(value.starts_with("capy_") || value.starts_with("crsr_")) {
+        return false;
+    }
+    let body = &value[5..];
+    // Lowercase snake identifiers are references only in explicit source
+    // positions. The same bytes in a scalar/string still use provider rules.
+    if !body.contains('_')
+        || !body
+            .bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_')
+    {
+        return false;
+    }
+    let prefix = bounded_prefix(view, start).trim_end();
+    ["fn", "function", "let", "const", "var", "use", "import"]
+        .iter()
+        .any(|kw| {
+            prefix.strip_suffix(kw).is_some_and(|before| {
+                before.is_empty()
+                    || before.ends_with(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+            })
+        })
+        || prefix.ends_with('.')
+        || prefix.ends_with("::")
+        || view.text[end..].starts_with('(')
+}
+
+fn provider_in_hostname(view: &View, start: usize, end: usize) -> bool {
+    if !view.text[start..end].starts_with("sk-")
+        || start == 0
+        || !matches!(view.text.as_bytes()[start - 1], b'-' | b'a'..=b'z' | b'0'..=b'9')
+    {
+        return false;
+    }
+    let prefix = bounded_prefix(view, start);
+    let Some(scheme) = prefix.rfind("://") else {
+        return false;
+    };
+    let host_start = start - prefix.len() + scheme + 3;
+    let host_end = view.text[host_start..]
+        .find(|c: char| c.is_whitespace() || "/?#\"'`".contains(c))
+        .map_or(view.text.len(), |n| host_start + n);
+    let host = &view.text[host_start..host_end];
+    end <= host_end
+        && host.contains('.')
+        && !host.contains('@')
+        && host.split('.').all(|label| {
+            !label.is_empty()
+                && label
+                    .bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || b == b'-')
+        })
+}
+
 fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     // Inspect nested actual URL schemes too. Authority scans stop at the next
     // literal slash, so their total work is bounded by adjacent scheme starts.
     for scheme in url_regex().find_iter(&view.text) {
+        if url_regex_source(view, scheme.start(), scheme.end()) {
+            continue;
+        }
         let encoded_scheme = !view.literal(scheme.end() - 1);
         let boundary = |p| encoded_scheme || view.literal(p);
         let authority = scheme.end();
@@ -950,6 +1192,10 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     }
     let mut cursor = 0;
     while let Some(scheme) = url_regex().find_at(&view.text, cursor) {
+        if url_regex_source(view, scheme.start(), scheme.end()) {
+            cursor = scheme.end();
+            continue;
+        }
         let mut end = scheme.end();
         while end < b.len()
             && !(view.literal(end)
@@ -1098,6 +1344,12 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     let view = View::new(input);
     let mut spans = Vec::new();
     for m in provider_regex().find_iter(&view.text) {
+        let value = m.as_str();
+        if provider_symbol(&view, value, m.start(), m.end())
+            || provider_in_hostname(&view, m.start(), m.end())
+        {
+            continue;
+        }
         spans.push(m.range());
     }
     jwts(&view, &mut spans);
