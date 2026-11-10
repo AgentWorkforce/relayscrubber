@@ -1,55 +1,50 @@
 # Candidate validation results
 
-Candidate version remains `0.5.0-alpha.3`. Independent precision re-audit stays
-separate. Only invented inputs were used; no sampled data, labels or private
-re-audit directories were accessed. No merge, tag, publication or consumer
+Candidate version remains `0.5.0-alpha.3`. Only invented inputs were used; no
+sampled data, labels or private re-audit directories were accessed. Independent
+precision re-audit remains separate. No merge, tag, publication or consumer
 adoption is authorized by these results.
 
-The HTML attribute URL punctuation property now uses all38 sensitive keys from
-the shared separator catalog, with an equality assertion preventing subsets.
-All five characters `: / ? & =` vary across22 encodings at seven positions:
-colon, each of the two scheme slashes, path slash, query opener, ampersand and
-equals. Fully encoded `://` is explicitly covered. Uniform full URLs, isolated
-positions and a deterministic529-row covering array exercise every pair of
-position encodings: all21 position pairs cover every22x22 style combination,
-each crossed with every sensitive key. Expected output replaces only the value.
+The relative URL repair removes the scheme requirement inside HTML attribute
+values. Relative, root-relative, protocol-relative, query-only and schemeful
+URLs share the existing sensitive-key catalog and source-offset mapping.
+Sensitive query values and userinfo passwords are replaced in their original
+spelling; public keys, usernames, hosts, paths and surrounding markup survive.
+Plain-text protocol-relative passwords are also covered. Comments and raw-text
+HTML elements do not supply attribute context, and the prior URL-regex source
+exemption is retained.
 
-The combined property has36,473 cases:32,755 expanded cases plus all3,718 earlier
-witnesses retained unchanged. There are34,490 sensitive and1,983 byte-identical
-benign cases. Every case exercises native and exact hosted WASM text/JSON/NDJSON,
-original source spelling and second-pass identity. The earlier12,512 separator
-cases remain unchanged, including188 benign/malformed controls.
+The combined HTML property contains 63,906 cases: all 36,473 prior punctuation
+witnesses plus 27,433 relative URL, userinfo and browser-resolution cases.
+All 38 sensitive keys cross all 22 encoding styles, applicable positions from
+the original seven-position model, three attribute quoting forms and mixed
+punctuation. Extra probes cover `./`, `../`, query-only, fragments before queries,
+backslashes after schemes, whitespace, every requested URL attribute, srcset
+entries and meta refresh. Benign relative links, mailto, fragments, prose,
+comments and script content stay byte-identical. Native and WASM checks compare
+text/JSON/NDJSON output to independently constructed expected bytes and repeat
+every API to verify idempotence. WASM correctness tests remain batched for Bun's
+unchanged five-second watchdog.
 
-Test-only commit `eb32500` expands coverage without changing the engine. The
-punctuation engine fix remains `98f82be`, preceded by failing tests `bfb9833`,
-with bounded performance follow-ups `3613a31`/`3afa509`. Historical base `7e8d410`
-fails3,292 cases per API on the original3,718 witnesses; its exact hosted WASM
-fails all21 new tests. The current engine passes the full expanded property.
+Test commit `70a3719` adds the new matrix. Before the implementation changed,
+base `db6a2739` failed 81,474 case/API pairs on the first 63,904 witnesses; the
+final two cases add bare and single-backslash userinfo. Implementation
+`f90a34a` closes the class, including the earlier structural URL-regex control.
 
-Rust1.88 native81, fmt and clippy `-D warnings` pass. Exact hosted Node231/Bun231
-pass with fresh56,012 text and56,017 structured vectors and all199 frozen
-witnesses: zero annotated misses and zero second-pass changes. All earlier gates
-remain covered: matrix1186/ruling43/residual19+17; entity171+percent583;
-query371+58+exact16MiB; fix11 257; earlier27; Bearer43+9; complete141/numeric45;
-tables34+13; admission, resource bounds, Workers and reproducibility.
+The earlier gates are retained: separator 12,512 including 188 benign controls;
+matrix 1186/ruling 43/residual 19+17; fix13 754; fix12 371+58 and exact 16 MiB;
+fix11 257; earlier 27; Bearer 43+9; complete 141/numeric 45; tables 34+13;
+frozen 199 with zero misses and second-pass changes. All timing input sizes,
+API calls, assertions and ten-second limits are unchanged. Scans advance
+monotonically over disjoint values and authorities; the adjacent-value cache
+holds only one spelling and its ranges.
 
-The enlarged correctness matrix and its existing native timing probe run
-serially so the matrix does not consume its own probe CPU budget. The exact
-1,392,743-byte/16,384-attribute input, all API/idempotence calls, assertions and
-ten-second deadline are unchanged. Other earlier tests retain their scheduling.
-Bun's five-second per-test default is unchanged. The56,017 structured parity
-records are checked in four contiguous batches of at most16,384, with every
-API and second-pass assertion retained; the fixture is loaded once. The prior immutable engine CI
-measured3.847s Linux/9.631s Windows; the expanded successor must repeat the same
-timing gate before handoff. Local debug symbols were disabled after a disk-full
-build; hosted CI keeps its unchanged default Rust profile.
-
-Pins were regenerated from the SHA256-verified [terminal-green hosted artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42884504875)
-and are byte-identical: only test coverage and receipts changed. See
-[the behavioral receipt](results/review-fixes.json), specifically
-`htmlAttributePunctuationRepair.coverage` and `fullSensitiveKeyFollowup`, for
-the matrix proof, retained witnesses, timing contract and verified source/WASM/
-glue/declaration/adapter/package hashes.
-
-Final handoff requires one new immutable terminal-green exact-head CI on Linux,
-Windows and WASM, including every expanded case and unchanged timing/pin gate.
+Hosted Rust 1.88 passes 82 tests on Linux and Windows, plus fmt/clippy.
+Node 340 and Bun 340 pass with fresh 83,445 text
+and 83,450 structured vectors. Workers and independent-target reproducibility
+pass. The unchanged long HTML probe measured 4.681s on Linux and 6.464s on
+Windows, both below ten seconds. The hosted artifact evidence and Linux/Windows timings are recorded in
+[the repair receipt](results/review-fixes.json) under `relativeAttributeUrlRepair`.
+[The artifact pin](results/artifact.json) and [CI receipt](results/ci.json) identify
+the verified hosted package. Handoff requires an immutable exact-head Linux,
+Windows and WASM CI run that repeats every gate, including pin equality.

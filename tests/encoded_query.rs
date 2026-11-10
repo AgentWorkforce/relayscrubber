@@ -303,17 +303,21 @@ fn html_attribute_punctuation_long_all_apis_is_bounded() {
 
 #[test]
 fn relative_attribute_url_blockers_all_apis() {
-    let cases: Vec<_> = html_url_punctuation_cases::relative_cases()
+    let inputs = [
+        "<a href=\"&sol;download&quest;signature&equals;7e3b15c97e3b15c9\">open</a>",
+        "<a href=\"&sol;&sol;media.example.invalid&sol;&quest;X-Amz-Signature&equals;7e3b15c97e3b15c9\">open</a>",
+        "<a href=\"download&quest;access_token&equals;7e3b15c97e3b15c9\">open</a>",
+        "<a href=\"&sol;&sol;alice&colon;SYNTH_ALPHA&commat;media.example.invalid&sol;download\">x</a>",
+        "//alice:SYNTH_ALPHA@media.example.invalid/download",
+    ];
+    let cases: Vec<_> = inputs
         .into_iter()
-        .filter(|(input, _)| {
-            input.contains("SYNTH_ALPHA")
-                || input.contains("&sol;")
-                || input.contains("<meta")
-                || input.contains("<!--")
-                || input.contains("<script>")
+        .map(|input| {
+            let expected = input
+                .replace("7e3b15c97e3b15c9", REDACTION_TOKEN)
+                .replace("SYNTH_ALPHA", REDACTION_TOKEN);
+            json!({"input":input,"expected":expected})
         })
-        .take(32)
-        .map(|(input, expected)| json!({"input":input,"expected":expected}))
         .collect();
     check(&serde_json::to_string(&cases).unwrap());
 }

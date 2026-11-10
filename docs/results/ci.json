@@ -1,27 +1,28 @@
 {
   "schema": 1,
-  "status": "runtime-checks-passed-awaiting-pin-equality",
+  "status": "hosted-runtime-and-artifact-verified-awaiting-receipt-head-pin-equality",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+  "codeCommit": "f90a34a8e23a34e3608c69f29bbc0d649d573b1f",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42895517689",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13771140455,
-  "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
+  "artifactId": 13799229356,
+  "artifactArchiveSha256": "8bc6304a57d8e4651429e9e60c61d79fe8a23ce195dcd2f06bfe616bcae8ba34",
+  "packageSha256": "cc69d98965e34f15ad605267c8bb779bf0fe7a168a3fdc20188e59ee4988fc2f",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
-    "crateVersion": "0.5.0-alpha.2",
+    "rulesetSourceSha256": "b8a8d21181b7e14011a0fa1c237310164814bcfbf0f45b41e2e99e9db8f775d4",
+    "crateVersion": "0.5.0-alpha.3",
     "abiVersion": 2,
     "policy": "secrets",
     "redactionToken": "[REDACTED]",
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "relayscrubber_bg.wasm": "eadc8b2931c66ebc6db35f37c63e92f5cf40e91a6abcc2f84a4ba7549cf5fd52",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -39,5 +40,5 @@
     "Linux",
     "Windows"
   ],
-  "runtimeChecks": "passed; old-pin equality failed as expected; new-pin exact-head gate linked from PR12"
+  "runtimeChecks": "Linux82/Windows82/Node340/Bun340, frozen199 zero misses/second passes, Workers/reproducibility passed; source run failed only expected old-pin equality. Final receipt head must pass every gate with updated pins before handoff."
 }
