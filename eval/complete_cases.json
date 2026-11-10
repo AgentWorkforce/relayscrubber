@@ -648,5 +648,30 @@
     "family": "code_and_marker_siblings",
     "input": "secret: [REDACTED] // M8zR4vK7nP2qW6xAq9",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "rejected_reference_literal_scope",
+    "input": "const token = fetch(\"correct horse battery staple\");",
+    "secret": "correct horse battery staple"
+  },
+  {
+    "family": "rejected_reference_literal_scope",
+    "input": "const opts = {token: fetch(\"correct horse battery staple\")};",
+    "secret": "correct horse battery staple"
+  },
+  {
+    "family": "rejected_reference_literal_scope",
+    "input": "token: fetch(\"correct horse battery staple\")",
+    "secret": "correct horse battery staple"
+  },
+  {
+    "family": "rejected_reference_literal_scope",
+    "input": "const accessToken = minted correct horse battery staple;",
+    "secret": "correct horse battery staple"
+  },
+  {
+    "family": "rejected_reference_literal_scope",
+    "input": "const accessToken = cache.token correct horse battery staple;",
+    "secret": "correct horse battery staple"
   }
 ]
