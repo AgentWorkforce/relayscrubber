@@ -93,7 +93,7 @@
     "x-goog-credential",
     "assertion",
     "code_verifier",
-    "serviceKey",
+    "service_key",
     "service_secret"
   ],
   "keyEncodings": [

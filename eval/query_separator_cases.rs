@@ -15,7 +15,7 @@ pub fn cases() -> Vec<(String, String)> {
                     "percent" => key.bytes().map(|b| format!("%{b:02X}")).collect(),
                     "decimal" => key.bytes().map(|b| format!("&#{b};")).collect(),
                     "hex" => key.bytes().map(|b| format!("&#X0{b:X};")).collect(),
-                    "nested" => key.bytes().map(|b| format!("&amp;#{};", b)).collect(),
+                    "nested" => key.bytes().map(|b| format!("&amp;#{b};")).collect(),
                     _ => unreachable!(),
                 };
                 let input = format!(

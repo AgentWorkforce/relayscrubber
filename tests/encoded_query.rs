@@ -120,3 +120,79 @@ fn query_separator_property_all_apis() {
     );
     assert!(failures.is_empty());
 }
+
+#[test]
+fn semicolonless_query_time_is_bounded() {
+    use std::time::{Duration, Instant};
+    for count in [2048, 16384] {
+        for (family, separator, key) in [
+            (
+                "semicolonless decimal zeros",
+                format!("&#{}38", "0".repeat(count)),
+                "X-Amz-Signature".to_owned(),
+            ),
+            (
+                "semicolonless hex zeros",
+                format!("&#X{}26", "0".repeat(count)),
+                "access_token".to_owned(),
+            ),
+            (
+                "semicolonless nested names",
+                format!("&{}", "amp".repeat(count)),
+                "signature".to_owned(),
+            ),
+            (
+                "nested entity key",
+                "&amp;#38".to_owned(),
+                format!("&{}#115;ignature", "amp;".repeat(count)),
+            ),
+            (
+                "long encoded key",
+                "&amp;".to_owned(),
+                format!("{}_token", "&#97;".repeat(count)),
+            ),
+            (
+                "malformed recovery",
+                "\n".to_owned(),
+                format!("{}&#38signature", "&amp;sort=asc".repeat(count)),
+            ),
+        ] {
+            let secret = "7e3b15c97e3b15c9";
+            let input = format!(
+                "https://media.example.invalid/?caption=audit{separator}{key}={secret}&sort=asc"
+            );
+            let expected = input.replace(secret, REDACTION_TOKEN);
+            let start = Instant::now();
+            let actual = scrub_text_checked(&input).unwrap();
+            let elapsed = start.elapsed();
+            eprintln!(
+                "{family}: count={count} bytes={} seconds={:.3}",
+                input.len(),
+                elapsed.as_secs_f64()
+            );
+            assert!(elapsed < Duration::from_secs(10));
+            assert_eq!(actual, expected);
+            assert_eq!(scrub_text(&actual), actual);
+        }
+    }
+}
+
+#[test]
+fn long_encoded_key_without_assignment_is_linear_and_unchanged() {
+    use std::time::{Duration, Instant};
+    for count in [2048, 16384] {
+        let input = format!(
+            "https://media.example.invalid/?caption=audit%26amp;{}",
+            "%26#97;".repeat(count)
+        );
+        let start = Instant::now();
+        assert_eq!(scrub_text_checked(&input).unwrap(), input);
+        let elapsed = start.elapsed();
+        eprintln!(
+            "unassigned encoded key: count={count} bytes={} seconds={:.3}",
+            input.len(),
+            elapsed.as_secs_f64()
+        );
+        assert!(elapsed < Duration::from_secs(10));
+    }
+}
