@@ -6,9 +6,10 @@ No private session samples were accessed for this revision. No adoption, merge,
 publication, tag, deployment or consumer change is authorized by these results.
 
 The behavioral receipt is [results/review-fixes.json](results/review-fixes.json).
-Test-only commit `258e7d2` precedes the implementation. All 14 named families fail
+Test-only commit `258e7d2` precedes the implementation; `408ac1e` adds
+failing-before generalized placeholder/member/type variants. All 14 named families fail
 on base `5a1afa4428bbc73371ffb07d784821cbf266005c` natively and in the actual pinned
-Linux WASM package. The expanded matrix covers 72 invented benign variants over
+Linux WASM package. The expanded matrix covers 80 invented benign variants over
 text, JSON `{text: ...}` and NDJSON. All variants remain byte-identical at head.
 Some original literal examples already passed; every family has failing base
 variants. The receipt records exact before/after counts rather than claiming

@@ -23,7 +23,7 @@
         ]
       },
       {
-        "cases": 8,
+        "cases": 10,
         "name": "code_expression_or_reference",
         "unchangedTextJsonRecords": [
           1,
@@ -95,7 +95,7 @@
         ]
       },
       {
-        "cases": 5,
+        "cases": 9,
         "name": "synthetic_test_literal",
         "unchangedTextJsonRecords": [
           0,
@@ -104,7 +104,7 @@
         ]
       },
       {
-        "cases": 5,
+        "cases": 7,
         "name": "type_declaration_or_syntax",
         "unchangedTextJsonRecords": [
           0,
@@ -165,7 +165,7 @@
       },
       {
         "name": "synthetic_test_literal",
-        "cases": 5,
+        "cases": 9,
         "unchangedTextJsonRecords": [
           0,
           0,
@@ -228,7 +228,7 @@
       },
       {
         "name": "type_declaration_or_syntax",
-        "cases": 5,
+        "cases": 7,
         "unchangedTextJsonRecords": [
           0,
           0,
@@ -255,7 +255,7 @@
       },
       {
         "name": "code_expression_or_reference",
-        "cases": 8,
+        "cases": 10,
         "unchangedTextJsonRecords": [
           1,
           1,
@@ -286,12 +286,12 @@
         ]
       },
       {
-        "cases": 8,
+        "cases": 10,
         "name": "code_expression_or_reference",
         "unchangedTextJsonRecords": [
-          8,
-          8,
-          8
+          10,
+          10,
+          10
         ]
       },
       {
@@ -358,21 +358,21 @@
         ]
       },
       {
-        "cases": 5,
+        "cases": 9,
         "name": "synthetic_test_literal",
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          9,
+          9,
+          9
         ]
       },
       {
-        "cases": 5,
+        "cases": 7,
         "name": "type_declaration_or_syntax",
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          7,
+          7,
+          7
         ]
       },
       {
@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "f00bb29ae8faa56dc44683da58651112e46c52928dbbd2ae38c9af2e60fe11c5"
+    "source": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d"
   },
   "headWasm": {
-    "source": "f00bb29ae8faa56dc44683da58651112e46c52928dbbd2ae38c9af2e60fe11c5",
+    "source": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -428,11 +428,11 @@
       },
       {
         "name": "synthetic_test_literal",
-        "cases": 5,
+        "cases": 9,
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          9,
+          9,
+          9
         ]
       },
       {
@@ -491,11 +491,11 @@
       },
       {
         "name": "type_declaration_or_syntax",
-        "cases": 5,
+        "cases": 7,
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          7,
+          7,
+          7
         ]
       },
       {
@@ -518,22 +518,22 @@
       },
       {
         "name": "code_expression_or_reference",
-        "cases": 8,
+        "cases": 10,
         "unchangedTextJsonRecords": [
-          8,
-          8,
-          8
+          10,
+          10,
+          10
         ]
       }
     ]
   },
   "controls": {
     "namedBenignFamilies": 14,
-    "inventedBenignVariants": 72,
+    "inventedBenignVariants": 80,
     "positiveControls": 23,
     "structuredCases": 3,
-    "nativeTextVectors": 5192,
-    "nativeStructuredVectors": 5192,
+    "nativeTextVectors": 5200,
+    "nativeStructuredVectors": 5200,
     "nodeTests": 36,
     "bunTests": 36,
     "secondPassParity": true,
@@ -577,11 +577,12 @@
     "resourceBounds": "pass",
     "independentTargetReproducibility": "pass",
     "workers": "pass",
-    "publicDiff": "pass: 1173 added lines scanned before final test/receipt updates; final staged guard required before push"
+    "publicDiff": "pass: staged public guard before each source push"
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
     "status": "New Linux source build pending; committed old pin must fail until replacement is checked in.",
     "packageSha256": ""
-  }
+  },
+  "additionalTestOnlyCommit": "408ac1e"
 }

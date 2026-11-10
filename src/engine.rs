@@ -330,7 +330,7 @@ fn code_object_context(view: &View, key: usize) -> bool {
     }
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
-        Regex::new(r"(?s)\b(?:(?:let|const|var)\s+[A-Za-z_][A-Za-z0-9_]*|headers)\s*=\s*\{[^}]*$")
+        Regex::new(r"(?s)\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{[^}]*$")
             .expect("fixed object expression context")
     })
     .is_match(&view.text[start..key])
@@ -349,8 +349,10 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     // Identifier values are references only in established code expression syntax.
     static MEMBER: OnceLock<Regex> = OnceLock::new();
     let member = MEMBER.get_or_init(|| {
-        Regex::new(r"^[A-Za-z_][A-Za-z0-9_]*(?:(?:\.|::)[A-Za-z_][A-Za-z0-9_]*|\[[^\]\r\n]+\])+!?")
-            .expect("fixed member regex")
+        Regex::new(
+            r"^[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\[[^\]\r\n]+\])+!?",
+        )
+        .expect("fixed member regex")
     });
     if member.find(rest).is_some_and(|m| {
         rest.as_bytes()
@@ -390,8 +392,14 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     {
         return true;
     }
+    static GENERIC_TYPE: OnceLock<Regex> = OnceLock::new();
+    let generic_type = GENERIC_TYPE.get_or_init(|| {
+        Regex::new(r"^(?:[A-Za-z_][A-Za-z0-9_]*::)*[A-Z][A-Za-z0-9_]*<")
+            .expect("fixed generic type syntax")
+    });
     colon
-        && (atom.contains("::<")
+        && (generic_type.is_match(rest)
+            || atom.contains("::<")
             || atom.contains("::") && atom.contains('<')
             || ["string", "boolean", "number"].contains(&atom)
             || rest.starts_with("&str")
@@ -694,22 +702,25 @@ pub(crate) fn reference(value: &str) -> bool {
     // Explicit symbolic placeholders are normal configuration/documentation.
     // Embedded assignments/providers are still scanned independently.
     let placeholder = value.trim();
-    if [
-        "xxx",
-        "XXX",
-        "redacted",
-        "REDACTED",
-        "example",
-        "demo",
-        "placeholder",
-        "YOUR_SECRET_HERE",
-        "false",
-        "true",
-        "null",
-        "undefined",
-        "None",
-    ]
-    .contains(&placeholder)
+    static SYMBOLIC: OnceLock<Regex> = OnceLock::new();
+    let symbolic = SYMBOLIC.get_or_init(|| Regex::new(r"(?i)^(?:(?:example|dummy|fake|sample|test|placeholder|your)(?:[-_][A-Za-z][A-Za-z0-9_-]{0,63})?|replace[-_]me|change[-_]?me)$").expect("fixed symbolic placeholder syntax"));
+    if symbolic.is_match(placeholder)
+        || [
+            "xxx",
+            "XXX",
+            "redacted",
+            "REDACTED",
+            "example",
+            "demo",
+            "placeholder",
+            "YOUR_SECRET_HERE",
+            "false",
+            "true",
+            "null",
+            "undefined",
+            "None",
+        ]
+        .contains(&placeholder)
         || placeholder.strip_prefix("YOUR_").is_some_and(|s| {
             !s.is_empty() && s.bytes().all(|b| b.is_ascii_uppercase() || b == b'_')
         })
