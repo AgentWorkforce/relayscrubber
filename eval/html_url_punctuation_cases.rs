@@ -3,7 +3,7 @@
 use serde_json::Value;
 #[path = "html_url_punctuation_legacy_cases.rs"]
 mod legacy;
-fn encode(ch: char, style: &str) -> String {
+pub fn encode(ch: char, style: &str) -> String {
     let n = ch as u8;
     let name = match ch {
         ':' => "colon",

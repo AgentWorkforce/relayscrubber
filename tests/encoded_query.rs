@@ -500,3 +500,40 @@ fn nested_component_depth_budget_fails_closed() {
     }
     check(&serde_json::to_string(&cases).unwrap());
 }
+
+#[path = "../eval/encoded_userinfo_cases.rs"]
+mod encoded_userinfo_cases;
+
+#[test]
+fn encoded_userinfo_layers_all_apis() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
+    let cases = encoded_userinfo_cases::cases();
+    let mut failures = Vec::new();
+    for (id, (input, expected)) in cases.iter().enumerate() {
+        let value = json!({"text":input});
+        let json = scrub_json(&value).0;
+        let records = scrub_records(value.to_string().as_bytes()).unwrap();
+        let parsed: Value = serde_json::from_slice(&records.bytes).unwrap();
+        for (api, out) in [
+            scrub_text_checked(input).unwrap(),
+            json["text"].as_str().unwrap().into(),
+            parsed["text"].as_str().unwrap().into(),
+        ]
+        .iter()
+        .enumerate()
+        {
+            if out != expected || scrub_text(out) != *out {
+                failures.push((id, api));
+            }
+        }
+        assert_eq!(scrub_json(&json).0, json);
+        assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
+    }
+    eprintln!(
+        "encoded userinfo: {} cases; {} failing case/API pairs; first {:?}",
+        cases.len(),
+        failures.len(),
+        &failures[..failures.len().min(24)]
+    );
+    assert!(failures.is_empty());
+}
