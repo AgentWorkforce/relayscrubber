@@ -200,7 +200,10 @@ test('unexpected startup manifest failure is tagged and poisons the loader', () 
     const artifact = JSON.parse(readFileSync('./js/generated/artifact.json'));
     const options = {bytes:new Uint8Array(readFileSync('./js/generated/relayscrubber_bg.wasm')), expectedManifest:artifact.manifest, expectedWasmSha256:artifact.files['relayscrubber_bg.wasm']};
     const parse = JSON.parse;
-    JSON.parse = () => { throw new WebAssembly.RuntimeError('simulated startup manifest failure'); };
+    JSON.parse = (text, ...args) => {
+      if (typeof text === 'string' && text.includes('scrubProfile')) throw new WebAssembly.RuntimeError('simulated startup manifest failure');
+      return parse(text, ...args);
+    };
     await assert.rejects(loadScrubber(options), e => e.code === 'scrubber_engine_failure' && e.disposition === 'instance_poison');
     JSON.parse = parse;
     await assert.rejects(loadScrubber(options), e => e.code === 'scrubber_instance_poisoned' && e.disposition === 'instance_poison');
