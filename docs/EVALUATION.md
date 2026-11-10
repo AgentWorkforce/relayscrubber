@@ -61,3 +61,13 @@ candidate counts separately from measured false positives on synthetic benign
 controls. Code-reference, constant, shell-reference and malformed quote/YAML
 shapes found during dev auditing have new synthetic controls. Never equate an
 unlabelled candidate rate with ground-truth session precision.
+
+The follow-up local content audit classifies each changed span as confirmed
+false positive, confirmed real secret, or ambiguous. It uses conservative lexical
+evidence and per-rule private native traces with canonical byte/range parity; it
+is not independent human or live-credential ground truth. Report all ambiguous
+spans by rule, and never count them as proven true secrets. Initial type/call and
+placeholder findings have synthetic controls and fixes. After any engine fix,
+the previously evaluated held-out sample is regression evidence; a new unseen
+set is needed for renewed held-out acceptance. Counts are in
+`docs/results/review-fixes.json`; private values and span records stay outside git.

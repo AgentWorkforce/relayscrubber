@@ -126,3 +126,57 @@ fn expression_exceptions_do_not_exempt_literal_credential_tails() {
         assert!(!scrub_text(input).contains("SYNTH_ALPHA"));
     }
 }
+
+#[test]
+fn private_audit_type_call_and_placeholder_shapes_stay_unchanged() {
+    for input in [
+        "fn cancel(token: CancellationToken) {}",
+        "struct State { token: Arc<CancellationToken> }",
+        "fn cancel(token: &CancellationToken) {}",
+        "fn cancel(mut token: CancellationToken) {}",
+        "const options = { \"token\": cancellation.clone() };",
+        "const options = { token: cancellation.clone() };",
+        "const options = { token: Some(cancellation) };",
+        "password=<token>",
+        "password=xxx",
+        "token=\"<api-key>\"",
+    ] {
+        assert_eq!(scrub_text(input), input);
+        let value = json!({"text":input});
+        assert_eq!(scrub_json(&value).0, value);
+    }
+    for placeholder in ["<token>", "xxx", "<api-key>"] {
+        let value = json!({"password":placeholder});
+        assert_eq!(scrub_json(&value).0, value);
+    }
+}
+
+#[test]
+fn symbolic_placeholder_and_type_exceptions_do_not_hide_credentials() {
+    for input in [
+        "password=\"<password=SYNTH_ALPHA>\"",
+        "idempotency_key=\"password=<token> SYNTH_ALPHA\"",
+        "aws={key:SYNTH_ALPHA}",
+        "const options = { token: generate(password=SYNTH_ALPHA) };",
+        "password=\"<sk-proj-SYNTHETICnotARealProviderCredential00000000>\"",
+    ] {
+        let output = scrub_text(input);
+        assert!(
+            !output.contains("SYNTH_ALPHA")
+                && !output.contains("SYNTHETICnotARealProviderCredential")
+        );
+        assert_eq!(scrub_text(&output), output);
+    }
+}
+
+#[test]
+fn sensitive_parameter_names_preserve_primitive_type_annotations() {
+    for input in [
+        "fn run(mut token: usize) {}",
+        "fn run(mut token: bool) {}",
+        "fn run(mut token: u64) {}",
+        "fn run(mut token: credential_type) {}",
+    ] {
+        assert_eq!(scrub_text(input), input);
+    }
+}

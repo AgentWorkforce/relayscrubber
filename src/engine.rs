@@ -236,7 +236,17 @@ fn shell_reference(value: &str) -> bool {
         .unwrap_or(name);
     !name.is_empty() && name.bytes().all(|c| c.is_ascii_alphanumeric() || c == b'_')
 }
-fn code_value(view: &View, value: usize, colon: bool, declaration: bool) -> bool {
+fn type_context(view: &View, key: usize) -> bool {
+    // Fixed lookbehind budget: repeated fields cannot rescan a growing prefix.
+    let mut start = key.saturating_sub(512);
+    while !view.text.is_char_boundary(start) {
+        start += 1;
+    }
+    static TYPE: OnceLock<Regex> = OnceLock::new();
+    TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^;}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^;}]*)(?:$)").expect("fixed type-context regex"))
+        .is_match(&view.text[start..key])
+}
+fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
     let rest = &view.text[value..];
     let end = rest
         .find(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | '}' | ')' | '"' | '\'' | '`'))
@@ -254,7 +264,7 @@ fn code_value(view: &View, value: usize, colon: bool, declaration: bool) -> bool
     if declaration && ["false", "true", "null", "undefined", "None"].contains(&atom) {
         return true;
     }
-    if declaration {
+    if declaration || colon {
         let head = atom.split('(').next().unwrap_or(atom).trim();
         if rest.as_bytes().get(head.len()) == Some(&b'(')
             && !head.is_empty()
@@ -267,6 +277,17 @@ fn code_value(view: &View, value: usize, colon: bool, declaration: bool) -> bool
         if rest.starts_with("new ") {
             return true;
         }
+    }
+    if colon
+        && type_context(view, key)
+        && (rest.starts_with('&')
+            || (!atom.is_empty()
+                && atom.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
+                && atom
+                    .chars()
+                    .all(|c| c.is_ascii_alphanumeric() || "_:<>[]&'".contains(c))))
+    {
+        return true;
     }
     colon
         && (rest.starts_with("&str")
@@ -375,8 +396,10 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
         if !quoted
             && start >= public_until
-            && (declaration || before > 0 && matches!(b[before - 1], b'{' | b',' | b'('))
-            && code_value(view, value, b.get(sep) == Some(&b':'), declaration)
+            && (declaration
+                || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
+                || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
+            && code_value(view, start, value, b.get(sep) == Some(&b':'), declaration)
         {
             continue;
         }
@@ -477,6 +500,23 @@ fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
 }
 
 pub(crate) fn reference(value: &str) -> bool {
+    // Explicit symbolic placeholders are normal configuration/documentation.
+    // Embedded assignments/providers are still scanned independently.
+    let placeholder = value.trim();
+    if ["xxx", "XXX", "redacted", "REDACTED"].contains(&placeholder)
+        || placeholder
+            .strip_prefix('<')
+            .and_then(|s| s.strip_suffix('>'))
+            .is_some_and(|s| {
+                !s.is_empty()
+                    && s.len() <= 128
+                    && s.starts_with(|c: char| c.is_ascii_alphabetic())
+                    && s.chars()
+                        .all(|c| c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | ' '))
+            })
+    {
+        return true;
+    }
     let Some(path) = value.strip_prefix("op://") else {
         return false;
     };

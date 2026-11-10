@@ -94,7 +94,11 @@ keys, Stripe publishable keys, versions, timestamps and PR/issue numbers.
 Do not use entropy alone or generic long-string rules. Code comparisons/assertions,
 explicit code references/calls/types and pure shell variable references are
 preserved; literal credential assignments and variable expansion defaults remain
-sensitive. Unicode whitespace (including BOM) around assignment separators is
+sensitive. Symbolic `<name>` placeholders, `xxx` and explicit redacted words
+are preserved; embedded assignments and provider shapes remain sensitive.
+Type annotations use a fixed 512-byte syntax lookbehind, including lowercase
+type aliases and mutable parameters. Quoted-property call references remain code.
+Unicode whitespace (including BOM) around assignment separators is
 recognized without changing its original bytes.
 
 ## Interfaces and errors

@@ -140,15 +140,15 @@
         "text": true
       }
     ],
-    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2"
+    "source": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b"
   },
   "headWasm": {
     "namedTests": 7,
     "passing": 7,
-    "nativeTextVectors": 5089,
-    "nativeStructuredVectors": 5089,
-    "nodeTests": 15,
-    "bunTests": 15,
+    "nativeTextVectors": 5096,
+    "nativeStructuredVectors": 5096,
+    "nodeTests": 16,
+    "bunTests": 16,
     "secondPassParity": true
   },
   "admission": {
@@ -161,18 +161,18 @@
   },
   "privateSessionDev": {
     "candidateShapes": {
-      "identifier_or_credential_candidate": 24,
+      "identifier_or_credential_candidate": 23,
       "marker_with_tail_candidate": 91,
       "nonstring_literal_candidate": 3,
       "shell_reference_or_default_candidate": 2,
-      "unlabelled_candidate": 157
+      "unlabelled_candidate": 141
     },
-    "changedEvents": 185,
+    "changedEvents": 179,
     "classification": "shape audit; unlabelled detections are not ground-truth false positives",
     "events": 13708,
-    "removedBytes": 53552,
+    "removedBytes": 53178,
     "secondPassChangedEvents": 0,
-    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+    "source": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
     "utf8Bytes": 6052317
   },
   "privateSessionHeldout": {
@@ -184,17 +184,18 @@
     "events": 224,
     "removedBytes": 1886,
     "secondPassChangedEvents": 0,
-    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
-    "utf8Bytes": 81062
+    "source": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
+    "utf8Bytes": 81062,
+    "status": "Previously evaluated held-out set; current-source regression audit only, not fresh unseen evidence."
   },
-  "precisionLimit": "Samples are unlabelled. Candidate detections do not establish ground-truth false-positive counts. No production-session precision percentage is claimed. Explicit code-reference shapes found on dev have synthetic controls.",
+  "precisionLimit": "Confirmed benign false-positive shapes fixed; residual spans remain ambiguous. This does not establish zero production false positives.",
   "retentionDeleteBy": "2026-11-16",
   "synthetic": {
     "recallCases": 8576,
     "complete": 8576,
     "benignCases": 6144,
     "falsePositiveCases": 0,
-    "worstResourceMs": 46.341625
+    "worstResourceMs": 22.094083
   },
   "frozenWitnesses": {
     "baseExactArchivedOracle": 160,
@@ -222,6 +223,175 @@
     "packageBytes": 524011,
     "wasmBytes": 1576362,
     "sourceSha256": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
-    "hostedAllRuntimeChecks": "pass; initial committed-pin check intentionally failed against prior source pin; follow-up CI must match this pin"
+    "hostedAllRuntimeChecks": "pass; initial committed-pin check intentionally failed against prior source pin; follow-up CI must match this pin",
+    "status": "Prior source artifact; next CI build must replace pin for updated source."
+  },
+  "previousHeadNative": {
+    "cases": [
+      {
+        "json": true,
+        "name": "direct_intervening_quote",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "public_property_intervening_quote",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "generic_key",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "prefixed_credential_key",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "prefixed_public_like_name",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "unicode_space",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "comparison_precision",
+        "records": true,
+        "text": true
+      }
+    ],
+    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2"
+  },
+  "labeledSessionAudit": {
+    "beforeCommit": "31f9cac72835249d9761635efba581f62fd2bb49",
+    "beforeDev": {
+      "changedEvents": 185,
+      "changedSpans": 277,
+      "eventCounts": {
+        "ambiguous": 183,
+        "false_positive": 2
+      },
+      "events": 13708,
+      "method": "content-based conservative local classification; unresolved values remain ambiguous; instrumentation byte/range parity checked for every event",
+      "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+      "spanCounts": {
+        "ambiguous/bare_identifier_or_credential/assignment": 40,
+        "ambiguous/bare_identifier_or_credential/url_credential": 2,
+        "ambiguous/code_call_reference/assignment": 2,
+        "ambiguous/code_type_annotation/assignment": 3,
+        "ambiguous/existing_marker_boundary_or_punctuation_tail/assignment": 13,
+        "ambiguous/existing_marker_with_content_tail/assignment": 78,
+        "ambiguous/expression_or_credential_content/assignment": 40,
+        "ambiguous/nonstring_literal_in_sensitive_assignment/assignment": 4,
+        "ambiguous/shell_variable_with_default_or_unparsed_reference/assignment": 2,
+        "ambiguous/unresolved_value/assignment": 85,
+        "ambiguous/unresolved_value/bearer": 2,
+        "false_positive/code_call_reference/assignment": 1,
+        "false_positive/code_type_annotation/assignment": 1,
+        "false_positive/explicit_placeholder/assignment": 4
+      },
+      "labels": {
+        "true_secret": 0,
+        "false_positive": 6,
+        "ambiguous": 271
+      },
+      "rulesByLabel": {
+        "ambiguous/assignment": 267,
+        "ambiguous/url_credential": 2,
+        "ambiguous/bearer": 2,
+        "false_positive/assignment": 6
+      }
+    },
+    "beforeHeldout": {
+      "changedEvents": 7,
+      "changedSpans": 10,
+      "eventCounts": {
+        "ambiguous": 7
+      },
+      "events": 224,
+      "method": "content-based conservative local classification; unresolved values remain ambiguous; instrumentation byte/range parity checked for every event",
+      "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+      "spanCounts": {
+        "ambiguous/expression_or_credential_content/assignment": 1,
+        "ambiguous/unresolved_value/assignment": 9
+      },
+      "labels": {
+        "true_secret": 0,
+        "false_positive": 0,
+        "ambiguous": 10
+      },
+      "rulesByLabel": {
+        "ambiguous/assignment": 10
+      }
+    },
+    "afterDev": {
+      "changedEvents": 179,
+      "changedSpans": 260,
+      "eventCounts": {
+        "ambiguous": 179
+      },
+      "events": 13708,
+      "method": "content-based conservative local classification; unresolved values remain ambiguous; instrumentation byte/range parity checked for every event",
+      "source": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
+      "spanCounts": {
+        "ambiguous/bare_identifier_or_credential/assignment": 40,
+        "ambiguous/bare_identifier_or_credential/url_credential": 2,
+        "ambiguous/code_call_reference/assignment": 2,
+        "ambiguous/code_type_annotation/assignment": 3,
+        "ambiguous/existing_marker_boundary_or_punctuation_tail/assignment": 13,
+        "ambiguous/existing_marker_with_content_tail/assignment": 78,
+        "ambiguous/expression_or_credential_content/assignment": 29,
+        "ambiguous/nonstring_literal_in_sensitive_assignment/assignment": 4,
+        "ambiguous/shell_variable_with_default_or_unparsed_reference/assignment": 2,
+        "ambiguous/unresolved_value/assignment": 85,
+        "ambiguous/unresolved_value/bearer": 2
+      },
+      "labels": {
+        "true_secret": 0,
+        "false_positive": 0,
+        "ambiguous": 260
+      },
+      "rulesByLabel": {
+        "ambiguous/assignment": 256,
+        "ambiguous/url_credential": 2,
+        "ambiguous/bearer": 2
+      }
+    },
+    "afterFormerHeldout": {
+      "changedEvents": 7,
+      "changedSpans": 10,
+      "eventCounts": {
+        "ambiguous": 7
+      },
+      "events": 224,
+      "method": "content-based conservative local classification; unresolved values remain ambiguous; instrumentation byte/range parity checked for every event",
+      "source": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
+      "spanCounts": {
+        "ambiguous/expression_or_credential_content/assignment": 1,
+        "ambiguous/unresolved_value/assignment": 9
+      },
+      "labels": {
+        "true_secret": 0,
+        "false_positive": 0,
+        "ambiguous": 10
+      },
+      "rulesByLabel": {
+        "ambiguous/assignment": 10
+      }
+    },
+    "confirmedFalsePositiveOriginalSpansStillOverlappingAfterFix": 0,
+    "methodLimit": "Conservative local content and syntax classification for every changed span, with per-rule trace and exact canonical text/range parity. Not independent human/live-credential ground truth. All unresolved material remains ambiguous; no global zero-false-positive claim.",
+    "holdoutLimit": "Engine changed after original held-out read. This formerly held-out set is now regression evidence; fresh independently labelled unseen data is still required."
   }
 }

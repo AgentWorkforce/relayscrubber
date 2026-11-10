@@ -115,3 +115,14 @@ test('credential-name, exact-selector and Unicode-spacing variants agree across 
     assert.equal(JSON.parse(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(JSON.stringify({text: input}))).bytes)).text, expected);
   }
 });
+
+test('private-audit symbolic placeholders, type annotations and call references stay unchanged', () => {
+  for (const text of ['fn cancel(mut token: CancellationToken) {}', 'fn run(mut token: usize) {}', 'const options = { "token": cancellation.clone() };', 'password=<token>', 'password=xxx', 'token="<api-key>"']) {
+    assert.equal(scrubber.scrubText(text), text);
+    assert.equal(scrubber.scrubJson(JSON.stringify({text})).value.text, text);
+    assert.equal(JSON.parse(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(JSON.stringify({text}))).bytes)).text, text);
+  }
+  for (const password of ['<token>', 'xxx', '<api-key>']) {
+    assert.deepEqual(scrubber.scrubJson(JSON.stringify({password})).value, {password});
+  }
+});

@@ -41,6 +41,13 @@ pub fn findings() -> Vec<(&'static str, String, String)> {
 }
 pub fn benign() -> Vec<String> {
     [
+        "fn cancel(token: CancellationToken) {}",
+        "fn cancel(token: &CancellationToken) {}",
+        "const options = { token: cancellation.clone() };",
+        "const options = { token: Some(cancellation) };",
+        "password=<token>",
+        "password=xxx",
+        "token=\"<api-key>\"",
         "const token = process.env.SYNTH_TOKEN;",
         "const token = config.credential;",
         "const token = createCredential();",
