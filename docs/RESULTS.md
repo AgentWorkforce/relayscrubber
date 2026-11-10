@@ -1,7 +1,7 @@
 # Candidate evaluation results
 
 Frozen rules source: `150fa281818eb923592905c471029ee58f34acda0acb06d008ad2eeb07c1d0ec`.
-WASM: `90f256afd8cf3c44469d0cc4b9096455e83e8fea0018192f5c8f51bd259b9ef4` (1,562,922 bytes).
+Mac development WASM: `90f256afd8cf3c44469d0cc4b9096455e83e8fea0018192f5c8f51bd259b9ef4` (1,562,922 bytes).
 
 Candidate 10 is not approved for adoption. Ruleset reservation and independent
 relayscrubber-lead exact-commit PASS are pending. Veto host-assisted review passed
@@ -139,3 +139,15 @@ builds reproduce WASM, glue, types and adapter digests. Hosted Linux/Windows CI
 and exact-commit owner approval remain required.
 
 [Algorithmic bound](PERFORMANCE.md) and [evaluation protocol](EVALUATION.md).
+
+## Hosted CI artifact receipt
+
+Linux, Windows and WASM CI passed on code commit `90fa8ad`. The portable Linux CI
+package is the pipeline candidate. Its WASM digest is
+`5c5b78a6918219bdbdb6f173700f5d46a961af15069f0f4d5825b68db9f14cf4`.
+Its source identity matches the tested native/Mac source above. Full pins and
+run link are in `results/ci.json`. Mac and Linux WASM bytes differ; only
+reproduction within the same builder environment is claimed. Pin the selected
+reviewed artifact, and use that identical portable binary in Node/Bun/Workers.
+The Mac development artifact digest must not be substituted for the CI package.
+Independent exact-commit security-owner approval is still pending.

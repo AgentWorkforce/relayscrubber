@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "builder": "GitHub Actions Linux x86_64",
+  "codeCommit": "90fa8ad4e3c427a2081782834142f8ac6b372256",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42795255516",
+  "artifactName": "relayscrubber-wasm-candidate",
+  "manifest": {
+    "schema": 2,
+    "ruleset": "relayhistory-scrub",
+    "rulesetVersion": 10,
+    "rulesetSourceSha256": "150fa281818eb923592905c471029ee58f34acda0acb06d008ad2eeb07c1d0ec",
+    "crateVersion": "0.5.0-alpha.1",
+    "abiVersion": 1,
+    "policy": "secrets",
+    "redactionToken": "[REDACTED]"
+  },
+  "files": {
+    "relayscrubber_bg.wasm": "5c5b78a6918219bdbdb6f173700f5d46a961af15069f0f4d5825b68db9f14cf4",
+    "relayscrubber.js": "4d9c909387697c91c0f4365d9613dbeeee1bca5bc079ee62390c5756ead1483b",
+    "relayscrubber.d.ts": "ee56e82e5ddfc357760b16da7c9a746fc1a7fa0536e2ef376c237c414f9d269c",
+    "relayscrubber_bg.wasm.d.ts": "f968e6b144832df606023af633e39822b6700177835afe0841aa20944bbf7daf"
+  },
+  "adapterFiles": {
+    "index.js": "c2585d48daea5dc067a86037452b69da69616d5930b4f15e8cc51516d0e49bd7",
+    "index.d.ts": "3e248991e2e807e7d95acc25fff20e76b708759544cc3163326686725dfd9d22"
+  },
+  "sameEnvironmentReproduction": "passed",
+  "macDevelopmentBuildByteIdentical": false,
+  "canonicalPipelineArtifact": "Linux CI package; not the native Mac development WASM package",
+  "adoptionApproved": false
+}

@@ -70,6 +70,12 @@ pins exclusively from the same downloaded artifact you are trying to verify.
 Commit the approved pins to the consuming application; verify the package/glue
 hashes from the review receipt too. Keep the WASM instance private to the adapter.
 
+The portable Linux CI package is the pipeline artifact candidate; its pins are
+in `docs/results/ci.json`. Native Mac development WASM builds have matching source
+identity and parity but different binary bytes. Reproduction is verified within
+a builder environment; cross-host byte identity is not claimed. Use the same
+reviewed CI binary everywhere and pin its digest, not a local development digest.
+
 Replace all server scrub paths (normalization, raw chunks, task fields, exports,
 replays and NDJSON ingestion) together. Segment only **after** complete scrubbing;
 never scrub independent arbitrary windows. Preserve JSON public context through
