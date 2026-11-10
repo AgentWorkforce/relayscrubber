@@ -418,7 +418,8 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
     let prefix = bounded_prefix(view, key);
     if prefix.ends_with("--") && view.text[key..].starts_with("idempotency-token") {
         let atom = rest.split_whitespace().next().unwrap_or(rest);
-        if !atom.is_empty()
+        if (atom.len() < rest.len() || limit == view.line_end(value))
+            && !atom.is_empty()
             && atom
                 .bytes()
                 .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
@@ -426,20 +427,22 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
             return true;
         }
     }
-    let atom = rest
+    let raw_atom = rest
         .split([',', ';', '}', ')', '\"', '\''])
         .next()
-        .unwrap_or(rest)
-        .trim();
-    if quoted_key && colon && serde_json::from_str::<serde_json::Number>(atom).is_ok() {
+        .unwrap_or(rest);
+    let complete = raw_atom.len() < rest.len() || limit == view.line_end(value);
+    let atom = raw_atom.trim();
+    if complete && quoted_key && colon && serde_json::from_str::<serde_json::Number>(atom).is_ok() {
         return true;
     }
     static SQL: OnceLock<Regex> = OnceLock::new();
-    if SQL
-        .get_or_init(|| {
-            Regex::new(r"(?i)\b(?:SELECT|UPDATE|INSERT|DELETE)\b").expect("fixed SQL context")
-        })
-        .is_match(prefix)
+    if complete
+        && SQL
+            .get_or_init(|| {
+                Regex::new(r"(?i)\b(?:SELECT|UPDATE|INSERT|DELETE)\b").expect("fixed SQL context")
+            })
+            .is_match(prefix)
     {
         static BIND: OnceLock<Regex> = OnceLock::new();
         if BIND
@@ -489,9 +492,11 @@ fn expansion_reference(value: &str) -> bool {
     while !value.is_char_boundary(limit) {
         limit -= 1;
     }
+    let truncated = limit < value.len();
     let value = &value[..limit];
     let boundary = |tail: &str| {
-        tail.is_empty() || tail.starts_with(|c: char| c.is_whitespace() || "\"'`,;)}]".contains(c))
+        tail.is_empty() && !truncated
+            || tail.starts_with(|c: char| c.is_whitespace() || "\"'`,;)}]".contains(c))
     };
     let value = value.trim_end_matches(['\"', '\'', '`']);
     if let Some(rest) = value.strip_prefix("${{") {
