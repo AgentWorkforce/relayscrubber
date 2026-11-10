@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
+    "source": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094"
   },
   "headWasm": {
-    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "source": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -532,23 +532,25 @@
     "inventedBenignVariants": 78,
     "positiveControls": 25,
     "structuredCases": 3,
-    "nativeTextVectors": 5317,
-    "nativeStructuredVectors": 5317,
-    "nodeTests": 62,
-    "bunTests": 62,
+    "nativeTextVectors": 5639,
+    "nativeStructuredVectors": 5644,
+    "nodeTests": 66,
+    "bunTests": 66,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199,
     "newSessionBenignCases": 81,
     "newSessionPositiveControls": 36,
-    "nativeTests": 64,
-    "bearerPositiveCases": 35,
-    "bearerBenignControls": 6
+    "nativeTests": 68,
+    "bearerPositiveCases": 43,
+    "bearerBenignControls": 9,
+    "completeValueCases": 135,
+    "numericCredentialCases": 45
   },
   "frozenWitnesses": {
-    "baseExactArchivedOracle": 160,
-    "baseMissedSecretCases": 5,
+    "baseExactArchivedOracle": 168,
+    "baseMissedSecretCases": 0,
     "cases": 199,
-    "headExactArchivedOracle": 167,
+    "headExactArchivedOracle": 162,
     "headMissedSecretCases": 0,
     "inheritedArchivedDifferences": [],
     "newMissedSecretCases": 0,
@@ -586,17 +588,17 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "1a41eecf7d4b7aaf5f03ef3fc5ffa2d702c11216",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42837911224",
-    "artifactId": 13774367843,
-    "sourceSha256": "bc4f5f6ede938acd11df2e35add9d93f16a69d8db7f0929380209158bc5e90d0",
-    "wasmSha256": "31562a27596658c1d6de08292176c5176072698def0c95fbbab47e6ed7774c34",
-    "wasmBytes": 1654459,
-    "packageSha256": "dd8fa73df83ae141f65ef05d6d73981b4f499f0f4cbe8476ef6eb2d38b2a20c9",
-    "packageBytes": 555979,
-    "hostedAllRuntimeChecks": "Linux/Windows native66; Node64/Bun64, frozen199,5459text+5459structured vectors, admission/resource, independent-target reproducibility, Workers and package pass. Only stale artifact-pin equality fails.",
-    "localHostedPackageReplay": "Downloaded final package: exact1186/ruling43/residual19benign+17positive,43Bearer positives+9references,99independent structural cases,5459text+5459structured byte parity,199frozen across all APIs pass.",
-    "pinEqualityGate": "Candidate verification receipts prepared from downloaded Linux-hosted package; exact-head rebuild must reproduce these hashes."
+    "sourceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42845026177",
+    "artifactId": 13778160874,
+    "sourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+    "wasmSha256": "757dcea2266a66330ffc3c5f2903da035ae57534a9a8dc1a2453cacb1c82fab1",
+    "wasmBytes": 1674067,
+    "packageSha256": "f90a3beaacfbc1cf8215c89558f3cbb43ce656515e73da2c1962390834a0013f",
+    "packageBytes": 565824,
+    "hostedAllRuntimeChecks": "Linux/Windows native68, fmt/clippy; Node66/Bun66, fresh5639text+5644structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
+    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node66/Bun66; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete135+numeric45;5639text+5644structured byte parity; frozen199 across APIs; Workers pass.",
+    "pinEqualityGate": "Final exact-head rebuild must reproduce all committed source/WASM/glue/adapter/package digests."
   },
   "additionalTestOnlyCommit": "408ac1e",
   "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",
@@ -687,17 +689,17 @@
     "independentPrecision": "Independent re-audit pending"
   },
   "previousHostedArtifact": {
-    "sourceCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
-    "artifactId": 13771140455,
-    "sourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
-    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
-    "wasmBytes": 1606378,
-    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
-    "packageBytes": 537396,
-    "hostedAllRuntimeChecks": "Linux/Windows native63, Node60/Bun60, frozen199 and5317text+5317structured vectors, admission/resource, reproducibility, Workers and packaging passed; only stale-pin equality refused the old pin as expected.",
-    "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
-    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
+    "sourceCommit": "1a41eecf7d4b7aaf5f03ef3fc5ffa2d702c11216",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42837911224",
+    "artifactId": 13774367843,
+    "sourceSha256": "bc4f5f6ede938acd11df2e35add9d93f16a69d8db7f0929380209158bc5e90d0",
+    "wasmSha256": "31562a27596658c1d6de08292176c5176072698def0c95fbbab47e6ed7774c34",
+    "wasmBytes": 1654459,
+    "packageSha256": "dd8fa73df83ae141f65ef05d6d73981b4f499f0f4cbe8476ef6eb2d38b2a20c9",
+    "packageBytes": 555979,
+    "hostedAllRuntimeChecks": "Linux/Windows native66; Node64/Bun64, frozen199,5459text+5459structured vectors, admission/resource, independent-target reproducibility, Workers and package pass. Only stale artifact-pin equality fails.",
+    "localHostedPackageReplay": "Downloaded final package: exact1186/ruling43/residual19benign+17positive,43Bearer positives+9references,99independent structural cases,5459text+5459structured byte parity,199frozen across all APIs pass.",
+    "pinEqualityGate": "Candidate verification receipts prepared from downloaded Linux-hosted package; exact-head rebuild must reproduce these hashes."
   },
   "standaloneBearerFix": {
     "receipt": "docs/results/bearer-prefix.json",
@@ -707,5 +709,132 @@
     "baselineLeakingPositiveCasesEachApi": 23,
     "headLeakingPositiveCasesEachApi": 0,
     "benignUnchangedEachApi": 6
+  },
+  "completeValueRepair": {
+    "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+    "sourceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
+    "sourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+    "testOnlyCommits": [
+      "9c0b3e0",
+      "3010c43",
+      "7b4f231",
+      "07710e8",
+      "c9ba4de"
+    ],
+    "fixCommits": [
+      "87fda3b",
+      "92eaa2e",
+      "8ecdb9e",
+      "760e274"
+    ],
+    "performanceCommits": [
+      "ae67d5f",
+      "978cd73"
+    ],
+    "baseNativeRust188": "Both newly added test groups fail on d6f7f853 across text/JSON/NDJSON; baseline compiled privately within .task-tmp using the shared target directory.",
+    "baseHostedWasmSha256": "31562a27596658c1d6de08292176c5176072698def0c95fbbab47e6ed7774c34",
+    "blockers": [
+      {
+        "name": "numeric_credentials",
+        "cases": 45,
+        "baselineLeakingCases": 45,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "resource_name_complete_value",
+        "cases": 3,
+        "baselineLeakingCases": 3,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "url_regex_complete_capture",
+        "cases": 2,
+        "baselineLeakingCases": 2,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "substitution_embedded_literals",
+        "cases": 10,
+        "baselineLeakingCases": 10,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "provider_token_hostname",
+        "cases": 24,
+        "baselineLeakingCases": 15,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      }
+    ],
+    "privacy": "Invented cases only. No sampled sessions, labels, or reaudit2-fresh files accessed.",
+    "performance": {
+      "cases": 5642,
+      "changedOutputs": 0,
+      "releaseReplaySeconds": [
+        0.386,
+        0.221
+      ],
+      "baseCommit": "760e274",
+      "performanceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
+      "headSourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+      "localSmallContainerSeconds": 0.093,
+      "localLargeContainerSeconds": 0.874,
+      "localScopeAllApisSeconds": 23.022,
+      "hostedLinuxSmallContainerSeconds": 0.115,
+      "hostedLinuxLargeContainerSeconds": 1.76,
+      "hostedLinuxScopeAllApisSeconds": 23.204,
+      "hostedWindowsSmallContainerSeconds": 0.306,
+      "hostedWindowsLargeContainerSeconds": 3.816,
+      "hostedWindowsScopeAllApisSeconds": 54.698,
+      "baselineWindowsSeconds": 82,
+      "intermediateWindowsSeconds": 12.162,
+      "deadlineSeconds": 10,
+      "limitsChanged": false,
+      "repair": "Normalize suffixes once and cache name classifications; search fixed provider prefixes before anchored validation; resolve plain scoped-key scalars without repeated code scans, cache reference classifications and skip globally absent contextual syntax.",
+      "baselineLocalRust188": {
+        "smallContainerSeconds": 0.177,
+        "largeContainerSeconds": 2.415,
+        "scopeAllApisSeconds": 57.932
+      }
+    }
   }
 }
