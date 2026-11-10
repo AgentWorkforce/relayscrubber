@@ -194,14 +194,12 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
     if let Some(end) = context_end {
         return end;
     }
-    if view.enclosing_end(start) != usize::MAX {
-        return view.enclosing_end(start).min(b.len());
-    }
+    let limit = view.enclosing_end(start).min(b.len());
     let mut end = start;
     if view.text[start..].starts_with(REDACTION_TOKEN) {
         end += REDACTION_TOKEN.len();
     }
-    while end < b.len()
+    while end < limit
         && !(view.literal(end)
             && (space_width(b, end) > 0
                 || matches!(
@@ -279,31 +277,6 @@ pub(crate) fn uuid(value: &str) -> bool {
                 b.is_ascii_hexdigit()
             }
         })
-}
-fn prose(value: &str) -> bool {
-    [
-        "the ", "a ", "an ", "see ", "use ", "used ", "stored ", "is ", "from ",
-    ]
-    .iter()
-    .any(|p| value.starts_with(p))
-}
-fn documentation_prose(name: &str, value: &str) -> bool {
-    // Recognize documentary references and descriptions of language tokens,
-    // rather than exempting any credential sentence with an English prefix.
-    let guide = value.starts_with("see ")
-        && value
-            .trim_end_matches(['.', ';'])
-            .split_whitespace()
-            .last()
-            .is_some_and(|word| {
-                ["guide", "documentation", "docs", "manual", "reference"].contains(&word)
-            });
-    let language_token = name.eq_ignore_ascii_case("token")
-        && ["the parser ", "the lexer ", "the syntax "]
-            .iter()
-            .any(|prefix| value.starts_with(prefix))
-        && value.contains(" used for ");
-    guide || language_token
 }
 fn symbolic_atom(value: &str) -> &str {
     value
@@ -445,8 +418,8 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 .copied()
                 .unwrap_or((b.len(), false, inherited));
         let name = &view.text[start..i];
-        let is_secret = sensitive(name)
-            || name.eq_ignore_ascii_case("key") && start >= public_until && credential && !public;
+        let is_secret =
+            sensitive(name) || name.eq_ignore_ascii_case("key") && credential && !public;
         let is_public = public_context(name);
         let is_credential = credential_context(name);
         if !is_secret && !is_public && !is_credential {
@@ -555,8 +528,8 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             };
             contexts.push((
                 end.min(scope_end).min(view.enclosing_end(value)),
-                credential || is_credential,
-                public || is_public,
+                !is_public && (credential || is_credential),
+                !is_credential && (public || is_public),
             ));
             // Authentication config objects expose scheme/audience/enabled;
             // keep scanning their explicit credential fields and scoped keys.
@@ -611,7 +584,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         if crossed_line && !explicit_literal {
             continue;
         }
-        let context = (start < public_until).then_some(public_until);
+        let context = (start < public_until && !credential).then_some(public_until);
         if is_public {
             public_until = if quoted {
                 view.quote_end(value)
@@ -645,24 +618,17 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         {
             continue;
         }
-        let line_value =
-            &view.text[content..line_end(view, content).min(view.enclosing_end(content))];
         if field_reference(name, raw)
             || regex_value(view, start, raw)
             || labeled_toy(view, start, raw)
             || excerpt_value(view, start, raw)
-            || (lowercase_prose(if quoted { raw } else { line_value })
-                && !view.config_document(start))
+            || non_assignment_wrapper(view, start)
             || reference(symbolic_atom(raw))
             || shell_reference(raw)
             || name
                 .replace(['_', '-'], "")
                 .eq_ignore_ascii_case("sessionid")
                 && session_identifier(raw)
-            || !quoted
-                && prose(&view.text[value..line_end(view, value)])
-                && (!view.config_document(start)
-                    || documentation_prose(name, &view.text[value..line_end(view, value)]))
             || header && authorization_reference(raw)
             || quoted && b[value] == b'`' && raw.contains("${")
         {
@@ -698,12 +664,19 @@ fn marker_reference(value: &str) -> bool {
     })
 }
 
-fn lowercase_prose(value: &str) -> bool {
-    value.len() <= 512
-        && value.split_whitespace().count() >= 2
-        && value
+// Only syntax before a key can establish a non-assignment wrapper. Never
+// inspect the English credential value to decide whether it is documentary.
+fn non_assignment_wrapper(view: &View, position: usize) -> bool {
+    let prefix = bounded_prefix(view, position).trim();
+    if prefix.starts_with('#') || prefix.starts_with("//") {
+        return true;
+    }
+    let prefix = prefix.trim_end_matches(['"', '\'', '`']).trim_end();
+    let sentence = prefix.trim_end_matches(':');
+    sentence.split_whitespace().count() >= 2
+        && sentence
             .bytes()
-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace() || b".,;()-".contains(&b))
+            .all(|b| b.is_ascii_alphabetic() || b.is_ascii_whitespace())
 }
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
@@ -1124,6 +1097,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         if !reference(token.as_str())
             && !environment_reference(token.as_str())
             && !labeled_toy(&view, token.start(), token.as_str())
+            && !non_assignment_wrapper(&view, c.get(0).expect("bearer match").start())
         {
             spans.push(token.range());
         }

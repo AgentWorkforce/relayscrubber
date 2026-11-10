@@ -21,3 +21,8 @@ test('nested credentials override a public selector in structured WASM',()=>{
  const value={idempotency_key:{aws:{key:'SYNTH_ALPHA'},ordinary:{key:'public-replay-42'},password:'SYNTH_BETA'}};
  assert.deepEqual(scrubber.scrubJson(JSON.stringify(value)).value,{idempotency_key:{aws:{key:'[REDACTED]'},ordinary:{key:'public-replay-42'},password:'[REDACTED]'}});
 });
+
+test('final reviewer syntax and context ruling across all APIs',()=>{
+ const cases=JSON.parse(readFileSync(new URL('../../eval/ruling_cases.json',import.meta.url)));
+ assert.deepEqual(cases.flatMap(([input,expected],i)=>verify(input,expected)?[]:[i]),[]);
+});

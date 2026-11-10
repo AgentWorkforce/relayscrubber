@@ -83,8 +83,9 @@ fn visit(
                 } else {
                     visit(
                         item,
-                        public || engine::public_context(key),
-                        credential || engine::credential_context(key),
+                        !engine::credential_context(key) && (public || engine::public_context(key)),
+                        !engine::public_context(key)
+                            && (credential || engine::credential_context(key)),
                         policy,
                         count,
                     )

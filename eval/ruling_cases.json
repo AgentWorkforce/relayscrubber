@@ -1,0 +1,174 @@
+[
+  [
+    "password: see security docs\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "- password: see security docs\nstatus: preserved",
+    "- password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "  password: see security docs\nstatus: preserved",
+    "  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "\"password\": \"see security docs\"\nstatus: preserved",
+    "\"password\": \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "# password: see security docs\nstatus: preserved",
+    "# password: see security docs\nstatus: preserved"
+  ],
+  [
+    "// password: see security docs\nstatus: preserved",
+    "// password: see security docs\nstatus: preserved"
+  ],
+  [
+    "We discussed password: see security docs\nstatus: preserved",
+    "We discussed password: see security docs\nstatus: preserved"
+  ],
+  [
+    "## password: see security docs\nstatus: preserved",
+    "## password: see security docs\nstatus: preserved"
+  ],
+  [
+    "token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "- token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "- token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "  token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "\"token\": \"the parser SYNTH_ALPHA used for authentication\"\nstatus: preserved",
+    "\"token\": \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "# token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "# token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved"
+  ],
+  [
+    "// token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "// token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved"
+  ],
+  [
+    "We discussed token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "We discussed token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved"
+  ],
+  [
+    "## token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved",
+    "## token: the parser SYNTH_ALPHA used for authentication\nstatus: preserved"
+  ],
+  [
+    "password: the actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "- password: the actual secret value\nstatus: preserved",
+    "- password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "  password: the actual secret value\nstatus: preserved",
+    "  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "\"password\": \"the actual secret value\"\nstatus: preserved",
+    "\"password\": \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "# password: the actual secret value\nstatus: preserved",
+    "# password: the actual secret value\nstatus: preserved"
+  ],
+  [
+    "// password: the actual secret value\nstatus: preserved",
+    "// password: the actual secret value\nstatus: preserved"
+  ],
+  [
+    "We discussed password: the actual secret value\nstatus: preserved",
+    "We discussed password: the actual secret value\nstatus: preserved"
+  ],
+  [
+    "## password: the actual secret value\nstatus: preserved",
+    "## password: the actual secret value\nstatus: preserved"
+  ],
+  [
+    "auth: the production credential\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "- auth: the production credential\nstatus: preserved",
+    "- auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "  auth: the production credential\nstatus: preserved",
+    "  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "\"auth\": \"the production credential\"\nstatus: preserved",
+    "\"auth\": \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "# auth: the production credential\nstatus: preserved",
+    "# auth: the production credential\nstatus: preserved"
+  ],
+  [
+    "// auth: the production credential\nstatus: preserved",
+    "// auth: the production credential\nstatus: preserved"
+  ],
+  [
+    "We discussed auth: the production credential\nstatus: preserved",
+    "We discussed auth: the production credential\nstatus: preserved"
+  ],
+  [
+    "## auth: the production credential\nstatus: preserved",
+    "## auth: the production credential\nstatus: preserved"
+  ],
+  [
+    "auth: review deployment options\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "- auth: review deployment options\nstatus: preserved",
+    "- auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "  auth: review deployment options\nstatus: preserved",
+    "  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "\"auth\": \"review deployment options\"\nstatus: preserved",
+    "\"auth\": \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "# auth: review deployment options\nstatus: preserved",
+    "# auth: review deployment options\nstatus: preserved"
+  ],
+  [
+    "// auth: review deployment options\nstatus: preserved",
+    "// auth: review deployment options\nstatus: preserved"
+  ],
+  [
+    "We discussed auth: review deployment options\nstatus: preserved",
+    "We discussed auth: review deployment options\nstatus: preserved"
+  ],
+  [
+    "## auth: review deployment options\nstatus: preserved",
+    "## auth: review deployment options\nstatus: preserved"
+  ],
+  [
+    "idempotency_key:\n  aws:\n    key: SYNTH_ALPHA\n  ordinary:\n    key: public-replay-42\nstatus: preserved",
+    "idempotency_key:\n  aws:\n    key: [REDACTED]\n  ordinary:\n    key: public-replay-42\nstatus: preserved"
+  ],
+  [
+    "idempotency_key=\"aws={key:SYNTH_ALPHA}; key=public-replay-42\"",
+    "idempotency_key=\"aws={key:[REDACTED]}; key=public-replay-42\""
+  ],
+  [
+    "aws={idempotency_key:{key:public-replay-42},key:SYNTH_ALPHA}",
+    "aws={idempotency_key:{key:public-replay-42},key:[REDACTED]}"
+  ]
+]

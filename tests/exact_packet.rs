@@ -54,3 +54,15 @@ fn newly_established_credentials_override_public_selector() {
     let expected = json!({"idempotency_key":{"aws":{"key":"[REDACTED]"},"ordinary":{"key":"public-replay-42"},"password":"[REDACTED]"}});
     assert_eq!(scrub_json(&value).0, expected);
 }
+
+#[test]
+fn final_reviewer_syntax_and_context_ruling() {
+    let cases: Vec<(String, String)> =
+        serde_json::from_str(include_str!("../eval/ruling_cases.json")).unwrap();
+    let failed: Vec<_> = cases
+        .iter()
+        .enumerate()
+        .filter_map(|(i, (input, expected))| (!verify(input, expected)).then_some(i))
+        .collect();
+    assert!(failed.is_empty(), "ruling case indices {failed:?}");
+}
