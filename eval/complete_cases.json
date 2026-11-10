@@ -603,5 +603,25 @@
     "family": "hostname_position_port",
     "input": "https://edge.OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
     "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "regex_placeholder_fixture_literal",
+    "input": "const pattern = /password=([^ ]+)M8zR4vK7nP2qW6xAq9/g;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_placeholder_fixture_literal",
+    "input": "rg \"password:\\s+M8zR4vK7nP2qW6xAq9\" config.txt",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_placeholder_fixture_literal",
+    "input": "password=<M8zR4vK7nP2qW6xAq9>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_placeholder_fixture_literal",
+    "input": "Synthetic fixture: api_key=toyvalue M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
   }
 ]
