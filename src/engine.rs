@@ -1094,10 +1094,14 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     jwts(&view, &mut spans);
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
+        // Comment examples retain their reference semantics. Ordinary sentence
+        // prefixes cannot exempt a standalone Bearer credential.
+        let prefix = bounded_prefix(&view, c.get(0).expect("bearer match").start()).trim();
         if !reference(token.as_str())
             && !environment_reference(token.as_str())
             && !labeled_toy(&view, token.start(), token.as_str())
-            && !non_assignment_wrapper(&view, c.get(0).expect("bearer match").start())
+            && !prefix.starts_with('#')
+            && !prefix.starts_with("//")
         {
             spans.push(token.range());
         }
