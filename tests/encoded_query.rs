@@ -15,7 +15,10 @@ fn check(source: &str) {
             scrub_text_checked(input).unwrap(),
             scrub_json(&value).0["text"].as_str().unwrap().into(),
             parsed["text"].as_str().unwrap().into(),
-        ].iter().enumerate() {
+        ]
+        .iter()
+        .enumerate()
+        {
             if actual != expected || scrub_text(actual) != *actual {
                 failures.push((id, api));
             }

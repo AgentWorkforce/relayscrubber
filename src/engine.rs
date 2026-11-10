@@ -860,7 +860,12 @@ fn match_arm_body(value: &str) -> bool {
         && code_expression(rhs.trim())
 }
 
-fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
+fn assignments(
+    view: &View,
+    inherited: bool,
+    spans: &mut Vec<Range<usize>>,
+    url_values: &[Range<usize>],
+) {
     let b = view.text.as_bytes();
     let mut i = 0;
     let mut public_until = if inherited { b.len() } else { 0 };
@@ -877,6 +882,13 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         let flag_start = i >= 2 && &b[i - 2..i] == b"--";
         if !b[i].is_ascii_alphabetic() || (i > 0 && word(b[i - 1]) && !flag_start) {
             i += 1;
+            continue;
+        }
+        // URL credential values have protocol-specific boundaries. Do not let
+        // a generic assignment inside one widen it over public parameters.
+        let n = url_values.partition_point(|span| span.start <= i);
+        if n > 0 && i < url_values[n - 1].end {
+            i = url_values[n - 1].end;
             continue;
         }
         let start = i;
@@ -1193,6 +1205,11 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 view.enclosing_end(value).min(line_end(view, value))
             }
             .min(context.unwrap_or(b.len()));
+            continue;
+        }
+        let n = url_values.partition_point(|span| span.start <= value);
+        if n > 0 && value < url_values[n - 1].end {
+            i = url_values[n - 1].end;
             continue;
         }
         let mut end = if header && !quoted {
@@ -1651,6 +1668,45 @@ fn query_key_sensitive(key: &str) -> bool {
         )
 }
 
+// Recognize HTML ampersand entities only as URL separators. Advancing over
+// every layer preserves the original entity bytes in the source offset map;
+// this does not normalize HTML in unrelated fields. Leading zero runs and
+// nested amp; layers are consumed once, without recursive suffix rescans.
+fn query_separator(b: &[u8], start: usize) -> usize {
+    match b[start] {
+        b';' => return 1,
+        b'&' => {}
+        _ => return 0,
+    }
+    let mut end = start + 1;
+    loop {
+        if b.get(end..end + 4)
+            .is_some_and(|s| s.eq_ignore_ascii_case(b"amp;"))
+        {
+            end += 4;
+            continue;
+        }
+        if b.get(end) != Some(&b'#') {
+            break;
+        }
+        let mut p = end + 1;
+        let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
+        if hexadecimal {
+            p += 1;
+        }
+        while b.get(p) == Some(&b'0') {
+            p += 1;
+        }
+        let digits = if hexadecimal { b"26;" } else { b"38;" };
+        if b.get(p..p + 3) == Some(digits) {
+            end = p + 3;
+        } else {
+            break;
+        }
+    }
+    end - start
+}
+
 // A malformed earlier value cannot terminate parameter discovery. Literal '&'
 // remains a separator even beyond quotes, fragments, markup or line breaks.
 // Run once over the remaining suffix, including nested schemes: another URL
@@ -1660,11 +1716,12 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
     let b = view.text.as_bytes();
     let mut cursor = start;
     while cursor < end {
-        if b[cursor] != b'&' || !view.literal(cursor) {
+        let separator = query_separator(b, cursor);
+        if separator == 0 {
             cursor += 1;
             continue;
         }
-        let key_start = cursor + 1;
+        let key_start = cursor + separator;
         cursor = key_start;
         while cursor < end
             && (b[cursor].is_ascii_alphanumeric() || matches!(b[cursor], b'_' | b'-' | b'.'))
@@ -1676,7 +1733,7 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
         }
         let value_start = cursor + 1;
         let mut parameter_end = value_start;
-        while parameter_end < end && !(b[parameter_end] == b'&' && view.literal(parameter_end)) {
+        while parameter_end < end && query_separator(b, parameter_end) == 0 {
             parameter_end += 1;
         }
         let mut value_end = value_start;
@@ -1756,7 +1813,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             }
             if in_query && b[end] == b'=' {
                 query_value = true;
-            } else if b[end] == b'&' && view.literal(end) {
+            } else if query_separator(b, end) > 0 {
                 query_value = false;
             }
             if query_value && matches!(b[end], b'"' | b'\'' | b'`') {
@@ -1814,9 +1871,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             let mut start = query + 1;
             while start < end {
                 let mut parameter_end = start;
-                while parameter_end < end
-                    && !(b[parameter_end] == b'&' && view.literal(parameter_end))
-                {
+                while parameter_end < end && query_separator(b, parameter_end) == 0 {
                     parameter_end += 1;
                 }
                 if let Some(eq) = (start..parameter_end).find(|&i| b[i] == b'=') {
@@ -1825,7 +1880,12 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                         spans.push(eq + 1..parameter_end);
                     }
                 }
-                start = parameter_end + 1;
+                start = parameter_end
+                    + if parameter_end < end {
+                        query_separator(b, parameter_end)
+                    } else {
+                        1
+                    };
             }
         }
     }
@@ -1962,8 +2022,11 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         pos = end;
     }
     credential_prose(&view, &mut spans);
-    assignments(&view, inherited, &mut spans);
-    urls(&view, &mut spans);
+    let mut url_values = Vec::new();
+    urls(&view, &mut url_values);
+    url_values.sort_unstable_by_key(|span| (span.start, span.end));
+    assignments(&view, inherited, &mut spans, &url_values);
+    spans.extend(url_values);
     if policy == Policy::Pii {
         for m in pii_regex().find_iter(&view.text) {
             spans.push(m.range());
