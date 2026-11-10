@@ -623,5 +623,30 @@
     "family": "regex_placeholder_fixture_literal",
     "input": "Synthetic fixture: api_key=toyvalue M8zR4vK7nP2qW6xAq9",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_and_marker_siblings",
+    "input": "token: async () => \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_and_marker_siblings",
+    "input": "auth: function() { return \"M8zR4vK7nP2qW6xAq9\"; }",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_and_marker_siblings",
+    "input": "password: options.value ?? \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_and_marker_siblings",
+    "input": "auth: config.auth || M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_and_marker_siblings",
+    "input": "secret: [REDACTED] // M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
   }
 ]
