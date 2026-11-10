@@ -27,6 +27,7 @@ fn visit(
     value: &Value,
     public: bool,
     credential: bool,
+    tags: bool,
     policy: Policy,
     count: &mut usize,
 ) -> Value {
@@ -39,10 +40,18 @@ fn visit(
         Value::Array(items) => Value::Array(
             items
                 .iter()
-                .map(|v| visit(v, public, credential, policy, count))
+                .map(|v| visit(v, public, credential, tags, policy, count))
                 .collect(),
         ),
         Value::Object(map) => {
+            let tag_pair = tags
+                && !credential
+                && map.len() == 2
+                && map
+                    .get("Key")
+                    .and_then(Value::as_str)
+                    .zip(map.get("Value").and_then(Value::as_str))
+                    .is_some_and(|(key, value)| engine::cloud_tag_values(key, value));
             let mut out = Map::new();
             let mut next = BTreeMap::<String, usize>::new();
             let mut entries: Vec<_> = map
@@ -70,6 +79,10 @@ fn visit(
                     || credential && !public && key.eq_ignore_ascii_case("key"))
                     && !(matches!(key.to_ascii_lowercase().as_str(), "auth" | "authentication")
                         && item.is_object())
+                    && !(tag_pair && key.as_str() == "Key")
+                    && !item.as_object().is_some_and(|map| {
+                        map.len() == 1 && engine::masked_connection_mapping(&item.to_string())
+                    })
                     && **item != Value::String(REDACTION_TOKEN.into())
                     && **item != Value::String(String::new())
                     && !(item.is_number() && engine::numeric_identifier(key))
@@ -87,6 +100,7 @@ fn visit(
                         !engine::credential_context(key) && (public || engine::public_context(key)),
                         !engine::public_context(key)
                             && (credential || engine::credential_context(key)),
+                        key.as_str() == "Tags" && item.is_array(),
                         policy,
                         count,
                     )
@@ -132,7 +146,7 @@ pub fn scrub_json_checked(value: &Value) -> Result<(Value, usize), AdmissionErro
     admit(value)?;
     let mut count = 0;
     Ok((
-        visit(value, false, false, Policy::Secrets, &mut count),
+        visit(value, false, false, false, Policy::Secrets, &mut count),
         count,
     ))
 }
@@ -163,7 +177,7 @@ pub fn scrub_json_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
         return (Value::String(REDACTION_TOKEN.into()), 1);
     }
     let mut count = 0;
-    let clean = visit(value, false, false, policy, &mut count);
+    let clean = visit(value, false, false, false, policy, &mut count);
     (clean, count)
 }
 

@@ -34,3 +34,28 @@ fn precision_10_1_complete_values_all_apis() {
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
+
+#[test]
+fn direct_structured_masks_and_tag_pairs() {
+    for input in [
+        json!({"Tags":[{"Key":"department:scope","Value":"development"}]}),
+        json!({"secret":{"DB_PASS":"postgresql://svc:***@db.example.invalid/app"}}),
+    ] {
+        assert_eq!(scrub_json(&input).0, input);
+        let out = scrub_records(input.to_string().as_bytes()).unwrap();
+        assert_eq!(serde_json::from_slice::<Value>(&out.bytes).unwrap(), input);
+    }
+    for input in [
+        json!({"Tags":[{"Key":"M8zR4vK7nP2qW6xAq9","Value":"development"}]}),
+        json!({"secret":{"DB_PASS":"postgresql://svc:M8zR4vK7nP2qW6xAq9@db.example.invalid/app"}}),
+    ] {
+        assert!(!scrub_json(&input)
+            .0
+            .to_string()
+            .contains("M8zR4vK7nP2qW6xAq9"));
+        let out = scrub_records(input.to_string().as_bytes()).unwrap();
+        assert!(!String::from_utf8(out.bytes)
+            .unwrap()
+            .contains("M8zR4vK7nP2qW6xAq9"));
+    }
+}

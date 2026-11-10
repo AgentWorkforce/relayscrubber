@@ -976,5 +976,325 @@
     "family": "complete_tail_attack",
     "input": "value = \"Bearer hidden_... /* 0123456789abcdef0123456789abcdef */\";",
     "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "{\"url\":\"https://media.example.invalid/render?caption=\\\"audit notes\\\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\",\"other\":\"preserve this sentence\"}",
+    "expected": "{\"url\":\"https://media.example.invalid/render?caption=\\\"audit notes\\\"&sig=[REDACTED]\",\"other\":\"preserve this sentence\"}"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "const url = \"https://media.example.invalid/render?caption=\\\"audit notes\\\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"; const output = \"preserve this sentence\";",
+    "expected": "const url = \"https://media.example.invalid/render?caption=\\\"audit notes\\\"&sig=[REDACTED]\"; const output = \"preserve this sentence\";"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "{\"url\":\"https://media.example.invalid/render?caption='audit notes'&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\",\"other\":\"preserve this sentence\"}",
+    "expected": "{\"url\":\"https://media.example.invalid/render?caption='audit notes'&sig=[REDACTED]\",\"other\":\"preserve this sentence\"}"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "const url = \"https://media.example.invalid/render?caption='audit notes'&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"; const output = \"preserve this sentence\";",
+    "expected": "const url = \"https://media.example.invalid/render?caption='audit notes'&sig=[REDACTED]\"; const output = \"preserve this sentence\";"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "{\"url\":\"https://media.example.invalid/render?caption=%22audit notes%22&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\",\"other\":\"preserve this sentence\"}",
+    "expected": "{\"url\":\"https://media.example.invalid/render?caption=%22audit notes%22&sig=[REDACTED]\",\"other\":\"preserve this sentence\"}"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "const url = \"https://media.example.invalid/render?caption=%22audit notes%22&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"; const output = \"preserve this sentence\";",
+    "expected": "const url = \"https://media.example.invalid/render?caption=%22audit notes%22&sig=[REDACTED]\"; const output = \"preserve this sentence\";"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "{\"url\":\"https://media.example.invalid/render?caption=\\\\u0022audit notes\\\\u0022&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\",\"other\":\"preserve this sentence\"}",
+    "expected": "{\"url\":\"https://media.example.invalid/render?caption=\\\\u0022audit notes\\\\u0022&sig=[REDACTED]\",\"other\":\"preserve this sentence\"}"
+  },
+  {
+    "family": "signed_url_scope",
+    "input": "const url = \"https://media.example.invalid/render?caption=\\\\u0022audit notes\\\\u0022&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"; const output = \"preserve this sentence\";",
+    "expected": "const url = \"https://media.example.invalid/render?caption=\\\\u0022audit notes\\\\u0022&sig=[REDACTED]\"; const output = \"preserve this sentence\";"
+  },
+  {
+    "family": "cloud_tag_unicode",
+    "input": "{\"Tags\":[{\"Key\":\"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé\",\"Value\":\"development\"}]}",
+    "secret": "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\"audit notes\"suffix&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&sig=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\"audit notes\"suffix&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&signature=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\"audit notes\"suffix&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&token=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\"audit notes\"suffix&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&X-Amz-Signature=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix'audit notes'suffix&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption='audit notes'&sig='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9'",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix'audit notes'suffix&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption='audit notes'&signature='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9'",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix'audit notes'suffix&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption='audit notes'&token='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9'",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix'audit notes'suffix&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption='audit notes'&X-Amz-Signature='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9'",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%22audit notes%22suffix&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&sig=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%22",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%22audit notes%22suffix&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&signature=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%22",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%22audit notes%22suffix&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&token=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%22",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%22audit notes%22suffix&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%22audit notes%22&X-Amz-Signature=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%22",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%27audit notes%27suffix&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&sig=%277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%27",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%27audit notes%27suffix&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&signature=%277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%27",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%27audit notes%27suffix&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&token=%277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%27",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix%27audit notes%27suffix&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=%27audit notes%27&X-Amz-Signature=%277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%27",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\\u0022audit notes\\u0022suffix&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&sig=\\u00227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\\u0022",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\\u0022audit notes\\u0022suffix&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&signature=\\u00227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\\u0022",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\\u0022audit notes\\u0022suffix&token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&token=\\u00227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\\u0022",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_embedded_quotes",
+    "input": "https://media.example.invalid/render?caption=prefix\\u0022audit notes\\u0022suffix&X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "signed_url_quoted_signature",
+    "input": "https://media.example.invalid/render?caption=\\u0022audit notes\\u0022&X-Amz-Signature=\\u00227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\\u0022",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = request.headers.get(0123456789abcdef0123456789abcdef)?.strip_prefix(\"Bearer \")?;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = load(0123456789abcdef0123456789abcdef)?;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = request.headers.get(deadbeefdeadbeefdeadbeefdeadbeef)?.strip_prefix(\"Bearer \")?;",
+    "secret": "deadbeefdeadbeefdeadbeefdeadbeef"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = load(deadbeefdeadbeefdeadbeefdeadbeef)?;",
+    "secret": "deadbeefdeadbeefdeadbeefdeadbeef"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = request.headers.get(12345678901234567890123456789012)?.strip_prefix(\"Bearer \")?;",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "code_embedded_hex_literal",
+    "input": "let access_token = load(12345678901234567890123456789012)?;",
+    "secret": "12345678901234567890123456789012"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = request.headers.get(0x0123456789abcdef0123456789abcdef)?.strip_prefix(\"Bearer \")?;",
+    "secret": "0x0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = load(0x0123456789abcdef0123456789abcdef)?;",
+    "secret": "0x0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = request.headers.get(0X0123456789ABCDEF0123456789ABCDEF)?.strip_prefix(\"Bearer \")?;",
+    "secret": "0X0123456789ABCDEF0123456789ABCDEF"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = load(0X0123456789ABCDEF0123456789ABCDEF)?;",
+    "secret": "0X0123456789ABCDEF0123456789ABCDEF"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = request.headers.get(0123_4567_89ab_cdef_0123_4567_89ab_cdef)?.strip_prefix(\"Bearer \")?;",
+    "secret": "0123_4567_89ab_cdef_0123_4567_89ab_cdef"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = load(0123_4567_89ab_cdef_0123_4567_89ab_cdef)?;",
+    "secret": "0123_4567_89ab_cdef_0123_4567_89ab_cdef"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = request.headers.get(12345678901234567890123456789012u128)?.strip_prefix(\"Bearer \")?;",
+    "secret": "12345678901234567890123456789012u128"
+  },
+  {
+    "family": "code_embedded_numeric_spelling",
+    "input": "let access_token = load(12345678901234567890123456789012u128)?;",
+    "secret": "12345678901234567890123456789012u128"
+  },
+  {
+    "family": "fixture_embedded_hex_spelling",
+    "input": "let fixture = json!({\"sessionId\":\"deadbeef_deadbeef\"});",
+    "secret": "deadbeef_deadbeef"
   }
 ]

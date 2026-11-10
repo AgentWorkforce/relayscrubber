@@ -32,7 +32,7 @@ are exercised with zero annotated secret misses and zero second-pass changes.
 Historical exact output formatting is not the current contract.
 
 Manifest schema 3 / ABI 2 includes the crate-owned `scrubProfile`. The proposed
-crate/npm release is `0.5.0-alpha.2`, npm `private: false`; it is not published.
+crate/npm release is `0.5.0-alpha.3`, npm `private: false`; it is not published.
 The portable Linux pin is rebuilt through hosted CI. Final source, binary, glue,
 adapter and package equality must pass before reviewer handoff; see the receipt
 for the final immutable build links and digests.

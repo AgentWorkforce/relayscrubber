@@ -20,3 +20,20 @@ test('ruleset 10.1 complete-value precision and signed URL siblings across all W
  });
  assert.deepEqual(failures,[]);
 });
+
+test('direct structured masks and cloud tag pairs',()=>{
+ for(const input of [
+  {Tags:[{Key:'department:scope',Value:'development'}]},
+  {secret:{DB_PASS:'postgresql://svc:***@db.example.invalid/app'}}
+ ]) {
+  assert.deepEqual(s.scrubJson(JSON.stringify(input)).value,input);
+  assert.deepEqual(JSON.parse(new TextDecoder().decode(s.scrubRecords(new TextEncoder().encode(JSON.stringify(input))).bytes)),input);
+ }
+ for(const input of [
+  {Tags:[{Key:'M8zR4vK7nP2qW6xAq9',Value:'development'}]},
+  {secret:{DB_PASS:'postgresql://svc:M8zR4vK7nP2qW6xAq9@db.example.invalid/app'}}
+ ]) {
+  assert.ok(!JSON.stringify(s.scrubJson(JSON.stringify(input)).value).includes('M8zR4vK7nP2qW6xAq9'));
+  assert.ok(!new TextDecoder().decode(s.scrubRecords(new TextEncoder().encode(JSON.stringify(input))).bytes).includes('M8zR4vK7nP2qW6xAq9'));
+ }
+});

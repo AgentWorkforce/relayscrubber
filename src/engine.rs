@@ -499,8 +499,35 @@ fn opaque_material(value: &str) -> bool {
         })
 }
 
+fn hexadecimal_code_literal(value: &str) -> bool {
+    value
+        .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+        .any(|atom| {
+            if atom.len() < 16 {
+                return false;
+            }
+            let compact = atom.replace('_', "");
+            let number = compact
+                .strip_prefix("0x")
+                .or_else(|| compact.strip_prefix("0X"))
+                .or_else(|| compact.strip_prefix("0o"))
+                .or_else(|| compact.strip_prefix("0b"))
+                .unwrap_or(&compact);
+            let number = [
+                "u128", "u64", "u32", "u16", "u8", "usize", "i128", "i64", "i32", "i16", "i8",
+                "isize",
+            ]
+            .iter()
+            .find_map(|suffix| number.strip_suffix(suffix))
+            .unwrap_or(number);
+            number.len() >= 16 && number.bytes().all(|b| b.is_ascii_hexdigit())
+        })
+}
+
 fn safe_code_literals(value: &str) -> bool {
-    if opaque_material(value) {
+    // Opaque numeric/hex material remains data inside a source call, including
+    // Rust radix prefixes, digit separators and integer type suffixes.
+    if opaque_material(value) || hexadecimal_code_literal(value) {
         return false;
     }
     let b = value.as_bytes();
@@ -516,7 +543,13 @@ fn safe_code_literals(value: &str) -> bool {
                         .all(|ch| ch.is_ascii_alphanumeric() || b"_ >&,".contains(&ch));
             };
             let literal = &value[i + 1..i + 1 + close];
-            if !(literal == "Bearer " || i > 0 && b[i - 1] == b'[' && sensitive(literal)) {
+            let header_lookup = value[..i].ends_with(".get(")
+                && b.get(i + close + 2) == Some(&b')')
+                && matches!(literal, "Authorization" | "authorization");
+            if !(literal == "Bearer "
+                || i > 0 && b[i - 1] == b'[' && sensitive(literal)
+                || header_lookup)
+            {
                 return false;
             }
             i += close + 2;
@@ -558,7 +591,7 @@ fn code_expression(value: &str) -> bool {
             .is_some_and(|s| code_expression(s.trim().trim_end_matches(';')));
     }
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
+    R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)\??|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
         .is_match(value)
 }
 
@@ -568,6 +601,12 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     };
     if !safe_code_literals(rest) {
         return false;
+    }
+    if bounded_prefix(view, key).split_whitespace().last() == Some("type") {
+        static TUPLE: OnceLock<Regex> = OnceLock::new();
+        if TUPLE.get_or_init(|| Regex::new(r"^\((?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size))(?:[ \t]*,[ \t]*(?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size)))+[ \t]*,?\)$").expect("complete primitive tuple type")).is_match(rest) {
+            return true;
+        }
     }
     if (declaration || colon && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
         && code_expression(rest)
@@ -607,6 +646,42 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     false
 }
 
+// Preserve only a complete, single-field mapping whose URI password is already
+// a mask. A real password, extra field, query, or appended tail fails closed.
+pub(crate) fn masked_connection_mapping(value: &str) -> bool {
+    if !value.starts_with('{') || value.len() > 512 || opaque_material(value) {
+        return false;
+    }
+    static MASKED: OnceLock<Regex> = OnceLock::new();
+    MASKED.get_or_init(|| Regex::new(r#"^\{[ \t]*"[A-Z_]+"[ \t]*:[ \t]*"(?:postgresql|postgres|mysql)://[a-z_]{1,32}:\*{3,}@[a-z][a-z0-9.-]*/[a-z_]{1,32}"[ \t]*\}$"#).expect("complete masked connection mapping")).is_match(value)
+}
+
+pub(crate) fn cloud_tag_values(key: &str, value: &str) -> bool {
+    let atom =
+        |s: &str| !s.is_empty() && s.len() <= 12 && s.bytes().all(|b| b.is_ascii_lowercase());
+    key.split_once(':').is_some_and(|(a, b)| atom(a) && atom(b)) && atom(value)
+}
+
+fn cloud_tag_key(view: &View, key: usize, value: usize) -> bool {
+    let prefix = bounded_prefix(view, key);
+    if !prefix.ends_with("\"Tags\":[{\"") {
+        return false;
+    }
+    // Inspect the complete pair within one bounded physical line.
+    let mut end = view.line_end(value).min(value.saturating_add(256));
+    while !view.text.is_char_boundary(end) {
+        end -= 1;
+    }
+    let tail = &view.text[value..end];
+    static TAG_PAIR: OnceLock<Regex> = OnceLock::new();
+    TAG_PAIR
+        .get_or_init(|| {
+            Regex::new(r#"^"[a-z]{1,12}:[a-z]{1,12}","Value":"[a-z]{1,12}"\}\]\}(?:$|[;])"#)
+                .expect("complete cloud tag pair")
+        })
+        .is_match(tail)
+}
+
 // These exclusions require syntax, never the English meaning of a value.
 fn structural_value(
     view: &View,
@@ -619,7 +694,7 @@ fn structural_value(
     let first = view.text.as_bytes()[value];
     // Most credential scalars cannot be any of these structural forms. Reject
     // them before bounded lookbehind, tokenization or regex work.
-    if !(quoted_key && colon && matches!(first, b'-' | b'0'..=b'9')
+    if !(colon && numeric_identifier(name) && matches!(first, b'-' | b'0'..=b'9')
         || matches!(first, b'?' | b'$' | b':' | b'{')
         || view.text[key..].starts_with("Key=")
         || view.text[key..].starts_with("idempotency-token"))
@@ -647,9 +722,9 @@ fn structural_value(
     let complete = !rest.is_empty();
     let atom = rest.trim();
     if complete
-        && quoted_key
         && colon
         && numeric_identifier(name)
+        && (quoted_key || prefix.trim_end().ends_with(['{', ',']))
         && serde_json::from_str::<serde_json::Number>(atom).is_ok()
     {
         return true;
@@ -663,6 +738,12 @@ fn structural_value(
             .is_match(prefix)
     {
         static BIND: OnceLock<Regex> = OnceLock::new();
+        let sql_end = view.enclosing_end(value).min(view.line_end(value));
+        let sql_tail = &view.text[value..sql_end];
+        static CONTINUED_BIND: OnceLock<Regex> = OnceLock::new();
+        if CONTINUED_BIND.get_or_init(|| Regex::new(r"(?i)^(?:\?[0-9]*|\$[0-9]+|:[A-Za-z_][A-Za-z0-9_]*)(?:[ \t]+(?:AND|OR)[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*=[ \t]*(?:[0-9]+|\?[0-9]*|\$[0-9]+))+[ \t]*;?$").expect("complete SQL bind continuation")).is_match(sql_tail) {
+            return true;
+        }
         if BIND
             .get_or_init(|| {
                 Regex::new(r"^(?:\?[0-9]*|\$[0-9]+|:[A-Za-z_][A-Za-z0-9_]*)$")
@@ -981,6 +1062,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             }
         }
 
+        if b[value] == b'{' && masked_connection_mapping(candidate(view, value).unwrap_or("")) {
+            continue;
+        }
         if !quoted
             && structural_value(
                 view,
@@ -1046,9 +1130,37 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                         && (before == kw.len() || !word(b[before - kw.len() - 1]))
                 });
         let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
+        if quoted && numeric_identifier(name) && code_object_context(view, start) {
+            let close = view.quote_end(value);
+            let tail = skip_space(b, close.saturating_add(1));
+            if tail < view.line_end(value) && !matches!(b[tail], b',' | b'}' | b']' | b')' | b';') {
+                let end = candidate_end(view, close + 1).unwrap_or_else(|| view.line_end(value));
+                spans.push(value..end);
+                i = end;
+                continue;
+            }
+        }
+        if quoted
+            && numeric_identifier(name)
+            && code_object_context(view, start)
+            && candidate(view, value).is_some_and(|whole| {
+                let body = &whole[1..whole.len() - 1];
+                body.len() <= 32
+                    && body.contains('_')
+                    && !hexadecimal_code_literal(body)
+                    && body.split('_').all(|part| {
+                        !part.is_empty()
+                            && part.len() <= 12
+                            && part.bytes().all(|b| b.is_ascii_lowercase())
+                    })
+            })
+        {
+            continue;
+        }
         if !quoted
             && start >= public_until
             && (declaration
+                || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                 || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
                 || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
@@ -1136,8 +1248,12 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 || labeled_toy(view, start, whole)
                 || excerpt_value(view, start, whole)
         }) || non_assignment_wrapper(view, start)
+            && bounded_prefix(view, start).split_whitespace().last() != Some("type")
             && full.is_some_and(|s| !opaque_material(s) || s.starts_with("Bearer "))
         {
+            continue;
+        }
+        if name == "Key" && !credential && cloud_tag_key(view, start, value) {
             continue;
         }
         // Failed structural candidates redact through their complete delimiter,
@@ -1145,6 +1261,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         let failed_reference = raw.starts_with('$')
             || !quoted
                 && (declaration
+                    || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
                     || raw.contains(['(', '.']));
         if full.is_some_and(opaque_material) || failed_reference {
@@ -1390,6 +1507,7 @@ pub(crate) fn reference(value: &str) -> bool {
     let symbolic = SYMBOLIC.get_or_init(|| Regex::new(r"(?i)^(?:(?:example|dummy|fake|sample|test|placeholder|your)(?:[-_][A-Za-z][A-Za-z0-9_-]{0,63})?|replace[-_]me|change[-_]?me)$").expect("fixed symbolic placeholder syntax"));
     if symbolic.is_match(placeholder)
         || placeholder == "masked_..."
+        || placeholder == "hidden_..."
         || placeholder.len() >= 3 && placeholder.bytes().all(|b| b == b'*')
         || placeholder
             .strip_prefix('<')
@@ -1557,11 +1675,42 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             continue;
         }
         let mut end = scheme.end();
-        while end < b.len()
-            && !(view.literal(end)
+        let mut query_value = false;
+        let mut in_query = false;
+        let line = view.line_end(end);
+        while end < line {
+            if b[end] == b'?' && view.literal(end) {
+                in_query = true;
+            }
+            if in_query && b[end] == b'=' {
+                query_value = true;
+            } else if b[end] == b'&' && view.literal(end) {
+                query_value = false;
+            }
+            if query_value && matches!(b[end], b'"' | b'\'' | b'`') {
+                let close = view.quote_end(end);
+                if close < line {
+                    let mut continuation = close + 1;
+                    while continuation < line
+                        && !matches!(b[continuation], b'&' | b'"' | b'\'' | b'`' | b'<' | b'>')
+                        && space_width(b, continuation) == 0
+                    {
+                        continuation += 1;
+                    }
+                    if b.get(continuation) == Some(&b'&')
+                        || b.get(end.wrapping_sub(1)) == Some(&b'=')
+                    {
+                        end = close + 1;
+                        continue;
+                    }
+                }
+            }
+            if view.literal(end)
                 && (b[end].is_ascii_whitespace()
-                    || matches!(b[end], b'<' | b'>' | b'"' | b'\'' | b'`')))
-        {
+                    || matches!(b[end], b'<' | b'>' | b'"' | b'\'' | b'`'))
+            {
+                break;
+            }
             end += 1;
         }
         cursor = end;
@@ -1720,6 +1869,12 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
         if let Some(end) = candidate_end(&view, token.start()) {
+            if token.as_str() == "hidden_..."
+                && view.text[token.start()..end].trim() != token.as_str()
+            {
+                spans.push(token.start()..end);
+                continue;
+            }
             if end > token.end() && opaque_material(&view.text[token.end()..end]) {
                 spans.push(token.start()..end);
                 continue;
