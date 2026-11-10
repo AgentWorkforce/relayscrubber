@@ -772,6 +772,8 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
     // resolved below. Repeated container fields should not rerun normalization,
     // suffix checks and allocations for every occurrence and every scope.
     let mut names = std::collections::HashMap::new();
+    let mut scalar_references = std::collections::HashMap::new();
+    let mut scalar_contexts = None;
     // End positions are resolved by View, so context is retained independently
     // of byte distance. Cumulative flags make every push/pop constant time.
     let mut contexts: Vec<(usize, bool, bool)> = Vec::new();
@@ -908,6 +910,60 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                     .is_ok())
         {
             continue;
+        }
+
+        // A plain scoped `key` scalar has no expression grammar to inspect.
+        // Resolve it once instead of rerunning bounded code/reference scans
+        // for every leaf of a large credential container. Leave YAML lines,
+        // symbolic values and type declarations to their existing paths.
+        if name == "key"
+            && credential
+            && !public
+            && !quoted
+            && !view.line_key(start)
+            && !(quoted_key && start > 0 && view.line_key(start - 1))
+        {
+            let mut scalar_end = value;
+            while b.get(scalar_end).is_some_and(|b| word(*b)) {
+                scalar_end += 1;
+            }
+            if scalar_end > value
+                && b.get(scalar_end).is_some_and(|b| matches!(b, b',' | b'}'))
+                && view.literal(scalar_end)
+            {
+                let scalar = &view.text[value..scalar_end];
+                let (types, toys, excerpts) = *scalar_contexts.get_or_insert_with(|| {
+                    let lower = view.text.to_ascii_lowercase();
+                    (
+                        ["fn", "struct", "interface", "type"]
+                            .iter()
+                            .any(|s| lower.contains(s)),
+                        [
+                            "synthetic fixture:",
+                            "toy example:",
+                            "test fixture:",
+                            "test_vector",
+                            "synthetic_fixture",
+                        ]
+                        .iter()
+                        .any(|s| lower.contains(s)),
+                        lower.contains("excerpt"),
+                    )
+                });
+                let reference = *scalar_references
+                    .entry(scalar)
+                    .or_insert_with(|| field_reference(name, scalar));
+                if !(reference
+                    || types && type_context(view, start)
+                    || toys && labeled_toy(view, start, scalar)
+                    || excerpts && excerpt_value(view, start, scalar)
+                    || non_assignment_wrapper(view, start))
+                {
+                    spans.push(value..scalar_end);
+                    i = scalar_end;
+                    continue;
+                }
+            }
         }
 
         if !quoted
