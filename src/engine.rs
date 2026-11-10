@@ -1653,7 +1653,8 @@ fn query_key_sensitive(key: &str) -> bool {
 
 // A malformed earlier value cannot terminate parameter discovery. Literal '&'
 // remains a separator even beyond quotes, fragments, markup or line breaks.
-// Bound each recovery window by the next scheme, so all windows are disjoint.
+// Run once over the remaining suffix, including nested schemes: another URL
+// in a malformed value cannot hide a later parameter or trigger rescanning.
 // Value boundaries stay local: recovery must not eat trailing prose or records.
 fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
@@ -1739,6 +1740,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
         }
     }
     let mut cursor = 0;
+    let mut recovery_start = b.len();
     while let Some(scheme) = url_regex().find_at(&view.text, cursor) {
         if url_regex_source(view, scheme.start(), scheme.end()) {
             cursor = scheme.end();
@@ -1808,10 +1810,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             // A URL username without a password is public userinfo.
         }
         if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?' && view.literal(i)) {
-            let recovery_end = url_regex()
-                .find_at(&view.text, end)
-                .map_or(b.len(), |next| next.start());
-            recover_query_parameters(view, end, recovery_end, spans);
+            recovery_start = recovery_start.min(end);
             let mut start = query + 1;
             while start < end {
                 let mut parameter_end = start;
@@ -1830,6 +1829,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             }
         }
     }
+    recover_query_parameters(view, recovery_start, b.len(), spans);
 }
 
 fn pii_regex() -> &'static Regex {
