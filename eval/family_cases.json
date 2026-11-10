@@ -22,7 +22,11 @@
       "password=\"example\"",
       "token: placeholder",
       "client_secret: YOUR_SECRET_HERE",
-      "api_key: demo"
+      "api_key: demo",
+      "API_KEY=YOUR_API_KEY_HERE",
+      "token: dummy-token",
+      "client_secret: example-secret",
+      "password: replace-me"
     ],
     "secret_resource_reference": [
       "existingSecret: demo-auth-store",
@@ -73,7 +77,9 @@
       "token: std::sync::Arc<String>",
       "password: Option<String>",
       "interface Config { apiKey: string; token: boolean }",
-      "type Config = { password?: string; token: credential_type }"
+      "type Config = { password?: string; token: credential_type }",
+      "token: HashMap<String, Credential>",
+      "refresh_token: Custom<Token>"
     ],
     "operator_or_regex_syntax": [
       "ssh --no-reset-password | head -1",
@@ -98,7 +104,9 @@
       "const password = settings[\"password\"];",
       "const token = `${session.token}`;",
       "const options = {token: accessToken};",
-      "const headers = {Authorization: headerValue};"
+      "const headers = {Authorization: headerValue};",
+      "const apiKey = settings?.clientKey;",
+      "options = {token: accessToken};"
     ]
   },
   "positive": [
