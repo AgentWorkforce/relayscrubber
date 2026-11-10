@@ -141,8 +141,9 @@ Native tests, clippy, packaging, Node 26.13.0, Bun 1.3.14 and local Cloudflare
 workerd (Wrangler 4.77.0) pass. Node/Bun compare 4,928 native-generated vectors,
 exercise all APIs, error/pin mismatch paths and adversarial inputs. Native
 preserve_order feature-unification tests pass. Independent target-directory
-builds reproduce WASM, glue, types and adapter digests. Hosted Linux/Windows CI
-and exact-commit owner approval remain required.
+builds reproduce WASM, glue, types and adapter digests. Linux/Windows native and
+WASM CI passed on code commit `0a1912f`; independent exact-head owner approval
+remains required. The Linux artifact receipt is in `results/ci.json`.
 
 [Algorithmic bound](PERFORMANCE.md) and [evaluation protocol](EVALUATION.md).
 
@@ -151,3 +152,8 @@ commit `5255be1`: both leave a tail there and neither does under this source.
 It is recorded in `results/quote-identity-regression.json`; no live credential or
 transcript text is used. Exact encoded delimiter spelling replaces length-only
 closure identities.
+
+Portable Linux CI WASM: `01a35343b1e2042a3bff43caa6e8cef4f7e8c4cf67cc9ee9ee9266215a544d33`.
+[Passing code-candidate CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42803746678)
+verified native checks, package build, Node/Bun parity, local Workers and independent-directory
+artifact reproduction. This CI receipt does not grant adoption or publishing approval.

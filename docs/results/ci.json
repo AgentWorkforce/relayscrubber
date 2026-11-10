@@ -1,7 +1,35 @@
 {
   "schema": 1,
-  "status": "pending",
-  "currentSourceSha256": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
-  "adoptionApproved": false,
-  "note": "CI artifact for exact quote-identity source is pending; older source artifacts are not current adoption candidates."
+  "status": "passed",
+  "builder": "GitHub Actions Linux x86_64",
+  "codeCommit": "0a1912f80cc3c05b5e69565a6e5dcdfdfa18fec8",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42803746678",
+  "artifactName": "relayscrubber-wasm-candidate",
+  "packageSha256": "aceccaf390af744ed90acb51c95a332ecd01fc36dec82587e2b771c4797dc61c",
+  "toolchain": "1.88.0",
+  "wasmBindgen": "0.2.104",
+  "manifest": {
+    "schema": 2,
+    "ruleset": "relayhistory-scrub",
+    "rulesetVersion": 10,
+    "rulesetSourceSha256": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
+    "crateVersion": "0.5.0-alpha.1",
+    "abiVersion": 1,
+    "policy": "secrets",
+    "redactionToken": "[REDACTED]"
+  },
+  "files": {
+    "relayscrubber_bg.wasm": "01a35343b1e2042a3bff43caa6e8cef4f7e8c4cf67cc9ee9ee9266215a544d33",
+    "relayscrubber.js": "4d9c909387697c91c0f4365d9613dbeeee1bca5bc079ee62390c5756ead1483b",
+    "relayscrubber.d.ts": "ee56e82e5ddfc357760b16da7c9a746fc1a7fa0536e2ef376c237c414f9d269c",
+    "relayscrubber_bg.wasm.d.ts": "f968e6b144832df606023af633e39822b6700177835afe0841aa20944bbf7daf"
+  },
+  "adapterFiles": {
+    "index.js": "c2585d48daea5dc067a86037452b69da69616d5930b4f15e8cc51516d0e49bd7",
+    "index.d.ts": "75eb320daf1c9fffd2f2e8459617b3891ccd5aff3823fb2fe8fc35f1fcc6ec10"
+  },
+  "sameEnvironmentReproduction": "passed",
+  "macDevelopmentBuildByteIdentical": false,
+  "canonicalPipelineArtifact": "Linux CI package; pin this reviewed binary rather than rebuilding on a different host",
+  "adoptionApproved": false
 }

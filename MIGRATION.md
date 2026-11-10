@@ -1,8 +1,9 @@
 # Migration to one Rust engine
 
 Candidate only. Integration owners must wait for an immutable relayscrubber-lead
-PASS, green CI and Khaliq's explicit publishing authorization. This work changes
-neither relay-desktop nor relayhistory-pipeline. No registry release is assumed.
+PASS and green CI before adoption. Registry publication additionally requires
+Khaliq's own authorization. This work changes neither relay-desktop nor
+relayhistory-pipeline. No registry release is assumed.
 
 ## Identity and compatibility
 
@@ -69,6 +70,11 @@ const scrubber = await loadScrubber({
 const { bytes, recordCount } = scrubber.scrubRecords(inputBytes);
 // Only now may the caller persist or upload bytes and the manifest identity.
 ```
+
+Use this canonical JS loader and its generated wasm-bindgen glue. This artifact
+imports `wbg` functions; it cannot be instantiated with empty imports. It does
+not implement the placeholder raw `scrub_alloc` / `scrub_result_*` interface.
+Replace that consumer adapter rather than changing only its artifact pins.
 
 Initialization hashes bytes using WebCrypto and checks every manifest field. No
 network fetch occurs. Failure blocks startup/admission. Do not derive expected
