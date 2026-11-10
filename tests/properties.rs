@@ -4,6 +4,9 @@ use proptest::prelude::*;
 use relayscrubber::{scrub_json, scrub_json_text, scrub_long, scrub_text, REDACTION_TOKEN};
 use serde_json::{Map, Number, Value};
 
+#[path = "../eval/nested_component_cases.rs"]
+mod nested_component_cases;
+
 fn json_value() -> BoxedStrategy<Value> {
     let leaf = prop_oneof![
         any::<bool>().prop_map(Value::Bool),
@@ -62,6 +65,12 @@ proptest! {
         let secret = format!("SYNTH{escape}{body}");
         let input = format!("<a href=\"{prefix}?signature={secret}&sort=asc\">x</a>");
         let expected = input.replace(&secret, REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&input), expected.clone());
+        prop_assert_eq!(scrub_text(&expected), expected);
+        let secret = format!("SYNTH{}{body}", escape.replace("&#37;", "%"));
+        let inner = format!("{prefix}?signature={secret}&sort=asc");
+        let input = format!("<a href=\"/outer?url={}&page=2\">", nested_component_cases::encode(&inner));
+        let expected = input.replace(&nested_component_cases::encode(&secret), REDACTION_TOKEN);
         prop_assert_eq!(scrub_text(&input), expected.clone());
         prop_assert_eq!(scrub_text(&expected), expected);
     }

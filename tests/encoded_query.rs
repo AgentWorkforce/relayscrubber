@@ -450,3 +450,53 @@ fn nested_component_layers_all_apis() {
     );
     assert!(failures.is_empty());
 }
+
+#[test]
+fn nested_component_prefixes_all_apis_are_linear() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
+    for count in [2048, 16384] {
+        for padding in ["ordinary", "ordinary%ZZ"] {
+            let nested = format!(
+                "{}{padding}&signature=SYNTH%26ALPHA&sort=asc",
+                "/?url=".repeat(count)
+            );
+            let input = format!(
+                "<a href=\"/outer?url={}&page=2\">x</a>",
+                nested_component_cases::encode(&nested)
+            );
+            let expected = input.replace("SYNTH%2526ALPHA", REDACTION_TOKEN);
+            let source = json!([{ "input": input, "expected": expected }]).to_string();
+            let start = std::time::Instant::now();
+            check(&source);
+            let elapsed = start.elapsed();
+            eprintln!(
+                "nested component prefixes: count={count} invalid={} bytes={} seconds={:.3}",
+                padding.contains('%'),
+                input.len(),
+                elapsed.as_secs_f64()
+            );
+            assert!(elapsed < std::time::Duration::from_secs(10));
+        }
+    }
+}
+
+#[test]
+fn nested_component_depth_budget_fails_closed() {
+    let mut cases = Vec::new();
+    for (mut nested, sensitive) in [
+        ("?signature=SYNTH%26ALPHA&sort=asc".to_string(), true),
+        ("?q=a%26b&page=2".to_string(), false),
+    ] {
+        for _ in 0..6 {
+            nested = nested_component_cases::encode(&nested);
+        }
+        let input = format!("<a href=\"/outer?url={nested}&page=2\">x</a>");
+        let expected = if sensitive {
+            input.replace(&nested, REDACTION_TOKEN)
+        } else {
+            input.clone()
+        };
+        cases.push(json!({"input":input,"expected":expected}));
+    }
+    check(&serde_json::to_string(&cases).unwrap());
+}

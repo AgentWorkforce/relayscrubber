@@ -60,7 +60,7 @@ pub fn cases() -> Vec<(String, String)> {
                     }
                 }
             }
-            for prefix in ["//", "https://", ""] {
+            for prefix in ["//", "https://", "", "postgres://", "mysql://", "redis://"] {
                 let nested = format!("{prefix}al%3Aice:{secret}@host/download");
                 let input = format!("<a href=\"/outer?url={}&page=2\">x</a>", encode(&nested));
                 let expected = input.replace(&encode(&secret), "[REDACTED]");
@@ -88,5 +88,39 @@ pub fn cases() -> Vec<(String, String)> {
         let input = format!("<a href=\"/outer?caption={inner}&page=2\">x</a>");
         cases.push((input.clone(), input.replace(secret, "[REDACTED]")));
     }
+    for layers in [2, 3] {
+        let mut nested = "?signature=SYNTH%26ALPHA&sort=asc".to_string();
+        let mut secret = "SYNTH%26ALPHA".to_string();
+        for _ in 0..layers {
+            nested = encode(&nested);
+            secret = encode(&secret);
+        }
+        let input = format!("<a href=\"/outer?caption={nested}&page=2\">x</a>");
+        cases.push((input.clone(), input.replace(&secret, "[REDACTED]")));
+    }
+    for prefix in ["//", "https://", ""] {
+        let secret = "SYNTH%26ALPHA=TAIL";
+        let nested = format!("{prefix}al%3Aice:{secret}@host/download");
+        let input = format!("<a href=\"/outer?url={}&page=2\">x</a>", encode(&nested));
+        cases.push((input.clone(), input.replace(&encode(secret), "[REDACTED]")));
+    }
+    // The same nested layers in ordinary absolute URL text, not only HTML.
+    let value = |input: &str| {
+        let begin = input.find('=').unwrap() + 1;
+        let quote = input.as_bytes()[begin];
+        let (start, end) = if matches!(quote, b'"' | b'\'') {
+            (begin + 1, input.rfind(char::from(quote)).unwrap())
+        } else {
+            (begin, input.find('>').unwrap())
+        };
+        format!("https://outer.invalid{}", &input[start..end])
+    };
+    let plain: Vec<_> = cases
+        .iter()
+        .enumerate()
+        .filter(|(id, (input, expected))| id % 3 == 0 || input == expected)
+        .map(|(_, (input, expected))| (value(input), value(expected)))
+        .collect();
+    cases.extend(plain);
     cases
 }

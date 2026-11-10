@@ -5,6 +5,8 @@ mod generate;
 mod html_url_component_cases;
 #[path = "../eval/html_url_punctuation_cases.rs"]
 mod html_url_punctuation_cases;
+#[path = "../eval/nested_component_cases.rs"]
+mod nested_component_cases;
 #[path = "../eval/query_separator_cases.rs"]
 mod query_separator_cases;
 #[path = "../eval/review_cases.rs"]
@@ -118,6 +120,7 @@ fn main() {
     for (input, output) in html_url_punctuation_cases::cases()
         .into_iter()
         .chain(html_url_component_cases::cases())
+        .chain(nested_component_cases::cases())
     {
         assert_eq!(relayscrubber::scrub_text(&input), output);
         text.push(serde_json::json!({"input":input,"output":output}));

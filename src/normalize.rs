@@ -2,6 +2,14 @@
 
 use std::borrow::Cow;
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Decode {
+    Escapes,
+    Html,
+    Components,
+    Percent,
+}
+
 struct Change {
     position: usize,
     start: usize,
@@ -272,15 +280,21 @@ impl View {
     }
 
     pub fn new(input: &str) -> Self {
-        Self::build(input, false, true)
+        Self::build(input, Decode::Escapes)
     }
 
     pub fn html_url(input: &str) -> Self {
-        Self::build(input, true, true)
+        Self::build(input, Decode::Html)
     }
 
     pub fn html_components(input: &str) -> Self {
-        Self::build(input, true, false)
+        Self::build(input, Decode::Components)
+    }
+
+    // Decode exactly one URL component encoding layer. A resulting percent
+    // sign is data until a public value explicitly opens another nested layer.
+    pub fn percent_layer(input: &str) -> Self {
+        Self::build(input, Decode::Percent)
     }
 
     // Inverse mapping for ranges discovered in an entity-only source view.
@@ -297,7 +311,7 @@ impl View {
         }
     }
 
-    fn build(input: &str, html: bool, percent_layer: bool) -> Self {
+    fn build(input: &str, mode: Decode) -> Self {
         let source = input.as_bytes();
         let mut bytes = Vec::with_capacity(source.len());
         let mut changes = Vec::new();
@@ -305,9 +319,14 @@ impl View {
         let mut i = 0;
         while i < source.len() {
             // Ordinary bytes require no decoder call or escape-state setup.
-            let (ch, end, style) = match (html, source[i]) {
-                (true, b'&' | b'%') => html_decoded(source, i, percent_layer),
-                (false, b'%' | b'\\') => decoded(source, i),
+            let (ch, end, style) = match (mode, source[i]) {
+                (Decode::Html, b'&' | b'%') => html_decoded(source, i, true),
+                (Decode::Components, b'&') => html_decoded(source, i, false),
+                (Decode::Percent, b'%') => match pair(source, i + 1) {
+                    Some(ch) if ch.is_ascii() => (ch, i + 3, 1),
+                    _ => (source[i], i + 1, 0),
+                },
+                (Decode::Escapes, b'%' | b'\\') => decoded(source, i),
                 _ => (source[i], i + 1, 0),
             };
             if style == 255 {
@@ -384,7 +403,7 @@ impl View {
         }
         // URL recognition uses only source offsets, quotes and line ends.
         // Attribute-local views do not need assignment/container indexes.
-        if html {
+        if mode != Decode::Escapes {
             return Self {
                 text,
                 changes,
