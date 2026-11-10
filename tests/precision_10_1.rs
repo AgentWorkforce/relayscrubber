@@ -34,4 +34,3 @@ fn precision_10_1_complete_values_all_apis() {
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
-

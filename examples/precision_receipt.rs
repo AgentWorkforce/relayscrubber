@@ -2,7 +2,10 @@
 use relayscrubber::*;
 use serde_json::{json, Value};
 fn main() {
-    let cases: Value = serde_json::from_str(&include_str!("../eval/precision_10_1_cases.json").replace("OPENAI_PREFIX_", "sk-")).unwrap();
+    let cases: Value = serde_json::from_str(
+        &include_str!("../eval/precision_10_1_cases.json").replace("OPENAI_PREFIX_", "sk-"),
+    )
+    .unwrap();
     let rows: Vec<_> = cases.as_array().unwrap().iter().enumerate().map(|(id,c)| {
         let input = c["input"].as_str().unwrap();
         let v = json!({"text":input});
@@ -13,5 +16,5 @@ fn main() {
         let repeat: Vec<_> = outputs.iter().map(|out| scrub_text(out)!=*out).collect();
         json!({"id":id,"family":c["family"],"reaudit3":c["reaudit3"],"input":input,"outputsTextJsonRecords":outputs,"validTextJsonRecords":valid,"secondPassChanges":repeat})
     }).collect();
-    println!("{}",json!({"manifest":manifest(),"rows":rows}));
+    println!("{}", json!({"manifest":manifest(),"rows":rows}));
 }

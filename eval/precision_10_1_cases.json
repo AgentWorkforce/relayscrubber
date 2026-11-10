@@ -324,7 +324,7 @@
   },
   {
     "family": "literal_sibling",
-    "input": "let access_token = m8zr4vk7np2qw6xaq9;",
+    "input": "let access_token = \"m8zr4vk7np2qw6xaq9\";",
     "secret": "m8zr4vk7np2qw6xaq9"
   },
   {
@@ -351,16 +351,6 @@
     "family": "literal_sibling",
     "input": "await tools.write_stdin({session_id:M8zR4vK7nP2qW6xAq9, chars:\"\", yield_time_ms:1000})",
     "secret": "M8zR4vK7nP2qW6xAq9"
-  },
-  {
-    "family": "literal_sibling",
-    "input": "await tools.write_stdin({session_id:m8zr4vk7np2qw6xaq9, chars:\"\", yield_time_ms:1000})",
-    "secret": "m8zr4vk7np2qw6xaq9"
-  },
-  {
-    "family": "literal_sibling",
-    "input": "await tools.write_stdin({session_id:12345678901234567890123456789012, chars:\"\", yield_time_ms:1000})",
-    "secret": "12345678901234567890123456789012"
   },
   {
     "family": "literal_sibling",
@@ -404,7 +394,7 @@
   },
   {
     "family": "literal_sibling",
-    "input": "const record = {integrationKey: m8zr4vk7np2qw6xaq9};",
+    "input": "const record = {integrationKey: \"m8zr4vk7np2qw6xaq9\"};",
     "secret": "m8zr4vk7np2qw6xaq9"
   },
   {
@@ -611,5 +601,380 @@
     "family": "provider_sibling",
     "input": "value = \"Bearer hidden_... OPENAI_PREFIX_SYNTHabcdefghijklmnopqrstuvwxyz0123456789\";",
     "secret": "SYNTHabcdefghijklmnopqrstuvwxyz0123456789"
+  },
+  {
+    "family": "signed_url_exact",
+    "input": "https://media.example.invalid/render?caption=\"audit notes\"&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue\"});",
+    "expected": "let fixture = json!({\"sessionId\":\"task_queue\"});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\"session_id\":\"task_queue\"});",
+    "expected": "let fixture = json!({\"session_id\":\"task_queue\"});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\"SESSION_ID\":\"task_queue\"});",
+    "expected": "let fixture = json!({\"SESSION_ID\":\"task_queue\"});"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"Bearer hidden_... M8zR4vK7nP2qW6xAq9\"});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"Bearer hidden_...M8zR4vK7nP2qW6xAq9\"});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue M8zR4vK7nP2qW6xAq9\"});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue%20M8zR4vK7nP2qW6xAq9\"});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"Bearer hidden_... 0123456789abcdef0123456789abcdef\"});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"Bearer hidden_...0123456789abcdef0123456789abcdef\"});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue 0123456789abcdef0123456789abcdef\"});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\"sessionId\":\"task_queue%200123456789abcdef0123456789abcdef\"});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({'sessionId':'task_queue'});",
+    "expected": "let fixture = json!({'sessionId':'task_queue'});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({'session_id':'task_queue'});",
+    "expected": "let fixture = json!({'session_id':'task_queue'});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({'SESSION_ID':'task_queue'});",
+    "expected": "let fixture = json!({'SESSION_ID':'task_queue'});"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'Bearer hidden_... M8zR4vK7nP2qW6xAq9'});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'Bearer hidden_...M8zR4vK7nP2qW6xAq9'});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'task_queue M8zR4vK7nP2qW6xAq9'});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'task_queue%20M8zR4vK7nP2qW6xAq9'});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'Bearer hidden_... 0123456789abcdef0123456789abcdef'});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'Bearer hidden_...0123456789abcdef0123456789abcdef'});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'task_queue 0123456789abcdef0123456789abcdef'});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({'sessionId':'task_queue%200123456789abcdef0123456789abcdef'});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({%22sessionId%22:%22task_queue%22});",
+    "expected": "let fixture = json!({%22sessionId%22:%22task_queue%22});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({%22session_id%22:%22task_queue%22});",
+    "expected": "let fixture = json!({%22session_id%22:%22task_queue%22});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({%22SESSION_ID%22:%22task_queue%22});",
+    "expected": "let fixture = json!({%22SESSION_ID%22:%22task_queue%22});"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22Bearer hidden_... M8zR4vK7nP2qW6xAq9%22});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22Bearer hidden_...M8zR4vK7nP2qW6xAq9%22});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22task_queue M8zR4vK7nP2qW6xAq9%22});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22task_queue%20M8zR4vK7nP2qW6xAq9%22});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22Bearer hidden_... 0123456789abcdef0123456789abcdef%22});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22Bearer hidden_...0123456789abcdef0123456789abcdef%22});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22task_queue 0123456789abcdef0123456789abcdef%22});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({%22sessionId%22:%22task_queue%200123456789abcdef0123456789abcdef%22});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue\\u0022});",
+    "expected": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue\\u0022});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\\u0022session_id\\u0022:\\u0022task_queue\\u0022});",
+    "expected": "let fixture = json!({\\u0022session_id\\u0022:\\u0022task_queue\\u0022});"
+  },
+  {
+    "family": "fixture_quote_case",
+    "input": "let fixture = json!({\\u0022SESSION_ID\\u0022:\\u0022task_queue\\u0022});",
+    "expected": "let fixture = json!({\\u0022SESSION_ID\\u0022:\\u0022task_queue\\u0022});"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022Bearer hidden_... M8zR4vK7nP2qW6xAq9\\u0022});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022Bearer hidden_...M8zR4vK7nP2qW6xAq9\\u0022});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue M8zR4vK7nP2qW6xAq9\\u0022});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue%20M8zR4vK7nP2qW6xAq9\\u0022});",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022Bearer hidden_... 0123456789abcdef0123456789abcdef\\u0022});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022Bearer hidden_...0123456789abcdef0123456789abcdef\\u0022});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue 0123456789abcdef0123456789abcdef\\u0022});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "mask_fixture_embedded_tail",
+    "input": "let fixture = json!({\\u0022sessionId\\u0022:\\u0022task_queue%200123456789abcdef0123456789abcdef\\u0022});",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" M8zR4vK7nP2qW6xAq9};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" + \"M8zR4vK7nP2qW6xAq9\"};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} + \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... + \\\"M8zR4vK7nP2qW6xAq9\\\"\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" /* M8zR4vK7nP2qW6xAq9 */};",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} /* M8zR4vK7nP2qW6xAq9 */",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... /* M8zR4vK7nP2qW6xAq9 */\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" 0123456789abcdef0123456789abcdef};",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? 0123456789abcdef0123456789abcdef;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) 0123456789abcdef0123456789abcdef;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} 0123456789abcdef0123456789abcdef",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... 0123456789abcdef0123456789abcdef\";",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" + \"0123456789abcdef0123456789abcdef\"};",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? + \"0123456789abcdef0123456789abcdef\";",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) + \"0123456789abcdef0123456789abcdef\";",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} + \"0123456789abcdef0123456789abcdef\"",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... + \\\"0123456789abcdef0123456789abcdef\\\"\";",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "const record = {sessionId:\"task_queue\" /* 0123456789abcdef0123456789abcdef */};",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "let access_token = request.headers.get(\"Authorization\")?.strip_prefix(\"Bearer \")? /* 0123456789abcdef0123456789abcdef */;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "pub type CacheKey = (String, u32) /* 0123456789abcdef0123456789abcdef */;",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "secret: {\"DB_PASS\":\"postgresql://svc:***@db.example.invalid/app\"} /* 0123456789abcdef0123456789abcdef */",
+    "secret": "0123456789abcdef0123456789abcdef"
+  },
+  {
+    "family": "complete_tail_attack",
+    "input": "value = \"Bearer hidden_... /* 0123456789abcdef0123456789abcdef */\";",
+    "secret": "0123456789abcdef0123456789abcdef"
   }
 ]
