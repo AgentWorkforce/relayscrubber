@@ -673,10 +673,10 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
     }
     let prefix = prefix.trim_end_matches(['"', '\'', '`']).trim_end();
     let sentence = prefix.trim_end_matches(':');
-    sentence.split_whitespace().count() >= 2
-        && sentence
-            .bytes()
-            .all(|b| b.is_ascii_alphabetic() || b.is_ascii_whitespace())
+    sentence
+        .bytes()
+        .all(|b| b.is_ascii_alphabetic() || b.is_ascii_whitespace())
+        && sentence.split_whitespace().take(2).count() == 2
 }
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
