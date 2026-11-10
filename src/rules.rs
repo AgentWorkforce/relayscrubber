@@ -47,7 +47,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 7;
+pub const RULESET_VERSION: u32 = 8;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -58,7 +58,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
 /// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "887dd7184c757f5840b6a363fec8e9ea93819a5b917659985b56bc32a33f2fd8";
+    "50c2e0c67395f488a308cbcfc7c945606374b3d67d37138e284849c6190c8214";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.

@@ -22,7 +22,7 @@ fn history_marker_is_exactly_the_two_field_raw_scrub_contract() {
         marker,
         serde_json::json!({
             "ruleset": "relayhistory-scrub",
-            "version": 7,
+            "version": 8,
         })
     );
 }
@@ -88,7 +88,7 @@ fn rust_rule_modules_match_the_reviewed_port_digest() {
 }
 
 #[test]
-fn the_frozen_v6_ledger_is_not_relabelled_as_v7() {
+fn the_frozen_v6_ledger_is_not_relabelled_as_current() {
     let ledger: Value =
         serde_json::from_str(include_str!("../vendor/frozen-v6/ledger.json")).unwrap();
     assert_eq!(ledger["rulesetVersion"], 6);
@@ -177,4 +177,26 @@ fn exported_contract_matches_technical_foul_schema_one() {
         sha256(std::str::from_utf8(CORPUS_BYTES).expect("UTF-8 corpus")),
         CORPUS_SHA256
     );
+}
+
+#[test]
+fn the_unpublished_v7_provenance_is_frozen_and_never_adopted() {
+    let ledger: Value =
+        serde_json::from_str(include_str!("../vendor/frozen-v7/ledger.json")).unwrap();
+    assert_eq!(ledger["rulesetVersion"], 7);
+    assert_eq!(ledger["published"], false);
+    assert_eq!(ledger["adoptionApproved"], false);
+    let manifest: Value =
+        serde_json::from_str(include_str!("../vendor/frozen-v7/technical-foul.json")).unwrap();
+    let source = include_str!("../vendor/frozen-v7/scrub.ts").replace("\r\n", "\n");
+    assert_eq!(
+        sha256(&source),
+        "8432a10f5802b1ea880f447c697482601f51a0b6aec9cde9bb785837c2e016c4"
+    );
+    assert_eq!(manifest["rulesetVersion"], 7);
+    assert_eq!(
+        manifest["rulesetSourceSha256"],
+        "887dd7184c757f5840b6a363fec8e9ea93819a5b917659985b56bc32a33f2fd8"
+    );
+    assert_ne!(manifest["rulesetSourceSha256"], RULESET_SOURCE_SHA256);
 }

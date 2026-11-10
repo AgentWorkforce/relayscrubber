@@ -67,6 +67,15 @@ fn assignment(t: &[u16], i: usize) -> Option<Hit> {
     if !at(t, i, is_alnum) || before(t, i, is_word) {
         return None;
     }
+    // Canonical v8 negative lookahead: do not consume the public identifier or
+    // its value. The scanner must still see any nested labelled credential.
+    if has_ci(t, i, "idempotency_key")
+        && at(t, run_end(t, i + "idempotency_key".len(), is_space), |c| {
+            one_of(c, b":=")
+        })
+    {
+        return None;
+    }
     let mut starts = vec![i];
     let mut p = i;
     while starts.len() <= 8 {
@@ -83,14 +92,6 @@ fn assignment(t: &[u16], i: usize) -> Option<Hit> {
                 return None;
             }
             let (sep, end) = assigned_value(t, k + name.len())?;
-            // Canonical v7: only this exact public replay identifier is exempt
-            // from the generic assignment rule. Independent credential detectors
-            // still run on its value; prefixed or suffixed names are not exempt.
-            if has_ci(t, i, "idempotency_key")
-                && run_end(t, i + "idempotency_key".len(), is_space) == sep
-            {
-                return Some(Hit::new(end, slice(t, i, end).to_vec()));
-            }
             Some(Hit::redact(end, slice(t, i, sep + 1)))
         })
     })

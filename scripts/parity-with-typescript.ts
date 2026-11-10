@@ -159,6 +159,23 @@ for (const key of ["idempotency_key", "IDEMPOTENCY_KEY", "Idempotency_Key", "req
   }
 }
 const v7TextCount = vectors.length - v7TextStart;
+// Ruleset 8 must keep scanning inside public assignment values.
+const v8TextStart = vectors.length;
+for (const key of ["idempotency_key", "IDEMPOTENCY_KEY"]) {
+  for (const separator of ["=", ":", " : ", "\t=\t", "\u00a0=\ufeff"]) {
+    for (const quote of ["", '"', "'", String.fromCharCode(96)]) {
+      for (const label of ["password", "token", "api_key", "client_secret", "credentials"]) {
+        const input = key + separator + quote + label + "=fixture-only" + quote;
+        vectors.push({ id: `v8/${vectors.length}`, input, expected: scrubText(input) });
+      }
+    }
+  }
+}
+for (let depth = 1; depth <= 512; depth *= 2) {
+  const input = "idempotency_key=".repeat(depth) + "password=fixture-only";
+  vectors.push({ id: `v8/depth/${depth}`, input, expected: scrubText(input) });
+}
+const v8TextCount = vectors.length - v8TextStart;
 const fuzzAtoms = () => [
   `Bearer ${generated(40)}`,
   `"password": "${generated(48)}"`,
@@ -403,6 +420,7 @@ recordVectors.push({
 for (const input of [
   JSON.stringify({idempotency_key: "public-replay-42", content: "idempotency_key=public-replay-42 api_key=synthetic-credential-value"}),
   JSON.stringify({idempotency_key: `ghp_${generated(48)}`}),
+  JSON.stringify({text: "idempotency_key=password=fixture-only"}),
   '{"content":"api_key=synthetic-credential-value","content":"ordinary last value"}',
 ]) {
   recordVectors.push({id: `v7/record/${recordVectors.length}`, input, expected: scrubJson(JSON.parse(input))});
@@ -477,5 +495,5 @@ for (const [index, vector] of recordVectors.entries()) {
 }
 
 console.log(
-  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + ${v7TextCount} v7 replay-identity vectors + 20002 deterministic fuzz + 54 multiline-cap regressions + 144 strict-reference depth vectors), ${longVectors.length} scrubLong vectors byte-identical, and ${recordVectors.length} scrubJson vectors semantically identical`,
+  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + ${v7TextCount} v7 replay-identity vectors + ${v8TextCount} v8 nested-credential vectors + 20002 deterministic fuzz + 54 multiline-cap regressions + 144 strict-reference depth vectors), ${longVectors.length} scrubLong vectors byte-identical, and ${recordVectors.length} scrubJson vectors semantically identical`,
 );

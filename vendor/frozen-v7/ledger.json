@@ -1,0 +1,8 @@
+{
+  "rulesetVersion": 7,
+  "canonicalCommit": "e5e67f9c9dd375cc780a6e521b4c1d4b01fe2d9d",
+  "candidateRustCommit": "303f4710db8acc200e96a667f617c868853464e4",
+  "published": false,
+  "adoptionApproved": false,
+  "knownIssue": "Generic public assignment consumes its value and hides a nested labelled credential. Retained for provenance only."
+}
