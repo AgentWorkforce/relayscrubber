@@ -1,9 +1,9 @@
 {
   "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-  "implementationCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
+  "implementationCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
   "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
-  "sourceSha256": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
-  "localWasmSha256": "286c4653f1adf4dd9981fa7b49f0cfbff501bedaf7723e4e0d61ff33db656d7e",
+  "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+  "localWasmSha256": "ab4192acffb2dbd0531b28699ab0e1e286e76879cd75f1fdaa6b06237691cf8c",
   "reaudit2Reproductions": [
     {
       "family": "provider_function_identifier",
@@ -621,7 +621,7 @@
   "gateResults": {
     "matrix": {
       "schema": 1,
-      "source": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
+      "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
       "exactPacket": {
         "cases": 1186,
         "failures": []
@@ -663,12 +663,12 @@
     "wasm": {
       "nodeTests": 66,
       "bunTests": 66,
-      "textParityVectors": 5642,
-      "structuredParityVectors": 5647,
+      "textParityVectors": 5645,
+      "structuredParityVectors": 5650,
       "frozenAllApis": 199,
       "result": "pass",
       "independentStructuralCases": 99,
-      "completeValueCases": 138,
+      "completeValueCases": 141,
       "numericCredentialCases": 45
     },
     "fmt": "pass",
@@ -712,16 +712,16 @@
       "62ec896"
     ],
     "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
-    "localSmallContainerSeconds": 0.072,
-    "localLargeContainerSeconds": 0.869,
-    "localScopeAllApisSeconds": 13.855,
-    "hostedLinuxSmallContainerSeconds": 0.129,
-    "hostedLinuxLargeContainerSeconds": 1.68,
-    "hostedLinuxScopeAllApisSeconds": 15.548,
-    "hostedWindowsSmallContainerSeconds": 0.27,
-    "hostedWindowsLargeContainerSeconds": 3.665,
-    "hostedWindowsScopeAllApisSeconds": 31.462,
-    "hostedBunScopeMilliseconds": 2465.21,
+    "localSmallContainerSeconds": 0.094,
+    "localLargeContainerSeconds": 0.86,
+    "localScopeAllApisSeconds": 14.019,
+    "hostedLinuxSmallContainerSeconds": 0.121,
+    "hostedLinuxLargeContainerSeconds": 1.632,
+    "hostedLinuxScopeAllApisSeconds": 15.997,
+    "hostedWindowsSmallContainerSeconds": 0.203,
+    "hostedWindowsLargeContainerSeconds": 3.001,
+    "hostedWindowsScopeAllApisSeconds": 25.517,
+    "hostedBunScopeMilliseconds": 2680.44,
     "baselineWindowsSeconds": 82,
     "intermediateBunScopeMilliseconds": 5202,
     "bunTimeoutMilliseconds": 5000,
@@ -738,27 +738,29 @@
     }
   },
   "previousBaseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-  "previousImplementationCommit": "978cd734439e7c96c8b37f745e87758228384fea",
-  "hostedWasmSha256": "59ffd723a44ea03d4903c1a16d21f4d9cffa621ee6d425223a829ae644168769",
-  "hostedPackageSha256": "2f19e510bbd637be286b4062627cd5a6851fec12ba5e90f7185678cfd43902f6",
+  "previousImplementationCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
+  "hostedWasmSha256": "d8c491e0df28c94ae65d4f943832c3417419b3c054836f559f722315c7b85a0c",
+  "hostedPackageSha256": "2d0868dc3acdc18fa223787f5996a3cc509b3cf46723420789e719f4f39fdfb0",
   "completeValueRepair": {
     "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-    "sourceCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
-    "sourceSha256": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
+    "sourceCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+    "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
     "testOnlyCommits": [
       "9c0b3e0",
       "3010c43",
       "7b4f231",
       "07710e8",
       "c9ba4de",
-      "0d7e789"
+      "0d7e789",
+      "36fd753"
     ],
     "fixCommits": [
       "87fda3b",
       "92eaa2e",
       "8ecdb9e",
       "760e274",
-      "3d20260"
+      "3d20260",
+      "5b6afb6"
     ],
     "performanceCommits": [
       "ae67d5f",
@@ -1767,6 +1769,36 @@
             }
           ],
           "secondPassChanges": []
+        },
+        "substitution_quote_identity_tail": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 138,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 139,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 140,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
         }
       },
       "numeric": {
@@ -2182,7 +2214,7 @@
       }
     },
     "headHostedWasm": {
-      "source": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
+      "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
       "groups": {
         "resource_tail": {
           "cases": 3,
@@ -2268,6 +2300,11 @@
           "cases": 3,
           "failures": [],
           "secondPassChanges": []
+        },
+        "substitution_quote_identity_tail": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
         }
       },
       "numeric": {
@@ -2321,8 +2358,10 @@
       },
       {
         "name": "substitution_embedded_literals",
-        "cases": 10,
-        "baselineLeakingCases": 10,
+        "cases": 13,
+        "baselineLeakingCases": 13,
+        "additionalTestCommit": "36fd753",
+        "additionalFixCommit": "5b6afb6",
         "testCommit": "9c0b3e0",
         "fixCommit": "87fda3b",
         "headLeakingCases": 0,
@@ -2361,7 +2400,7 @@
       },
       {
         "family": "shell_substitution",
-        "rule": "Complete reference-only commands; openssl rand, cat of a variable, and bare command references remain; literal arguments and tails redact."
+        "rule": "Complete reference-only commands with exact outer quote encoding across nested strings; openssl rand, cat-variable and bare command references remain. Encoded fake closers, literal arguments and tails redact."
       },
       {
         "family": "idempotency_slug",
@@ -2428,16 +2467,16 @@
         "62ec896"
       ],
       "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
-      "localSmallContainerSeconds": 0.072,
-      "localLargeContainerSeconds": 0.869,
-      "localScopeAllApisSeconds": 13.855,
-      "hostedLinuxSmallContainerSeconds": 0.129,
-      "hostedLinuxLargeContainerSeconds": 1.68,
-      "hostedLinuxScopeAllApisSeconds": 15.548,
-      "hostedWindowsSmallContainerSeconds": 0.27,
-      "hostedWindowsLargeContainerSeconds": 3.665,
-      "hostedWindowsScopeAllApisSeconds": 31.462,
-      "hostedBunScopeMilliseconds": 2465.21,
+      "localSmallContainerSeconds": 0.094,
+      "localLargeContainerSeconds": 0.86,
+      "localScopeAllApisSeconds": 14.019,
+      "hostedLinuxSmallContainerSeconds": 0.121,
+      "hostedLinuxLargeContainerSeconds": 1.632,
+      "hostedLinuxScopeAllApisSeconds": 15.997,
+      "hostedWindowsSmallContainerSeconds": 0.203,
+      "hostedWindowsLargeContainerSeconds": 3.001,
+      "hostedWindowsScopeAllApisSeconds": 25.517,
+      "hostedBunScopeMilliseconds": 2680.44,
       "baselineWindowsSeconds": 82,
       "intermediateBunScopeMilliseconds": 5202,
       "bunTimeoutMilliseconds": 5000,
