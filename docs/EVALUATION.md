@@ -35,6 +35,13 @@ once, report its result even if unfavorable, and do not tune on it. An engine
 change after that point requires a fresh held-out set for a new unseen-data claim.
 Synthetic alternate seeds test body variation, not unseen secret-format families.
 
+A transport-only serializer change may retain text observations when all native
+recognition/parser/dependency sources are verified byte-identical. Record both
+the original evaluation digest and new artifact digest; do not relabel the old
+observation as a new held-out run or re-read that set. Transport fidelity requires
+its own synthetic assertions, including integer identifiers above JavaScript's
+exact-number range.
+
 Private precision tools:
 
 ```sh

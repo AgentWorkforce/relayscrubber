@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "status": "pending",
-  "currentSourceSha256": "71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80",
+  "currentSourceSha256": "ea1c893de008556ef65104960ad3fa1f67aac5299b8442e4e04c1211405ca3b7",
   "adoptionApproved": false,
-  "note": "CI artifact for the current precision-fix source is pending; previous source receipt is retired-ci-150fa.json. Do not use a previous-source artifact with current source pins."
+  "note": "CI artifact for current lossless JSON transport is pending; recognition core is byte-identical to the evaluated e121ec3 commit."
 }

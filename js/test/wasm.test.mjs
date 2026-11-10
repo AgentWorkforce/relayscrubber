@@ -32,6 +32,14 @@ test('WASM matches independently generated native vectors', () => {
   assert.equal(vectors.manifest.rulesetSourceSha256, scrubber.manifest.rulesetSourceSha256);
   for (const { input, output } of vectors.text) assert.equal(scrubber.scrubText(input), output);
 });
+test('Rust JSON text preserves large integer identifiers for persistence', () => {
+  const text = '{"id":18446744073709551615,"note":"normal"}';
+  const result = scrubber.scrubJson(text);
+  assert.equal(result.jsonText, text);
+  assert.equal(result.redactionCount, 0);
+  const records = scrubber.scrubRecords(new TextEncoder().encode(text));
+  assert.equal(new TextDecoder().decode(records.bytes), text + '\n');
+});
 test('64 KiB and 256 KiB adversarial inputs stay bounded', () => {
   for (const size of [65536, 262144]) {
     for (const unit of ['\\', '%252525', '"password" ', 'idempotency_key=', 'x://u:', '-----BEGIN PRIVATE KEY-----']) {

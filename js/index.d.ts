@@ -6,7 +6,8 @@ export interface Scrubber {
   readonly manifest: Readonly<Manifest>;
   scrubText(text: string): string;
   scrubLong(text: string): string;
-  scrubJson(jsonText: string): { value: unknown; redactionCount: number };
+  /** Persist jsonText; value is a convenience JS view and may round large integers. */
+  scrubJson(jsonText: string): { value: unknown; jsonText: string; redactionCount: number };
   scrubRecords(bytes: Uint8Array): { bytes: Uint8Array; recordCount: number; redactionCount: number };
 }
 export function loadScrubber(options: { bytes: Uint8Array; expectedManifest: Manifest; expectedWasmSha256: string }): Promise<Scrubber>;

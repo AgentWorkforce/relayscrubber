@@ -28,6 +28,12 @@ NDJSON returns `Result<RecordOutput, RecordError>` with count, bytes and stable
 one-based physical line numbers. No partial output is supplied. Empty physical
 lines are ignored. A final newline is optional. Stream/record limits are 64/16 MiB.
 
+The JS `scrubJson` result includes `jsonText`, the Rust-serialized output. Persist
+that string rather than reserializing `.value`: the convenience JS view uses
+IEEE-754 numbers and can round integers above 2^53. Rust's supported `u64`/`i64`
+integer domain remains exact in `jsonText` and NDJSON bytes. This is not arbitrary
+precision JSON; inputs outside serde_json's numeric domain can normalize or fail.
+
 ## Desktop owner
 
 Pin the approved crate and resolved Cargo.lock before integration. Call the crate

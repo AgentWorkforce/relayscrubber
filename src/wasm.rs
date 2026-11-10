@@ -17,8 +17,12 @@ pub fn scrub_long(input: &str) -> String {
 pub fn scrub_json(input: &str) -> Result<String, JsValue> {
     let (value, count) =
         crate::scrub_json_text(input).ok_or_else(|| JsValue::from_str("invalid_json"))?;
-    serde_json::to_string(&serde_json::json!({ "value": value, "redactionCount": count }))
-        .map_err(|_| JsValue::from_str("serialization_error"))
+    let json_text =
+        serde_json::to_string(&value).map_err(|_| JsValue::from_str("serialization_error"))?;
+    serde_json::to_string(
+        &serde_json::json!({ "value": value, "jsonText":json_text, "redactionCount": count }),
+    )
+    .map_err(|_| JsValue::from_str("serialization_error"))
 }
 #[wasm_bindgen(js_name = scrubRecords)]
 pub fn scrub_records(input: &[u8]) -> Result<String, JsValue> {

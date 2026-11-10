@@ -1,7 +1,8 @@
 # Candidate evaluation results
 
-Frozen rules source: `71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80`.
-WASM: `dde4e89d32cfc9499760469bd30de0b0ac6abfcc589ba7ddd97cf4e7a7326586` (1,564,046 bytes).
+Frozen text-evaluation source: `71a30576f5684eeb6fdef7bd90e45423965a502ba82a67b05bd936704e3e5c80`.
+Current distribution source: `ea1c893de008556ef65104960ad3fa1f67aac5299b8442e4e04c1211405ca3b7`.
+Mac development WASM: `b631d6a9a82b4636b2127b0a1b066961c46b7c4ff902e5db4861345ff4ddd588` (1,564,899 bytes).
 
 Candidate 10 is not approved for adoption. Ruleset reservation and independent
 relayscrubber-lead exact-commit PASS are pending. Veto host-assisted review passed
@@ -143,3 +144,9 @@ builds reproduce WASM, glue, types and adapter digests. Hosted Linux/Windows CI
 and exact-commit owner approval remain required.
 
 [Algorithmic bound](PERFORMANCE.md) and [evaluation protocol](EVALUATION.md).
+
+The additive JSON transport revision preserves Rust `jsonText` for storing large
+integer identifiers. Native recognition/parser sources, dependencies and toolchain
+are byte-identical to the frozen evaluation commit, verified in `precision.json`.
+Held-out input was not re-read. The parsed JS `.value` is a convenience view;
+persist `jsonText` or NDJSON bytes. Synthetic uint64 fidelity assertions pass.
