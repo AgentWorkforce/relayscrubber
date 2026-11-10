@@ -147,8 +147,8 @@
     "passing": 7,
     "nativeTextVectors": 5089,
     "nativeStructuredVectors": 5089,
-    "nodeTests": 14,
-    "bunTests": 14,
+    "nodeTests": 15,
+    "bunTests": 15,
     "secondPassParity": true
   },
   "admission": {
@@ -195,5 +195,33 @@
     "benignCases": 6144,
     "falsePositiveCases": 0,
     "worstResourceMs": 46.341625
+  },
+  "frozenWitnesses": {
+    "baseExactArchivedOracle": 160,
+    "baseMissedSecretCases": 10,
+    "cases": 199,
+    "headExactArchivedOracle": 160,
+    "headMissedSecretCases": 5,
+    "inheritedArchivedDifferences": [
+      "fallback-api-key-prose",
+      "fallback-password-arrow",
+      "json-auth",
+      "json-bearer",
+      "prose-fallback"
+    ],
+    "newMissedSecretCases": 0,
+    "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
+    "secondPassChangedCases": 0
+  },
+  "hostedArtifact": {
+    "sourceCommit": "0cf80577f2cb37149962ea2093d6b6bad33f8bef",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42809009349",
+    "artifactId": 13762146735,
+    "wasmSha256": "7365c28ea4cae419563dbd56c3b484be38400860a44a538cd88f009f515f6922",
+    "packageSha256": "4aeb3357a2facf58c3ab182bc4492895b9f4fbbccae18d9ed71be5237d4dca88",
+    "packageBytes": 524011,
+    "wasmBytes": 1576362,
+    "sourceSha256": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+    "hostedAllRuntimeChecks": "pass; initial committed-pin check intentionally failed against prior source pin; follow-up CI must match this pin"
   }
 }

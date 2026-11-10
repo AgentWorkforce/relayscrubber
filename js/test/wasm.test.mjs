@@ -99,3 +99,19 @@ test('UTF-8 admission boundaries and compatibility are checked in JS and Rust', 
     assert.throws(() => api.scrubRecords(new Uint8Array(records.length + 1)), e => String(e).includes('stream_too_large'));
   }
 });
+
+test('credential-name, exact-selector and Unicode-spacing variants agree across APIs', () => {
+  const variants = [
+    ...['githubToken', 'stripeSecret', 'encryption_key', 'request_idempotency_key', 'idempotency__key'].map(name => [`${name}=SYNTH_ALPHA`, `${name}=[REDACTED]`]),
+    ['aws={key:SYNTH_ALPHA}', 'aws={key:[REDACTED]}'],
+    ...['\u00a0', '\ufeff', '\u2003'].map(space => [`password${space}=SYNTH_ALPHA`, `password${space}=[REDACTED]`]),
+    ...['return password == expected;', 'assert password == fixture', 'idempotency_key=public-replay-42'].map(input => [input, input]),
+  ];
+  for (const [input, expected] of variants) {
+    assert.equal(scrubber.scrubText(input), expected);
+    assert.equal(scrubber.scrubLong(input), expected);
+    assert.equal(scrubber.scrubText(expected), expected);
+    assert.equal(scrubber.scrubJson(JSON.stringify({text: input})).value.text, expected);
+    assert.equal(JSON.parse(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(JSON.stringify({text: input}))).bytes)).text, expected);
+  }
+});

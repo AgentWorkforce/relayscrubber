@@ -6,20 +6,20 @@
     "schema": 2,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
+    "rulesetSourceSha256": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
     "crateVersion": "0.5.0-alpha.1",
     "abiVersion": 1,
     "policy": "secrets",
     "redactionToken": "[REDACTED]"
   },
   "files": {
-    "relayscrubber_bg.wasm": "bcfd310d83362616c9479d4cfe4081b3719b98615e66f837c3d383512486bdec",
-    "relayscrubber.js": "4d9c909387697c91c0f4365d9613dbeeee1bca5bc079ee62390c5756ead1483b",
-    "relayscrubber.d.ts": "ee56e82e5ddfc357760b16da7c9a746fc1a7fa0536e2ef376c237c414f9d269c",
-    "relayscrubber_bg.wasm.d.ts": "f968e6b144832df606023af633e39822b6700177835afe0841aa20944bbf7daf"
+    "relayscrubber_bg.wasm": "7365c28ea4cae419563dbd56c3b484be38400860a44a538cd88f009f515f6922",
+    "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
+    "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
+    "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
   },
   "adapterFiles": {
-    "index.js": "c2585d48daea5dc067a86037452b69da69616d5930b4f15e8cc51516d0e49bd7",
-    "index.d.ts": "75eb320daf1c9fffd2f2e8459617b3891ccd5aff3823fb2fe8fc35f1fcc6ec10"
+    "index.js": "19b4c2e9e2649f8b1c02e67663cd735a37151bd4061a376ef85a97352b1e54d2",
+    "index.d.ts": "8c45a37845c7f397f7c3b06bf1468043f2f88b4b5545818166684b6cf3b46e75"
   }
 }
