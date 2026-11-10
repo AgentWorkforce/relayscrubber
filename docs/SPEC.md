@@ -38,8 +38,9 @@ Redact these independently of entropy:
   refresh_token, id_token, session_token/session_id, credential(s), token,
   account_key and provider-prefixed equivalents. Connection-string and database
   URL fields are inspected without removing unauthenticated URLs. Underscore,
-  hyphen and camel spellings are recognized. Generic `key`, separated key suffixes and credential suffixes such as
-  dbPassword/githubToken/stripeSecret are sensitive. Exact public_key and
+  hyphen and camel spellings are recognized. Separated key suffixes and credential suffixes such as
+  dbPassword/githubToken/stripeSecret are sensitive. Bare `key` requires
+  credential structure/context or a reviewed provider value shape. Exact public_key and
   idempotency_key spellings, token_count/token_budget and credential identifiers
   used without a value are preserved. A prefixed public-like name is sensitive.
 * Assignments in code, env, YAML, JSON and CLI flags. `:` and `=` and their
@@ -51,7 +52,8 @@ Redact these independently of entropy:
   and database/ADO connection strings; signed URL signature, SAS `sig`, and
   credential/security-token query parameters. Ordinary query `state`, `code`,
   `id` and `code_challenge` are preserved unless explicitly credentialled. Generic
-  `key` is sensitive, including in a query.
+  `key` alone is preserved, including in a query; reviewed provider shapes
+  remain sensitive regardless of their label.
 
 A quote opening a later line's assignment is not accepted as a credential closer;
 that malformed extent fails closed through EOF. A fixed budget of at most five
@@ -147,3 +149,25 @@ session samples live only in `~/scrubber-eval` (0700, files 0600), are split by
 session before inspection, never printed, and must be deleted by 2026-11-16.
 Tune on dev only. Held-out is read once after the candidate is frozen; a failure
 requires a newly acquired held-out set, never relabelling the same set as unseen.
+
+## Ruleset 10 review refinements
+
+An existing unquoted `[REDACTED]` marker ends its assignment value at the marker;
+following punctuation and explanatory words remain byte-identical. Independently
+recognizable credentials later on the line are still scanned. Quoted credentials
+containing a marker plus a secret tail remain credentials.
+
+A bare `key` name alone does not establish credential semantics. Recognized
+provider values and structural credential contexts such as `aws`/`credentials`
+do. Exact public idempotency selectors retain nested generic `key` values;
+nested explicit credentials and `request_idempotency_key` remain sensitive.
+UUID-shaped session IDs, symbolic placeholders, configuration references,
+resource names, language literals, code expressions and type annotations are
+preserved. Placeholder URL passwords are preserved only on reserved example or
+local hosts; ordinary credentials on those hosts remain sensitive.
+
+The crate owns manifest schema 3, JS ABI 2 and `scrubProfile`. Error disposition
+is `call_refusal` for deterministic admission failures and `instance_poison` for
+unexpected JS/WASM failures. See `MIGRATION.md` for the tagged-code contract.
+Independent re-audit pending. Named invented regression tests are behavioral
+checks, not evidence of production precision.

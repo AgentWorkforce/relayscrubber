@@ -90,3 +90,16 @@ fn profile_and_error_schema_are_crate_owned() {
         json!({"code":"invalid_json","disposition":"call_refusal"})
     );
 }
+
+#[test]
+fn structured_family_variants() {
+    let cases: Value = serde_json::from_str(include_str!("../eval/family_cases.json")).unwrap();
+    for case in cases["structured"].as_array().unwrap() {
+        assert_eq!(scrub_json(&case["input"]).0, case["output"]);
+        let out = scrub_records(case["input"].to_string().as_bytes()).unwrap();
+        assert_eq!(
+            serde_json::from_slice::<Value>(&out.bytes).unwrap(),
+            case["output"]
+        );
+    }
+}

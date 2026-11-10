@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { loadScrubber } from '../index.js';
 const artifact = JSON.parse(readFileSync(new URL('../generated/artifact.json', import.meta.url)));
 const bytes = new Uint8Array(readFileSync(new URL('../generated/relayscrubber_bg.wasm', import.meta.url)));
@@ -11,6 +12,7 @@ const scrubber = await loadScrubber(options);
 test('pinned artifact and source identity are mandatory', async () => {
   await assert.rejects(loadScrubber({ ...options, expectedWasmSha256: '0'.repeat(64) }), /artifact_mismatch/);
   await assert.rejects(loadScrubber({ ...options, expectedManifest: { ...artifact.manifest, rulesetVersion: 8 } }), /manifest_mismatch/);
+  await assert.rejects(loadScrubber({ ...options, expectedManifest: {...artifact.manifest, scrubProfile:'invented'} }), e => e.code === 'scrubber_manifest_mismatch' && e.disposition === 'call_refusal');
   const corrupt = bytes.slice(); corrupt[16] ^= 1;
   await assert.rejects(loadScrubber({ ...options, bytes: corrupt }), /artifact_mismatch/);
 });
@@ -147,4 +149,45 @@ test('crate-owned profile and versioned errors', () => {
   assert.equal(scrubber.manifest.scrubProfile, 'relayhistory-secrets-v10');
   assert.throws(() => scrubber.scrubJson('{broken}'), e => e.code === 'invalid_json' && e.disposition === 'call_refusal');
   assert.equal(scrubber.scrubText('ordinary'), 'ordinary');
+});
+
+test('tagged refusals preserve record positions and allow the next call', () => {
+  for (const action of [() => scrubber.scrubTextChecked(null), () => scrubber.scrubRecords('wrong type')]) {
+    assert.throws(action, e => e.code === 'scrubber_invalid_input' && e.disposition === 'call_refusal');
+  }
+  assert.throws(() => scrubber.scrubRecords(new TextEncoder().encode('{}\n{broken}')),
+    e => e.code === 'invalid_json' && e.disposition === 'call_refusal' && e.record === 2);
+  assert.equal(scrubber.scrubTextChecked('ordinary'), 'ordinary');
+});
+test('unexpected transport failure poisons the private instance and refuses subsequent calls', () => {
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import {readFileSync} from 'node:fs';
+    import {loadScrubber} from './js/index.js';
+    const artifact = JSON.parse(readFileSync('./js/generated/artifact.json'));
+    const s = await loadScrubber({bytes:new Uint8Array(readFileSync('./js/generated/relayscrubber_bg.wasm')), expectedManifest:artifact.manifest, expectedWasmSha256:artifact.files['relayscrubber_bg.wasm']});
+    const parse = JSON.parse;
+    JSON.parse = () => { throw new WebAssembly.RuntimeError('simulated unexpected transport failure'); };
+    assert.throws(() => s.scrubJson('{}'), e => e.code === 'scrubber_engine_failure' && e.disposition === 'instance_poison');
+    JSON.parse = parse;
+    assert.throws(() => s.scrubText('ordinary'), e => e.code === 'scrubber_instance_poisoned' && e.disposition === 'instance_poison');
+  `], {cwd: new URL('../..', import.meta.url), encoding:'utf8'});
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('structured family variants preserve references and public contexts', () => {
+  for (const {input, output} of families.structured) {
+    const raw = JSON.stringify(input);
+    assert.deepEqual(scrubber.scrubJson(raw).value, output);
+    assert.deepEqual(JSON.parse(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(raw)).bytes)), output);
+  }
+});
+
+test('strict frozen witnesses match native through every pinned WASM API', () => {
+  const vectors = JSON.parse(readFileSync(`${homedir()}/scrubber-eval/wasm-vectors.json`));
+  assert.equal(vectors.frozen.length, 199);
+  for (const {input, output} of vectors.frozen) {
+    for (const actual of familyPaths(input)) assert.equal(actual, output);
+    assert.equal(scrubber.scrubText(output), output);
+  }
 });

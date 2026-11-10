@@ -43,7 +43,10 @@
       "Authorization: Bearer",
       "Authorization: Basic",
       "headers = {Authorization: authHeader}",
-      "headers = {authorization: `Bearer ${accessToken}`}"
+      "headers = {authorization: `Bearer ${accessToken}`}",
+      "Authorization: Bearer <access-token>",
+      "Authorization: Bearer ${ACCESS_TOKEN}",
+      "Authorization: Bearer YOUR_ACCESS_TOKEN"
     ],
     "shell_default_reference": [
       "CLOUD_CREDENTIALS=${CLOUD_CREDENTIALS:-example-config}",
@@ -93,7 +96,9 @@
       "let token = accessToken;",
       "const options = {token: client.getToken()};",
       "const password = settings[\"password\"];",
-      "const token = `${session.token}`;"
+      "const token = `${session.token}`;",
+      "const options = {token: accessToken};",
+      "const headers = {Authorization: headerValue};"
     ]
   },
   "positive": [
@@ -206,6 +211,69 @@
       "archived_api_key_prose",
       "API key SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28 was rotated",
       "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "numeric_literal",
+      "const password = 314159265358;",
+      "314159265358"
     ]
+  ],
+  "structured": [
+    {
+      "input": {
+        "sessionId": "11111111-2222-4333-8444-555555555555",
+        "password": false,
+        "credentials": null,
+        "token": "example",
+        "api_key": "YOUR_API_KEY"
+      },
+      "output": {
+        "sessionId": "11111111-2222-4333-8444-555555555555",
+        "password": false,
+        "credentials": null,
+        "token": "example",
+        "api_key": "YOUR_API_KEY"
+      }
+    },
+    {
+      "input": {
+        "password": "${PASSWORD:-example-config}",
+        "Authorization": "Bearer ",
+        "key": "normal"
+      },
+      "output": {
+        "password": "${PASSWORD:-example-config}",
+        "Authorization": "Bearer ",
+        "key": "normal"
+      }
+    },
+    {
+      "input": {
+        "key": "normal",
+        "idempotency_key": {
+          "key": "selector",
+          "password": "SYNTH_ALPHA"
+        },
+        "aws": {
+          "nested": {
+            "key": "SYNTH_BETA"
+          }
+        },
+        "request_idempotency_key": "SYNTH_GAMMA"
+      },
+      "output": {
+        "key": "normal",
+        "idempotency_key": {
+          "key": "selector",
+          "password": "[REDACTED]"
+        },
+        "aws": {
+          "nested": {
+            "key": "[REDACTED]"
+          }
+        },
+        "request_idempotency_key": "[REDACTED]"
+      }
+    }
   ]
 }

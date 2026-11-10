@@ -45,14 +45,23 @@ pub(crate) fn sensitive(name: &str) -> bool {
         .filter(|b| !matches!(b, b'_' | b'-'))
         .map(|b| char::from(b.to_ascii_lowercase()))
         .collect();
-    if matches!(n.as_str(), "publickey" | "codechallenge" | "state") {
+    if matches!(
+        n.as_str(),
+        "publickey" | "codechallenge" | "state" | "existingsecret"
+    ) || [
+        "secretref",
+        "secretname",
+        "credentialsfile",
+        "credentialspath",
+    ]
+    .contains(&n.as_str())
+    {
         return false;
     }
     if public_context(name) {
         return false;
     }
     const NAMES: &[&str] = &[
-        "key",
         "password",
         "passwd",
         "pwd",
@@ -74,6 +83,8 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "credential",
         "credentials",
         "authorization",
+        "auth",
+        "bearer",
         "proxyauthorization",
         "cookie",
         "setcookie",
@@ -91,19 +102,21 @@ pub(crate) fn sensitive(name: &str) -> bool {
             || lower
                 .rsplit_once('-')
                 .is_some_and(|(_, t)| t.replace('_', "") == *tail)
-    }) || [
-        "apikey",
-        "accesstoken",
-        "secretaccesskey",
-        "sessiontoken",
-        "clientsecret",
-        "password",
-        "passwd",
-        "secret",
-        "token",
-    ]
-    .iter()
-    .any(|tail| n.ends_with(tail))
+    }) || lower.ends_with("_key")
+        || lower.ends_with("-key")
+        || [
+            "apikey",
+            "accesstoken",
+            "secretaccesskey",
+            "sessiontoken",
+            "clientsecret",
+            "password",
+            "passwd",
+            "secret",
+            "token",
+        ]
+        .iter()
+        .any(|tail| n.ends_with(tail))
         || name.ends_with("Key")
 }
 
@@ -234,7 +247,71 @@ fn shell_reference(value: &str) -> bool {
         .strip_prefix('{')
         .and_then(|s| s.strip_suffix('}'))
         .unwrap_or(name);
-    !name.is_empty() && name.bytes().all(|c| c.is_ascii_alphanumeric() || c == b'_')
+    let variable_end = name
+        .find(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+        .unwrap_or(name.len());
+    variable_end > 0
+        && (variable_end == name.len()
+            || [":-", ":=", ":?", ":+", "-", "+", "?"]
+                .iter()
+                .any(|op| name[variable_end..].starts_with(op)))
+}
+
+// These are references to credential storage, not credential values.
+pub(crate) fn credential_context(name: &str) -> bool {
+    matches!(
+        name.to_ascii_lowercase().as_str(),
+        "aws" | "auth" | "authentication" | "credentials" | "credential" | "secrets"
+    )
+}
+fn contextual_key(view: &View, key: usize) -> bool {
+    // Inspect only the nearest structural opener, with a fixed lookbehind bound.
+    let start = key.saturating_sub(512);
+    let prefix = &view.text.as_bytes()[start..key];
+    let Some(open) = prefix
+        .iter()
+        .rposition(|b| matches!(b, b'{' | b'[' | b'}' | b']'))
+    else {
+        return false;
+    };
+    if !matches!(prefix[open], b'{' | b'[') {
+        return false;
+    }
+    let mut end = open;
+    while end > 0 && matches!(prefix[end - 1], b' ' | b'\t' | b'=' | b':' | b'"' | b'\'') {
+        end -= 1;
+    }
+    let mut begin = end;
+    while begin > 0 && word(prefix[begin - 1]) {
+        begin -= 1;
+    }
+    std::str::from_utf8(&prefix[begin..end]).is_ok_and(credential_context)
+}
+pub(crate) fn uuid(value: &str) -> bool {
+    value.len() == 36
+        && value.bytes().enumerate().all(|(i, b)| {
+            if [8, 13, 18, 23].contains(&i) {
+                b == b'-'
+            } else {
+                b.is_ascii_hexdigit()
+            }
+        })
+}
+fn prose(value: &str) -> bool {
+    [
+        "the ", "a ", "an ", "see ", "use ", "used ", "stored ", "is ", "from ",
+    ]
+    .iter()
+    .any(|p| value.starts_with(p))
+}
+fn symbolic_atom(value: &str) -> &str {
+    value
+        .split(" #")
+        .next()
+        .unwrap_or(value)
+        .trim()
+        .trim_end_matches([',', ';'])
+        .trim()
 }
 fn type_context(view: &View, key: usize) -> bool {
     // Fixed lookbehind budget: repeated fields cannot rescan a growing prefix.
@@ -243,25 +320,49 @@ fn type_context(view: &View, key: usize) -> bool {
         start += 1;
     }
     static TYPE: OnceLock<Regex> = OnceLock::new();
-    TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^;}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^;}]*)(?:$)").expect("fixed type-context regex"))
+    TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").expect("fixed type-context regex"))
         .is_match(&view.text[start..key])
 }
+fn code_object_context(view: &View, key: usize) -> bool {
+    let mut start = key.saturating_sub(512);
+    while !view.text.is_char_boundary(start) {
+        start += 1;
+    }
+    static R: OnceLock<Regex> = OnceLock::new();
+    R.get_or_init(|| {
+        Regex::new(r"(?s)\b(?:(?:let|const|var)\s+[A-Za-z_][A-Za-z0-9_]*|headers)\s*=\s*\{[^}]*$")
+            .expect("fixed object expression context")
+    })
+    .is_match(&view.text[start..key])
+}
+
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
-    let rest = &view.text[value..];
+    let mut limit = (value + 512).min(view.text.len());
+    while !view.text.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    let rest = &view.text[value..limit];
     let end = rest
         .find(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | '}' | ')' | '"' | '\'' | '`'))
         .unwrap_or(rest.len());
     let atom = &rest[..end];
-    // Only explicit expression syntax; a bare identifier remains a credential.
+    // Identifier values are references only in established code expression syntax.
     static MEMBER: OnceLock<Regex> = OnceLock::new();
     let member = MEMBER.get_or_init(|| {
-        Regex::new(r"^(?:process\.env|env|config|os\.environ)(?:\.[A-Za-z_][A-Za-z0-9_]*)+!?$")
+        Regex::new(r"^[A-Za-z_][A-Za-z0-9_]*(?:(?:\.|::)[A-Za-z_][A-Za-z0-9_]*|\[[^\]\r\n]+\])+!?")
             .expect("fixed member regex")
     });
-    if member.is_match(atom) {
+    if member.find(rest).is_some_and(|m| {
+        rest.as_bytes()
+            .get(m.end())
+            .is_none_or(|b| b.is_ascii_whitespace() || matches!(b, b';' | b',' | b')' | b'}'))
+    }) {
         return true;
     }
-    if declaration && ["false", "true", "null", "undefined", "None"].contains(&atom) {
+    if declaration
+        && atom.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
+        && atom.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    {
         return true;
     }
     if declaration || colon {
@@ -290,7 +391,10 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
         return true;
     }
     colon
-        && (rest.starts_with("&str")
+        && (atom.contains("::<")
+            || atom.contains("::") && atom.contains('<')
+            || ["string", "boolean", "number"].contains(&atom)
+            || rest.starts_with("&str")
             || rest.starts_with("&mut ")
             || [
                 "Mutex<", "Option<", "Arc<", "Vec<", "String>", "bool ", "bool}", "bool }", "std::",
@@ -314,12 +418,18 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             i += 1;
         }
         let name = &view.text[start..i];
-        let is_secret = sensitive(name);
+        let is_secret = sensitive(name)
+            || name.eq_ignore_ascii_case("key")
+                && start >= public_until
+                && contextual_key(view, start);
         let is_public = public_context(name);
         if !is_secret && !is_public {
             continue;
         }
         let mut sep = i;
+        if b.get(sep) == Some(&b'?') && b.get(sep + 1) == Some(&b':') {
+            sep += 1;
+        }
         let quoted_key = matches!(b.get(sep), Some(b'"' | b'\'' | b'`'));
         // JSON / quoted dictionary key.
         if matches!(b.get(sep), Some(b'"' | b'\'' | b'`')) {
@@ -335,6 +445,15 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             || name.eq_ignore_ascii_case("cookie")
             || name.eq_ignore_ascii_case("set-cookie");
         let has_sep = matches!(b.get(sep), Some(b':' | b'='));
+        // Parameter expansion operators belong to the variable reference.
+        if start >= 2
+            && &b[start - 2..start] == b"${"
+            && b.get(sep) == Some(&b':')
+            && b.get(sep + 1)
+                .is_some_and(|b| matches!(b, b'-' | b'+' | b'?' | b'='))
+        {
+            continue;
+        }
         // A comparison in an explicit expression is not an assignment. Outside
         // expression syntax a leading '=' may be part of a real env/flag value.
         let mut before = start;
@@ -346,7 +465,8 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             && b.get(sep + 1) == Some(&b'=')
             && !flag
             && start >= public_until
-            && (expression
+            && (name.bytes().any(|b| b.is_ascii_lowercase())
+                || expression
                 || sep > i
                 || [b"return".as_slice(), b"assert".as_slice()]
                     .iter()
@@ -358,10 +478,11 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         {
             continue;
         }
-        if !(has_sep || flag && sep > i) {
+        let arrow = b.get(sep..sep + 2) == Some(b"->");
+        if !(has_sep || arrow || flag && sep > i) {
             continue;
         }
-        let mut after_sep = sep + usize::from(has_sep);
+        let mut after_sep = sep + if arrow { 2 } else { usize::from(has_sep) };
         if has_sep
             && ((b[sep] == b':' && b.get(after_sep) == Some(&b'='))
                 || (quoted_key && b[sep] == b'=' && b.get(after_sep) == Some(&b'>')))
@@ -370,6 +491,15 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         }
         let value = skip_space(b, after_sep);
         if value >= b.len() {
+            continue;
+        }
+        if flag && (name.starts_with("no-") || matches!(b[value], b'|' | b'&' | b';')) {
+            continue;
+        }
+        if view.text[value..].starts_with("([^") {
+            continue;
+        }
+        if matches!(b[value], b'"' | b'\'' | b'`') && view.enclosing_end(value) == value {
             continue;
         }
         let quoted = matches!(b[value], b'"' | b'\'' | b'`');
@@ -397,9 +527,19 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         if !quoted
             && start >= public_until
             && (declaration
+                || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
                 || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
-            && code_value(view, start, value, b.get(sep) == Some(&b':'), declaration)
+            && code_value(
+                view,
+                start,
+                value,
+                b.get(sep) == Some(&b':'),
+                declaration
+                    || (b.get(sep) == Some(&b':')
+                        && !name.eq_ignore_ascii_case("key")
+                        && code_object_context(view, start)),
+            )
         {
             continue;
         }
@@ -427,6 +567,36 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             value_end(view, value, context)
         };
         let content = value + usize::from(quoted);
+        let raw = &view.text[content..end];
+        if view.text[content..].starts_with("${") {
+            let limit = (content + 512).min(b.len());
+            if let Some(close) = b[content..limit].iter().position(|b| *b == b'}') {
+                if shell_reference(&view.text[content..content + close + 1]) {
+                    continue;
+                }
+            }
+        }
+        if !quoted
+            && raw.starts_with(REDACTION_TOKEN)
+            && raw
+                .as_bytes()
+                .get(REDACTION_TOKEN.len())
+                .is_none_or(|b| !word(*b))
+        {
+            continue;
+        }
+        if reference(symbolic_atom(raw))
+            || shell_reference(raw)
+            || name
+                .replace(['_', '-'], "")
+                .eq_ignore_ascii_case("sessionid")
+                && uuid(raw)
+            || !quoted && prose(&view.text[value..line_end(view, value)])
+            || header && authorization_reference(raw)
+            || quoted && b[value] == b'`' && raw.contains("${")
+        {
+            continue;
+        }
         // YAML literal/folded scalar: remove all following indented lines.
         if !quoted
             && yaml
@@ -444,6 +614,27 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             spans.push(content..end);
             i = end;
         }
+    }
+}
+
+fn authorization_reference(value: &str) -> bool {
+    let value = value.trim();
+    let end = value.find(char::is_whitespace).unwrap_or(value.len());
+    if !["bearer", "basic"].contains(&value[..end].to_ascii_lowercase().as_str()) {
+        return false;
+    }
+    let rest = value[end..].trim();
+    rest.is_empty() || reference(rest) || shell_reference(rest)
+}
+
+fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
+    static R: OnceLock<Regex> = OnceLock::new();
+    let r = R.get_or_init(|| {
+        Regex::new(r"(?i)\bAPI[ \t]+key[ \t]+([A-Za-z0-9_+/=-]{24,})")
+            .expect("fixed credential prose regex")
+    });
+    for c in r.captures_iter(&view.text) {
+        spans.push(c.get(1).expect("credential capture").range());
     }
 }
 
@@ -503,7 +694,25 @@ pub(crate) fn reference(value: &str) -> bool {
     // Explicit symbolic placeholders are normal configuration/documentation.
     // Embedded assignments/providers are still scanned independently.
     let placeholder = value.trim();
-    if ["xxx", "XXX", "redacted", "REDACTED"].contains(&placeholder)
+    if [
+        "xxx",
+        "XXX",
+        "redacted",
+        "REDACTED",
+        "example",
+        "demo",
+        "placeholder",
+        "YOUR_SECRET_HERE",
+        "false",
+        "true",
+        "null",
+        "undefined",
+        "None",
+    ]
+    .contains(&placeholder)
+        || placeholder.strip_prefix("YOUR_").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_uppercase() || b == b'_')
+        })
         || placeholder
             .strip_prefix('<')
             .and_then(|s| s.strip_suffix('>'))
@@ -531,18 +740,45 @@ pub(crate) fn reference(value: &str) -> bool {
         })
 }
 
+pub(crate) fn field_reference(name: &str, value: &str) -> bool {
+    reference(value)
+        || shell_reference(value)
+        || name
+            .replace(['_', '-'], "")
+            .eq_ignore_ascii_case("sessionid")
+            && uuid(value)
+        || matches!(
+            name.to_ascii_lowercase().as_str(),
+            "authorization" | "proxy-authorization"
+        ) && authorization_reference(value)
+}
+
+fn documentation_url(password: &str, host: &str) -> bool {
+    let host = host.split(':').next().unwrap_or(host).to_ascii_lowercase();
+    let reserved = host == "localhost"
+        || host == "example.com"
+        || host == "example.org"
+        || host == "example.net"
+        || host.ends_with(".example.com")
+        || host.ends_with(".example.org")
+        || host.ends_with(".example.net")
+        || host.ends_with(".test")
+        || host.ends_with(".invalid")
+        || host.ends_with(".example");
+    reserved && (matches!(password, "password" | "example" | "placeholder") || reference(password))
+}
+
 fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     // Inspect nested actual URL schemes too. Authority scans stop at the next
     // literal slash, so their total work is bounded by adjacent scheme starts.
     for scheme in url_regex().find_iter(&view.text) {
-        if !(scheme.end() - 3..scheme.end()).all(|p| view.literal(p)) {
-            continue;
-        }
+        let encoded_scheme = !view.literal(scheme.end() - 1);
+        let boundary = |p| encoded_scheme || view.literal(p);
         let authority = scheme.end();
         let mut end = authority;
         while end < b.len()
-            && !(view.literal(end)
+            && !(boundary(end)
                 && (b[end].is_ascii_whitespace()
                     || matches!(b[end], b'/' | b'?' | b'#' | b'"' | b'\'' | b'`')))
         {
@@ -550,10 +786,12 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
         }
         if let Some(at) = (authority..end)
             .rev()
-            .find(|&i| b[i] == b'@' && view.literal(i))
+            .find(|&i| b[i] == b'@' && boundary(i))
         {
-            if let Some(colon) = (authority..at).find(|&i| b[i] == b':' && view.literal(i)) {
-                if colon + 1 < at {
+            if let Some(colon) = (authority..at).find(|&i| b[i] == b':' && boundary(i)) {
+                if colon + 1 < at
+                    && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..end])
+                {
                     spans.push(colon + 1..at);
                 }
             } else if &view.text[authority..at] != "git" {
@@ -584,7 +822,12 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             .find(|&i| b[i] == b'@' && view.literal(i))
         {
             if let Some(colon) = (authority..at).find(|&i| b[i] == b':' && view.literal(i)) {
-                if colon + 1 < at {
+                if colon + 1 < at
+                    && !documentation_url(
+                        &view.text[colon + 1..at],
+                        &view.text[at + 1..authority_end],
+                    )
+                {
                     spans.push(colon + 1..at);
                 }
             } else if &view.text[authority..at] != "git" {
@@ -711,7 +954,10 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     }
     jwts(&view, &mut spans);
     for c in bearer_regex().captures_iter(&view.text) {
-        spans.push(c.get(1).expect("credential capture").range());
+        let token = c.get(1).expect("credential capture");
+        if !reference(token.as_str()) {
+            spans.push(token.range());
+        }
     }
     let mut pos = 0;
     while let Some(c) = pem_regex().captures_at(&view.text, pos) {
@@ -723,6 +969,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         spans.push(begin.start()..end);
         pos = end;
     }
+    credential_prose(&view, &mut spans);
     assignments(&view, inherited, &mut spans);
     urls(&view, &mut spans);
     if policy == Policy::Pii {

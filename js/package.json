@@ -1,7 +1,7 @@
 {
   "name": "@agentworkforce/relayscrubber",
-  "version": "0.5.0-alpha.1",
-  "private": true,
+  "version": "0.5.0-alpha.2",
+  "private": false,
   "type": "module",
   "exports": { ".": { "types": "./index.d.ts", "import": "./index.js" }, "./artifact": "./generated/artifact.json", "./wasm": "./generated/relayscrubber_bg.wasm" },
   "files": ["index.js", "index.d.ts", "generated"],

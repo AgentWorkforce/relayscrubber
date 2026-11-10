@@ -21,6 +21,12 @@ pub const RULESET_VERSION: u32 = 10;
 pub const SCRUB_RULESET_VERSION: u32 = RULESET_VERSION;
 /// Replacement for every recognized credential.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
+/// Crate-owned default policy profile persisted with successful output.
+pub const SCRUB_PROFILE: &str = "relayhistory-secrets-v10";
+/// Serialized manifest schema version.
+pub const MANIFEST_SCHEMA: u32 = 3;
+/// Tagged-error JS transport ABI version.
+pub const ABI_VERSION: u32 = 2;
 /// SHA-256 of ordered Rust sources with path sentinels, generated at build time.
 pub const RULESET_SOURCE_SHA256: &str = env!("RELAY_SCRUB_SOURCE_SHA256");
 /// Maximum JSON nesting; excessive nesting never returns original content.
@@ -43,6 +49,7 @@ pub enum Policy {
 
 /// Deterministic admission/parse error; never contains input bytes.
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[serde(into = "TaggedError")]
 pub struct AdmissionError {
     /// Stable machine-readable reason.
     pub code: &'static str,
@@ -53,6 +60,37 @@ impl std::fmt::Display for AdmissionError {
     }
 }
 impl std::error::Error for AdmissionError {}
+
+/// Stable serialized failure contract. Refused calls produce no output and do
+/// not poison the engine. Unexpected WASM traps poison the JS adapter instance.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct TaggedError {
+    /// Stable machine-readable reason, never input content.
+    pub code: &'static str,
+    /// `call_refusal` means the next independent call may safely proceed.
+    pub disposition: &'static str,
+    /// One-based physical record, when a record call was refused.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub record: Option<usize>,
+}
+impl From<AdmissionError> for TaggedError {
+    fn from(error: AdmissionError) -> Self {
+        Self {
+            code: error.code,
+            disposition: "call_refusal",
+            record: None,
+        }
+    }
+}
+impl From<RecordError> for TaggedError {
+    fn from(error: RecordError) -> Self {
+        Self {
+            code: error.code,
+            disposition: "call_refusal",
+            record: Some(error.record),
+        }
+    }
+}
 
 /// Check UTF-8 text admission before allocating scanner state.
 pub fn scrub_text_checked(input: &str) -> Result<String, AdmissionError> {
@@ -117,6 +155,8 @@ pub struct Manifest {
     pub policy: Policy,
     /// Stable replacement text.
     pub redaction_token: String,
+    /// Crate-owned recognition/privacy profile; never synthesized by consumers.
+    pub scrub_profile: String,
 }
 
 /// Return the canonical default-policy build identity.
@@ -129,14 +169,19 @@ pub fn manifest() -> Manifest {
 #[must_use]
 pub fn manifest_with_policy(policy: Policy) -> Manifest {
     Manifest {
-        schema: 2,
+        schema: MANIFEST_SCHEMA,
         ruleset: SCRUB_RULESET.into(),
         ruleset_version: RULESET_VERSION,
         ruleset_source_sha256: RULESET_SOURCE_SHA256.into(),
         crate_version: env!("CARGO_PKG_VERSION").into(),
-        abi_version: 1,
+        abi_version: ABI_VERSION,
         policy,
         redaction_token: REDACTION_TOKEN.into(),
+        scrub_profile: match policy {
+            Policy::Secrets => SCRUB_PROFILE,
+            Policy::Pii => "relayhistory-pii-v10",
+        }
+        .into(),
     }
 }
 

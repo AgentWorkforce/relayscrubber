@@ -12,9 +12,11 @@ crate/package release and checksums. Rule semantics originate in this repository
 Stop porting or comparing new behavior to `scrub.ts`. Historical TS fixtures are
 regression evidence only. Rule changes need a new ruleset version and source digest;
 never reuse 8/9 or rewrite sealed metadata. Candidate version 10 still needs owner
-reservation confirmation. Store policy and source digest alongside family/version.
+reservation confirmation. Store crate-owned `scrubProfile`, policy and source digest alongside family/version.
+The secrets profile is `relayhistory-secrets-v10`; native PII policy uses
+`relayhistory-pii-v10`. Consumers must never invent or substitute this field.
 
-The new manifest is schema 2; old TS source, segmenter and corpus digest exports
+The new manifest is schema 3 / transport ABI 2; old TS source, segmenter and corpus digest exports
 are removed. `scrub_text` no longer truncates at a UTF-16 limit. `scrub_long` uses
 the same complete-string scan. JSON key order/collisions are deterministic; do not
 compare raw object insertion order to v8. Changed-node count never certifies raw
@@ -24,9 +26,21 @@ redaction requires explicit native `Policy::Pii` and its policy identity. The JS
 ABI currently exposes the default secrets policy only.
 
 Errors mean discard original bytes. Never catch a scrub error and return the
-original input. Native `scrub_json_text` returns `None`; WASM throws a fixed code.
+original input. Native `scrub_json_text` returns `None`; WASM throws serialized tagged errors; the JS adapter throws `ScrubberError`
+with stable `code`, `disposition` and optional `record` fields.
 NDJSON returns `Result<RecordOutput, RecordError>` with count, bytes and stable
-one-based physical line numbers. No partial output is supplied. Empty physical
+one-based physical line numbers. No partial output is supplied. `call_refusal` rejects only that operation; a
+subsequent independent call may proceed. Admission codes are `text_too_large`,
+`record_too_large`, `stream_too_large`, `json_too_deep`, `invalid_json`,
+`invalid_utf8`; invalid JS argument types use `scrubber_invalid_input`.
+Unexpected engine/transport failures use `scrubber_engine_failure` with
+`disposition: "instance_poison"`; every later call refuses with
+`scrubber_instance_poisoned`. Initialization traps use
+`scrubber_initialization_failure` and poison the loader. Artifact, module and
+manifest validation mismatches refuse the load call without poisoning a verified
+existing instance. A poisoned adapter must be discarded and recreated in a fresh
+runtime/module realm; retrying original input through the poisoned instance is
+not supported. Empty physical
 lines are ignored. A final newline is optional. Stream/record limits are 64/16 MiB.
 
 The JS `scrubJson` result includes `jsonText`, the Rust-serialized output. Persist
@@ -116,3 +130,10 @@ verify reproducible binary and source pins; exercise malformed record rejection
 and storage ordering; verify every storage/upload path; canary only with the
 owner's rollout plan. No fail-open compatibility shim, relabelling, registry
 publish, tag, yank, main push or cross-repository edits are authorized here.
+
+## Proposed release
+
+Crate and npm candidate version: **0.5.0-alpha.2**, with npm `private: false` so
+this head is packageable for an authorized release. This version is proposed for
+review only. No registry publish, tag, merge, deployment or consumer edit is
+performed. Independent re-audit pending; zero false positives is a release gate.

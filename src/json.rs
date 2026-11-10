@@ -23,7 +23,13 @@ fn within_depth(value: &Value) -> bool {
     true
 }
 
-fn visit(value: &Value, public: bool, policy: Policy, count: &mut usize) -> Value {
+fn visit(
+    value: &Value,
+    public: bool,
+    credential: bool,
+    policy: Policy,
+    count: &mut usize,
+) -> Value {
     match value {
         Value::String(s) => {
             let clean = engine::scrub(s, public, policy);
@@ -33,7 +39,7 @@ fn visit(value: &Value, public: bool, policy: Policy, count: &mut usize) -> Valu
         Value::Array(items) => Value::Array(
             items
                 .iter()
-                .map(|v| visit(v, public, policy, count))
+                .map(|v| visit(v, public, credential, policy, count))
                 .collect(),
         ),
         Value::Object(map) => {
@@ -60,15 +66,26 @@ fn visit(value: &Value, public: bool, policy: Policy, count: &mut usize) -> Valu
                 } else {
                     base.clone()
                 };
-                let clean = if engine::sensitive(key)
+                let clean = if (engine::sensitive(key)
+                    || credential && !public && key.eq_ignore_ascii_case("key"))
                     && **item != Value::String(REDACTION_TOKEN.into())
                     && **item != Value::String(String::new())
-                    && !item.as_str().is_some_and(engine::reference)
+                    && !item.is_boolean()
+                    && !item.is_null()
+                    && !item
+                        .as_str()
+                        .is_some_and(|s| engine::field_reference(key, s))
                 {
                     *count += 1;
                     Value::String(REDACTION_TOKEN.into())
                 } else {
-                    visit(item, public || engine::public_context(key), policy, count)
+                    visit(
+                        item,
+                        public || engine::public_context(key),
+                        credential || engine::credential_context(key),
+                        policy,
+                        count,
+                    )
                 };
                 out.insert(name, clean);
             }
@@ -110,7 +127,10 @@ fn admit(value: &Value) -> Result<(), AdmissionError> {
 pub fn scrub_json_checked(value: &Value) -> Result<(Value, usize), AdmissionError> {
     admit(value)?;
     let mut count = 0;
-    Ok((visit(value, false, Policy::Secrets, &mut count), count))
+    Ok((
+        visit(value, false, false, Policy::Secrets, &mut count),
+        count,
+    ))
 }
 /// Check encoded record size before parsing; errors contain no input excerpts.
 pub fn scrub_json_text_checked(input: &str) -> Result<(Value, usize), AdmissionError> {
@@ -139,7 +159,7 @@ pub fn scrub_json_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
         return (Value::String(REDACTION_TOKEN.into()), 1);
     }
     let mut count = 0;
-    let clean = visit(value, false, policy, &mut count);
+    let clean = visit(value, false, false, policy, &mut count);
     (clean, count)
 }
 
@@ -152,6 +172,7 @@ pub fn scrub_json_text(input: &str) -> Option<(Value, usize)> {
 
 /// Stable errors never contain input text, keys, parser excerpts or credentials.
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[serde(into = "crate::TaggedError")]
 pub struct RecordError {
     /// Stable error code.
     pub code: &'static str,

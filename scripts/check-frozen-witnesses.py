@@ -3,7 +3,7 @@
 
 The old v8 exact oracle has superseded semantics (including entropy/PII rules).
 This gate checks no new loss of secret removal and current output stability;
-it reports inherited gaps rather than treating historical rules as canonical.
+all annotated secret values must be removed; exact historical formatting is not canonical.
 """
 import json
 import pathlib
@@ -67,5 +67,10 @@ result = {
     'secondPassChangedCases': sum(a != b for a, b in zip(head, twice)),
     'scope': 'Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.',
 }
+if len(sys.argv) > 3:
+    vector_path = pathlib.Path(sys.argv[3])
+    vectors = json.loads(vector_path.read_text())
+    vectors['frozen'] = [{'input': text, 'output': output} for text, output in zip(inputs, head)]
+    vector_path.write_text(json.dumps(vectors))
 print(json.dumps(result, sort_keys=True))
-sys.exit(bool(regressions or result['secondPassChangedCases']))
+sys.exit(bool(head_misses or regressions or result['secondPassChangedCases']))

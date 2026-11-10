@@ -1,6 +1,6 @@
 export interface Manifest {
   schema: number; ruleset: string; rulesetVersion: number; rulesetSourceSha256: string;
-  crateVersion: string; abiVersion: number; policy: 'secrets' | 'pii'; redactionToken: string;
+  crateVersion: string; abiVersion: number; scrubProfile: string; policy: 'secrets' | 'pii'; redactionToken: string;
 }
 export interface Scrubber {
   readonly manifest: Readonly<Manifest>;
@@ -18,3 +18,9 @@ export function loadCompiledScrubber(options: { module: WebAssembly.Module; expe
 
 export const MAX_RECORD_BYTES: number;
 export const MAX_STREAM_BYTES: number;
+
+export class ScrubberError extends Error {
+  readonly code: string;
+  readonly disposition: 'call_refusal' | 'instance_poison';
+  readonly record?: number;
+}
