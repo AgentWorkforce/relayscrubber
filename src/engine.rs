@@ -516,6 +516,32 @@ fn code_expression(value: &str) -> bool {
     if !safe_code_literals(value) {
         return false;
     }
+    for op in ["??", "||"] {
+        if let Some((left, right)) = value.split_once(op) {
+            return code_expression(left.trim()) && code_expression(right.trim());
+        }
+    }
+    if let Some(rest) = value.strip_prefix("async ") {
+        if let Some((params, body)) = rest.split_once("=>") {
+            return params
+                .trim()
+                .strip_prefix('(')
+                .and_then(|p| p.strip_suffix(')'))
+                .is_some_and(|p| {
+                    p.bytes()
+                        .all(|b| b.is_ascii_alphanumeric() || b"_, ".contains(&b))
+                })
+                && code_expression(body.trim());
+        }
+    }
+    if let Some(rest) = value.strip_prefix("function()") {
+        return rest
+            .trim()
+            .strip_prefix('{')
+            .and_then(|s| s.strip_suffix('}'))
+            .and_then(|s| s.trim().strip_prefix("return "))
+            .is_some_and(|s| code_expression(s.trim().trim_end_matches(';')));
+    }
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
         .is_match(value)
@@ -1053,7 +1079,7 @@ fn marker_reference(value: &str) -> bool {
         rest.is_empty()
             || rest.starts_with(char::is_whitespace)
                 && rest.bytes().all(|b| {
-                    b.is_ascii_lowercase() || b.is_ascii_whitespace() || b"().,;-".contains(&b)
+                    b.is_ascii_lowercase() || b.is_ascii_whitespace() || b"().,;-/".contains(&b)
                 })
     })
 }
@@ -1075,6 +1101,14 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
     let prefix = bounded_prefix(view, position);
+    let value = if prefix.contains("= /") {
+        value
+            .strip_suffix("/g")
+            .or_else(|| value.strip_suffix('/'))
+            .unwrap_or(value)
+    } else {
+        value
+    };
     if prefix.contains("sed ") && prefix.ends_with("/^") && value == "/" {
         return true;
     }

@@ -36,7 +36,12 @@ fn explicit_yaml_prose_values() {
 }
 #[test]
 fn credential_container_distance_and_scope() {
+    let start = std::time::Instant::now();
     check(cases::containers());
+    eprintln!(
+        "credential container scope/all APIs: {:.3}s",
+        start.elapsed().as_secs_f64()
+    );
 }
 #[test]
 fn adversarial_container_time_is_bounded() {
@@ -48,8 +53,15 @@ fn adversarial_container_time_is_bounded() {
         );
         let start = Instant::now();
         let output = scrub_text(&input);
+        let elapsed = start.elapsed();
+        eprintln!(
+            "container keys={} bytes={} seconds={:.3}",
+            count + 1,
+            input.len(),
+            elapsed.as_secs_f64()
+        );
         assert!(
-            start.elapsed() < Duration::from_secs(10),
+            elapsed < Duration::from_secs(10),
             "large container exceeded ten seconds"
         );
         assert!(!output.contains("SYNTH_ALPHA"));

@@ -31,7 +31,7 @@ jobs:
           components: rustfmt, clippy
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets --all-features -- -D warnings
-      - run: cargo test --all-targets --all-features --locked
+      - run: cargo test --all-targets --all-features --locked -- --show-output
       - name: Require zero missed secrets in frozen witnesses
         if: runner.os == 'Linux'
         run: |
