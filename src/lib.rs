@@ -30,7 +30,7 @@ pub const RULESET_SOURCE_SHA256: &str = PINNED_RULESET_SOURCE_SHA256;
 /// SHA-256 of the ordered Rust rule-module sources, including path sentinels.
 /// This detects accidental port drift separately from the canonical TS digest.
 pub const RUST_PORT_SHA256: &str =
-    "b1d153e336c127dd568ed470c30beea7e8786bfcde1c4507803f06e35dfecfaa";
+    "b342b97d641716cc5542689203e42b07cce1ced2896e0d87bb7cce0e7d4b3cd4";
 
 /// SHA-256 of the canonical secret corpus after CRLF-to-LF normalization.
 pub const CORPUS_SHA256: &str = "d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49";
@@ -109,7 +109,7 @@ pub struct RawScrubMarker {
 /// Return the exact two-field marker for successfully scrubbed history bytes.
 ///
 /// Callers must persist this marker only after scrubbing the corresponding
-/// bytes. It serializes as `{"ruleset":"relayhistory-scrub","version":6}`.
+/// bytes. It serializes as `{"ruleset":"relayhistory-scrub","version":8}`.
 #[must_use]
 pub const fn raw_scrub_marker() -> RawScrubMarker {
     RawScrubMarker {

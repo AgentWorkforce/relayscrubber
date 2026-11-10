@@ -8,22 +8,24 @@ history bytes as the server-side relayhistory ingest path.
 The crate uses Rust 2021, has an MSRV of 1.88, and CI builds and tests it on
 Linux and Windows. Its runtime dependencies are only `serde` and `serde_json`.
 
-The current compatibility tuple is:
+The source candidate is **0.4.0 / ruleset 8**, not yet a published or approved Desktop release. Frozen v6 artifacts and the published 0.3.0 checksum are retained in `vendor/frozen-v6/ledger.json`; they are never relabeled as the current ruleset.
+
+The candidate compatibility tuple is:
 
 - ruleset: `relayhistory-scrub`
-- version: `6`
-- combined source SHA-256 (`scrub.ts` + newline + segmenter region): `28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11`
+- version: `8`
+- combined source SHA-256 (`scrub.ts` + newline + segmenter region): `50c2e0c67395f488a308cbcfc7c945606374b3d67d37138e284849c6190c8214`
 - corpus SHA-256: `d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49`
 - replacement: `[REDACTED]`
 - per-string bound: 262,144 UTF-16 code units
 
 ## Use
 
-Consumers should pin the exact crates.io release:
+After 0.4.0 is reviewed, published and its registry checksum verified, consumers should pin that exact release:
 
 ```toml
 [dependencies]
-relayscrubber = "=0.3.0"
+relayscrubber = "=0.4.0"
 ```
 
 ```rust
@@ -38,7 +40,7 @@ assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
 
 let stored_marker = raw_scrub_marker();
 assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
-assert_eq!(stored_marker.version, 6);
+assert_eq!(stored_marker.version, 8);
 ```
 
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
@@ -63,6 +65,7 @@ serde_json's 128-level recursion boundary, or unpaired-surrogate JSON; callers
 retain their invalid/unrepresentable-JSON fallback. The crate does not enable
 `serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
 does not change JSON behavior elsewhere in a consumer's dependency graph.
+A zero redaction count covers only surviving values in the parsed tree. It does not certify that the original JSON bytes were unchanged or safe: duplicate-key values may have been discarded by JSON.parse semantics. Always serialize the returned value; never reuse the original text solely because the count is zero.
 The returned `Value` serializes in the map order selected by the consumer's
 `serde_json` features; document order controls collision naming, not output
 byte order.
@@ -73,14 +76,14 @@ This crate has exactly two integration boundaries:
 
 1. The relayhistory schema records the scrub marker. A sealed history chunk
    writes `raw.scrub.ruleset = "relayhistory-scrub"` and
-   `raw.scrub.version = 6`; object metadata uses `scrub-ruleset` and
+   `raw.scrub.version = 8`; object metadata uses `scrub-ruleset` and
    `scrub-version` with the same values. Existing chunks are never relabeled.
 2. The history database contract uses that marker to distinguish scrubbed and
    unsanitized history. Callers must persist the exported ruleset/version only
    after this crate has successfully scrubbed the bytes they store.
 
 `raw_scrub_marker()` returns exactly the persisted two-field marker
-`{"ruleset":"relayhistory-scrub","version":6}`. It is separate from
+`{"ruleset":"relayhistory-scrub","version":8}`. It is separate from
 `manifest()`, which returns the ten-field Technical Foul distribution manifest
 used by independent implementations to pin source, segmenter, and corpus.
 
@@ -112,7 +115,9 @@ Changes are atomic across owners:
    runs a direct byte-for-byte comparison against canonical `scrub.ts`.
 4. relay-desktop updates its Cargo tag only after that release is available.
 
-The TypeScript server remains canonical for version 6. It may later consume
+Ruleset 8 preserves only the exact `idempotency_key` identifier in the generic assignment rule (ASCII case-insensitive, with JavaScript whitespace). It does not exempt provider tokens, credentials inside values, prefixed secret names or other detectors. Public replay identities survive the scrub; credential-shaped values are still redacted. It skips matching the public identifier rather than consuming its value, so nested labelled credentials remain visible to the scanner. The known-unsafe, unpublished v7 candidate is retained under vendor/frozen-v7 for provenance only. The segmenter and corpus remain byte-for-byte unchanged.
+
+The TypeScript source remains canonical for version 8 (relayhistory-pipeline PR #477, commit 86a0b15d0197187eb6c19923d2b4a00a86b7a337). This does not claim that the server has deployed it. It may later consume
 this crate through WASM or a native binding, but this crate does not require or
 assume that migration.
 

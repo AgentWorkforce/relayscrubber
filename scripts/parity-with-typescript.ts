@@ -145,6 +145,37 @@ const generated = (length: number) => {
     "",
   );
 };
+// Ruleset 7's exception is only for the exact public replay identifier.
+// Credential-shaped values continue through the independent detectors.
+const v7TextStart = vectors.length;
+for (const key of ["idempotency_key", "IDEMPOTENCY_KEY", "Idempotency_Key", "request_idempotency_key", "idempotency_key_secret", "idempotency_key_token"]) {
+  for (const separator of ["=", ":"]) {
+    for (const gap of ["", "\t", "\u00a0", "\ufeff"]) {
+      for (const value of ["public-replay-42", `ghp_${generated(48)}`, `sk-proj-${generated(72)}`, `rth_at_${generated(72)}`]) {
+        const input = `before ${key}${gap}${separator}${gap}${value} after`;
+        vectors.push({ id: `v7/${vectors.length}`, input, expected: scrubText(input) });
+      }
+    }
+  }
+}
+const v7TextCount = vectors.length - v7TextStart;
+// Ruleset 8 must keep scanning inside public assignment values.
+const v8TextStart = vectors.length;
+for (const key of ["idempotency_key", "IDEMPOTENCY_KEY"]) {
+  for (const separator of ["=", ":", " : ", "\t=\t", "\u00a0=\ufeff"]) {
+    for (const quote of ["", '"', "'", String.fromCharCode(96)]) {
+      for (const label of ["password", "token", "api_key", "client_secret", "credentials"]) {
+        const input = key + separator + quote + label + "=fixture-only" + quote;
+        vectors.push({ id: `v8/${vectors.length}`, input, expected: scrubText(input) });
+      }
+    }
+  }
+}
+for (let depth = 1; depth <= 512; depth *= 2) {
+  const input = "idempotency_key=".repeat(depth) + "password=fixture-only";
+  vectors.push({ id: `v8/depth/${depth}`, input, expected: scrubText(input) });
+}
+const v8TextCount = vectors.length - v8TextStart;
 const fuzzAtoms = () => [
   `Bearer ${generated(40)}`,
   `"password": "${generated(48)}"`,
@@ -320,6 +351,8 @@ for (const [index, vector] of vectors.entries()) {
 
 const fill = "lorem ipsum dolor sit amet ".repeat(11_000);
 const longVectors = [
+  `${fill.slice(0, 262_130)} idempotency_key=public-replay-42 after`,
+  `${fill.slice(0, 262_130)} idempotency_key=ghp_${generated(48)} after`,
   `${fill} ordinary tail`,
   `${fill.slice(0, 260_000)} "token": "short\n${"v".repeat(4_097)}UNIQUE_TAIL" after`,
   `${fill.slice(0, 259_000)} ${"x ".repeat(4_000)} bob@example.test done`,
@@ -384,6 +417,14 @@ recordVectors.push({
   input: '{"offset":-0}',
   expected: { offset: -0 },
 });
+for (const input of [
+  JSON.stringify({idempotency_key: "public-replay-42", content: "idempotency_key=public-replay-42 api_key=synthetic-credential-value"}),
+  JSON.stringify({idempotency_key: `ghp_${generated(48)}`}),
+  JSON.stringify({text: "idempotency_key=password=fixture-only"}),
+  '{"content":"api_key=synthetic-credential-value","content":"ordinary last value"}',
+]) {
+  recordVectors.push({id: `v7/record/${recordVectors.length}`, input, expected: scrubJson(JSON.parse(input))});
+}
 const jsonChild = Bun.spawn(
   [
     "cargo",
@@ -454,5 +495,5 @@ for (const [index, vector] of recordVectors.entries()) {
 }
 
 console.log(
-  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + 20002 deterministic fuzz + 54 multiline-cap regressions + 144 strict-reference depth vectors), ${longVectors.length} scrubLong vectors byte-identical, and ${recordVectors.length} scrubJson vectors semantically identical`,
+  `parity ok: ${vectors.length} scrubText vectors (${corpus.cases.length} corpus cases x 5 rounds + ${v7TextCount} v7 replay-identity vectors + ${v8TextCount} v8 nested-credential vectors + 20002 deterministic fuzz + 54 multiline-cap regressions + 144 strict-reference depth vectors), ${longVectors.length} scrubLong vectors byte-identical, and ${recordVectors.length} scrubJson vectors semantically identical`,
 );

@@ -47,7 +47,7 @@ mod web;
 use js::{is, is_digit, is_space, slice};
 
 /// The Cloud rule set this port matches (`SCRUB_RULESET_VERSION`).
-pub const RULESET_VERSION: u32 = 6;
+pub const RULESET_VERSION: u32 = 8;
 
 /// What every redacted secret becomes.
 pub const REDACTION_TOKEN: &str = "[REDACTED]";
@@ -58,7 +58,7 @@ pub const MAX_SCRUB_CHARS: usize = 262_144;
 /// The Cloud manifest's `rulesetSourceSha256`: sha256 of canonical `scrub.ts`,
 /// a newline, and the pinned raw-chunk segmenter region.
 pub const PINNED_RULESET_SOURCE_SHA256: &str =
-    "28edb23b9ff94299d530213a04026210eb848399475b740e026ecc85980b3a11";
+    "50c2e0c67395f488a308cbcfc7c945606374b3d67d37138e284849c6190c8214";
 
 /// Whether `t` may be cut before `i` (`safeCut` in `scrub.ts`): after
 /// whitespace and not between two digit groups.
@@ -201,6 +201,9 @@ pub fn scrub_json(value: &serde_json::Value) -> (serde_json::Value, usize) {
 /// represent them; callers must retain their existing
 /// invalid/unrepresentable-JSON fallback. This does not enable global
 /// `serde_json` map-order or arbitrary-number features.
+/// A zero count describes surviving parsed values, not the original bytes:
+/// duplicate keys use their last value. Always serialize the returned tree;
+/// never reuse raw input merely because its redaction count is zero.
 #[must_use]
 pub fn scrub_json_text(text: &str) -> Option<(serde_json::Value, usize)> {
     let node = json::parse_text(text)?;
