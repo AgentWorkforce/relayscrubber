@@ -20,3 +20,16 @@ test('query recovery across all WASM APIs',()=>{
  });
  assert.deepEqual(failures,[]);
 });
+
+test('query recovery at the 16 MiB admission boundary',()=>{
+ const prefix='https://media.example.invalid/render?caption="';
+ const tail='&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c9';
+ const padding='a'.repeat(16*1024*1024-prefix.length-tail.length);
+ const input=prefix+padding+tail;
+ const expected=prefix+padding+'&page=2&sig=[REDACTED]';
+ assert.equal(s.scrubTextChecked(input),expected);
+ assert.equal(s.scrubTextChecked(expected),expected);
+ const benign=prefix+'a'.repeat(16*1024*1024-prefix.length);
+ assert.equal(s.scrubTextChecked(benign),benign);
+ assert.throws(()=>s.scrubTextChecked(input+'x'),e=>e.code==='text_too_large');
+});

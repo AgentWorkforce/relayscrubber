@@ -34,3 +34,21 @@ fn query_recovery_all_apis() {
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
+
+#[test]
+fn query_recovery_at_admission_boundary() {
+    let prefix = "https://media.example.invalid/render?caption=\"";
+    let tail = "&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c9";
+    let padding = "a".repeat(MAX_RECORD_BYTES - prefix.len() - tail.len());
+    let input = format!("{prefix}{padding}{tail}");
+    let expected = format!("{prefix}{padding}&page=2&sig=[REDACTED]");
+    assert_eq!(input.len(), MAX_RECORD_BYTES);
+    assert_eq!(scrub_text_checked(&input).unwrap(), expected);
+    assert_eq!(scrub_text_checked(&expected).unwrap(), expected);
+    let benign = format!("{prefix}{}", "a".repeat(MAX_RECORD_BYTES - prefix.len()));
+    assert_eq!(scrub_text_checked(&benign).unwrap(), benign);
+    assert_eq!(
+        scrub_text_checked(&(input + "x")).unwrap_err().code,
+        "text_too_large"
+    );
+}
