@@ -1,0 +1,2435 @@
+{
+  "schema": 1,
+  "scope": "All cases are synthetic reviewer SYNTH_ packets or invented reproductions. No private samples accessed. Independent re-audit pending.",
+  "ruling": "relayscrubber-lead message 245900777391968256",
+  "baseCommit": "486dab523a7cef38fd4fd6fa9e23b4658f40def0",
+  "matrixOriginalCommit": "16f898c",
+  "matrixCherryPickCommit": "bb12afb",
+  "implementationCommit": "cfe4d25b847e451a2f47c27d08fd13f6a15616d3",
+  "policyExpectationCommits": [
+    "d55ca72",
+    "023f249",
+    "49a5082"
+  ],
+  "policyDrivenExpectationChanges": [
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.provided[3]",
+      "before": "auth: review deployment options",
+      "after": "auth: [REDACTED]"
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.provided[13]",
+      "before": "\"auth\": \"required for this endpoint\"",
+      "after": "\"auth\": \"[REDACTED]\""
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.free_prose[1]",
+      "before": "- auth: review deployment options",
+      "after": "- auth: [REDACTED]"
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.free_prose[3]",
+      "before": "auth: required for this endpoint",
+      "after": "auth: [REDACTED]"
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.free_prose[4]",
+      "before": "\"password\": \"required for this endpoint\"",
+      "after": "\"password\": \"[REDACTED]\""
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.free_prose[5]",
+      "before": "auth: the production credential",
+      "after": "auth: [REDACTED]"
+    },
+    {
+      "file": "eval/session_cases.json",
+      "case": "benign.free_prose[6]",
+      "before": "password: the actual secret value",
+      "after": "password: [REDACTED]"
+    },
+    {
+      "file": "eval/residual_cases.json",
+      "case": "benign[4]",
+      "before": "auth: review deployment options",
+      "after": "auth: [REDACTED]"
+    },
+    {
+      "file": "eval/residual_cases.json",
+      "case": "benign[15]",
+      "before": "\"auth\": \"required for this endpoint\"",
+      "after": "\"auth\": \"[REDACTED]\""
+    },
+    {
+      "file": "eval/residual_cases.json",
+      "case": "benign[16]",
+      "before": "auth: see the section below",
+      "after": "auth: [REDACTED]"
+    },
+    {
+      "file": "eval/p0_cases.rs",
+      "case": "containers: idempotency_key -> aws -> key, each distance 0/511/512/513/4096/1048576",
+      "before": "nested SYNTH_ALPHA unchanged",
+      "after": "nested SYNTH_ALPHA -> [REDACTED]"
+    },
+    {
+      "file": "eval/family_cases.json",
+      "case": "benign.prose_or_comment[3]",
+      "before": "token: the parser token used for navigation",
+      "after": "token: [REDACTED]"
+    },
+    {
+      "file": "eval/family_cases.json",
+      "case": "benign.prose_or_comment[4]",
+      "before": "password: see the configuration guide",
+      "after": "password: [REDACTED]"
+    },
+    {
+      "file": "js/test/p0.test.mjs",
+      "case": "P0 credential container context: idempotency_key -> aws -> key, all six distances",
+      "before": "nested SYNTH_ALPHA unchanged",
+      "after": "nested SYNTH_ALPHA -> [REDACTED]"
+    }
+  ],
+  "baselineArtifact": {
+    "artifactId": 13768134511,
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42825449028",
+    "packageSha256": "bc0137807127ef5c747aee17426b192a3a6e1457b538547c9da86674b3455e4d"
+  },
+  "baselineNative": {
+    "exactPacket": {
+      "cases": 1186,
+      "failures": [
+        {
+          "id": 1179,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 1180,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": [
+        {
+          "id": 0,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 1,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 2,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 8,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 9,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 10,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 17,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 18,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 25,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 26,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 33,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 34,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 40,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 41,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    "nestedStructuredJsonRecords": [
+      false,
+      false
+    ],
+    "residualBenign": {
+      "cases": 22,
+      "failures": [
+        {
+          "id": 11,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "id": 13,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            false,
+            false,
+            false
+          ]
+        }
+      ]
+    },
+    "residualPositive": {
+      "cases": 14,
+      "failures": []
+    },
+    "schema": 1,
+    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70"
+  },
+  "baselinePinnedWasm": {
+    "schema": 1,
+    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70",
+    "exactPacket": {
+      "cases": 1186,
+      "failures": [
+        {
+          "id": 1179,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 1180,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": [
+        {
+          "id": 0,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 1,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 2,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 8,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 9,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 10,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 17,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 18,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 25,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 26,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 33,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 34,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 40,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "id": 41,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            true,
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    "residualBenign": {
+      "cases": 22,
+      "failures": [
+        {
+          "id": 11,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "id": 13,
+          "matchesTextJsonRecords": [
+            false,
+            false,
+            false
+          ],
+          "secondPassTextJsonRecords": [
+            false,
+            false,
+            false
+          ]
+        }
+      ]
+    },
+    "residualPositive": {
+      "cases": 14,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      false,
+      false
+    ]
+  },
+  "headNative": {
+    "exactPacket": {
+      "cases": 1186,
+      "failures": []
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      true,
+      true
+    ],
+    "residualBenign": {
+      "cases": 19,
+      "failures": []
+    },
+    "residualPositive": {
+      "cases": 17,
+      "failures": []
+    },
+    "schema": 1,
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
+  },
+  "fixtures": {
+    "eval/exact_packet_cases.json": "b6b8a23f4c46cdd0a3e32b203fb269e0bdb378800b64fc91eee15c5de7919eb3",
+    "eval/ruling_cases.json": "51541ab6291fc16ea5be33546b18b7f8529393ad85e0da87d0752a086f9a6185",
+    "eval/residual_cases.json": "9a8f2d5b3c195fb5af6636bf3de9e4fcdbf19abae6dd74eb49fe89819c7da43a"
+  },
+  "checks": {
+    "rustReleaseAllTargetsAllFeatures": 63,
+    "node": 62,
+    "bun": 62,
+    "remainingOriginalFamilyBenign": 78,
+    "familyPositive": 25,
+    "remainingOriginalSessionBenign": 81,
+    "sessionPositive": 36,
+    "frozenWitnesses": 199,
+    "frozenMissedSecrets": 0,
+    "frozenSecondPassChanges": 0,
+    "textNativeWasmVectors": 5317,
+    "structuredNativeWasmVectors": 5317,
+    "fmt": "pass",
+    "clippy": "pass",
+    "cargoPackage": "pass",
+    "independentTargetReproducibility": "pass",
+    "workers": "pass",
+    "publicDiff": "pass",
+    "rustDebugAllTargetsAllFeatures": 63,
+    "linuxWindowsNativeDebugAllTargetsAllFeatures": 63,
+    "unchangedDebugResourceDeadlineSeconds": 10,
+    "localTargetedDebugResourceSuiteSeconds": 2.3
+  },
+  "complexity": "No growing-prefix or suffix rescans added. Quote-local delimiter indexing visits each byte once with a separate stack; scope push/pop is amortized constant-time; lexical wrapper lookaround is bounded to 512 bytes. Existing fixed-pass closure and admission bounds remain.",
+  "independentPrecision": "Independent re-audit pending",
+  "supplied19PinnedWasmBeforeAfter": [
+    {
+      "case": 1,
+      "input": "password: match option { Some(v) => v, None => return };",
+      "before": [
+        "password: match option { Some(v) => v, None => return };",
+        "password: match option { Some(v) => v, None => return };",
+        "password: match option { Some(v) => v, None => return };"
+      ],
+      "after": [
+        "password: match option { Some(v) => v, None => return };",
+        "password: match option { Some(v) => v, None => return };",
+        "password: match option { Some(v) => v, None => return };"
+      ]
+    },
+    {
+      "case": 2,
+      "input": "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+      "before": [
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path"
+      ],
+      "after": [
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+        "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path"
+      ]
+    },
+    {
+      "case": 3,
+      "input": "rg 'auth:\\s+' notes.txt",
+      "before": [
+        "rg 'auth:\\s+' notes.txt",
+        "rg 'auth:\\s+' notes.txt",
+        "rg 'auth:\\s+' notes.txt"
+      ],
+      "after": [
+        "rg 'auth:\\s+' notes.txt",
+        "rg 'auth:\\s+' notes.txt",
+        "rg 'auth:\\s+' notes.txt"
+      ]
+    },
+    {
+      "case": 4,
+      "input": "auth: review deployment options",
+      "before": [
+        "auth: review deployment options",
+        "auth: review deployment options",
+        "auth: review deployment options"
+      ],
+      "after": [
+        "auth: [REDACTED]",
+        "auth: [REDACTED]",
+        "auth: [REDACTED]"
+      ]
+    },
+    {
+      "case": 5,
+      "input": "token=\"[REDACTED] (already removed)\"",
+      "before": [
+        "token=\"[REDACTED] (already removed)\"",
+        "token=\"[REDACTED] (already removed)\"",
+        "token=\"[REDACTED] (already removed)\""
+      ],
+      "after": [
+        "token=\"[REDACTED] (already removed)\"",
+        "token=\"[REDACTED] (already removed)\"",
+        "token=\"[REDACTED] (already removed)\""
+      ]
+    },
+    {
+      "case": 6,
+      "input": "credentialsSecret: catalog-access-store",
+      "before": [
+        "credentialsSecret: catalog-access-store",
+        "credentialsSecret: catalog-access-store",
+        "credentialsSecret: catalog-access-store"
+      ],
+      "after": [
+        "credentialsSecret: catalog-access-store",
+        "credentialsSecret: catalog-access-store",
+        "credentialsSecret: catalog-access-store"
+      ]
+    },
+    {
+      "case": 7,
+      "input": "{\"session_id\":\"build-view\"}",
+      "before": [
+        "{\"session_id\":\"build-view\"}",
+        "{\"session_id\":\"build-view\"}",
+        "{\"session_id\":\"build-view\"}"
+      ],
+      "after": [
+        "{\"session_id\":\"build-view\"}",
+        "{\"session_id\":\"build-view\"}",
+        "{\"session_id\":\"build-view\"}"
+      ]
+    },
+    {
+      "case": 8,
+      "input": "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+      "before": [
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }"
+      ],
+      "after": [
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+        "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }"
+      ]
+    },
+    {
+      "case": 9,
+      "input": "Synthetic fixture: api_key=\"toyvalue\"",
+      "before": [
+        "Synthetic fixture: api_key=\"toyvalue\"",
+        "Synthetic fixture: api_key=\"toyvalue\"",
+        "Synthetic fixture: api_key=\"toyvalue\""
+      ],
+      "after": [
+        "Synthetic fixture: api_key=\"toyvalue\"",
+        "Synthetic fixture: api_key=\"toyvalue\"",
+        "Synthetic fixture: api_key=\"toyvalue\""
+      ]
+    },
+    {
+      "case": 10,
+      "input": "{\"excerpt\":\"auth: pl\"}",
+      "before": [
+        "{\"excerpt\":\"auth: pl\"}",
+        "{\"excerpt\":\"auth: pl\"}",
+        "{\"excerpt\":\"auth: pl\"}"
+      ],
+      "after": [
+        "{\"excerpt\":\"auth: pl\"}",
+        "{\"excerpt\":\"auth: pl\"}",
+        "{\"excerpt\":\"auth: pl\"}"
+      ]
+    },
+    {
+      "case": 11,
+      "input": "mcp_auth::Signed<Mode>>",
+      "before": [
+        "mcp_auth::Signed<Mode>>",
+        "mcp_auth::Signed<Mode>>",
+        "mcp_auth::Signed<Mode>>"
+      ],
+      "after": [
+        "mcp_auth::Signed<Mode>>",
+        "mcp_auth::Signed<Mode>>",
+        "mcp_auth::Signed<Mode>>"
+      ]
+    },
+    {
+      "case": 12,
+      "input": "test_vector = \"Bearer toyBearerMaterial\";",
+      "before": [
+        "test_vector = \"Bearer toyBearerMaterial\";",
+        "test_vector = \"Bearer toyBearerMaterial\";",
+        "test_vector = \"Bearer toyBearerMaterial\";"
+      ],
+      "after": [
+        "test_vector = \"Bearer toyBearerMaterial\";",
+        "test_vector = \"Bearer toyBearerMaterial\";",
+        "test_vector = \"Bearer toyBearerMaterial\";"
+      ]
+    },
+    {
+      "case": 13,
+      "input": "Documentation: https://public-user@code.example.invalid/repo",
+      "before": [
+        "Documentation: https://public-user@code.example.invalid/repo",
+        "Documentation: https://public-user@code.example.invalid/repo",
+        "Documentation: https://public-user@code.example.invalid/repo"
+      ],
+      "after": [
+        "Documentation: https://public-user@code.example.invalid/repo",
+        "Documentation: https://public-user@code.example.invalid/repo",
+        "Documentation: https://public-user@code.example.invalid/repo"
+      ]
+    },
+    {
+      "case": 14,
+      "input": "\"auth\": \"required for this endpoint\"",
+      "before": [
+        "\"auth\": \"required for this endpoint\"",
+        "\"auth\": \"required for this endpoint\"",
+        "\"auth\": \"required for this endpoint\""
+      ],
+      "after": [
+        "\"auth\": \"[REDACTED]\"",
+        "\"auth\": \"[REDACTED]\"",
+        "\"auth\": \"[REDACTED]\""
+      ]
+    },
+    {
+      "case": 15,
+      "input": "Authorization header is missing",
+      "before": [
+        "Authorization header is missing",
+        "Authorization header is missing",
+        "Authorization header is missing"
+      ],
+      "after": [
+        "Authorization header is missing",
+        "Authorization header is missing",
+        "Authorization header is missing"
+      ]
+    },
+    {
+      "case": 16,
+      "input": "bearer token handling is described in AUTH.md",
+      "before": [
+        "bearer token handling is described in AUTH.md",
+        "bearer token handling is described in AUTH.md",
+        "bearer token handling is described in AUTH.md"
+      ],
+      "after": [
+        "bearer token handling is described in AUTH.md",
+        "bearer token handling is described in AUTH.md",
+        "bearer token handling is described in AUTH.md"
+      ]
+    },
+    {
+      "case": 17,
+      "input": "session_id: exec-7f3a2b1c",
+      "before": [
+        "session_id: exec-7f3a2b1c",
+        "session_id: exec-7f3a2b1c",
+        "session_id: exec-7f3a2b1c"
+      ],
+      "after": [
+        "session_id: exec-7f3a2b1c",
+        "session_id: exec-7f3a2b1c",
+        "session_id: exec-7f3a2b1c"
+      ]
+    },
+    {
+      "case": 18,
+      "input": "\"session_id\": \"call_9d81c2e4a0\"",
+      "before": [
+        "\"session_id\": \"call_9d81c2e4a0\"",
+        "\"session_id\": \"call_9d81c2e4a0\"",
+        "\"session_id\": \"call_9d81c2e4a0\""
+      ],
+      "after": [
+        "\"session_id\": \"call_9d81c2e4a0\"",
+        "\"session_id\": \"call_9d81c2e4a0\"",
+        "\"session_id\": \"call_9d81c2e4a0\""
+      ]
+    },
+    {
+      "case": 19,
+      "input": "tool_use_id=toolu_01ABCDEF",
+      "before": [
+        "tool_use_id=toolu_01ABCDEF",
+        "tool_use_id=toolu_01ABCDEF",
+        "tool_use_id=toolu_01ABCDEF"
+      ],
+      "after": [
+        "tool_use_id=toolu_01ABCDEF",
+        "tool_use_id=toolu_01ABCDEF",
+        "tool_use_id=toolu_01ABCDEF"
+      ]
+    }
+  ],
+  "quotedContainerResourceNative": [
+    {
+      "keys": 4097,
+      "bytes": 106557,
+      "seconds": 0.0208
+    },
+    {
+      "keys": 65537,
+      "bytes": 1703997,
+      "seconds": 0.2522
+    }
+  ],
+  "quotedContainerResourceLocalWasm": [
+    {
+      "keys": 4097,
+      "bytes": 106557,
+      "milliseconds": 46
+    },
+    {
+      "keys": 65537,
+      "bytes": 1703997,
+      "milliseconds": 310
+    }
+  ],
+  "headHostedWasm": {
+    "schema": 1,
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "exactPacket": {
+      "cases": 1186,
+      "failures": []
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": []
+    },
+    "residualBenign": {
+      "cases": 19,
+      "failures": []
+    },
+    "residualPositive": {
+      "cases": 17,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      true,
+      true
+    ]
+  },
+  "headFamilyNative": {
+    "families": [
+      {
+        "cases": 5,
+        "name": "angle_placeholder",
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 8,
+        "name": "authorization_reference_or_scheme",
+        "unchangedTextJsonRecords": [
+          8,
+          8,
+          8
+        ]
+      },
+      {
+        "cases": 10,
+        "name": "code_expression_or_reference",
+        "unchangedTextJsonRecords": [
+          10,
+          10,
+          10
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "marker_plus_syntax",
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "marker_scope_overrun",
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "nonsecret_language_literal",
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 6,
+        "name": "operator_or_regex_syntax",
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "prose_or_comment",
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "secret_resource_reference",
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "shell_default_reference",
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 9,
+        "name": "synthetic_test_literal",
+        "unchangedTextJsonRecords": [
+          9,
+          9,
+          9
+        ]
+      },
+      {
+        "cases": 7,
+        "name": "type_declaration_or_syntax",
+        "unchangedTextJsonRecords": [
+          7,
+          7,
+          7
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "url_documentation_placeholder",
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "uuid_session_identifier",
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      }
+    ],
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
+  },
+  "headFamilyHostedWasm": {
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "families": [
+      {
+        "name": "marker_plus_syntax",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "name": "marker_scope_overrun",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "name": "uuid_session_identifier",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "name": "synthetic_test_literal",
+        "cases": 9,
+        "unchangedTextJsonRecords": [
+          9,
+          9,
+          9
+        ]
+      },
+      {
+        "name": "secret_resource_reference",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "name": "angle_placeholder",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "name": "authorization_reference_or_scheme",
+        "cases": 8,
+        "unchangedTextJsonRecords": [
+          8,
+          8,
+          8
+        ]
+      },
+      {
+        "name": "shell_default_reference",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "name": "nonsecret_language_literal",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "name": "url_documentation_placeholder",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "name": "type_declaration_or_syntax",
+        "cases": 7,
+        "unchangedTextJsonRecords": [
+          7,
+          7,
+          7
+        ]
+      },
+      {
+        "name": "operator_or_regex_syntax",
+        "cases": 6,
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "name": "prose_or_comment",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "name": "code_expression_or_reference",
+        "cases": 10,
+        "unchangedTextJsonRecords": [
+          10,
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  "headSessionNative": {
+    "families": [
+      {
+        "cases": 3,
+        "name": "auth_config",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "cases": 6,
+        "name": "code_expression",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "env_reference",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "excerpt",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "free_prose",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "labeled_fixture",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "language_path",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "marker_surrounding",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 17,
+        "name": "provided",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          17,
+          17,
+          17
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "regex_pattern",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "resource_name",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "session_execution_id",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "username_url",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      }
+    ],
+    "positiveCases": 36,
+    "redactedTextJsonRecords": [
+      36,
+      36,
+      36
+    ],
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
+  },
+  "headSessionHostedWasm": {
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "families": [
+      {
+        "name": "provided",
+        "cases": 17,
+        "unchangedTextJsonRecords": [
+          17,
+          17,
+          17
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "env_reference",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "code_expression",
+        "cases": 6,
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "regex_pattern",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "marker_surrounding",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "resource_name",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "auth_config",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "labeled_fixture",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "excerpt",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "language_path",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "username_url",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "free_prose",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "session_execution_id",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      }
+    ],
+    "positiveCases": 36,
+    "redactedTextJsonRecords": [
+      36,
+      36,
+      36
+    ]
+  },
+  "hostedArtifact": {
+    "sourceCommit": "522f6a971ed7d71e69e76e7344c8c7b75d13d135",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42831761386",
+    "artifactId": 13772605209,
+    "sourceSha256": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "wasmSha256": "c329e378b5fdb64ad7489a4d67ff99fde70276ff364c3f1147a1949d2ad66ab3",
+    "wasmBytes": 1606359,
+    "packageSha256": "1c68c3d374a3aefc6c42a3c7c3485893b9f0c90013829f812f700ba16950c356",
+    "packageBytes": 537255,
+    "hostedAllRuntimeChecks": "Linux/Windows native64; Node62/Bun62, frozen199, 5317text+5317structured vectors, admission/resource, independent-target reproducibility, Workers, package passed. Only stale-pin equality rejected old pins as expected.",
+    "localHostedPackageReplay": "Node62/Bun62, exact1186/final-ruling43/residual19benign+17positive across all APIs,35Bearer positives+6references,199frozen and Workers pass.",
+    "pinEqualityGate": "Downloaded Linux-hosted package matches committed source/WASM/glue/adapter manifest and package digest. Exact-head hosted rebuild is required to reproduce these pins."
+  },
+  "performanceFollowupCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
+  "initialLocalWasmBeforePerformanceFollowup": {
+    "schema": 1,
+    "source": "30c57004e6f1a4788eaf23787898fc2ff9afec7e95e239ae7e3d74c771f73a38",
+    "exactPacket": {
+      "cases": 1186,
+      "failures": []
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": []
+    },
+    "residualBenign": {
+      "cases": 19,
+      "failures": []
+    },
+    "residualPositive": {
+      "cases": 17,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      true,
+      true
+    ]
+  },
+  "initialSourceBuild": {
+    "commit": "cfe4d25b847e451a2f47c27d08fd13f6a15616d3",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42827888671",
+    "windowsResourceDeadline": "Unchanged ten-second test exceeded (~11s); fixed in bebb029 by rejecting structural wrapper prefixes before counting at most two words. No deadline/test weakening."
+  },
+  "previousHostedArtifact": {
+    "sourceCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+    "artifactId": 13771140455,
+    "sourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "wasmBytes": 1606378,
+    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
+    "packageBytes": 537396,
+    "hostedAllRuntimeChecks": "Linux/Windows native63, Node60/Bun60, frozen199 and5317text+5317structured vectors, admission/resource, reproducibility, Workers and packaging passed; only stale-pin equality refused the old pin as expected.",
+    "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
+    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
+  },
+  "standaloneBearerFollowup": "docs/results/bearer-prefix.json"
+}

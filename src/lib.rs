@@ -1,119 +1,204 @@
-// Preserve the reviewed rule expressions byte-for-byte with the Desktop port.
-#![allow(clippy::nonminimal_bool)]
+//! Deterministic offline secret scrubbing, canonical in Rust on native and WASM.
+//! See `docs/SPEC.md` for the recognition and precision contract.
 
-//! Technical Foul: deterministic, offline secret and PII scrubbing shared by
-//! Agent Relay clients and the relayhistory ingest contract.
-//!
-//! [`scrub_long`] is the upload-safe entry point. It segments arbitrarily long
-//! text at boundaries proven safe against the canonical rule set and replaces
-//! an uncuttable remainder wholesale rather than uploading a partial scrub.
-//! [`scrub_text`] is the bounded Cloud-compatible primitive and may truncate.
+mod engine;
+mod json;
+mod normalize;
+#[cfg(feature = "wasm")]
+mod wasm;
 
-mod rules;
-
-use serde::Serialize;
-
-pub use rules::{
-    scrub_json, scrub_json_text, scrub_long, scrub_text, MAX_SCRUB_CHARS,
-    PINNED_RULESET_SOURCE_SHA256, REDACTION_TOKEN, RULESET_VERSION,
+pub use json::{
+    scrub_json, scrub_json_checked, scrub_json_text, scrub_json_text_checked,
+    scrub_json_with_policy, scrub_records, RecordError, RecordOutput,
 };
+use serde::{Deserialize, Serialize};
 
-/// Stable history contract name written as `raw.scrub.ruleset`.
+/// Stable scrubber family persisted with successfully scrubbed bytes.
 pub const SCRUB_RULESET: &str = "relayhistory-scrub";
-
-/// Compatibility alias for the Cloud's exported constant name.
+/// Candidate version; adoption requires independent exact-commit approval.
+pub const RULESET_VERSION: u32 = 10;
+/// Compatibility spelling for the history contract.
 pub const SCRUB_RULESET_VERSION: u32 = RULESET_VERSION;
+/// Replacement for every recognized credential.
+pub const REDACTION_TOKEN: &str = "[REDACTED]";
+/// Crate-owned default policy profile persisted with successful output.
+pub const SCRUB_PROFILE: &str = "relayhistory-secrets-v10";
+/// Serialized manifest schema version.
+pub const MANIFEST_SCHEMA: u32 = 3;
+/// Tagged-error JS transport ABI version.
+pub const ABI_VERSION: u32 = 2;
+/// SHA-256 of ordered Rust sources with path sentinels, generated at build time.
+pub const RULESET_SOURCE_SHA256: &str = env!("RELAY_SCRUB_SOURCE_SHA256");
+/// Maximum JSON nesting; excessive nesting never returns original content.
+pub const MAX_JSON_DEPTH: usize = 128;
+/// Maximum bytes in one NDJSON record, excluding its newline delimiter.
+pub const MAX_RECORD_BYTES: usize = 16 * 1024 * 1024;
+/// Maximum bytes in one atomic record operation.
+pub const MAX_STREAM_BYTES: usize = 64 * 1024 * 1024;
 
-/// Compatibility alias for the canonical combined rule-and-segmenter digest.
-pub const RULESET_SOURCE_SHA256: &str = PINNED_RULESET_SOURCE_SHA256;
-
-/// SHA-256 of the ordered Rust rule-module sources, including path sentinels.
-/// This detects accidental port drift separately from the canonical TS digest.
-pub const RUST_PORT_SHA256: &str =
-    "b342b97d641716cc5542689203e42b07cce1ced2896e0d87bb7cce0e7d4b3cd4";
-
-/// SHA-256 of the canonical secret corpus after CRLF-to-LF normalization.
-pub const CORPUS_SHA256: &str = "d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49";
-
-/// SHA-256 of the canonical marked raw-chunk segmenter alone.
-pub const SEGMENTER_SHA256: &str =
-    "26d0733aabe8a219a7b1833e71eaa5f0aa6dfbfe4999b4d7d9870d0b993f8a68";
-
-/// Canonical corpus bytes, vendored byte-for-byte for consumer lockstep tests.
-pub const CORPUS_BYTES: &[u8] = include_bytes!("../vendor/corpus/scrub-secret-corpus.json");
-
-/// Canonical corpus text, vendored byte-for-byte for consumer case runners.
-pub const CORPUS_JSON: &str = include_str!("../vendor/corpus/scrub-secret-corpus.json");
-
-/// Canonical schema-1 manifest bytes.
-pub const MANIFEST_BYTES: &[u8] = include_bytes!("../vendor/canonical/technical-foul.json");
-
-/// Canonical schema-1 manifest text.
-pub const MANIFEST_JSON: &str = include_str!("../vendor/canonical/technical-foul.json");
-
-/// Ten-field distribution manifest exchanged by Technical Foul implementors.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TechnicalFoulManifest {
-    /// Manifest schema version.
-    pub schema: u32,
-    /// Canonical ruleset version stored in the history contract.
-    pub ruleset_version: u32,
-    /// SHA-256 of canonical `scrub.ts` plus the marked segmenter.
-    pub ruleset_source_sha256: &'static str,
-    /// Canonical repository-relative rules source path.
-    pub ruleset_path: &'static str,
-    /// Canonical repository-relative marked segmenter path.
-    pub segmenter_path: &'static str,
-    /// SHA-256 of the marked segmenter alone.
-    pub segmenter_sha256: &'static str,
-    /// SHA-256 of the canonical corpus.
-    pub corpus_sha256: &'static str,
-    /// Canonical repository-relative corpus path.
-    pub corpus_path: &'static str,
-    /// Stable replacement token.
-    pub redaction_token: &'static str,
-    /// Per-segment bound in UTF-16 code units.
-    pub max_scrub_chars: usize,
+/// PII redaction is explicit; default secrets mode preserves contact details.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Policy {
+    /// Recognizable credentials only; preserve ordinary personal information.
+    #[default]
+    Secrets,
+    /// Also redact email and SSN shapes. Does not promise anonymization.
+    Pii,
 }
 
-/// Return the complete compile-time Technical Foul compatibility manifest.
-///
-/// This distribution manifest is intentionally distinct from the two-field
-/// [`RawScrubMarker`] persisted in history chunk manifests.
-#[must_use]
-pub const fn manifest() -> TechnicalFoulManifest {
-    TechnicalFoulManifest {
-        schema: 1,
-        ruleset_version: RULESET_VERSION,
-        ruleset_source_sha256: PINNED_RULESET_SOURCE_SHA256,
-        ruleset_path: "packages/pipeline/src/lib/scrub.ts",
-        segmenter_path: "packages/pipeline/src/lib/pipeline/raw-chunks.ts#scrub-segmenter",
-        segmenter_sha256: SEGMENTER_SHA256,
-        corpus_sha256: CORPUS_SHA256,
-        corpus_path: "packages/pipeline/test/fixtures/scrub-secret-corpus.json",
-        redaction_token: REDACTION_TOKEN,
-        max_scrub_chars: MAX_SCRUB_CHARS,
+/// Deterministic admission/parse error; never contains input bytes.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[serde(into = "TaggedError")]
+pub struct AdmissionError {
+    /// Stable machine-readable reason.
+    pub code: &'static str,
+}
+impl std::fmt::Display for AdmissionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.code)
+    }
+}
+impl std::error::Error for AdmissionError {}
+
+/// Stable serialized failure contract. Refused calls produce no output and do
+/// not poison the engine. Unexpected WASM traps poison the JS adapter instance.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct TaggedError {
+    /// Stable machine-readable reason, never input content.
+    pub code: &'static str,
+    /// `call_refusal` means the next independent call may safely proceed.
+    pub disposition: &'static str,
+    /// One-based physical record, when a record call was refused.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub record: Option<usize>,
+}
+impl From<AdmissionError> for TaggedError {
+    fn from(error: AdmissionError) -> Self {
+        Self {
+            code: error.code,
+            disposition: "call_refusal",
+            record: None,
+        }
+    }
+}
+impl From<RecordError> for TaggedError {
+    fn from(error: RecordError) -> Self {
+        Self {
+            code: error.code,
+            disposition: "call_refusal",
+            record: Some(error.record),
+        }
     }
 }
 
-/// The exact `raw.scrub` marker persisted in a sealed history chunk manifest.
+/// Check UTF-8 text admission before allocating scanner state.
+pub fn scrub_text_checked(input: &str) -> Result<String, AdmissionError> {
+    if input.len() > MAX_RECORD_BYTES {
+        return Err(AdmissionError {
+            code: "text_too_large",
+        });
+    }
+    Ok(engine::scrub(input, false, Policy::Secrets))
+}
+
+/// Scrub a complete string without truncating or exposing segment boundaries.
+#[must_use]
+pub fn scrub_text(input: &str) -> String {
+    scrub_text_with_policy(input, Policy::Secrets)
+}
+
+/// Compatibility entry point; uses the identical complete-string scan.
+#[must_use]
+pub fn scrub_long(input: &str) -> String {
+    scrub_text(input)
+}
+
+/// Scrub text with an explicit, persistable privacy policy.
+#[must_use]
+pub fn scrub_text_with_policy(input: &str, policy: Policy) -> String {
+    engine::scrub(input, false, policy)
+}
+
+/// Scrubbed text plus original byte ranges; ranges contain no copied credentials.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ScrubReport {
+    /// Scrubbed output.
+    pub text: String,
+    /// Sorted, disjoint ranges removed from the original UTF-8 input.
+    pub redactions: Vec<std::ops::Range<usize>>,
+}
+
+/// Inspect redaction coverage without returning original credential text.
+#[must_use]
+pub fn scrub_report(input: &str, policy: Policy) -> ScrubReport {
+    engine::analyze(input, false, policy)
+}
+
+/// Distribution identity, distinct from the digest of a compiled WASM artifact.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Manifest {
+    /// Manifest schema.
+    pub schema: u32,
+    /// Family name.
+    pub ruleset: String,
+    /// Ruleset semantics version.
+    pub ruleset_version: u32,
+    /// Ordered source digest, independent of target platform.
+    pub ruleset_source_sha256: String,
+    /// Rust crate version.
+    pub crate_version: String,
+    /// JS transport ABI version.
+    pub abi_version: u32,
+    /// Redaction policy applied to text.
+    pub policy: Policy,
+    /// Stable replacement text.
+    pub redaction_token: String,
+    /// Crate-owned recognition/privacy profile; never synthesized by consumers.
+    pub scrub_profile: String,
+}
+
+/// Return the canonical default-policy build identity.
+#[must_use]
+pub fn manifest() -> Manifest {
+    manifest_with_policy(Policy::Secrets)
+}
+
+/// Return the identity to persist when using a nondefault PII policy.
+#[must_use]
+pub fn manifest_with_policy(policy: Policy) -> Manifest {
+    Manifest {
+        schema: MANIFEST_SCHEMA,
+        ruleset: SCRUB_RULESET.into(),
+        ruleset_version: RULESET_VERSION,
+        ruleset_source_sha256: RULESET_SOURCE_SHA256.into(),
+        crate_version: env!("CARGO_PKG_VERSION").into(),
+        abi_version: ABI_VERSION,
+        policy,
+        redaction_token: REDACTION_TOKEN.into(),
+        scrub_profile: match policy {
+            Policy::Secrets => SCRUB_PROFILE,
+            Policy::Pii => "relayhistory-pii-v10",
+        }
+        .into(),
+    }
+}
+
+/// Historical two-field marker. New integrations must also persist policy/digest.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
 pub struct RawScrubMarker {
-    /// Stable scrubber family name.
+    /// Family name.
     pub ruleset: &'static str,
-    /// Version of the rules and segmenter applied to the stored bytes.
+    /// Semantics version.
     pub version: u32,
 }
 
-/// Return the exact two-field marker for successfully scrubbed history bytes.
-///
-/// Callers must persist this marker only after scrubbing the corresponding
-/// bytes. It serializes as `{"ruleset":"relayhistory-scrub","version":8}`.
+/// Return the default-policy history marker, only after successful scrubbing.
 #[must_use]
 pub const fn raw_scrub_marker() -> RawScrubMarker {
     RawScrubMarker {
         ruleset: SCRUB_RULESET,
-        version: SCRUB_RULESET_VERSION,
+        version: RULESET_VERSION,
     }
 }

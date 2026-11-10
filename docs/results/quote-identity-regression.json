@@ -1,0 +1,9 @@
+{
+  "referenceCommit": "5255be1783bb8d0003309ae47075ae548da81da8",
+  "currentRulesSource": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
+  "cases": 2,
+  "referenceTailLeaks": 2,
+  "currentTailLeaks": 0,
+  "inputs": "synthetic backslash/percent quote-form collisions; no real data",
+  "entryPoint": "scrub_text via scrub_lines"
+}

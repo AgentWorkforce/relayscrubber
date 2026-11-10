@@ -1,2 +1,7 @@
 /target/
 /.task-tmp/
+/js/generated/
+/js/node_modules/
+/js/worker/.wrangler/
+/.wrangler/
+/tests/*.proptest-regressions
