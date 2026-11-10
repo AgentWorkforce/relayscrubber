@@ -1,0 +1,2427 @@
+{
+  "scope": "Invented public behavioral regression fixtures only. No private samples accessed. Independent re-audit pending; zero false positives is an independent release gate.",
+  "baselineCommit": "d285c53beafe70db5f93e3e3a6f4029ddfd064c2",
+  "testOnlyCommit": "73c8613",
+  "implementationCommit": "9f9a1797cfdf292649ad29543cf3d4a980d96ec0",
+  "baselineNative": {
+    "families": [
+      {
+        "cases": 3,
+        "name": "auth_config",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "cases": 6,
+        "name": "code_expression",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "env_reference",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "excerpt",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "cases": 8,
+        "name": "free_prose",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "labeled_fixture",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "language_path",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "marker_surrounding",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "cases": 19,
+        "name": "provided",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "regex_pattern",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "resource_name",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "session_execution_id",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "username_url",
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "positiveCases": 29,
+    "redactedTextJsonRecords": [
+      29,
+      29,
+      29
+    ],
+    "source": "a0a0d7f9e19573895eec1e30c77db046d9cc7780cb14a3f7952d4ab306a9412c"
+  },
+  "baselinePinnedWasm": {
+    "source": "a0a0d7f9e19573895eec1e30c77db046d9cc7780cb14a3f7952d4ab306a9412c",
+    "families": [
+      {
+        "name": "provided",
+        "cases": 19,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "env_reference",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "code_expression",
+        "cases": 6,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "regex_pattern",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "marker_surrounding",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "resource_name",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          2,
+          2,
+          2
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "auth_config",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "labeled_fixture",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "excerpt",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "language_path",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "username_url",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          0,
+          0,
+          0
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ]
+        ]
+      },
+      {
+        "name": "free_prose",
+        "cases": 8,
+        "unchangedTextJsonRecords": [
+          1,
+          1,
+          1
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "session_execution_id",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          2,
+          2,
+          2
+        ],
+        "perCase": [
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      }
+    ],
+    "positiveCases": 29,
+    "redactedTextJsonRecords": [
+      29,
+      29,
+      29
+    ]
+  },
+  "headNative": {
+    "families": [
+      {
+        "cases": 3,
+        "name": "auth_config",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      },
+      {
+        "cases": 6,
+        "name": "code_expression",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "env_reference",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "excerpt",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 8,
+        "name": "free_prose",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          8,
+          8,
+          8
+        ]
+      },
+      {
+        "cases": 5,
+        "name": "labeled_fixture",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "language_path",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "marker_surrounding",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 19,
+        "name": "provided",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          19,
+          19,
+          19
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "regex_pattern",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 4,
+        "name": "resource_name",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ]
+      },
+      {
+        "cases": 12,
+        "name": "session_execution_id",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ]
+      },
+      {
+        "cases": 3,
+        "name": "username_url",
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ],
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ]
+      }
+    ],
+    "positiveCases": 29,
+    "redactedTextJsonRecords": [
+      29,
+      29,
+      29
+    ],
+    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70"
+  },
+  "headPinnedHostedWasm": {
+    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70",
+    "families": [
+      {
+        "name": "provided",
+        "cases": 19,
+        "unchangedTextJsonRecords": [
+          19,
+          19,
+          19
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "env_reference",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "code_expression",
+        "cases": 6,
+        "unchangedTextJsonRecords": [
+          6,
+          6,
+          6
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "regex_pattern",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "marker_surrounding",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "resource_name",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "auth_config",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "labeled_fixture",
+        "cases": 5,
+        "unchangedTextJsonRecords": [
+          5,
+          5,
+          5
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "excerpt",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "language_path",
+        "cases": 4,
+        "unchangedTextJsonRecords": [
+          4,
+          4,
+          4
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "username_url",
+        "cases": 3,
+        "unchangedTextJsonRecords": [
+          3,
+          3,
+          3
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "free_prose",
+        "cases": 8,
+        "unchangedTextJsonRecords": [
+          8,
+          8,
+          8
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      },
+      {
+        "name": "session_execution_id",
+        "cases": 12,
+        "unchangedTextJsonRecords": [
+          12,
+          12,
+          12
+        ],
+        "perCase": [
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ]
+        ]
+      }
+    ],
+    "positiveCases": 29,
+    "redactedTextJsonRecords": [
+      29,
+      29,
+      29
+    ]
+  },
+  "documentContext": {
+    "rule": "Lowercase prose values redact in config documents established by same-indentation mapping siblings, an enclosing mapping, or explicit YAML/TOML/.env file markers/fences. Isolated free prose and marked prose wrappers stay unchanged. Comments/blank lines preserve document evidence.",
+    "tradeOff": "A standalone unmarked prose credential line has no document evidence and is preserved, including the words the actual secret value / the production credential. The same lines redact in config. This is the requested deterministic contextual distinction, not a precision guarantee.",
+    "extraTextVariants": 24,
+    "structuredConfigCases": 2,
+    "existingP0ProseCases": 59,
+    "existingP0ContainerCases": 84
+  },
+  "validation": {
+    "nativeTests": 59,
+    "nodeTests": 56,
+    "bunTests": 56,
+    "textVectors": 5317,
+    "structuredVectors": 5317,
+    "frozenCases": 199,
+    "frozenMissedSecretCases": 0,
+    "secondPassChangedFrozenCases": 0,
+    "previousBenignFamilies": 14,
+    "previousBenignCases": 80,
+    "previousPositiveControls": 23,
+    "newBenignCases": 88,
+    "newPositiveControls": 29,
+    "newBenignChangedCasesEachApi": 0,
+    "newPositiveMissedCasesEachApi": 0,
+    "fmt": "pass",
+    "clippy": "pass",
+    "cargoPackage": "pass",
+    "workers": "pass",
+    "publicDiff": "pass",
+    "veto": "host-assisted pass with one low tuple-maintainability warning; not independent acceptance"
+  },
+  "hostedArtifact": {
+    "sourceCommit": "9f9a1797cfdf292649ad29543cf3d4a980d96ec0",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42825449028",
+    "artifactId": 13768134511,
+    "sourceSha256": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70",
+    "wasmSha256": "b0d370ae5a522e9d89c6b4edb237428bc705509644c394eb55b40fcd4d08830e",
+    "wasmBytes": 1617609,
+    "packageSha256": "bc0137807127ef5c747aee17426b192a3a6e1457b538547c9da86674b3455e4d",
+    "packageBytes": 541440,
+    "hostedAllRuntimeChecks": "pass: Linux/Windows native59, Node/Bun56, frozen199,5317text+5317structured vectors, admission/resource, independent-target reproducibility, Workers and packaging; only old-pin equality failed as expected",
+    "localHostedPackageReplay": "pass: downloaded Linux-hosted WASM, Node56/Bun56,88new benign+29positives on all3APIs,80earlier benign+23positives,199frozen,24document-context variants,structured secret controls,Workers",
+    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Exact-head verification run and head are linked from PR12."
+  },
+  "independentPrecision": "Independent re-audit pending"
+}
