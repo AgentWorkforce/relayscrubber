@@ -895,6 +895,16 @@ fn assignments(
         while i < b.len() && word(b[i]) {
             i += 1;
         }
+        // Reject impossible assignment syntax before name hashing and scope
+        // classification. Keep every possible separator prefix (including
+        // Unicode whitespace); following words still enter the normal scan.
+        if !b.get(i).is_some_and(|ch| {
+            ch.is_ascii_whitespace()
+                || *ch >= 0x80
+                || matches!(ch, b':' | b'=' | b'"' | b'\'' | b'`' | b'?' | b'-')
+        }) {
+            continue;
+        }
         while contexts.last().is_some_and(|c| c.0 <= start) {
             contexts.pop();
         }
@@ -1481,19 +1491,25 @@ fn compact_regex() -> &'static Regex {
 }
 
 fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
+    // Repeated public hostnames often share a non-JWT first segment. Cache
+    // only its header classification; token spans remain specific to each run.
+    let mut previous_header = "";
+    let mut previous_count = None;
     for run in compact_regex().find_iter(&view.text) {
         let segments: Vec<_> = run.as_str().split('.').collect();
         let mut offset = run.start();
         let mut i = 0;
         while i + 2 < segments.len() {
-            let header = base64::engine::general_purpose::URL_SAFE_NO_PAD
-                .decode(segments[i])
-                .ok()
-                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
-            if let Some(header) =
-                header.filter(|h| h.get("alg").is_some_and(serde_json::Value::is_string))
-            {
-                let count = if header.get("enc").is_some() { 5 } else { 3 };
+            if segments[i] != previous_header {
+                previous_header = segments[i];
+                previous_count = base64::engine::general_purpose::URL_SAFE_NO_PAD
+                    .decode(segments[i])
+                    .ok()
+                    .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+                    .filter(|header| header.get("alg").is_some_and(serde_json::Value::is_string))
+                    .map(|header| if header.get("enc").is_some() { 5 } else { 3 });
+            }
+            if let Some(count) = previous_count {
                 if i + count <= segments.len() && (count == 5 || !segments[i + 1].is_empty()) {
                     let length = segments[i..i + count]
                         .iter()

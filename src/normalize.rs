@@ -1,5 +1,7 @@
 //! One-pass delimiter decoding with offsets back to unchanged source bytes.
 
+use std::borrow::Cow;
+
 struct Change {
     position: usize,
     start: usize,
@@ -303,13 +305,18 @@ impl View {
                 // Exact spelling/depth matters: e.g. backslash-x22 and three
                 // backslashes plus quote have equal byte length but are not
                 // interchangeable closers. Canonicalize hex/u/x letter case only.
-                tags.push((
-                    bytes.len() - 1,
-                    source[i..end]
-                        .iter()
-                        .map(u8::to_ascii_lowercase)
-                        .collect::<Vec<_>>(),
-                ));
+                let spelling = &source[i..end];
+                let tag = if spelling.iter().any(u8::is_ascii_uppercase) {
+                    Cow::Owned(
+                        spelling
+                            .iter()
+                            .map(u8::to_ascii_lowercase)
+                            .collect::<Vec<_>>(),
+                    )
+                } else {
+                    Cow::Borrowed(spelling)
+                };
+                tags.push((bytes.len() - 1, tag));
             }
             i = end;
         }
