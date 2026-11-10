@@ -534,8 +534,8 @@
     "structuredCases": 3,
     "nativeTextVectors": 56012,
     "nativeStructuredVectors": 56017,
-    "nodeTests": 228,
-    "bunTests": 228,
+    "nodeTests": 231,
+    "bunTests": 231,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199,
     "newSessionBenignCases": 81,
@@ -602,7 +602,7 @@
     "packageSha256": "e044e54243d94997588a5cc863edf45f706360ed2e062a13ba3e59d107a97973",
     "packageBytes": 578700,
     "hostedAllRuntimeChecks": "Referenced immutable artifact run: Linux/Windows Rust81, Node100/Bun100, all prior runtime/frozen/reproducibility/Workers/package/pin gates terminal green. Full38-key follow-up requires the new exact-head CI before handoff.",
-    "localHostedPackageReplay": "Exact downloaded/hash-verified hosted WASM passes the expanded36473 punctuation cases plus12512 separator cases on all APIs/idempotence: Node228/Bun228 with fresh56012text+56017structured vectors and frozen199. Every artifact/source/adapter/package digest remains unchanged because production code did not change.",
+    "localHostedPackageReplay": "Exact downloaded/hash-verified hosted WASM passes the expanded36473 punctuation cases plus12512 separator cases on all APIs/idempotence: Node231/Bun231 with fresh56012text+56017structured vectors and frozen199. Every artifact/source/adapter/package digest remains unchanged because production code did not change.",
     "pinEqualityGate": "Final immutable receipt head must reproduce source/WASM/glue/declaration/adapter/package digests with terminal ALL-green Linux, Windows and WASM CI. This implementation artifact alone is not the handoff gate."
   },
   "additionalTestOnlyCommit": "408ac1e",
@@ -1891,8 +1891,8 @@
         0
       ],
       "encodedQuerySecondPassChanges": 0,
-      "nodeTests": 228,
-      "bunTests": 228,
+      "nodeTests": 231,
+      "bunTests": 231,
       "freshNativeTextVectors": 56012,
       "freshNativeStructuredVectors": 56017,
       "workers": "hosted CI and local hash-verified hosted package pass",
@@ -2294,7 +2294,7 @@
       "packageSha256": "e044e54243d94997588a5cc863edf45f706360ed2e062a13ba3e59d107a97973",
       "packageBytes": 578700,
       "hostedAllRuntimeChecks": "Referenced immutable artifact run: Linux/Windows Rust81, Node100/Bun100, all prior runtime/frozen/reproducibility/Workers/package/pin gates terminal green. Full38-key follow-up requires the new exact-head CI before handoff.",
-      "localHostedPackageReplay": "Exact downloaded/hash-verified hosted WASM passes the expanded36473 punctuation cases plus12512 separator cases on all APIs/idempotence: Node228/Bun228 with fresh56012text+56017structured vectors and frozen199. Every artifact/source/adapter/package digest remains unchanged because production code did not change.",
+      "localHostedPackageReplay": "Exact downloaded/hash-verified hosted WASM passes the expanded36473 punctuation cases plus12512 separator cases on all APIs/idempotence: Node231/Bun231 with fresh56012text+56017structured vectors and frozen199. Every artifact/source/adapter/package digest remains unchanged because production code did not change.",
       "pinEqualityGate": "Final immutable receipt head must reproduce source/WASM/glue/declaration/adapter/package digests with terminal ALL-green Linux, Windows and WASM CI. This implementation artifact alone is not the handoff gate."
     },
     "sourceCommit": "3afa509505f4d865c94f908583f07250b938071a",
@@ -2367,7 +2367,7 @@
       "productionChanges": false,
       "engineSourceUnchanged": true,
       "native": "Rust1.88 all-targets/all-features81 pass; fmt/clippy-Dwarnings pass. Local debug symbols were disabled to fit available disk; final CI uses the unchanged default profile.",
-      "exactHostedWasm": "The SHA256-verified terminal-green d548b2d artifact passes Node228/Bun228 with fresh56012text+56017structured vectors and frozen199. Its source/WASM/package bytes are unchanged.",
+      "exactHostedWasm": "The SHA256-verified terminal-green d548b2d artifact passes Node231/Bun231 with fresh56012text+56017structured vectors and frozen199. Its source/WASM/package bytes are unchanged.",
       "schedule": "Only the enlarged HTML correctness matrix and its existing native timing probe share a test mutex. Lock acquisition precedes timing; unrelated earlier tests remain unchanged. This prevents the expanded matrix from consuming its own probe CPU budget.",
       "unchangedTimingContract": {
         "inputBytes": 1392743,
@@ -2385,7 +2385,17 @@
         "ubuntu-latest": 3.847,
         "windows-latest": 9.631
       },
-      "finalGate": "A new immutable terminal-green exact head must pass every expanded native/WASM case and unchanged timing/pin gate."
+      "finalGate": "A new immutable terminal-green exact head must pass every expanded native/WASM case and unchanged timing/pin gate.",
+      "parityBatchCommit": "f0991ab",
+      "structuredParityBatches": {
+        "records": 56017,
+        "batchSize": 16384,
+        "batches": 4,
+        "fixtureReads": 1,
+        "allApiAndSecondPassAssertionsRetained": true,
+        "defaultBunWatchdogMilliseconds": 5000,
+        "reason": "The expanded single correctness test took6.30791s in CI; contiguous batches preserve every record and assertion without changing the watchdog or dedicated operation timing limits."
+      }
     }
   }
 }

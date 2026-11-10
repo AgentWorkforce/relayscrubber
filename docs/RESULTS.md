@@ -26,7 +26,7 @@ with bounded performance follow-ups `3613a31`/`3afa509`. Historical base `7e8d41
 fails3,292 cases per API on the original3,718 witnesses; its exact hosted WASM
 fails all21 new tests. The current engine passes the full expanded property.
 
-Rust1.88 native81, fmt and clippy `-D warnings` pass. Exact hosted Node228/Bun228
+Rust1.88 native81, fmt and clippy `-D warnings` pass. Exact hosted Node231/Bun231
 pass with fresh56,012 text and56,017 structured vectors and all199 frozen
 witnesses: zero annotated misses and zero second-pass changes. All earlier gates
 remain covered: matrix1186/ruling43/residual19+17; entity171+percent583;
@@ -37,7 +37,9 @@ The enlarged correctness matrix and its existing native timing probe run
 serially so the matrix does not consume its own probe CPU budget. The exact
 1,392,743-byte/16,384-attribute input, all API/idempotence calls, assertions and
 ten-second deadline are unchanged. Other earlier tests retain their scheduling.
-Bun's five-second per-test default is unchanged. The prior immutable engine CI
+Bun's five-second per-test default is unchanged. The56,017 structured parity
+records are checked in four contiguous batches of at most16,384, with every
+API and second-pass assertion retained; the fixture is loaded once. The prior immutable engine CI
 measured3.847s Linux/9.631s Windows; the expanded successor must repeat the same
 timing gate before handoff. Local debug symbols were disabled after a disk-full
 build; hosted CI keeps its unchanged default Rust profile.
