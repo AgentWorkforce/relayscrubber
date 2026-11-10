@@ -1635,6 +1635,76 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
         || view.text[end..].starts_with('(')
 }
 
+fn query_key_sensitive(key: &str) -> bool {
+    sensitive(key)
+        || matches!(
+            key.to_ascii_lowercase().as_str(),
+            "x-amz-signature"
+                | "x-amz-credential"
+                | "x-amz-security-token"
+                | "x-goog-signature"
+                | "x-goog-credential"
+                | "signature"
+                | "sig"
+                | "assertion"
+                | "code_verifier"
+        )
+}
+
+// A malformed earlier value cannot terminate parameter discovery. Literal '&'
+// remains a separator even beyond quotes, fragments, markup or line breaks.
+// Bound each recovery window by the next scheme, so all windows are disjoint.
+// Value boundaries stay local: recovery must not eat trailing prose or records.
+fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = start;
+    while cursor < end {
+        if b[cursor] != b'&' || !view.literal(cursor) {
+            cursor += 1;
+            continue;
+        }
+        let key_start = cursor + 1;
+        cursor = key_start;
+        while cursor < end
+            && (b[cursor].is_ascii_alphanumeric() || matches!(b[cursor], b'_' | b'-' | b'.'))
+        {
+            cursor += 1;
+        }
+        if b.get(cursor) != Some(&b'=') || !query_key_sensitive(&view.text[key_start..cursor]) {
+            continue;
+        }
+        let value_start = cursor + 1;
+        let mut parameter_end = value_start;
+        while parameter_end < end && !(b[parameter_end] == b'&' && view.literal(parameter_end)) {
+            parameter_end += 1;
+        }
+        let mut value_end = value_start;
+        while value_end < parameter_end {
+            if matches!(b[value_end], b'"' | b'\'' | b'`') {
+                let close = view.quote_end(value_end);
+                // An unmatched quote in the credential itself fails closed to
+                // this parameter's end, never through the next literal '&'.
+                value_end = if close < parameter_end {
+                    close + 1
+                } else {
+                    parameter_end
+                };
+                continue;
+            }
+            if view.literal(value_end)
+                && (b[value_end].is_ascii_whitespace() || matches!(b[value_end], b'<' | b'>'))
+            {
+                break;
+            }
+            value_end += 1;
+        }
+        if value_end > value_start {
+            spans.push(value_start..value_end);
+        }
+        cursor = parameter_end;
+    }
+}
+
 fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     // Inspect nested actual URL schemes too. Authority scans stop at the next
@@ -1738,6 +1808,10 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             // A URL username without a password is public userinfo.
         }
         if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?' && view.literal(i)) {
+            let recovery_end = url_regex()
+                .find_at(&view.text, end)
+                .map_or(b.len(), |next| next.start());
+            recover_query_parameters(view, end, recovery_end, spans);
             let mut start = query + 1;
             while start < end {
                 let mut parameter_end = start;
@@ -1748,22 +1822,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                 }
                 if let Some(eq) = (start..parameter_end).find(|&i| b[i] == b'=') {
                     let key = &view.text[start..eq];
-                    let key_lower = key.to_ascii_lowercase();
-                    if eq + 1 < parameter_end
-                        && (sensitive(key)
-                            || matches!(
-                                key_lower.as_str(),
-                                "x-amz-signature"
-                                    | "x-amz-credential"
-                                    | "x-amz-security-token"
-                                    | "x-goog-signature"
-                                    | "x-goog-credential"
-                                    | "signature"
-                                    | "sig"
-                                    | "assertion"
-                                    | "code_verifier"
-                            ))
-                    {
+                    if eq + 1 < parameter_end && query_key_sensitive(key) {
                         spans.push(eq + 1..parameter_end);
                     }
                 }
