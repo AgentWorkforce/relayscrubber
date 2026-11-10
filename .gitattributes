@@ -2,3 +2,5 @@
 vendor/canonical/*.json text eol=lf
 vendor/canonical/*.ts text eol=lf
 vendor/corpus/*.json text eol=lf
+vendor/frozen-v6/*.json text eol=lf
+vendor/frozen-v6/*.ts text eol=lf

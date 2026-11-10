@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "0bf9aeda76b7ae6b7ff55923a84f3ea60c15d686",
+  "crateVersion": "0.3.0",
+  "rulesetVersion": 6,
+  "files": {
+    "scrub.ts": "397f820a70a8ae83cfdfae9f4153de59b26fd41fb35ad7be25b38cb52ad2d526",
+    "raw-chunks.ts": "2dbfb7942777d2bf211c4b3a6bf647d9d977494d27331fee71c4b5eb3b68da08",
+    "technical-foul.json": "34cfa3f3970a4c1eed3ae055eb013c0975e712ca006431cdbc2111f8bac6cf25",
+    "scrub-secret-corpus.json": "d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49"
+  },
+  "rustPortSha256": "b1d153e336c127dd568ed470c30beea7e8786bfcde1c4507803f06e35dfecfaa",
+  "registryCrateSha256": "a128db65eb324386bc1b789028ec6b8db2cdefb209fb20bfb3aa70fb0b16dfc5",
+  "normalization": "Text digests normalize CRLF to LF; registry package checksum uses raw bytes"
+}
