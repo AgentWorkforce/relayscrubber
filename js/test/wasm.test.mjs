@@ -8,6 +8,7 @@ const artifact = JSON.parse(readFileSync(new URL('../generated/artifact.json', i
 const bytes = new Uint8Array(readFileSync(new URL('../generated/relayscrubber_bg.wasm', import.meta.url)));
 const options = { bytes, expectedManifest: artifact.manifest, expectedWasmSha256: artifact.files['relayscrubber_bg.wasm'] };
 const scrubber = await loadScrubber(options);
+const vectors = JSON.parse(readFileSync(process.env.SCRUBBER_VECTORS_PATH ?? `${homedir()}/scrubber-eval/wasm-vectors.json`));
 
 test('pinned artifact and source identity are mandatory', async () => {
   await assert.rejects(loadScrubber({ ...options, expectedWasmSha256: '0'.repeat(64) }), /artifact_mismatch/);
@@ -30,7 +31,6 @@ test('all APIs cover public credential tails and fail atomically', () => {
   assert.throws(() => scrubber.scrubRecords(new TextEncoder().encode('{}\n{broken}')), e => String(e).includes('invalid_json'));
 });
 test('WASM matches independently generated native vectors', () => {
-  const vectors = JSON.parse(readFileSync(process.env.SCRUBBER_VECTORS_PATH ?? `${homedir()}/scrubber-eval/wasm-vectors.json`));
   assert.equal(vectors.manifest.rulesetSourceSha256, scrubber.manifest.rulesetSourceSha256);
   for (const { input, output } of vectors.text) assert.equal(scrubber.scrubText(input), output);
 });
@@ -70,9 +70,9 @@ for (const [name, input, expected] of reviewCases) test(`review: ${name}`, () =>
   assert.deepEqual(scrubber.scrubRecords(result.bytes).bytes, result.bytes);
 });
 
-test('native and pinned WASM JSON/NDJSON bytes agree, including second passes', () => {
-  const vectors = JSON.parse(readFileSync(process.env.SCRUBBER_VECTORS_PATH ?? `${homedir()}/scrubber-eval/wasm-vectors.json`));
-  for (const { input, jsonText, records } of vectors.structured) {
+// Batch the enlarged correctness corpus without increasing Bun's watchdog.
+for (let start = 0; start < vectors.structured.length; start += 16384) test(`native and pinned WASM JSON/NDJSON bytes agree, including second passes ${start}-${Math.min(start+16384,vectors.structured.length)}`, () => {
+  for (const { input, jsonText, records } of vectors.structured.slice(start, start + 16384)) {
     assert.equal(scrubber.scrubJson(input).jsonText, jsonText);
     assert.equal(scrubber.scrubJson(jsonText).jsonText, jsonText);
     const output = scrubber.scrubRecords(new TextEncoder().encode(input)).bytes;
@@ -184,7 +184,6 @@ test('structured family variants preserve references and public contexts', () =>
 });
 
 test('strict frozen witnesses match native through every pinned WASM API', () => {
-  const vectors = JSON.parse(readFileSync(process.env.SCRUBBER_VECTORS_PATH ?? `${homedir()}/scrubber-eval/wasm-vectors.json`));
   assert.equal(vectors.frozen.length, 199);
   for (const {input, output} of vectors.frozen) {
     for (const actual of familyPaths(input)) assert.equal(actual, output);
