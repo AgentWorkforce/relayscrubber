@@ -300,3 +300,20 @@ fn html_attribute_punctuation_long_all_apis_is_bounded() {
         }
     }
 }
+
+#[test]
+fn relative_attribute_url_blockers_all_apis() {
+    let cases: Vec<_> = html_url_punctuation_cases::relative_cases()
+        .into_iter()
+        .filter(|(input, _)| {
+            input.contains("SYNTH_ALPHA")
+                || input.contains("&sol;")
+                || input.contains("<meta")
+                || input.contains("<!--")
+                || input.contains("<script>")
+        })
+        .take(32)
+        .map(|(input, expected)| json!({"input":input,"expected":expected}))
+        .collect();
+    check(&serde_json::to_string(&cases).unwrap());
+}

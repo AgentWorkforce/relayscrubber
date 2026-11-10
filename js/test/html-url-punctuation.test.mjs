@@ -7,7 +7,7 @@ const artifact=JSON.parse(readFileSync(new URL('../generated/artifact.json',impo
 const s=await loadScrubber({bytes:new Uint8Array(readFileSync(new URL('../generated/relayscrubber_bg.wasm',import.meta.url))),expectedManifest:artifact.manifest,expectedWasmSha256:artifact.files['relayscrubber_bg.wasm']});
 const spec=JSON.parse(readFileSync(new URL('../../eval/html_url_punctuation_property.json',import.meta.url)));
 function encode(ch,style){
- const n=ch.charCodeAt(0), h=n.toString(16), H=h.toUpperCase(), name={':':'colon','/':'sol','?':'quest','&':'amp','=':'equals'}[ch];
+ const n=ch.charCodeAt(0), h=n.toString(16), H=h.toUpperCase(), name={':':'colon','/':'sol','?':'quest','&':'amp','=':'equals','@':'commat'}[ch];
  return {'literal':ch,'decimal':`&#${n};`,'decimal-bare':`&#${n}`,'decimal-zero':`&#000${n};`,'decimal-zero-bare':`&#000${n}`,'hex':`&#x${h};`,'hex-bare':`&#x${h}`,'HEX':`&#X${H};`,'HEX-bare':`&#X${H}`,'hex-zero':`&#x000${h};`,'hex-zero-bare':`&#x000${h}`,'named':`&${name};`,'NAMED':`&${name.toUpperCase()};`,'double-named':`&amp;${name};`,'triple-named':`&amp;amp;${name};`,'double-decimal':`&amp;#${n};`,'triple-hex':`&amp;amp;#x${H};`,'percent':`%${H}`,'double-percent':`%25${H}`,'percent-entity':[...`&#${n};`].map(c=>`%${c.charCodeAt(0).toString(16).toUpperCase()}`).join(''),'entity-percent':`&#37;${H}`,'mixed':`&amp;%23x000${h};`}[style];
 }
 function attribute(url,wrapper){return wrapper===0?`<a href="${url}">open</a>`:wrapper===1?`<img src='${url}'>`:`<a data-endpoint=${url}>open</a>`;}
@@ -61,6 +61,37 @@ for(const indices of permutations){
  for(const key of spec.keys) positive(url(indices,key),0);
  for(const key of spec.benignKeys) benign(url(indices,key),0);
 }
+assert.equal(cases.length,36473,'retain the full schemeful matrix');
+for(const [styleId] of spec.styles.entries()){
+ for(const [shape,positions] of [['relative',[4,5,6]],['root',[3,4,5,6]],['protocol',[1,2,3,4,5,6]],['query',[4,5,6]]]){
+  const make=(indices,key)=>{
+   const p=punctuation.map((ch,i)=>encode(ch,spec.styles[indices[i]]));
+   const prefix=shape==='relative'?'download':shape==='root'?`${p[3]}download`:shape==='protocol'?`${p[1]}${p[2]}media.example.invalid${p[3]}download`:'';
+   return `${prefix}${p[4]}caption${p[6]}audit${p[5]}${key}${p[6]}${spec.secret}${p[5]}sort${p[6]}asc`;
+  };
+  for(const key of spec.keys){
+   for(let wrapper=0;wrapper<3;wrapper++) positive(make(Array(7).fill(styleId),key),wrapper);
+   for(const position of positions){const indices=Array(7).fill(0);indices[position]=styleId;positive(make(indices,key),0);}
+   positive(make(punctuation.map((_,i)=>(styleId+i)%spec.styles.length),key),0);
+  }
+  for(const key of spec.benignKeys) benign(make(Array(7).fill(styleId),key),0);
+ }
+ for(const mixed of [false,true]){
+  const enc=(ch,i)=>encode(ch,spec.styles[mixed?(styleId+i)%spec.styles.length:styleId]);
+  const url=`${enc('/',1)}${enc('/',2)}alice${enc(':',0)}SYNTH_ALPHA${enc('@',5)}media.example.invalid${enc('/',3)}download`;
+  for(let wrapper=0;wrapper<3;wrapper++){const input=attribute(url,wrapper);cases.push([input,input.replace('SYNTH_ALPHA','[REDACTED]')]);}
+ }
+}
+for(const prefix of ['./download','../download','?','#fragment?','https:\\media.example.invalid/download',' /download','\t../download','//media.example.invalid','//alice:SYNTH_ALPHA@media.example.invalid/download']){
+ for(const name of ['href','src','action','formaction','data','poster','cite','background','srcset','data-endpoint']) for(let wrapper=0;wrapper<3;wrapper++){
+  const value=`${prefix}?signature=${spec.secret}&sort=asc `;
+  const input=wrapper===0?`<a ${name}="${value}">open</a>`:wrapper===1?`<a ${name}='${value}'>open</a>`:`<a ${name}=${value.trim()} >open</a>`;
+  cases.push([input,input.replace(spec.secret,'[REDACTED]').replace('SYNTH_ALPHA','[REDACTED]')]);
+ }
+}
+for(const input of ['//alice:SYNTH_ALPHA@media.example.invalid/download','<a href="https:\\alice:SYNTH_ALPHA@media.example.invalid/download">x</a>','<a href="alice:SYNTH_ALPHA@media.example.invalid">x</a>',`<meta http-equiv="refresh" content="0; url=../download&quest;signature&equals;${spec.secret}">`,`<img srcset="img.png 1x, ../download?signature=${spec.secret} 2x">`,'<a href="&sol;&sol;alice&colon;SYNTH_ALPHA&commat;media.example.invalid&sol;download">x</a>']) cases.push([input,input.replace(spec.secret,'[REDACTED]').replace('SYNTH_ALPHA','[REDACTED]')]);
+for(const input of ['<a href="/docs?page=2">docs</a>','<img src="img.png?v=3">','<a href="#section">jump</a>','<a href="mailto:a@example.invalid">mail</a>','plain prose /path?x=y','// comment about /path?x=y',"const example = '/path?x=y';",'<!-- <a href="/path?signature=7e3b15c97e3b15c9">example</a> -->','<script>const example = \'<a href="/path?signature=7e3b15c97e3b15c9">\';</script>']) cases.push([input,input]);
+assert.equal(cases.length,63906);
 function check(input,expected){
  const value={text:input}, raw=JSON.stringify(value), json=s.scrubJson(raw).value;
  const records=s.scrubRecords(new TextEncoder().encode(raw)).bytes;
