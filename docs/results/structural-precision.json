@@ -1,9 +1,9 @@
 {
   "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-  "implementationCommit": "978cd734439e7c96c8b37f745e87758228384fea",
+  "implementationCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
   "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
-  "sourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
-  "localWasmSha256": "3cdaf21dfa352fe19de2bb401b43c44d6f6f79c2aade5659de038722b57ffaa9",
+  "sourceSha256": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
+  "localWasmSha256": "286c4653f1adf4dd9981fa7b49f0cfbff501bedaf7723e4e0d61ff33db656d7e",
   "reaudit2Reproductions": [
     {
       "family": "provider_function_identifier",
@@ -621,7 +621,7 @@
   "gateResults": {
     "matrix": {
       "schema": 1,
-      "source": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+      "source": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
       "exactPacket": {
         "cases": 1186,
         "failures": []
@@ -663,12 +663,12 @@
     "wasm": {
       "nodeTests": 66,
       "bunTests": 66,
-      "textParityVectors": 5639,
-      "structuredParityVectors": 5644,
+      "textParityVectors": 5642,
+      "structuredParityVectors": 5647,
       "frozenAllApis": 199,
       "result": "pass",
       "independentStructuralCases": 99,
-      "completeValueCases": 135,
+      "completeValueCases": 138,
       "numericCredentialCases": 45
     },
     "fmt": "pass",
@@ -695,58 +695,76 @@
   },
   "performanceFollowup": {
     "cases": 5642,
+    "structuredCases": 5644,
+    "frozenCases": 199,
     "changedOutputs": 0,
     "releaseReplaySeconds": [
-      0.386,
-      0.221
+      0.387,
+      0.175
     ],
     "baseCommit": "760e274",
-    "performanceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
-    "headSourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
-    "localSmallContainerSeconds": 0.093,
-    "localLargeContainerSeconds": 0.874,
-    "localScopeAllApisSeconds": 23.022,
-    "hostedLinuxSmallContainerSeconds": 0.115,
-    "hostedLinuxLargeContainerSeconds": 1.76,
-    "hostedLinuxScopeAllApisSeconds": 23.204,
-    "hostedWindowsSmallContainerSeconds": 0.306,
-    "hostedWindowsLargeContainerSeconds": 3.816,
-    "hostedWindowsScopeAllApisSeconds": 54.698,
+    "performanceCommit": "62ec89661d75e1a1d2e94ab6d0c899eb64f65765",
+    "headSourceSha256": "0a6f764546a6a515774be0a1c75a200516d62a38a222ffda2882b592a3eae94a",
+    "additionalPerformanceCommits": [
+      "ae67d5f",
+      "978cd73",
+      "c90f3a8",
+      "62ec896"
+    ],
+    "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
+    "localSmallContainerSeconds": 0.072,
+    "localLargeContainerSeconds": 0.869,
+    "localScopeAllApisSeconds": 13.855,
+    "hostedLinuxSmallContainerSeconds": 0.129,
+    "hostedLinuxLargeContainerSeconds": 1.68,
+    "hostedLinuxScopeAllApisSeconds": 15.548,
+    "hostedWindowsSmallContainerSeconds": 0.27,
+    "hostedWindowsLargeContainerSeconds": 3.665,
+    "hostedWindowsScopeAllApisSeconds": 31.462,
+    "hostedBunScopeMilliseconds": 2465.21,
     "baselineWindowsSeconds": 82,
+    "intermediateBunScopeMilliseconds": 5202,
+    "bunTimeoutMilliseconds": 5000,
+    "localBunScopeMilliseconds": 1396.81,
+    "localBunSuiteMilliseconds": 3300,
     "intermediateWindowsSeconds": 12.162,
     "deadlineSeconds": 10,
     "limitsChanged": false,
-    "repair": "Normalize suffixes once and cache name classifications; search fixed provider prefixes before anchored validation; resolve plain scoped-key scalars without repeated code scans, cache reference classifications and skip globally absent contextual syntax.",
+    "repair": "Normalize suffixes once and cache name/reference classifications; resolve plain scoped-key scalars without repeated code scans and skip globally absent contexts. Scan provider prefixes once with the already pinned Aho automaton, reject impossible long key names before normalization, and omit a deterministic repeat scan when the first pass changed no spans.",
     "baselineLocalRust188": {
       "smallContainerSeconds": 0.177,
       "largeContainerSeconds": 2.415,
       "scopeAllApisSeconds": 57.932
     }
   },
-  "previousBaseCommit": "601dd446ed330ba794ddda46485818607de756c6",
-  "previousImplementationCommit": "5709be095b42bf9a17e8d05b16e5e356a37830f5",
-  "hostedWasmSha256": "757dcea2266a66330ffc3c5f2903da035ae57534a9a8dc1a2453cacb1c82fab1",
-  "hostedPackageSha256": "f90a3beaacfbc1cf8215c89558f3cbb43ce656515e73da2c1962390834a0013f",
+  "previousBaseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+  "previousImplementationCommit": "978cd734439e7c96c8b37f745e87758228384fea",
+  "hostedWasmSha256": "59ffd723a44ea03d4903c1a16d21f4d9cffa621ee6d425223a829ae644168769",
+  "hostedPackageSha256": "2f19e510bbd637be286b4062627cd5a6851fec12ba5e90f7185678cfd43902f6",
   "completeValueRepair": {
     "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
-    "sourceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
-    "sourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+    "sourceCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
+    "sourceSha256": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
     "testOnlyCommits": [
       "9c0b3e0",
       "3010c43",
       "7b4f231",
       "07710e8",
-      "c9ba4de"
+      "c9ba4de",
+      "0d7e789"
     ],
     "fixCommits": [
       "87fda3b",
       "92eaa2e",
       "8ecdb9e",
-      "760e274"
+      "760e274",
+      "3d20260"
     ],
     "performanceCommits": [
       "ae67d5f",
-      "978cd73"
+      "978cd73",
+      "c90f3a8",
+      "62ec896"
     ],
     "baseNativeRust188": "Both newly added test groups fail on d6f7f853 across text/JSON/NDJSON; baseline compiled privately within .task-tmp using the shared target directory.",
     "baseHostedWasmSha256": "31562a27596658c1d6de08292176c5176072698def0c95fbbab47e6ed7774c34",
@@ -1719,6 +1737,36 @@
             }
           ],
           "secondPassChanges": []
+        },
+        "provider_snake_hostname": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 135,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 136,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 137,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
         }
       },
       "numeric": {
@@ -2134,7 +2182,7 @@
       }
     },
     "headHostedWasm": {
-      "source": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
+      "source": "dc09de46545d3db044179566ed8a9f557a521b31bbabccd5f56befd23fe83f30",
       "groups": {
         "resource_tail": {
           "cases": 3,
@@ -2215,6 +2263,11 @@
           "cases": 5,
           "failures": [],
           "secondPassChanges": []
+        },
+        "provider_snake_hostname": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
         }
       },
       "numeric": {
@@ -2282,8 +2335,10 @@
       },
       {
         "name": "provider_token_hostname",
-        "cases": 24,
-        "baselineLeakingCases": 15,
+        "cases": 27,
+        "baselineLeakingCases": 18,
+        "additionalTestCommit": "0d7e789",
+        "additionalFixCommit": "3d20260",
         "testCommit": "9c0b3e0",
         "fixCommit": "87fda3b",
         "headLeakingCases": 0,
@@ -2330,7 +2385,7 @@
       },
       {
         "family": "provider_snake_identifiers",
-        "rule": "Complete lowercase snake provider-shaped identifiers in source positions only; mixed opaque literal identifiers redact."
+        "rule": "Complete lowercase snake provider-shaped identifiers in explicit declarations, namespaces and calls only; opaque identifiers, URL labels and ambiguous bare dotted hostnames redact."
       },
       {
         "family": "bare_symbols_members_calls_match_arms",
@@ -2356,28 +2411,42 @@
     "privacy": "Invented cases only. No sampled sessions, labels, or reaudit2-fresh files accessed.",
     "performance": {
       "cases": 5642,
+      "structuredCases": 5644,
+      "frozenCases": 199,
       "changedOutputs": 0,
       "releaseReplaySeconds": [
-        0.386,
-        0.221
+        0.387,
+        0.175
       ],
       "baseCommit": "760e274",
-      "performanceCommit": "978cd734439e7c96c8b37f745e87758228384fea",
-      "headSourceSha256": "886b18b34c0491b5b8313cfdb318dc2a9182cd3afac2cbad43706414db437094",
-      "localSmallContainerSeconds": 0.093,
-      "localLargeContainerSeconds": 0.874,
-      "localScopeAllApisSeconds": 23.022,
-      "hostedLinuxSmallContainerSeconds": 0.115,
-      "hostedLinuxLargeContainerSeconds": 1.76,
-      "hostedLinuxScopeAllApisSeconds": 23.204,
-      "hostedWindowsSmallContainerSeconds": 0.306,
-      "hostedWindowsLargeContainerSeconds": 3.816,
-      "hostedWindowsScopeAllApisSeconds": 54.698,
+      "performanceCommit": "62ec89661d75e1a1d2e94ab6d0c899eb64f65765",
+      "headSourceSha256": "0a6f764546a6a515774be0a1c75a200516d62a38a222ffda2882b592a3eae94a",
+      "additionalPerformanceCommits": [
+        "ae67d5f",
+        "978cd73",
+        "c90f3a8",
+        "62ec896"
+      ],
+      "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
+      "localSmallContainerSeconds": 0.072,
+      "localLargeContainerSeconds": 0.869,
+      "localScopeAllApisSeconds": 13.855,
+      "hostedLinuxSmallContainerSeconds": 0.129,
+      "hostedLinuxLargeContainerSeconds": 1.68,
+      "hostedLinuxScopeAllApisSeconds": 15.548,
+      "hostedWindowsSmallContainerSeconds": 0.27,
+      "hostedWindowsLargeContainerSeconds": 3.665,
+      "hostedWindowsScopeAllApisSeconds": 31.462,
+      "hostedBunScopeMilliseconds": 2465.21,
       "baselineWindowsSeconds": 82,
+      "intermediateBunScopeMilliseconds": 5202,
+      "bunTimeoutMilliseconds": 5000,
+      "localBunScopeMilliseconds": 1396.81,
+      "localBunSuiteMilliseconds": 3300,
       "intermediateWindowsSeconds": 12.162,
       "deadlineSeconds": 10,
       "limitsChanged": false,
-      "repair": "Normalize suffixes once and cache name classifications; search fixed provider prefixes before anchored validation; resolve plain scoped-key scalars without repeated code scans, cache reference classifications and skip globally absent contextual syntax.",
+      "repair": "Normalize suffixes once and cache name/reference classifications; resolve plain scoped-key scalars without repeated code scans and skip globally absent contexts. Scan provider prefixes once with the already pinned Aho automaton, reject impossible long key names before normalization, and omit a deterministic repeat scan when the first pass changed no spans.",
       "baselineLocalRust188": {
         "smallContainerSeconds": 0.177,
         "largeContainerSeconds": 2.415,
@@ -2387,8 +2456,9 @@
   },
   "falsePositiveWinsKept": "Safe code symbols, members/calls/match arms/types, numeric session IDs, templates and variables, reference-only commands, complete resource mappings, SQL binds, tags, idempotency slugs, masks, placeholders and Bearer variables retain the existing precision controls.",
   "falsePositiveWinsLost": [
-    "Provider-shaped infrastructure hostnames deliberately redact; hostname context cannot justify a credential exemption.",
+    "Provider-shaped infrastructure hostnames deliberately redact, including lowercase capy/crsr labels; hostname context cannot justify a credential exemption.",
+    "Ambiguous bare dotted provider-member identifiers redact because the same syntax can be a hostname; explicit declarations/namespaces/calls remain.",
     "Unrecognized shell substitutions with arguments fail closed unless they match a reference-only command grammar.",
-    "Opaque token-shaped code identifiers, defaults and placeholder labels, and unrecognized regex/reference structures now fail closed."
+    "Opaque token-shaped identifiers, defaults and placeholders fail closed."
   ]
 }
