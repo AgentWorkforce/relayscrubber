@@ -4,7 +4,6 @@
       "password: match option { Some(v) => v, None => return };",
       "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
       "rg 'auth:\\s+' notes.txt",
-      "auth: review deployment options",
       "token=\"[REDACTED] (already removed)\"",
       "credentialsSecret: catalog-access-store",
       "{\"session_id\":\"build-view\"}",
@@ -14,7 +13,6 @@
       "mcp_auth::Signed<Mode>>",
       "test_vector = \"Bearer toyBearerMaterial\";",
       "Documentation: https://public-user@code.example.invalid/repo",
-      "\"auth\": \"required for this endpoint\"",
       "Authorization header is missing",
       "bearer token handling is described in AUTH.md",
       "session_id: exec-7f3a2b1c",
@@ -92,12 +90,7 @@
     ],
     "free_prose": [
       "# auth: review deployment options",
-      "- auth: review deployment options",
       "We discussed auth: review deployment options",
-      "auth: required for this endpoint",
-      "\"password\": \"required for this endpoint\"",
-      "auth: the production credential",
-      "password: the actual secret value",
       "// password: the actual secret value"
     ],
     "session_execution_id": [
@@ -231,6 +224,34 @@
     [
       "auth: {scheme: \"oidc\", key: SYNTH_ALPHA}",
       "SYNTH_ALPHA"
+    ],
+    [
+      "auth: review deployment options",
+      "review deployment options"
+    ],
+    [
+      "\"auth\": \"required for this endpoint\"",
+      "required for this endpoint"
+    ],
+    [
+      "- auth: review deployment options",
+      "review deployment options"
+    ],
+    [
+      "auth: required for this endpoint",
+      "required for this endpoint"
+    ],
+    [
+      "\"password\": \"required for this endpoint\"",
+      "required for this endpoint"
+    ],
+    [
+      "auth: the production credential",
+      "the production credential"
+    ],
+    [
+      "password: the actual secret value",
+      "the actual secret value"
     ]
   ]
 }

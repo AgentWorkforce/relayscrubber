@@ -4,7 +4,6 @@
     "password: match option { Some(v) => v, None => return };",
     "mcp_auth::Signed<Mode>>",
     "rg 'auth:\\s+' notes.txt",
-    "auth: review deployment options",
     "Synthetic fixture: api_key=\"toyvalue\"",
     "credentialsSecret: catalog-access-store",
     "token=\"[REDACTED] (already removed)\"",
@@ -15,8 +14,6 @@
     "Documentation: https://public-user@code.example.invalid/repo",
     "Proposed schema: auth = record { issuer, audience }",
     "test_vector = \"Bearer toyBearerMaterial\";",
-    "\"auth\": \"required for this endpoint\"",
-    "auth: see the section below",
     "Authorization header is missing",
     "bearer token handling is described in AUTH.md",
     "session_id: exec-7f3a2b1c",
@@ -79,6 +76,18 @@
     {
       "shape": "session_cookie",
       "input": "session_id: SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789"
+    },
+    {
+      "shape": "explicit_assignment_4",
+      "input": "auth: review deployment options"
+    },
+    {
+      "shape": "explicit_assignment_15",
+      "input": "\"auth\": \"required for this endpoint\""
+    },
+    {
+      "shape": "explicit_assignment_16",
+      "input": "auth: see the section below"
     }
   ]
 }

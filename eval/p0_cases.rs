@@ -74,12 +74,13 @@ pub fn containers() -> Vec<(String, String)> {
                 cases.push((input.clone(), input.replace("SYNTH_ALPHA", "[REDACTED]")));
             }
         }
+        let input = format!("idempotency_key:\n  aws:\n    filler: {pad}\n    key: SYNTH_ALPHA");
+        cases.push((input.clone(), input.replace("SYNTH_ALPHA", "[REDACTED]")));
         for input in [
             format!("data={{filler:\"{pad}\", key:SYNTH_ALPHA}}"),
             format!("aws={{filler:\"{pad}\"}}; key=SYNTH_ALPHA"),
             format!("aws:\n  filler: {pad}\nkey: SYNTH_ALPHA"),
             format!("aws={{idempotency_key:{{filler:\"{pad}\", key:SYNTH_ALPHA}}}}"),
-            format!("idempotency_key:\n  aws:\n    filler: {pad}\n    key: SYNTH_ALPHA"),
         ] {
             cases.push((input.clone(), input));
         }
