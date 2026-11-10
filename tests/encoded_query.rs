@@ -226,3 +226,56 @@ fn benign_entity_lookahead_all_apis_stays_bounded() {
         }
     }
 }
+
+#[path = "../eval/html_url_punctuation_cases.rs"]
+mod html_url_punctuation_cases;
+#[test]
+fn html_attribute_url_punctuation_property_all_apis() {
+    let cases = html_url_punctuation_cases::cases();
+    let mut failures = Vec::new();
+    for (id, (input, expected)) in cases.iter().enumerate() {
+        let value = json!({"text":input});
+        let json = scrub_json(&value).0;
+        let records = scrub_records(value.to_string().as_bytes()).unwrap();
+        let parsed: Value = serde_json::from_slice(&records.bytes).unwrap();
+        for (api, output) in [
+            scrub_text(input),
+            json["text"].as_str().unwrap().into(),
+            parsed["text"].as_str().unwrap().into(),
+        ]
+        .iter()
+        .enumerate()
+        {
+            if output != expected || scrub_text(output) != *output {
+                failures.push((id, api));
+            }
+        }
+        assert_eq!(scrub_json(&json).0, json);
+        assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
+    }
+    eprintln!(
+        "HTML attribute punctuation: {} cases; {} failing case/API pairs; first {:?}",
+        cases.len(),
+        failures.len(),
+        &failures[..failures.len().min(24)]
+    );
+    assert!(failures.is_empty());
+}
+#[test]
+fn html_attribute_punctuation_long_all_apis_is_bounded() {
+    use std::time::{Duration, Instant};
+    for count in [2048, 16384] {
+        let secret = "7e3b15c97e3b15c9";
+        for (family, input) in [
+            ("numeric equals zeros",format!("<a href=\"https://media.example.invalid/&#63;signature&#{}61{secret}\">open</a>","0".repeat(count))),
+            ("nested named equals",format!("<a href=\"https&colon;&sol;&sol;media.example.invalid/&quest;signature&{}equals;{secret}\">open</a>","amp;".repeat(count))),
+            ("many HTML attributes",format!("{}<a href=\"https&colon;&sol;&sol;media.example.invalid/&quest;signature&equals;{secret}\">open</a>","<a href=\"https&colon;&sol;&sol;media.example.invalid/&quest;sort&equals;asc\">open</a>".repeat(count))),
+        ] {
+            let expected=input.replace(secret,REDACTION_TOKEN);
+            let source=json!([{ "input":input,"expected":expected }]).to_string();
+            let start=Instant::now();check(&source);let elapsed=start.elapsed();
+            eprintln!("HTML punctuation {family}: count={count} bytes={} seconds={:.3}",input.len(),elapsed.as_secs_f64());
+            assert!(elapsed<Duration::from_secs(10));
+        }
+    }
+}
