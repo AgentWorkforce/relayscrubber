@@ -46,6 +46,14 @@ assert_eq!(stored_marker.version, 8);
 Use `scrub_long` for uploads. It handles arbitrary input in segments proven
 safe against the complete rule pipeline. If a remainder has no safe cut, the
 entire remainder becomes `[REDACTED]`; no partial scrub is returned or sent.
+
+`scrub_enhanced` is the recommended upload-safe entry point. It runs a
+precise query/fragment-parameter pre-pass, then `scrub_long`, then a
+whole-output post-pass (chat-webhook URLs, newer provider prefixes,
+any-length CLI-flag secrets, validated SSNs, private-range IPv4). It is a
+strict superset of ruleset 8, idempotent, and never truncates; the canonical
+pipeline itself is untouched (see `EVALS.md` for the accuracy and performance
+benchmark: 110/110 cases, 0/48 false positives, ~11% overhead on mixed logs).
 `scrub_text` is the bounded Cloud-compatible primitive: input past 262,144
 UTF-16 units is cut after safe whitespace (and before an open private-key
 block), with the canonical truncation note appended.

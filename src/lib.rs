@@ -9,10 +9,12 @@
 //! an uncuttable remainder wholesale rather than uploading a partial scrub.
 //! [`scrub_text`] is the bounded Cloud-compatible primitive and may truncate.
 
+mod enhanced;
 mod rules;
 
 use serde::Serialize;
 
+pub use enhanced::{scrub_enhanced, scrub_json_enhanced, scrub_json_text_enhanced};
 pub use rules::{
     scrub_json, scrub_json_text, scrub_long, scrub_text, MAX_SCRUB_CHARS,
     PINNED_RULESET_SOURCE_SHA256, REDACTION_TOKEN, RULESET_VERSION,
