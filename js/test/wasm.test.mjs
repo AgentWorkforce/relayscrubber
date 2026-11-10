@@ -191,3 +191,19 @@ test('strict frozen witnesses match native through every pinned WASM API', () =>
     assert.equal(scrubber.scrubText(output), output);
   }
 });
+
+test('unexpected startup manifest failure is tagged and poisons the loader', () => {
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', `
+    import assert from 'node:assert/strict';
+    import {readFileSync} from 'node:fs';
+    import {loadScrubber} from './js/index.js';
+    const artifact = JSON.parse(readFileSync('./js/generated/artifact.json'));
+    const options = {bytes:new Uint8Array(readFileSync('./js/generated/relayscrubber_bg.wasm')), expectedManifest:artifact.manifest, expectedWasmSha256:artifact.files['relayscrubber_bg.wasm']};
+    const parse = JSON.parse;
+    JSON.parse = () => { throw new WebAssembly.RuntimeError('simulated startup manifest failure'); };
+    await assert.rejects(loadScrubber(options), e => e.code === 'scrubber_engine_failure' && e.disposition === 'instance_poison');
+    JSON.parse = parse;
+    await assert.rejects(loadScrubber(options), e => e.code === 'scrubber_instance_poisoned' && e.disposition === 'instance_poison');
+  `], {cwd: new URL('../..', import.meta.url), encoding:'utf8'});
+  assert.equal(result.status, 0, result.stderr);
+});
