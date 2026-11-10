@@ -139,6 +139,38 @@
     [
       "please use\nBearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
       "please use\nBearer [REDACTED]"
+    ],
+    [
+      "# please use Bearer M8zR4vK7nP2qW6xA",
+      "# please use Bearer [REDACTED]"
+    ],
+    [
+      "# Authorization: Bearer M8zR4vK7nP2qW6xA",
+      "# Authorization: Bearer [REDACTED]"
+    ],
+    [
+      "# token = Bearer M8zR4vK7nP2qW6xA",
+      "# token = Bearer [REDACTED]"
+    ],
+    [
+      "# Document the scheme as Bearer M8zR4vK7nP2qW6xA",
+      "# Document the scheme as Bearer [REDACTED]"
+    ],
+    [
+      "// please use Bearer M8zR4vK7nP2qW6xA",
+      "// please use Bearer [REDACTED]"
+    ],
+    [
+      "// Authorization: Bearer M8zR4vK7nP2qW6xA",
+      "// Authorization: Bearer [REDACTED]"
+    ],
+    [
+      "// token = Bearer M8zR4vK7nP2qW6xA",
+      "// token = Bearer [REDACTED]"
+    ],
+    [
+      "// Document the scheme as Bearer M8zR4vK7nP2qW6xA",
+      "// Document the scheme as Bearer [REDACTED]"
     ]
   ],
   "benign": [
@@ -147,6 +179,9 @@
     "bearer token handling is described in AUTH.md",
     "Authorization header is missing",
     "test_vector = \"Bearer toyBearerMaterial\";",
-    "// Document the scheme as Bearer credentialVariable"
+    "// Document the scheme as Bearer credentialVariable",
+    "# Document the scheme as Bearer credential_variable",
+    "// Document the scheme as Bearer credential_variable",
+    "# Document the scheme as Bearer credentialVariable"
   ]
 }
