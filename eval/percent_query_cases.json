@@ -1,5 +1,10 @@
 [
   {
+    "family": "exact_encoded_url",
+    "input": "https%3A%2F%2Fdownload.example.invalid%2Fasset%3Fexpires%3D2000000000%26signature%3Da8c2f4b9e6d1073f5b0e9a4c2d8167f3e9b5a0d4c6e8172f0b3a9d5c7e1248f6",
+    "expected": "https%3A%2F%2Fdownload.example.invalid%2Fasset%3Fexpires%3D2000000000%26signature%3D[REDACTED]"
+  },
+  {
     "family": "percent_query",
     "input": "https%3A%2F%2Fdownload.example.invalid%2Fasset%3Fexpires%3D2000000000%26signature%3Da8c2f4b9e6d1073f5b0e9a4c2d8167f3e9b5a0d4c6e8172f0b3a9d5c7e1248f6%26sort%3Dasc",
     "expected": "https%3A%2F%2Fdownload.example.invalid%2Fasset%3Fexpires%3D2000000000%26signature%3D[REDACTED]%26sort%3Dasc"
