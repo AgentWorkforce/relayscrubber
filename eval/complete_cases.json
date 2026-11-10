@@ -688,5 +688,20 @@
     "family": "provider_snake_hostname",
     "input": "edge.capy_collect_recent_history_records.example.invalid",
     "secret": "capy_collect_recent_history_records"
+  },
+  {
+    "family": "substitution_quote_identity_tail",
+    "input": "TOKEN=\"$(cat \"$FILE\")\\x22 M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_quote_identity_tail",
+    "input": "TOKEN=\"$(cat \"$FILE\")\\u0022 M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_quote_identity_tail",
+    "input": "TOKEN=\"$(cat \"$FILE\")%22 M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
   }
 ]
