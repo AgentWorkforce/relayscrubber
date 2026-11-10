@@ -3,7 +3,7 @@
 use crate::{normalize::View, Policy, REDACTION_TOKEN};
 use base64::Engine;
 use regex::Regex;
-use std::{ops::Range, sync::OnceLock};
+use std::{borrow::Cow, ops::Range, sync::OnceLock};
 
 // Keep patterns explicit and reviewable. Every alternative has a provider or
 // protocol meaning; generic entropy and bare hashes are intentionally absent.
@@ -40,13 +40,21 @@ pub(crate) fn sensitive(name: &str) -> bool {
     if name.len() < 3 {
         return false;
     }
-    let n: String = name
+    let n: Cow<'_, str> = if name
         .bytes()
-        .filter(|b| !matches!(b, b'_' | b'-'))
-        .map(|b| char::from(b.to_ascii_lowercase()))
-        .collect();
+        .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit())
+    {
+        Cow::Borrowed(name)
+    } else {
+        Cow::Owned(
+            name.bytes()
+                .filter(|b| !matches!(b, b'_' | b'-'))
+                .map(|b| char::from(b.to_ascii_lowercase()))
+                .collect(),
+        )
+    };
     if matches!(
-        n.as_str(),
+        n.as_ref(),
         "publickey" | "codechallenge" | "state" | "existingsecret"
     ) || [
         "secretref",
@@ -56,7 +64,7 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "credentialsecret",
         "credentialspath",
     ]
-    .contains(&n.as_str())
+    .contains(&n.as_ref())
     {
         return false;
     }
@@ -91,19 +99,22 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "cookie",
         "setcookie",
     ];
-    if NAMES.contains(&n.as_str()) {
+    if NAMES.contains(&n.as_ref()) {
         return true;
     }
     // Credential suffixes include provider and camelCase names. Generic key
     // requires a separator or a camelCase boundary (preserve e.g. monkey).
-    let lower = name.to_ascii_lowercase();
+    let lower = if name.bytes().any(|b| b.is_ascii_uppercase()) {
+        Cow::Owned(name.to_ascii_lowercase())
+    } else {
+        Cow::Borrowed(name)
+    };
+    // Split and normalize each suffix once, not once per credential name.
+    // Long ordinary fields otherwise multiply full-string scans in debug CI.
+    let underscore_tail = lower.rsplit_once('_').map(|(_, t)| t.replace('-', ""));
+    let hyphen_tail = lower.rsplit_once('-').map(|(_, t)| t.replace('_', ""));
     NAMES.iter().any(|tail| {
-        lower
-            .rsplit_once('_')
-            .is_some_and(|(_, t)| t.replace('-', "") == *tail)
-            || lower
-                .rsplit_once('-')
-                .is_some_and(|(_, t)| t.replace('_', "") == *tail)
+        underscore_tail.as_deref() == Some(*tail) || hyphen_tail.as_deref() == Some(*tail)
     }) || lower.ends_with("_key")
         || lower.ends_with("-key")
         || [
@@ -263,10 +274,16 @@ fn shell_reference(value: &str) -> bool {
 
 // These are references to credential storage, not credential values.
 pub(crate) fn credential_context(name: &str) -> bool {
-    matches!(
-        name.to_ascii_lowercase().as_str(),
-        "aws" | "auth" | "authentication" | "credentials" | "credential" | "secrets"
-    )
+    [
+        "aws",
+        "auth",
+        "authentication",
+        "credentials",
+        "credential",
+        "secrets",
+    ]
+    .iter()
+    .any(|candidate| name.eq_ignore_ascii_case(candidate))
 }
 pub(crate) fn uuid(value: &str) -> bool {
     value.len() == 36
