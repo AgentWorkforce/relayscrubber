@@ -1,0 +1,492 @@
+[
+  {
+    "family": "provider_function_identifier",
+    "input": "fn capy_collect_recent_history_records() {}",
+    "expected": "fn capy_collect_recent_history_records() {}"
+  },
+  {
+    "family": "session_fixture_or_symbol",
+    "input": "json!({\"session_id\": SESSION_HANDLE})",
+    "expected": "json!({\"session_id\": SESSION_HANDLE})"
+  },
+  {
+    "family": "code_symbol",
+    "input": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+    "expected": "json!({\"accessToken\": minted, \"refreshToken\": rotated})"
+  },
+  {
+    "family": "synthetic_literal",
+    "input": "assert_eq!(header, \"Bearer local-example-token\");",
+    "expected": "assert_eq!(header, \"Bearer [REDACTED]\");"
+  },
+  {
+    "family": "numeric_process_session_identifier",
+    "input": "{\"session_id\":57243,\"output\":\"\"}",
+    "expected": "{\"session_id\":57243,\"output\":\"\"}"
+  },
+  {
+    "family": "assignment_scope_overrun",
+    "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+    "expected": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+  },
+  {
+    "family": "template_reference",
+    "input": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+    "expected": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}"
+  },
+  {
+    "family": "structured_nonsecret_config",
+    "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+    "expected": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}"
+  },
+  {
+    "family": "field_name_constant",
+    "input": "prefs.swift:18: private let historyKey = \"storedHistoryKey\"",
+    "expected": "prefs.swift:18: private let historyKey = \"[REDACTED]\""
+  },
+  {
+    "family": "synthetic_literal",
+    "input": "assert_eq!(value, json!({\"accessToken\":\"local-test-token\"}));",
+    "expected": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));"
+  },
+  {
+    "family": "prose_outside_assignment",
+    "input": "- During the deployment discussion, auth: review the available alternatives.",
+    "expected": "- During the deployment discussion, auth: [REDACTED] the available alternatives."
+  },
+  {
+    "family": "type_or_enum",
+    "input": "let item = Record(contextKey: .workspaceID)",
+    "expected": "let item = Record(contextKey: .workspaceID)"
+  },
+  {
+    "family": "code_expression",
+    "input": "const accessToken = auth?.readToken?.trim();",
+    "expected": "const accessToken = auth?.readToken?.trim();"
+  },
+  {
+    "family": "public_routing_identifier",
+    "input": "{\"integrationKey\":\"task-board\"}",
+    "expected": "{\"integrationKey\":\"[REDACTED]\"}"
+  },
+  {
+    "family": "synthetic_literal",
+    "input": "test_case = \"CLOUDFLARE_PREFIX_123456789012345678901\";",
+    "expected": "test_case = \"[REDACTED]\";"
+  },
+  {
+    "family": "coverage_statistic",
+    "input": "\"src/auth.rs::tests::configure_credentials\" = 1",
+    "expected": "\"src/auth.rs::tests::configure_credentials\" = 1"
+  },
+  {
+    "family": "prose_outside_assignment",
+    "input": "- The bearer authentication and request lifecycle are documented.",
+    "expected": "- The bearer [REDACTED] and request lifecycle are documented."
+  },
+  {
+    "family": "sql_parameter",
+    "input": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+    "expected": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";"
+  },
+  {
+    "family": "credential_storage_reference",
+    "input": "adminPassword: { name: catalog-db-password }",
+    "expected": "adminPassword: { name: catalog-db-password }"
+  },
+  {
+    "family": "provider_infrastructure_identifier",
+    "input": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+    "expected": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid"
+  },
+  {
+    "family": "cloud_tag_key",
+    "input": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+    "expected": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging"
+  },
+  {
+    "family": "idempotency_token",
+    "input": "aws service deploy --idempotency-token deployment-rerun",
+    "expected": "aws service deploy --idempotency-token deployment-rerun"
+  },
+  {
+    "family": "url_regex",
+    "input": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+    "expected": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)"
+  },
+  {
+    "family": "structured_nonsecret_config",
+    "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer REQUEST_PATTERN*\"]}}",
+    "expected": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}"
+  },
+  {
+    "family": "url_variable_or_format",
+    "input": "postgresql://service:$DB_PASS@db.example.invalid/database",
+    "expected": "postgresql://service:$DB_PASS@db.example.invalid/database"
+  },
+  {
+    "family": "shell_command_substitution",
+    "input": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+    "expected": "SERVICE_SECRET=\"$(openssl rand -hex 24)\""
+  },
+  {
+    "family": "existing_mask_or_placeholder",
+    "input": "client_secret: <48>",
+    "expected": "client_secret: <48>"
+  },
+  {
+    "family": "existing_mask_or_placeholder",
+    "input": "postgresql://service:***@db.example.invalid/database",
+    "expected": "postgresql://service:***@db.example.invalid/database"
+  },
+  {
+    "family": "existing_mask_or_placeholder",
+    "input": "value = \"Bearer masked_...\";",
+    "expected": "value = \"Bearer masked_...\";"
+  },
+  {
+    "family": "synthetic_literal",
+    "input": "let uri = \"redis://test:pass@auth.example.invalid/db\";",
+    "expected": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";"
+  },
+  {
+    "family": "existing_mask_scope",
+    "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+    "expected": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+  },
+  {
+    "family": "type_or_regex_syntax",
+    "input": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+    "expected": "sed -n '/^auth:/,/^[a-z]/p' settings.yml"
+  },
+  {
+    "family": "path_reference",
+    "input": "signer --private-key /home/operator/keys/signing.pem",
+    "expected": "signer --private-key [REDACTED]"
+  },
+  {
+    "family": "session_identifier_or_truncation",
+    "input": "{\"session_id\":\"123456789012345678\"}",
+    "expected": "{\"session_id\":\"[REDACTED]\"}"
+  },
+  {
+    "family": "json_number",
+    "input": "{\"session_id\":-12.5e+3}",
+    "expected": "{\"session_id\":-12.5e+3}"
+  },
+  {
+    "family": "macro_identifier",
+    "input": "json!({\"accessToken\": provider_token})",
+    "expected": "json!({\"accessToken\": provider_token})"
+  },
+  {
+    "family": "member",
+    "input": "const accessToken = cache?.credential?.trim();",
+    "expected": "const accessToken = cache?.credential?.trim();"
+  },
+  {
+    "family": "enum",
+    "input": "Record(contextKey: .accountID)",
+    "expected": "Record(contextKey: .accountID)"
+  },
+  {
+    "family": "sql",
+    "input": "SELECT * FROM records WHERE password = $1",
+    "expected": "SELECT * FROM records WHERE password = $1"
+  },
+  {
+    "family": "sql",
+    "input": "UPDATE records SET password = :name",
+    "expected": "UPDATE records SET password = :name"
+  },
+  {
+    "family": "storage",
+    "input": "adminPassword: { name: service-db-password }",
+    "expected": "adminPassword: { name: service-db-password }"
+  },
+  {
+    "family": "template",
+    "input": "TOKEN=${VAR}",
+    "expected": "TOKEN=${VAR}"
+  },
+  {
+    "family": "substitution",
+    "input": "TOKEN=$(fetch-credential)",
+    "expected": "TOKEN=$(fetch-credential)"
+  },
+  {
+    "family": "mask",
+    "input": "password=***",
+    "expected": "password=***"
+  },
+  {
+    "family": "url_format",
+    "input": "postgresql://user:%s@db.example.invalid/db",
+    "expected": "postgresql://user:%s@db.example.invalid/db"
+  },
+  {
+    "family": "json_number",
+    "input": "{\"session_id\":\"M8zR4vK7nP2qW6xAq9\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "provider",
+    "input": "fn capy_M8zR4vK7nP2qW6xAq9() {}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "macro_identifier",
+    "input": "json!({\"accessToken\": \"M8zR4vK7nP2qW6xAq9\"})",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "member",
+    "input": "const accessToken = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "enum",
+    "input": "Record(contextKey: \"M8zR4vK7nP2qW6xAq9\")",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "sql",
+    "input": "SELECT * FROM records WHERE password = 'M8zR4vK7nP2qW6xAq9'",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "storage",
+    "input": "adminPassword: { name: \"M8zR4vK7nP2qW6xAq9\" }",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template",
+    "input": "SERVICE_TOKEN: \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution",
+    "input": "SERVICE_SECRET=\"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "mask",
+    "input": "password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "url_format",
+    "input": "postgresql://user:M8zR4vK7nP2qW6xAq9@db.example.invalid/db",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "dns",
+    "input": "https://example.invalid/path/sk-SYNTHETICM8zR4vK7nP2qW6xAq9Suffix99",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "cloud_tag",
+    "input": "aws ec2 create-tags --tags Key=Name,Value=worker --secret \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "idempotency",
+    "input": "aws service deploy --idempotency-token replay --password \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex",
+    "input": "sed -n \"password=M8zR4vK7nP2qW6xAq9\" settings.yml",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "scope",
+    "input": "const accessToken = cache.read(); password=\"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "earlier_redaction_marker_plus_syntax",
+    "input": "token:[REDACTED],",
+    "expected": "token:[REDACTED],"
+  },
+  {
+    "family": "earlier_redaction_marker_scope_overrun",
+    "input": "token:[REDACTED] ordinary explanatory words",
+    "expected": "token:[REDACTED] ordinary explanatory words"
+  },
+  {
+    "family": "earlier_uuid_session_identifier",
+    "input": "sessionId=\"11111111-2222-4333-8444-555555555555\"",
+    "expected": "sessionId=\"11111111-2222-4333-8444-555555555555\""
+  },
+  {
+    "family": "earlier_synthetic_test_literal",
+    "input": "API_KEY=example",
+    "expected": "API_KEY=example"
+  },
+  {
+    "family": "earlier_secret_resource_reference",
+    "input": "existingSecret: demo-auth-store",
+    "expected": "existingSecret: demo-auth-store"
+  },
+  {
+    "family": "earlier_angle_placeholder",
+    "input": "password=<token>",
+    "expected": "password=<token>"
+  },
+  {
+    "family": "earlier_authorization_reference_or_scheme",
+    "input": "headers = {\"Authorization\": \"Bearer \" + token}",
+    "expected": "headers = {\"Authorization\": \"Bearer \" + token}"
+  },
+  {
+    "family": "earlier_shell_default_reference",
+    "input": "CLOUD_CREDENTIALS=${CLOUD_CREDENTIALS:-example-config}",
+    "expected": "CLOUD_CREDENTIALS=${CLOUD_CREDENTIALS:-example-config}"
+  },
+  {
+    "family": "earlier_nonsecret_language_literal",
+    "input": "persist-credentials: false",
+    "expected": "persist-credentials: false"
+  },
+  {
+    "family": "earlier_url_documentation_placeholder",
+    "input": "Documentation: https://demo:password@example.invalid/db",
+    "expected": "Documentation: https://demo:password@example.invalid/db"
+  },
+  {
+    "family": "earlier_type_declaration_or_syntax",
+    "input": "refresh_token: tokio::sync::Mutex<()>",
+    "expected": "refresh_token: tokio::sync::Mutex<()>"
+  },
+  {
+    "family": "earlier_operator_or_regex_syntax",
+    "input": "ssh --no-reset-password &#124; head -1",
+    "expected": "ssh --no-reset-password &#124; head -1"
+  },
+  {
+    "family": "earlier_prose_or_comment",
+    "input": "key: the dashboard column name",
+    "expected": "key: the dashboard column name"
+  },
+  {
+    "family": "earlier_code_expression_or_reference",
+    "input": "const apiKey = settings.clientKey;",
+    "expected": "const apiKey = settings.clientKey;"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "password: match option { Some(v) => v, None => return };",
+    "expected": "password: match option { Some(v) => v, None => return };"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+    "expected": "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "rg 'auth:\\s+' notes.txt",
+    "expected": "rg 'auth:\\s+' notes.txt"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "auth: review deployment options",
+    "expected": "auth: [REDACTED]"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "token=\"[REDACTED] (already removed)\"",
+    "expected": "token=\"[REDACTED] (already removed)\""
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "credentialsSecret: catalog-access-store",
+    "expected": "credentialsSecret: catalog-access-store"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "{\"session_id\":\"build-view\"}",
+    "expected": "{\"session_id\":\"build-view\"}"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+    "expected": "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "Synthetic fixture: api_key=\"toyvalue\"",
+    "expected": "Synthetic fixture: api_key=\"toyvalue\""
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "{\"excerpt\":\"auth: pl\"}",
+    "expected": "{\"excerpt\":\"auth: pl\"}"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "mcp_auth::Signed<Mode>>",
+    "expected": "mcp_auth::Signed<Mode>>"
+  },
+  {
+    "family": "earlier_`bearer`",
+    "input": "test_vector = \"Bearer toyBearerMaterial\";",
+    "expected": "test_vector = \"Bearer toyBearerMaterial\";"
+  },
+  {
+    "family": "earlier_`url`",
+    "input": "Documentation: https://public-user@code.example.invalid/repo",
+    "expected": "Documentation: https://public-user@code.example.invalid/repo"
+  },
+  {
+    "family": "path_field",
+    "input": "{\"routing.example.invalid/read-token\":\"M8zR4vK7nP2qW6xAq9\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "path_field_nested",
+    "input": "{\"routing.example.invalid/read-token\":{\"password\":\"M8zR4vK7nP2qW6xAq9\"}}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "coverage",
+    "input": "\"src/auth.rs::tests::configure_credentials\" = \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "expansion_tail",
+    "input": "TOKEN=\"$(read)M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template_tail",
+    "input": "TOKEN=\"${{ secrets.X }}M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "cloud_tag_literal",
+    "input": "aws ec2 create-tags --tags Key=\"M8zR4vK7nP2qW6xAq9\",Value=worker",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "idempotency_literal",
+    "input": "aws service deploy --idempotency-token \"M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "hashrocket_literal",
+    "input": "'password' => 'M8zR4vK7nP2qW6xAq9'",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "provider_function",
+    "input": "fn capy_collect_v2_history_records() {}",
+    "expected": "fn capy_collect_v2_history_records() {}"
+  },
+  {
+    "family": "provider_scalar",
+    "input": "token=\"capy_collect_recent_history_records\"",
+    "secret": "capy_collect_recent_history_records"
+  }
+]

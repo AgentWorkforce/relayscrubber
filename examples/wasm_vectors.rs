@@ -58,6 +58,27 @@ fn main() {
         assert!(!output.contains(case[1].as_str().unwrap()));
         text.push(serde_json::json!({"input":input,"output":output}));
     }
+    let structural: serde_json::Value = serde_json::from_str(
+        &include_str!("../eval/structural_cases.json")
+            .replace("OPENAI_PREFIX_", &["sk", "-"].concat())
+            .replace("CLOUDFLARE_PREFIX_", &["cf", "k_"].concat()),
+    )
+    .unwrap();
+    for case in structural.as_array().unwrap() {
+        let input = case["input"].as_str().unwrap();
+        let output = relayscrubber::scrub_text(input);
+        if let Some(expected) = case["expected"].as_str() {
+            assert_eq!(output, expected);
+        } else {
+            assert!(!output.contains(case["secret"].as_str().unwrap()));
+        }
+        text.push(serde_json::json!({"input":input,"output":output}));
+    }
+    let bearer: serde_json::Value =
+        serde_json::from_str(include_str!("../eval/bearer_cases.json")).unwrap();
+    for case in bearer["positive"].as_array().unwrap() {
+        text.push(serde_json::json!({"input":case[0],"output":relayscrubber::scrub_text(case[0].as_str().unwrap())}));
+    }
     let structured: Vec<_> = text.iter().map(|case| {
         let value = serde_json::json!({"text":case["input"]});
         let json = relayscrubber::scrub_json(&value).0;
