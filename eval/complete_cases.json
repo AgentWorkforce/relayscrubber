@@ -1,0 +1,387 @@
+[
+  {
+    "family": "resource_tail",
+    "input": "adminPassword: { name: service-db-password } M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "resource_tail",
+    "input": "adminPassword: { name: service-db-password } # M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "resource_tail",
+    "input": "adminPassword: { name: service-db-password }M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=$(printf M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=\"$(printf M8zR4vK7nP2qW6xAq9)\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=$(echo M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=\"$(echo M8zR4vK7nP2qW6xAq9)\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=$(cat M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=\"$(cat M8zR4vK7nP2qW6xAq9)\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=$(openssl rand -hex 24 M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=\"$(openssl rand -hex 24 M8zR4vK7nP2qW6xAq9)\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=$(cat \"$FILE\" M8zR4vK7nP2qW6xAq9)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "substitution_literal",
+    "input": "SERVICE_SECRET=\"$(cat \"$FILE\" M8zR4vK7nP2qW6xAq9)\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "url_regex_literal",
+    "input": "re.search(r\"postgresql://[^:]+:M8zR4vK7nP2qW6xAq9@db.example.invalid/db\", connection)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "url_regex_literal",
+    "input": "re.compile(r\"postgresql://[^:]+:M8zR4vK7nP2qW6xAq9@db.example.invalid/db\", connection)",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://9OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://9OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://prefixOPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://prefixOPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.other.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.other.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://edge.OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://edge.OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://a.edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.b.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://a.edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.b.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://Edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://Edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "https://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890:8443.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "provider_hostname",
+    "input": "HTTPS://edge-OPENAI_PREFIX_proj-ABCDEFGHIJKLMNOPQRSTUVWX1234567890:8443.example.invalid/path",
+    "secret": "ABCDEFGHIJKLMNOPQRSTUVWX1234567890"
+  },
+  {
+    "family": "reference_control",
+    "input": "TOKEN=$(openssl rand -hex 24)",
+    "expected": "TOKEN=$(openssl rand -hex 24)"
+  },
+  {
+    "family": "reference_control",
+    "input": "TOKEN=$(cat \"$FILE\")",
+    "expected": "TOKEN=$(cat \"$FILE\")"
+  },
+  {
+    "family": "reference_control",
+    "input": "TOKEN=$(fetch-credential)",
+    "expected": "TOKEN=$(fetch-credential)"
+  },
+  {
+    "family": "reference_control",
+    "input": "TOKEN=${{ secrets.TOKEN }}",
+    "expected": "TOKEN=${{ secrets.TOKEN }}"
+  },
+  {
+    "family": "reference_control",
+    "input": "TOKEN=${TOKEN}",
+    "expected": "TOKEN=${TOKEN}"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${{ secrets.TOKEN }} M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${{ secrets.TOKEN }}M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN} M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN}M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN:-M8zR4vK7nP2qW6xAq9} M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN:-M8zR4vK7nP2qW6xAq9}M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN} # M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"${TOKEN} #M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"$(cat \"$FILE\") M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"$(cat \"$FILE\")M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"*** M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"***M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"<48> M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"<48>M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"masked_... M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "reference_tail",
+    "input": "TOKEN=\"masked_...M8zR4vK7nP2qW6xAq9\"",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = cache.M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = read(M8zR4vK7nP2qW6xAq9);",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = read(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = cache[\"M8zR4vK7nP2qW6xAq9\"];",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = minted M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = cache.token M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = read() M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = new Token(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "code_embedded_or_tail",
+    "input": "const accessToken = match option { Some(v) => \"M8zR4vK7nP2qW6xAq9\", None => fallback };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "match_arm_literal",
+    "input": "\"Authorization\" => token = credential M8zR4vK7nP2qW6xAq9,",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "match_arm_literal",
+    "input": "\"Authorization\" => token = credential # M8zR4vK7nP2qW6xAq9,",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "match_arm_literal",
+    "input": "\"Authorization\" => token = credential M8zR4vK7nP2qW6xAq9(),",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "match_arm_literal",
+    "input": "\"Authorization\" => token = line.trim().strip_prefix(\"M8zR4vK7nP2qW6xAq9\"),",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "sql_bind_tail",
+    "input": "SELECT * FROM records WHERE password = ?3 M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "sql_bind_tail",
+    "input": "SELECT * FROM records WHERE password = :name M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "sql_bind_tail",
+    "input": "SELECT * FROM records WHERE password = $1 M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "aws service deploy --idempotency-token deployment-rerun M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "aws ec2 create-tags --tags Key=Name,Value=worker M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "aws ec2 create-tags --tags Key=Name,Value=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "fn capy_collect_recent_history_recordsM8zR4vK7nP2qW6xAq9() {}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "// Bearer tokenVariable M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "other_exemption_tail",
+    "input": "// Bearer tokenVariableM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  }
+]
