@@ -1,0 +1,314 @@
+{
+  "baseCommit": "601dd446ed330ba794ddda46485818607de756c6",
+  "implementationCommit": "59dcf3021fee2a159354253007fa2fadc1a3bdff",
+  "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
+  "sourceSha256": "fea1d08b91fd241d59bf5cd3ef1d70c5022d4788c9a1e60954a2294319af93c6",
+  "localWasmSha256": "04b7eeb9a95169610a4a7946990faac74c0200f7a9c84056ff9c9664dfefb8d2",
+  "reaudit2Reproductions": [
+    {
+      "family": "provider_function_identifier",
+      "input": "fn capy_collect_recent_history_records() {}",
+      "before": "fn [REDACTED]() {}",
+      "after": "fn capy_collect_recent_history_records() {}",
+      "result": "unchanged"
+    },
+    {
+      "family": "session_fixture_or_symbol",
+      "input": "json!({\"session_id\": SESSION_HANDLE})",
+      "before": "json!({\"session_id\": [REDACTED]})",
+      "after": "json!({\"session_id\": SESSION_HANDLE})",
+      "result": "unchanged"
+    },
+    {
+      "family": "code_symbol",
+      "input": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+      "before": "json!({\"accessToken\": [REDACTED], \"refreshToken\": [REDACTED]})",
+      "after": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+      "result": "unchanged"
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "assert_eq!(header, \"Bearer local-example-token\");",
+      "before": "assert_eq!(header, \"Bearer [REDACTED]\");",
+      "after": "assert_eq!(header, \"Bearer [REDACTED]\");",
+      "result": "left redacted"
+    },
+    {
+      "family": "numeric_process_session_identifier",
+      "input": "{\"session_id\":57243,\"output\":\"\"}",
+      "before": "{\"session_id\":[REDACTED],\"output\":\"\"}",
+      "after": "{\"session_id\":57243,\"output\":\"\"}",
+      "result": "unchanged"
+    },
+    {
+      "family": "assignment_scope_overrun",
+      "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "before": "{\"output\": \"\\\"Authorization\\\" => [REDACTED]\"}",
+      "after": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "result": "unchanged"
+    },
+    {
+      "family": "template_reference",
+      "input": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+      "before": "SERVICE_TOKEN: [REDACTED]",
+      "after": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+      "result": "unchanged"
+    },
+    {
+      "family": "structured_nonsecret_config",
+      "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+      "before": "{\"routing.example.invalid/read-token\":[REDACTED]}",
+      "after": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+      "result": "unchanged"
+    },
+    {
+      "family": "field_name_constant",
+      "input": "prefs.swift:18: private let historyKey = \"storedHistoryKey\"",
+      "before": "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+      "after": "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+      "result": "left redacted"
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "assert_eq!(value, json!({\"accessToken\":\"local-test-token\"}));",
+      "before": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+      "after": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+      "result": "left redacted"
+    },
+    {
+      "family": "prose_outside_assignment",
+      "input": "- During the deployment discussion, auth: review the available alternatives.",
+      "before": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+      "after": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+      "result": "left redacted"
+    },
+    {
+      "family": "type_or_enum",
+      "input": "let item = Record(contextKey: .workspaceID)",
+      "before": "let item = Record(contextKey: [REDACTED])",
+      "after": "let item = Record(contextKey: .workspaceID)",
+      "result": "unchanged"
+    },
+    {
+      "family": "code_expression",
+      "input": "const accessToken = auth?.readToken?.trim();",
+      "before": "const accessToken = [REDACTED]);",
+      "after": "const accessToken = auth?.readToken?.trim();",
+      "result": "unchanged"
+    },
+    {
+      "family": "public_routing_identifier",
+      "input": "{\"integrationKey\":\"task-board\"}",
+      "before": "{\"integrationKey\":\"[REDACTED]\"}",
+      "after": "{\"integrationKey\":\"[REDACTED]\"}",
+      "result": "left redacted"
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "test_case = \"CLOUDFLARE_PREFIX_123456789012345678901\";",
+      "before": "test_case = \"[REDACTED]\";",
+      "after": "test_case = \"[REDACTED]\";",
+      "result": "left redacted"
+    },
+    {
+      "family": "coverage_statistic",
+      "input": "\"src/auth.rs::tests::configure_credentials\" = 1",
+      "before": "\"src/auth.rs::tests::configure_credentials\" = [REDACTED]",
+      "after": "\"src/auth.rs::tests::configure_credentials\" = 1",
+      "result": "unchanged"
+    },
+    {
+      "family": "prose_outside_assignment",
+      "input": "- The bearer authentication and request lifecycle are documented.",
+      "before": "- The bearer [REDACTED] and request lifecycle are documented.",
+      "after": "- The bearer [REDACTED] and request lifecycle are documented.",
+      "result": "left redacted"
+    },
+    {
+      "family": "sql_parameter",
+      "input": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+      "before": "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+      "after": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+      "result": "unchanged"
+    },
+    {
+      "family": "credential_storage_reference",
+      "input": "adminPassword: { name: catalog-db-password }",
+      "before": "adminPassword: [REDACTED]",
+      "after": "adminPassword: { name: catalog-db-password }",
+      "result": "unchanged"
+    },
+    {
+      "family": "provider_infrastructure_identifier",
+      "input": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+      "before": "https://edge-workspace-[REDACTED].example.invalid",
+      "after": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+      "result": "unchanged"
+    },
+    {
+      "family": "cloud_tag_key",
+      "input": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+      "before": "aws ec2 create-tags --tags Key=[REDACTED],Value=worker Key=[REDACTED],Value=staging",
+      "after": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+      "result": "unchanged"
+    },
+    {
+      "family": "idempotency_token",
+      "input": "aws service deploy --idempotency-token deployment-rerun",
+      "before": "aws service deploy --idempotency-token [REDACTED]",
+      "after": "aws service deploy --idempotency-token deployment-rerun",
+      "result": "unchanged"
+    },
+    {
+      "family": "url_regex",
+      "input": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+      "before": "re.search(r\"postgresql://[^:[REDACTED]@\", connection)",
+      "after": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+      "result": "unchanged"
+    },
+    {
+      "family": "structured_nonsecret_config",
+      "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer REQUEST_PATTERN*\"]}}",
+      "before": "{\"routing.example.invalid/read-token\":[REDACTED]}",
+      "after": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+      "result": "partial"
+    },
+    {
+      "family": "url_variable_or_format",
+      "input": "postgresql://service:$DB_PASS@db.example.invalid/database",
+      "before": "postgresql://service:[REDACTED]@db.example.invalid/database",
+      "after": "postgresql://service:$DB_PASS@db.example.invalid/database",
+      "result": "unchanged"
+    },
+    {
+      "family": "shell_command_substitution",
+      "input": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+      "before": "SERVICE_SECRET=\"[REDACTED]\"",
+      "after": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+      "result": "unchanged"
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "client_secret: <48>",
+      "before": "client_secret: [REDACTED]",
+      "after": "client_secret: <48>",
+      "result": "unchanged"
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "postgresql://service:***@db.example.invalid/database",
+      "before": "postgresql://service:[REDACTED]@db.example.invalid/database",
+      "after": "postgresql://service:***@db.example.invalid/database",
+      "result": "unchanged"
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "value = \"Bearer masked_...\";",
+      "before": "value = \"Bearer [REDACTED]\";",
+      "after": "value = \"Bearer masked_...\";",
+      "result": "unchanged"
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "let uri = \"redis://test:pass@auth.example.invalid/db\";",
+      "before": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+      "after": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+      "result": "left redacted"
+    },
+    {
+      "family": "existing_mask_scope",
+      "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "before": "{\"output\": \"\\\"Authorization\\\" => [REDACTED]\"}",
+      "after": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "result": "unchanged"
+    },
+    {
+      "family": "type_or_regex_syntax",
+      "input": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+      "before": "sed -n '/^auth:[REDACTED],/^[a-z]/p' settings.yml",
+      "after": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+      "result": "unchanged"
+    },
+    {
+      "family": "path_reference",
+      "input": "signer --private-key /home/operator/keys/signing.pem",
+      "before": "signer --private-key [REDACTED]",
+      "after": "signer --private-key [REDACTED]",
+      "result": "left redacted"
+    },
+    {
+      "family": "session_identifier_or_truncation",
+      "input": "{\"session_id\":\"123456789012345678\"}",
+      "before": "{\"session_id\":\"[REDACTED]\"}",
+      "after": "{\"session_id\":\"[REDACTED]\"}",
+      "result": "left redacted"
+    }
+  ],
+  "gateResults": {
+    "matrix": {
+      "exactPacket": {
+        "cases": 1186,
+        "failures": []
+      },
+      "finalRuling": {
+        "cases": 43,
+        "failures": []
+      },
+      "nestedStructuredJsonRecords": [
+        true,
+        true
+      ],
+      "residualBenign": {
+        "cases": 19,
+        "failures": []
+      },
+      "residualPositive": {
+        "cases": 17,
+        "failures": []
+      },
+      "schema": 1,
+      "source": "fea1d08b91fd241d59bf5cd3ef1d70c5022d4788c9a1e60954a2294319af93c6"
+    },
+    "frozen": {
+      "baseExactArchivedOracle": 167,
+      "baseMissedSecretCases": 0,
+      "cases": 199,
+      "headExactArchivedOracle": 168,
+      "headMissedSecretCases": 0,
+      "inheritedArchivedDifferences": [],
+      "newMissedSecretCases": 0,
+      "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
+      "secondPassChangedCases": 0
+    },
+    "earlierInventedReproductions": 27,
+    "native": {
+      "toolchain": "1.88.0",
+      "tests": 66,
+      "result": "pass"
+    },
+    "wasm": {
+      "nodeTests": 64,
+      "bunTests": 64,
+      "textParityVectors": 5458,
+      "structuredParityVectors": 5458,
+      "frozenAllApis": 199,
+      "result": "pass"
+    },
+    "fmt": "pass",
+    "clippy": "pass -D warnings",
+    "vetoDiffReview": "pass",
+    "bearerBlocker": {
+      "baseNative": "8 new positives fail across text/JSON/NDJSON",
+      "baseWasm": "new positive group fails on WASM built from601dd446",
+      "headNative": "43 positive and9 benign cases pass across all APIs",
+      "headWasm": "43 positive and9 benign cases pass across all APIs"
+    }
+  },
+  "limitations": [
+    "English-value families remain redacted: synthetic literals, assignment-shaped prose, public routing identifiers, and field-name constants.",
+    "Structured header glob REQUEST_PATTERN* still redacts the Bearer pattern, although its qualified mapping wrapper is preserved.",
+    "An unquoted private-key path remains redacted; no storage-path policy was invented.",
+    "Quoted numeric session identifiers remain string credentials and redact.",
+    "Provider exemptions require lowercase snake identifiers in source positions; arbitrary provider scalars retain the existing detector."
+  ]
+}
