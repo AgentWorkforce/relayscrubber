@@ -1,73 +1,47 @@
 # Candidate validation results
 
-Independent re-audit pending. Zero false positives is a release gate owned by
-relayscrubber-lead; these invented regression tests do not certify precision.
-No private session samples were accessed for this revision. No adoption, merge,
-publication, tag, deployment or consumer change is authorized by these results.
+The candidate remains `0.5.0-alpha.3`. Independent session precision re-audit is
+separate; these invented regression tests do not measure real-session precision.
+No private session samples, labels or re-audit directories were accessed. No
+merge, tag, publication or consumer adoption is authorized by these results.
 
-The behavioral receipt is [results/review-fixes.json](results/review-fixes.json).
-Test-only commit `258e7d2` precedes the implementation; `408ac1e` adds
-failing-before generalized placeholder/member/type variants. All 14 named families fail
-on base `5a1afa4428bbc73371ffb07d784821cbf266005c` natively and in the actual pinned
-Linux WASM package. The expanded matrix covers 80 invented benign variants over
-text, JSON `{text: ...}` and NDJSON. All variants remain byte-identical at head.
-Some original literal examples already passed; every family has failing base
-variants. The receipt records exact before/after counts rather than claiming
-every original literal failed.
+The latest repair recognizes HTML-encoded URL punctuation inside attribute
+values: `:`, `/`, `?`, `&` and `=` work together across decimal, hex, named,
+semicolonless numeric, recursive and mixed percent/entity forms. The existing
+URL scanner runs on an attribute-local recognition view and maps only selected
+credential values back to original source bytes. Quoted and unquoted attribute
+spelling survives unchanged around `[REDACTED]`.
 
-The shared fixtures include 23 positive controls and three structured cases.
-The final bare-key policy preserves a generic key unless structure/context or a
-reviewed provider shape establishes credential semantics. Exact public selectors
-preserve nested generic keys; nested explicit credentials and
-`request_idempotency_key` remain sensitive. The seven earlier review witnesses
-remain exercised with this superseding bare-key policy.
+Test-only commit `bfb9833` precedes implementation `98f82be`. A shared generated
+property covers 22 encoding styles, eight sensitive keys, three attribute forms,
+the query-opener/equals cross product, and benign non-sensitive keys: 3,718 cases,
+including 198 byte-identical benign controls. Exact base `7e8d410` fails 3,292
+cases per text/JSON/NDJSON API. Its downloaded, hash-verified hosted WASM also
+fails the new tests. The successor fails zero and is stable on second passes.
+The reviewer's exact `&amp;signature&#61;` href witness is included.
 
-Rust 1.88 all-target/all-feature tests (79), fmt, clippy and crate packaging pass. Node
-and Bun pass 79 tests each, covering native/WASM text and structured byte parity,
-second passes, multibyte 16 MiB text/record admission, 64 MiB stream admission,
-tagged call refusals and poisoned-instance refusal. Independent target-directory
-WASM reproduction and local Workers checks pass. Resource probes remain bounded.
-The strict frozen gate runs in native and WASM CI and requires `headMissedSecretCases = 0`: all 199 witnesses
-are exercised with zero annotated secret misses and zero second-pass changes.
-Historical exact output formatting is not the current contract.
+The earlier separator property remains 12,512 cases, including 188 benign and
+malformed/non-amp controls. All previous regression gates remain unchanged:
+reviewer matrix 1,186; ruling43; residual19+17; entity171+percent583; query371+58
+and exact16MiB; fix11 257; earlier27; Bearer43+9; complete141; numeric45; tables34+13.
 
-Manifest schema 3 / ABI 2 includes the crate-owned `scrubProfile`. The proposed
-crate/npm release is `0.5.0-alpha.3`, npm `private: false`; it is not published.
-The portable Linux pin is rebuilt through hosted CI. Final source, binary, glue,
-adapter and package equality must pass before reviewer handoff; see the receipt
-for the final immutable build links and digests.
+Rust1.88: 81 all-target/all-feature tests, fmt and clippy `-D warnings` pass.
+Node100/Bun100 pass with fresh23,257 text and23,262 structured vectors. All199
+frozen witnesses have zero annotated misses and zero second-pass changes.
+Long all-API tests cover numeric zero runs, nested entities and1.4MiB of repeated
+HTML attributes at2,048/16,384 copies, under unchanged ten-second limits. Recognition
+cursors advance monotonically and retain only a one-value cache.
+Bun's five-second default per-test timeout is unchanged; property cases are batched.
 
-The separator-class repair is recorded in `querySeparatorClassRepair` in the
-behavioral receipt. Test-only commits `ca12fd1` and `db9beeb` precede implementation
-`ca27985`. The generated property crosses 54 separator spellings, 38 sensitive
-keys and six key encodings, plus the reviewer's exact 12-case matrix and 188
-benign controls: 12,512 cases over text, JSON and NDJSON with second-pass checks.
-The original 12,330-case base replay on `b4f0252` fails 7,548 cases per API;
-the expanded successor suite fails zero. Optional
-semicolons, arbitrary leading zeros, nested named/numeric/percent layers and
-encoded sensitive keys retain their original spelling around the replaced value.
-Long key/entity/recovery probes pass unchanged ten-second limits on Linux and
-Windows; entity atoms advance together to prevent overlapping suffix lookahead.
+The portable pin is the SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42878437930).
+Linux81 and hosted Node100/Bun100, reproducibility, Workers, frozen witnesses and
+packaging pass; the WASM job fails only comparison with the superseded pin.
+The Windows implementation job was still queued when this receipt was prepared.
+The downloaded package was hash-verified and replayed locally through Node/Bun
+and Workers. See [the behavioral receipt](results/review-fixes.json), specifically
+`htmlAttributePunctuationRepair`, for before/after counts, mapping audit and
+portable source/WASM/glue/declaration/adapter/package digests.
 
-The refreshed pin comes from the SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42872959587).
-Its Node73/Bun73, reproducibility and Workers checks pass; its only failed step
-was comparison with the superseded pin. The hosted package was independently
-hash-checked and replayed locally with fresh 19,357 text and 19,362 structured
-vectors and all 199 frozen witnesses. Final handoff requires one immutable
-exact-head ALL-green Linux, Windows and WASM CI run reproducing this pin.
-
-The benign-lookahead acceptance follow-up (`44e2078`) adds 182 controls without
-an engine change. Every separator is crossed with non-sensitive sort/page/caption
-keys, including public hex values. Raw and HTML-attribute controls include
-non-amp and malformed entities such as `&#39x`, `&#x2Gsig=` and `&#;sig=`.
-Six repeated benign/malformed forms at 2,048 and 16,384 copies are checked over
-native and exact hosted WASM text/JSON/NDJSON APIs, preserving source bytes and
-second-pass identity under the existing ten-second long-input limits. Property
-batches retain Bun's existing five-second per-test default.
-
-The acceptance replay uses the [terminal-green hosted artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42874011699),
-whose source/package/WASM/glue/declaration/adapter digests were independently
-verified. Node79/Bun79 pass with fresh 19,539 text and 19,544 structured vectors
-and all frozen witnesses. The regenerated pins are unchanged because only
-fixtures, tests and receipts changed. Handoff requires one terminal-green
-exact-head successor covering these acceptance additions.
+Final handoff requires one immutable terminal-green exact-head CI on Linux,
+Windows and WASM, including unchanged timing limits and equality with the
+regenerated pins. The implementation artifact alone does not satisfy that gate.
