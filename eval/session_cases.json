@@ -1,0 +1,236 @@
+{
+  "benign": {
+    "provided": [
+      "password: match option { Some(v) => v, None => return };",
+      "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+      "rg 'auth:\\s+' notes.txt",
+      "auth: review deployment options",
+      "token=\"[REDACTED] (already removed)\"",
+      "credentialsSecret: catalog-access-store",
+      "{\"session_id\":\"build-view\"}",
+      "auth: { scheme: \"oidc\", audience: \"demo-ui\", enabled: true }",
+      "Synthetic fixture: api_key=\"toyvalue\"",
+      "{\"excerpt\":\"auth: pl\"}",
+      "mcp_auth::Signed<Mode>>",
+      "test_vector = \"Bearer toyBearerMaterial\";",
+      "Documentation: https://public-user@code.example.invalid/repo",
+      "\"auth\": \"required for this endpoint\"",
+      "Authorization header is missing",
+      "bearer token handling is described in AUTH.md",
+      "session_id: exec-7f3a2b1c",
+      "\"session_id\": \"call_9d81c2e4a0\"",
+      "tool_use_id=toolu_01ABCDEF"
+    ],
+    "env_reference": [
+      "password=$APP_SECRET",
+      "password=${APP_SECRET}",
+      "password=process.env.APP_SECRET",
+      "api_key=$APP_SECRET",
+      "api_key=${APP_SECRET}",
+      "api_key=process.env.APP_SECRET",
+      "auth=$APP_SECRET",
+      "auth=${APP_SECRET}",
+      "auth=process.env.APP_SECRET",
+      "curl -H \"Authorization: Bearer $APP_AUTH\" https://demo.invalid",
+      "curl -H \"Authorization: Bearer ${APP_AUTH}\" https://demo.invalid",
+      "Authorization: Bearer process.env.APP_AUTH"
+    ],
+    "code_expression": [
+      "password: match candidate { Some(x) => x, None => return };",
+      "const opts = {password: match result { Ok(x) => x, Err(_) => return }};",
+      "token: async () => getToken()",
+      "password: options.value ?? fallback",
+      "auth: config.auth || defaultAuth",
+      "auth: function() { return buildAuth(); }"
+    ],
+    "regex_pattern": [
+      "rg \"password:\\s+\" notes.txt",
+      "grep -E 'token:.*' config.txt",
+      "const pattern = /auth:\\s+/g;",
+      "rg 'api_key=[A-Z]+' fixtures.txt"
+    ],
+    "marker_surrounding": [
+      "token=\"[REDACTED] plus context\"",
+      "password: '[REDACTED] (removed earlier)'",
+      "Authorization: Bearer [REDACTED] (already removed)",
+      "auth: \"[REDACTED] preserved commentary\""
+    ],
+    "resource_name": [
+      "credentialsSecret: team-credential-store",
+      "credentials_secret: runtime-auth-store",
+      "secretName: catalog-access-store",
+      "secretRef: shared-access-store"
+    ],
+    "auth_config": [
+      "auth: {scheme: \"oauth2\", audience: \"api\", enabled: false}",
+      "{\"auth\":{\"scheme\":\"oidc\",\"audience\":\"demo-ui\",\"enabled\":true}}",
+      "auth:\n  scheme: oidc\n  audience: demo-ui\n  enabled: true\nnext: unchanged"
+    ],
+    "labeled_fixture": [
+      "Synthetic fixture: password=\"toyphrase\"",
+      "Toy example: token=\"toyTokenMaterial\"",
+      "Test fixture: api_key=\"fixtureValue\"",
+      "test_vector = \"Bearer toyOtherMaterial\";",
+      "synthetic_fixture = \"Bearer toyFixtureValue\";"
+    ],
+    "excerpt": [
+      "{\"excerpt\":\"auth: dep\"}",
+      "Excerpt: password: pa",
+      "truncated excerpt: token: abc",
+      "{\"excerpt\":\"password: the ac\"}"
+    ],
+    "language_path": [
+      "auth::Signed<Mode>",
+      "mcp_auth::Token<Mode>>",
+      "auth: module::Signed<Mode>",
+      "token: Namespace.Token<Mode>"
+    ],
+    "username_url": [
+      "https://reader@docs.example.invalid/path",
+      "https://viewer@code.example.org/repo",
+      "https://public-user@github.com/org/repo"
+    ],
+    "free_prose": [
+      "# auth: review deployment options",
+      "- auth: review deployment options",
+      "We discussed auth: review deployment options",
+      "auth: required for this endpoint",
+      "\"password\": \"required for this endpoint\"",
+      "auth: the production credential",
+      "password: the actual secret value",
+      "// password: the actual secret value"
+    ],
+    "session_execution_id": [
+      "session_id: exec-3b7c2a9e",
+      "session_id: call_4b81c2d9",
+      "session_id: toolu_01XYZABC",
+      "session_id: build-index",
+      "session_id: review",
+      "session_id: 12345678-1234-4234-8234-123456789abc",
+      "sessionId: exec-3b7c2a9e",
+      "sessionId: call_4b81c2d9",
+      "sessionId: toolu_01XYZABC",
+      "sessionId: build-index",
+      "sessionId: review",
+      "sessionId: 12345678-1234-4234-8234-123456789abc"
+    ]
+  },
+  "positive": [
+    [
+      "password: the actual secret value\nnext: unchanged",
+      "the actual secret value"
+    ],
+    [
+      "next: unchanged\npassword: the actual secret value",
+      "the actual secret value"
+    ],
+    [
+      "database:\n  password: the actual secret value\n  next: unchanged",
+      "the actual secret value"
+    ],
+    [
+      "```yaml\npassword: the actual secret value\n```",
+      "the actual secret value"
+    ],
+    [
+      "# config.yaml\npassword: the actual secret value",
+      "the actual secret value"
+    ],
+    [
+      "# config.toml\npassword = \"the actual secret value\"",
+      "the actual secret value"
+    ],
+    [
+      "# .env\npassword=\"the actual secret value\"",
+      "the actual secret value"
+    ],
+    [
+      "auth: the production credential\nnext: unchanged",
+      "the production credential"
+    ],
+    [
+      "next: unchanged\nauth: the production credential",
+      "the production credential"
+    ],
+    [
+      "database:\n  auth: the production credential\n  next: unchanged",
+      "the production credential"
+    ],
+    [
+      "```yaml\nauth: the production credential\n```",
+      "the production credential"
+    ],
+    [
+      "# config.yaml\nauth: the production credential",
+      "the production credential"
+    ],
+    [
+      "# config.toml\nauth = \"the production credential\"",
+      "the production credential"
+    ],
+    [
+      "# .env\nauth=\"the production credential\"",
+      "the production credential"
+    ],
+    [
+      "auth: review deployment options\nnext: unchanged",
+      "review deployment options"
+    ],
+    [
+      "next: unchanged\nauth: review deployment options",
+      "review deployment options"
+    ],
+    [
+      "database:\n  auth: review deployment options\n  next: unchanged",
+      "review deployment options"
+    ],
+    [
+      "```yaml\nauth: review deployment options\n```",
+      "review deployment options"
+    ],
+    [
+      "# config.yaml\nauth: review deployment options",
+      "review deployment options"
+    ],
+    [
+      "# config.toml\nauth = \"review deployment options\"",
+      "review deployment options"
+    ],
+    [
+      "# .env\nauth=\"review deployment options\"",
+      "review deployment options"
+    ],
+    [
+      "Authorization: Bearer SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "session_id: SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "api_key=\"STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55\"",
+      "STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "Synthetic fixture: api_key=\"STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55\"",
+      "STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "auth: {scheme: \"oidc\", password: \"SYNTH_ALPHA\"}",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "curl -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTWU5USEVUSUMifQ.U1lOVEhFVElDX3NpZ25hdHVyZQ\" https://demo.invalid",
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTWU5USEVUSUMifQ.U1lOVEhFVElDX3NpZ25hdHVyZQ"
+    ],
+    [
+      "token=\"[REDACTED] password=SYNTH_ALPHA\"",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "auth: {scheme: \"oidc\", key: SYNTH_ALPHA}",
+      "SYNTH_ALPHA"
+    ]
+  ]
+}
