@@ -9,6 +9,8 @@ pub fn prose() -> Vec<(String, String)> {
         ("password", "a correct horse battery staple"),
         ("auth", "the open sesame phrase"),
         ("db_password", "use my dog has fleas"),
+        ("password", "see you later"),
+        ("auth", "the phrase used for birds"),
     ] {
         for quote in ["", "\"", "'"] {
             for prefix in ["", "database:\n  "] {

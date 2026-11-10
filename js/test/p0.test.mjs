@@ -10,7 +10,7 @@ function check(input, expected) {
   assert.equal(scrubber.scrubText(expected), expected);
 }
 test('P0 explicit YAML lowercase prose preserves only syntax and later fields', () => {
-  for (const [key,value] of [['password','correct horse battery staple'], ['auth','open sesame please'], ['db_password','my dog has fleas'], ['password','a correct horse battery staple'], ['auth','the open sesame phrase'], ['db_password','use my dog has fleas']]) {
+  for (const [key,value] of [['password','correct horse battery staple'], ['auth','open sesame please'], ['db_password','my dog has fleas'], ['password','a correct horse battery staple'], ['auth','the open sesame phrase'], ['db_password','use my dog has fleas'], ['password','see you later'], ['auth','the phrase used for birds']]) {
     for (const quote of ['', '"', "'"]) for (const prefix of ['', 'database:\n  ']) {
       const input = `${prefix}${key}: ${quote}${value}${quote}\nnext: unchanged\n`;
       check(input, input.replace(value, '[REDACTED]'));
