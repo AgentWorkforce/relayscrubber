@@ -331,12 +331,12 @@
         ]
       },
       {
-        "cases": 5,
+        "cases": 3,
         "name": "prose_or_comment",
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          3,
+          3,
+          3
         ]
       },
       {
@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70"
+    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716"
   },
   "headWasm": {
-    "source": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70",
+    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -509,11 +509,11 @@
       },
       {
         "name": "prose_or_comment",
-        "cases": 5,
+        "cases": 3,
         "unchangedTextJsonRecords": [
-          5,
-          5,
-          5
+          3,
+          3,
+          3
         ]
       },
       {
@@ -529,17 +529,17 @@
   },
   "controls": {
     "namedBenignFamilies": 14,
-    "inventedBenignVariants": 80,
-    "positiveControls": 23,
+    "inventedBenignVariants": 78,
+    "positiveControls": 25,
     "structuredCases": 3,
     "nativeTextVectors": 5317,
     "nativeStructuredVectors": 5317,
-    "nodeTests": 56,
-    "bunTests": 56,
+    "nodeTests": 60,
+    "bunTests": 60,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199,
-    "newSessionBenignCases": 88,
-    "newSessionPositiveControls": 29
+    "newSessionBenignCases": 81,
+    "newSessionPositiveControls": 36
   },
   "frozenWitnesses": {
     "baseExactArchivedOracle": 160,
@@ -583,17 +583,17 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "9f9a1797cfdf292649ad29543cf3d4a980d96ec0",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42825449028",
-    "artifactId": 13768134511,
-    "sourceSha256": "939d0ac55cd3b55a9fffc647d4d7009127877053b6af963d31feb3939abbdb70",
-    "wasmSha256": "b0d370ae5a522e9d89c6b4edb237428bc705509644c394eb55b40fcd4d08830e",
-    "wasmBytes": 1617609,
-    "packageSha256": "bc0137807127ef5c747aee17426b192a3a6e1457b538547c9da86674b3455e4d",
-    "packageBytes": 541440,
-    "hostedAllRuntimeChecks": "pass: Linux/Windows native59, Node/Bun56, frozen199,5317text+5317structured vectors, admission/resource, independent-target reproducibility, Workers and packaging; only old-pin equality failed as expected",
-    "localHostedPackageReplay": "pass: downloaded Linux-hosted WASM, Node56/Bun56,88new benign+29positives on all3APIs,80earlier benign+23positives,199frozen,24document-context variants,structured secret controls,Workers",
-    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Exact-head verification run and head are linked from PR12."
+    "sourceCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+    "artifactId": 13771140455,
+    "sourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "wasmBytes": 1606378,
+    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
+    "packageBytes": 537396,
+    "hostedAllRuntimeChecks": "Linux/Windows native63, Node60/Bun60, frozen199 and5317text+5317structured vectors, admission/resource, reproducibility, Workers and packaging passed; only stale-pin equality refused the old pin as expected.",
+    "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
+    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
   },
   "additionalTestOnlyCommit": "408ac1e",
   "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",
@@ -647,7 +647,7 @@
       "resourceDeadlineSeconds": 10,
       "nativeReleaseAllP0Seconds": 1.55
     },
-    "recognition": "Credential/public scopes retain cumulative flags until structural/indentation/quote boundaries, independently of distance. Current prose recognition uses document context as specified in docs/results/session-precision.json; prior P0 positive cases and scope-exit controls remain passing.",
+    "recognition": "Current final ruling supersedes value-prefix and isolated-lowercase-prose exemptions: explicit assignments redact unless preceding syntax establishes a non-assignment wrapper. Nearest explicit credential scope overrides public selector; scope exit restores public context.",
     "precisionStatus": "Independent re-audit pending; synthetic checks are behavioral regression evidence only.",
     "followupTestOnlyCommit": "3e46ef9",
     "followupBaselineEvidence": {
@@ -671,6 +671,16 @@
     "suppliedCases": 19,
     "baselineSuppliedChangedEachApi": 16,
     "headSuppliedChangedEachApi": 0,
+    "independentPrecision": "Independent re-audit pending",
+    "supersededBy": "docs/results/exact-packet.json: final reviewer ruling; historical 88 benign classifications have seven assignment-shaped cases reclassified as positive controls."
+  },
+  "exactReviewerPacketFix": {
+    "receipt": "docs/results/exact-packet.json",
+    "ruling": "relayscrubber-lead245900777391968256",
+    "baseCommit": "486dab523a7cef38fd4fd6fa9e23b4658f40def0",
+    "matrixCases": 1186,
+    "finalRulingCases": 43,
+    "policyExpectationChanges": "12 prose cases reclassified as credential assignments plus six nested-AWS distance expectations in each native/WASM P0 suite; see complete per-case list in exact-packet receipt and PR12.",
     "independentPrecision": "Independent re-audit pending"
   }
 }
