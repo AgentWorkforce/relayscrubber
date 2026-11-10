@@ -58,33 +58,62 @@ fn main() {
         assert!(!output.contains(case[1].as_str().unwrap()));
         text.push(serde_json::json!({"input":input,"output":output}));
     }
-    let structural: serde_json::Value = serde_json::from_str(
-        &include_str!("../eval/structural_cases.json")
-            .replace("OPENAI_PREFIX_", &["sk", "-"].concat())
-            .replace("CLOUDFLARE_PREFIX_", &["cf", "k_"].concat()),
-    )
-    .unwrap();
-    for case in structural.as_array().unwrap() {
-        let input = case["input"].as_str().unwrap();
-        let output = relayscrubber::scrub_text(input);
-        if let Some(expected) = case["expected"].as_str() {
-            assert_eq!(output, expected);
-        } else {
-            assert!(!output.contains(case["secret"].as_str().unwrap()));
+    for source in [
+        include_str!("../eval/structural_cases.json"),
+        include_str!("../eval/complete_cases.json"),
+    ] {
+        let structural: serde_json::Value = serde_json::from_str(
+            &source
+                .replace("OPENAI_PREFIX_", &["sk", "-"].concat())
+                .replace("CLOUDFLARE_PREFIX_", &["cf", "k_"].concat()),
+        )
+        .unwrap();
+        for case in structural.as_array().unwrap() {
+            let input = case["input"].as_str().unwrap();
+            let output = relayscrubber::scrub_text(input);
+            if let Some(expected) = case["expected"].as_str() {
+                assert_eq!(output, expected);
+            } else {
+                assert!(!output.contains(case["secret"].as_str().unwrap()));
+            }
+            text.push(serde_json::json!({"input":input,"output":output}));
         }
-        text.push(serde_json::json!({"input":input,"output":output}));
     }
     let bearer: serde_json::Value =
         serde_json::from_str(include_str!("../eval/bearer_cases.json")).unwrap();
     for case in bearer["positive"].as_array().unwrap() {
         text.push(serde_json::json!({"input":case[0],"output":relayscrubber::scrub_text(case[0].as_str().unwrap())}));
     }
-    let structured: Vec<_> = text.iter().map(|case| {
+    for n in ["123456", "-246810", "12.375", "6.02e23", "0"] {
+        for key in [
+            "password",
+            "passwd",
+            "pin",
+            "secret",
+            "client_secret",
+            "token",
+            "accessToken",
+            "refreshToken",
+            "api_key",
+        ] {
+            let input = format!("{{\"{key}\":{n},\"session_id\":57243,\"pid\":42}}");
+            let output = relayscrubber::scrub_text(&input);
+            text.push(serde_json::json!({"input":input,"output":output}));
+        }
+    }
+    let mut structured: Vec<_> = text.iter().map(|case| {
         let value = serde_json::json!({"text":case["input"]});
         let json = relayscrubber::scrub_json(&value).0;
         let records = relayscrubber::scrub_records(serde_json::to_string(&value).unwrap().as_bytes()).unwrap();
         serde_json::json!({"input":value.to_string(), "jsonText":json.to_string(), "records":String::from_utf8(records.bytes).unwrap()})
     }).collect();
+    for n in ["123456", "-246810", "12.375", "6.02e23", "0"] {
+        let input = format!("{{\"password\":{n},\"session_id\":57243,\"pid\":42}}");
+        let value: serde_json::Value = serde_json::from_str(&input).unwrap();
+        let json = relayscrubber::scrub_json(&value).0;
+        let records = relayscrubber::scrub_records(input.as_bytes()).unwrap();
+        structured.push(serde_json::json!({"input":input,"jsonText":json.to_string(),"records":String::from_utf8(records.bytes).unwrap()}));
+    }
     println!(
         "{}",
         serde_json::json!({"manifest":relayscrubber::manifest(),"text":text,"structured":structured})

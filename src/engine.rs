@@ -26,7 +26,77 @@ const WEBHOOK: &str = r"https://hooks\.slack(?:-gov)?\.com/(?:services|workflows
 
 fn provider_regex() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| Regex::new(&format!("{PROVIDERS}|{WEBHOOK}")).expect("fixed provider regex"))
+    R.get_or_init(|| {
+        Regex::new(&format!(r"\A(?:{PROVIDERS}|{WEBHOOK})")).expect("fixed provider regex")
+    })
+}
+
+fn provider_matches(text: &str) -> Vec<Range<usize>> {
+    // Find fixed provider prefixes once, then validate only at those positions.
+    // The large token automaton must not retry every byte of ordinary long
+    // fields (notably megabyte runs beginning with x on debug Windows builds).
+    const PREFIXES: &[&str] = &[
+        "sk-",
+        "sk_",
+        "rk_",
+        "ghp_",
+        "gho_",
+        "ghu_",
+        "ghs_",
+        "ghr_",
+        "github_pat_",
+        "glpat-",
+        "AKIA",
+        "ASIA",
+        "whsec_",
+        "xoxb-",
+        "xoxa-",
+        "xoxp-",
+        "xoxr-",
+        "xoxs-",
+        "xoxe-",
+        "xapp-",
+        "npm_",
+        "pypi-",
+        "AIza",
+        "ya29.",
+        "SG.",
+        "dop_v1_",
+        "doo_v1_",
+        "cfut_",
+        "cfat_",
+        "cfk_",
+        "vercel_",
+        "hf_",
+        "capy_",
+        "crsr_",
+        "relay_ag_",
+        "relay_pa_",
+        "relay_ws_",
+        "relay_id_",
+        "rth_at_",
+        "rth_rt_",
+        "rth_st_",
+        "https://hooks.slack",
+        "/webhooks/automations/",
+    ];
+    let mut starts: Vec<_> = PREFIXES
+        .iter()
+        .flat_map(|prefix| text.match_indices(prefix).map(|(start, _)| start))
+        .collect();
+    starts.sort_unstable();
+    let mut ranges = Vec::new();
+    let mut cursor = 0;
+    for start in starts {
+        if start < cursor {
+            continue;
+        }
+        if let Some(token) = provider_regex().find(&text[start..]) {
+            cursor = start + token.end();
+            ranges.push(start..cursor);
+        }
+    }
+    ranges
 }
 
 fn pem_regex() -> &'static Regex {
@@ -75,6 +145,7 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "password",
         "passwd",
         "pwd",
+        "pin",
         "passphrase",
         "secret",
         "clientsecret",
@@ -137,6 +208,11 @@ pub(crate) fn public_context(name: &str) -> bool {
     name.eq_ignore_ascii_case("idempotency_key")
         || name.eq_ignore_ascii_case("idempotency-key")
         || name.eq_ignore_ascii_case("idempotencyKey")
+}
+
+pub(crate) fn numeric_identifier(name: &str) -> bool {
+    name.replace(['_', '-'], "")
+        .eq_ignore_ascii_case("sessionid")
 }
 
 fn word(b: u8) -> bool {
@@ -255,21 +331,37 @@ fn indented_end(view: &View, value: usize, key_indent: usize) -> usize {
 }
 
 fn shell_reference(value: &str) -> bool {
-    let Some(name) = value.strip_prefix('$') else {
+    let Some(mut name) = value.strip_prefix('$') else {
         return false;
     };
-    let name = name
-        .strip_prefix('{')
-        .and_then(|s| s.strip_suffix('}'))
-        .unwrap_or(name);
-    let variable_end = name
+    let braced = name.starts_with('{');
+    if braced {
+        let Some(inner) = name.strip_prefix('{').and_then(|s| s.strip_suffix('}')) else {
+            return false;
+        };
+        name = inner;
+    }
+    let end = name
         .find(|c: char| !c.is_ascii_alphanumeric() && c != '_')
         .unwrap_or(name.len());
-    variable_end > 0
-        && (variable_end == name.len()
-            || [":-", ":=", ":?", ":+", "-", "+", "?"]
-                .iter()
-                .any(|op| name[variable_end..].starts_with(op)))
+    if end == 0 || opaque_material(&name[..end]) {
+        return false;
+    }
+    if end == name.len() {
+        return true;
+    }
+    braced
+        && [":-", ":=", ":?", ":+", "-", "+", "?"].iter().any(|op| {
+            name[end..].strip_prefix(op).is_some_and(|default| {
+                !opaque_material(default)
+                    && (reference(default)
+                        || shell_reference(default)
+                        || !default.is_empty()
+                            && default
+                                .bytes()
+                                .all(|b| b.is_ascii_lowercase() || b"_-/ .".contains(&b)))
+            })
+        })
 }
 
 // These are references to credential storage, not credential values.
@@ -295,20 +387,18 @@ pub(crate) fn uuid(value: &str) -> bool {
             }
         })
 }
-fn symbolic_atom(value: &str) -> &str {
-    value
-        .split(" #")
-        .next()
-        .unwrap_or(value)
-        .trim()
-        .trim_end_matches([',', ';'])
-        .trim()
-}
 fn type_context(view: &View, key: usize) -> bool {
     // Fixed lookbehind budget: repeated fields cannot rescan a growing prefix.
     let mut start = key.saturating_sub(512);
     while !view.text.is_char_boundary(start) {
         start += 1;
+    }
+    let prefix = &view.text[start..key];
+    if !["fn", "struct", "interface", "type"]
+        .iter()
+        .any(|word| prefix.contains(word))
+    {
+        return false;
     }
     static TYPE: OnceLock<Regex> = OnceLock::new();
     TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").expect("fixed type-context regex"))
@@ -319,6 +409,10 @@ fn code_object_context(view: &View, key: usize) -> bool {
     while !view.text.is_char_boundary(start) {
         start += 1;
     }
+    let prefix = &view.text[start..key];
+    if !prefix.contains('=') && !prefix.contains("json!") {
+        return false;
+    }
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
         Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$")
@@ -327,96 +421,160 @@ fn code_object_context(view: &View, key: usize) -> bool {
     .is_match(&view.text[start..key])
 }
 
+// A reference must reach its delimiter within this budget. Whitespace and
+// comments are part of the value, not proof that a reference has ended.
+fn candidate_end(view: &View, value: usize) -> Option<usize> {
+    let b = view.text.as_bytes();
+    let line = view.line_end(value).min(view.enclosing_end(value));
+    let limit = line.min(value.saturating_add(512));
+    let outer = matches!(b.get(value), Some(b'"' | b'\'' | b'`')).then_some(b[value]);
+    let outer_end = outer.map(|_| view.quote_end(value));
+    let mut nested_outer_quote = false;
+    let mut i = value + usize::from(outer.is_some());
+    let mut stack = Vec::new();
+    while i < limit {
+        let ch = b[i];
+        if stack.is_empty() && outer == Some(ch) && (outer_end == Some(i) || nested_outer_quote) {
+            return Some(i + 1);
+        }
+        if outer.is_none() && stack.is_empty() && matches!(ch, b',' | b';' | b'}' | b']' | b')') {
+            return Some(i);
+        }
+        if matches!(ch, b'"' | b'\'' | b'`') && (outer.is_none() || !stack.is_empty()) {
+            let end = view.quote_end(i);
+            if end >= limit {
+                return None;
+            }
+            nested_outer_quote |= outer_end == Some(i);
+            i = end + 1;
+            continue;
+        }
+        match ch {
+            b'(' => stack.push(b')'),
+            b'{' => stack.push(b'}'),
+            b'[' => stack.push(b']'),
+            b'<' if i > value && b[i - 1].is_ascii_alphanumeric() => stack.push(b'>'),
+            b'>' if stack.last() == Some(&b'>') => {
+                stack.pop();
+            }
+            b')' | b'}' | b']' => {
+                if stack.pop() != Some(ch) {
+                    return None;
+                }
+            }
+            _ => {}
+        }
+        i += 1;
+    }
+    (limit == line && stack.is_empty() && outer.is_none()).then_some(limit)
+}
+
+fn candidate(view: &View, value: usize) -> Option<&str> {
+    candidate_end(view, value).map(|end| view.text[value..end].trim_end())
+}
+
+fn opaque_material(value: &str) -> bool {
+    value
+        .split(|c: char| !c.is_ascii_alphanumeric() && c != '_' && c != '-')
+        .any(|atom| {
+            atom.len() >= 16
+                && atom.bytes().any(|b| b.is_ascii_uppercase())
+                && (atom.bytes().any(|b| b.is_ascii_digit())
+                    || atom.len() >= 24 && atom.bytes().any(|b| b.is_ascii_lowercase()))
+        })
+}
+
+fn safe_code_literals(value: &str) -> bool {
+    if opaque_material(value) {
+        return false;
+    }
+    let b = value.as_bytes();
+    let mut i = 0;
+    while i < b.len() {
+        if matches!(b[i], b'"' | b'\'' | b'`') {
+            let quote = b[i];
+            let Some(close) = b[i + 1..].iter().position(|&ch| ch == quote) else {
+                // Rust lifetimes in types are identifiers, not strings.
+                return quote == b'\''
+                    && value[i + 1..]
+                        .bytes()
+                        .all(|ch| ch.is_ascii_alphanumeric() || b"_ >&,".contains(&ch));
+            };
+            let literal = &value[i + 1..i + 1 + close];
+            if !(literal == "Bearer " || i > 0 && b[i - 1] == b'[' && sensitive(literal)) {
+                return false;
+            }
+            i += close + 2;
+        } else {
+            i += 1;
+        }
+    }
+    true
+}
+
+fn code_expression(value: &str) -> bool {
+    if !safe_code_literals(value) {
+        return false;
+    }
+    static R: OnceLock<Regex> = OnceLock::new();
+    R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
+        .is_match(value)
+}
+
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
-    let mut limit = (value + 512).min(view.text.len());
-    while !view.text.is_char_boundary(limit) {
-        limit -= 1;
+    let Some(rest) = candidate(view, value) else {
+        return false;
+    };
+    if !safe_code_literals(rest) {
+        return false;
     }
-    let rest = &view.text[value..limit];
-    static EXPRESSION: OnceLock<Regex> = OnceLock::new();
-    if (declaration || colon)
-        && EXPRESSION.get_or_init(|| Regex::new(r"^(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., ]*\)|\([A-Za-z0-9_., ]*\))+)[ \t]*(?:[,;)}]|$)").expect("fixed code expression syntax")).is_match(rest)
+    if (declaration || colon && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
+        && code_expression(rest)
     {
         return true;
     }
-    let end = rest
-        .find(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | '}' | ')' | '"' | '\'' | '`'))
-        .unwrap_or(rest.len());
-    let atom = &rest[..end];
-    // Identifier values are references only in established code expression syntax.
-    static MEMBER: OnceLock<Regex> = OnceLock::new();
-    let member = MEMBER.get_or_init(|| {
-        Regex::new(
-            r"^[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\[[^\]\r\n]+\])+!?",
-        )
-        .expect("fixed member regex")
-    });
-    if member.find(rest).is_some_and(|m| {
-        rest.as_bytes()
-            .get(m.end())
-            .is_none_or(|b| b.is_ascii_whitespace() || matches!(b, b';' | b',' | b')' | b'}'))
-    }) {
-        return true;
+    if colon && rest.starts_with("match ") && rest.ends_with('}') && rest.contains("=>") {
+        return rest
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b"_ \t{}(),=>:&|".contains(&b));
     }
-    if declaration
-        && atom.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
-        && atom.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
-    {
-        return true;
-    }
-    if colon
-        && ((rest.starts_with("match ") && rest.contains("=>"))
-            || rest.starts_with("async ") && rest.contains("=>")
-            || rest.starts_with("function("))
-    {
-        return true;
-    }
-    if declaration || colon {
-        let head = atom.split('(').next().unwrap_or(atom).trim();
-        if rest.as_bytes().get(head.len()) == Some(&b'(')
-            && !head.is_empty()
-            && head
+    // Types must also be complete; a balanced generic cannot hide a tail.
+    if colon {
+        let mut depth = 0usize;
+        let mut type_end = None;
+        for (i, b) in rest.bytes().enumerate() {
+            match b {
+                b'<' => depth += 1,
+                b'>' if depth > 0 => {
+                    depth -= 1;
+                    if depth == 0 {
+                        type_end = Some(i + 1);
+                    }
+                }
+                _ => {}
+            }
+        }
+        let generic = type_end == Some(rest.len())
+            && depth == 0
+            && rest
                 .bytes()
-                .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'_' | b'.' | b':'))
-        {
-            return true;
-        }
-        if rest.starts_with("new ") {
-            return true;
-        }
+                .all(|b| b.is_ascii_alphanumeric() || b"_:<>()[], &'".contains(&b));
+        let simple = ["string", "boolean", "number", "bool", "&str"].contains(&rest)
+            || type_context(view, key) && code_expression(rest);
+        return generic || simple;
     }
-    if colon
-        && type_context(view, key)
-        && (rest.starts_with('&')
-            || (!atom.is_empty()
-                && atom.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
-                && atom
-                    .chars()
-                    .all(|c| c.is_ascii_alphanumeric() || "_:<>[]&'".contains(c))))
-    {
-        return true;
-    }
-    static GENERIC_TYPE: OnceLock<Regex> = OnceLock::new();
-    let generic_type = GENERIC_TYPE.get_or_init(|| {
-        Regex::new(r"^(?:[A-Za-z_][A-Za-z0-9_]*(?:::|\.))*[A-Z][A-Za-z0-9_]*<")
-            .expect("fixed generic type syntax")
-    });
-    colon
-        && (generic_type.is_match(rest)
-            || atom.contains("::<")
-            || atom.contains("::") && atom.contains('<')
-            || ["string", "boolean", "number"].contains(&atom)
-            || rest.starts_with("&str")
-            || rest.starts_with("&mut ")
-            || [
-                "Mutex<", "Option<", "Arc<", "Vec<", "String>", "bool ", "bool}", "bool }", "std::",
-            ]
-            .iter()
-            .any(|s| rest.starts_with(s)))
+    false
 }
 
 // These exclusions require syntax, never the English meaning of a value.
-fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, colon: bool) -> bool {
+fn structural_value(
+    view: &View,
+    name: &str,
+    key: usize,
+    value: usize,
+    quoted_key: bool,
+    colon: bool,
+) -> bool {
     let first = view.text.as_bytes()[value];
     // Most credential scalars cannot be any of these structural forms. Reject
     // them before bounded lookbehind, tokenization or regex work.
@@ -431,11 +589,12 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
     while !view.text.is_char_boundary(limit) {
         limit -= 1;
     }
-    let rest = &view.text[value..limit];
+    let line_rest = &view.text[value..limit];
+    let rest = candidate(view, value).unwrap_or("");
     let prefix = bounded_prefix(view, key);
     if prefix.ends_with("--") && view.text[key..].starts_with("idempotency-token") {
-        let atom = rest.split_whitespace().next().unwrap_or(rest);
-        if (atom.len() < rest.len() || limit == view.line_end(value))
+        let atom = line_rest.split(" --").next().unwrap_or(line_rest).trim();
+        if limit == view.line_end(value)
             && !atom.is_empty()
             && atom
                 .bytes()
@@ -444,13 +603,14 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
             return true;
         }
     }
-    let raw_atom = rest
-        .split([',', ';', '}', ')', '\"', '\''])
-        .next()
-        .unwrap_or(rest);
-    let complete = raw_atom.len() < rest.len() || limit == view.line_end(value);
-    let atom = raw_atom.trim();
-    if complete && quoted_key && colon && serde_json::from_str::<serde_json::Number>(atom).is_ok() {
+    let complete = !rest.is_empty();
+    let atom = rest.trim();
+    if complete
+        && quoted_key
+        && colon
+        && numeric_identifier(name)
+        && serde_json::from_str::<serde_json::Number>(atom).is_ok()
+    {
         return true;
     }
     static SQL: OnceLock<Regex> = OnceLock::new();
@@ -478,7 +638,7 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
     if colon
         && RESOURCE
             .get_or_init(|| {
-                Regex::new(r"^\{[ \t]*name[ \t]*:[ \t]*[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)+[ \t]*\}")
+                Regex::new(r"^\{[ \t]*name[ \t]*:[ \t]*[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)+[ \t]*\}$")
                     .expect("fixed resource mapping")
             })
             .is_match(rest)
@@ -486,15 +646,25 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
         return true;
     }
     static TAG: OnceLock<Regex> = OnceLock::new();
-    if prefix.contains("--tags ")
+    let tag = line_rest
+        .split(" Key=")
+        .next()
+        .unwrap_or(line_rest)
+        .split(" --")
+        .next()
+        .unwrap_or(line_rest)
+        .trim();
+    if limit == view.line_end(value)
+        && !opaque_material(tag)
+        && prefix.contains("--tags ")
         && prefix.contains("aws ")
         && view.text[key..].starts_with("Key=")
         && TAG
             .get_or_init(|| {
-                Regex::new(r"^[A-Za-z_][A-Za-z0-9_:.-]*,Value=[A-Za-z0-9_:./-]+(?:[ \t]|$)")
+                Regex::new(r"^[A-Za-z_][A-Za-z0-9_:.-]*,Value=[A-Za-z0-9_:./-]+$")
                     .expect("fixed cloud tag pair")
             })
-            .is_match(rest)
+            .is_match(tag)
     {
         return true;
     }
@@ -502,60 +672,59 @@ fn structural_value(view: &View, key: usize, value: usize, quoted_key: bool, col
 }
 
 fn expansion_reference(value: &str) -> bool {
-    if !value.starts_with("$(") && !value.starts_with("${{") {
+    if value.len() > 512 || opaque_material(value) {
         return false;
     }
-    let mut limit = value.len().min(512);
-    while !value.is_char_boundary(limit) {
-        limit -= 1;
+    if let Some(expression) = value.strip_prefix("${{").and_then(|s| s.strip_suffix("}}")) {
+        return expression.trim().contains('.') && code_expression(expression.trim());
     }
-    let truncated = limit < value.len();
-    let value = &value[..limit];
-    let boundary = |tail: &str| {
-        tail.is_empty() && !truncated
-            || tail.starts_with(|c: char| c.is_whitespace() || "\"'`,;)}]".contains(c))
+    let Some(command) = value.strip_prefix("$(").and_then(|s| s.strip_suffix(')')) else {
+        return false;
     };
-    let value = value.trim_end_matches(['\"', '\'', '`']);
-    if let Some(rest) = value.strip_prefix("${{") {
-        return rest.find("}}").is_some_and(|end| {
-            let expression = rest[..end].trim();
-            boundary(&rest[end + 2..])
-                && expression.split('.').count() >= 2
-                && expression.split('.').all(|part| {
-                    !part.is_empty() && part.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
-                })
-        });
+    let command = command.trim();
+    static RAND: OnceLock<Regex> = OnceLock::new();
+    if RAND
+        .get_or_init(|| {
+            Regex::new(r"^openssl rand -(?:hex|base64) [0-9]{1,3}$")
+                .expect("complete random generator command")
+        })
+        .is_match(command)
+    {
+        return true;
     }
-    if !value.starts_with("$(") {
-        return false;
+    if let Some(file) = command.strip_prefix("cat ") {
+        let file = file.trim();
+        let file = file
+            .strip_prefix('"')
+            .and_then(|s| s.strip_suffix('"'))
+            .unwrap_or(file);
+        return shell_reference(file);
     }
-    let mut depth = 0;
-    for (i, b) in value.bytes().enumerate().skip(1) {
-        if b == b'(' {
-            depth += 1;
-        }
-        if b == b')' {
-            depth -= 1;
-            if depth == 0 {
-                return boundary(&value[i + 1..]);
-            }
-        }
-    }
-    false
+    !command.is_empty()
+        && command.len() <= 64
+        && command.bytes().all(|b| b.is_ascii_lowercase() || b == b'-')
 }
 
 fn match_arm_body(value: &str) -> bool {
-    static ARM: OnceLock<Regex> = OnceLock::new();
-    ARM.get_or_init(|| {
-        Regex::new(r"^[A-Za-z_][A-Za-z0-9_]*[ \t]*(?:=|\()").expect("fixed match arm expression")
-    })
-    .is_match(value)
+    let Some((name, rhs)) = value.split_once('=') else {
+        return code_expression(value);
+    };
+    !name.trim().is_empty()
+        && name
+            .trim()
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+        && code_expression(rhs.trim())
 }
 
 fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     let mut i = 0;
     let mut public_until = if inherited { b.len() } else { 0 };
+    // Classifications depend only on the name, while credential/public scope is
+    // resolved below. Repeated container fields should not rerun normalization,
+    // suffix checks and allocations for every occurrence and every scope.
+    let mut names = std::collections::HashMap::new();
     // End positions are resolved by View, so context is retained independently
     // of byte distance. Cumulative flags make every push/pop constant time.
     let mut contexts: Vec<(usize, bool, bool)> = Vec::new();
@@ -578,10 +747,14 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 .copied()
                 .unwrap_or((b.len(), false, inherited));
         let name = &view.text[start..i];
-        let is_secret =
-            sensitive(name) || name.eq_ignore_ascii_case("key") && credential && !public;
-        let is_public = public_context(name);
-        let is_credential = credential_context(name);
+        let (secret_name, is_public, is_credential) = *names.entry(name).or_insert_with(|| {
+            (
+                sensitive(name),
+                public_context(name),
+                credential_context(name),
+            )
+        });
+        let is_secret = secret_name || name.eq_ignore_ascii_case("key") && credential && !public;
         if !is_secret && !is_public && !is_credential {
             continue;
         }
@@ -658,7 +831,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         if flag && (name.starts_with("no-") || matches!(b[value], b'|' | b'&' | b';')) {
             continue;
         }
-        if view.text[value..].starts_with("([^") {
+        if ["([^ ]+)/g;", "([^ ]+)/g", "([^ ]+)/"]
+            .contains(&view.text[value..view.line_end(value)].trim())
+        {
             continue;
         }
         if matches!(b[value], b'"' | b'\'' | b'`') && view.enclosing_end(value) == value {
@@ -670,7 +845,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         if quoted_key
             && b.get(sep..sep + 2) == Some(b"=>")
             && !quoted
-            && match_arm_body(&view.text[value..view.line_end(value)])
+            && candidate(view, value).is_some_and(match_arm_body)
         {
             continue;
         }
@@ -688,7 +863,16 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             continue;
         }
 
-        if !quoted && structural_value(view, start, value, quoted_key, b.get(sep) == Some(&b':')) {
+        if !quoted
+            && structural_value(
+                view,
+                name,
+                start,
+                value,
+                quoted_key,
+                b.get(sep) == Some(&b':'),
+            )
+        {
             continue;
         }
         let line_start = view.line_start(value);
@@ -788,43 +972,61 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         };
         let content = value + usize::from(quoted);
         let raw = &view.text[content..end];
-        // Expansion syntax has its own balanced end; scanning it does not
-        // suppress nested assignments or provider tokens.
-        if expansion_reference(&view.text[content..view.line_end(content)]) {
-            continue;
-        }
-        if view.text[content..].starts_with("${") {
-            let limit = (content + 512).min(b.len());
-            if let Some(close) = b[content..limit].iter().position(|b| *b == b'}') {
-                if shell_reference(&view.text[content..content + close + 1]) {
-                    continue;
-                }
+        if name == "Key" && bounded_prefix(view, start).contains("--tags ") {
+            let tail = &view.text[value..view.line_end(value)];
+            if opaque_material(tail) {
+                end = view.line_end(value);
+                spans.push(content..end);
+                i = end;
+                continue;
             }
         }
-        if !quoted
-            && raw.starts_with(REDACTION_TOKEN)
-            && raw
-                .as_bytes()
-                .get(REDACTION_TOKEN.len())
-                .is_none_or(|b| !word(*b))
+        // Quoted JSON keys retain valid JSON when a numeric credential is
+        // replaced. Identifier numbers have their own narrow exemption above.
+        if quoted_key
+            && b.get(sep) == Some(&b':')
+            && !quoted
+            && serde_json::from_str::<serde_json::Number>(raw).is_ok()
+        {
+            // Include the numeric scalar in a quoted marker, preserving the
+            // public text API's source spelling around it.
+            spans.push(content..end);
+            i = end;
+            continue;
+        }
+        let complete_end = candidate_end(view, value);
+        let full = complete_end.map(|end| {
+            let start = value + usize::from(quoted);
+            let end = end - usize::from(quoted);
+            &view.text[start..end]
+        });
+        if full.is_some_and(expansion_reference) {
+            continue;
+        }
+        if !quoted && raw.starts_with(REDACTION_TOKEN) && full.is_some_and(marker_reference) {
+            continue;
+        }
+        if full.is_some_and(|whole| {
+            field_reference(name, whole)
+                || header && authorization_reference(whole)
+                || quoted && b[value] == b'`' && template_reference(whole)
+        }) || full.is_some_and(|whole| {
+            regex_value(view, start, whole)
+                || labeled_toy(view, start, whole)
+                || excerpt_value(view, start, whole)
+        }) || non_assignment_wrapper(view, start)
+            && full.is_some_and(|s| !opaque_material(s) || s.starts_with("Bearer "))
         {
             continue;
         }
-        if field_reference(name, raw)
-            || regex_value(view, start, raw)
-            || labeled_toy(view, start, raw)
-            || excerpt_value(view, start, raw)
-            || non_assignment_wrapper(view, start)
-            || reference(symbolic_atom(raw))
-            || shell_reference(raw)
-            || name
-                .replace(['_', '-'], "")
-                .eq_ignore_ascii_case("sessionid")
-                && session_identifier(raw)
-            || header && authorization_reference(raw)
-            || quoted && b[value] == b'`' && raw.contains("${")
+        // Failed structural candidates redact through their complete delimiter,
+        // including opaque tails and literals inside calls/substitutions.
+        if full.is_some_and(opaque_material) {
+            end = end.max(complete_end.unwrap() - usize::from(quoted));
+        } else if complete_end.is_none()
+            && (matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*') || declaration)
         {
-            continue;
+            end = end.max(view.line_end(value).min(view.enclosing_end(value)));
         }
         // YAML literal/folded scalar: remove all following indented lines.
         if !quoted
@@ -873,14 +1075,14 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
     let prefix = bounded_prefix(view, position);
-    if prefix.contains("sed ") && prefix.ends_with("/^") && value.starts_with('/') {
+    if prefix.contains("sed ") && prefix.ends_with("/^") && value == "/" {
         return true;
     }
     (prefix.contains("sed ") && prefix.ends_with("/^")
         || prefix.contains("rg ")
         || prefix.contains("grep ")
         || prefix.contains("= /"))
-        && (value.starts_with("\\s") || value.starts_with(".*") || value.starts_with("[A-Z]"))
+        && ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"].contains(&value)
 }
 
 fn bounded_prefix(view: &View, position: usize) -> &str {
@@ -940,9 +1142,20 @@ fn session_identifier(value: &str) -> bool {
 }
 
 fn environment_reference(value: &str) -> bool {
-    value
-        .strip_prefix("process.env.")
-        .is_some_and(|s| !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+    !opaque_material(value)
+        && value.strip_prefix("process.env.").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+        })
+}
+
+fn template_reference(value: &str) -> bool {
+    let Some((prefix, rest)) = value.split_once("${") else {
+        return false;
+    };
+    if !(prefix.is_empty() || prefix == "Bearer ") {
+        return false;
+    }
+    rest.strip_suffix('}').is_some_and(code_expression)
 }
 
 fn authorization_reference(value: &str) -> bool {
@@ -1033,6 +1246,9 @@ fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
 }
 
 pub(crate) fn reference(value: &str) -> bool {
+    if opaque_material(value) {
+        return false;
+    }
     // Explicit symbolic placeholders are normal configuration/documentation.
     // Embedded assignments/providers are still scanned independently.
     let placeholder = value.trim();
@@ -1094,6 +1310,7 @@ pub(crate) fn reference(value: &str) -> bool {
 
 pub(crate) fn field_reference(name: &str, value: &str) -> bool {
     reference(value)
+        || value.strip_suffix(" # placeholder").is_some_and(reference)
         || marker_reference(value)
         || shell_reference(value)
         || environment_reference(value)
@@ -1131,7 +1348,7 @@ fn documentation_url(password: &str, host: &str) -> bool {
 fn url_regex_source(view: &View, start: usize, authority: usize) -> bool {
     let prefix = bounded_prefix(view, start);
     (prefix.ends_with("re.search(r\"") || prefix.ends_with("re.compile(r\""))
-        && view.text[authority..].starts_with("[^")
+        && view.text[authority..].starts_with("[^:]+:([^@]+)@\"")
 }
 
 fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
@@ -1160,33 +1377,6 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
         || prefix.ends_with('.')
         || prefix.ends_with("::")
         || view.text[end..].starts_with('(')
-}
-
-fn provider_in_hostname(view: &View, start: usize, end: usize) -> bool {
-    if !view.text[start..end].starts_with("sk-")
-        || start == 0
-        || !matches!(view.text.as_bytes()[start - 1], b'-' | b'a'..=b'z' | b'0'..=b'9')
-    {
-        return false;
-    }
-    let prefix = bounded_prefix(view, start);
-    let Some(scheme) = prefix.rfind("://") else {
-        return false;
-    };
-    let host_start = start - prefix.len() + scheme + 3;
-    let host_end = view.text[host_start..]
-        .find(|c: char| c.is_whitespace() || "/?#\"'`".contains(c))
-        .map_or(view.text.len(), |n| host_start + n);
-    let host = &view.text[host_start..host_end];
-    end <= host_end
-        && host.contains('.')
-        && !host.contains('@')
-        && host.split('.').all(|label| {
-            !label.is_empty()
-                && label
-                    .bytes()
-                    .all(|b| b.is_ascii_alphanumeric() || b == b'-')
-        })
 }
 
 fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
@@ -1324,8 +1514,9 @@ pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::Sc
                     .start
                     .checked_add_signed(delta)
                     .expect("mapped output offset");
-                let end = start + REDACTION_TOKEN.len();
-                delta += REDACTION_TOKEN.len() as isize - r.len() as isize;
+                let length = replacement(input, r).len();
+                let end = start + length;
+                delta += length as isize - r.len() as isize;
                 (start, end, r.start, r.end)
             })
             .collect();
@@ -1375,18 +1566,22 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     }
     let view = View::new(input);
     let mut spans = Vec::new();
-    for m in provider_regex().find_iter(&view.text) {
-        let value = m.as_str();
-        if provider_symbol(&view, value, m.start(), m.end())
-            || provider_in_hostname(&view, m.start(), m.end())
-        {
+    for m in provider_matches(&view.text) {
+        let value = &view.text[m.clone()];
+        if provider_symbol(&view, value, m.start, m.end) {
             continue;
         }
-        spans.push(m.range());
+        spans.push(m);
     }
     jwts(&view, &mut spans);
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
+        if let Some(end) = candidate_end(&view, token.start()) {
+            if end > token.end() && opaque_material(&view.text[token.end()..end]) {
+                spans.push(token.start()..end);
+                continue;
+            }
+        }
         // A comment marker alone never exempts credential material. Only an
         // explicit variable identifier can retain reference semantics here.
         let prefix = bounded_prefix(&view, c.get(0).expect("bearer match").start()).trim();
@@ -1424,6 +1619,23 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         .collect();
     render(input, original)
 }
+fn replacement<'a>(input: &str, span: &Range<usize>) -> &'a str {
+    if input
+        .as_bytes()
+        .get(span.start)
+        .is_some_and(|b| b.is_ascii_digit() || *b == b'-')
+        && serde_json::from_str::<serde_json::Number>(&input[span.clone()]).is_ok()
+    {
+        let prefix = input[..span.start].trim_end();
+        if prefix
+            .strip_suffix(':')
+            .is_some_and(|s| s.trim_end().ends_with(['"', '\'', '`']))
+        {
+            return "\"[REDACTED]\"";
+        }
+    }
+    REDACTION_TOKEN
+}
 fn render(input: &str, mut original: Vec<Range<usize>>) -> crate::ScrubReport {
     original.sort_unstable_by_key(|r| (r.start, r.end));
     let mut merged: Vec<Range<usize>> = Vec::new();
@@ -1438,7 +1650,7 @@ fn render(input: &str, mut original: Vec<Range<usize>>) -> crate::ScrubReport {
     let mut at = 0;
     for span in &merged {
         out.push_str(&input[at..span.start]);
-        out.push_str(REDACTION_TOKEN);
+        out.push_str(replacement(input, span));
         at = span.end;
     }
     out.push_str(&input[at..]);

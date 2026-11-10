@@ -97,7 +97,7 @@
   {
     "family": "provider_infrastructure_identifier",
     "input": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
-    "expected": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid"
+    "expected": "https://edge-workspace-[REDACTED].example.invalid"
   },
   {
     "family": "cloud_tag_key",

@@ -72,7 +72,7 @@ fn visit(
                         && item.is_object())
                     && **item != Value::String(REDACTION_TOKEN.into())
                     && **item != Value::String(String::new())
-                    && !item.is_number()
+                    && !(item.is_number() && engine::numeric_identifier(key))
                     && !item.is_boolean()
                     && !item.is_null()
                     && !item

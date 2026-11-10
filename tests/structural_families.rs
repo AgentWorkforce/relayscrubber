@@ -37,11 +37,10 @@ fn structural_families_and_literal_siblings_all_apis() {
 }
 
 #[test]
-fn numeric_json_scalars_preserve_type_and_string_siblings_redact() {
+fn numeric_identifiers_preserve_type_and_credentials_redact() {
     let value =
         json!({"session_id":57243,"password":12,"accessToken":-12.5,"token":"M8zR4vK7nP2qW6xAq9"});
-    let expected =
-        json!({"session_id":57243,"password":12,"accessToken":-12.5,"token":REDACTION_TOKEN});
+    let expected = json!({"session_id":57243,"password":REDACTION_TOKEN,"accessToken":REDACTION_TOKEN,"token":REDACTION_TOKEN});
     assert_eq!(scrub_json(&value).0, expected);
     let records = scrub_records(value.to_string().as_bytes()).unwrap();
     assert_eq!(

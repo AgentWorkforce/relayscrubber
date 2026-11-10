@@ -20,9 +20,9 @@ test('structural exemptions and secret literal siblings across all WASM APIs',()
  });
  assert.deepEqual(failures,[]);
 });
-test('JSON numeric types survive and string credential siblings redact',()=>{
+test('JSON numeric identifiers survive and credentials redact',()=>{
  const input={session_id:57243,password:12,accessToken:-12.5,token:'M8zR4vK7nP2qW6xAq9'};
- const expected={session_id:57243,password:12,accessToken:-12.5,token:'[REDACTED]'};
+ const expected={session_id:57243,password:'[REDACTED]',accessToken:'[REDACTED]',token:'[REDACTED]'};
  assert.deepEqual(s.scrubJson(JSON.stringify(input)).value,expected);
  assert.deepEqual(JSON.parse(new TextDecoder().decode(s.scrubRecords(new TextEncoder().encode(JSON.stringify(input))).bytes)),expected);
 });
