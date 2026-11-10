@@ -1672,7 +1672,7 @@ fn query_key_sensitive(key: &str) -> bool {
 // every layer preserves the original entity bytes in the source offset map;
 // this does not normalize HTML in unrelated fields. Leading zero runs and
 // nested amp; layers are consumed once, without recursive suffix rescans.
-fn query_separator(b: &[u8], start: usize) -> usize {
+fn html_query_separator(b: &[u8], start: usize) -> usize {
     match b[start] {
         b';' => return 1,
         b'&' => {}
@@ -1707,8 +1707,30 @@ fn query_separator(b: &[u8], start: usize) -> usize {
     end - start
 }
 
-// A malformed earlier value cannot terminate parameter discovery. Literal '&'
-// remains a separator even beyond quotes, fragments, markup or line breaks.
+// An encoded ampersand inside an ordinary value is data unless it actually
+// introduces key=value. In particular, a credential's encoded '&' must not
+// leave an unassigned secret suffix visible. Apply the same rule to ';'.
+fn query_separator(view: &View, start: usize) -> usize {
+    let b = view.text.as_bytes();
+    let width = html_query_separator(b, start);
+    if width == 0 || b[start] == b'&' && view.literal(start) {
+        return width;
+    }
+    let mut end = start + width;
+    let key = end;
+    while end < b.len() && (b[end].is_ascii_alphanumeric() || matches!(b[end], b'_' | b'-' | b'.'))
+    {
+        end += 1;
+    }
+    if end > key && b.get(end) == Some(&b'=') {
+        width
+    } else {
+        0
+    }
+}
+
+// A malformed earlier value cannot terminate parameter discovery. Query
+// separators remain visible beyond quotes, fragments, markup or line breaks.
 // Run once over the remaining suffix, including nested schemes: another URL
 // in a malformed value cannot hide a later parameter or trigger rescanning.
 // Value boundaries stay local: recovery must not eat trailing prose or records.
@@ -1716,7 +1738,11 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
     let b = view.text.as_bytes();
     let mut cursor = start;
     while cursor < end {
-        let separator = query_separator(b, cursor);
+        let separator = if b[cursor] == b'?' {
+            1
+        } else {
+            query_separator(view, cursor)
+        };
         if separator == 0 {
             cursor += 1;
             continue;
@@ -1733,7 +1759,7 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
         }
         let value_start = cursor + 1;
         let mut parameter_end = value_start;
-        while parameter_end < end && query_separator(b, parameter_end) == 0 {
+        while parameter_end < end && query_separator(view, parameter_end) == 0 {
             parameter_end += 1;
         }
         let mut value_end = value_start;
@@ -1808,12 +1834,12 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
         let mut in_query = false;
         let line = view.line_end(end);
         while end < line {
-            if b[end] == b'?' && view.literal(end) {
+            if b[end] == b'?' {
                 in_query = true;
             }
             if in_query && b[end] == b'=' {
                 query_value = true;
-            } else if query_separator(b, end) > 0 {
+            } else if query_separator(view, end) > 0 {
                 query_value = false;
             }
             if query_value && matches!(b[end], b'"' | b'\'' | b'`') {
@@ -1845,9 +1871,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
         cursor = end;
         let authority = scheme.end();
         let mut authority_end = authority;
-        while authority_end < end
-            && !(view.literal(authority_end) && matches!(b[authority_end], b'/' | b'?' | b'#'))
-        {
+        while authority_end < end && !matches!(b[authority_end], b'/' | b'?' | b'#') {
             authority_end += 1;
         }
         if let Some(at) = (authority..authority_end)
@@ -1866,23 +1890,42 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             }
             // A URL username without a password is public userinfo.
         }
-        if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?' && view.literal(i)) {
+        if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?') {
             recovery_start = recovery_start.min(end);
             let mut start = query + 1;
             while start < end {
-                let mut parameter_end = start;
-                while parameter_end < end && query_separator(b, parameter_end) == 0 {
+                let mut eq = start;
+                while eq < end && b[eq] != b'=' && b[eq] != b'?' && query_separator(view, eq) == 0 {
+                    eq += 1;
+                }
+                if eq == end {
+                    break;
+                }
+                if b[eq] != b'=' {
+                    start = eq
+                        + if b[eq] == b'?' {
+                            1
+                        } else {
+                            query_separator(view, eq)
+                        };
+                    continue;
+                }
+                let sensitive = query_key_sensitive(&view.text[start..eq]);
+                let mut parameter_end = eq + 1;
+                while parameter_end < end
+                    && query_separator(view, parameter_end) == 0
+                    && (sensitive || b[parameter_end] != b'?')
+                {
                     parameter_end += 1;
                 }
-                if let Some(eq) = (start..parameter_end).find(|&i| b[i] == b'=') {
-                    let key = &view.text[start..eq];
-                    if eq + 1 < parameter_end && query_key_sensitive(key) {
-                        spans.push(eq + 1..parameter_end);
-                    }
+                if sensitive && eq + 1 < parameter_end {
+                    spans.push(eq + 1..parameter_end);
                 }
+                // Public redirect values may contain another encoded query.
+                // Each prefix/value is traversed once, including nested URLs.
                 start = parameter_end
-                    + if parameter_end < end {
-                        query_separator(b, parameter_end)
+                    + if parameter_end < end && b[parameter_end] != b'?' {
+                        query_separator(view, parameter_end)
                     } else {
                         1
                     };
