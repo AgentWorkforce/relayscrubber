@@ -78,5 +78,23 @@
     "queryOpener",
     "queryAmpersand",
     "keyValueEquals"
+  ],
+  "componentEscapes": [
+    "%26",
+    "%2F",
+    "%3F",
+    "%23",
+    "%40",
+    "%3A",
+    "%3D"
+  ],
+  "componentStyles": [
+    "upper",
+    "lower",
+    "double",
+    "entity",
+    "entity-double",
+    "mix",
+    "percent-prefix"
   ]
 }

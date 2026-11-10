@@ -321,3 +321,55 @@ fn relative_attribute_url_blockers_all_apis() {
         .collect();
     check(&serde_json::to_string(&cases).unwrap());
 }
+
+#[path = "../eval/html_url_component_cases.rs"]
+mod html_url_component_cases;
+
+#[test]
+fn reserved_component_reviewer_witnesses_all_apis() {
+    let cases = [
+        "<a href=\"/download?signature=SYNTH%26ALPHA&sort=asc\">",
+        "//alice:SYNTH%2FALPHA@host",
+        "//alice:SYNTH%3FALPHA@host",
+        "//alice:SYNTH%23ALPHA@host",
+    ].map(|input| {
+        let start = input.find("SYNTH").unwrap();
+        let end = input[start..].find(if input.starts_with("//") { '@' } else { '&' }).unwrap() + start;
+        json!({"input": input, "expected": format!("{}[REDACTED]{}", &input[..start], &input[end..])})
+    });
+    check(&serde_json::to_string(&cases).unwrap());
+}
+
+#[test]
+fn reserved_component_property_all_apis() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
+    let cases = html_url_component_cases::cases();
+    let mut failures = Vec::new();
+    for (id, (input, expected)) in cases.iter().enumerate() {
+        let value = json!({"text": input});
+        let json = scrub_json(&value).0;
+        let records = scrub_records(value.to_string().as_bytes()).unwrap();
+        let parsed: Value = serde_json::from_slice(&records.bytes).unwrap();
+        for (api, out) in [
+            scrub_text_checked(input).unwrap(),
+            json["text"].as_str().unwrap().into(),
+            parsed["text"].as_str().unwrap().into(),
+        ]
+        .iter()
+        .enumerate()
+        {
+            if out != expected || scrub_text(out) != *out {
+                failures.push((id, api));
+            }
+        }
+        assert_eq!(scrub_json(&json).0, json);
+        assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
+    }
+    eprintln!(
+        "reserved component property: {} cases; {} failing case/API pairs; first {:?}",
+        cases.len(),
+        failures.len(),
+        &failures[..failures.len().min(24)]
+    );
+    assert!(failures.is_empty());
+}
