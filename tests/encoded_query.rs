@@ -8,22 +8,37 @@ fn check(source: &str) {
     for (id, case) in cases.iter().enumerate() {
         let input = case["input"].as_str().unwrap();
         let expected = case["expected"].as_str().unwrap();
+        let transport_start = std::time::Instant::now();
         let value = json!({"text": input});
         let records = scrub_records(value.to_string().as_bytes()).unwrap();
         let parsed: Value = serde_json::from_slice(&records.bytes).unwrap();
-        for (api, actual) in [
-            scrub_text_checked(input).unwrap(),
-            scrub_json(&value).0["text"].as_str().unwrap().into(),
-            parsed["text"].as_str().unwrap().into(),
-        ]
-        .iter()
-        .enumerate()
+        let records_elapsed = transport_start.elapsed();
+        let text_start = std::time::Instant::now();
+        let text = scrub_text_checked(input).unwrap();
+        let text_elapsed = text_start.elapsed();
+        let json_start = std::time::Instant::now();
+        let structured = scrub_json(&value).0["text"].as_str().unwrap().to_owned();
+        let json_elapsed = json_start.elapsed();
+        let stability_start = std::time::Instant::now();
+        for (api, actual) in [text, structured, parsed["text"].as_str().unwrap().into()]
+            .iter()
+            .enumerate()
         {
             if actual != expected || scrub_text(actual) != *actual {
                 failures.push((id, api));
             }
         }
         assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
+        if input.len() > 1_000_000 {
+            eprintln!(
+                "all-API phases: bytes={} records={:.3} text={:.3} JSON={:.3} second-pass={:.3}",
+                input.len(),
+                records_elapsed.as_secs_f64(),
+                text_elapsed.as_secs_f64(),
+                json_elapsed.as_secs_f64(),
+                stability_start.elapsed().as_secs_f64()
+            );
+        }
     }
     assert!(failures.is_empty(), "failed case/API indices: {failures:?}");
 }

@@ -219,9 +219,11 @@ impl View {
         self.line_ends.get(n).copied().unwrap_or(self.text.len())
     }
     pub fn literal(&self, position: usize) -> bool {
-        self.changes
-            .binary_search_by_key(&position, |c| c.position)
-            .is_err()
+        self.changes.is_empty()
+            || self
+                .changes
+                .binary_search_by_key(&position, |c| c.position)
+                .is_err()
     }
     pub fn source_start(&self, position: usize) -> usize {
         let n = self.changes.partition_point(|c| c.position <= position);
@@ -283,10 +285,11 @@ impl View {
         let mut tags = Vec::new();
         let mut i = 0;
         while i < source.len() {
-            let (ch, end, style) = if html {
-                html_decoded(source, i)
-            } else {
-                decoded(source, i)
+            // Ordinary bytes require no decoder call or escape-state setup.
+            let (ch, end, style) = match (html, source[i]) {
+                (true, b'&' | b'%') => html_decoded(source, i),
+                (false, b'%' | b'\\') => decoded(source, i),
+                _ => (source[i], i + 1, 0),
             };
             if style == 255 {
                 bytes.extend_from_slice(&source[i..end]);
@@ -323,12 +326,13 @@ impl View {
         // Decoding changes only ASCII. Original UTF-8 sequences survive.
         let text = String::from_utf8(bytes).expect("normalization preserves UTF-8");
         let b = text.as_bytes();
+        let all_literal = changes.is_empty();
         let line_ends: Vec<_> = b
             .iter()
             .enumerate()
             .filter_map(|(p, ch)| {
                 (matches!(ch, b'\r' | b'\n')
-                    && changes.binary_search_by_key(&p, |c| c.position).is_err())
+                    && (all_literal || changes.binary_search_by_key(&p, |c| c.position).is_err()))
                 .then_some(p)
             })
             .collect();
@@ -391,9 +395,10 @@ impl View {
         let mut line_keys = Vec::new();
         let mut leading = true;
         for (position, &ch) in b.iter().enumerate() {
-            let literal = changes
-                .binary_search_by_key(&position, |c| c.position)
-                .is_err();
+            let literal = all_literal
+                || changes
+                    .binary_search_by_key(&position, |c| c.position)
+                    .is_err();
             if ch == b'\n' && literal {
                 leading = true;
             } else if leading

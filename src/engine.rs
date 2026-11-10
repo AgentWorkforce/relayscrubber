@@ -1495,7 +1495,14 @@ fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
     // only its header classification; token spans remain specific to each run.
     let mut previous_header = "";
     let mut previous_count = None;
+    let mut previous_non_jwt = "";
     for run in compact_regex().find_iter(&view.text) {
+        // A complete run's JWT result is context independent. Reuse a single
+        // previously checked negative run without allocating its segments again.
+        if run.as_str() == previous_non_jwt {
+            continue;
+        }
+        let before = spans.len();
         let segments: Vec<_> = run.as_str().split('.').collect();
         let mut offset = run.start();
         let mut i = 0;
@@ -1525,6 +1532,9 @@ fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
             }
             offset += segments[i].len() + 1;
             i += 1;
+        }
+        if spans.len() == before {
+            previous_non_jwt = run.as_str();
         }
     }
 }
