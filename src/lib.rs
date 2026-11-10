@@ -8,7 +8,8 @@ mod normalize;
 mod wasm;
 
 pub use json::{
-    scrub_json, scrub_json_text, scrub_json_with_policy, scrub_records, RecordError, RecordOutput,
+    scrub_json, scrub_json_checked, scrub_json_text, scrub_json_text_checked,
+    scrub_json_with_policy, scrub_records, RecordError, RecordOutput,
 };
 use serde::{Deserialize, Serialize};
 
@@ -38,6 +39,29 @@ pub enum Policy {
     Secrets,
     /// Also redact email and SSN shapes. Does not promise anonymization.
     Pii,
+}
+
+/// Deterministic admission/parse error; never contains input bytes.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct AdmissionError {
+    /// Stable machine-readable reason.
+    pub code: &'static str,
+}
+impl std::fmt::Display for AdmissionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.code)
+    }
+}
+impl std::error::Error for AdmissionError {}
+
+/// Check UTF-8 text admission before allocating scanner state.
+pub fn scrub_text_checked(input: &str) -> Result<String, AdmissionError> {
+    if input.len() > MAX_RECORD_BYTES {
+        return Err(AdmissionError {
+            code: "text_too_large",
+        });
+    }
+    Ok(engine::scrub(input, false, Policy::Secrets))
 }
 
 /// Scrub a complete string without truncating or exposing segment boundaries.

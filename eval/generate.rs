@@ -233,6 +233,11 @@ pub fn benign(seed: u64, rounds: usize) -> Vec<(&'static str, String)> {
                 )
             ),
         ));
+        out.push(("code_comparisons", format!("const ok = password === candidate{i}; return password == expected{i}; assert password == fixture{i}\n")));
+        out.push((
+            "oci_arn",
+            format!("image@sha256:{hash} arn:aws:iam::123456789012:role/synthetic-{i}\n"),
+        ));
         out.push((
             "identifiers",
             format!(
@@ -242,7 +247,7 @@ pub fn benign(seed: u64, rounds: usize) -> Vec<(&'static str, String)> {
         out.push(("paths",format!("/Users/example/project/{i}.rs C:\\Users\\example\\project\\{i}.ts /home/example/code\n")));
         out.push((
             "urls",
-            format!("https://example.test/items/{i}?state=ready&code={i}&key=arrow\n"),
+            format!("https://example.test/items/{i}?state=ready&code={i}&selector=arrow\n"),
         ));
         out.push(("prose",format!("Review issue #{i}, version 1.2.3 at 2026-11-10T09:00:00Z. Email person{i}@example.test.\n")));
         out.push((

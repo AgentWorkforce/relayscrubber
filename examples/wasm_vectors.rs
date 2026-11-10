@@ -1,6 +1,8 @@
 //! Export only synthetic native reference results for cross-runtime checks.
 #[path = "../eval/generate.rs"]
 mod generate;
+#[path = "../eval/review_cases.rs"]
+mod review_cases;
 fn main() {
     let mut text = Vec::new();
     for seed in [24301, 659918] {
@@ -15,8 +17,22 @@ fn main() {
             );
         }
     }
+    for (_, input, expected) in review_cases::findings() {
+        assert_eq!(relayscrubber::scrub_text(&input), expected);
+        text.push(serde_json::json!({"input":input,"output":expected}));
+    }
+    for input in review_cases::benign() {
+        assert_eq!(relayscrubber::scrub_text(&input), input);
+        text.push(serde_json::json!({"input":input,"output":input}));
+    }
+    let structured: Vec<_> = text.iter().map(|case| {
+        let value = serde_json::json!({"text":case["input"]});
+        let json = relayscrubber::scrub_json(&value).0;
+        let records = relayscrubber::scrub_records(serde_json::to_string(&value).unwrap().as_bytes()).unwrap();
+        serde_json::json!({"input":value.to_string(), "jsonText":json.to_string(), "records":String::from_utf8(records.bytes).unwrap()})
+    }).collect();
     println!(
         "{}",
-        serde_json::json!({"manifest":relayscrubber::manifest(),"text":text})
+        serde_json::json!({"manifest":relayscrubber::manifest(),"text":text,"structured":structured})
     );
 }

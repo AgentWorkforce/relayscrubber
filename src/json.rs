@@ -1,6 +1,9 @@
 //! Structured traversal with inherited context and atomic NDJSON transport.
 
-use crate::{engine, Policy, MAX_JSON_DEPTH, MAX_RECORD_BYTES, MAX_STREAM_BYTES, REDACTION_TOKEN};
+use crate::{
+    engine, AdmissionError, Policy, MAX_JSON_DEPTH, MAX_RECORD_BYTES, MAX_STREAM_BYTES,
+    REDACTION_TOKEN,
+};
 use serde::Serialize;
 use serde_json::{Map, Value};
 use std::collections::BTreeMap;
@@ -79,6 +82,49 @@ fn visit(value: &Value, public: bool, policy: Policy, count: &mut usize) -> Valu
     }
 }
 
+// Count serialized bytes without allocating a second copy or returning excerpts.
+struct Budget(usize);
+impl std::io::Write for Budget {
+    fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+        self.0 = self.0.saturating_add(bytes.len());
+        if self.0 > MAX_RECORD_BYTES {
+            return Err(std::io::Error::other("record_too_large"));
+        }
+        Ok(bytes.len())
+    }
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+fn admit(value: &Value) -> Result<(), AdmissionError> {
+    if !within_depth(value) {
+        return Err(AdmissionError {
+            code: "json_too_deep",
+        });
+    }
+    serde_json::to_writer(&mut Budget(0), value).map_err(|_| AdmissionError {
+        code: "record_too_large",
+    })
+}
+/// Checked JSON traversal with a 16 MiB serialized logical-record bound.
+pub fn scrub_json_checked(value: &Value) -> Result<(Value, usize), AdmissionError> {
+    admit(value)?;
+    let mut count = 0;
+    Ok((visit(value, false, Policy::Secrets, &mut count), count))
+}
+/// Check encoded record size before parsing; errors contain no input excerpts.
+pub fn scrub_json_text_checked(input: &str) -> Result<(Value, usize), AdmissionError> {
+    if input.len() > MAX_RECORD_BYTES {
+        return Err(AdmissionError {
+            code: "record_too_large",
+        });
+    }
+    let value = serde_json::from_str(input).map_err(|_| AdmissionError {
+        code: "invalid_json",
+    })?;
+    scrub_json_checked(&value)
+}
+
 /// Scrub every JSON key/value and return the number of changed nodes.
 /// Excess depth fails closed to a single marker; no input subtree is returned.
 #[must_use]
@@ -89,7 +135,7 @@ pub fn scrub_json(value: &Value) -> (Value, usize) {
 /// Scrub JSON with explicit PII policy and inherited public-value context.
 #[must_use]
 pub fn scrub_json_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
-    if !within_depth(value) {
+    if admit(value).is_err() {
         return (Value::String(REDACTION_TOKEN.into()), 1);
     }
     let mut count = 0;
@@ -101,8 +147,7 @@ pub fn scrub_json_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
 /// Duplicate keys use last-value semantics; always serialize the returned value.
 #[must_use]
 pub fn scrub_json_text(input: &str) -> Option<(Value, usize)> {
-    let value = serde_json::from_str(input).ok()?;
-    Some(scrub_json(&value))
+    scrub_json_text_checked(input).ok()
 }
 
 /// Stable errors never contain input text, keys, parser excerpts or credentials.

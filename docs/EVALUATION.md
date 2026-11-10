@@ -51,6 +51,13 @@ cargo +1.88.0 run --release --example evaluate -- --public "$HOME/scrubber-eval/
 cargo +1.88.0 run --release --example evaluate -- --public "$HOME/scrubber-eval/public-split.json" heldout
 ```
 
-Delete all owned raw evaluation samples and parity-vector files by 2026-11-17;
+Delete all owned raw evaluation samples and parity-vector files by 2026-11-16;
 this run deletes its private inputs after aggregating final metrics. Keep only
 aggregate results, public source URLs/checksums and source/artifact identities.
+
+Review-fix session audit: `session_precision` emits counts only. The newly
+collected four-session dev and one-session held-out sample is unlabelled; report
+candidate counts separately from measured false positives on synthetic benign
+controls. Code-reference, constant, shell-reference and malformed quote/YAML
+shapes found during dev auditing have new synthetic controls. Never equate an
+unlabelled candidate rate with ground-truth session precision.

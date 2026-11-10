@@ -1,0 +1,199 @@
+{
+  "baseCommit": "9be23f1367c34d2d14605d24e43fde480382e667",
+  "testOnlyCommit": "61aae8c",
+  "baseNative": {
+    "cases": [
+      {
+        "json": false,
+        "name": "direct_intervening_quote",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "public_property_intervening_quote",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "generic_key",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "prefixed_credential_key",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "prefixed_public_like_name",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "unicode_space",
+        "records": false,
+        "text": false
+      },
+      {
+        "json": false,
+        "name": "comparison_precision",
+        "records": false,
+        "text": false
+      }
+    ],
+    "source": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19"
+  },
+  "baseHostedWasm": {
+    "source": "4bc8e2fe8f18ae5386236c6b7debe43c6e978d362a59dd03e2696c3b2a48ab19",
+    "cases": [
+      {
+        "name": "direct_intervening_quote",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "public_property_intervening_quote",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "generic_key",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "prefixed_credential_key",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "prefixed_public_like_name",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "unicode_space",
+        "text": false,
+        "json": false,
+        "records": false
+      },
+      {
+        "name": "comparison_precision",
+        "text": false,
+        "json": false,
+        "records": false
+      }
+    ]
+  },
+  "headNative": {
+    "cases": [
+      {
+        "json": true,
+        "name": "direct_intervening_quote",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "public_property_intervening_quote",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "generic_key",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "prefixed_credential_key",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "prefixed_public_like_name",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "unicode_space",
+        "records": true,
+        "text": true
+      },
+      {
+        "json": true,
+        "name": "comparison_precision",
+        "records": true,
+        "text": true
+      }
+    ],
+    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2"
+  },
+  "headWasm": {
+    "namedTests": 7,
+    "passing": 7,
+    "nativeTextVectors": 5089,
+    "nativeStructuredVectors": 5089,
+    "nodeTests": 14,
+    "bunTests": 14,
+    "secondPassParity": true
+  },
+  "admission": {
+    "textUtf8Bytes": 16777216,
+    "logicalRecordBytes": 16777216,
+    "aggregateBytes": 67108864,
+    "multibyteBoundaries": true,
+    "jsPreflightAndRustRecheck": true,
+    "oversizeCompatibility": "[REDACTED]"
+  },
+  "privateSessionDev": {
+    "candidateShapes": {
+      "identifier_or_credential_candidate": 24,
+      "marker_with_tail_candidate": 91,
+      "nonstring_literal_candidate": 3,
+      "shell_reference_or_default_candidate": 2,
+      "unlabelled_candidate": 157
+    },
+    "changedEvents": 185,
+    "classification": "shape audit; unlabelled detections are not ground-truth false positives",
+    "events": 13708,
+    "removedBytes": 53552,
+    "secondPassChangedEvents": 0,
+    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+    "utf8Bytes": 6052317
+  },
+  "privateSessionHeldout": {
+    "candidateShapes": {
+      "unlabelled_candidate": 10
+    },
+    "changedEvents": 7,
+    "classification": "shape audit; unlabelled detections are not ground-truth false positives",
+    "events": 224,
+    "removedBytes": 1886,
+    "secondPassChangedEvents": 0,
+    "source": "a6e948de9b3a571e6ab60bf026792c2efe00da25aa3801f81d9995ec43a00df2",
+    "utf8Bytes": 81062
+  },
+  "precisionLimit": "Samples are unlabelled. Candidate detections do not establish ground-truth false-positive counts. No production-session precision percentage is claimed. Explicit code-reference shapes found on dev have synthetic controls.",
+  "retentionDeleteBy": "2026-11-16",
+  "synthetic": {
+    "recallCases": 8576,
+    "complete": 8576,
+    "benignCases": 6144,
+    "falsePositiveCases": 0,
+    "worstResourceMs": 46.341625
+  }
+}

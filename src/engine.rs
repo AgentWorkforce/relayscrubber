@@ -45,13 +45,14 @@ pub(crate) fn sensitive(name: &str) -> bool {
         .filter(|b| !matches!(b, b'_' | b'-'))
         .map(|b| char::from(b.to_ascii_lowercase()))
         .collect();
-    if matches!(
-        n.as_str(),
-        "idempotencykey" | "publickey" | "key" | "codechallenge" | "state"
-    ) {
+    if matches!(n.as_str(), "publickey" | "codechallenge" | "state") {
+        return false;
+    }
+    if public_context(name) {
         return false;
     }
     const NAMES: &[&str] = &[
+        "key",
         "password",
         "passwd",
         "pwd",
@@ -80,8 +81,8 @@ pub(crate) fn sensitive(name: &str) -> bool {
     if NAMES.contains(&n.as_str()) {
         return true;
     }
-    // A provider prefix must be separated; do not redact tokenizer, monkey,
-    // token_count, secret_name or ordinary identifiers ending in those letters.
+    // Credential suffixes include provider and camelCase names. Generic key
+    // requires a separator or a camelCase boundary (preserve e.g. monkey).
     let lower = name.to_ascii_lowercase();
     NAMES.iter().any(|tail| {
         lower
@@ -96,9 +97,14 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "secretaccesskey",
         "sessiontoken",
         "clientsecret",
+        "password",
+        "passwd",
+        "secret",
+        "token",
     ]
     .iter()
     .any(|tail| n.ends_with(tail))
+        || name.ends_with("Key")
 }
 
 pub(crate) fn public_context(name: &str) -> bool {
@@ -110,14 +116,48 @@ pub(crate) fn public_context(name: &str) -> bool {
 fn word(b: u8) -> bool {
     b.is_ascii_alphanumeric() || matches!(b, b'_' | b'-')
 }
-fn whitespace(b: u8) -> bool {
-    b.is_ascii_whitespace()
+fn space_width(b: &[u8], i: usize) -> usize {
+    if b.get(i).is_some_and(u8::is_ascii_whitespace) {
+        return 1;
+    }
+    if b.get(i).is_some_and(|b| *b >= 0xc0) {
+        if let Ok(s) = std::str::from_utf8(&b[i..i.saturating_add(4).min(b.len())]) {
+            if let Some(c) = s
+                .chars()
+                .next()
+                .filter(|c| c.is_whitespace() || *c == '\u{feff}')
+            {
+                return c.len_utf8();
+            }
+        } else {
+            // Decode just this scalar; the following four-byte window may end
+            // inside a later scalar.
+            for width in 2..=4 {
+                if let Some(s) = b
+                    .get(i..i + width)
+                    .and_then(|s| std::str::from_utf8(s).ok())
+                {
+                    if let Some(c) = s
+                        .chars()
+                        .next()
+                        .filter(|c| c.is_whitespace() || *c == '\u{feff}')
+                    {
+                        return c.len_utf8();
+                    }
+                }
+            }
+        }
+    }
+    0
 }
 fn skip_space(b: &[u8], mut i: usize) -> usize {
-    while b.get(i).copied().is_some_and(whitespace) {
-        i += 1;
+    loop {
+        let width = space_width(b, i);
+        if width == 0 {
+            return i;
+        }
+        i += width;
     }
-    i
 }
 fn line_end(view: &View, i: usize) -> usize {
     view.line_end(i)
@@ -148,7 +188,7 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
     }
     while end < b.len()
         && !(view.literal(end)
-            && (whitespace(b[end])
+            && (space_width(b, end) > 0
                 || matches!(
                     b[end],
                     b'"' | b'\'' | b'`' | b',' | b';' | b'&' | b'}' | b']' | b')'
@@ -184,6 +224,58 @@ fn indented_end(view: &View, value: usize, key_indent: usize) -> usize {
         end = line_end;
     }
     end
+}
+
+fn shell_reference(value: &str) -> bool {
+    let Some(name) = value.strip_prefix('$') else {
+        return false;
+    };
+    let name = name
+        .strip_prefix('{')
+        .and_then(|s| s.strip_suffix('}'))
+        .unwrap_or(name);
+    !name.is_empty() && name.bytes().all(|c| c.is_ascii_alphanumeric() || c == b'_')
+}
+fn code_value(view: &View, value: usize, colon: bool, declaration: bool) -> bool {
+    let rest = &view.text[value..];
+    let end = rest
+        .find(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | '}' | ')' | '"' | '\'' | '`'))
+        .unwrap_or(rest.len());
+    let atom = &rest[..end];
+    // Only explicit expression syntax; a bare identifier remains a credential.
+    static MEMBER: OnceLock<Regex> = OnceLock::new();
+    let member = MEMBER.get_or_init(|| {
+        Regex::new(r"^(?:process\.env|env|config|os\.environ)(?:\.[A-Za-z_][A-Za-z0-9_]*)+!?$")
+            .expect("fixed member regex")
+    });
+    if member.is_match(atom) {
+        return true;
+    }
+    if declaration && ["false", "true", "null", "undefined", "None"].contains(&atom) {
+        return true;
+    }
+    if declaration {
+        let head = atom.split('(').next().unwrap_or(atom).trim();
+        if rest.as_bytes().get(head.len()) == Some(&b'(')
+            && !head.is_empty()
+            && head
+                .bytes()
+                .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'_' | b'.' | b':'))
+        {
+            return true;
+        }
+        if rest.starts_with("new ") {
+            return true;
+        }
+    }
+    colon
+        && (rest.starts_with("&str")
+            || rest.starts_with("&mut ")
+            || [
+                "Mutex<", "Option<", "Arc<", "Vec<", "String>", "bool ", "bool}", "bool }", "std::",
+            ]
+            .iter()
+            .any(|s| rest.starts_with(s)))
 }
 
 fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
@@ -233,7 +325,15 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             && b.get(sep + 1) == Some(&b'=')
             && !flag
             && start >= public_until
-            && expression
+            && (expression
+                || sep > i
+                || [b"return".as_slice(), b"assert".as_slice()]
+                    .iter()
+                    .any(|kw| {
+                        before >= kw.len()
+                            && &b[before - kw.len()..before] == *kw
+                            && (before == kw.len() || !word(b[before - kw.len() - 1]))
+                    }))
         {
             continue;
         }
@@ -273,6 +373,13 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                     && (before == kw.len() || !word(b[before - kw.len() - 1]))
             });
         let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
+        if !quoted
+            && start >= public_until
+            && (declaration || before > 0 && matches!(b[before - 1], b'{' | b',' | b'('))
+            && code_value(view, value, b.get(sep) == Some(&b':'), declaration)
+        {
+            continue;
+        }
         let explicit_literal = quoted
             || quoted_key
             || yaml_indented
@@ -298,13 +405,16 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         };
         let content = value + usize::from(quoted);
         // YAML literal/folded scalar: remove all following indented lines.
-        if !quoted && yaml && !matches!(b[value], b'{' | b'[') {
+        if !quoted
+            && yaml
+            && (!matches!(b[value], b'{' | b'[') || view.text[value..].starts_with(REDACTION_TOKEN))
+        {
             end = indented_end(view, value, key_indent)
                 .min(context.unwrap_or(b.len()))
                 .min(view.enclosing_end(value).min(b.len()));
         }
         if end > content {
-            if reference(&view.text[content..end]) {
+            if reference(&view.text[content..end]) || shell_reference(&view.text[content..end]) {
                 i = end;
                 continue;
             }
@@ -486,7 +596,68 @@ pub(crate) fn scrub(input: &str, inherited: bool, policy: Policy) -> String {
     analyze(input, inherited, policy).text
 }
 
+// Removing malformed delimiters can change lexical scopes. Close over those
+// changes with a fixed pass budget, retaining ranges in ORIGINAL input bytes.
+// Exhaustion fails closed; no unbounded fixed-point loop is permitted.
 pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
+    let mut report = analyze_once(input, inherited, policy);
+    for _ in 0..4 {
+        let next = analyze_once(&report.text, inherited, policy);
+        if next.text == report.text {
+            return report;
+        }
+        let mut delta = 0isize;
+        let replacements: Vec<_> = report
+            .redactions
+            .iter()
+            .map(|r| {
+                let start = r
+                    .start
+                    .checked_add_signed(delta)
+                    .expect("mapped output offset");
+                let end = start + REDACTION_TOKEN.len();
+                delta += REDACTION_TOKEN.len() as isize - r.len() as isize;
+                (start, end, r.start, r.end)
+            })
+            .collect();
+        let original = |position: usize, is_end: bool| {
+            let n = replacements.partition_point(|r| r.0 <= position);
+            if n == 0 {
+                return position;
+            }
+            let &(start, end, source_start, source_end) = &replacements[n - 1];
+            if position == start {
+                source_start
+            } else if position < end {
+                if is_end {
+                    source_end
+                } else {
+                    source_start
+                }
+            } else {
+                position - end + source_end
+            }
+        };
+        let mut spans = report.redactions;
+        spans.extend(
+            next.redactions
+                .iter()
+                .map(|r| original(r.start, false)..original(r.end, true)),
+        );
+        report = render(input, spans);
+    }
+    crate::ScrubReport {
+        text: REDACTION_TOKEN.into(),
+        redactions: std::iter::once(0..input.len()).collect(),
+    }
+}
+fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
+    if input.len() > crate::MAX_RECORD_BYTES {
+        return crate::ScrubReport {
+            text: REDACTION_TOKEN.into(),
+            redactions: std::iter::once(0..input.len()).collect(),
+        };
+    }
     if input.is_empty() {
         return crate::ScrubReport {
             text: String::new(),
@@ -519,11 +690,14 @@ pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::Sc
             spans.push(m.range());
         }
     }
-    let mut original: Vec<Range<usize>> = spans
+    let original: Vec<Range<usize>> = spans
         .into_iter()
         .filter(|r| r.start < r.end)
         .map(|r| view.source_start(r.start)..view.source_end(r.end - 1))
         .collect();
+    render(input, original)
+}
+fn render(input: &str, mut original: Vec<Range<usize>>) -> crate::ScrubReport {
     original.sort_unstable_by_key(|r| (r.start, r.end));
     let mut merged: Vec<Range<usize>> = Vec::new();
     for span in original {

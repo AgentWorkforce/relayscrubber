@@ -67,3 +67,35 @@ for (const [name, input, expected] of reviewCases) test(`review: ${name}`, () =>
   assert.equal(JSON.parse(new TextDecoder().decode(result.bytes)).text, expected);
   assert.deepEqual(scrubber.scrubRecords(result.bytes).bytes, result.bytes);
 });
+
+test('native and pinned WASM JSON/NDJSON bytes agree, including second passes', () => {
+  const vectors = JSON.parse(readFileSync(`${homedir()}/scrubber-eval/wasm-vectors.json`));
+  for (const { input, jsonText, records } of vectors.structured) {
+    assert.equal(scrubber.scrubJson(input).jsonText, jsonText);
+    assert.equal(scrubber.scrubJson(jsonText).jsonText, jsonText);
+    const output = scrubber.scrubRecords(new TextEncoder().encode(input)).bytes;
+    assert.equal(new TextDecoder().decode(output), records);
+    assert.deepEqual(scrubber.scrubRecords(output).bytes, output);
+  }
+});
+
+test('UTF-8 admission boundaries and compatibility are checked in JS and Rust', async () => {
+  const raw = await import('../generated/relayscrubber.js');
+  const limit = 16 * 1024 * 1024;
+  const at = 'é'.repeat(limit / 2);
+  assert.equal(scrubber.scrubTextChecked(at), at);
+  const over = at + 'x';
+  for (const api of [scrubber, raw]) {
+    assert.throws(() => api.scrubTextChecked(over), e => String(e).includes('text_too_large'));
+    assert.equal(api.scrubText(over), '[REDACTED]');
+    assert.equal(api.scrubLong(over), '[REDACTED]');
+    const json = '"' + 'é'.repeat((limit - 2) / 2) + '"';
+    assert.ok(api.scrubJson(json));
+    assert.throws(() => api.scrubJson(json + ' '), e => String(e).includes('record_too_large'));
+    assert.throws(() => api.scrubRecords(new TextEncoder().encode(json + ' ')), e => String(e).includes('record_too_large'));
+    const records = new Uint8Array(64 * 1024 * 1024).fill(32);
+    for (let i = limit - 1; i < records.length; i += limit) records[i] = 10;
+    assert.ok(api.scrubRecords(records));
+    assert.throws(() => api.scrubRecords(new Uint8Array(records.length + 1)), e => String(e).includes('stream_too_large'));
+  }
+});

@@ -203,6 +203,15 @@ impl View {
         // Decoding changes only ASCII. Original UTF-8 sequences survive.
         let text = String::from_utf8(bytes).expect("normalization preserves UTF-8");
         let b = text.as_bytes();
+        let line_ends: Vec<_> = b
+            .iter()
+            .enumerate()
+            .filter_map(|(p, ch)| {
+                (matches!(ch, b'\r' | b'\n')
+                    && changes.binary_search_by_key(&p, |c| c.position).is_err())
+                .then_some(p)
+            })
+            .collect();
         let mut quotes: Vec<_> = tags
             .iter()
             .map(|(position, _)| (*position, b.len()))
@@ -210,7 +219,24 @@ impl View {
         let mut next = std::collections::BTreeMap::new();
         for (n, (position, tag)) in tags.into_iter().enumerate().rev() {
             if let Some(end) = next.insert(tag, position) {
-                quotes[n].1 = end;
+                let line = line_ends.partition_point(|&p| p < end);
+                let line_start = if line == 0 {
+                    0
+                } else {
+                    line_ends[line - 1] + 1
+                };
+                let mut before = end;
+                while before > line_start && b[before - 1].is_ascii_whitespace() {
+                    before -= 1;
+                }
+                // A quote opening a later line's assignment is not a trustworthy
+                // close for an earlier credential. Fail closed through EOF.
+                if line_start <= position
+                    || before == line_start
+                    || !matches!(b[before - 1], b'=' | b':' | b'>')
+                {
+                    quotes[n].1 = end;
+                }
             }
         }
         let mut scopes = Vec::new();
@@ -229,15 +255,11 @@ impl View {
         let mut containers = Vec::new();
         let mut stack = Vec::new();
         let mut line_keys = Vec::new();
-        let mut line_ends = Vec::new();
         let mut leading = true;
         for (position, &ch) in b.iter().enumerate() {
             let literal = changes
                 .binary_search_by_key(&position, |c| c.position)
                 .is_err();
-            if matches!(ch, b'\r' | b'\n') && literal {
-                line_ends.push(position);
-            }
             if ch == b'\n' && literal {
                 leading = true;
             } else if leading

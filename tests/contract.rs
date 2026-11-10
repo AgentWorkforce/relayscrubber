@@ -137,12 +137,11 @@ fn preserve_normal_information() {
         "password:\nstatus: okay\n",
         "Authorization:\nstatus: okay\n",
         "IDEMPOTENCY_KEY : \"public-replay-42\"",
-        "key=arrow-up",
         "public_key=ssh-ed25519 AAAATEST user@example.test",
         "token_count=8192 token_budget=4000",
         "Call person@example.test from /Users/example/project at 2026-11-10T09:00:00Z",
         "version 1.2.3 issue #479 PR 42 /home/example/path C:\\Users\\example\\code",
-        "https://example.test/path?state=public&code=1234&key=arrow&code_challenge=public",
+        "https://example.test/path?state=public&code=1234&selector=arrow&code_challenge=public",
         "database_url=postgres://localhost/database",
         "connection_string=Server=localhost;Database=normal",
         "git@github.com:AgentWorkforce/relay.git",
@@ -191,7 +190,7 @@ fn keyed_json_values_and_collision_handling() {
     .0;
     assert_eq!(
         clean,
-        json!({"password":REDACTION_TOKEN,"apiKey":REDACTION_TOKEN,"key":"normal"})
+        json!({"password":REDACTION_TOKEN,"apiKey":REDACTION_TOKEN,"key":REDACTION_TOKEN})
     );
     let mut map = serde_json::Map::new();
     map.insert("password=SYNTH_ALPHA".into(), json!(1));

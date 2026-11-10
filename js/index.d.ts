@@ -4,7 +4,10 @@ export interface Manifest {
 }
 export interface Scrubber {
   readonly manifest: Readonly<Manifest>;
+  /** Compatibility: oversize text returns exactly [REDACTED]. */
   scrubText(text: string): string;
+  /** Throws text_too_large above 16 MiB UTF-8. */
+  scrubTextChecked(text: string): string;
   scrubLong(text: string): string;
   /** Persist jsonText; value is a convenience JS view and may round large integers. */
   scrubJson(jsonText: string): { value: unknown; jsonText: string; redactionCount: number };
@@ -12,3 +15,6 @@ export interface Scrubber {
 }
 export function loadScrubber(options: { bytes: Uint8Array; expectedManifest: Manifest; expectedWasmSha256: string }): Promise<Scrubber>;
 export function loadCompiledScrubber(options: { module: WebAssembly.Module; expectedManifest: Manifest }): Scrubber;
+
+export const MAX_RECORD_BYTES: number;
+export const MAX_STREAM_BYTES: number;

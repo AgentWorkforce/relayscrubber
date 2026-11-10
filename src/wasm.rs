@@ -9,6 +9,10 @@ pub fn manifest_json() -> String {
 pub fn scrub_text(input: &str) -> String {
     crate::scrub_text(input)
 }
+#[wasm_bindgen(js_name = scrubTextChecked)]
+pub fn scrub_text_checked(input: &str) -> Result<String, JsValue> {
+    crate::scrub_text_checked(input).map_err(|e| JsValue::from_str(e.code))
+}
 #[wasm_bindgen(js_name = scrubLong)]
 pub fn scrub_long(input: &str) -> String {
     crate::scrub_long(input)
@@ -16,7 +20,7 @@ pub fn scrub_long(input: &str) -> String {
 #[wasm_bindgen(js_name = scrubJson)]
 pub fn scrub_json(input: &str) -> Result<String, JsValue> {
     let (value, count) =
-        crate::scrub_json_text(input).ok_or_else(|| JsValue::from_str("invalid_json"))?;
+        crate::scrub_json_text_checked(input).map_err(|e| JsValue::from_str(e.code))?;
     let json_text =
         serde_json::to_string(&value).map_err(|_| JsValue::from_str("serialization_error"))?;
     serde_json::to_string(

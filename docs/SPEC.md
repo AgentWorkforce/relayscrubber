@@ -38,9 +38,10 @@ Redact these independently of entropy:
   refresh_token, id_token, session_token/session_id, credential(s), token,
   account_key and provider-prefixed equivalents. Connection-string and database
   URL fields are inspected without removing unauthenticated URLs. Underscore,
-  hyphen and camel spellings are recognized. Generic `key`, public_key,
-  idempotency_key, token_count/token_budget and credential identifiers used
-  without a value are preserved.
+  hyphen and camel spellings are recognized. Generic `key`, separated key suffixes and credential suffixes such as
+  dbPassword/githubToken/stripeSecret are sensitive. Exact public_key and
+  idempotency_key spellings, token_count/token_budget and credential identifiers
+  used without a value are preserved. A prefixed public-like name is sensitive.
 * Assignments in code, env, YAML, JSON and CLI flags. `:` and `=` and their
   percent, percent-u, backslash-u and backslash-x spellings are recognized,
   including repeated percent-25 and backslash escape chains. Encoded delimiters
@@ -49,7 +50,14 @@ Redact these independently of entropy:
   Cookie and Set-Cookie values; labelled session IDs; passwords in URL userinfo
   and database/ADO connection strings; signed URL signature, SAS `sig`, and
   credential/security-token query parameters. Ordinary query `state`, `code`,
-  `key`, `id` and `code_challenge` are preserved unless explicitly credentialled.
+  `id` and `code_challenge` are preserved unless explicitly credentialled. Generic
+  `key` is sensitive, including in a query.
+
+A quote opening a later line's assignment is not accepted as a credential closer;
+that malformed extent fails closed through EOF. A fixed budget of at most five
+scanner passes closes over lexical changes caused by redaction; failure to
+stabilize returns exactly `[REDACTED]`. Reports map every removed range back to
+original UTF-8 bytes.
 
 A quoted credential includes whitespace and newlines through the matching
 delimiter. If the quote is malformed, remove through the enclosing value's end
@@ -83,7 +91,11 @@ No consumer may silently imply that default scrubbing anonymizes people.
 Keep git SHAs, UUIDs, content hashes and lockfile integrity values, base64 assets,
 ordinary prose, code identifiers, file paths, unauthenticated URLs, public SSH
 keys, Stripe publishable keys, versions, timestamps and PR/issue numbers.
-Do not use entropy alone, generic long-string or generic `key=` rules.
+Do not use entropy alone or generic long-string rules. Code comparisons/assertions,
+explicit code references/calls/types and pure shell variable references are
+preserved; literal credential assignments and variable expansion defaults remain
+sensitive. Unicode whitespace (including BOM) around assignment separators is
+recognized without changing its original bytes.
 
 ## Interfaces and errors
 
@@ -96,6 +108,13 @@ collisions deterministically without dropping values. Excess depth fails closed.
 and is atomic: invalid UTF-8, malformed JSON, excessive depth or size returns a
 stable code and one-based record number **with no partial output or input text**.
 Blank physical lines are ignored; a final newline is optional.
+
+Admission is at most 16 MiB UTF-8 per text or serialized logical JSON record and
+64 MiB aggregate NDJSON, including record delimiters. `scrub_text_checked`,
+`scrub_json_checked` and `scrub_json_text_checked` return deterministic errors.
+Compatibility text/policy/report wrappers fail closed to exactly `[REDACTED]`;
+structured wrappers return the marker node or `None`. JS preflights UTF-8 bytes
+before the WASM allocator; Rust rechecks every direct WASM export.
 
 The manifest identifies the ruleset family, version, policy, source SHA-256, ABI
 version and crate version. Build artifacts have a separate SHA-256. Consumers
@@ -121,6 +140,6 @@ Evaluation uses generated secrets with reproducible seeds, realistic wrappers
 and expected secret spans. Report recall per class, false positives per MB and
 benign class, and excess removed bytes. Public fixtures are synthetic. Private
 session samples live only in `~/scrubber-eval` (0700, files 0600), are split by
-session before inspection, never printed, and must be deleted by 2026-11-17.
+session before inspection, never printed, and must be deleted by 2026-11-16.
 Tune on dev only. Held-out is read once after the candidate is frozen; a failure
 requires a newly acquired held-out set, never relabelling the same set as unseen.

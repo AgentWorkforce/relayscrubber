@@ -68,7 +68,10 @@ jobs:
           mkdir -p target/wasm-package
           cd js
           npm pack --ignore-scripts --pack-destination ../target/wasm-package
+      - name: Check hosted artifact against committed pin
+        run: node scripts/check-hosted-artifact.mjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: relayscrubber-wasm-candidate
           path: |

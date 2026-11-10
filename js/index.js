@@ -1,5 +1,36 @@
 // Transport and identity checks only. No secret recognition in JavaScript.
-import init, { initSync, manifestJson, scrubText, scrubLong, scrubJson, scrubRecords } from './generated/relayscrubber.js';
+import init, { initSync, manifestJson, scrubText, scrubTextChecked, scrubJson, scrubRecords } from './generated/relayscrubber.js';
+
+export const MAX_RECORD_BYTES = 16 * 1024 * 1024;
+export const MAX_STREAM_BYTES = 64 * 1024 * 1024;
+// Count UTF-8 before crossing the WASM allocator. Lone surrogates use U+FFFD,
+// matching TextEncoder and wasm-bindgen. Stop immediately over the bound.
+function admitText(text, code) {
+  let bytes = 0;
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    if (c < 0x80) bytes++;
+    else if (c < 0x800) bytes += 2;
+    else if (c >= 0xd800 && c <= 0xdbff && i + 1 < text.length && text.charCodeAt(i + 1) >= 0xdc00 && text.charCodeAt(i + 1) <= 0xdfff) { bytes += 4; i++; }
+    else bytes += 3;
+    if (bytes > MAX_RECORD_BYTES) throw new Error(code);
+  }
+}
+function textChecked(text) { admitText(text, 'text_too_large'); return scrubTextChecked(text); }
+function textCompatible(text) {
+  try { admitText(text, 'text_too_large'); } catch { return '[REDACTED]'; }
+  return scrubText(text);
+}
+function admitRecords(bytes) {
+  if (bytes.byteLength > MAX_STREAM_BYTES) throw new Error('stream_too_large');
+  let start = 0;
+  for (let i = 0; i <= bytes.length; i++) {
+    if (i === bytes.length || bytes[i] === 10) {
+      if (i - start > MAX_RECORD_BYTES) throw new Error('record_too_large');
+      start = i + 1;
+    }
+  }
+}
 
 function checked(expected) {
   const manifest = JSON.parse(manifestJson());
@@ -7,9 +38,10 @@ function checked(expected) {
     throw new Error('scrubber_manifest_mismatch');
   }
   return Object.freeze({
-    manifest: Object.freeze(manifest), scrubText, scrubLong,
-    scrubJson: text => JSON.parse(scrubJson(text)),
+    manifest: Object.freeze(manifest), scrubText: textCompatible, scrubLong: textCompatible, scrubTextChecked: textChecked,
+    scrubJson: text => { admitText(text, 'record_too_large'); return JSON.parse(scrubJson(text)); },
     scrubRecords: bytes => {
+      admitRecords(bytes);
       const result = JSON.parse(scrubRecords(bytes));
       return { bytes: new TextEncoder().encode(result.text), recordCount: result.recordCount, redactionCount: result.redactionCount };
     },

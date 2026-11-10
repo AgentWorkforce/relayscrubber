@@ -18,13 +18,34 @@ fn check(index: usize) {
     assert_eq!(parsed["text"], *expected, "records");
     assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
 }
-#[test] fn direct_intervening_quote() { check(0); }
-#[test] fn public_property_intervening_quote() { check(1); }
-#[test] fn generic_key() { check(2); }
-#[test] fn prefixed_credential_key() { check(3); }
-#[test] fn prefixed_public_like_name() { check(4); }
-#[test] fn unicode_space() { check(5); }
-#[test] fn comparison_precision() { check(6); }
+#[test]
+fn direct_intervening_quote() {
+    check(0);
+}
+#[test]
+fn public_property_intervening_quote() {
+    check(1);
+}
+#[test]
+fn generic_key() {
+    check(2);
+}
+#[test]
+fn prefixed_credential_key() {
+    check(3);
+}
+#[test]
+fn prefixed_public_like_name() {
+    check(4);
+}
+#[test]
+fn unicode_space() {
+    check(5);
+}
+#[test]
+fn comparison_precision() {
+    check(6);
+}
 #[test]
 fn credential_name_and_unicode_variants() {
     for name in ["githubToken", "stripeSecret", "encryption_key", "aws={key"] {
@@ -33,10 +54,75 @@ fn credential_name_and_unicode_variants() {
     }
     assert_eq!(scrub_text("aws={key:SYNTH_ALPHA}"), "aws={key:[REDACTED]}");
     for space in ['\u{a0}', '\u{feff}', '\u{2003}'] {
-        assert_eq!(scrub_text(&format!("password{space}=SYNTH_ALPHA")), format!("password{space}=[REDACTED]"));
+        assert_eq!(
+            scrub_text(&format!("password{space}=SYNTH_ALPHA")),
+            format!("password{space}=[REDACTED]")
+        );
     }
 }
 #[test]
 fn benign_code_and_identifiers() {
-    for input in cases::benign() { assert_eq!(scrub_text(&input), input); }
+    for input in cases::benign() {
+        assert_eq!(scrub_text(&input), input);
+    }
+}
+
+#[test]
+fn benign_expression_reference_and_type_shapes() {
+    for input in [
+        "const token = process.env.SYNTH_TOKEN;",
+        "const token = config.credential;",
+        "const token = createCredential();",
+        "const token = false;",
+        "struct Context { token: Mutex<Option<String>>, secret: bool }",
+        "fn run(token: &str) {}",
+        "const options = { token: env.SYNTH_TOKEN! };",
+        "let token = undefined;",
+        "TOKEN=$SYNTH_TOKEN command --api-key $SYNTH_KEY",
+        "TOKEN=\"${SYNTH_TOKEN}\"",
+    ] {
+        assert_eq!(scrub_text(input), input);
+    }
+}
+
+#[test]
+fn embedded_code_and_shell_shapes_are_idempotent() {
+    for input in [
+        "let cases = [\"password: false\", \"secret = undefined\", \"token: config.credential\", \"const token = new Credential()\"];",
+        "env | rg '^TOKEN='; TOKEN=$SYNTH_TOKEN command --api-key $SYNTH_KEY; echo ordinary",
+        "password=\"SYNTH_ALPHA\" >/dev/null && echo ordinary",
+        "fn run(token: &str) {}\nstruct Context { token: Mutex<Option<String>> }",
+        "const cases = [\"password=foo\", `password=${\"password=bar\".repeat(4)}(`];",
+    ] {
+        let once = scrub_text(input);
+        assert_eq!(scrub_text(&once), once);
+    }
+}
+
+#[test]
+fn quote_repair_and_marker_yaml_are_stable() {
+    for input in ["'''token='\"'token=SYNTH\"", "'\ntoken:,\nSYNTH"] {
+        let report = scrub_report(input, Policy::Secrets);
+        assert_eq!(scrub_text(&report.text), report.text);
+        let mut reconstructed = String::new();
+        let mut at = 0;
+        for span in report.redactions {
+            reconstructed.push_str(&input[at..span.start]);
+            reconstructed.push_str(REDACTION_TOKEN);
+            at = span.end;
+        }
+        reconstructed.push_str(&input[at..]);
+        assert_eq!(reconstructed, report.text);
+    }
+}
+#[test]
+fn expression_exceptions_do_not_exempt_literal_credential_tails() {
+    for input in [
+        "password=env.SYNTH_ALPHA",
+        "password=\"${TOKEN:-SYNTH_ALPHA}\"",
+        "key=std::SYNTH_ALPHA",
+        "password=config.SYNTH_ALPHA",
+    ] {
+        assert!(!scrub_text(input).contains("SYNTH_ALPHA"));
+    }
 }
