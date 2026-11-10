@@ -87,3 +87,36 @@ fn encoded_query_recovery_time_is_bounded() {
         }
     }
 }
+
+#[path = "../eval/query_separator_cases.rs"]
+mod query_separator_cases;
+
+#[test]
+fn query_separator_property_all_apis() {
+    let cases = query_separator_cases::cases();
+    let mut failures = Vec::new();
+    for (id, (input, expected)) in cases.iter().enumerate() {
+        let value = json!({"text": input});
+        let records = scrub_records(value.to_string().as_bytes()).unwrap();
+        let parsed: Value = serde_json::from_slice(&records.bytes).unwrap();
+        let outputs = [
+            scrub_text_checked(input).unwrap(),
+            scrub_json(&value).0["text"].as_str().unwrap().into(),
+            parsed["text"].as_str().unwrap().into(),
+        ];
+        for (api, output) in outputs.iter().enumerate() {
+            if output != expected || scrub_text(output) != *output {
+                failures.push((id, api));
+            }
+        }
+        assert_eq!(scrub_json(&scrub_json(&value).0).0, scrub_json(&value).0);
+        assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
+    }
+    eprintln!(
+        "separator property: {} cases, {} failing case/API pairs; first {:?}",
+        cases.len(),
+        failures.len(),
+        &failures[..failures.len().min(24)]
+    );
+    assert!(failures.is_empty());
+}

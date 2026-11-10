@@ -1,6 +1,8 @@
 //! Export only synthetic native reference results for cross-runtime checks.
 #[path = "../eval/generate.rs"]
 mod generate;
+#[path = "../eval/query_separator_cases.rs"]
+mod query_separator_cases;
 #[path = "../eval/review_cases.rs"]
 mod review_cases;
 fn main() {
@@ -104,6 +106,10 @@ fn main() {
             let output = relayscrubber::scrub_text(&input);
             text.push(serde_json::json!({"input":input,"output":output}));
         }
+    }
+    for (input, output) in query_separator_cases::cases() {
+        assert_eq!(relayscrubber::scrub_text(&input), output);
+        text.push(serde_json::json!({"input":input,"output":output}));
     }
     let mut structured: Vec<_> = text.iter().map(|case| {
         let value = serde_json::json!({"text":case["input"]});
