@@ -4,72 +4,100 @@ Best-in-class redaction is measured, not asserted. This file records what the
 eval suite (`tests/redaction_evals.rs`) proves, what relay history taught us,
 and what the throughput benchmark (`examples/bench_redaction.rs`) reports.
 
-All secrets in the evals are synthetic (`"Ab1"`-style filler built at
-runtime). No live credential appears anywhere in this repository.
+All secrets in the evals are synthetic (runtime-built filler). No live
+credential appears anywhere in this repository.
 
 ## Entry points
 
-- `scrub_long` — ruleset 8, the lockstep canonical pipeline. Unchanged.
+- `scrub_long` — the canonical engine: complete-string scan, no truncation.
 - `scrub_enhanced` — the recommended upload-safe entry point: precise
-  query/fragment-parameter and empty-user-URL pre-passes, then `scrub_long`,
-  then one fused whole-output post-pass. The post-pass covers chat-webhook
-  URLs (Discord, Teams, webhook.site, requestbin), 30 provider prefixes
-  (DigitalOcean, Google OAuth, Groq, age, Slack `xoxc`, Databricks, PyPI,
-  Replicate, Tailscale, Doppler, Vault, 1Password, Pulumi, Postman, Brevo,
-  New Relic, Sentry, SonarQube, Supabase, xAI, Perplexity, GitLab deploy/
-  runner, Mailchimp, Terraform Cloud, Notion, Docker Hub, Linear, Telegram),
+  query/fragment-parameter and empty-user-URL pre-passes, then the canonical
+  engine, then one fused whole-output post-pass. The post-pass covers
+  chat-webhook URLs (Discord, Teams, webhook.site, requestbin), provider
+  prefixes beyond the engine table (Groq, age, Slack `xoxc`, Mailchimp,
+  Databricks, Notion, Docker Hub, Linear, Telegram, and others),
   any-length CLI-flag secrets, XML secret elements, session cookies,
   the Elastic `ApiKey` scheme, kubeconfig key data, Ansible Vaults,
-  validated SSNs and private-range IPv4. Never truncates; idempotent;
-  fail-closed.
+  validated SSNs, private-range IPv4, and long mixed-class password-less
+  URL userinfo (registry-style tokens). Never truncates; idempotent;
+  fail-closed. Empty parameter values stay empty.
+- `scrub_enhanced_with_policy` / `scrub_json_enhanced_with_policy` /
+  `scrub_json_text_enhanced_with_policy` — the same treatment with an
+  explicit [`Policy`](src/lib.rs). Use `Policy::Pii` when email addresses
+  and SSN shapes must not survive; the default policy preserves contact
+  details by contract.
 - `scrub_json_enhanced` / `scrub_json_text_enhanced` — the same treatment for
   JSON values and JSON text (collision suffixes and counts preserved).
 
 ## Accuracy
 
-`cargo test --test redaction_evals` (7 tests, all green):
+`cargo test --test redaction_evals` (8 tests, all green):
 
-| suite | cases | ruleset 8 | enhanced | false positives |
+| suite | cases | canonical engine | enhanced | false positives |
 |---|---|---|---|---|
-| relay history replays | 7 | 6/7 | 7/7 | — |
-| canonical providers + PII + contexts | 30 | 30/30 | 30/30 | — |
-| batch-1 shapes (webhooks, prefixes, CLI, SSN, IP) | 28 | 0/28 | 28/28 | — |
-| batch-2: verified v8 behavior, pinned | 9 | 9/9 | 9/9 | — |
-| batch-2 shapes (providers, XML, cookies, URLs) | 36 | 0/36 | 36/36 | — |
-| must-preserve (no-FP guard) | 48 | 48/48 | 48/48 | 0/48 |
-| JSON entry points + long segments + idempotence | — | — | pass | — |
-| **total** | **110 + 48** | **51/110** | **110/110** | **0/48** |
+| relay history replays | 7 | 7/7 | 7/7 | — |
+| canonical providers + PII + contexts | 31 | 31/31 | 31/31 | — |
+| batch-1 shapes (webhooks, prefixes, CLI, SSN, IP) | 23 | 10/23 | 23/23 | — |
+| base behavior, pinned (ex-ruleset-8) | 9 | 8/9 | 9/9 | — |
+| batch-2 shapes (providers, XML, cookies, URLs) | 38 | 9/38 | 38/38 | — |
+| must-preserve (no-FP guard) | 46 | 46/46 | 46/46 | 0/46 |
+| JSON entry points + long segments + idempotence + PII policy | — | — | pass | — |
+| **total** | **108 + 46** | **65/108** | **108/108** | **0/46** |
 
 Run with `-- --nocapture` on the summary test to reprint the line:
-`accuracy: v8 51/110 enhanced 110/110 false-positives 0/48`.
+`accuracy: base 65/108 enhanced 108/108 false-positives 0/46`.
+
+The engine absorbed a large share of the old gap list (all batch-1 CLI
+shapes, DigitalOcean, Google OAuth, PyPI, Redis, and more); the post-pass
+keeps them as defense-in-depth and carries the remaining 43. The single
+engine miss with full context preserved is the password-less userinfo token,
+which the post-pass redacts.
 
 ## Relay-history proof
 
-Shared-session transcripts (post-scrub index) were mined for leak shapes;
-each row below was replayed with synthetic values in the evals:
+Shared-session transcripts were mined for leak shapes; each row below was
+replayed with synthetic values in the evals:
 
 | history signal | finding | replay case |
 |---|---|---|
-| `postgresql://neondb_owner:[REDACTED]@ep-…` | userinfo passwords captured | `relay/neon-url` |
-| `Authorization: Bearer [REDACTED]` | bearer tokens captured | `relay/bearer` |
+| `postgresql://neondb_owner:…@ep-…` | userinfo passwords captured | `relay/neon-url` |
+| `Authorization: Bearer …` | Bearer values captured (scheme word is engine-redacted) | `relay/bearer` |
 | `BEGIN PRIVATE KEY` in prose (no dashes) | correctly kept, no FP | `fp/pem-prose` |
 | `RELAYAUTH_SIGNING_KEY_PEM` env names in docs | labeled key material captured | `relay/env-key` |
 | `op://…` 1Password references | correctly kept | `fp/op-ref`, `fp/op-env` |
 | agent addresses (`name@machine`) | correctly kept (no `@`-FP) | `fp/agent-addr` |
-| `?api_key=SECRET&mode=1` callbacks | v8 ate `&mode=1`; enhanced keeps it | `relay/query-tail` |
+| `?api_key=SECRET&mode=1` callbacks | credential tails fail closed through the URL tail | `relay/query-tail` |
 | `AKIA…` in stored history | no raw key material found | `prov/aws` |
-| Discord webhooks | absent from history, missed by v8 when probed | `new/discord*` |
+| Discord webhooks | absent from history, probed | `new/discord*` |
+| compact JWT | requires an `alg` JSON header per the engine contract | `prov/jwt` |
+| registry `token@host` URLs | engine keeps them; post-pass redacts 12+ mixed-class users | `base/token-user-url` |
 
-Gap probes against ruleset 8 (all confirmed misses before the fix).
-Batch 1: short CLI-flag values (`--password hunter2`), Discord/Teams webhook
-URLs, `dop_v1_`/`ya29.`/`gsk_`/`AGE-SECRET-KEY-`/`xoxc-` prefixes, `#fragment`
-credentials beyond the 8 OAuth names, SSNs, private IPv4. Batch 2: 24 more
-provider prefixes, Mailchimp/Telegram/Terraform-Cloud shapes, webhook.site/
-requestbin paths, XML secret elements, session cookies, the Elastic `ApiKey`
-scheme, kubeconfig key data, Ansible Vaults, empty-user (`redis://:pass@`)
-URLs, and `sig`/`oauth_token`/`consumer_secret`/Amz/Google query names.
-Probes that refuted a gap (PGP/EC blocks, proxy auth, `*-Token:`/`*-Key:`
-headers, Docker auths, JAAS, token-user URLs) became pinned v8 cases instead.
+Gap probes confirmed before the fix: short CLI-flag values, Discord/Teams
+webhook URLs, `gsk_`/`AGE-SECRET-KEY-`/`xoxc-` and 24 more provider prefixes,
+`#fragment` credentials, SSNs, private IPv4, Mailchimp/Telegram/Terraform
+shapes, webhook.site/requestbin paths, XML secret elements, session cookies,
+the Elastic `ApiKey` scheme, kubeconfig key data, Ansible Vaults, `sig`/
+`oauth_token`/Amz/Google query names, and empty-user (`redis://:pass@`) URLs.
+
+## Upstream precision reports (engine-owned)
+
+The following over-redactions were found in the canonical engine while
+re-baselining. They contradict the cited SPEC lines, were left out of the
+must-preserve guard (a superset cannot un-redact), and were reported to the
+engine team instead of being worked around here:
+
+| shape | engine behavior | contract |
+|---|---|---|
+| `case "token": return parseToken(input);` | redacts the call | code calls are preserved |
+| `grep -rn "access token": src/ \| head` | redacts `src/ \| head` | file paths are preserved |
+| `{"Key": "raw/v1/…jsonl.zst"}` | redacts the path value | bare `key` needs credential context |
+| `mysql --password -h db` | redacts `-h` | a flag is not a value |
+
+Intended engine behaviors pinned as-is (SPEC, recognition section):
+whole `Cookie`/`Set-Cookie` values, all `Authorization` values, `max_token`
+credential-suffix keys (values including numbers), credential query tails
+failing closed through trailing words, and default-policy preservation of
+emails, phones, cards, and home paths.
 
 ## Performance
 
@@ -77,32 +105,37 @@ headers, Docker auths, JAAS, token-user URLs) became pinned v8 cases instead.
 
 | workload | `scrub_long` | `scrub_enhanced` | overhead |
 |---|---|---|---|
-| clean 1 MB log | 11.41 MB/s | 8.74 MB/s | ~23% |
-| mixed 1 MB (PII + tokens + URLs) | 6.63 MB/s | 5.87 MB/s | ~11% |
-| mixed 256 KB | 6.91 MB/s | 6.08 MB/s | ~12% |
-| mixed 300 KB (crosses segment bound) | 6.73 MB/s | 5.98 MB/s | ~11% |
+| clean 1 MB log | 123.07 MB/s | 29.64 MB/s | ~4.2x |
+| mixed 1 MB (tokens + URLs) | 49.90 MB/s | 23.89 MB/s | ~2.1x |
+| mixed 256 KB | 51.12 MB/s | 23.99 MB/s | ~2.1x |
+| boundary 300 KB | 50.94 MB/s | 24.02 MB/s | ~2.1x |
 
-The enhanced layer costs two linear pre-passes plus one fused post-pass over
-output the canonical 32-rule pipeline already walked. Session uploads are
-tens to hundreds of KB, so this is single-digit milliseconds in practice.
-Machine noise applies; re-run on the host you care about.
+The enhanced layer costs two linear pre-passes plus one fused post-pass on
+top of the engine, so budget roughly 2x on secret-bearing input. Bulk
+scrubbing of known-clean logs should call `scrub_long` directly; session
+uploads (tens to hundreds of KB of untrusted text) cost single-digit
+milliseconds either way. Machine noise applies; re-run on the host you care
+about. The enhanced output is smaller on mixed input (0.72 vs 0.86 MB out
+per 1 MB in): the extra time is spent catching 43 more leak classes.
 
-## Lockstep
+## Canonical code untouched
 
-Ruleset 8 is byte-for-byte intact: `cargo test --all-targets` passes the
-source/corpus digest locks, all 199 corpus vectors, and the parity example
-(`--long` / `--json-text` paths unchanged; `--enhanced` is additive). The
-enhanced module touches no hashed file (`src/rules/**`, `src/rules.rs`).
+`src/engine.rs`, `src/json.rs`, and `src/normalize.rs` are byte-identical to
+the merge base (`git diff origin/main` shows only `src/lib.rs` exports plus
+the new `src/enhanced.rs`). All upstream suites pass unmodified, including
+the frozen ruleset-8 parity vectors under `vendor/`.
 
 ## Deliberate non-goals
 
-Bare hex runs (a 37-hex key is indistinguishable from a digest the corpus
-requires keeping), short/ambiguous prefixes (`re_`, bare `key-`, Twilio
-`AC`-SIDs that collide with MD5 fragments), public IPv4 (collides with
-four-part versions), compressed IPv6 (`::` collides with Rust paths),
-single-dash flags (`-p` is usually a port), public counterparts (`phc_`,
-`sb_publishable_`, `client_id`, `consumer_key`, age `age1` recipients, PGP
-public blocks, plist `<key>`, cookie names like `theme`, SAS `se`/`sp`/`sv`
-policy fields, Tunnel/Deploy preview hostnames). Each has a comment at its
-decision site. Roadmap: full-form IPv6 ULA, NATS seeds, Okta `00`-tokens,
-more long-prefix providers as they are evidenced in history.
+Bare hex runs (indistinguishable from digests), short/ambiguous prefixes
+(`re_`, Twilio `AC`-SIDs that collide with MD5 fragments), public IPv4
+(collides with four-part versions), compressed IPv6 (`::` collides with Rust
+paths), single-dash flags (`-p` is usually a port), public counterparts
+(`phc_`, `sb_publishable_`, `client_id`, age `age1` recipients, PGP public
+blocks, plist `<key>`, SAS `se`/`sp`/`sv` fields, Tunnel/Deploy preview
+hostnames), and — following the canonical contract — emails, phone numbers,
+payment cards, and home paths under the default policy (email and SSN are
+covered under `Policy::Pii`; phones and cards are not inferred by any
+current policy). Each has a comment at its decision site. Roadmap:
+full-form IPv6 ULA, NATS seeds, Okta `00`-tokens, more long-prefix
+providers as they are evidenced in history.

@@ -1,0 +1,187 @@
+{
+  "positive": [
+    [
+      "request Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "request Bearer [REDACTED]"
+    ],
+    [
+      "request \"Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789\"",
+      "request \"Bearer [REDACTED]\""
+    ],
+    [
+      "request 'Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789'",
+      "request 'Bearer [REDACTED]'"
+    ],
+    [
+      "request (Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789)",
+      "request (Bearer [REDACTED])"
+    ],
+    [
+      "request Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789:",
+      "request Bearer [REDACTED]:"
+    ],
+    [
+      "request Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789,",
+      "request Bearer [REDACTED],"
+    ],
+    [
+      "please use Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "please use Bearer [REDACTED]"
+    ],
+    [
+      "please use \"Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789\"",
+      "please use \"Bearer [REDACTED]\""
+    ],
+    [
+      "please use 'Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789'",
+      "please use 'Bearer [REDACTED]'"
+    ],
+    [
+      "please use (Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789)",
+      "please use (Bearer [REDACTED])"
+    ],
+    [
+      "please use Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789:",
+      "please use Bearer [REDACTED]:"
+    ],
+    [
+      "please use Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789,",
+      "please use Bearer [REDACTED],"
+    ],
+    [
+      "send the Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "send the Bearer [REDACTED]"
+    ],
+    [
+      "send the \"Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789\"",
+      "send the \"Bearer [REDACTED]\""
+    ],
+    [
+      "send the 'Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789'",
+      "send the 'Bearer [REDACTED]'"
+    ],
+    [
+      "send the (Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789)",
+      "send the (Bearer [REDACTED])"
+    ],
+    [
+      "send the Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789:",
+      "send the Bearer [REDACTED]:"
+    ],
+    [
+      "send the Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789,",
+      "send the Bearer [REDACTED],"
+    ],
+    [
+      "the credential is Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "the credential is Bearer [REDACTED]"
+    ],
+    [
+      "the credential is \"Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789\"",
+      "the credential is \"Bearer [REDACTED]\""
+    ],
+    [
+      "the credential is 'Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789'",
+      "the credential is 'Bearer [REDACTED]'"
+    ],
+    [
+      "the credential is (Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789)",
+      "the credential is (Bearer [REDACTED])"
+    ],
+    [
+      "the credential is Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789:",
+      "the credential is Bearer [REDACTED]:"
+    ],
+    [
+      "the credential is Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789,",
+      "the credential is Bearer [REDACTED],"
+    ],
+    [
+      "please send the credential as Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "please send the credential as Bearer [REDACTED]"
+    ],
+    [
+      "please send the credential as \"Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789\"",
+      "please send the credential as \"Bearer [REDACTED]\""
+    ],
+    [
+      "please send the credential as 'Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789'",
+      "please send the credential as 'Bearer [REDACTED]'"
+    ],
+    [
+      "please send the credential as (Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789)",
+      "please send the credential as (Bearer [REDACTED])"
+    ],
+    [
+      "please send the credential as Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789:",
+      "please send the credential as Bearer [REDACTED]:"
+    ],
+    [
+      "please send the credential as Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789,",
+      "please send the credential as Bearer [REDACTED],"
+    ],
+    [
+      "Authorization: Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "Authorization: [REDACTED]"
+    ],
+    [
+      "Please use: Bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "Please use: Bearer [REDACTED]"
+    ],
+    [
+      "please use\tBearer\tSYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "please use\tBearer\t[REDACTED]"
+    ],
+    [
+      "please use bearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "please use bearer [REDACTED]"
+    ],
+    [
+      "please use\nBearer SYNTHETICabcdefghijklmnopqrstuvwxyz0123456789",
+      "please use\nBearer [REDACTED]"
+    ],
+    [
+      "# please use Bearer M8zR4vK7nP2qW6xA",
+      "# please use Bearer [REDACTED]"
+    ],
+    [
+      "# Authorization: Bearer M8zR4vK7nP2qW6xA",
+      "# Authorization: Bearer [REDACTED]"
+    ],
+    [
+      "# token = Bearer M8zR4vK7nP2qW6xA",
+      "# token = Bearer [REDACTED]"
+    ],
+    [
+      "# Document the scheme as Bearer M8zR4vK7nP2qW6xA",
+      "# Document the scheme as Bearer [REDACTED]"
+    ],
+    [
+      "// please use Bearer M8zR4vK7nP2qW6xA",
+      "// please use Bearer [REDACTED]"
+    ],
+    [
+      "// Authorization: Bearer M8zR4vK7nP2qW6xA",
+      "// Authorization: Bearer [REDACTED]"
+    ],
+    [
+      "// token = Bearer M8zR4vK7nP2qW6xA",
+      "// token = Bearer [REDACTED]"
+    ],
+    [
+      "// Document the scheme as Bearer M8zR4vK7nP2qW6xA",
+      "// Document the scheme as Bearer [REDACTED]"
+    ]
+  ],
+  "benign": [
+    "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
+    "headers = {\"Authorization\": \"Bearer \" + token}",
+    "bearer token handling is described in AUTH.md",
+    "Authorization header is missing",
+    "test_vector = \"Bearer toyBearerMaterial\";",
+    "// Document the scheme as Bearer credentialVariable",
+    "# Document the scheme as Bearer credential_variable",
+    "// Document the scheme as Bearer credential_variable",
+    "# Document the scheme as Bearer credentialVariable"
+  ]
+}

@@ -1,0 +1,4746 @@
+[
+  [
+    "password: the actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: the actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'the actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'the actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"the actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: The actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: The actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'The actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'The actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"The actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: THE actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: THE actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'THE actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"THE actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: a actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: a actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'a actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'a actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"a actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: A actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: A actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'A actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'A actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"A actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: A actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: A actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'A actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'A actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"A actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: an actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: an actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'an actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'an actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"an actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: An actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: An actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'An actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'An actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"An actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: AN actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: AN actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'AN actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"AN actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: see actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: see actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'see actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'see actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"see actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: See actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: See actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'See actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'See actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"See actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: SEE actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: SEE actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'SEE actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"SEE actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: use actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: use actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'use actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'use actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"use actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: Use actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: Use actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'Use actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"Use actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: USE actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: USE actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'USE actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"USE actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: used actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: used actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'used actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'used actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"used actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: Used actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: Used actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'Used actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"Used actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: USED actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: USED actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'USED actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"USED actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: stored actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: stored actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'stored actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"stored actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: Stored actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: Stored actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'Stored actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"Stored actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: STORED actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: STORED actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'STORED actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"STORED actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: is actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: is actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'is actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'is actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"is actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: Is actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: Is actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'Is actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"Is actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: IS actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: IS actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'IS actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"IS actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: from actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: from actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'from actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'from actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"from actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: From actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: From actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'From actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'From actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"From actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: FROM actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: FROM actual secret value\nstatus: preserved",
+    "root:\n  password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "password: 'FROM actual secret value'\nstatus: preserved",
+    "password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  password: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "password: \"FROM actual secret value\"\nstatus: preserved",
+    "password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  password: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  password: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: the actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: the actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'the actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'the actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"the actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: The actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: The actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'The actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'The actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"The actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: THE actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: THE actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'THE actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"THE actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: a actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: a actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'a actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'a actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"a actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: A actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: A actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'A actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'A actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"A actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: A actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: A actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'A actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'A actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"A actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: an actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: an actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'an actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'an actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"an actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: An actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: An actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'An actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'An actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"An actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: AN actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: AN actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'AN actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"AN actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: see actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: see actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'see actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'see actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"see actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: See actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: See actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'See actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'See actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"See actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: SEE actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: SEE actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'SEE actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"SEE actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: use actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: use actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'use actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'use actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"use actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: Use actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: Use actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'Use actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"Use actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: USE actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: USE actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'USE actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"USE actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: used actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: used actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'used actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'used actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"used actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: Used actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: Used actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'Used actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"Used actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: USED actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: USED actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'USED actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"USED actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: stored actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: stored actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'stored actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"stored actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: Stored actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: Stored actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'Stored actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"Stored actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: STORED actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: STORED actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'STORED actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"STORED actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: is actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: is actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'is actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'is actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"is actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: Is actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: Is actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'Is actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"Is actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: IS actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: IS actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'IS actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"IS actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: from actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: from actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'from actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'from actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"from actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: From actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: From actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'From actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'From actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"From actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "passwd: FROM actual secret value\nstatus: preserved",
+    "passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: FROM actual secret value\nstatus: preserved",
+    "root:\n  passwd: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "passwd: 'FROM actual secret value'\nstatus: preserved",
+    "passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  passwd: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "passwd: \"FROM actual secret value\"\nstatus: preserved",
+    "passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  passwd: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  passwd: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: the actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: the actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'the actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'the actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"the actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: The actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: The actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'The actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'The actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"The actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: THE actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: THE actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'THE actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"THE actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: a actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: a actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'a actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'a actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"a actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: A actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: A actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'A actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'A actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"A actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: A actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: A actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'A actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'A actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"A actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: an actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: an actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'an actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'an actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"an actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: An actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: An actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'An actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'An actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"An actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: AN actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: AN actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'AN actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"AN actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: see actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: see actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'see actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'see actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"see actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: See actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: See actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'See actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'See actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"See actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: SEE actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: SEE actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'SEE actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"SEE actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: use actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: use actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'use actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'use actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"use actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: Use actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: Use actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'Use actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"Use actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: USE actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: USE actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'USE actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"USE actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: used actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: used actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'used actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'used actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"used actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: Used actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: Used actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'Used actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"Used actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: USED actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: USED actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'USED actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"USED actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: stored actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: stored actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'stored actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"stored actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: Stored actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: Stored actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'Stored actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"Stored actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: STORED actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: STORED actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'STORED actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"STORED actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: is actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: is actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'is actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'is actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"is actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: Is actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: Is actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'Is actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"Is actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: IS actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: IS actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'IS actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"IS actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: from actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: from actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'from actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'from actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"from actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: From actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: From actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'From actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'From actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"From actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "secret: FROM actual secret value\nstatus: preserved",
+    "secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: FROM actual secret value\nstatus: preserved",
+    "root:\n  secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "secret: 'FROM actual secret value'\nstatus: preserved",
+    "secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "secret: \"FROM actual secret value\"\nstatus: preserved",
+    "secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  secret: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: the actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: the actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'the actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'the actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"the actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: The actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: The actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'The actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'The actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"The actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: THE actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: THE actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'THE actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"THE actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: a actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: a actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'a actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'a actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"a actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: A actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: A actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'A actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'A actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"A actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: A actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: A actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'A actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'A actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"A actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: an actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: an actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'an actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'an actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"an actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: An actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: An actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'An actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'An actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"An actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: AN actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: AN actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'AN actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"AN actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: see actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: see actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'see actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'see actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"see actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: See actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: See actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'See actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'See actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"See actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: SEE actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: SEE actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'SEE actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"SEE actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: use actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: use actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'use actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'use actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"use actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: Use actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: Use actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'Use actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"Use actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: USE actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: USE actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'USE actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"USE actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: used actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: used actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'used actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'used actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"used actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: Used actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: Used actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'Used actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"Used actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: USED actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: USED actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'USED actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"USED actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: stored actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: stored actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'stored actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"stored actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: Stored actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: Stored actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'Stored actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"Stored actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: STORED actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: STORED actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'STORED actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"STORED actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: is actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: is actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'is actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'is actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"is actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: Is actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: Is actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'Is actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"Is actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: IS actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: IS actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'IS actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"IS actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: from actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: from actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'from actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'from actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"from actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: From actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: From actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'From actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'From actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"From actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "token: FROM actual secret value\nstatus: preserved",
+    "token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: FROM actual secret value\nstatus: preserved",
+    "root:\n  token: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "token: 'FROM actual secret value'\nstatus: preserved",
+    "token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  token: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "token: \"FROM actual secret value\"\nstatus: preserved",
+    "token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  token: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  token: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: the actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: the actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'the actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'the actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"the actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: The actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: The actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'The actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'The actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"The actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: THE actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: THE actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'THE actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"THE actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: a actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: a actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'a actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'a actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"a actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: A actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: A actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'A actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'A actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"A actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: A actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: A actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'A actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'A actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"A actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: an actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: an actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'an actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'an actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"an actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: An actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: An actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'An actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'An actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"An actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: AN actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: AN actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'AN actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"AN actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: see actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: see actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'see actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'see actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"see actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: See actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: See actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'See actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'See actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"See actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: SEE actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: SEE actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'SEE actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"SEE actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: use actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: use actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'use actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'use actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"use actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: Use actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: Use actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'Use actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"Use actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: USE actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: USE actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'USE actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"USE actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: used actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: used actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'used actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'used actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"used actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: Used actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: Used actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'Used actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"Used actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: USED actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: USED actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'USED actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"USED actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: stored actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: stored actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'stored actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"stored actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: Stored actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: Stored actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'Stored actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"Stored actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: STORED actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: STORED actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'STORED actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"STORED actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: is actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: is actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'is actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'is actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"is actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: Is actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: Is actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'Is actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"Is actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: IS actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: IS actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'IS actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"IS actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: from actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: from actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'from actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'from actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"from actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: From actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: From actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'From actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'From actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"From actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "auth: FROM actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: FROM actual secret value\nstatus: preserved",
+    "root:\n  auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: 'FROM actual secret value'\nstatus: preserved",
+    "auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  auth: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "auth: \"FROM actual secret value\"\nstatus: preserved",
+    "auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  auth: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  auth: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: the actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: the actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'the actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'the actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"the actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: The actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: The actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'The actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'The actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"The actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: THE actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: THE actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'THE actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"THE actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: a actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: a actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'a actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'a actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"a actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: A actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: A actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'A actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'A actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"A actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: A actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: A actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'A actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'A actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"A actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: an actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: an actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'an actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'an actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"an actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: An actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: An actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'An actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'An actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"An actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: AN actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: AN actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'AN actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"AN actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: see actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: see actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'see actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'see actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"see actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: See actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: See actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'See actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'See actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"See actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: SEE actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: SEE actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'SEE actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"SEE actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: use actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: use actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'use actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'use actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"use actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: Use actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: Use actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'Use actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"Use actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: USE actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: USE actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'USE actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"USE actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: used actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: used actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'used actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'used actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"used actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: Used actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: Used actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'Used actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"Used actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: USED actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: USED actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'USED actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"USED actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: stored actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: stored actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'stored actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"stored actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: Stored actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: Stored actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'Stored actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"Stored actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: STORED actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: STORED actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'STORED actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"STORED actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: is actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: is actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'is actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'is actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"is actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: Is actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: Is actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'Is actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"Is actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: IS actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: IS actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'IS actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"IS actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: from actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: from actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'from actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'from actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"from actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: From actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: From actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'From actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'From actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"From actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "api_key: FROM actual secret value\nstatus: preserved",
+    "api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: FROM actual secret value\nstatus: preserved",
+    "root:\n  api_key: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "api_key: 'FROM actual secret value'\nstatus: preserved",
+    "api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  api_key: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "api_key: \"FROM actual secret value\"\nstatus: preserved",
+    "api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  api_key: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  api_key: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: the actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: the actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'the actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'the actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"the actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"the actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: The actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: The actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'The actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'The actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"The actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"The actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: THE actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: THE actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'THE actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'THE actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"THE actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"THE actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: a actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: a actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'a actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'a actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"a actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"a actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: A actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: A actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'A actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'A actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"A actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: A actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: A actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'A actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'A actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"A actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"A actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: an actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: an actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'an actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'an actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"an actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"an actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: An actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: An actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'An actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'An actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"An actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"An actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: AN actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: AN actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'AN actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'AN actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"AN actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"AN actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: see actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: see actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'see actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'see actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"see actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"see actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: See actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: See actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'See actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'See actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"See actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"See actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: SEE actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: SEE actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'SEE actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'SEE actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"SEE actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"SEE actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: use actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: use actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'use actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'use actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"use actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"use actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: Use actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: Use actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'Use actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'Use actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"Use actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"Use actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: USE actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: USE actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'USE actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'USE actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"USE actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"USE actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: used actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: used actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'used actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'used actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"used actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"used actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: Used actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: Used actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'Used actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'Used actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"Used actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"Used actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: USED actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: USED actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'USED actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'USED actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"USED actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"USED actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: stored actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: stored actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'stored actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'stored actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"stored actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"stored actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: Stored actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: Stored actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'Stored actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'Stored actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"Stored actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"Stored actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: STORED actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: STORED actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'STORED actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'STORED actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"STORED actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"STORED actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: is actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: is actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'is actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'is actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"is actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"is actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: Is actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: Is actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'Is actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'Is actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"Is actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"Is actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: IS actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: IS actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'IS actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'IS actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"IS actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"IS actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: from actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: from actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'from actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'from actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"from actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"from actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: From actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: From actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'From actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'From actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"From actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"From actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "client_secret: FROM actual secret value\nstatus: preserved",
+    "client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: FROM actual secret value\nstatus: preserved",
+    "root:\n  client_secret: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "client_secret: 'FROM actual secret value'\nstatus: preserved",
+    "client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: 'FROM actual secret value'\nstatus: preserved",
+    "root:\n  client_secret: '[REDACTED]'\nstatus: preserved"
+  ],
+  [
+    "client_secret: \"FROM actual secret value\"\nstatus: preserved",
+    "client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "root:\n  client_secret: \"FROM actual secret value\"\nstatus: preserved",
+    "root:\n  client_secret: \"[REDACTED]\"\nstatus: preserved"
+  ],
+  [
+    "password: the actual secret value\nstatus: preserved",
+    "password: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "auth: the actual secret value\nstatus: preserved",
+    "auth: [REDACTED]\nstatus: preserved"
+  ],
+  [
+    "aws={,key:SYNTH_ALPHA}",
+    "aws={,key:[REDACTED]}"
+  ],
+  [
+    "aws={,outer={key:SYNTH_ALPHA}}",
+    "aws={,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={,outer:{key:SYNTH_ALPHA}}",
+    "aws={,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={,list:[{key:SYNTH_ALPHA}]}",
+    "aws={,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,key:[REDACTED]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer={key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:SYNTH_ALPHA}}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,outer:{key:[REDACTED]}}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:SYNTH_ALPHA}]}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,list:[{key:[REDACTED]}]}"
+  ],
+  [
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:SYNTH_ALPHA}",
+    "aws={aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,empty:{},list:[],key:[REDACTED]}"
+  ],
+  [
+    "{idempotency_key:{key:public-replay-42}}",
+    "{idempotency_key:{key:public-replay-42}}"
+  ],
+  [
+    "{idempotency_key:{ordinary:{key:public-replay-42}}}",
+    "{idempotency_key:{ordinary:{key:public-replay-42}}}"
+  ],
+  [
+    "idempotency_key=\"key=public-replay-42\"",
+    "idempotency_key=\"key=public-replay-42\""
+  ],
+  [
+    "{idempotency_key:{aws:{key:SYNTH_ALPHA}}}",
+    "{idempotency_key:{aws:{key:[REDACTED]}}}"
+  ],
+  [
+    "idempotency_key=\"aws={key:SYNTH_ALPHA}\"",
+    "idempotency_key=\"aws={key:[REDACTED]}\""
+  ],
+  [
+    "{idempotency_key:{password:SYNTH_ALPHA}}",
+    "{idempotency_key:{password:[REDACTED]}}"
+  ],
+  [
+    "# password: the actual secret value",
+    "# password: the actual secret value"
+  ],
+  [
+    "// password: the actual secret value",
+    "// password: the actual secret value"
+  ],
+  [
+    "the password field is optional",
+    "the password field is optional"
+  ],
+  [
+    "auth: none",
+    "auth: none"
+  ]
+]

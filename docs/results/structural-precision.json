@@ -1,0 +1,2503 @@
+{
+  "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+  "implementationCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+  "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
+  "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+  "localWasmSha256": "ab4192acffb2dbd0531b28699ab0e1e286e76879cd75f1fdaa6b06237691cf8c",
+  "reaudit2Reproductions": [
+    {
+      "family": "provider_function_identifier",
+      "input": "fn capy_collect_recent_history_records() {}",
+      "before": "fn capy_collect_recent_history_records() {}",
+      "after": "fn capy_collect_recent_history_records() {}",
+      "result": "preserved",
+      "historicalBefore": "fn [REDACTED]() {}",
+      "beforeTextJsonRecords": [
+        "fn capy_collect_recent_history_records() {}",
+        "fn capy_collect_recent_history_records() {}",
+        "fn capy_collect_recent_history_records() {}"
+      ],
+      "afterTextJsonRecords": [
+        "fn capy_collect_recent_history_records() {}",
+        "fn capy_collect_recent_history_records() {}",
+        "fn capy_collect_recent_history_records() {}"
+      ]
+    },
+    {
+      "family": "session_fixture_or_symbol",
+      "input": "json!({\"session_id\": SESSION_HANDLE})",
+      "before": "json!({\"session_id\": SESSION_HANDLE})",
+      "after": "json!({\"session_id\": SESSION_HANDLE})",
+      "result": "preserved",
+      "historicalBefore": "json!({\"session_id\": [REDACTED]})",
+      "beforeTextJsonRecords": [
+        "json!({\"session_id\": SESSION_HANDLE})",
+        "json!({\"session_id\": SESSION_HANDLE})",
+        "json!({\"session_id\": SESSION_HANDLE})"
+      ],
+      "afterTextJsonRecords": [
+        "json!({\"session_id\": SESSION_HANDLE})",
+        "json!({\"session_id\": SESSION_HANDLE})",
+        "json!({\"session_id\": SESSION_HANDLE})"
+      ]
+    },
+    {
+      "family": "code_symbol",
+      "input": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+      "before": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+      "after": "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+      "result": "preserved",
+      "historicalBefore": "json!({\"accessToken\": [REDACTED], \"refreshToken\": [REDACTED]})",
+      "beforeTextJsonRecords": [
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})"
+      ],
+      "afterTextJsonRecords": [
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})",
+        "json!({\"accessToken\": minted, \"refreshToken\": rotated})"
+      ]
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "assert_eq!(header, \"Bearer local-example-token\");",
+      "before": "assert_eq!(header, \"Bearer [REDACTED]\");",
+      "after": "assert_eq!(header, \"Bearer [REDACTED]\");",
+      "result": "left redacted",
+      "historicalBefore": "assert_eq!(header, \"Bearer [REDACTED]\");",
+      "beforeTextJsonRecords": [
+        "assert_eq!(header, \"Bearer [REDACTED]\");",
+        "assert_eq!(header, \"Bearer [REDACTED]\");",
+        "assert_eq!(header, \"Bearer [REDACTED]\");"
+      ],
+      "afterTextJsonRecords": [
+        "assert_eq!(header, \"Bearer [REDACTED]\");",
+        "assert_eq!(header, \"Bearer [REDACTED]\");",
+        "assert_eq!(header, \"Bearer [REDACTED]\");"
+      ]
+    },
+    {
+      "family": "numeric_process_session_identifier",
+      "input": "{\"session_id\":57243,\"output\":\"\"}",
+      "before": "{\"session_id\":57243,\"output\":\"\"}",
+      "after": "{\"session_id\":57243,\"output\":\"\"}",
+      "result": "preserved",
+      "historicalBefore": "{\"session_id\":[REDACTED],\"output\":\"\"}",
+      "beforeTextJsonRecords": [
+        "{\"session_id\":57243,\"output\":\"\"}",
+        "{\"session_id\":57243,\"output\":\"\"}",
+        "{\"session_id\":57243,\"output\":\"\"}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"session_id\":57243,\"output\":\"\"}",
+        "{\"session_id\":57243,\"output\":\"\"}",
+        "{\"session_id\":57243,\"output\":\"\"}"
+      ]
+    },
+    {
+      "family": "assignment_scope_overrun",
+      "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "before": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "after": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "result": "preserved",
+      "historicalBefore": "{\"output\": \"\\\"Authorization\\\" => [REDACTED]\"}",
+      "beforeTextJsonRecords": [
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+      ]
+    },
+    {
+      "family": "template_reference",
+      "input": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+      "before": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+      "after": "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+      "result": "preserved",
+      "historicalBefore": "SERVICE_TOKEN: [REDACTED]",
+      "beforeTextJsonRecords": [
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}"
+      ],
+      "afterTextJsonRecords": [
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}",
+        "SERVICE_TOKEN: ${{ secrets.SERVICE_TOKEN }}"
+      ]
+    },
+    {
+      "family": "structured_nonsecret_config",
+      "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+      "before": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+      "after": "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+      "result": "preserved",
+      "historicalBefore": "{\"routing.example.invalid/read-token\":[REDACTED]}",
+      "beforeTextJsonRecords": [
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"oidc\",\"enabled\":true}}"
+      ]
+    },
+    {
+      "family": "field_name_constant",
+      "input": "prefs.swift:18: private let historyKey = \"storedHistoryKey\"",
+      "before": "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+      "after": "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+      "result": "left redacted",
+      "historicalBefore": "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+      "beforeTextJsonRecords": [
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\""
+      ],
+      "afterTextJsonRecords": [
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\"",
+        "prefs.swift:18: private let historyKey = \"[REDACTED]\""
+      ]
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "assert_eq!(value, json!({\"accessToken\":\"local-test-token\"}));",
+      "before": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+      "after": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+      "result": "left redacted",
+      "historicalBefore": "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+      "beforeTextJsonRecords": [
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));"
+      ],
+      "afterTextJsonRecords": [
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));",
+        "assert_eq!(value, json!({\"accessToken\":\"[REDACTED]\"}));"
+      ]
+    },
+    {
+      "family": "prose_outside_assignment",
+      "input": "- During the deployment discussion, auth: review the available alternatives.",
+      "before": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+      "after": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+      "result": "left redacted",
+      "historicalBefore": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+      "beforeTextJsonRecords": [
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives."
+      ],
+      "afterTextJsonRecords": [
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+        "- During the deployment discussion, auth: [REDACTED] the available alternatives."
+      ]
+    },
+    {
+      "family": "type_or_enum",
+      "input": "let item = Record(contextKey: .workspaceID)",
+      "before": "let item = Record(contextKey: .workspaceID)",
+      "after": "let item = Record(contextKey: .workspaceID)",
+      "result": "preserved",
+      "historicalBefore": "let item = Record(contextKey: [REDACTED])",
+      "beforeTextJsonRecords": [
+        "let item = Record(contextKey: .workspaceID)",
+        "let item = Record(contextKey: .workspaceID)",
+        "let item = Record(contextKey: .workspaceID)"
+      ],
+      "afterTextJsonRecords": [
+        "let item = Record(contextKey: .workspaceID)",
+        "let item = Record(contextKey: .workspaceID)",
+        "let item = Record(contextKey: .workspaceID)"
+      ]
+    },
+    {
+      "family": "code_expression",
+      "input": "const accessToken = auth?.readToken?.trim();",
+      "before": "const accessToken = auth?.readToken?.trim();",
+      "after": "const accessToken = auth?.readToken?.trim();",
+      "result": "preserved",
+      "historicalBefore": "const accessToken = [REDACTED]);",
+      "beforeTextJsonRecords": [
+        "const accessToken = auth?.readToken?.trim();",
+        "const accessToken = auth?.readToken?.trim();",
+        "const accessToken = auth?.readToken?.trim();"
+      ],
+      "afterTextJsonRecords": [
+        "const accessToken = auth?.readToken?.trim();",
+        "const accessToken = auth?.readToken?.trim();",
+        "const accessToken = auth?.readToken?.trim();"
+      ]
+    },
+    {
+      "family": "public_routing_identifier",
+      "input": "{\"integrationKey\":\"task-board\"}",
+      "before": "{\"integrationKey\":\"[REDACTED]\"}",
+      "after": "{\"integrationKey\":\"[REDACTED]\"}",
+      "result": "left redacted",
+      "historicalBefore": "{\"integrationKey\":\"[REDACTED]\"}",
+      "beforeTextJsonRecords": [
+        "{\"integrationKey\":\"[REDACTED]\"}",
+        "{\"integrationKey\":\"[REDACTED]\"}",
+        "{\"integrationKey\":\"[REDACTED]\"}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"integrationKey\":\"[REDACTED]\"}",
+        "{\"integrationKey\":\"[REDACTED]\"}",
+        "{\"integrationKey\":\"[REDACTED]\"}"
+      ]
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "test_case = \"CLOUDFLARE_PREFIX_123456789012345678901\";",
+      "before": "test_case = \"[REDACTED]\";",
+      "after": "test_case = \"[REDACTED]\";",
+      "result": "left redacted",
+      "historicalBefore": "test_case = \"[REDACTED]\";",
+      "beforeTextJsonRecords": [
+        "test_case = \"[REDACTED]\";",
+        "test_case = \"[REDACTED]\";",
+        "test_case = \"[REDACTED]\";"
+      ],
+      "afterTextJsonRecords": [
+        "test_case = \"[REDACTED]\";",
+        "test_case = \"[REDACTED]\";",
+        "test_case = \"[REDACTED]\";"
+      ]
+    },
+    {
+      "family": "coverage_statistic",
+      "input": "\"src/auth.rs::tests::configure_credentials\" = 1",
+      "before": "\"src/auth.rs::tests::configure_credentials\" = 1",
+      "after": "\"src/auth.rs::tests::configure_credentials\" = 1",
+      "result": "preserved",
+      "historicalBefore": "\"src/auth.rs::tests::configure_credentials\" = [REDACTED]",
+      "beforeTextJsonRecords": [
+        "\"src/auth.rs::tests::configure_credentials\" = 1",
+        "\"src/auth.rs::tests::configure_credentials\" = 1",
+        "\"src/auth.rs::tests::configure_credentials\" = 1"
+      ],
+      "afterTextJsonRecords": [
+        "\"src/auth.rs::tests::configure_credentials\" = 1",
+        "\"src/auth.rs::tests::configure_credentials\" = 1",
+        "\"src/auth.rs::tests::configure_credentials\" = 1"
+      ]
+    },
+    {
+      "family": "prose_outside_assignment",
+      "input": "- The bearer authentication and request lifecycle are documented.",
+      "before": "- The bearer [REDACTED] and request lifecycle are documented.",
+      "after": "- The bearer [REDACTED] and request lifecycle are documented.",
+      "result": "left redacted",
+      "historicalBefore": "- The bearer [REDACTED] and request lifecycle are documented.",
+      "beforeTextJsonRecords": [
+        "- The bearer [REDACTED] and request lifecycle are documented.",
+        "- The bearer [REDACTED] and request lifecycle are documented.",
+        "- The bearer [REDACTED] and request lifecycle are documented."
+      ],
+      "afterTextJsonRecords": [
+        "- The bearer [REDACTED] and request lifecycle are documented.",
+        "- The bearer [REDACTED] and request lifecycle are documented.",
+        "- The bearer [REDACTED] and request lifecycle are documented."
+      ]
+    },
+    {
+      "family": "sql_parameter",
+      "input": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+      "before": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+      "after": "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+      "result": "preserved",
+      "historicalBefore": "let sql = \"SELECT id FROM events WHERE session_id = [REDACTED]\";",
+      "beforeTextJsonRecords": [
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";"
+      ],
+      "afterTextJsonRecords": [
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";",
+        "let sql = \"SELECT id FROM events WHERE session_id = ?3\";"
+      ]
+    },
+    {
+      "family": "credential_storage_reference",
+      "input": "adminPassword: { name: catalog-db-password }",
+      "before": "adminPassword: { name: catalog-db-password }",
+      "after": "adminPassword: { name: catalog-db-password }",
+      "result": "preserved",
+      "historicalBefore": "adminPassword: [REDACTED]",
+      "beforeTextJsonRecords": [
+        "adminPassword: { name: catalog-db-password }",
+        "adminPassword: { name: catalog-db-password }",
+        "adminPassword: { name: catalog-db-password }"
+      ],
+      "afterTextJsonRecords": [
+        "adminPassword: { name: catalog-db-password }",
+        "adminPassword: { name: catalog-db-password }",
+        "adminPassword: { name: catalog-db-password }"
+      ]
+    },
+    {
+      "family": "provider_infrastructure_identifier",
+      "input": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+      "before": "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+      "after": "https://edge-workspace-[REDACTED].example.invalid",
+      "result": "left redacted (hostname exemption removed)",
+      "historicalBefore": "https://edge-workspace-[REDACTED].example.invalid",
+      "beforeTextJsonRecords": [
+        "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+        "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid",
+        "https://edge-workspace-OPENAI_PREFIX_123456789012-us-west-2.example.invalid"
+      ],
+      "afterTextJsonRecords": [
+        "https://edge-workspace-[REDACTED].example.invalid",
+        "https://edge-workspace-[REDACTED].example.invalid",
+        "https://edge-workspace-[REDACTED].example.invalid"
+      ]
+    },
+    {
+      "family": "cloud_tag_key",
+      "input": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+      "before": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+      "after": "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+      "result": "preserved",
+      "historicalBefore": "aws ec2 create-tags --tags Key=[REDACTED],Value=worker Key=[REDACTED],Value=staging",
+      "beforeTextJsonRecords": [
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging"
+      ],
+      "afterTextJsonRecords": [
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging",
+        "aws ec2 create-tags --tags Key=Name,Value=worker Key=team:scope,Value=staging"
+      ]
+    },
+    {
+      "family": "idempotency_token",
+      "input": "aws service deploy --idempotency-token deployment-rerun",
+      "before": "aws service deploy --idempotency-token deployment-rerun",
+      "after": "aws service deploy --idempotency-token deployment-rerun",
+      "result": "preserved",
+      "historicalBefore": "aws service deploy --idempotency-token [REDACTED]",
+      "beforeTextJsonRecords": [
+        "aws service deploy --idempotency-token deployment-rerun",
+        "aws service deploy --idempotency-token deployment-rerun",
+        "aws service deploy --idempotency-token deployment-rerun"
+      ],
+      "afterTextJsonRecords": [
+        "aws service deploy --idempotency-token deployment-rerun",
+        "aws service deploy --idempotency-token deployment-rerun",
+        "aws service deploy --idempotency-token deployment-rerun"
+      ]
+    },
+    {
+      "family": "url_regex",
+      "input": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+      "before": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+      "after": "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+      "result": "preserved",
+      "historicalBefore": "re.search(r\"postgresql://[^:[REDACTED]@\", connection)",
+      "beforeTextJsonRecords": [
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)"
+      ],
+      "afterTextJsonRecords": [
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)",
+        "re.search(r\"postgresql://[^:]+:([^@]+)@\", connection)"
+      ]
+    },
+    {
+      "family": "structured_nonsecret_config",
+      "input": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer REQUEST_PATTERN*\"]}}",
+      "before": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+      "after": "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+      "result": "partial",
+      "historicalBefore": "{\"routing.example.invalid/read-token\":[REDACTED]}",
+      "beforeTextJsonRecords": [
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}",
+        "{\"routing.example.invalid/read-token\":{\"mode\":\"header\",\"values\":[\"Bearer [REDACTED]*\"]}}"
+      ]
+    },
+    {
+      "family": "url_variable_or_format",
+      "input": "postgresql://service:$DB_PASS@db.example.invalid/database",
+      "before": "postgresql://service:$DB_PASS@db.example.invalid/database",
+      "after": "postgresql://service:$DB_PASS@db.example.invalid/database",
+      "result": "preserved",
+      "historicalBefore": "postgresql://service:[REDACTED]@db.example.invalid/database",
+      "beforeTextJsonRecords": [
+        "postgresql://service:$DB_PASS@db.example.invalid/database",
+        "postgresql://service:$DB_PASS@db.example.invalid/database",
+        "postgresql://service:$DB_PASS@db.example.invalid/database"
+      ],
+      "afterTextJsonRecords": [
+        "postgresql://service:$DB_PASS@db.example.invalid/database",
+        "postgresql://service:$DB_PASS@db.example.invalid/database",
+        "postgresql://service:$DB_PASS@db.example.invalid/database"
+      ]
+    },
+    {
+      "family": "shell_command_substitution",
+      "input": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+      "before": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+      "after": "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+      "result": "preserved",
+      "historicalBefore": "SERVICE_SECRET=\"[REDACTED]\"",
+      "beforeTextJsonRecords": [
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\""
+      ],
+      "afterTextJsonRecords": [
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\"",
+        "SERVICE_SECRET=\"$(openssl rand -hex 24)\""
+      ]
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "client_secret: <48>",
+      "before": "client_secret: <48>",
+      "after": "client_secret: <48>",
+      "result": "preserved",
+      "historicalBefore": "client_secret: [REDACTED]",
+      "beforeTextJsonRecords": [
+        "client_secret: <48>",
+        "client_secret: <48>",
+        "client_secret: <48>"
+      ],
+      "afterTextJsonRecords": [
+        "client_secret: <48>",
+        "client_secret: <48>",
+        "client_secret: <48>"
+      ]
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "postgresql://service:***@db.example.invalid/database",
+      "before": "postgresql://service:***@db.example.invalid/database",
+      "after": "postgresql://service:***@db.example.invalid/database",
+      "result": "preserved",
+      "historicalBefore": "postgresql://service:[REDACTED]@db.example.invalid/database",
+      "beforeTextJsonRecords": [
+        "postgresql://service:***@db.example.invalid/database",
+        "postgresql://service:***@db.example.invalid/database",
+        "postgresql://service:***@db.example.invalid/database"
+      ],
+      "afterTextJsonRecords": [
+        "postgresql://service:***@db.example.invalid/database",
+        "postgresql://service:***@db.example.invalid/database",
+        "postgresql://service:***@db.example.invalid/database"
+      ]
+    },
+    {
+      "family": "existing_mask_or_placeholder",
+      "input": "value = \"Bearer masked_...\";",
+      "before": "value = \"Bearer masked_...\";",
+      "after": "value = \"Bearer masked_...\";",
+      "result": "preserved",
+      "historicalBefore": "value = \"Bearer [REDACTED]\";",
+      "beforeTextJsonRecords": [
+        "value = \"Bearer masked_...\";",
+        "value = \"Bearer masked_...\";",
+        "value = \"Bearer masked_...\";"
+      ],
+      "afterTextJsonRecords": [
+        "value = \"Bearer masked_...\";",
+        "value = \"Bearer masked_...\";",
+        "value = \"Bearer masked_...\";"
+      ]
+    },
+    {
+      "family": "synthetic_literal",
+      "input": "let uri = \"redis://test:pass@auth.example.invalid/db\";",
+      "before": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+      "after": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+      "result": "left redacted",
+      "historicalBefore": "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+      "beforeTextJsonRecords": [
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";"
+      ],
+      "afterTextJsonRecords": [
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";",
+        "let uri = \"redis://test:[REDACTED]@auth.example.invalid/db\";"
+      ]
+    },
+    {
+      "family": "existing_mask_scope",
+      "input": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "before": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "after": "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+      "result": "preserved",
+      "historicalBefore": "{\"output\": \"\\\"Authorization\\\" => [REDACTED]\"}",
+      "beforeTextJsonRecords": [
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}",
+        "{\"output\": \"\\\"Authorization\\\" => token = line.trim().strip_prefix(\\\"Bearer \\\"),\\n\\\"another\\\" => handle_response(),\\n\"}"
+      ]
+    },
+    {
+      "family": "type_or_regex_syntax",
+      "input": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+      "before": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+      "after": "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+      "result": "preserved",
+      "historicalBefore": "sed -n '/^auth:[REDACTED],/^[a-z]/p' settings.yml",
+      "beforeTextJsonRecords": [
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml"
+      ],
+      "afterTextJsonRecords": [
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml",
+        "sed -n '/^auth:/,/^[a-z]/p' settings.yml"
+      ]
+    },
+    {
+      "family": "path_reference",
+      "input": "signer --private-key /home/operator/keys/signing.pem",
+      "before": "signer --private-key [REDACTED]",
+      "after": "signer --private-key [REDACTED]",
+      "result": "left redacted",
+      "historicalBefore": "signer --private-key [REDACTED]",
+      "beforeTextJsonRecords": [
+        "signer --private-key [REDACTED]",
+        "signer --private-key [REDACTED]",
+        "signer --private-key [REDACTED]"
+      ],
+      "afterTextJsonRecords": [
+        "signer --private-key [REDACTED]",
+        "signer --private-key [REDACTED]",
+        "signer --private-key [REDACTED]"
+      ]
+    },
+    {
+      "family": "session_identifier_or_truncation",
+      "input": "{\"session_id\":\"123456789012345678\"}",
+      "before": "{\"session_id\":\"[REDACTED]\"}",
+      "after": "{\"session_id\":\"[REDACTED]\"}",
+      "result": "left redacted",
+      "historicalBefore": "{\"session_id\":\"[REDACTED]\"}",
+      "beforeTextJsonRecords": [
+        "{\"session_id\":\"[REDACTED]\"}",
+        "{\"session_id\":\"[REDACTED]\"}",
+        "{\"session_id\":\"[REDACTED]\"}"
+      ],
+      "afterTextJsonRecords": [
+        "{\"session_id\":\"[REDACTED]\"}",
+        "{\"session_id\":\"[REDACTED]\"}",
+        "{\"session_id\":\"[REDACTED]\"}"
+      ]
+    }
+  ],
+  "gateResults": {
+    "matrix": {
+      "schema": 1,
+      "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+      "exactPacket": {
+        "cases": 1186,
+        "failures": []
+      },
+      "finalRuling": {
+        "cases": 43,
+        "failures": []
+      },
+      "residualBenign": {
+        "cases": 19,
+        "failures": []
+      },
+      "residualPositive": {
+        "cases": 17,
+        "failures": []
+      },
+      "nestedStructuredJsonRecords": [
+        true,
+        true
+      ]
+    },
+    "frozen": {
+      "baseExactArchivedOracle": 168,
+      "baseMissedSecretCases": 0,
+      "cases": 199,
+      "headExactArchivedOracle": 162,
+      "headMissedSecretCases": 0,
+      "inheritedArchivedDifferences": [],
+      "newMissedSecretCases": 0,
+      "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
+      "secondPassChangedCases": 0
+    },
+    "earlierInventedReproductions": 27,
+    "native": {
+      "toolchain": "1.88.0",
+      "tests": 68,
+      "result": "pass"
+    },
+    "wasm": {
+      "nodeTests": 66,
+      "bunTests": 66,
+      "textParityVectors": 5645,
+      "structuredParityVectors": 5650,
+      "frozenAllApis": 199,
+      "result": "pass",
+      "independentStructuralCases": 99,
+      "completeValueCases": 141,
+      "numericCredentialCases": 45
+    },
+    "fmt": "pass",
+    "clippy": "pass -D warnings",
+    "vetoDiffReview": "pass",
+    "bearerBlocker": {
+      "baseNative": "8 new positives fail across text/JSON/NDJSON",
+      "baseWasm": "new positive group fails on WASM built from601dd446",
+      "headNative": "43 positive and 9 benign cases pass across all APIs",
+      "headWasm": "43 positive and 9 benign cases pass across all APIs"
+    }
+  },
+  "limitations": [
+    "English-value families remain redacted: synthetic literals, assignment-shaped prose, public routing identifiers, and field-name constants.",
+    "Structured header glob REQUEST_PATTERN* still redacts the Bearer pattern, although its qualified mapping wrapper is preserved.",
+    "An unquoted private-key path remains redacted; no storage-path policy was invented.",
+    "Quoted numeric session identifiers remain string credentials and redact.",
+    "Provider exemptions require lowercase snake identifiers in source positions; arbitrary provider scalars retain the existing detector.",
+    "Opaque token-shaped material inside a purported reference is fail-closed; this does not add a standalone entropy detector."
+  ],
+  "syntheticPrefixSubstitutions": {
+    "OPENAI_PREFIX_": "sk-",
+    "CLOUDFLARE_PREFIX_": "cfk_"
+  },
+  "performanceFollowup": {
+    "cases": 5642,
+    "structuredCases": 5644,
+    "frozenCases": 199,
+    "changedOutputs": 0,
+    "releaseReplaySeconds": [
+      0.387,
+      0.175
+    ],
+    "baseCommit": "760e274",
+    "performanceCommit": "62ec89661d75e1a1d2e94ab6d0c899eb64f65765",
+    "headSourceSha256": "0a6f764546a6a515774be0a1c75a200516d62a38a222ffda2882b592a3eae94a",
+    "additionalPerformanceCommits": [
+      "ae67d5f",
+      "978cd73",
+      "c90f3a8",
+      "62ec896"
+    ],
+    "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
+    "localSmallContainerSeconds": 0.094,
+    "localLargeContainerSeconds": 0.86,
+    "localScopeAllApisSeconds": 14.019,
+    "hostedLinuxSmallContainerSeconds": 0.121,
+    "hostedLinuxLargeContainerSeconds": 1.632,
+    "hostedLinuxScopeAllApisSeconds": 15.997,
+    "hostedWindowsSmallContainerSeconds": 0.203,
+    "hostedWindowsLargeContainerSeconds": 3.001,
+    "hostedWindowsScopeAllApisSeconds": 25.517,
+    "hostedBunScopeMilliseconds": 2680.44,
+    "baselineWindowsSeconds": 82,
+    "intermediateBunScopeMilliseconds": 5202,
+    "bunTimeoutMilliseconds": 5000,
+    "localBunScopeMilliseconds": 1396.81,
+    "localBunSuiteMilliseconds": 3300,
+    "intermediateWindowsSeconds": 12.162,
+    "deadlineSeconds": 10,
+    "limitsChanged": false,
+    "repair": "Normalize suffixes once and cache name/reference classifications; resolve plain scoped-key scalars without repeated code scans and skip globally absent contexts. Scan provider prefixes once with the already pinned Aho automaton, reject impossible long key names before normalization, and omit a deterministic repeat scan when the first pass changed no spans.",
+    "baselineLocalRust188": {
+      "smallContainerSeconds": 0.177,
+      "largeContainerSeconds": 2.415,
+      "scopeAllApisSeconds": 57.932
+    }
+  },
+  "previousBaseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+  "previousImplementationCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
+  "hostedWasmSha256": "d8c491e0df28c94ae65d4f943832c3417419b3c054836f559f722315c7b85a0c",
+  "hostedPackageSha256": "2d0868dc3acdc18fa223787f5996a3cc509b3cf46723420789e719f4f39fdfb0",
+  "completeValueRepair": {
+    "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
+    "sourceCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
+    "sourceSha256": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+    "testOnlyCommits": [
+      "9c0b3e0",
+      "3010c43",
+      "7b4f231",
+      "07710e8",
+      "c9ba4de",
+      "0d7e789",
+      "36fd753"
+    ],
+    "fixCommits": [
+      "87fda3b",
+      "92eaa2e",
+      "8ecdb9e",
+      "760e274",
+      "3d20260",
+      "5b6afb6"
+    ],
+    "performanceCommits": [
+      "ae67d5f",
+      "978cd73",
+      "c90f3a8",
+      "62ec896"
+    ],
+    "baseNativeRust188": "Both newly added test groups fail on d6f7f853 across text/JSON/NDJSON; baseline compiled privately within .task-tmp using the shared target directory.",
+    "baseHostedWasmSha256": "31562a27596658c1d6de08292176c5176072698def0c95fbbab47e6ed7774c34",
+    "baseHostedWasm": {
+      "source": "bc4f5f6ede938acd11df2e35add9d93f16a69d8db7f0929380209158bc5e90d0",
+      "groups": {
+        "resource_tail": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 0,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 1,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 2,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "substitution_literal": {
+          "cases": 10,
+          "failures": [
+            {
+              "id": 3,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 4,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 5,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 6,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 7,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 8,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 9,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 10,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 11,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 12,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "url_regex_literal": {
+          "cases": 2,
+          "failures": [
+            {
+              "id": 13,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 14,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "provider_hostname": {
+          "cases": 18,
+          "failures": [
+            {
+              "id": 17,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 18,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 19,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 20,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 21,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 22,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 23,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 24,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 27,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 28,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 29,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 30,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "reference_control": {
+          "cases": 5,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "reference_tail": {
+          "cases": 16,
+          "failures": [
+            {
+              "id": 38,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 40,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 41,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 42,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 43,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 44,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 45,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 46,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 47,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "code_embedded_or_tail": {
+          "cases": 10,
+          "failures": [
+            {
+              "id": 54,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 55,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 56,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 57,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 58,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 59,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 60,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 61,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 62,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 63,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "match_arm_literal": {
+          "cases": 4,
+          "failures": [
+            {
+              "id": 64,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 65,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 66,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 67,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "sql_bind_tail": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 68,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 69,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 70,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "other_exemption_tail": {
+          "cases": 6,
+          "failures": [
+            {
+              "id": 71,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 72,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 73,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 75,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "bounded_reference_tail": {
+          "cases": 33,
+          "failures": [
+            {
+              "id": 77,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 78,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 79,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 80,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 81,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 82,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 83,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 84,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 85,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 86,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 87,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 88,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 89,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 90,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 91,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 92,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 93,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 94,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 95,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 96,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 97,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 101,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 102,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 103,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 104,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 105,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 106,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 107,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 108,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 109,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "embedded_literal_reference": {
+          "cases": 5,
+          "failures": [
+            {
+              "id": 110,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 111,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 112,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 113,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 114,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "hostname_position_port": {
+          "cases": 6,
+          "failures": [
+            {
+              "id": 116,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 117,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 118,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "regex_placeholder_fixture_literal": {
+          "cases": 4,
+          "failures": [
+            {
+              "id": 121,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 122,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 123,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 124,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "code_and_marker_siblings": {
+          "cases": 5,
+          "failures": [
+            {
+              "id": 125,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 126,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 127,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 128,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 129,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "rejected_reference_literal_scope": {
+          "cases": 5,
+          "failures": [
+            {
+              "id": 130,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 131,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 132,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 133,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 134,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "provider_snake_hostname": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 135,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 136,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 137,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        },
+        "substitution_quote_identity_tail": {
+          "cases": 3,
+          "failures": [
+            {
+              "id": 138,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 139,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            },
+            {
+              "id": 140,
+              "validTextJsonRecords": [
+                false,
+                false,
+                false
+              ]
+            }
+          ],
+          "secondPassChanges": []
+        }
+      },
+      "numeric": {
+        "cases": 45,
+        "failures": [
+          {
+            "key": "password",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "passwd",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "pin",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "secret",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "client_secret",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "token",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "accessToken",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "refreshToken",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "api_key",
+            "number": "123456",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "password",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "passwd",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "pin",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "secret",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "client_secret",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "token",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "accessToken",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "refreshToken",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "api_key",
+            "number": "-246810",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "password",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "passwd",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "pin",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "secret",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "client_secret",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "token",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "accessToken",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "refreshToken",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "api_key",
+            "number": "12.375",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "password",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "passwd",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "pin",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "secret",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "client_secret",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "token",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "accessToken",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "refreshToken",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "api_key",
+            "number": "6.02e23",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "password",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "passwd",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "pin",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "secret",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "client_secret",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "token",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "accessToken",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "refreshToken",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "key": "api_key",
+            "number": "0",
+            "validTextJsonRecords": [
+              false,
+              false,
+              false
+            ]
+          }
+        ],
+        "secondPassChanges": 0
+      }
+    },
+    "headHostedWasm": {
+      "source": "0e5f2d199eb775609ff57884a81c529b4f250a4382dc17a9fe20907b66418752",
+      "groups": {
+        "resource_tail": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "substitution_literal": {
+          "cases": 10,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "url_regex_literal": {
+          "cases": 2,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "provider_hostname": {
+          "cases": 18,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "reference_control": {
+          "cases": 5,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "reference_tail": {
+          "cases": 16,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "code_embedded_or_tail": {
+          "cases": 10,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "match_arm_literal": {
+          "cases": 4,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "sql_bind_tail": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "other_exemption_tail": {
+          "cases": 6,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "bounded_reference_tail": {
+          "cases": 33,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "embedded_literal_reference": {
+          "cases": 5,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "hostname_position_port": {
+          "cases": 6,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "regex_placeholder_fixture_literal": {
+          "cases": 4,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "code_and_marker_siblings": {
+          "cases": 5,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "rejected_reference_literal_scope": {
+          "cases": 5,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "provider_snake_hostname": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
+        },
+        "substitution_quote_identity_tail": {
+          "cases": 3,
+          "failures": [],
+          "secondPassChanges": []
+        }
+      },
+      "numeric": {
+        "cases": 45,
+        "failures": [],
+        "secondPassChanges": 0
+      }
+    },
+    "blockers": [
+      {
+        "name": "numeric_credentials",
+        "cases": 45,
+        "baselineLeakingCases": 45,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "resource_name_complete_value",
+        "cases": 3,
+        "baselineLeakingCases": 3,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "url_regex_complete_capture",
+        "cases": 2,
+        "baselineLeakingCases": 2,
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "substitution_embedded_literals",
+        "cases": 13,
+        "baselineLeakingCases": 13,
+        "additionalTestCommit": "36fd753",
+        "additionalFixCommit": "5b6afb6",
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      },
+      {
+        "name": "provider_token_hostname",
+        "cases": 27,
+        "baselineLeakingCases": 18,
+        "additionalTestCommit": "0d7e789",
+        "additionalFixCommit": "3d20260",
+        "testCommit": "9c0b3e0",
+        "fixCommit": "87fda3b",
+        "headLeakingCases": 0,
+        "apis": [
+          "checkedText",
+          "json",
+          "ndjson"
+        ],
+        "secondPassChanges": 0
+      }
+    ],
+    "exemptionAudit": [
+      {
+        "family": "resource_name",
+        "rule": "Only complete single unquoted hyphenated-name mapping; opaque or comment tails redact."
+      },
+      {
+        "family": "url_regex",
+        "rule": "Only complete [^:]+:([^@]+)@ capture ending at its quote; literal passwords redact."
+      },
+      {
+        "family": "shell_substitution",
+        "rule": "Complete reference-only commands with exact outer quote encoding across nested strings; openssl rand, cat-variable and bare command references remain. Encoded fake closers, literal arguments and tails redact."
+      },
+      {
+        "family": "idempotency_slug",
+        "rule": "Complete bounded lowercase slug ending at end of line or the next CLI flag; appended opaque tails redact."
+      },
+      {
+        "family": "tag_Key_Value",
+        "rule": "Complete bounded Key/Value pair ending at next tag/flag or line; literal values and appended opaque tails redact."
+      },
+      {
+        "family": "templates_and_shell_variables",
+        "rule": "Complete bounded variable/property reference; opaque defaults, embedded material and appended tails redact."
+      },
+      {
+        "family": "masks_placeholders",
+        "rule": "Complete masks or placeholders, with narrowly allowed lowercase marker commentary; embedded or appended secret-shaped material redacts."
+      },
+      {
+        "family": "SQL_binds",
+        "rule": "Complete numeric/named bind in explicit SQL syntax; tails redact."
+      },
+      {
+        "family": "provider_snake_identifiers",
+        "rule": "Complete lowercase snake provider-shaped identifiers in explicit declarations, namespaces and calls only; opaque identifiers, URL labels and ambiguous bare dotted hostnames redact."
+      },
+      {
+        "family": "bare_symbols_members_calls_match_arms",
+        "rule": "Complete bounded reference expressions with safe selector literals; opaque identifiers, literal arguments, and rejected-expression tails redact completely."
+      },
+      {
+        "family": "Bearer_variables",
+        "rule": "Explicit comment variable identifier only; opaque material in or after it redacts. Existing 43 positives and 9 reference controls retain exact bytes."
+      },
+      {
+        "family": "numeric_scalars",
+        "rule": "Numbers redact as string markers for credential keys, including pin; numeric session identifiers and unrelated pid/port/count fields retain their types."
+      },
+      {
+        "family": "regex_fixture_and_type_exemptions",
+        "rule": "Complete whitelisted regex syntax and balanced qualified types; literal siblings redact."
+      },
+      {
+        "family": "provider_hostnames",
+        "rule": "Exemption removed; known provider matches redact in all hostname positions."
+      }
+    ],
+    "privacy": "Invented cases only. No sampled sessions, labels, or reaudit2-fresh files accessed.",
+    "performance": {
+      "cases": 5642,
+      "structuredCases": 5644,
+      "frozenCases": 199,
+      "changedOutputs": 0,
+      "releaseReplaySeconds": [
+        0.387,
+        0.175
+      ],
+      "baseCommit": "760e274",
+      "performanceCommit": "62ec89661d75e1a1d2e94ab6d0c899eb64f65765",
+      "headSourceSha256": "0a6f764546a6a515774be0a1c75a200516d62a38a222ffda2882b592a3eae94a",
+      "additionalPerformanceCommits": [
+        "ae67d5f",
+        "978cd73",
+        "c90f3a8",
+        "62ec896"
+      ],
+      "scope": "Zero changed text, structured JSON/NDJSON, frozen outputs and additional large-container replays.",
+      "localSmallContainerSeconds": 0.094,
+      "localLargeContainerSeconds": 0.86,
+      "localScopeAllApisSeconds": 14.019,
+      "hostedLinuxSmallContainerSeconds": 0.121,
+      "hostedLinuxLargeContainerSeconds": 1.632,
+      "hostedLinuxScopeAllApisSeconds": 15.997,
+      "hostedWindowsSmallContainerSeconds": 0.203,
+      "hostedWindowsLargeContainerSeconds": 3.001,
+      "hostedWindowsScopeAllApisSeconds": 25.517,
+      "hostedBunScopeMilliseconds": 2680.44,
+      "baselineWindowsSeconds": 82,
+      "intermediateBunScopeMilliseconds": 5202,
+      "bunTimeoutMilliseconds": 5000,
+      "localBunScopeMilliseconds": 1396.81,
+      "localBunSuiteMilliseconds": 3300,
+      "intermediateWindowsSeconds": 12.162,
+      "deadlineSeconds": 10,
+      "limitsChanged": false,
+      "repair": "Normalize suffixes once and cache name/reference classifications; resolve plain scoped-key scalars without repeated code scans and skip globally absent contexts. Scan provider prefixes once with the already pinned Aho automaton, reject impossible long key names before normalization, and omit a deterministic repeat scan when the first pass changed no spans.",
+      "baselineLocalRust188": {
+        "smallContainerSeconds": 0.177,
+        "largeContainerSeconds": 2.415,
+        "scopeAllApisSeconds": 57.932
+      }
+    }
+  },
+  "falsePositiveWinsKept": "Safe code symbols, members/calls/match arms/types, numeric session IDs, templates and variables, reference-only commands, complete resource mappings, SQL binds, tags, idempotency slugs, masks, placeholders and Bearer variables retain the existing precision controls.",
+  "falsePositiveWinsLost": [
+    "Provider-shaped infrastructure hostnames deliberately redact, including lowercase capy/crsr labels; hostname context cannot justify a credential exemption.",
+    "Ambiguous bare dotted provider-member identifiers redact because the same syntax can be a hostname; explicit declarations/namespaces/calls remain.",
+    "Unrecognized shell substitutions with arguments fail closed unless they match a reference-only command grammar.",
+    "Opaque token-shaped identifiers, defaults and placeholders fail closed."
+  ]
+}

@@ -1,160 +1,76 @@
 # relayscrubber
 
-`relayscrubber` is the standalone Rust implementation of Agent Relay’s
-**Technical Foul** secret and PII scrubber. It is library-first, deterministic,
-offline at runtime, and shared by clients that must produce the same sanitized
-history bytes as the server-side relayhistory ingest path.
+The canonical offline Rust secret scrubber for Agent Relay, compiled unchanged
+for native clients and WASM hosts. JavaScript contains transport and identity
+checks only. This branch is **0.5.0-alpha.2 / candidate ruleset 10**. It is not
+approved for adoption or publishing. See [SPEC](docs/SPEC.md),
+[MIGRATION](MIGRATION.md), [performance](docs/PERFORMANCE.md) and
+[evaluation](docs/RESULTS.md).
 
-The crate uses Rust 2021, has an MSRV of 1.88, and CI builds and tests it on
-Linux and Windows. Its runtime dependencies are only `serde` and `serde_json`.
-
-The source candidate is **0.4.0 / ruleset 8**, not yet a published or approved Desktop release. Frozen v6 artifacts and the published 0.3.0 checksum are retained in `vendor/frozen-v6/ledger.json`; they are never relabeled as the current ruleset.
-
-The candidate compatibility tuple is:
-
-- ruleset: `relayhistory-scrub`
-- version: `8`
-- combined source SHA-256 (`scrub.ts` + newline + segmenter region): `50c2e0c67395f488a308cbcfc7c945606374b3d67d37138e284849c6190c8214`
-- corpus SHA-256: `d4589b4d008ef9bc1fdfc385f4aa209aef8044c9e3cd5abc14114544faa6ca49`
-- replacement: `[REDACTED]`
-- per-string bound: 262,144 UTF-16 code units
-
-## Use
-
-After 0.4.0 is reviewed, published and its registry checksum verified, consumers should pin that exact release:
-
-```toml
-[dependencies]
-relayscrubber = "=0.4.0"
-```
+Default policy removes recognizable provider tokens, compact JWT/JWE tokens,
+private keys and credential-labelled values in code, env, JSON, YAML, flags,
+headers, cookies, connection strings and signed URLs. It preserves ordinary
+prose, hashes, UUIDs, public identifiers, file paths, contact details and URLs
+without credentials. `Policy::Pii` explicitly adds email and SSN shapes.
+No detector can identify arbitrary unlabelled passwords or custom encodings.
 
 ```rust
-use relayscrubber::{manifest, raw_scrub_marker, scrub_long, CORPUS_SHA256, SCRUB_RULESET_VERSION};
+use relayscrubber::{scrub_text, scrub_json, scrub_records, manifest};
 
-let clean = scrub_long(r#"Authorization: Bearer synthetic-token-value-123456"#);
-assert_eq!(clean, "Authorization: Bearer [REDACTED]");
-
-let compatibility = manifest();
-assert_eq!(compatibility.ruleset_version, SCRUB_RULESET_VERSION);
-assert_eq!(compatibility.corpus_sha256, CORPUS_SHA256);
-
-let stored_marker = raw_scrub_marker();
-assert_eq!(stored_marker.ruleset, "relayhistory-scrub");
-assert_eq!(stored_marker.version, 8);
+// Intentionally invalid synthetic example.
+assert_eq!(scrub_text("password=\"SYNTH_ALPHA SYNTH_BETA\""),
+           "password=\"[REDACTED]\"");
+let (value, changes) = scrub_json(&serde_json::json!({"password":"SYNTHETIC"}));
+assert_eq!(changes, 1);
+let records = scrub_records(b"{\"status\":\"ok\"}\n").unwrap();
+assert_eq!(records.record_count, 1);
+assert_eq!(manifest().ruleset_version, 10);
 ```
 
-Use `scrub_long` for uploads. It handles arbitrary input in segments proven
-safe against the complete rule pipeline. If a remainder has no safe cut, the
-entire remainder becomes `[REDACTED]`; no partial scrub is returned or sent.
+`scrub_text` and `scrub_long` scan the complete input identically. They do not
+truncate or split secrets across chunks. `scrub_json` scrubs every key and value,
+retains public-property context through descendants and resolves key collisions.
+`scrub_json_text` returns `None` for invalid JSON: discard the original. Always
+serialize returned JSON, even when the redaction count is zero. `scrub_records`
+is an atomic UTF-8 NDJSON interface with deterministic, content-free errors;
+limits are 16 MiB per record and 64 MiB per operation. No partial output escapes
+an error. JSON recursion is bounded at 128 levels.
 
 `scrub_enhanced` is the recommended upload-safe entry point. It runs a
 precise query/fragment-parameter pre-pass, then `scrub_long`, then a
 whole-output post-pass (chat-webhook URLs, newer provider prefixes,
 any-length CLI-flag secrets, validated SSNs, private-range IPv4). It is a
-strict superset of ruleset 8, idempotent, and never truncates; the canonical
-pipeline itself is untouched (see `EVALS.md` for the accuracy and performance
-benchmark: 110/110 cases, 0/48 false positives, ~11% overhead on mixed logs).
-`scrub_text` is the bounded Cloud-compatible primitive: input past 262,144
-UTF-16 units is cut after safe whitespace (and before an open private-key
-block), with the canonical truncation note appended.
+strict superset of the canonical engine, idempotent, and never truncates; the
+canonical pipeline itself is untouched (see `EVALS.md` for the accuracy and
+performance benchmark).
 
-The implementation hand-ports the 31 rules in canonical order over UTF-16,
-including JavaScript whitespace, word-boundary and case semantics. It uses no
-regex engine, unsafe code, async runtime, platform-specific code, I/O, or
-network access. All scans and cut-search budgets are bounded.
+`manifest()` returns ruleset family/version, source digest, ABI, crate version
+and policy. The source digest includes ordered Rust sources, build script,
+pinned toolchain, original Cargo manifest and lockfile with LF normalization and
+path sentinels. A compiled WASM artifact has its own SHA-256. Consumers pin both
+independently of the downloaded package. Native consumers commit and audit their
+resolved dependency lockfile as well.
 
-`scrub_json` returns `(Value, redaction_count)` after scrubbing every key,
-string value and card-shaped integral number. Its collision suffixes follow
-the iteration order of the consumer-provided `Value`; original textual order
-is unavailable after a default `serde_json` parse. `scrub_json_text` parses
-with `JSON.parse` document order preserved and applies collision suffixes in
-that order. It returns `None` for invalid or out-of-range JSON, a container at
-serde_json's 128-level recursion boundary, or unpaired-surrogate JSON; callers
-retain their invalid/unrepresentable-JSON fallback. The crate does not enable
-`serde_json`'s `preserve_order` or `arbitrary_precision` features, so adding it
-does not change JSON behavior elsewhere in a consumer's dependency graph.
-A zero redaction count covers only surviving values in the parsed tree. It does not certify that the original JSON bytes were unchanged or safe: duplicate-key values may have been discarded by JSON.parse semantics. Always serialize the returned value; never reuse the original text solely because the count is zero.
-The returned `Value` serializes in the map order selected by the consumer's
-`serde_json` features; document order controls collision naming, not output
-byte order.
+The former TypeScript oracle and Rust v8 port are frozen under `vendor/` for
+provenance; they are not compiled or included in the new crate package. Existing
+stored data must never be relabelled as ruleset 10. Ruleset 9 is reserved for the
+abandoned pipeline candidate. Security-owner confirmation of candidate 10 and an
+exact-commit PASS remain required before merging or publishing.
 
-## History schema and contract
-
-This crate has exactly two integration boundaries:
-
-1. The relayhistory schema records the scrub marker. A sealed history chunk
-   writes `raw.scrub.ruleset = "relayhistory-scrub"` and
-   `raw.scrub.version = 8`; object metadata uses `scrub-ruleset` and
-   `scrub-version` with the same values. Existing chunks are never relabeled.
-2. The history database contract uses that marker to distinguish scrubbed and
-   unsanitized history. Callers must persist the exported ruleset/version only
-   after this crate has successfully scrubbed the bytes they store.
-
-`raw_scrub_marker()` returns exactly the persisted two-field marker
-`{"ruleset":"relayhistory-scrub","version":8}`. It is separate from
-`manifest()`, which returns the ten-field Technical Foul distribution manifest
-used by independent implementations to pin source, segmenter, and corpus.
-
-There is intentionally no database driver, relayhistory runtime dependency,
-desktop dependency, transport, telemetry, or network client in this crate.
-Schema owners map the exported constants into their own generated schema types.
-
-## Canonical artifact and lockstep policy
-
-`vendor/canonical/technical-foul.json` is the schema-1 manifest agreed with
-relayhistory-pipeline. The repository also vendors the canonical `scrub.ts`,
-the marked segmenter’s containing source, and the secret corpus for provenance
-and offline verification. The scrub implementation performs no fixture I/O;
-the manifest and corpus are compiled only into the explicit public exports.
-
-The public `manifest()` exposes all ten schema-1 fields. `MANIFEST_BYTES`,
-`MANIFEST_JSON`, `CORPUS_BYTES`, and `CORPUS_JSON` let consumers run the same
-lockstep and corpus cases without maintaining another private fixture copy.
-
-Changes are atomic across owners:
-
-1. relayhistory-pipeline changes `scrub.ts` and/or its marked segmenter, bumps
-   `SCRUB_RULESET_VERSION`, updates digest pins and `technical-foul.json`, and
-   updates the corpus when needed.
-2. relayscrubber vendors those exact artifacts, ports the behavior, and updates
-   its exported constants in one release.
-3. `cargo test` must pass the source/corpus digest locks and every corpus vector.
-   `bun scripts/parity-with-typescript.ts /path/to/relayhistory-pipeline` then
-   runs a direct byte-for-byte comparison against canonical `scrub.ts`.
-4. relay-desktop updates its Cargo tag only after that release is available.
-
-Ruleset 8 preserves only the exact `idempotency_key` identifier in the generic assignment rule (ASCII case-insensitive, with JavaScript whitespace). It does not exempt provider tokens, credentials inside values, prefixed secret names or other detectors. Public replay identities survive the scrub; credential-shaped values are still redacted. It skips matching the public identifier rather than consuming its value, so nested labelled credentials remain visible to the scanner. The known-unsafe, unpublished v7 candidate is retained under vendor/frozen-v7 for provenance only. The segmenter and corpus remain byte-for-byte unchanged.
-
-The TypeScript source remains canonical for version 8 (relayhistory-pipeline PR #477, commit 86a0b15d0197187eb6c19923d2b4a00a86b7a337). This does not claim that the server has deployed it. It may later consume
-this crate through WASM or a native binding, but this crate does not require or
-assume that migration.
-
-For upload safety the crate deliberately matches the reviewed Desktop behavior
-where the Cloud currently refuses input: it also tries a verified comma cut for
-compact text, and replaces an uncuttable remainder wholesale. The comma
-fallback is disabled when a URL scheme occurs before the cut because unbounded
-userinfo cannot be proven safe with finite context. V6 redacts every quoted
-secret through its matching close or end of input, measures over-cap values
-before any shrinking rule, redacts every over-bound unquoted secret value, and
-protects every over-cap or multi-line value from segment cuts. Its private-key
-pre-pass preserves header/footer pairing without leaving later quoted or
-unquoted credential tails exposed. The crate additionally
-checks exact unsigned JSON integers for cards and retains `__proto__` as an
-ordinary key. Rule set 6 also redacts quoted secret values through their close
-or end of input across line separators, inherits secret-key context through
-JSON descendants, and preserves only complete three- or four-segment
-`op://` references. Each divergence has a dedicated test.
-
-## Development
+Development (Rust 1.88.0 and wasm-bindgen CLI 0.2.104):
 
 ```sh
-export TMPDIR="$PWD/.task-tmp"
-mkdir -p "$TMPDIR"
-cargo fmt --all -- --check
-cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-targets
-bun scripts/parity-with-typescript.ts ../relayhistory-pipeline
+cargo +1.88.0 fmt --all -- --check
+cargo +1.88.0 clippy --all-targets --all-features -- -D warnings
+cargo +1.88.0 test --all-targets --all-features --locked
+bash scripts/build-wasm.sh
+mkdir -p "$HOME/scrubber-eval"
+chmod 700 "$HOME/scrubber-eval"
+(umask 077; cargo +1.88.0 run --release --example wasm_vectors > "$HOME/scrubber-eval/wasm-vectors.json")
+node --test js/test/wasm.test.mjs
+bun test js/test/wasm.test.mjs
+cargo +1.88.0 run --release --example evaluate -- 24301
 ```
 
-The corpus contains placeholders and generators, not live credentials. Never
-replace those placeholders with real or secret material.
+No publish command is part of this workflow. Never put real credentials or
+transcript excerpts in fixtures, commits, CI output, reports or relay messages.

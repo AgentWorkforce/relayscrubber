@@ -1,38 +1,43 @@
-//! Enhanced redaction: a strict, upload-safe superset of ruleset 8.
+//! Enhanced redaction: a strict, upload-safe superset of the canonical engine.
 //!
-//! Ruleset 8 ([`scrub_long`]) is the lockstep canonical pipeline and is left
-//! byte-for-byte intact. This module adds the high-precision rules learned
-//! from real relay session history, where the shape is unambiguous enough
-//! that redacting it cannot be a false positive:
+//! The canonical pipeline ([`crate::scrub_long`] and friends) is never modified here.
+//! This module adds the high-precision rules learned from real relay session
+//! history, where the shape is unambiguous enough that redacting it cannot
+//! be a false positive:
 //!
-//! * precise `?`/`&`/`#` credential parameters (pre-pass), which also fixes
-//!   the greedy-assignment over-redaction that ate `&mode=1`-style tails;
-//! * chat-webhook URLs (Discord, Teams) that carry bearer tokens in the path;
-//! * newer provider prefixes (DigitalOcean, Google OAuth, Groq, age,
-//!   Slack `xoxc`);
+//! * precise `?`/`&`/`#` credential parameters (pre-pass), which also shields
+//!   sibling tails from greedy assignment runs;
+//! * chat-webhook URLs that carry bearer tokens in the path;
+//! * provider prefixes the engine table does not cover (Groq, age,
+//!   Slack `xoxc`, Mailchimp, Databricks, Notion, and others);
 //! * space-separated CLI-flag secrets (`--password hunter2`), including
 //!   backslash-newline continuations, at any length;
-//! * validated SSNs and private-range IPv4 addresses.
+//! * validated SSNs, private-range IPv4 addresses, and long mixed-class
+//!   password-less URL userinfo (registry-style tokens).
 //!
 //! [`scrub_enhanced`] is the recommended upload-safe entry point: a precise
-//! query-parameter pre-pass, then [`scrub_long`], then a post-pass over the
-//! whole output (so shapes straddling a segment cut are still caught).
-//! [`scrub_json_enhanced`] and [`scrub_json_text_enhanced`] give JSON the
-//! same treatment. Every entry point is idempotent, never truncates, and
-//! fails closed exactly like [`scrub_long`].
+//! query-parameter pre-pass, then [`crate::scrub_long`], then a post-pass over the
+//! whole output. [`scrub_json_enhanced`] and [`scrub_json_text_enhanced`]
+//! give JSON the same treatment, and every entry point has a `_with_policy`
+//! variant that threads [`Policy`] through to the canonical engine (use
+//! [`Policy::Pii`] when email addresses and SSN shapes must not survive).
+//! Every entry point is idempotent, never truncates, and fails closed
+//! exactly like [`crate::scrub_long`].
 //!
 //! Deliberate non-goals (documented, not oversights): bare hex runs (a
-//! 37-hex Cloudflare legacy key is indistinguishable from a digest, which
-//! the corpus requires keeping), Twilio-style short prefixes (they collide
-//! with MD5/SHA fragments), public IPs (they collide with four-part
-//! versions), compressed IPv6 (`::` collides with Rust paths), and
-//! single-dash flags (`-p` is usually a port).
+//! 37-hex Cloudflare legacy key is indistinguishable from a digest),
+//! Twilio-style short prefixes (they collide with MD5/SHA fragments),
+//! public IPs (they collide with four-part versions), compressed IPv6
+//! (`::` collides with Rust paths), single-dash flags (`-p` is usually a
+//! port), and email/phone/card/home-path shapes, which the engine contract
+//! preserves by default and covers for email/SSN under [`Policy::Pii`].
 
 use std::collections::HashMap;
 
 use serde_json::Value;
 
-use crate::{scrub_json, scrub_json_text, scrub_long};
+use crate::{scrub_json_text, scrub_json_with_policy};
+use crate::{scrub_text_with_policy, Policy};
 
 const REDACTED: &[u8] = b"[REDACTED]";
 
@@ -725,7 +730,7 @@ fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
 }
 
 /// Redact `?name=value` / `&name=value` / `#name=value` precisely, stopping
-/// at `&` so sibling parameters survive. Runs before [`scrub_long`] so the
+/// at `&` so sibling parameters survive. Runs before [`crate::scrub_long`] so the
 /// greedy assignment rule never sees the raw value.
 fn pre_pass_params(input: &[u8]) -> Vec<u8> {
     let mut out = Vec::with_capacity(input.len());
@@ -741,6 +746,14 @@ fn pre_pass_params(input: &[u8]) -> Vec<u8> {
                         let mut e = v + 1;
                         while e < input.len() && !is_param_end(input[e]) {
                             e += 1;
+                        }
+                        if e == v + 1 {
+                            // Empty values stay empty: there is nothing to
+                            // leak, and filling them would be a false positive.
+                            out.extend_from_slice(&input[i..e]);
+                            i = e;
+                            done = true;
+                            break;
                         }
                         // A trailing space shields the sibling tail from the
                         // canonical greedy assignment rule, whose value run
@@ -940,8 +953,60 @@ fn private_ipv4_at(input: &[u8], i: usize) -> Option<Hit> {
     private.then_some((i, e))
 }
 
+/// A long mixed-class `scheme://user@host` user with no password. The
+/// canonical engine keeps password-less userinfo; a 12+ character
+/// letter-and-digit user is a registry-style token, not a login name.
+/// Dots are excluded (emails stop the user scan before `@`), colons are
+/// excluded (password form is already the engine's), short names (`user`,
+/// `admin`) are preserved, and the host must contain a dot so stray
+/// `a://b@c` prose can never fire. Only the user is redacted.
+fn userinfo_token_at(input: &[u8], i: usize) -> Option<Hit> {
+    if input.get(i) != Some(&b':')
+        || input.get(i + 1) != Some(&b'/')
+        || input.get(i + 2) != Some(&b'/')
+    {
+        return None;
+    }
+    let s = i + 3;
+    let mut e = s;
+    while e < input.len()
+        && (input[e].is_ascii_alphanumeric()
+            || input[e] == b'_'
+            || input[e] == b'-'
+            || input[e] == b'~')
+    {
+        e += 1;
+    }
+    if input.get(e) != Some(&b'@') {
+        return None;
+    }
+    let user = &input[s..e];
+    if user.len() < 12 {
+        return None;
+    }
+    let letters = user.iter().any(u8::is_ascii_alphabetic);
+    let digits = user.iter().any(u8::is_ascii_digit);
+    if !letters || !digits {
+        return None;
+    }
+    let mut h = e + 1;
+    let mut dot = false;
+    while h < input.len()
+        && (input[h].is_ascii_alphanumeric() || input[h] == b'.' || input[h] == b'-')
+    {
+        if input[h] == b'.' {
+            dot = true;
+        }
+        h += 1;
+    }
+    if !dot {
+        return None;
+    }
+    Some((s, e))
+}
+
 /// The whole-output post-pass: every rule replaces with [`REDACTED`] and
-/// never restores, so running it over [`scrub_long`] output is
+/// never restores, so running it over [`crate::scrub_long`] output is
 /// fail-closed, including for shapes split across a segment cut.
 /// First post-pass hit at `i`, in priority order. One fused scan instead of
 /// sixteen full-text passes: every rule only ever inserts `[REDACTED]`, so
@@ -963,6 +1028,7 @@ fn post_hit_at(input: &[u8], i: usize) -> Option<Hit> {
         .or_else(|| cli_flag_at(input, i))
         .or_else(|| ssn_at(input, i))
         .or_else(|| private_ipv4_at(input, i))
+        .or_else(|| userinfo_token_at(input, i))
 }
 
 fn post_pass(input: &[u8]) -> Vec<u8> {
@@ -977,15 +1043,24 @@ fn utf8(bytes: Vec<u8>) -> String {
 }
 
 /// Scrub one string with the enhanced pipeline: precise query-parameter
-/// pre-pass, then [`scrub_long`], then the whole-output post-pass.
+/// pre-pass, then [`crate::scrub_long`], then the whole-output post-pass.
 ///
-/// This is the recommended upload-safe entry point. It never truncates: a
-/// remainder with no safe cut becomes `[REDACTED]`, exactly like
-/// [`scrub_long`].
+/// This is the recommended upload-safe entry point. It never truncates:
+/// the canonical engine scans the complete input, and the pre/post passes
+/// only swap secret spans for `[REDACTED]`.
 #[must_use]
 pub fn scrub_enhanced(value: &str) -> String {
+    scrub_enhanced_with_policy(value, Policy::Secrets)
+}
+
+/// [`scrub_enhanced`] with an explicit privacy policy, threaded through to
+/// the canonical engine. Use [`Policy::Pii`] when the output must not retain
+/// email addresses or SSN shapes; the enhanced post-pass (provider prefixes,
+/// webhooks, CLI flags, private IPv4, userinfo tokens) applies either way.
+#[must_use]
+pub fn scrub_enhanced_with_policy(value: &str, policy: Policy) -> String {
     let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(value.as_bytes())));
-    let mid = scrub_long(&pre);
+    let mid = scrub_text_with_policy(&pre, policy);
     utf8(post_pass(mid.as_bytes()))
 }
 
@@ -1048,7 +1123,14 @@ fn post_pass_value(node: &mut Value) -> usize {
 /// and key. Returns the scrubbed value and the total redaction count.
 #[must_use]
 pub fn scrub_json_enhanced(value: &Value) -> (Value, usize) {
-    let (mut clean, mut count) = scrub_json(value);
+    scrub_json_enhanced_with_policy(value, Policy::Secrets)
+}
+
+/// [`scrub_json_enhanced`] with an explicit privacy policy, threaded through
+/// to the canonical engine (see [`scrub_enhanced_with_policy`]).
+#[must_use]
+pub fn scrub_json_enhanced_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
+    let (mut clean, mut count) = scrub_json_with_policy(value, policy);
     count += post_pass_value(&mut clean);
     (clean, count)
 }
@@ -1062,6 +1144,18 @@ pub fn scrub_json_enhanced(value: &Value) -> (Value, usize) {
 pub fn scrub_json_text_enhanced(text: &str) -> Option<(Value, usize)> {
     let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(text.as_bytes())));
     let (mut clean, mut count) = scrub_json_text(&pre)?;
+    count += post_pass_value(&mut clean);
+    Some((clean, count))
+}
+
+/// [`scrub_json_text_enhanced`] with an explicit privacy policy. There is no
+/// canonical policy text entry point, so valid JSON is parsed and delegated
+/// to [`scrub_json_with_policy`]; `None` exactly for invalid JSON.
+#[must_use]
+pub fn scrub_json_text_enhanced_with_policy(text: &str, policy: Policy) -> Option<(Value, usize)> {
+    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(text.as_bytes())));
+    let parsed: Value = serde_json::from_str(&pre).ok()?;
+    let (mut clean, mut count) = scrub_json_with_policy(&parsed, policy);
     count += post_pass_value(&mut clean);
     Some((clean, count))
 }
