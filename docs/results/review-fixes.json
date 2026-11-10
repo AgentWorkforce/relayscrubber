@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d"
+    "source": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71"
   },
   "headWasm": {
-    "source": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
+    "source": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -534,8 +534,8 @@
     "structuredCases": 3,
     "nativeTextVectors": 5200,
     "nativeStructuredVectors": 5200,
-    "nodeTests": 37,
-    "bunTests": 37,
+    "nodeTests": 40,
+    "bunTests": 40,
     "secondPassParity": true,
     "frozenWasmAllApiCases": 199
   },
@@ -581,18 +581,71 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "be770b372331a3efa61fa0710a732de13ad4fa3f",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42817680749",
-    "artifactId": 13765767512,
-    "wasmSha256": "b8ab7077db728ffec81db1afa4c3709ceb8c6288f881030d345cc07e501e0670",
-    "packageSha256": "7346b9114a5d1eb68e2b6dfdb5d37ad3d35087ec435f4c6da764e0ef32db9c50",
-    "packageBytes": 532216,
-    "wasmBytes": 1596146,
-    "sourceSha256": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
-    "hostedAllRuntimeChecks": "pass: Linux/Windows native, Node/Bun37, frozen199 all API parity, admission/resource, reproducibility, Workers and packaging; old-pin equality refused stale pin as expected",
-    "pinEqualityGate": "Pinned source/WASM/glue/adapter and supplied package hash checked locally; unchanged fresh hosted rebuild is required on this pin commit. See exact-head CI linked in PR12.",
-    "localHostedPackageReplay": "pass: Node37, Bun37, all80 benign variants on text/JSON/NDJSON and local Workers using the actual hosted package"
+    "sourceCommit": "541f385341c5623a675fb9c7ac1e513cd7206065",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42821073907",
+    "artifactId": 13766757256,
+    "wasmSha256": "2f520d5a2ae9340ac5a229d84715de53c8e543361e70f142d3fda49b593a5376",
+    "packageSha256": "7e86875edc249587c8340e2eb03695db28efa73284450d567235831a4c40957e",
+    "packageBytes": 533377,
+    "wasmBytes": 1598143,
+    "sourceSha256": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71",
+    "hostedAllRuntimeChecks": "pass: Linux/Windows native, Node/Bun40 including P0 all-API tests, frozen199, admission/resource, reproducibility, Workers and packaging; old-pin equality refused stale pin as expected",
+    "pinEqualityGate": "Fresh exact-head hosted rebuild must reproduce the committed source/WASM/glue/adapter pins and packaged tgz SHA-256; exact-head CI receipt is linked in PR12.",
+    "localHostedPackageReplay": "pass: actual hosted package Node40/Bun40, all80 benign variants on text/JSON/NDJSON, P0 prose/container cases, local Workers"
   },
   "additionalTestOnlyCommit": "408ac1e",
-  "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)"
+  "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",
+  "p0LeakFix": {
+    "baseCommit": "1b49596d9daaa3bf7b4d0872027f51add13af411",
+    "testOnlyCommit": "91d2015",
+    "implementationCommit": "541f385341c5623a675fb9c7ac1e513cd7206065",
+    "basePins": {
+      "sourceSha256": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
+      "wasmSha256": "b8ab7077db728ffec81db1afa4c3709ceb8c6288f881030d345cc07e501e0670",
+      "packageSha256": "7346b9114a5d1eb68e2b6dfdb5d37ad3d35087ec435f4c6da764e0ef32db9c50"
+    },
+    "baselineEvidence": {
+      "nativeGroupsFailed": 3,
+      "pinnedWasmGroupsFailed": 3,
+      "proseCases": 47,
+      "proseMismatchesEachApi": 8,
+      "containerCases": 66,
+      "containerMismatchesEachApi": 34,
+      "scope": "Native enumerates all failures on text/JSON/NDJSON. Pinned WASM independently fails each group, computing all three API results before assertion. No private samples accessed.",
+      "qualification": "Supplied simple lowercase literals already redact on baseline. Failing positive variants begin a/the/use; baseline also changes none placeholders."
+    },
+    "headEvidence": {
+      "proseCases": 47,
+      "prosePositiveCases": 36,
+      "proseBenignCases": 11,
+      "containerCases": 84,
+      "containerPositiveCases": 54,
+      "containerBenignCases": 30,
+      "mismatchesEachApi": 0,
+      "secondPassChanges": 0,
+      "distancesBytes": [
+        0,
+        511,
+        512,
+        513,
+        4096,
+        1048576
+      ],
+      "formats": [
+        "YAML",
+        "JSON-like",
+        "TOML-like"
+      ],
+      "flatAndNested": true,
+      "publicAndOutOfScopeKeysUnchanged": true,
+      "resourceKeyCounts": [
+        4097,
+        65537
+      ],
+      "resourceDeadlineSeconds": 10,
+      "nativeReleaseAllP0Seconds": 1.58
+    },
+    "recognition": "Credential/public scopes retain cumulative flags until structural/indentation/quote boundaries, independent of lookback distance. YAML indentation extents are resolved once with a monotone stack; each scope enters and leaves once. Existing explanatory prose references remain public, while a/the/use prefixes alone no longer exempt explicit YAML scalar credentials.",
+    "precisionStatus": "Independent re-audit pending; synthetic checks are behavioral regression evidence only."
+  }
 }
