@@ -1,0 +1,454 @@
+{
+  "schema": 1,
+  "scope": "Invented standalone Bearer regression fixtures only; independent review pending. No private samples accessed.",
+  "baseCommit": "19b26f7c8322ca1021dfd3e203b3b12e7aee41a4",
+  "testOnlyCommit": "fc47529",
+  "implementationCommit": "522f6a971ed7d71e69e76e7344c8c7b75d13d135",
+  "fixture": "eval/bearer_cases.json",
+  "replay": "scripts/bearer-receipt.mjs",
+  "recognition": "Bearer scanning no longer applies the two-word prose exemption. Existing comment/reference/synthetic exemptions remain; non_assignment_wrapper is unchanged for every other rule.",
+  "baseHostedArtifact": {
+    "artifactId": 13771140455,
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53"
+  },
+  "baselineNative": {
+    "positiveCases": 35,
+    "failedPositiveCaseIds": [
+      6,
+      7,
+      8,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      19,
+      20,
+      22,
+      23,
+      24,
+      25,
+      26,
+      28,
+      29,
+      31,
+      32,
+      33
+    ],
+    "positiveMatchesCheckedTextJsonNdjsonFirstNdjsonLast": [
+      12,
+      12,
+      12,
+      12
+    ],
+    "benignCases": 6,
+    "benignUnchangedCheckedTextJsonNdjsonFirstNdjsonLast": [
+      6,
+      6,
+      6,
+      6
+    ],
+    "secondPassStable": true
+  },
+  "baselineHostedWasm": {
+    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "apis": [
+      "checkedText",
+      "json",
+      "ndjsonFirst",
+      "ndjsonLast",
+      "secondPass"
+    ],
+    "positive": {
+      "cases": 35,
+      "matches": [
+        12,
+        12,
+        12,
+        12,
+        35
+      ],
+      "failures": [
+        {
+          "id": 6,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 7,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 8,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 10,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 11,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 12,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 13,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 14,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 16,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 17,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 18,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 19,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 20,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 22,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 23,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 24,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 25,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 26,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 28,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 29,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 31,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 32,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "id": 33,
+          "matches": [
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      ]
+    },
+    "benign": {
+      "cases": 6,
+      "matches": [
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "failures": []
+    }
+  },
+  "headNative": {
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "positiveCases": 35,
+    "positiveMatchesCheckedTextJsonNdjsonFirstNdjsonLast": [
+      35,
+      35,
+      35,
+      35
+    ],
+    "benignCases": 6,
+    "benignUnchangedCheckedTextJsonNdjsonFirstNdjsonLast": [
+      6,
+      6,
+      6,
+      6
+    ],
+    "secondPassStable": true,
+    "fullDebugTests": 64,
+    "fullReleaseTests": 64
+  },
+  "headHostedWasm": {
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "apis": [
+      "checkedText",
+      "json",
+      "ndjsonFirst",
+      "ndjsonLast",
+      "secondPass"
+    ],
+    "positive": {
+      "cases": 35,
+      "matches": [
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "failures": []
+    },
+    "benign": {
+      "cases": 6,
+      "matches": [
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "failures": []
+    }
+  },
+  "headNativeReviewerPacket": {
+    "exactPacket": {
+      "cases": 1186,
+      "failures": []
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      true,
+      true
+    ],
+    "residualBenign": {
+      "cases": 19,
+      "failures": []
+    },
+    "residualPositive": {
+      "cases": 17,
+      "failures": []
+    },
+    "schema": 1,
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
+  },
+  "headHostedReviewerPacket": {
+    "schema": 1,
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "exactPacket": {
+      "cases": 1186,
+      "failures": []
+    },
+    "finalRuling": {
+      "cases": 43,
+      "failures": []
+    },
+    "residualBenign": {
+      "cases": 19,
+      "failures": []
+    },
+    "residualPositive": {
+      "cases": 17,
+      "failures": []
+    },
+    "nestedStructuredJsonRecords": [
+      true,
+      true
+    ]
+  },
+  "hostedArtifact": {
+    "sourceCommit": "522f6a971ed7d71e69e76e7344c8c7b75d13d135",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42831761386",
+    "artifactId": 13772605209,
+    "sourceSha256": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "wasmSha256": "c329e378b5fdb64ad7489a4d67ff99fde70276ff364c3f1147a1949d2ad66ab3",
+    "wasmBytes": 1606359,
+    "packageSha256": "1c68c3d374a3aefc6c42a3c7c3485893b9f0c90013829f812f700ba16950c356",
+    "packageBytes": 537255,
+    "hostedAllRuntimeChecks": "Linux/Windows native64; Node62/Bun62, frozen199, 5317text+5317structured vectors, admission/resource, independent-target reproducibility, Workers, package passed. Only stale-pin equality rejected old pins as expected.",
+    "localHostedPackageReplay": "Node62/Bun62, exact1186/final-ruling43/residual19benign+17positive across all APIs,35Bearer positives+6references,199frozen and Workers pass.",
+    "pinEqualityGate": "Downloaded Linux-hosted package matches committed source/WASM/glue/adapter manifest and package digest. Exact-head hosted rebuild is required to reproduce these pins."
+  },
+  "checks": {
+    "node": 62,
+    "bun": 62,
+    "nativeDebug": 64,
+    "nativeRelease": 64,
+    "frozen": 199,
+    "frozenMissedSecrets": 0,
+    "frozenSecondPassChanges": 0,
+    "nativeWasmTextVectors": 5317,
+    "nativeWasmStructuredVectors": 5317,
+    "fmt": "pass",
+    "clippy": "pass",
+    "cargoPackage": "pass",
+    "admissionAndResourceBounds": "pass",
+    "localIndependentTargetReproducibility": "pass",
+    "hostedIndependentTargetReproducibility": "pass",
+    "localAndHostedWorkers": "pass",
+    "publicDiff": "pass",
+    "vetoHostAssistedDiffReview": "pass; not independent acceptance"
+  }
+}

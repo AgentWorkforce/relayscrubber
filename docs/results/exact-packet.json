@@ -646,7 +646,7 @@
       "failures": []
     },
     "schema": 1,
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716"
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
   },
   "fixtures": {
     "eval/exact_packet_cases.json": "b6b8a23f4c46cdd0a3e32b203fb269e0bdb378800b64fc91eee15c5de7919eb3",
@@ -655,8 +655,8 @@
   },
   "checks": {
     "rustReleaseAllTargetsAllFeatures": 63,
-    "node": 60,
-    "bun": 60,
+    "node": 62,
+    "bun": 62,
     "remainingOriginalFamilyBenign": 78,
     "familyPositive": 25,
     "remainingOriginalSessionBenign": 81,
@@ -973,7 +973,7 @@
   ],
   "headHostedWasm": {
     "schema": 1,
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
     "exactPacket": {
       "cases": 1186,
       "failures": []
@@ -1124,10 +1124,10 @@
         ]
       }
     ],
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716"
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
   },
   "headFamilyHostedWasm": {
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -1814,10 +1814,10 @@
       36,
       36
     ],
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716"
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4"
   },
   "headSessionHostedWasm": {
-    "source": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "source": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
     "families": [
       {
         "name": "provided",
@@ -2376,17 +2376,17 @@
     ]
   },
   "hostedArtifact": {
-    "sourceCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
-    "artifactId": 13771140455,
-    "sourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
-    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
-    "wasmBytes": 1606378,
-    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
-    "packageBytes": 537396,
-    "hostedAllRuntimeChecks": "Linux/Windows native63, Node60/Bun60, frozen199 and5317text+5317structured vectors, admission/resource, reproducibility, Workers and packaging passed; only stale-pin equality refused the old pin as expected.",
-    "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
-    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
+    "sourceCommit": "522f6a971ed7d71e69e76e7344c8c7b75d13d135",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42831761386",
+    "artifactId": 13772605209,
+    "sourceSha256": "3b33b6554ba4fdd2452152b1e8baee90ca5419c8c84413aede2a690e942b13a4",
+    "wasmSha256": "c329e378b5fdb64ad7489a4d67ff99fde70276ff364c3f1147a1949d2ad66ab3",
+    "wasmBytes": 1606359,
+    "packageSha256": "1c68c3d374a3aefc6c42a3c7c3485893b9f0c90013829f812f700ba16950c356",
+    "packageBytes": 537255,
+    "hostedAllRuntimeChecks": "Linux/Windows native64; Node62/Bun62, frozen199, 5317text+5317structured vectors, admission/resource, independent-target reproducibility, Workers, package passed. Only stale-pin equality rejected old pins as expected.",
+    "localHostedPackageReplay": "Node62/Bun62, exact1186/final-ruling43/residual19benign+17positive across all APIs,35Bearer positives+6references,199frozen and Workers pass.",
+    "pinEqualityGate": "Downloaded Linux-hosted package matches committed source/WASM/glue/adapter manifest and package digest. Exact-head hosted rebuild is required to reproduce these pins."
   },
   "performanceFollowupCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
   "initialLocalWasmBeforePerformanceFollowup": {
@@ -2417,5 +2417,19 @@
     "commit": "cfe4d25b847e451a2f47c27d08fd13f6a15616d3",
     "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42827888671",
     "windowsResourceDeadline": "Unchanged ten-second test exceeded (~11s); fixed in bebb029 by rejecting structural wrapper prefixes before counting at most two words. No deadline/test weakening."
-  }
+  },
+  "previousHostedArtifact": {
+    "sourceCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+    "artifactId": 13771140455,
+    "sourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
+    "wasmSha256": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "wasmBytes": 1606378,
+    "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
+    "packageBytes": 537396,
+    "hostedAllRuntimeChecks": "Linux/Windows native63, Node60/Bun60, frozen199 and5317text+5317structured vectors, admission/resource, reproducibility, Workers and packaging passed; only stale-pin equality refused the old pin as expected.",
+    "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
+    "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
+  },
+  "standaloneBearerFollowup": "docs/results/bearer-prefix.json"
 }
