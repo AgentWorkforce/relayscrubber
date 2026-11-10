@@ -577,12 +577,22 @@
     "resourceBounds": "pass",
     "independentTargetReproducibility": "pass",
     "workers": "pass",
-    "publicDiff": "pass: staged public guard before each source push"
+    "publicDiff": "pass: staged guard before every source/pin commit and plain push"
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "status": "New Linux source build pending; committed old pin must fail until replacement is checked in.",
-    "packageSha256": ""
+    "sourceCommit": "be770b372331a3efa61fa0710a732de13ad4fa3f",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42817680749",
+    "artifactId": 13765767512,
+    "wasmSha256": "b8ab7077db728ffec81db1afa4c3709ceb8c6288f881030d345cc07e501e0670",
+    "packageSha256": "7346b9114a5d1eb68e2b6dfdb5d37ad3d35087ec435f4c6da764e0ef32db9c50",
+    "packageBytes": 532216,
+    "wasmBytes": 1596146,
+    "sourceSha256": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
+    "hostedAllRuntimeChecks": "pass: Linux/Windows native, Node/Bun37, frozen199 all API parity, admission/resource, reproducibility, Workers and packaging; old-pin equality refused stale pin as expected",
+    "pinEqualityGate": "Pinned source/WASM/glue/adapter and supplied package hash checked locally; unchanged fresh hosted rebuild is required on this pin commit. See exact-head CI linked in PR12.",
+    "localHostedPackageReplay": "pass: Node37, Bun37, all80 benign variants on text/JSON/NDJSON and local Workers using the actual hosted package"
   },
-  "additionalTestOnlyCommit": "408ac1e"
+  "additionalTestOnlyCommit": "408ac1e",
+  "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)"
 }

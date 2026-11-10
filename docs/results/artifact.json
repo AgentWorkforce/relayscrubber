@@ -3,23 +3,24 @@
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
-    "schema": 2,
+    "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "f5ac885b11d1a374e679842083ceb05f676736982cd2de507068ab93533da88b",
-    "crateVersion": "0.5.0-alpha.1",
-    "abiVersion": 1,
+    "rulesetSourceSha256": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
+    "crateVersion": "0.5.0-alpha.2",
+    "abiVersion": 2,
     "policy": "secrets",
-    "redactionToken": "[REDACTED]"
+    "redactionToken": "[REDACTED]",
+    "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "73fa9167526aa154ce71de565bf285a52b3a527b9a1c67419f717e1aa48a5a3f",
+    "relayscrubber_bg.wasm": "b8ab7077db728ffec81db1afa4c3709ceb8c6288f881030d345cc07e501e0670",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
   },
   "adapterFiles": {
-    "index.js": "19b4c2e9e2649f8b1c02e67663cd735a37151bd4061a376ef85a97352b1e54d2",
-    "index.d.ts": "8c45a37845c7f397f7c3b06bf1468043f2f88b4b5545818166684b6cf3b46e75"
+    "index.js": "ff139ab391a958475b455ef483e7119d66215d172647223965dc35348f912490",
+    "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
   }
 }
