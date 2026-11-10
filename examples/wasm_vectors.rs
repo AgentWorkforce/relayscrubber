@@ -1,6 +1,8 @@
 //! Export only synthetic native reference results for cross-runtime checks.
 #[path = "../eval/generate.rs"]
 mod generate;
+#[path = "../eval/html_url_component_cases.rs"]
+mod html_url_component_cases;
 #[path = "../eval/html_url_punctuation_cases.rs"]
 mod html_url_punctuation_cases;
 #[path = "../eval/query_separator_cases.rs"]
@@ -113,7 +115,10 @@ fn main() {
         assert_eq!(relayscrubber::scrub_text(&input), output);
         text.push(serde_json::json!({"input":input,"output":output}));
     }
-    for (input, output) in html_url_punctuation_cases::cases() {
+    for (input, output) in html_url_punctuation_cases::cases()
+        .into_iter()
+        .chain(html_url_component_cases::cases())
+    {
         assert_eq!(relayscrubber::scrub_text(&input), output);
         text.push(serde_json::json!({"input":input,"output":output}));
     }

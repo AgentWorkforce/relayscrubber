@@ -373,3 +373,43 @@ fn reserved_component_property_all_apis() {
     );
     assert!(failures.is_empty());
 }
+
+#[test]
+fn reserved_component_long_all_apis_is_bounded() {
+    let _guard = HTML_PUNCTUATION_TEST_LOCK.lock().unwrap();
+    for count in [2048, 16384] {
+        let secret = format!("SYNTH{}ALPHA", "%25252526%2f%3f%23%40%3a%3d+".repeat(count));
+        let input = format!("<a href=\"/download?signature={secret}&sort=asc\">x</a>");
+        let expected = input.replace(&secret, REDACTION_TOKEN);
+        let source = json!([{ "input": input, "expected": expected }]).to_string();
+        let start = std::time::Instant::now();
+        check(&source);
+        let elapsed = start.elapsed();
+        eprintln!(
+            "reserved component all APIs: count={count} bytes={} seconds={:.3}",
+            input.len(),
+            elapsed.as_secs_f64()
+        );
+        assert!(elapsed < std::time::Duration::from_secs(10));
+    }
+}
+
+#[test]
+fn entity_layer_boundaries_without_assignment_all_apis() {
+    let cases: Vec<_> = ["&amp;", "&#38;", "&#x26;", ";"]
+        .into_iter()
+        .map(|separator| {
+            let input =
+                format!("<a href=\"/download?signature=SYNTH{separator}ALPHA&sort=asc\">x</a>");
+            let expected = input.replace("SYNTH", REDACTION_TOKEN);
+            json!({"input": input, "expected": expected})
+        })
+        .collect();
+    check(&serde_json::to_string(&cases).unwrap());
+}
+
+#[test]
+fn percent_quote_does_not_open_attribute_all_apis() {
+    let input = "<a href=%22/download?signature=SYNTH%22ALPHA%22&sort=asc>x</a>";
+    check(&json!([{ "input": input, "expected": input.replace("SYNTH%22ALPHA%22", REDACTION_TOKEN) }]).to_string());
+}

@@ -81,5 +81,33 @@ pub fn cases() -> Vec<(String, String)> {
             format!("<a href=\"/download?signature=SYNTH%26ALPHA{separator}sort=asc\">x</a>");
         cases.push((input.clone(), input.replace("SYNTH%26ALPHA", "[REDACTED]")));
     }
+    for input in [
+        "<a href=\"//al%3Aice:SYNTH%2FALPHA@host/download\">x</a>",
+        "<a href=\"https://al%3Aice:SYNTH%3FALPHA@host/download\">x</a>",
+        "<a href=//alice:SYNTH%20ALPHA@host/download>x</a>",
+        "<a href=/download?signature=SYNTH%20ALPHA&sort=asc>x</a>",
+        "<a href=/download?signature=SYNTH%3EALPHA&sort=asc>x</a>",
+        "<a href=\"//alice:SYNTH%40ALPHA@host/download?q=2\">x</a>",
+    ] {
+        let secret = if input.contains("%20") {
+            "SYNTH%20ALPHA"
+        } else if input.contains("%3E") {
+            "SYNTH%3EALPHA"
+        } else if input.contains("%2F") {
+            "SYNTH%2FALPHA"
+        } else if input.contains("%3F") {
+            "SYNTH%3FALPHA"
+        } else {
+            "SYNTH%40ALPHA"
+        };
+        cases.push((input.to_string(), input.replace(secret, "[REDACTED]")));
+    }
+    for input in [
+        "<a href=\"//alice%3ASYNTH_ALPHA@host/download\">x</a>",
+        "<a href=\"https://alice%3ASYNTH_ALPHA@host/download\">x</a>",
+        "<a href=\"//alice%40alias@host/download\">x</a>",
+    ] {
+        cases.push((input.to_string(), input.to_string()));
+    }
     cases
 }

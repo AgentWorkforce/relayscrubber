@@ -54,6 +54,19 @@ proptest! {
     }
 
     #[test]
+    fn url_component_reserved_escapes_are_data(
+        escape in prop::sample::select(vec!["%26", "%2F", "%3F", "%23", "%40", "%3A", "%3D", "%2526", "&#37;26", "%2525253F"]),
+        prefix in prop::sample::select(vec!["download", "/download", "//host/download", "", "https://host/download"]),
+        body in "[A-Z]{1,16}",
+    ) {
+        let secret = format!("SYNTH{escape}{body}");
+        let input = format!("<a href=\"{prefix}?signature={secret}&sort=asc\">x</a>");
+        let expected = input.replace(&secret, REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&input), expected.clone());
+        prop_assert_eq!(scrub_text(&expected), expected);
+    }
+
+    #[test]
     fn provider_tokens_never_survive(
         prefix in prop_oneof![Just("sk-proj-"), Just("ghp_"), Just("glpat-"), Just("cfut_")],
         body in "[A-Za-z0-9]{48,96}",

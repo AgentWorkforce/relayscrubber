@@ -2073,6 +2073,8 @@ fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
         let slash = cursor;
         cursor += 2;
         let authority = cursor;
+        let encoded_authority = !view.literal(slash) && !view.literal(slash + 1);
+        let boundary = |p| encoded_authority || view.literal(p);
         if b.get(slash.wrapping_sub(1)) == Some(&b':') {
             let mut scheme = slash - 1;
             while scheme > slash.saturating_sub(33)
@@ -2087,16 +2089,21 @@ fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
             }
         }
         while cursor < b.len()
-            && !b[cursor].is_ascii_whitespace()
-            && !matches!(
-                b[cursor],
-                b'/' | b'\\' | b'?' | b'#' | b'"' | b'\'' | b'`' | b'<' | b'>'
-            )
+            && !(boundary(cursor) && b[cursor].is_ascii_whitespace())
+            && !(boundary(cursor)
+                && matches!(
+                    b[cursor],
+                    b'/' | b'\\' | b'?' | b'#' | b'"' | b'\'' | b'`' | b'<' | b'>'
+                ))
         {
-            cursor += 1;
+            // A numeric entity's '#' is not an authority fragment boundary.
+            cursor = query_next(b, cursor);
         }
-        if let Some(at) = (authority..cursor).rev().find(|&i| b[i] == b'@') {
-            if let Some(colon) = (authority..at).find(|&i| b[i] == b':') {
+        if let Some(at) = (authority..cursor)
+            .rev()
+            .find(|&i| b[i] == b'@' && boundary(i))
+        {
+            if let Some(colon) = (authority..at).find(|&i| b[i] == b':' && boundary(i)) {
                 if colon + 1 < at
                     && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..cursor])
                 {
@@ -2109,7 +2116,8 @@ fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
 
 // An attribute supplies context for bare and single-slash authorities as well
 // as // authorities. Tokens keep srcset descriptors and refresh prefixes local.
-fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
+fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) -> bool {
+    let mut authority_found = false;
     let b = view.text.as_bytes();
     let mut cursor = 0;
     while cursor < b.len() {
@@ -2155,6 +2163,7 @@ fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
             end += 1;
         }
         if let Some(at) = (authority..end).rev().find(|&i| b[i] == b'@') {
+            authority_found = true;
             if let Some(colon) = (authority..at).find(|&i| b[i] == b':') {
                 if colon + 1 < at
                     && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..end])
@@ -2164,12 +2173,57 @@ fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
             }
         }
     }
+    authority_found
 }
 
-// Scan each disjoint HTML attribute value once. A separate recognition view
-// decodes all URL punctuation together, then maps only the selected credential
-// ranges back through the ordinary view. Surrounding HTML is never re-encoded.
-fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
+// This view has already decoded the HTML layer. Every ampersand is now
+// structural, including entity-produced ampersands without a following key.
+// Percent escapes are never consulted while finding a component's end.
+fn component_query_parameters(view: &View, start: usize, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = start;
+    while cursor < b.len() {
+        if !matches!(b[cursor], b'?' | b'&' | b';') {
+            cursor += 1;
+            continue;
+        }
+        let key = cursor + 1;
+        cursor = key;
+        while cursor < b.len() && !matches!(b[cursor], b'=' | b'?' | b'&' | b';') {
+            cursor += 1;
+        }
+        if b.get(cursor) != Some(&b'=') {
+            continue;
+        }
+        let name = View::new(&view.text[key..cursor]);
+        cursor += 1;
+        if !plain_query_key_sensitive(&name.text) {
+            continue;
+        }
+        let value = cursor;
+        while cursor < b.len() && !matches!(b[cursor], b'&' | b';') {
+            if view.literal(cursor)
+                && (b[cursor].is_ascii_whitespace() || matches!(b[cursor], b'<' | b'>'))
+            {
+                break;
+            }
+            cursor += 1;
+        }
+        if cursor > value {
+            spans.push(value..cursor);
+        }
+    }
+}
+
+// Scan each disjoint HTML attribute value with separate component and nested
+// recognition layers. Entity-only component bounds take precedence over the
+// percent-decoded recovery view. Map spans back without re-encoding HTML.
+fn html_attribute_urls(
+    input: &str,
+    view: &View,
+    spans: &mut Vec<Range<usize>>,
+    components: &mut Vec<Range<usize>>,
+) {
     let b = view.text.as_bytes();
     let mut cursor = 0;
     let mut in_tag = false;
@@ -2178,6 +2232,7 @@ fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
     // one borrowed spelling and its ranges, with no unbounded cache growth.
     let mut previous = "";
     let mut matches = Vec::new();
+    let mut component_matches = Vec::new();
     while cursor < b.len() {
         if !in_tag {
             if let Some(name) = raw_text {
@@ -2226,23 +2281,32 @@ fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
                 if cursor >= b.len() {
                     break;
                 }
-                let quoted = matches!(b[cursor], b'"' | b'\'' | b'`');
+                let quoted = view.literal(cursor) && matches!(b[cursor], b'"' | b'\'' | b'`');
                 let start = cursor + usize::from(quoted);
                 let end = if quoted {
                     view.quote_end(cursor)
                 } else {
                     let mut end = cursor;
-                    while end < b.len() && !b[end].is_ascii_whitespace() && b[end] != b'>' {
+                    while end < b.len()
+                        && !(view.literal(end) && (b[end].is_ascii_whitespace() || b[end] == b'>'))
+                    {
                         end += 1;
                     }
                     end
                 };
                 let value = &view.text[start..end];
+                let source_start = view.source_start(start);
+                let source_end = if end > start {
+                    view.source_end(end - 1)
+                } else {
+                    source_start
+                };
+                let source = &input[source_start..source_end];
                 if value
                     .bytes()
                     .any(|ch| matches!(ch, b'&' | b'?' | b'@' | b'/' | b'\\'))
                 {
-                    if value != previous {
+                    if source != previous {
                         let html = View::html_url(value);
                         let mut local = Vec::new();
                         // The attribute supplies URL context; no scheme is
@@ -2250,15 +2314,48 @@ fn html_attribute_urls(view: &View, spans: &mut Vec<Range<usize>>) {
                         if let Some(query) = html.text.find('?') {
                             recover_query_parameters(&html, query, html.text.len(), &mut local);
                         }
-                        relative_userinfo(&html, &mut local);
-                        attribute_userinfo(&html, &mut local);
-                        matches = local
+                        let mut decoded = local;
+                        // Component boundaries are determined before percent decoding.
+                        // Entity punctuation is structure; percent escapes stay data.
+                        let components = View::html_components(source);
+                        let mut local = Vec::new();
+                        if let Some(query) = components.text.find('?') {
+                            component_query_parameters(&components, query, &mut local);
+                        }
+                        let mut userinfo = Vec::new();
+                        let authority_found = attribute_userinfo(&components, &mut userinfo);
+                        // A real authority takes precedence over encoded punctuation
+                        // inside its username/password. Fully encoded authorities
+                        // still have their own recognition layer.
+                        let encoded_authority = html.text.trim_start().starts_with("//")
+                            && !components.text.trim_start().starts_with("//");
+                        let serialized_entity =
+                            components.text.contains("&%23") || components.text.contains("%26%23");
+                        if !authority_found
+                            || encoded_authority
+                            || userinfo.is_empty() && serialized_entity
+                        {
+                            relative_userinfo(&html, &mut decoded);
+                            attribute_userinfo(&html, &mut decoded);
+                        }
+                        local.extend(userinfo);
+                        matches = decoded
                             .into_iter()
                             .map(|r| html.source_start(r.start)..html.source_end(r.end - 1))
                             .collect::<Vec<_>>();
-                        previous = value;
+                        component_matches = local
+                            .into_iter()
+                            .map(|r| {
+                                components.source_start(r.start)..components.source_end(r.end - 1)
+                            })
+                            .collect::<Vec<_>>();
+                        previous = source;
                     }
                     spans.extend(matches.iter().map(|r| start + r.start..start + r.end));
+                    components.extend(component_matches.iter().map(|r| {
+                        view.position(source_start + r.start)
+                            ..view.position(source_start + r.end - 1) + 1
+                    }));
                 }
                 cursor = end + usize::from(quoted && end < b.len());
                 continue;
@@ -2402,7 +2499,24 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     let mut url_values = Vec::new();
     urls(&view, &mut url_values);
     relative_userinfo(&view, &mut url_values);
-    html_attribute_urls(&view, &mut url_values);
+    let mut components = Vec::new();
+    html_attribute_urls(input, &view, &mut url_values, &mut components);
+    // Component spans supersede decoded-layer matches that cross their real
+    // boundary. Sort/merge once, then use logarithmic overlap lookups.
+    components.sort_unstable_by_key(|r| (r.start, r.end));
+    let mut boundaries: Vec<Range<usize>> = Vec::new();
+    for span in components {
+        if let Some(last) = boundaries.last_mut().filter(|last| span.start < last.end) {
+            last.end = last.end.max(span.end);
+        } else {
+            boundaries.push(span);
+        }
+    }
+    url_values.retain(|r| {
+        let n = boundaries.partition_point(|span| span.end <= r.start);
+        boundaries.get(n).is_none_or(|span| span.start >= r.end)
+    });
+    url_values.extend(boundaries);
     url_values.sort_unstable_by_key(|span| (span.start, span.end));
     assignments(&view, inherited, &mut spans, &url_values);
     spans.extend(url_values);

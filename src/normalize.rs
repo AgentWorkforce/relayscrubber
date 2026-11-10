@@ -187,13 +187,13 @@ fn html_entity(b: &[u8], start: usize) -> Option<(u8, usize)> {
     (p > first && value < 128).then_some((value as u8, p + usize::from(b.get(p) == Some(&b';'))))
 }
 
-fn html_decoded(b: &[u8], start: usize) -> (u8, usize, u8) {
+fn html_decoded(b: &[u8], start: usize, percent_layer: bool) -> (u8, usize, u8) {
     let mut ch = b[start];
     let mut end = start + 1;
     loop {
         let next = match ch {
             b'&' => html_entity(b, end),
-            b'%' => percent_tail(b, end),
+            b'%' if percent_layer => percent_tail(b, end),
             _ => None,
         };
         match next {
@@ -272,14 +272,32 @@ impl View {
     }
 
     pub fn new(input: &str) -> Self {
-        Self::build(input, false)
+        Self::build(input, false, true)
     }
 
     pub fn html_url(input: &str) -> Self {
-        Self::build(input, true)
+        Self::build(input, true, true)
     }
 
-    fn build(input: &str, html: bool) -> Self {
+    pub fn html_components(input: &str) -> Self {
+        Self::build(input, true, false)
+    }
+
+    // Inverse mapping for ranges discovered in an entity-only source view.
+    // Interior offsets of an escape map to the single recognition byte.
+    pub fn position(&self, source: usize) -> usize {
+        let n = self.changes.partition_point(|c| c.end <= source);
+        if let Some(change) = self.changes.get(n).filter(|c| c.start <= source) {
+            change.position
+        } else if n == 0 {
+            source
+        } else {
+            let change = &self.changes[n - 1];
+            source - change.end + change.position + 1
+        }
+    }
+
+    fn build(input: &str, html: bool, percent_layer: bool) -> Self {
         let source = input.as_bytes();
         let mut bytes = Vec::with_capacity(source.len());
         let mut changes = Vec::new();
@@ -288,7 +306,7 @@ impl View {
         while i < source.len() {
             // Ordinary bytes require no decoder call or escape-state setup.
             let (ch, end, style) = match (html, source[i]) {
-                (true, b'&' | b'%') => html_decoded(source, i),
+                (true, b'&' | b'%') => html_decoded(source, i, percent_layer),
                 (false, b'%' | b'\\') => decoded(source, i),
                 _ => (source[i], i + 1, 0),
             };

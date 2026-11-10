@@ -92,6 +92,46 @@ for(const prefix of ['./download','../download','?','#fragment?','https:\\media.
 for(const input of ['//alice:SYNTH_ALPHA@media.example.invalid/download','<a href="https:\\alice:SYNTH_ALPHA@media.example.invalid/download">x</a>','<a href="alice:SYNTH_ALPHA@media.example.invalid">x</a>',`<meta http-equiv="refresh" content="0; url=../download&quest;signature&equals;${spec.secret}">`,`<img srcset="img.png 1x, ../download?signature=${spec.secret} 2x">`,'<a href="&sol;&sol;alice&colon;SYNTH_ALPHA&commat;media.example.invalid&sol;download">x</a>']) cases.push([input,input.replace(spec.secret,'[REDACTED]').replace('SYNTH_ALPHA','[REDACTED]')]);
 for(const input of ['<a href="/docs?page=2">docs</a>','<img src="img.png?v=3">','<a href="#section">jump</a>','<a href="mailto:a@example.invalid">mail</a>','plain prose /path?x=y','// comment about /path?x=y',"const example = '/path?x=y';",'<!-- <a href="/path?signature=7e3b15c97e3b15c9">example</a> -->','<script>const example = \'<a href="/path?signature=7e3b15c97e3b15c9">\';</script>']) cases.push([input,input]);
 assert.equal(cases.length,63906);
+// Component-layer data dimension of the same property specification.
+for(const escape of spec.componentEscapes) for(const style of spec.componentStyles){
+ const data=({upper:escape,lower:escape.toLowerCase(),double:escape.replace('%','%25'),entity:escape.replace('%','&#37;'),'entity-double':escape.replace('%','&#37;25'),mix:`${escape}%252f&#37;3f%23%40%3a%3d+%25`,'percent-prefix':`%252525${escape.slice(1)}`})[style];
+ const secret=`SYNTH${data}ALPHA`;
+ for(const prefix of ['download','/download','//host/download','','https://host/download']){
+  for(const key of spec.keys) for(const [question,equals,separator] of [['?','=','&'],['&quest;','&equals;','&amp;'],['&#63;','&#61;','&#38;']]) for(let wrapper=0;wrapper<3;wrapper++){
+   const input=attribute(`${prefix}${question}${key}${equals}${secret}${separator}sort${equals}asc`,wrapper);
+   cases.push([input,input.replace(secret,'[REDACTED]')]);
+  }
+  const input=`<a href="${prefix}?q=a${data}b&page=2">x</a>`; cases.push([input,input]);
+ }
+ for(const prefix of ['//','https://','','/','https:\\']) for(const [colon,at] of [[':','@'],['&colon;','&commat;'],['&#58;','&#64;']]){
+  const input=`<a href="${prefix}alice${colon}${secret}${at}host/download">x</a>`;cases.push([input,input.replace(secret,'[REDACTED]')]);
+ }
+ const input=`//alice:${secret}@host`;cases.push([input,input.replace(secret,'[REDACTED]')]);
+}
+for(const secret of ['SYNTH%26sort=asc','SYNTH%2526sort%3Dasc','SYNTH&#37;26sort=asc','SYNTH%23fragment','SYNTH+ALPHA','SYNTH%253Bpage=2','SYNTH%25%26ALPHA','SYNTH#fragment']){
+ const input=`<a href="/download?signature=${secret}&sort=asc">x</a>`;cases.push([input,input.replace(secret,'[REDACTED]')]);
+}
+for(const separator of ['&','&amp;','&#38;',';']){
+ const input=`<a href="/download?signature=SYNTH%26ALPHA${separator}sort=asc">x</a>`;cases.push([input,input.replace('SYNTH%26ALPHA','[REDACTED]')]);
+}
+for(const input of [
+ '<a href="//al%3Aice:SYNTH%2FALPHA@host/download">x</a>',
+ '<a href="https://al%3Aice:SYNTH%3FALPHA@host/download">x</a>',
+ '<a href=//alice:SYNTH%20ALPHA@host/download>x</a>',
+ '<a href=/download?signature=SYNTH%20ALPHA&sort=asc>x</a>',
+ '<a href=/download?signature=SYNTH%3EALPHA&sort=asc>x</a>',
+ '<a href="//alice:SYNTH%40ALPHA@host/download?q=2">x</a>',
+]){const secret=input.match(/SYNTH%[0-9A-F]{2}ALPHA/)[0];cases.push([input,input.replace(secret,'[REDACTED]')]);}
+for(const input of ['<a href="//alice%3ASYNTH_ALPHA@host/download">x</a>','<a href="https://alice%3ASYNTH_ALPHA@host/download">x</a>','<a href="//alice%40alias@host/download">x</a>'])cases.push([input,input]);
+assert.equal(cases.length,63906+84840);
+for(const separator of ['&amp;','&#38;','&#x26;',';']){
+ const input=`<a href="/download?signature=SYNTH${separator}ALPHA&sort=asc">x</a>`;
+ cases.push([input,input.replace('SYNTH','[REDACTED]')]);
+}
+{
+ const input='<a href=%22/download?signature=SYNTH%22ALPHA%22&sort=asc>x</a>';
+ cases.push([input,input.replace('SYNTH%22ALPHA%22','[REDACTED]')]);
+}
 function check(input,expected){
  const value={text:input}, raw=JSON.stringify(value), json=s.scrubJson(raw).value;
  const records=s.scrubRecords(new TextEncoder().encode(raw)).bytes;
@@ -114,3 +154,9 @@ for(const count of [2048,16384]){
  ];
  for(const [family,input] of long) test(`HTML punctuation bounded ${family}/${count}`,()=>{const start=performance.now();check(input,input.replace(secret,'[REDACTED]'));assert.ok(performance.now()-start<10000);});
 }
+
+for(const count of [2048,16384]) test(`reserved component bounded all APIs/${count}`,()=>{
+ const secret=`SYNTH${'%25252526%2f%3f%23%40%3a%3d+'.repeat(count)}ALPHA`;
+ const input=`<a href="/download?signature=${secret}&sort=asc">x</a>`;
+ const start=performance.now();check(input,input.replace(secret,'[REDACTED]'));assert.ok(performance.now()-start<10000);
+});

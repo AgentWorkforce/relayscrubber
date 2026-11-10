@@ -30,9 +30,9 @@ test('all APIs cover public credential tails and fail atomically', () => {
   assert.throws(() => scrubber.scrubRecords(new Uint8Array([255])), e => String(e).includes('invalid_utf8'));
   assert.throws(() => scrubber.scrubRecords(new TextEncoder().encode('{}\n{broken}')), e => String(e).includes('invalid_json'));
 });
-test('WASM matches independently generated native vectors', () => {
+for (let start = 0; start < vectors.text.length; start += 16384) test(`WASM matches independently generated native vectors ${start}-${Math.min(start+16384,vectors.text.length)}`, () => {
   assert.equal(vectors.manifest.rulesetSourceSha256, scrubber.manifest.rulesetSourceSha256);
-  for (const { input, output } of vectors.text) assert.equal(scrubber.scrubText(input), output);
+  for (const { input, output } of vectors.text.slice(start, start + 16384)) assert.equal(scrubber.scrubText(input), output);
 });
 test('Rust JSON text preserves large integer identifiers for persistence', () => {
   const text = '{"id":18446744073709551615,"note":"normal"}';
