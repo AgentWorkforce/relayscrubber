@@ -1,9 +1,9 @@
 {
   "baseCommit": "03012d58db992371c647a618444370eeed699b9d",
-  "implementationCommit": "826e5260ae40d9b708b1bcef7f7eb2166571cd02",
+  "implementationCommit": "9acedff92ddbc771f4bf702b8957ce335f058644",
   "privacy": "Only invented one-line reproductions from authorized status tables and generated siblings; no real session text accessed.",
-  "sourceSha256": "b60998aa78109319e5b12e61903298e8724ca0fa068887a8cf653c9c4d4f7d54",
-  "localWasmSha256": "c3eff8fc55e904c4058cd26ba157ce094fa9fd25a7f447faeb6f77d27933c42e",
+  "sourceSha256": "9daccc8c1ea3b258f49534de4ed49f853cda13ace4c1ef541a7d0feb6b6396db",
+  "localWasmSha256": "f67784342ecfaf4c724b38c7dc48e947ea587e166f14bcfa708393799c8f3c06",
   "reaudit2Reproductions": [
     {
       "family": "provider_function_identifier",
@@ -739,8 +739,8 @@
   },
   "previousBaseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
   "previousImplementationCommit": "3d202602fd906eb0883720598728bd26d8646b2f",
-  "hostedWasmSha256": "2802c4fc93948831476043b11247a590ac6a0abcb3e8f42269e1868bbb917b28",
-  "hostedPackageSha256": "6fcd20decd3971bd9086fc0875fdf868203383e2696d663d0081466ece5eeafe",
+  "hostedWasmSha256": "4a4f31f321f816c58e3c1d0f528dbb76d2bf3e8f3b0ce055ec8ea3a91b004d56",
+  "hostedPackageSha256": "38cbec8aac507f3fe27942a74cbf5df5dd378b2f8879060d51e053ac9757c449",
   "completeValueRepair": {
     "baseCommit": "d6f7f85367ce7863ba2faff7ce1351b02d4843a4",
     "sourceCommit": "5b6afb66ea71312243cfb41b81a658d26227fdfc",
@@ -2507,18 +2507,18 @@
     "localWasmSha256": "ab4192acffb2dbd0531b28699ab0e1e286e76879cd75f1fdaa6b06237691cf8c"
   },
   "hostedArtifact": {
-    "sourceCommit": "826e5260ae40d9b708b1bcef7f7eb2166571cd02",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42864868638",
-    "artifactId": 13787386267,
-    "artifactArchiveSha256": "642472055bfb8424259c359c756026f36e60c7069d44ec623c918dacd2ad4013",
-    "sourceSha256": "b60998aa78109319e5b12e61903298e8724ca0fa068887a8cf653c9c4d4f7d54",
-    "wasmSha256": "2802c4fc93948831476043b11247a590ac6a0abcb3e8f42269e1868bbb917b28",
-    "wasmBytes": 1710088,
-    "packageSha256": "6fcd20decd3971bd9086fc0875fdf868203383e2696d663d0081466ece5eeafe",
-    "packageBytes": 572550,
-    "hostedAllRuntimeChecks": "Linux/Windows Rust72 fmt/clippy pass; Node70/Bun70, fresh6273text+6278structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
-    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node70/Bun70; query371 plus exact16MiB; matrix1186/ruling43/residual19+17; Bearer43+9; prior257; complete141+numeric45; table34+13; frozen199; fresh6273text+6278structured byte parity; Workers pass.",
-    "pinEqualityGate": "Final exact-head CI must reproduce committed source/WASM/glue/adapter/package digests."
+    "sourceCommit": "9acedff92ddbc771f4bf702b8957ce335f058644",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42868854968",
+    "artifactId": 13787768542,
+    "artifactArchiveSha256": "2269f41ec534d6d27445c547e5e69f7a5d3829f067fb187f886f14f4410a89c1",
+    "sourceSha256": "9daccc8c1ea3b258f49534de4ed49f853cda13ace4c1ef541a7d0feb6b6396db",
+    "wasmSha256": "4a4f31f321f816c58e3c1d0f528dbb76d2bf3e8f3b0ce055ec8ea3a91b004d56",
+    "wasmBytes": 1713225,
+    "packageSha256": "38cbec8aac507f3fe27942a74cbf5df5dd378b2f8879060d51e053ac9757c449",
+    "packageBytes": 573129,
+    "hostedAllRuntimeChecks": "Linux/Windows Rust75 fmt/clippy pass; Node72/Bun72 with fresh6901text+6906structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only the stale-pin equality step failed; this receipt refreshes it.",
+    "localHostedPackageReplay": "Downloaded CI archive and checked its GitHub SHA256, package, source manifest, WASM/glue/declarations and adapter hashes. Hosted Node72/Bun72 replay includes entity171+percent583, benign91, query371, exact16MiB, matrix1186/ruling43/residual19+17, prior257, Bearer43+9, complete141+numeric45, tables34+13, frozen199 and fresh7027text+7032structured parity; Workers pass.",
+    "pinEqualityGate": "Final receipt head must rebuild these exact source/WASM/glue/adapter/package digests with all Linux/Windows/WASM checks green."
   },
   "ruleset10_1": {
     "baseCommit": "03012d58db992371c647a618444370eeed699b9d",
@@ -3038,18 +3038,18 @@
     }
   },
   "previousHostedArtifact": {
-    "sourceCommit": "03d7896ad247e68db46b67e0005243c8837c3219",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42860437130",
-    "artifactId": 13784727507,
-    "artifactArchiveSha256": "fc90fc18bcee92bdc6355c9ba78ef990bfafe41c3379e7e887d131a8046770e3",
-    "sourceSha256": "67015e28e484b125a9373aef2b5eae900116eb77e62e698edd4fe11c0edfa7d8",
-    "wasmSha256": "1152af5ad37bee04dc14a2a3bba5124eaffb304f492189f207aab38cb5d8f24c",
-    "wasmBytes": 1708827,
-    "packageSha256": "d043599bb6c9c43a4712bc904cbb9673686db72162d3a12df17928c21e456ae9",
-    "packageBytes": 572166,
-    "hostedAllRuntimeChecks": "Linux/Windows native70, fmt/clippy; Node68/Bun68, fresh5902text+5907structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate source run fails only stale-pin equality; these receipts refresh its pins.",
-    "localHostedPackageReplay": "CI archive digest verified against GitHub artifact metadata; package, all WASM/glue/declaration/adapter hashes verified. Node68/Bun68; matrix1186/ruling43/residual19+17; Bearer43+9; structural99; complete141+numeric45; new257 and direct structured siblings; 5902text+5907structured byte parity; frozen199 across APIs; Workers pass.",
-    "pinEqualityGate": "Final exact-head rebuild must reproduce every committed source/WASM/glue/adapter/package digest."
+    "sourceCommit": "826e5260ae40d9b708b1bcef7f7eb2166571cd02",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42864868638",
+    "artifactId": 13787386267,
+    "artifactArchiveSha256": "642472055bfb8424259c359c756026f36e60c7069d44ec623c918dacd2ad4013",
+    "sourceSha256": "b60998aa78109319e5b12e61903298e8724ca0fa068887a8cf653c9c4d4f7d54",
+    "wasmSha256": "2802c4fc93948831476043b11247a590ac6a0abcb3e8f42269e1868bbb917b28",
+    "wasmBytes": 1710088,
+    "packageSha256": "6fcd20decd3971bd9086fc0875fdf868203383e2696d663d0081466ece5eeafe",
+    "packageBytes": 572550,
+    "hostedAllRuntimeChecks": "Linux/Windows Rust72 fmt/clippy pass; Node70/Bun70, fresh6273text+6278structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
+    "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node70/Bun70; query371 plus exact16MiB; matrix1186/ruling43/residual19+17; Bearer43+9; prior257; complete141+numeric45; table34+13; frozen199; fresh6273text+6278structured byte parity; Workers pass.",
+    "pinEqualityGate": "Final exact-head CI must reproduce committed source/WASM/glue/adapter/package digests."
   },
   "queryRecovery": {
     "baseCommit": "93f5aa8902f4ca0ceaec24733e37c14833f94b43",
@@ -3184,6 +3184,255 @@
       "hostedAllRuntimeChecks": "Linux/Windows Rust72 fmt/clippy pass; Node70/Bun70, fresh6273text+6278structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Candidate stale-pin equality is refreshed by this receipt commit.",
       "localHostedPackageReplay": "Downloaded and hash-verified hosted package: Node70/Bun70; query371 plus exact16MiB; matrix1186/ruling43/residual19+17; Bearer43+9; prior257; complete141+numeric45; table34+13; frozen199; fresh6273text+6278structured byte parity; Workers pass.",
       "pinEqualityGate": "Final exact-head CI must reproduce committed source/WASM/glue/adapter/package digests."
+    }
+  },
+  "encodedQueryRepair": {
+    "baseCommit": "873d1761632d219e43d58c98d82d34fe41305776",
+    "candidateVersion": "0.5.0-alpha.3",
+    "testOnlyCommits": {
+      "htmlEntities": [
+        "709ab2bef6030986f3cb01ed0e133524d41c3541"
+      ],
+      "percentEncoding": [
+        "3a0f419799b207c7c4ef9b29b619908cf01c8789",
+        "6e78006b2b111e6136fef2a7fc65a5667d1cbd15",
+        "d8b3d6d3342d30e69f8bd3055af02780c3bdcdcc",
+        "5cf9baa939f8c45f69fcd1241ee6af0b04ed0c51"
+      ]
+    },
+    "fixCommits": {
+      "htmlEntities": "61840e44cd48530f632b564ad520ecd8681c0759",
+      "percentEncoding": "9acedff92ddbc771f4bf702b8957ce335f058644"
+    },
+    "sourceSha256": "9daccc8c1ea3b258f49534de4ed49f853cda13ace4c1ef541a7d0feb6b6396db",
+    "baselineEvidence": {
+      "entityInvalidTextJsonRecords": [
+        132,
+        132,
+        132
+      ],
+      "percentInvalidTextJsonRecords": [
+        505,
+        505,
+        505
+      ],
+      "allThreeNativeTests": "entity_query_all_apis, percent_query_all_apis and encoded_query_recovery_time_is_bounded fail on873d1761; all pass with fixes.",
+      "scope": "Final fixtures replayed against the unchanged baseline source with pinned Rust1.88; source restored before successor gates."
+    },
+    "behavior": "Recognize named/numeric HTML ampersand entities, nested entity spelling, semicolon key=value separators and encoded URL query delimiters while retaining original source offsets. Preserve all surrounding bytes and benign query parameters. Public redirect values can contain nested encoded queries.",
+    "coverage": [
+      "&amp;/&AMP;",
+      "&#38;/&#038; with arbitrary leading zeros",
+      "&#x26;/&#X26; with leading zeros",
+      "double/nested HTML ampersand entities",
+      "literal/entity/semicolon mixes",
+      "fully/partially encoded URLs",
+      "upper/lower percent hex",
+      "double/triple percent chains",
+      "fully encoded ASCII keys and values",
+      "url= and redirect_uri= wrappers",
+      "encoded URL strings inside JSON",
+      "benign encoded URLs unchanged"
+    ],
+    "scannerAudit": {
+      "parameterDiscovery": "Monotone primary query scan and one suffix recovery. Nested public redirect queries advance forward; no per-URL suffix rescans.",
+      "encodingPreservation": "Existing normalized view maps redaction ranges directly to original bytes; no decoding/re-encoding of output.",
+      "valueBoundaries": "An encoded ampersand or semicolon only separates a subsequent key=value. Generic assignment rules do not widen recognized URL credential spans over benign parameters.",
+      "longInputs": "Nested encoded URL queries, malformed query recovery, deeply nested entity layers and numeric entity zero runs; two sizes per family under unchanged10second bounds on Linux/Windows."
+    },
+    "privacy": "Invented inputs only. No sampled sessions, labels or reaudit*-fresh directories opened.",
+    "gates": {
+      "nativeRust": "1.88.0; all-targets/all-features/locked75 pass",
+      "fmt": "pass",
+      "clippy": "-D warnings pass",
+      "reviewerMatrixCases": 1186,
+      "rulingCases": 43,
+      "residualControls": [
+        19,
+        17
+      ],
+      "frozenCases": 199,
+      "frozenMissedSecretCases": 0,
+      "frozenSecondPassChanges": 0,
+      "queryRecoveryCases": 371,
+      "queryRecoveryBenignControls": 58,
+      "queryRecoveryExact16MiB": "pass",
+      "fix11Cases": 257,
+      "earlierInventedReproductions": 27,
+      "bearerPositiveCases": 43,
+      "bearerBenignControls": 9,
+      "completeReferenceCases": 141,
+      "numericCredentialCases": 45,
+      "historicalTableRows": [
+        34,
+        13
+      ],
+      "encodedQueryCases": {
+        "entity": {
+          "cases": 171,
+          "benignByteIdenticalCases": 13
+        },
+        "percent": {
+          "cases": 583,
+          "benignByteIdenticalCases": 78
+        }
+      },
+      "encodedQueryInvalidTextJsonRecords": [
+        0,
+        0,
+        0
+      ],
+      "encodedQuerySecondPassChanges": 0,
+      "nodeTests": 72,
+      "bunTests": 72,
+      "freshNativeTextVectors": 7027,
+      "freshNativeStructuredVectors": 7032,
+      "workers": "hosted CI and local hash-verified hosted package pass",
+      "independentWasmReproducibility": "hosted CI pass",
+      "timingDeadlineSeconds": 10,
+      "timingLimitsChanged": false,
+      "timings": {
+        "ubuntu-latest": {
+          "nested percent queries": [
+            {
+              "count": 2048,
+              "bytes": 96347,
+              "seconds": 0.133
+            },
+            {
+              "count": 16384,
+              "bytes": 770139,
+              "seconds": 1.078
+            }
+          ],
+          "malformed entity recovery": [
+            {
+              "count": 2048,
+              "bytes": 45156,
+              "seconds": 0.038
+            },
+            {
+              "count": 16384,
+              "bytes": 360548,
+              "seconds": 0.243
+            }
+          ],
+          "nested entity layers": [
+            {
+              "count": 2048,
+              "bytes": 8272,
+              "seconds": 0.006
+            },
+            {
+              "count": 16384,
+              "bytes": 65616,
+              "seconds": 0.041
+            }
+          ],
+          "numeric leading zeros": [
+            {
+              "count": 2048,
+              "bytes": 2133,
+              "seconds": 0.001
+            },
+            {
+              "count": 16384,
+              "bytes": 16469,
+              "seconds": 0.009
+            }
+          ],
+          "existing container bound": [
+            {
+              "keys": 4097,
+              "bytes": 106520,
+              "seconds": 0.167
+            },
+            {
+              "keys": 65537,
+              "bytes": 1703960,
+              "seconds": 3.046
+            }
+          ]
+        },
+        "windows-latest": {
+          "nested percent queries": [
+            {
+              "count": 2048,
+              "bytes": 96347,
+              "seconds": 0.181
+            },
+            {
+              "count": 16384,
+              "bytes": 770139,
+              "seconds": 0.99
+            }
+          ],
+          "malformed entity recovery": [
+            {
+              "count": 2048,
+              "bytes": 45156,
+              "seconds": 0.031
+            },
+            {
+              "count": 16384,
+              "bytes": 360548,
+              "seconds": 0.241
+            }
+          ],
+          "nested entity layers": [
+            {
+              "count": 2048,
+              "bytes": 8272,
+              "seconds": 0.006
+            },
+            {
+              "count": 16384,
+              "bytes": 65616,
+              "seconds": 0.043
+            }
+          ],
+          "numeric leading zeros": [
+            {
+              "count": 2048,
+              "bytes": 2133,
+              "seconds": 0.001
+            },
+            {
+              "count": 16384,
+              "bytes": 16469,
+              "seconds": 0.01
+            }
+          ],
+          "existing container bound": [
+            {
+              "keys": 4097,
+              "bytes": 106520,
+              "seconds": 0.186
+            },
+            {
+              "keys": 65537,
+              "bytes": 1703960,
+              "seconds": 2.842
+            }
+          ]
+        }
+      },
+      "vetoDiffReview": "pass; deterministic scan plus host reviewer/security/secrets phases",
+      "independentPrecision": "Independent real-session re-audit pending; invented inputs are not a measurement of false-positive rates."
+    },
+    "hostedArtifact": {
+      "sourceCommit": "9acedff92ddbc771f4bf702b8957ce335f058644",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42868854968",
+      "artifactId": 13787768542,
+      "artifactArchiveSha256": "2269f41ec534d6d27445c547e5e69f7a5d3829f067fb187f886f14f4410a89c1",
+      "sourceSha256": "9daccc8c1ea3b258f49534de4ed49f853cda13ace4c1ef541a7d0feb6b6396db",
+      "wasmSha256": "4a4f31f321f816c58e3c1d0f528dbb76d2bf3e8f3b0ce055ec8ea3a91b004d56",
+      "wasmBytes": 1713225,
+      "packageSha256": "38cbec8aac507f3fe27942a74cbf5df5dd378b2f8879060d51e053ac9757c449",
+      "packageBytes": 573129,
+      "hostedAllRuntimeChecks": "Linux/Windows Rust75 fmt/clippy pass; Node72/Bun72 with fresh6901text+6906structured vectors, frozen199, admission/resource, reproducibility, Workers and packaging pass. Only the stale-pin equality step failed; this receipt refreshes it.",
+      "localHostedPackageReplay": "Downloaded CI archive and checked its GitHub SHA256, package, source manifest, WASM/glue/declarations and adapter hashes. Hosted Node72/Bun72 replay includes entity171+percent583, benign91, query371, exact16MiB, matrix1186/ruling43/residual19+17, prior257, Bearer43+9, complete141+numeric45, tables34+13, frozen199 and fresh7027text+7032structured parity; Workers pass.",
+      "pinEqualityGate": "Final receipt head must rebuild these exact source/WASM/glue/adapter/package digests with all Linux/Windows/WASM checks green."
     }
   }
 }
