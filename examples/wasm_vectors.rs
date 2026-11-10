@@ -71,6 +71,7 @@ fn main() {
     for source in [
         include_str!("../eval/structural_cases.json"),
         include_str!("../eval/complete_cases.json"),
+        include_str!("../eval/alpha4_precision_cases.json"),
         include_str!("../eval/precision_10_1_cases.json"),
         include_str!("../eval/query_recovery_cases.json"),
         include_str!("../eval/entity_query_cases.json"),

@@ -1,0 +1,1612 @@
+[
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok ; worker &password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok ; worker &password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=***",
+    "expected": "curl https://example.invalid/?q=ok ; worker &password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok ; worker &password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok ; worker &password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok\"unfinished&password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok\"unfinished&password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok\"unfinished&password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=***",
+    "expected": "curl https://example.invalid/?q=ok\"unfinished&password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok\"unfinished&password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\"unfinished&password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok &password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok &password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok &password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok &password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok &password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok &password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok &password=***",
+    "expected": "curl https://example.invalid/?q=ok &password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok &password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok &password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok &password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\n&password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok\n&password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\n&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\n&password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok\n&password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\n&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\n&password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok\n&password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\n&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\n&password=***",
+    "expected": "curl https://example.invalid/?q=ok\n&password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\n&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok\n&password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok\n&password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok\n&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok\n&password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok<span>&password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok<span>&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok<span>&password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok<span>&password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok<span>&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok<span>&password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok<span>&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok<span>&password=***",
+    "expected": "curl https://example.invalid/?q=ok<span>&password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok<span>&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok<span>&password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok<span>&password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok<span>&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok<span>&password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok&amp;page=ok&password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok&amp;page=ok&password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok&amp;page=ok&password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=***",
+    "expected": "curl https://example.invalid/?q=ok&amp;page=ok&password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok&amp;page=ok&password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok&amp;page=ok&password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok%20&password=${PASSWORD}",
+    "expected": "curl https://example.invalid/?q=ok%20&password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok%20&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${PASSWORD}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${PASSWORD} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${PASSWORD}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok%20&password=$PASSWORD",
+    "expected": "curl https://example.invalid/?q=ok%20&password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok%20&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=$PASSWORDM8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=$PASSWORD M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=$PASSWORD#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok%20&password=${{secrets.PASSWORD}}",
+    "expected": "curl https://example.invalid/?q=ok%20&password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok%20&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok%20&password=***",
+    "expected": "curl https://example.invalid/?q=ok%20&password=***"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok%20&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=***M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=*** M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=***#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference",
+    "input": "curl https://example.invalid/?q=ok%20&password=`${secrets.password}`",
+    "expected": "curl https://example.invalid/?q=ok%20&password=`${secrets.password}`"
+  },
+  {
+    "family": "query_literal_sibling",
+    "input": "curl https://example.invalid/?q=ok%20&password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=`${secrets.password}`M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=`${secrets.password}` M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_tail",
+    "input": "curl https://example.invalid/?q=ok%20&password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker %26password=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &PASSWORD=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker %26PASSWORD=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &access_token=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;access_token=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=${PASSWORD}",
+    "expected": "https://example.invalid/?q=ok ; worker %26access_token=${PASSWORD}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker %26password=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &PASSWORD=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker %26PASSWORD=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &access_token=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;access_token=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=$PASSWORD",
+    "expected": "https://example.invalid/?q=ok ; worker %26access_token=$PASSWORD"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker %26password=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &PASSWORD=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker %26PASSWORD=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &access_token=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;access_token=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=${{secrets.PASSWORD}}",
+    "expected": "https://example.invalid/?q=ok ; worker %26access_token=${{secrets.PASSWORD}}"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=***",
+    "expected": "https://example.invalid/?q=ok ; worker &password=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=***",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;password=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=***",
+    "expected": "https://example.invalid/?q=ok ; worker %26password=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26password=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=***",
+    "expected": "https://example.invalid/?q=ok ; worker &PASSWORD=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=***",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=***",
+    "expected": "https://example.invalid/?q=ok ; worker %26PASSWORD=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26PASSWORD=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=***",
+    "expected": "https://example.invalid/?q=ok ; worker &access_token=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=***",
+    "expected": "https://example.invalid/?q=ok ; worker &amp;access_token=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker &amp;access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "query_reference_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=***",
+    "expected": "https://example.invalid/?q=ok ; worker %26access_token=***"
+  },
+  {
+    "family": "query_literal_separator",
+    "input": "https://example.invalid/?q=ok ; worker %26access_token=M8zR4vK7nP2qW6xAq9",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_call",
+    "input": "const token = await loadToken();",
+    "expected": "const token = await loadToken();"
+  },
+  {
+    "family": "await_literal_sibling",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken()M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken() M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken() /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken() + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_call",
+    "input": "const token = await vault.loadToken();",
+    "expected": "const token = await vault.loadToken();"
+  },
+  {
+    "family": "await_literal_sibling",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await vault.loadToken()M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await vault.loadToken() M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await vault.loadToken() /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await vault.loadToken() + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_call",
+    "input": "const token = await loadToken(tokenRef);",
+    "expected": "const token = await loadToken(tokenRef);"
+  },
+  {
+    "family": "await_literal_sibling",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken(tokenRef)M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken(tokenRef) M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken(tokenRef) /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken(tokenRef) + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_call",
+    "input": "const token = await loadToken().value;",
+    "expected": "const token = await loadToken().value;"
+  },
+  {
+    "family": "await_literal_sibling",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken().valueM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken().value M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken().value /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await loadToken().value + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_call",
+    "input": "const token = await source.getToken(passwordRef);",
+    "expected": "const token = await source.getToken(passwordRef);"
+  },
+  {
+    "family": "await_literal_sibling",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await source.getToken(passwordRef)M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await source.getToken(passwordRef) M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await source.getToken(passwordRef) /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_tail",
+    "input": "const token = await source.getToken(passwordRef) + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_embedded_literal",
+    "input": "const token = await load(\"M8zR4vK7nP2qW6xAq9\");",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_embedded_literal",
+    "input": "const token = await load('M8zR4vK7nP2qW6xAq9');",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_embedded_literal",
+    "input": "const token = await load(`M8zR4vK7nP2qW6xAq9`);",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_embedded_literal",
+    "input": "const token = await load(%22M8zR4vK7nP2qW6xAq9%22);",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "await_short_literal",
+    "input": "const token = await load(\"plain-secret\");",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "type_alias",
+    "input": "type Token = &'a str;",
+    "expected": "type Token = &'a str;"
+  },
+  {
+    "family": "type_literal_sibling",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a strM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a str M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a str /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a str + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_alias",
+    "input": "type Token = &'static str;",
+    "expected": "type Token = &'static str;"
+  },
+  {
+    "family": "type_literal_sibling",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'static strM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'static str M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'static str /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'static str + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_alias",
+    "input": "type Token = &'a mut str;",
+    "expected": "type Token = &'a mut str;"
+  },
+  {
+    "family": "type_literal_sibling",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a mut strM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a mut str M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a mut str /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &'a mut str + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_alias",
+    "input": "type Token = &str;",
+    "expected": "type Token = &str;"
+  },
+  {
+    "family": "type_literal_sibling",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &strM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &str M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &str /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &str + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_alias",
+    "input": "type Token = &mut str;",
+    "expected": "type Token = &mut str;"
+  },
+  {
+    "family": "type_literal_sibling",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &mut strM8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &mut str M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &mut str /* M8zR4vK7nP2qW6xAq9 */;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_tail",
+    "input": "type Token = &mut str + \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_embedded_literal",
+    "input": "type Token = \"M8zR4vK7nP2qW6xAq9\";",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_embedded_literal",
+    "input": "type Token = &'M8zR4vK7nP2qW6xAq9 str;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_embedded_literal",
+    "input": "type Token = &'a M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_embedded_literal",
+    "input": "type Token = &'a str<M8zR4vK7nP2qW6xAq9>;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_embedded_literal",
+    "input": "type Token = %22M8zR4vK7nP2qW6xAq9%22;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_context_attack",
+    "input": "TYPE Token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_context_attack",
+    "input": "# type Token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_context_attack",
+    "input": "// type Token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_context_attack",
+    "input": "/* type */ Token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "type_context_attack",
+    "input": "type Token = M8zR4vK7nP2qW6xAq9;",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  }
+]
