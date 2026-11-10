@@ -773,6 +773,15 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
     }
 }
 
+fn comment_variable(value: &str) -> bool {
+    static R: OnceLock<Regex> = OnceLock::new();
+    R.get_or_init(|| {
+        Regex::new(r"^(?:[a-z]+(?:[A-Z][a-z]+)*Variable|[a-z]+(?:_[a-z]+)*_variable)$")
+            .expect("fixed variable identifier syntax")
+    })
+    .is_match(value)
+}
+
 fn bearer_regex() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
@@ -1094,14 +1103,14 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     jwts(&view, &mut spans);
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
-        // Comment examples retain their reference semantics. Ordinary sentence
-        // prefixes cannot exempt a standalone Bearer credential.
+        // A comment marker alone never exempts credential material. Only an
+        // explicit variable identifier can retain reference semantics here.
         let prefix = bounded_prefix(&view, c.get(0).expect("bearer match").start()).trim();
         if !reference(token.as_str())
             && !environment_reference(token.as_str())
             && !labeled_toy(&view, token.start(), token.as_str())
-            && !prefix.starts_with('#')
-            && !prefix.starts_with("//")
+            && !((prefix.starts_with('#') || prefix.starts_with("//"))
+                && comment_variable(token.as_str()))
         {
             spans.push(token.range());
         }
