@@ -1495,6 +1495,11 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
         return false;
     }
     let prefix = bounded_prefix(view, start).trim_end();
+    // URL labels and dotted hostnames are not source member declarations.
+    // Known provider matches must retain their detector semantics there.
+    if prefix.contains("://") {
+        return false;
+    }
     ["fn", "function", "let", "const", "var", "use", "import"]
         .iter()
         .any(|kw| {
@@ -1503,7 +1508,6 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
                     || before.ends_with(|c: char| !c.is_ascii_alphanumeric() && c != '_')
             })
         })
-        || prefix.ends_with('.')
         || prefix.ends_with("::")
         || view.text[end..].starts_with('(')
 }
