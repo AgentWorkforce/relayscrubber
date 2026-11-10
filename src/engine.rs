@@ -560,9 +560,24 @@ fn safe_code_literals(value: &str) -> bool {
     true
 }
 
+// Reference arguments contain identifiers rather than scalar literals.
+fn symbolic_arguments(value: &str) -> bool {
+    !value.contains(['"', '\'', '`'])
+        && !value
+            .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+            .any(|atom| atom.as_bytes().first().is_some_and(u8::is_ascii_digit))
+}
+
 fn code_expression(value: &str) -> bool {
     if !safe_code_literals(value) {
         return false;
+    }
+    if let Some(rest) = value.strip_prefix("await ") {
+        // Awaited credential calls may contain reference arguments, never
+        // scalar literals (including short numeric credentials).
+        return rest.contains('(')
+            && symbolic_arguments(rest)
+            && code_expression(rest.trim_start());
     }
     for op in ["??", "||"] {
         if let Some((left, right)) = value.split_once(op) {
@@ -596,6 +611,27 @@ fn code_expression(value: &str) -> bool {
 }
 
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
+    // Rust reference aliases have a lifetime apostrophe, not a quoted scalar.
+    // Check the entire declaration suffix before the general quote scanner.
+    if !colon && matches!(bounded_prefix(view, key).trim(), "type" | "pub type") {
+        let end = view.line_end(value).min(value.saturating_add(512));
+        if end == view.line_end(value) && view.text.is_char_boundary(end) {
+            let rest = &view.text[value..end];
+            static ALIAS: OnceLock<Regex> = OnceLock::new();
+            if !opaque_material(rest)
+                && ALIAS
+                    .get_or_init(|| {
+                        Regex::new(
+                            r"^&(?:'[A-Za-z_][A-Za-z0-9_]*[ \t]+)?(?:mut[ \t]+)?str[ \t]*;[ \t]*$",
+                        )
+                        .expect("complete Rust str reference alias")
+                    })
+                    .is_match(rest)
+            {
+                return true;
+            }
+        }
+    }
     let Some(rest) = candidate(view, value) else {
         return false;
     };
@@ -1851,6 +1887,35 @@ fn query_separator(view: &View, start: usize) -> usize {
     }
 }
 
+// Apply complete-value reference grammar in both normal and recovered queries.
+// The whole parameter must match; whitespace, comments and literal tails never
+// establish an exemption. Bound grammar work independently of parameter size.
+fn query_reference(value: &str) -> bool {
+    if value.len() > 512 {
+        return false;
+    }
+    let value = value.trim_end();
+    let variable = value.strip_prefix('$').map(|name| {
+        name.strip_prefix('{')
+            .and_then(|s| s.strip_suffix('}'))
+            .unwrap_or(name)
+    });
+    reference(value)
+        || shell_reference(value)
+            && variable.is_some_and(|name| {
+                name.as_bytes()
+                    .first()
+                    .is_some_and(|b| b.is_ascii_alphabetic() || *b == b'_')
+                    && name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+            })
+        || environment_reference(value)
+        || value.starts_with("${{") && symbolic_arguments(value) && expansion_reference(value)
+        || value
+            .strip_prefix('`')
+            .and_then(|s| s.strip_suffix('`'))
+            .is_some_and(|s| symbolic_arguments(s) && template_reference(s))
+}
+
 // A malformed earlier value cannot terminate parameter discovery. Query
 // separators remain visible beyond quotes, fragments, markup or line breaks.
 // Run once over the remaining suffix, including nested schemes: another URL
@@ -1900,7 +1965,14 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
             }
             value_end += 1;
         }
-        if value_end > value_start {
+        let whole = &view.text[value_start..parameter_end];
+        if value_end > value_start && !query_reference(whole) {
+            // A reference prefix cannot hide literal data after whitespace.
+            if whole.starts_with(['$', '`', '*'])
+                || query_reference(&view.text[value_start..value_end])
+            {
+                value_end = parameter_end;
+            }
             spans.push(value_start..value_end);
         }
         cursor = parameter_end;
@@ -2044,7 +2116,25 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                     parameter_end = query_next(b, parameter_end);
                 }
                 if sensitive && eq + 1 < parameter_end {
-                    spans.push(eq + 1..parameter_end);
+                    let is_reference = query_reference(&view.text[eq + 1..parameter_end]);
+                    // A URL's whitespace boundary is not proof that a symbolic
+                    // credential has ended. Inspect its local parameter suffix;
+                    // never exempt a reference prefix followed by literal data.
+                    let mut complete = parameter_end;
+                    let reference_candidate = is_reference
+                        || view.text[eq + 1..parameter_end].starts_with(['$', '`', '*']);
+                    if reference_candidate && complete == end {
+                        let limit = view.line_end(complete);
+                        while complete < limit
+                            && b[complete] != b'?'
+                            && query_separator(view, complete) == 0
+                        {
+                            complete = query_next(b, complete);
+                        }
+                    }
+                    if !is_reference || !view.text[parameter_end..complete].trim().is_empty() {
+                        spans.push(eq + 1..complete);
+                    }
                 }
                 // Public redirect values may contain another encoded query.
                 // Each prefix/value is traversed once, including nested URLs.
