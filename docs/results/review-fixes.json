@@ -394,10 +394,10 @@
         ]
       }
     ],
-    "source": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71"
+    "source": "a0a0d7f9e19573895eec1e30c77db046d9cc7780cb14a3f7952d4ab306a9412c"
   },
   "headWasm": {
-    "source": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71",
+    "source": "a0a0d7f9e19573895eec1e30c77db046d9cc7780cb14a3f7952d4ab306a9412c",
     "families": [
       {
         "name": "marker_plus_syntax",
@@ -581,14 +581,14 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "541f385341c5623a675fb9c7ac1e513cd7206065",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42821073907",
-    "artifactId": 13766757256,
-    "wasmSha256": "2f520d5a2ae9340ac5a229d84715de53c8e543361e70f142d3fda49b593a5376",
-    "packageSha256": "7e86875edc249587c8340e2eb03695db28efa73284450d567235831a4c40957e",
-    "packageBytes": 533377,
-    "wasmBytes": 1598143,
-    "sourceSha256": "e027a45f52cdea7c1a0882f436b95f8be0e56c81be787186db66c829afa64d71",
+    "sourceCommit": "98dc9fe0ecb270655be06ac061bf4b831a8cfc57",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42822078619",
+    "artifactId": 13767068199,
+    "wasmSha256": "1798a8eb35a9dcab571427a29b7cabb447268a4e279f3771edc022f9b69908d8",
+    "packageSha256": "6ebf93eddf8a23d42e4bf0e3bf90cb1ca5740b67c306d6788d920f57e596bfae",
+    "packageBytes": 533938,
+    "wasmBytes": 1599660,
+    "sourceSha256": "a0a0d7f9e19573895eec1e30c77db046d9cc7780cb14a3f7952d4ab306a9412c",
     "hostedAllRuntimeChecks": "pass: Linux/Windows native, Node/Bun40 including P0 all-API tests, frozen199, admission/resource, reproducibility, Workers and packaging; old-pin equality refused stale pin as expected",
     "pinEqualityGate": "Fresh exact-head hosted rebuild must reproduce the committed source/WASM/glue/adapter pins and packaged tgz SHA-256; exact-head CI receipt is linked in PR12.",
     "localHostedPackageReplay": "pass: actual hosted package Node40/Bun40, all80 benign variants on text/JSON/NDJSON, P0 prose/container cases, local Workers"
@@ -598,7 +598,7 @@
   "p0LeakFix": {
     "baseCommit": "1b49596d9daaa3bf7b4d0872027f51add13af411",
     "testOnlyCommit": "91d2015",
-    "implementationCommit": "541f385341c5623a675fb9c7ac1e513cd7206065",
+    "implementationCommit": "98dc9fe0ecb270655be06ac061bf4b831a8cfc57",
     "basePins": {
       "sourceSha256": "69bce1cc9b6c95bdf56df1e355e388a2004c4ad92254c99b1ec9e941799f1b9d",
       "wasmSha256": "b8ab7077db728ffec81db1afa4c3709ceb8c6288f881030d345cc07e501e0670",
@@ -615,8 +615,8 @@
       "qualification": "Supplied simple lowercase literals already redact on baseline. Failing positive variants begin a/the/use; baseline also changes none placeholders."
     },
     "headEvidence": {
-      "proseCases": 47,
-      "prosePositiveCases": 36,
+      "proseCases": 59,
+      "prosePositiveCases": 48,
       "proseBenignCases": 11,
       "containerCases": 84,
       "containerPositiveCases": 54,
@@ -643,9 +643,17 @@
         65537
       ],
       "resourceDeadlineSeconds": 10,
-      "nativeReleaseAllP0Seconds": 1.58
+      "nativeReleaseAllP0Seconds": 1.55
     },
-    "recognition": "Credential/public scopes retain cumulative flags until structural/indentation/quote boundaries, independent of lookback distance. YAML indentation extents are resolved once with a monotone stack; each scope enters and leaves once. Existing explanatory prose references remain public, while a/the/use prefixes alone no longer exempt explicit YAML scalar credentials.",
-    "precisionStatus": "Independent re-audit pending; synthetic checks are behavioral regression evidence only."
+    "recognition": "Credential/public scopes retain cumulative flags until structural/indentation/quote boundaries, independent of lookback distance. YAML indentation extents are resolved once with a monotone stack; each scope enters and leaves once. YAML prose exceptions require documentary guide-reference syntax or language-token descriptions; ordinary English prefixes alone do not exempt credential scalar values.",
+    "precisionStatus": "Independent re-audit pending; synthetic checks are behavioral regression evidence only.",
+    "followupTestOnlyCommit": "3e46ef9",
+    "followupBaselineEvidence": {
+      "baseCommit": "50522445ddfc176491916775a0003c57172c70b3",
+      "newVariants": 12,
+      "mismatchesEachApi": 4,
+      "nativeAndActualHostedWasmGroupFailed": true,
+      "scope": "Prose-only see/used-for prefixes must not exempt credential sentences; test-first follow-up preserves guide references and language-token descriptions."
+    }
   }
 }
