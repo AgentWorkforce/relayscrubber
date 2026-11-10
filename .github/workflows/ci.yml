@@ -34,3 +34,44 @@ jobs:
       - run: cargo test --all-targets --all-features --locked
       - run: cargo package --locked
         if: runner.os == 'Linux'
+
+  wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p "$TMPDIR"
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+      - run: cargo install wasm-bindgen-cli --version 0.2.104 --locked
+      - run: bash scripts/build-wasm.sh
+      - name: Generate synthetic native parity vectors privately
+        run: |
+          mkdir -p "$HOME/scrubber-eval"
+          chmod 700 "$HOME/scrubber-eval"
+          umask 077
+          cargo run --release --locked --example wasm_vectors > "$HOME/scrubber-eval/wasm-vectors.json"
+      - run: node --test js/test/wasm.test.mjs
+      - run: bun test js/test/wasm.test.mjs
+      - run: bash scripts/check-reproducible.sh
+      - run: bash scripts/test-workers.sh
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+      - name: Package the WASM adapter locally
+        run: |
+          mkdir -p target/wasm-package
+          cd js
+          npm pack --ignore-scripts --pack-destination ../target/wasm-package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relayscrubber-wasm-candidate
+          path: |
+            target/wasm-package/*.tgz
+            js/generated/artifact.json
+          retention-days: 7

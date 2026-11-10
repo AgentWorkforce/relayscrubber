@@ -1,0 +1,9 @@
+{
+  "name": "@agentworkforce/relayscrubber",
+  "version": "0.5.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "exports": { ".": { "types": "./index.d.ts", "import": "./index.js" }, "./artifact": "./generated/artifact.json", "./wasm": "./generated/relayscrubber_bg.wasm" },
+  "files": ["index.js", "index.d.ts", "generated"],
+  "scripts": { "build": "bash ../scripts/build-wasm.sh", "test": "node --test test/*.test.mjs", "test:bun": "bun test test/*.test.mjs" }
+}

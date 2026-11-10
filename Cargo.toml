@@ -1,6 +1,6 @@
 [package]
 name = "relayscrubber"
-version = "0.4.0"
+version = "0.5.0-alpha.1"
 edition = "2021"
 rust-version = "1.88"
 license = "Apache-2.0"
@@ -14,16 +14,33 @@ include = [
   "tests/**",
   "examples/**",
   "scripts/**",
-  "vendor/**",
   "Cargo.toml",
   "Cargo.lock",
   "README.md",
   "LICENSE",
+  "build.rs",
+  "docs/**",
+  "eval/**",
+  "MIGRATION.md",
+  "rust-toolchain.toml",
 ]
 
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[features]
+default = []
+wasm = ["dep:wasm-bindgen"]
+
 [dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+regex = "=1.13.1"
+base64 = "=0.22.1"
+wasm-bindgen = { version = "=0.2.104", optional = true }
+
+[build-dependencies]
+sha2 = "0.10"
 
 [dev-dependencies]
 proptest = "1.9"
@@ -35,5 +52,3 @@ missing_docs = "warn"
 
 [lints.clippy]
 all = "warn"
-# The rule modules intentionally mirror the reviewed JavaScript/Desktop control
-# flow. Pedantic style rewrites would make security audits harder to compare.

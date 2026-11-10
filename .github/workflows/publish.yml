@@ -42,7 +42,7 @@ jobs:
       # rust-toolchain invokes mktemp, not after toolchain setup.
       - name: Create task temp directory
         run: mkdir -p "$TMPDIR"
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@1.88.0
       - name: Read crate version
         id: version
         run: |
