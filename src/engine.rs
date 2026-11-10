@@ -1,6 +1,7 @@
 //! Fixed automata and a monotone contextual scanner; no backtracking regex.
 
 use crate::{normalize::View, Policy, REDACTION_TOKEN};
+use aho_corasick::AhoCorasick;
 use base64::Engine;
 use regex::Regex;
 use std::{borrow::Cow, ops::Range, sync::OnceLock};
@@ -80,14 +81,13 @@ fn provider_matches(text: &str) -> Vec<Range<usize>> {
         "https://hooks.slack",
         "/webhooks/automations/",
     ];
-    let mut starts: Vec<_> = PREFIXES
-        .iter()
-        .flat_map(|prefix| text.match_indices(prefix).map(|(start, _)| start))
-        .collect();
-    starts.sort_unstable();
+    static STARTS: OnceLock<AhoCorasick> = OnceLock::new();
+    let starts =
+        STARTS.get_or_init(|| AhoCorasick::new(PREFIXES).expect("fixed provider prefixes"));
     let mut ranges = Vec::new();
     let mut cursor = 0;
-    for start in starts {
+    for prefix in starts.find_iter(text) {
+        let start = prefix.start();
         if start < cursor {
             continue;
         }
@@ -108,6 +108,17 @@ fn pem_regex() -> &'static Regex {
 
 pub(crate) fn sensitive(name: &str) -> bool {
     if name.len() < 3 {
+        return false;
+    }
+    // All credential names/suffixes end with one of these ASCII letters.
+    // Reject huge ordinary words before normalization and suffix scans. The
+    // previous normalization ignores separators even at the end of a name.
+    let tail = name
+        .trim_end_matches(['_', '-'])
+        .as_bytes()
+        .last()
+        .map(u8::to_ascii_lowercase);
+    if !tail.is_some_and(|b| b"detynhlsr".contains(&b)) {
         return false;
     }
     let n: Cow<'_, str> = if name
