@@ -1652,7 +1652,7 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
         || view.text[end..].starts_with('(')
 }
 
-fn query_key_sensitive(key: &str) -> bool {
+fn plain_query_key_sensitive(key: &str) -> bool {
     sensitive(key)
         || matches!(
             key.to_ascii_lowercase().as_str(),
@@ -1668,60 +1668,156 @@ fn query_key_sensitive(key: &str) -> bool {
         )
 }
 
-// Recognize HTML ampersand entities only as URL separators. Advancing over
-// every layer preserves the original entity bytes in the source offset map;
-// this does not normalize HTML in unrelated fields. Leading zero runs and
-// nested amp; layers are consumed once, without recursive suffix rescans.
-fn html_query_separator(b: &[u8], start: usize) -> usize {
-    match b[start] {
-        b';' => return 1,
-        b'&' => {}
-        _ => return 0,
+// Decode only the ASCII entity alphabet needed for query keys and nested
+// separators. This is a recognition view; output always uses original ranges.
+// Numeric accumulation saturates, so arbitrary leading zeros cannot overflow.
+fn query_entity_tail(b: &[u8], start: usize, separator: bool) -> Option<(u8, usize)> {
+    if b.get(start) != Some(&b'#') {
+        for (name, ch) in [
+            ("amp", b'&'),
+            ("percnt", b'%'),
+            ("lowbar", b'_'),
+            ("UnderBar", b'_'),
+            ("hyphen", b'-'),
+            ("dash", b'-'),
+            ("period", b'.'),
+        ] {
+            let end = start + name.len();
+            if b.get(start..end)
+                .is_some_and(|s| s.eq_ignore_ascii_case(name.as_bytes()))
+                && (ch == b'&' || b.get(end) == Some(&b';'))
+            {
+                return Some((ch, end + usize::from(b.get(end) == Some(&b';'))));
+            }
+        }
+        return None;
     }
-    let mut end = start + 1;
-    loop {
-        if b.get(end..end + 4)
-            .is_some_and(|s| s.eq_ignore_ascii_case(b"amp;"))
-        {
-            end += 4;
-            continue;
-        }
-        if b.get(end) != Some(&b'#') {
-            break;
-        }
-        let mut p = end + 1;
-        let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
-        if hexadecimal {
-            p += 1;
-        }
+    let mut p = start + 1;
+    let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
+    if hexadecimal {
+        p += 1;
+    }
+    // Fail closed for ambiguous semicolonless hex followed by a key starting
+    // with a-f, too: a superset of the HTML tokenizer's ampersand spellings.
+    if separator {
         while b.get(p) == Some(&b'0') {
             p += 1;
         }
-        let digits = if hexadecimal { b"26;" } else { b"38;" };
-        if b.get(p..p + 3) == Some(digits) {
-            end = p + 3;
-        } else {
-            break;
+        let digits = if hexadecimal { b"26" } else { b"38" };
+        if b.get(p..p + 2) == Some(digits) {
+            p += 2;
+            return Some((b'&', p + usize::from(b.get(p) == Some(&b';'))));
         }
     }
-    end - start
+    let first = p;
+    let mut value = 0u32;
+    while let Some(digit) = b
+        .get(p)
+        .and_then(|ch| char::from(*ch).to_digit(if hexadecimal { 16 } else { 10 }))
+    {
+        value = value
+            .saturating_mul(if hexadecimal { 16 } else { 10 })
+            .saturating_add(digit);
+        p += 1;
+    }
+    (p > first && value < 128).then_some((value as u8, p + usize::from(b.get(p) == Some(&b';'))))
+}
+
+// A chain consumes source bytes monotonically, even for thousands of nested
+// amp; or percent layers. Percent escapes normally arrive decoded by View;
+// decoding here also handles a percent sign produced by an HTML entity.
+fn query_character(b: &[u8], start: usize, separator: bool) -> (u8, usize) {
+    let mut ch = b[start];
+    let mut end = start + 1;
+    loop {
+        let next = match ch {
+            b'&' => query_entity_tail(b, end, separator),
+            b'%' => b.get(end..end + 2).and_then(|pair| {
+                let hi = char::from(pair[0]).to_digit(16)?;
+                let lo = char::from(pair[1]).to_digit(16)?;
+                Some(((hi * 16 + lo) as u8, end + 2))
+            }),
+            _ => None,
+        };
+        match next {
+            Some((value, p)) => {
+                ch = value;
+                end = p;
+            }
+            None => return (ch, end),
+        }
+    }
+}
+
+fn query_key_character(ch: u8) -> bool {
+    ch.is_ascii_alphanumeric() || matches!(ch, b'_' | b'-' | b'.')
+}
+
+fn query_key_end(b: &[u8], mut end: usize) -> usize {
+    while end < b.len() {
+        let (ch, next) = query_character(b, end, false);
+        if !query_key_character(ch) {
+            break;
+        }
+        end = next;
+    }
+    end
+}
+
+fn query_key_sensitive(key: &str) -> bool {
+    if !key.contains('&') {
+        return plain_query_key_sensitive(key);
+    }
+    let b = key.as_bytes();
+    let mut decoded = String::with_capacity(key.len());
+    let mut cursor = 0;
+    while cursor < b.len() {
+        let (ch, next) = query_character(b, cursor, false);
+        if !query_key_character(ch) {
+            return false;
+        }
+        decoded.push(char::from(ch));
+        cursor = next;
+    }
+    plain_query_key_sensitive(&decoded)
+}
+
+fn html_query_separator(b: &[u8], start: usize) -> usize {
+    match b[start] {
+        b';' => 1,
+        b'&' => {
+            let (ch, end) = query_character(b, start, true);
+            if ch == b'&' {
+                end - start
+            } else {
+                0
+            }
+        }
+        _ => 0,
+    }
+}
+
+// Skip an entire entity when it is data rather than a separator. Otherwise
+// each semicolon inside an encoded key could repeat the full key lookahead.
+fn query_next(b: &[u8], start: usize) -> usize {
+    if b[start] == b'&' {
+        query_character(b, start, false).1
+    } else {
+        start + 1
+    }
 }
 
 // An encoded ampersand inside an ordinary value is data unless it actually
-// introduces key=value. In particular, a credential's encoded '&' must not
-// leave an unassigned secret suffix visible. Apply the same rule to ';'.
+// introduces key=value. Decode the lookahead key too, including sensitive
+// names. A literal '&' retains ordinary URL semantics. No output is re-encoded.
 fn query_separator(view: &View, start: usize) -> usize {
     let b = view.text.as_bytes();
     let width = html_query_separator(b, start);
-    if width == 0 || b[start] == b'&' && view.literal(start) {
+    if width == 0 || width == 1 && b[start] == b'&' && view.literal(start) {
         return width;
     }
-    let mut end = start + width;
-    let key = end;
-    while end < b.len() && (b[end].is_ascii_alphanumeric() || matches!(b[end], b'_' | b'-' | b'.'))
-    {
-        end += 1;
-    }
+    let key = start + width;
+    let end = query_key_end(b, key);
     if end > key && b.get(end) == Some(&b'=') {
         width
     } else {
@@ -1744,23 +1840,19 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
             query_separator(view, cursor)
         };
         if separator == 0 {
-            cursor += 1;
+            cursor = query_next(b, cursor);
             continue;
         }
         let key_start = cursor + separator;
         cursor = key_start;
-        while cursor < end
-            && (b[cursor].is_ascii_alphanumeric() || matches!(b[cursor], b'_' | b'-' | b'.'))
-        {
-            cursor += 1;
-        }
+        cursor = query_key_end(b, cursor).min(end);
         if b.get(cursor) != Some(&b'=') || !query_key_sensitive(&view.text[key_start..cursor]) {
             continue;
         }
         let value_start = cursor + 1;
         let mut parameter_end = value_start;
         while parameter_end < end && query_separator(view, parameter_end) == 0 {
-            parameter_end += 1;
+            parameter_end = query_next(b, parameter_end);
         }
         let mut value_end = value_start;
         while value_end < parameter_end {
@@ -1866,7 +1958,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             {
                 break;
             }
-            end += 1;
+            end = query_next(b, end);
         }
         cursor = end;
         let authority = scheme.end();
@@ -1895,8 +1987,15 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             let mut start = query + 1;
             while start < end {
                 let mut eq = start;
-                while eq < end && b[eq] != b'=' && b[eq] != b'?' && query_separator(view, eq) == 0 {
-                    eq += 1;
+                while eq < end && b[eq] != b'=' && b[eq] != b'?' {
+                    let (ch, next) = query_character(b, eq, false);
+                    if query_key_character(ch) {
+                        eq = next;
+                    } else if query_separator(view, eq) > 0 {
+                        break;
+                    } else {
+                        eq += 1;
+                    }
                 }
                 if eq == end {
                     break;
@@ -1916,7 +2015,7 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                     && query_separator(view, parameter_end) == 0
                     && (sensitive || b[parameter_end] != b'?')
                 {
-                    parameter_end += 1;
+                    parameter_end = query_next(b, parameter_end);
                 }
                 if sensitive && eq + 1 < parameter_end {
                     spans.push(eq + 1..parameter_end);
