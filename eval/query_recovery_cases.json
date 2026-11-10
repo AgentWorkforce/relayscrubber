@@ -1723,5 +1723,60 @@
     "family": "matched_quote",
     "input": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
     "expected": "https://media.example.invalid/render?caption=\\x27audit notes\\x27&page=2&sig=[REDACTED]"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=\"7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\"&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig='7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9'&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=`7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=`7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9`&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=%227e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9%22&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=\\x277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "quoted_sensitive_recovery",
+    "input": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=\\x277e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\\x27&signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=3",
+    "expected": "https://media.example.invalid/render?caption=\"audit notes&page=2&sig=[REDACTED]&signature=[REDACTED]&page=3"
+  },
+  {
+    "family": "local_value_and_next_url",
+    "input": "https://media.example.invalid/render?caption=\"notes\n&sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9 trailing explanatory words\nhttps://media.example.invalid/?signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"notes\n&sig=[REDACTED] trailing explanatory words\nhttps://media.example.invalid/?signature=[REDACTED]"
   }
 ]
