@@ -1,0 +1,211 @@
+{
+  "benign": {
+    "marker_plus_syntax": [
+      "token:[REDACTED],",
+      "password: [REDACTED];",
+      "token:[REDACTED])",
+      "api_key: [REDACTED] }"
+    ],
+    "marker_scope_overrun": [
+      "token:[REDACTED] ordinary explanatory words",
+      "password: [REDACTED]\n  ordinary continuation",
+      "secret: [REDACTED] // explanation",
+      "token: \"[REDACTED]\" ordinary explanatory words"
+    ],
+    "uuid_session_identifier": [
+      "sessionId=\"11111111-2222-4333-8444-555555555555\"",
+      "session_id: 12345678-1234-4234-8234-123456789abc",
+      "SESSION_ID=abcdef01-2345-4678-9abc-0123456789ab"
+    ],
+    "synthetic_test_literal": [
+      "API_KEY=example",
+      "password=\"example\"",
+      "token: placeholder",
+      "client_secret: YOUR_SECRET_HERE",
+      "api_key: demo"
+    ],
+    "secret_resource_reference": [
+      "existingSecret: demo-auth-store",
+      "existing_secret: team-auth-store",
+      "secretRef: runtime-auth",
+      "secretName: api-credentials",
+      "credentialsFile: /etc/app/credentials.json"
+    ],
+    "angle_placeholder": [
+      "password=<token>",
+      "password: <token>,",
+      "token: <api-key> # placeholder",
+      "api_key: <YOUR_API_KEY>",
+      "secret: <client secret>"
+    ],
+    "authorization_reference_or_scheme": [
+      "headers = {\"Authorization\": \"Bearer \" + token}",
+      "Authorization: Bearer",
+      "Authorization: Basic",
+      "headers = {Authorization: authHeader}",
+      "headers = {authorization: `Bearer ${accessToken}`}"
+    ],
+    "shell_default_reference": [
+      "CLOUD_CREDENTIALS=${CLOUD_CREDENTIALS:-example-config}",
+      "API_KEY=${API_KEY:-example}",
+      "password=\"${PASSWORD:-local-password}\"",
+      "TOKEN=${TOKEN:?required}",
+      "PASSWORD=$PASSWORD"
+    ],
+    "nonsecret_language_literal": [
+      "persist-credentials: false",
+      "password: false",
+      "token: null",
+      "secret: undefined",
+      "credentials: true"
+    ],
+    "url_documentation_placeholder": [
+      "Documentation: https://demo:password@example.invalid/db",
+      "https://user:password@example.com/path",
+      "https://username:password@db.example.org/app",
+      "https://demo:password@localhost/db"
+    ],
+    "type_declaration_or_syntax": [
+      "refresh_token: tokio::sync::Mutex<()>",
+      "token: std::sync::Arc<String>",
+      "password: Option<String>",
+      "interface Config { apiKey: string; token: boolean }",
+      "type Config = { password?: string; token: credential_type }"
+    ],
+    "operator_or_regex_syntax": [
+      "ssh --no-reset-password | head -1",
+      "rg \"token:\" source.rs",
+      "if (token==value && password===candidate) {}",
+      "token==value",
+      "password===candidate",
+      "const pattern = /password=([^ ]+)/g;"
+    ],
+    "prose_or_comment": [
+      "key: the dashboard column name",
+      "// password: the value comes from the environment",
+      "API key is stored in the environment",
+      "token: the parser token used for navigation",
+      "password: see the configuration guide"
+    ],
+    "code_expression_or_reference": [
+      "const apiKey = settings.clientKey;",
+      "const password = credential;",
+      "let token = accessToken;",
+      "const options = {token: client.getToken()};",
+      "const password = settings[\"password\"];",
+      "const token = `${session.token}`;"
+    ]
+  },
+  "positive": [
+    [
+      "api_key",
+      "API_KEY=STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55",
+      "SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "password",
+      "password=\"correct-horse-battery-staple-42\"",
+      "correct-horse-battery-staple-42"
+    ],
+    [
+      "authorization",
+      "Authorization: Bearer SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "url",
+      "postgres://user:SYNTHETICaZ91bY82cX73dW64@db.internal/app",
+      "SYNTHETICaZ91bY82cX73dW64"
+    ],
+    [
+      "session",
+      "sessionId=\"SYNTHETICaZ91bY82cX73dW64eV55\"",
+      "SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "literal_declaration",
+      "const apiKey = \"SYNTHETICaZ91bY82cX73dW64eV55\";",
+      "SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "provider_bare_key",
+      "key=STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55",
+      "SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "credential_context",
+      "aws={key:SYNTH_ALPHA}",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "nested_explicit",
+      "idempotency_key=\"key=selector password=SYNTH_ALPHA SYNTH_BETA\"",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "request_selector",
+      "request_idempotency_key=SYNTH_ALPHA",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "url_encoded",
+      "postgres%3A%2F%2Fuser%3ASYNTH_ALPHA%40db.internal/app",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "url_double_encoded",
+      "postgres%253A%252F%252Fuser%253ASYNTH_ALPHA%2540db.internal/app",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "placeholder_nested",
+      "password=\"<password=SYNTH_ALPHA>\"",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "call_nested",
+      "const token = generate(password=SYNTH_ALPHA);",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "boolean_prefix",
+      "password=false-SYNTH_ALPHA",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "resource_literal",
+      "existingSecret: STRIPE_LIVE_PREFIX_SYNTHETICaZ91bY82cX73dW64eV55",
+      "SYNTHETICaZ91bY82cX73dW64eV55"
+    ],
+    [
+      "marker_nested",
+      "token:[REDACTED] password=SYNTH_ALPHA",
+      "SYNTH_ALPHA"
+    ],
+    [
+      "archived_auth",
+      "{\"auth\": \"SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28\"}",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "archived_bearer",
+      "{\"bearer\": \"SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28\"}",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "archived_secret_arrow",
+      "the secret -> SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28 is rotated",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "archived_password_arrow",
+      "password -> SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ],
+    [
+      "archived_api_key_prose",
+      "API key SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28 was rotated",
+      "SYNTHETICaZ91bY82cX73dW64eV55fU46gT37hS28"
+    ]
+  ]
+}

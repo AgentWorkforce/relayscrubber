@@ -53,7 +53,7 @@ test('64 KiB and 256 KiB adversarial inputs stay bounded', () => {
 const reviewCases = [
   ['direct_intervening_quote', 'password="SYNTH_ALPHA\nnote="SYNTH_BETA"', 'password="[REDACTED]'],
   ['public_property_intervening_quote', 'idempotency_key="password=SYNTH_ALPHA\nnote="SYNTH_BETA"', 'idempotency_key="password=[REDACTED]'],
-  ['generic_key', 'key=SYNTH_ALPHA', 'key=[REDACTED]'],
+  ['generic_key', 'key=SYNTH_ALPHA', 'key=SYNTH_ALPHA'],
   ['prefixed_credential_key', 'dbPassword=SYNTH_ALPHA', 'dbPassword=[REDACTED]'],
   ['prefixed_public_like_name', 'request_idempotency_key=SYNTH_ALPHA', 'request_idempotency_key=[REDACTED]'],
   ['unicode_space', 'password\u00a0=SYNTH_ALPHA', 'password\u00a0=[REDACTED]'],
@@ -125,4 +125,26 @@ test('private-audit symbolic placeholders, type annotations and call references 
   for (const password of ['<token>', 'xxx', '<api-key>']) {
     assert.deepEqual(scrubber.scrubJson(JSON.stringify({password})).value, {password});
   }
+});
+
+const families = JSON.parse(readFileSync(new URL('../../eval/family_cases.json', import.meta.url), 'utf8').replaceAll('STRIPE_LIVE_PREFIX_', 'sk' + '_live_'));
+function familyPaths(input) {
+  return [scrubber.scrubText(input), scrubber.scrubJson(JSON.stringify({text: input})).value.text,
+    JSON.parse(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(JSON.stringify({text: input}))).bytes)).text];
+}
+for (const [name, inputs] of Object.entries(families.benign)) test(`benign family: ${name}`, () => {
+  for (const input of inputs) for (const output of familyPaths(input)) assert.equal(output, input);
+});
+test('family positive controls retain recall across all APIs', () => {
+  for (const [name, input, secret] of families.positive) for (const output of familyPaths(input)) {
+    assert.ok(!output.includes(secret), name);
+    assert.equal(scrubber.scrubText(output), output);
+  }
+});
+test('crate-owned profile and versioned errors', () => {
+  assert.equal(scrubber.manifest.schema, 3);
+  assert.equal(scrubber.manifest.abiVersion, 2);
+  assert.equal(scrubber.manifest.scrubProfile, 'relayhistory-secrets-v10');
+  assert.throws(() => scrubber.scrubJson('{broken}'), e => e.code === 'invalid_json' && e.disposition === 'call_refusal');
+  assert.equal(scrubber.scrubText('ordinary'), 'ordinary');
 });

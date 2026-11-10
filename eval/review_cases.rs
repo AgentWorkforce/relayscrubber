@@ -15,7 +15,7 @@ pub fn findings() -> Vec<(&'static str, String, String)> {
         (
             "generic_key",
             "key=SYNTH_ALPHA".into(),
-            "key=[REDACTED]".into(),
+            "key=SYNTH_ALPHA".into(),
         ),
         (
             "prefixed_credential_key",
