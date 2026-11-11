@@ -1,0 +1,2852 @@
+[
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=***\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=***\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=***M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=*** M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=***\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=***#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"https://example.invalid/?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https://example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https://example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=$PASSWORD'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=$PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=***'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=***'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=***M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=*** M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=***\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=***#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='https://example.invalid/?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https://example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https://example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=${PASSWORD}>open</a>",
+    "expected": "<a href=https://example.invalid/?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=$PASSWORD>open</a>",
+    "expected": "<a href=https://example.invalid/?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=https://example.invalid/?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=https://example.invalid/?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=***>open</a>",
+    "expected": "<a href=https://example.invalid/?password=***>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=***M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=***#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https://example.invalid/?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=https://example.invalid/?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https://example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https://example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"/?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"/?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=$PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=$PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"/?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"/?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=***\">open</a>",
+    "expected": "<a href=\"/?password=***\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=***M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=*** M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=***\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=***#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=***%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"/?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"/?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='/?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=$PASSWORD'>open</a>",
+    "expected": "<a href='/?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=$PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=$PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='/?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='/?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=***'>open</a>",
+    "expected": "<a href='/?password=***'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=***M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=*** M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=***\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=***#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=***%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='/?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='/?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=${PASSWORD}>open</a>",
+    "expected": "<a href=/?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=$PASSWORD>open</a>",
+    "expected": "<a href=/?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=$PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=/?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=/?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=***>open</a>",
+    "expected": "<a href=/?password=***>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=***M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=***#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=***%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=/?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=/?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${PASSWORD}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${PASSWORD} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=$PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=$PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=$PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=***\">open</a>",
+    "expected": "<a href=\"?password=***\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=***M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=*** M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=***\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=***#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=***%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${PASSWORD}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${PASSWORD} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=$PASSWORD'>open</a>",
+    "expected": "<a href='?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=$PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=$PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=$PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=***'>open</a>",
+    "expected": "<a href='?password=***'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=***M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=*** M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=***\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=***#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=***%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=${PASSWORD}>open</a>",
+    "expected": "<a href=?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${PASSWORD}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=$PASSWORD>open</a>",
+    "expected": "<a href=?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=$PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=$PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=***>open</a>",
+    "expected": "<a href=?password=***>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=***M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=***#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=***%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=***\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=***\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=***M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=*** M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=***\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=***#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"//example.invalid/?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"//example.invalid/?password=M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"//example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='//example.invalid/?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${PASSWORD} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${PASSWORD}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=$PASSWORD'>open</a>",
+    "expected": "<a href='//example.invalid/?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=$PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=$PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='//example.invalid/?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=***'>open</a>",
+    "expected": "<a href='//example.invalid/?password=***'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=***M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=*** M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=***\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=***#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='//example.invalid/?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='//example.invalid/?password=M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}` M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}`\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='//example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=${PASSWORD}>open</a>",
+    "expected": "<a href=//example.invalid/?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${PASSWORD}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${PASSWORD}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${PASSWORD}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=$PASSWORD>open</a>",
+    "expected": "<a href=//example.invalid/?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=$PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=$PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=$PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=//example.invalid/?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=//example.invalid/?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=process.env.PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=process.env.PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=***>open</a>",
+    "expected": "<a href=//example.invalid/?password=***>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=***M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=***#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=***%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=//example.invalid/?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=//example.invalid/?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=//example.invalid/?password=M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=`${secrets.password}`M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=`${secrets.password}`#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=//example.invalid/?password=`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORDM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;*** M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;***%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}` M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`\nM8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`#M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=\"https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`%26M8zR4vK7nP2qW6xAq9\">open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}} M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORDM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;*** M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;***%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`'>open</a>",
+    "expected": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}` M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`\nM8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`#M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href='https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`%26M8zR4vK7nP2qW6xAq9'>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${PASSWORD}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;$PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;${{secrets.PASSWORD}}%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORDM8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;process.env.PASSWORD%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;***>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;***>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;***M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;***#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;***%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_complete_reference",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`>open</a>",
+    "expected": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "component_literal_sibling",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`#M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "component_reference_tail",
+    "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  }
+]

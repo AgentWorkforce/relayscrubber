@@ -2,12 +2,8 @@
 use relayscrubber::*;
 use serde_json::{json, Value};
 
-#[test]
-fn alpha4_precision_all_apis() {
-    let cases: Value = serde_json::from_str(
-        &include_str!("../eval/alpha4_precision_cases.json").replace("OPENAI_PREFIX_", "sk-"),
-    )
-    .unwrap();
+fn check(source: &str) {
+    let cases: Value = serde_json::from_str(source).unwrap();
     let mut failures = Vec::new();
     for (id, case) in cases.as_array().unwrap().iter().enumerate() {
         let input = case["input"].as_str().unwrap();
@@ -33,4 +29,14 @@ fn alpha4_precision_all_apis() {
         assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
+}
+
+#[test]
+fn alpha4_precision_all_apis() {
+    check(include_str!("../eval/alpha4_precision_cases.json"));
+}
+
+#[test]
+fn alpha5_component_references_all_apis() {
+    check(include_str!("../eval/alpha5_query_reference_cases.json"));
 }
