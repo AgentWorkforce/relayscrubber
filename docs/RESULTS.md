@@ -4,56 +4,69 @@ Candidate version remains `0.5.0-alpha.3`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
-The component-layer repair finds HTML attribute URL boundaries after decoding
-HTML entities only. Percent escapes remain component data, including reserved
-punctuation, double encoding and entity-wrapped percent signs. Selected values
-map back to their full original source spans. Entity-produced separators remain
-structural even without a following assignment. Component spans take precedence
-when a separate decoded recovery match crosses an actual value boundary.
-Previously supported nested and redirect URL recognition is retained.
+HTML entities establish the outer URL structure. Percent escapes stay inside
+their components: a sensitive outer parameter is redacted through the next
+literal or entity separator, including every encoded credential tail. Public
+values open one percent-decoding layer at a time for nested URL/query discovery.
+Each nested sensitive value stays opaque at its own layer. Original source
+ranges compose through decoding, preserving every surrounding spelling.
 
-Protocol-relative userinfo ends at a literal authority `@`; encoded slashes,
-question marks, fragments, colons and at-signs stay in the password. Public
-usernames containing encoded colons survive. Unquoted attribute boundaries also
-require source-literal delimiters: percent-encoded whitespace, angle brackets
-and quotes cannot truncate a credential or open a quoted attribute.
+Userinfo discovery separates authority delimiter encoding from password data.
+Fully encoded protocol-relative and absolute authorities, including percent
+encodings of HTML entity spellings, retain their complete password source span.
+Reserved slashes, question marks, fragments, equals signs and at-signs cannot
+truncate a password. Public usernames with encoded colons survive unchanged.
+The layer budget is four percent layers and four entity layers; credential-bearing
+public values fail closed if their nested percent budget is exhausted.
 
-Test-only commit `307ff0f` records the baseline before production changes:
-base `69a7435d` fails all four reviewer witnesses on text/JSON/NDJSON and 25,155
-case/API pairs in the initial 84,831-case component matrix. The final component
-matrix contains 84,840 invented cases: 84,592 credential cases and 248 benign
-byte-identical controls. All 38 sensitive keys cross relative, root-relative,
-protocol-relative, query-only and absolute URLs, three quoting forms, literal
-and entity structural delimiters, seven reserved escapes and seven escape
-styles. Styles include upper/lower hex, double encoding, entity-wrapped percent
-signs, mixed reserved data and repeated percent prefixes. The property test also
-exercises this dimension. Every API repeats its output to check idempotence.
+Disjoint lexical URL regions and cached parameter ends avoid overlapping suffix
+scans. Source provenance keeps encoded whitespace, quotes and angle brackets
+inside data. Non-rendering authority guards protect benign public userinfo from
+flattened recovery scans, while sensitive assignments such as
+`password=SYNTH@host` still redact. Known URL-valued public fields retain bare
+userinfo recognition; arbitrary benign search values remain unchanged.
 
-Self-attacks cover assignment-looking encoded delimiters, percent prefixes,
-plus, semicolon separators, fragments, encoded username colons, unquoted
-percent-encoded whitespace/angle brackets, entity separators without assignments,
-and a percent-encoded quote at an attribute's beginning. The last two groups
-have separate failing-before/passing-after checks. Long component values run
-through all APIs and second passes at 2,048 and 16,384 repetitions under the same
-ten-second bound. The original HTML timing inputs and API calls are unchanged.
+Test-only commit `307ff0f` records the initial failure on `69a7435d`: all four
+reviewer witnesses fail across text/JSON/NDJSON, with 25,155 failing case/API
+pairs in the initial outer-component cross-product. Test-only `d81085a` exposes
+the nested credential-tail loss on the previous artifact. Test-only `4fee11b`
+exposes the encoded-authority blocker on `7a08bee` before source edits: 42,765
+failing case/API pairs in its initial cross-product. Additional relative-query
+and assignment-guard regressions also have failing-before/passing-after evidence.
+
+Coverage includes 84,840 outer component cases, 23,002 nested cases and 26,873
+encoded-userinfo cases. The userinfo matrix has 25,821 positives and 1,052 benign
+controls, crossing 22 authority delimiter spellings with seven reserved password
+escapes, seven data styles, additional whole-URL encoding and four contexts.
+Styles cover upper/lower hex, double encoding, numeric/named entity percent
+signs, repeated percent prefixes and mixed reserved data. Five exact reviewer
+encoded-authority witnesses, lexical data escapes and budget controls also run.
+The property test includes both component data and fully encoded authorities.
+Every API checks second-pass stability and original surrounding spelling.
 
 All earlier gates remain unchanged: HTML punctuation 63,906; separator 12,512
 including 188 benign controls; fix13 754; fix12 371+58 and exact 16 MiB; fix11 257;
 matrix 1186/ruling 43/residual 19+17; earlier 27; Bearer 43+9;
-complete 141/numeric 45; tables 34+13; frozen 199. There are no fixture expectation
-changes. The enlarged native/WASM parity corpus has 168,285 text and 168,290
-structured vectors. Both text and structured parity use contiguous batches;
-all cases and assertions remain, with Bun's default watchdog unchanged.
+complete 141/numeric 45; tables 34+13; frozen 199. There are zero fixture
+expectation changes. Self-attacks cover percent-prefixed escapes, plus,
+semicolon separators, fragments, encoded username colons, entity separators
+without assignments and repeated nested prefixes. The original HTML timing
+inputs, API calls, assertions and ten-second bounds remain unchanged.
 
-Hosted Rust 1.88 passes 88 tests on each of Linux and Windows, plus fmt/clippy.
-Node and Bun each pass 689 tests. Frozen witnesses have zero missed secrets or
-second-pass changes; Workers and independent-target reproducibility pass. The
-unchanged long HTML probe measures 3.745s on Linux and 4.282s on Windows. The
-exact downloaded/hash-verified hosted package repeats Node689/Bun689 and Workers.
+Hosted Rust 1.88 passes 96 tests on each of Linux and Windows, plus fmt/clippy.
+Node and Bun each pass 725 tests using 218,160 native text vectors and 218,165
+structured vectors, with all 199 frozen witnesses. Contiguous 8,192-case parity
+batches preserve every assertion and Bun's default watchdog. Frozen witnesses have zero
+missed secrets or second-pass changes; Workers and independent-target
+reproducibility pass. Normalization copies ordinary runs in bulk and clones
+unchanged UTF-8 once; impossible userinfo/HTML scans return early. These changes
+retain the unchanged 16 MiB test and Bun watchdog. The SHA256-verified hosted
+package repeats Node725/Bun725 and Workers locally.
 
-Hosted artifact evidence, platform timings and runtime counts are recorded in
-[the component repair receipt](results/review-fixes.json) under
-`urlComponentLayerRepair`. [The artifact pin](results/artifact.json) and
-[CI receipt](results/ci.json) identify the verified hosted package. Handoff
-requires an immutable exact-head Linux, Windows and WASM CI run repeating all
-gates, including artifact and package pin equality.
+Hosted source, archive/package hashes, runtime counts and platform timings are
+recorded in [the encoded-userinfo repair receipt](results/review-fixes.json)
+under `encodedUserinfoLayerRepair`; historical receipts remain intact.
+[The artifact pin](results/artifact.json) and [CI receipt](results/ci.json)
+identify the verified hosted package. Handoff requires one immutable exact-head
+Linux, Windows and WASM CI run repeating every gate, including source, WASM,
+glue, declarations, adapter and package pin equality.

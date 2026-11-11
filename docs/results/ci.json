@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "hosted-runtime-and-artifact-verified-awaiting-receipt-head-pin-equality",
+  "status": "hosted-runtime-and-artifact-verified",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "0b14cda7abe1a308cf6e1655a0eef509f809d248",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42902080040",
+  "codeCommit": "f8cc7c8282d1d129501d8b5504cd2e0f3241413c",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42925612152",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13804325374,
-  "artifactArchiveSha256": "fcbf0b2869a2e0da61bdc6c8fab584de1c2342e002ad81537f94fb2b71665283",
-  "packageSha256": "f182ca2afefcc37880a921369640fae578c6161a6b24e7a1e31743cc85df8441",
+  "artifactId": 13814092634,
+  "artifactArchiveSha256": "bfc54981fac64fd7103d05328cc1fa5c886fc3e03eb96409c432dc7e65c636b7",
+  "packageSha256": "b9f315d697dac383edaf65c425d118a5aadeb6e42b77bb6a9e29d643bb772b25",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "8f1c36f0afbb68ae4bbabba1684b168e76a2b4f273029b32b13d76b7307e2fa3",
+    "rulesetSourceSha256": "cbbaa358433360534206ef96622715a62c215197f27611986174b2f35c5f41d7",
     "crateVersion": "0.5.0-alpha.3",
     "abiVersion": 2,
     "policy": "secrets",
@@ -22,7 +22,7 @@
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "42910e8bab81b8be8795f15324bf06102425bee52d896f8c8a2b8551822a6f50",
+    "relayscrubber_bg.wasm": "b4039cb783aa73889f160a1fbc30ff9f1dc40d85c184fe0a7d44effb9838d68e",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -40,5 +40,5 @@
     "Linux",
     "Windows"
   ],
-  "runtimeChecks": "Linux88/Windows88/Node689/Bun689, frozen199 zero misses/second passes, Workers/reproducibility passed; source run failed only expected old-pin equality. Final receipt head must pass every gate with updated pins before handoff."
+  "runtimeChecks": "Linux96/Windows96/Node725/Bun725, frozen199 zero misses/second passes, Workers/reproducibility passed; source run failed only expected old-pin equality. Final receipt head must pass every gate with updated pins before handoff."
 }
