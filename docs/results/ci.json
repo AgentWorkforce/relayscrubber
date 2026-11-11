@@ -450,9 +450,21 @@
       "row": 12,
       "oldExpected": "Proposed schema: auth = record { issuer, audience }",
       "newExpected": "Proposed schema: auth = [REDACTED]",
-      "authority": "Same explicit-assignment-over-documentary-context ruling; lead message246242359458385920 and prior ref7456c09bd3e1",
+      "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
       "representation": "Retain original row position with explicit input/expected object; 19 residual controls remain, 18 preserved and one sensitive; all17 positive controls unchanged."
     }
   },
-  "runtimeChecks": "Rust1.88 Linux106/Windows106 fmt/clippy; native timing maxima 2.493s/6.105s below unchanged10s; Node772/Bun772; fresh235546text/235551structured; frozen199 zero misses/regressions/secondpass; Workers/repro/packaging/downloaded replay pass. Source WASM fails only superseded pin equality; receipt-only exact-head gate required."
+  "runtimeChecks": "Rust1.88 Linux106/Windows106 fmt/clippy; native timing maxima 2.493s/6.105s below unchanged10s; Node772/Bun772; fresh235546text/235551structured; frozen199 zero misses/regressions/secondpass; Workers/repro/packaging/downloaded replay pass. Source WASM fails only superseded pin equality; receipt-only exact-head gate required.",
+  "supplementalResidualSiblings": {
+    "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
+    "priorAllGreenHead": "e7f02d398acb180b5609e9bca7a9a6cec8ec6157",
+    "engineSourceUnchanged": true,
+    "hostedArtifact": 13857345338,
+    "nativeRust188": "passed four APIs and idempotence",
+    "exactHostedWasm": "passed four APIs and idempotence",
+    "noFurtherLegacyExpectationChanges": true,
+    "freshTextVectors": 235556,
+    "freshStructuredVectors": 235561,
+    "followupExactHeadGate": "pending"
+  }
 }

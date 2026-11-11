@@ -4,6 +4,21 @@ Candidate version is `0.5.0-alpha.8`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
+## Supplemental residual-row controls
+
+The delayed authoritative ruling (lead ref `4cd7f0bfa23b`, relayed by fab-pipe
+message `246250741124923392`) explicitly confirms `residual_cases.json` row12.
+Its position, exact old/new expectations and all 17 positive controls remain.
+Ten same-position siblings are appended: non-sensitive `mode`/`route` keep the
+original record-shaped RHS; `const`/`let`/`var` object references remain visible,
+including with the same documentary prefix; quoted declaration literals redact.
+All ten pass native Rust 1.88 and exact hosted artifact `13857345338` across four
+APIs and idempotence, with no engine or package-pin change. No other legacy
+expectation is changed. The combined corpus now has 9,552 cases; blocked BFE
+still fails the same 2,282 rows/API with identical failed-ID hashes. Fresh vectors
+now contain 235,556 text / 235,561 structured cases. The follow-up exact-head
+CI gate is required; the e7f validation below remains the preceding all-green receipt.
+
 ## Alpha.8 bare reassignment recall repair
 
 The alpha.7 engine/artifact PASS for `bfeaa79d` was withdrawn by the independent
