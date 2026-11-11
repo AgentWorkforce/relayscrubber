@@ -866,6 +866,146 @@ fn text_cases() -> Vec<Case> {
     cases
 }
 
+/// Realistic benign traffic for the engine-vs-layer differential. Every line
+/// is benign by construction (no credential material) plus deliberate
+/// boundary probes; the test below pins which lines each stage alters, and
+/// EVALS.md adjudicates every alteration, so "mostly false positives" (or
+/// its rebuttal) is a table, not a vibe.
+fn benign_cases() -> Vec<(&'static str, String)> {
+    vec![
+        (
+            "benign/greet",
+            "deploy finished successfully on friday afternoon ok".into(),
+        ),
+        (
+            "benign/dashboard",
+            "deploy to https://ops-dashboard.internal:8443/v2/status ok".into(),
+        ),
+        (
+            "benign/contact",
+            "contact jane.doe@example.com or call 415-555-0132".into(),
+        ),
+        (
+            "benign/mailto",
+            "mailto:ops@example.com sent the report".into(),
+        ),
+        (
+            "benign/home",
+            "path /Users/ops/projects/relayscrubber ok".into(),
+        ),
+        ("benign/semver", "release v2.14.1 is live".into()),
+        (
+            "benign/uuid",
+            "session 550e8400-e29b-41d4-a716-446655440000 started".into(),
+        ),
+        (
+            "benign/sha",
+            "commit a346a7a9e1b2c3d4e5f60718293a4b5c6d7e8f0 done".into(),
+        ),
+        (
+            "benign/agent",
+            "ping overlap-adj-1@linuyc-desktop for status".into(),
+        ),
+        (
+            "benign/dotted-userinfo",
+            "open https://deploy-bot@example.com/hooks done".into(),
+        ),
+        ("benign/plain-user", "notify operator007x on call".into()),
+        ("benign/envref", "run --token $CI_TOKEN --verbose".into()),
+        (
+            "benign/keyhex",
+            format!("key-{}", "abcdef0123456789".repeat(2)),
+        ),
+        (
+            "benign/card-dash",
+            "charge card 4111-1111-1111-1111 denied".into(),
+        ),
+        (
+            "benign/invalid-ssn",
+            "ssn 000-12-3456 test vector ok".into(),
+        ),
+        (
+            "benign/bare-hex40",
+            "token abcdef0123456789abcdef0123456789abcdef01 ok".into(),
+        ),
+        ("benign/port", "port 5432 on db.internal listening".into()),
+        ("benign/marker", "status [REDACTED] already ok".into()),
+        (
+            "benign/json-nulls",
+            r#"{"token": null, "password": true}"#.into(),
+        ),
+        (
+            "benign/ordinary-params",
+            "open https://h.test/x?state=abc&id=7 ok".into(),
+        ),
+        (
+            "benign/grep",
+            r#"grep -rn "access token": src/ | head"#.into(),
+        ),
+        (
+            "benign/switch",
+            r#"case "token": return parseToken(input);"#.into(),
+        ),
+        ("benign/cli-alone", "mysql --password -h db".into()),
+        (
+            "benign/theme-cookie",
+            "Cookie: theme=dark; locale=en".into(),
+        ),
+        ("benign/max-token", r#"{"max_token": 4096}"#.into()),
+        (
+            "benign/key-path",
+            r#"{"Key": "raw/v1/org/session/9f86d081884c7d65.jsonl.zst"}"#.into(),
+        ),
+        ("benign/bearer-short", "Authorization: Bearer abc ok".into()),
+        (
+            "benign/deployed-v",
+            "deployed v192.168.1.9 to staging".into(),
+        ),
+        ("benign/private-ip", "client 10.0.0.5 connected".into()),
+        (
+            "benign/long-user",
+            "open https://operator007x@registry.test/v2/ ok".into(),
+        ),
+    ]
+}
+
+/// Case names where the enhanced layer changes the engine output on the
+/// benign corpus. Any behavior change here fails loudly so it gets
+/// re-adjudicated in EVALS.md instead of slipping through.
+const EXPECTED_MARGINAL: [&str; 2] = ["benign/private-ip", "benign/long-user"];
+
+#[test]
+fn benign_corpus_differential_is_pinned() {
+    let mut engine_changed = 0;
+    let mut marginal = Vec::new();
+    for (name, input) in benign_cases() {
+        let base = scrub_long(&input);
+        let enh = scrub_enhanced(&input);
+        assert_eq!(scrub_enhanced(&enh), enh, "{name}: not idempotent");
+        if base != input {
+            engine_changed += 1;
+        }
+        if enh != base {
+            marginal.push(name);
+        }
+        println!(
+            "benign {name}: engine_changed={} layer_marginal={}",
+            base != input,
+            enh != base
+        );
+    }
+    println!(
+        "benign differential: engine {engine_changed}/{} layer-marginal {}/{}",
+        benign_cases().len(),
+        marginal.len(),
+        benign_cases().len()
+    );
+    assert_eq!(
+        marginal, EXPECTED_MARGINAL,
+        "marginal set drifted; re-adjudicate in EVALS.md"
+    );
+}
+
 /// Inputs that must survive byte-for-byte: the no-false-positive guard.
 fn preserve_cases() -> Vec<(&'static str, String)> {
     vec![
@@ -922,6 +1062,9 @@ fn preserve_cases() -> Vec<(&'static str, String)> {
         ("fp/ansible-header-only", "vault $ANSIBLE_VAULT;1.1;AES256 ok".into()),
         ("fp/xml-mismatch", "xml <password>abc</pass> ok".into()),
         ("fp/kube-short", "cfg client-key-data: key.pem ok".into()),
+        ("fp/version-quad", "software version 10.1.2.3 released".into()),
+        ("fp/version-v", "shipped v10.1.2.3 today".into()),
+        ("fp/version-colon", "version: 10.1.2.3 ok".into()),
         ("fp/email-default", "contact jane.doe@example.com please".into()),
         ("fp/phone-intl", "call +1 (415) 555-0132 tomorrow".into()),
         ("fp/phone-nanp", "call 415-555-0132 tomorrow".into()),

@@ -937,10 +937,52 @@ fn ssn_at(input: &[u8], i: usize) -> Option<Hit> {
     Some((i, i + 11))
 }
 
+/// Whether the quad at `i` is asserted to be a version string: the words
+/// `version`/`ver` (case-insensitive, standalone) after optional spaces and
+/// one `:`/`=` separator, or a bare adjacent `v` with a clean boundary that
+/// is not `=`/`:` (so `password=v10.0.0.5` still redacts). `subversion` and
+/// `server` keep redacting: their trailing `ver` has no boundary.
+fn preceded_by_version_word(input: &[u8], i: usize) -> bool {
+    let mut j = i;
+    while j > 0 && (input[j - 1] == b' ' || input[j - 1] == b'\t') {
+        j -= 1;
+    }
+    let mut k = j;
+    if k > 0 && (input[k - 1] == b':' || input[k - 1] == b'=') {
+        k -= 1;
+        while k > 0 && (input[k - 1] == b' ' || input[k - 1] == b'\t') {
+            k -= 1;
+        }
+    }
+    let head = &input[..k];
+    for word in [b"version".as_slice(), b"ver".as_slice()] {
+        if head.len() >= word.len()
+            && head[head.len() - word.len()..].eq_ignore_ascii_case(word)
+            && (head.len() == word.len()
+                || !head[head.len() - word.len() - 1].is_ascii_alphanumeric())
+        {
+            return true;
+        }
+    }
+    if j == i
+        && i > 0
+        && (input[i - 1] == b'v' || input[i - 1] == b'V')
+        && (i < 2
+            || matches!(
+                input[i - 2],
+                b' ' | b'\t' | b'"' | b'\'' | b'(' | b',' | b'[' | b'{'
+            ))
+    {
+        return true;
+    }
+    false
+}
+
 /// Whether an octet run starting at `i` is a private-range IPv4 address.
 /// Only RFC 1918 (`10/8`, `172.16/12`, `192.168/16`), loopback (`127/8`)
 /// and link-local (`169.254/16`) are redacted: public quads collide with
-/// four-part versions, so they stay (documented, not an oversight).
+/// four-part versions, so they stay, and so do private-range quads asserted
+/// as versions (`version 10.1.2.3`) — documented, not an oversight.
 fn private_ipv4_at(input: &[u8], i: usize) -> Option<Hit> {
     if i > 0 && (input[i - 1].is_ascii_digit() || input[i - 1] == b'.') {
         return None;
@@ -979,6 +1021,9 @@ fn private_ipv4_at(input: &[u8], i: usize) -> Option<Hit> {
         || (octets[0] == 192 && octets[1] == 168)
         || octets[0] == 127
         || (octets[0] == 169 && octets[1] == 254);
+    if private && preceded_by_version_word(input, i) {
+        return None;
+    }
     private.then_some((i, e))
 }
 

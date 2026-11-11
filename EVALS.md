@@ -38,7 +38,7 @@ credential appears anywhere in this repository.
 
 ## Accuracy
 
-`cargo test --test redaction_evals` (11 tests, all green):
+`cargo test --test redaction_evals` (12 tests, all green):
 
 | suite | cases | canonical engine | enhanced | false positives |
 |---|---|---|---|---|
@@ -50,6 +50,7 @@ credential appears anywhere in this repository.
 | must-preserve (no-FP guard) | 46 | 46/46 | 46/46 | 0/46 |
 | JSON entry points + long segments + idempotence + PII policy | — | — | pass | — |
 | adversarial runs + JSON parity + escaped quotes | — | — | pass | — |
+| benign corpus differential (30 lines) | 7 altered | 2 marginal | — | — |
 | **total** | **108 + 46** | **65/108** | **108/108** | **0/46** |
 
 Run with `-- --nocapture` on the summary test to reprint the line:
@@ -86,6 +87,30 @@ webhook URLs, `gsk_`/`AGE-SECRET-KEY-`/`xoxc-` and 24 more provider prefixes,
 shapes, webhook.site/requestbin paths, XML secret elements, session cookies,
 the Elastic `ApiKey` scheme, kubeconfig key data, Ansible Vaults, `sig`/
 `oauth_token`/Amz/Google query names, and empty-user (`redis://:pass@`) URLs.
+
+## Benign-corpus differential
+
+`benign_corpus_differential_is_pinned` runs 30 realistic benign lines
+(prose, dashboards, contacts, code, configs, paths, identifiers) through
+both stages and pins the marginal set, so any behavior change fails loudly
+instead of slipping through. Latest reading (`-- --nocapture` prints it):
+
+- 21/30 pass through both stages byte-identical (greetings, dashboard URLs,
+  emails, phones, mailto, home paths, semver, UUIDs, SHAs, agent addresses,
+  dotted/short userinfo, env refs, Mailgun-shaped `key-` hex, dashed cards,
+  invalid SSNs, bare 40-hex after `token`, ports, markers, JSON nulls,
+  ordinary `state`/`id` params, version quads).
+- 7/30 altered by the engine, unchanged by the layer: `grep`/`switch`/
+  `cli-alone`/`key-path` (filed as SPEC violations, see below) and
+  `theme-cookie`/`max-token`/`bearer-short` (contracted engine behavior).
+- 2/30 marginally altered by the layer, both by design: `private-ip`
+  (internal-IP anonymization is the feature, not a bug) and `long-user`
+  (a 12+ mixed-class password-less userinfo user is treated as a registry
+  token; dotted and short users are pinned as preserved controls).
+- Version-shaped private quads (`version 10.1.2.3`, `v10.1.2.3`,
+  `version: 10.1.2.3`) are preserved by a `version`/`ver`/bare-`v`
+  lookbehind; `server`/`subversion`/typos and `password=v10…` values still
+  redact (fail-closed).
 
 ## Upstream precision reports (engine-owned)
 
