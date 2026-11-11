@@ -99,7 +99,7 @@ fn is_param_end(c: u8) -> bool {
 type Hit = (usize, usize);
 
 /// `replace_all` over bytes: `at(input, i)` is the hit starting at `i`, if any.
-fn replace_each(input: &[u8], at: impl Fn(&[u8], usize) -> Option<Hit>) -> Vec<u8> {
+fn replace_each(input: &[u8], mut at: impl FnMut(&[u8], usize) -> Option<Hit>) -> Vec<u8> {
     let mut out = Vec::with_capacity(input.len());
     let mut last = 0;
     let mut i = 0;
@@ -263,15 +263,16 @@ fn telegram_at(input: &[u8], i: usize) -> Option<Hit> {
 }
 
 /// A Terraform Cloud token: `20+ token chars` ending in `.atlasv1`.
-fn atlasv1_at(input: &[u8], i: usize) -> Option<Hit> {
+/// `run_end` is the cached end of the token-byte run through `i`: rescanning
+/// a long token-less run to its end at every position is quadratic, and long
+/// accepted tokens must keep matching, so no length cap is imposed. The
+/// cached end equals the inline scan exactly.
+fn atlasv1_at(input: &[u8], i: usize, run_end: usize) -> Option<Hit> {
     if i > 0 && is_word_byte(input[i - 1]) {
         return None;
     }
     // The body run stops before `.`, so it holds just the 20+ token chars.
-    let mut e = i;
-    while e < input.len() && is_tok_byte(input[e]) {
-        e += 1;
-    }
+    let e = run_end;
     if e - i < 20 || input.len() < e + 8 || input[e..e + 8] != *b".atlasv1" {
         return None;
     }
@@ -572,8 +573,11 @@ fn cookie_at(input: &[u8], i: usize) -> Option<Hit> {
     if i > 0 && (is_word_byte(input[i - 1]) || input[i - 1] == b'-') {
         return None;
     }
+    // No cookie name exceeds 13 bytes: cap the scan so a long delimiter-free
+    // run cannot make every position walk to its end (quadratic).
     let mut n = i;
     while n < input.len()
+        && n - i < 16
         && !matches!(
             input[n],
             b'=' | b';' | b' ' | b'\t' | b'\r' | b'\n' | b'"' | b'\''
@@ -732,7 +736,12 @@ fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
 /// Redact `?name=value` / `&name=value` / `#name=value` precisely, stopping
 /// at `&` so sibling parameters survive. Runs before [`crate::scrub_long`] so the
 /// greedy assignment rule never sees the raw value.
-fn pre_pass_params(input: &[u8]) -> Vec<u8> {
+///
+/// `json` is for raw JSON text: a backslash escape ends the value before
+/// `\"`/`\'`/`\n`/`\r`/`\t` (so the closing quote survives and the document
+/// stays valid) and consumes any other escape pair whole (so `\\` stays
+/// correct). Plain text keeps the raw-delimiter scan.
+fn pre_pass_params(input: &[u8], json: bool) -> Vec<u8> {
     let mut out = Vec::with_capacity(input.len());
     let mut i = 0;
     while i < input.len() {
@@ -745,6 +754,14 @@ fn pre_pass_params(input: &[u8]) -> Vec<u8> {
                     if input.get(v) == Some(&b'=') {
                         let mut e = v + 1;
                         while e < input.len() && !is_param_end(input[e]) {
+                            if json && input[e] == b'\\' {
+                                match input.get(e + 1) {
+                                    Some(b'"') | Some(b'\'') | Some(b'n') | Some(b'r')
+                                    | Some(b't') => break,
+                                    Some(_) => e += 1,
+                                    None => {}
+                                }
+                            }
                             e += 1;
                         }
                         if e == v + 1 {
@@ -1012,12 +1029,12 @@ fn userinfo_token_at(input: &[u8], i: usize) -> Option<Hit> {
 /// sixteen full-text passes: every rule only ever inserts `[REDACTED]`, so
 /// matches never nest and first-hit-wins equals the old sequential result
 /// (pinned by the eval suite's exact-output assertions).
-fn post_hit_at(input: &[u8], i: usize) -> Option<Hit> {
+fn post_hit_at(input: &[u8], i: usize, run_end: usize) -> Option<Hit> {
     new_provider_at(input, i)
         .or_else(|| extra_provider_at(input, i))
         .or_else(|| mailchimp_at(input, i))
         .or_else(|| telegram_at(input, i))
-        .or_else(|| atlasv1_at(input, i))
+        .or_else(|| atlasv1_at(input, i, run_end))
         .or_else(|| discord_at(input, i))
         .or_else(|| webhook_host_at(input, i))
         .or_else(|| ansible_at(input, i))
@@ -1032,7 +1049,22 @@ fn post_hit_at(input: &[u8], i: usize) -> Option<Hit> {
 }
 
 fn post_pass(input: &[u8]) -> Vec<u8> {
-    replace_each(input, post_hit_at)
+    // End of the token-byte run under the scan cursor, for `atlasv1_at`.
+    // Each forward scan starts where the last run ended and the cursor only
+    // moves forward, so every byte is walked at most once per pass; the
+    // input is never mutated mid-scan, so the cached end stays valid across
+    // earlier hits and later matches are retained.
+    let mut run = (0usize, 0usize);
+    replace_each(input, |buf, i| {
+        if i >= run.1 {
+            let mut e = i;
+            while e < buf.len() && is_tok_byte(buf[e]) {
+                e += 1;
+            }
+            run = (i, e);
+        }
+        post_hit_at(buf, i, run.1)
+    })
 }
 
 fn utf8(bytes: Vec<u8>) -> String {
@@ -1059,9 +1091,46 @@ pub fn scrub_enhanced(value: &str) -> String {
 /// webhooks, CLI flags, private IPv4, userinfo tokens) applies either way.
 #[must_use]
 pub fn scrub_enhanced_with_policy(value: &str, policy: Policy) -> String {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(value.as_bytes())));
+    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
+        value.as_bytes(),
+        false,
+    )));
     let mid = scrub_text_with_policy(&pre, policy);
     utf8(post_pass(mid.as_bytes()))
+}
+
+/// Apply both text pre-passes to every string value and key of a JSON tree,
+/// so the value entry points treat query parameters and userinfo exactly
+/// like the text entry point. Values arrive parsed (escapes already
+/// decoded), so the plain-text scan applies. Keys that would collide after
+/// substitution keep their original spelling; the canonical scrub resolves
+/// collisions itself.
+fn pre_pass_value(node: &mut Value) {
+    match node {
+        Value::String(s) => {
+            *s = utf8(pre_pass_bare_userinfo(&pre_pass_params(
+                s.as_bytes(),
+                false,
+            )));
+        }
+        Value::Array(items) => items.iter_mut().for_each(pre_pass_value),
+        Value::Object(map) => {
+            let entries: Vec<(String, Value)> = std::mem::take(map).into_iter().collect();
+            for (key, mut item) in entries {
+                pre_pass_value(&mut item);
+                let fixed = utf8(pre_pass_bare_userinfo(&pre_pass_params(
+                    key.as_bytes(),
+                    false,
+                )));
+                if fixed != key && map.contains_key(&fixed) {
+                    map.insert(key, item);
+                } else {
+                    map.insert(fixed, item);
+                }
+            }
+        }
+        _ => {}
+    }
 }
 
 /// `${base} (n)` for the first free `n`, mirroring the canonical JSON rule.
@@ -1130,7 +1199,9 @@ pub fn scrub_json_enhanced(value: &Value) -> (Value, usize) {
 /// to the canonical engine (see [`scrub_enhanced_with_policy`]).
 #[must_use]
 pub fn scrub_json_enhanced_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
-    let (mut clean, mut count) = scrub_json_with_policy(value, policy);
+    let mut pre = value.clone();
+    pre_pass_value(&mut pre);
+    let (mut clean, mut count) = scrub_json_with_policy(&pre, policy);
     count += post_pass_value(&mut clean);
     (clean, count)
 }
@@ -1142,7 +1213,10 @@ pub fn scrub_json_enhanced_with_policy(value: &Value, policy: Policy) -> (Value,
 /// point returns `None`.
 #[must_use]
 pub fn scrub_json_text_enhanced(text: &str) -> Option<(Value, usize)> {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(text.as_bytes())));
+    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
+        text.as_bytes(),
+        true,
+    )));
     let (mut clean, mut count) = scrub_json_text(&pre)?;
     count += post_pass_value(&mut clean);
     Some((clean, count))
@@ -1153,9 +1227,10 @@ pub fn scrub_json_text_enhanced(text: &str) -> Option<(Value, usize)> {
 /// to [`scrub_json_with_policy`]; `None` exactly for invalid JSON.
 #[must_use]
 pub fn scrub_json_text_enhanced_with_policy(text: &str, policy: Policy) -> Option<(Value, usize)> {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(text.as_bytes())));
+    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
+        text.as_bytes(),
+        true,
+    )));
     let parsed: Value = serde_json::from_str(&pre).ok()?;
-    let (mut clean, mut count) = scrub_json_with_policy(&parsed, policy);
-    count += post_pass_value(&mut clean);
-    Some((clean, count))
+    Some(scrub_json_enhanced_with_policy(&parsed, policy))
 }

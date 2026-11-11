@@ -12,7 +12,7 @@ use relayscrubber::{
     scrub_enhanced, scrub_enhanced_with_policy, scrub_json_enhanced, scrub_json_text_enhanced,
     scrub_long, Policy,
 };
-use serde_json::json;
+use serde_json::{json, Value};
 
 struct Case {
     name: &'static str,
@@ -1012,6 +1012,42 @@ fn json_entry_points_cover_new_shapes() {
     let (twice, twice_count) = scrub_json_text_enhanced(&reserialized).unwrap();
     assert_eq!(twice, clean);
     assert_eq!(twice_count, 0);
+}
+
+#[test]
+fn adversarial_runs_complete_without_quadratic_scan() {
+    // `a-` is one long token-byte run with no `.atlasv1`: rescanning it to
+    // its end at every position grows quadratically (seconds at 256KB).
+    let run = "a-".repeat(131_072);
+    assert_eq!(scrub_enhanced(&run), run);
+    // `,` never ends a cookie-name scan: same blowup shape, same fix.
+    let commas = "a,".repeat(131_072);
+    assert_eq!(scrub_enhanced(&commas), commas);
+}
+
+#[test]
+fn json_values_get_query_and_userinfo_prepasses() {
+    // `sig` is not an engine query name: without the value pre-pass it leaks.
+    let text = "https://h.test/x?sig=abc123&x=1";
+    let (clean, _) = scrub_json_enhanced(&json!({ "u": text }));
+    assert_eq!(clean["u"], Value::String(scrub_enhanced(text)));
+    // Empty-user Redis URL inside a value: same treatment as text.
+    let redis = "open redis://:hunter2xQ9@db.internal:6379/0 ok";
+    let (clean, _) = scrub_json_enhanced(&json!({ "u": redis }));
+    assert_eq!(clean["u"], Value::String(scrub_enhanced(redis)));
+}
+
+#[test]
+fn json_text_keeps_escaped_quotes_valid() {
+    let text = "{\"u\":\"https://h.test/x?token=ab\\\"cd\"}";
+    let (clean, count) = scrub_json_text_enhanced(text).expect("valid JSON stays valid");
+    assert!(count >= 1, "labeled token value went uncounted");
+    let back = serde_json::to_string(&clean).expect("reserializes");
+    assert!(
+        !back.contains("ab"),
+        "escaped token prefix leaked -> {back:?}"
+    );
+    assert!(serde_json::from_str::<Value>(&back).is_ok());
 }
 
 #[test]

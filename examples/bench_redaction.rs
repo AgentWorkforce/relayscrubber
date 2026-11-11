@@ -1,4 +1,4 @@
-//! Throughput benchmark: `scrub_long` (ruleset 8) vs `scrub_enhanced`.
+//! Throughput benchmark: `scrub_long` (canonical engine) vs `scrub_enhanced`.
 //!
 //! Run with `cargo run --release --example bench_redaction`. All content is
 //! synthetic. Prints a small table of MB/s per workload; use it to record
@@ -60,10 +60,17 @@ fn bench(name: &str, input: &str) {
     }
 }
 
+/// Long delimiter-free runs with commas: the shape that made the cookie-name
+/// scan quadratic before its 16-byte cap (regression workload, not a secret).
+fn workload_commas(size: usize) -> String {
+    "a,".repeat(size.div_ceil(2))
+}
+
 fn main() {
     println!("workload sizes are input MB; `out` shows redaction shrink");
     bench("clean-1MB", &workload_clean(1_048_576));
     bench("mixed-1MB", &workload_mixed(1_048_576));
     bench("mixed-256KB", &workload_mixed(262_144));
-    bench("boundary-300KB", &workload_mixed(307_200));
+    bench("mixed-300KB", &workload_mixed(307_200));
+    bench("commas-256KB", &workload_commas(262_144));
 }

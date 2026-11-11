@@ -1,6 +1,8 @@
 //! Test-only JSON transport used by the TypeScript parity script.
 
-use relayscrubber::{scrub_enhanced, scrub_json_text, scrub_long, scrub_text};
+use relayscrubber::{
+    scrub_enhanced, scrub_json_text, scrub_json_text_enhanced, scrub_long, scrub_text,
+};
 use std::io::{self, Read};
 
 fn main() {
@@ -11,7 +13,14 @@ fn main() {
         let values: Vec<String> = serde_json::from_str(&input).expect("JSON text array");
         let output: Vec<serde_json::Value> = values
             .iter()
-            .map(|value| scrub_json_text(value).expect("valid JSON text").0)
+            .map(|value| {
+                let scrubbed = if enhanced {
+                    scrub_json_text_enhanced(value)
+                } else {
+                    scrub_json_text(value)
+                };
+                scrubbed.expect("valid JSON text").0
+            })
             .collect();
         serde_json::to_writer(io::stdout(), &output).expect("write JSON result");
         return;

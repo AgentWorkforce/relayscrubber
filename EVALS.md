@@ -27,11 +27,16 @@ credential appears anywhere in this repository.
   and SSN shapes must not survive; the default policy preserves contact
   details by contract.
 - `scrub_json_enhanced` / `scrub_json_text_enhanced` — the same treatment for
-  JSON values and JSON text (collision suffixes and counts preserved).
+  JSON values and JSON text (collision suffixes and counts preserved). The
+  value entry point runs both pre-passes over every string value and key
+  before the canonical scrub, so it matches the text entry point exactly
+  (pinned by parity tests for query parameters and empty-user Redis URLs).
+  The text entry point scans values escape-aware, so `\"` inside a JSON
+  string cannot corrupt the document.
 
 ## Accuracy
 
-`cargo test --test redaction_evals` (8 tests, all green):
+`cargo test --test redaction_evals` (11 tests, all green):
 
 | suite | cases | canonical engine | enhanced | false positives |
 |---|---|---|---|---|
@@ -42,6 +47,7 @@ credential appears anywhere in this repository.
 | batch-2 shapes (providers, XML, cookies, URLs) | 38 | 9/38 | 38/38 | — |
 | must-preserve (no-FP guard) | 46 | 46/46 | 46/46 | 0/46 |
 | JSON entry points + long segments + idempotence + PII policy | — | — | pass | — |
+| adversarial runs + JSON parity + escaped quotes | — | — | pass | — |
 | **total** | **108 + 46** | **65/108** | **108/108** | **0/46** |
 
 Run with `-- --nocapture` on the summary test to reprint the line:
@@ -105,18 +111,23 @@ emails, phones, cards, and home paths.
 
 | workload | `scrub_long` | `scrub_enhanced` | overhead |
 |---|---|---|---|
-| clean 1 MB log | 123.07 MB/s | 29.64 MB/s | ~4.2x |
-| mixed 1 MB (tokens + URLs) | 49.90 MB/s | 23.89 MB/s | ~2.1x |
-| mixed 256 KB | 51.12 MB/s | 23.99 MB/s | ~2.1x |
-| boundary 300 KB | 50.94 MB/s | 24.02 MB/s | ~2.1x |
+| clean 1 MB log | 124.79 MB/s | 28.88 MB/s | ~4.3x |
+| mixed 1 MB (tokens + URLs) | 48.76 MB/s | 23.29 MB/s | ~2.1x |
+| mixed 256 KB | 49.01 MB/s | 23.28 MB/s | ~2.1x |
+| mixed 300 KB | 49.24 MB/s | 23.40 MB/s | ~2.1x |
+| commas 256 KB (regression) | 108.13 MB/s | 16.35 MB/s | ~6.6x |
 
 The enhanced layer costs two linear pre-passes plus one fused post-pass on
-top of the engine, so budget roughly 2x on secret-bearing input. Bulk
-scrubbing of known-clean logs should call `scrub_long` directly; session
-uploads (tens to hundreds of KB of untrusted text) cost single-digit
-milliseconds either way. Machine noise applies; re-run on the host you care
-about. The enhanced output is smaller on mixed input (0.72 vs 0.86 MB out
-per 1 MB in): the extra time is spent catching 43 more leak classes.
+top of the engine, so budget roughly 2x on secret-bearing input. Two
+quadratic scans found in review (Atlas run rescans, cookie-name scans) are
+fixed — run-end caching and a 16-byte name cap — and pinned by an
+adversarial test plus the commas workload; what remains on pathological
+inputs is linear per-byte matcher overhead, not blowup. Bulk scrubbing of
+known-clean logs should call `scrub_long` directly; session uploads (tens
+to hundreds of KB of untrusted text) cost single-digit milliseconds either
+way. Machine noise applies; re-run on the host you care about. The
+enhanced output is smaller on mixed input (0.72 vs 0.86 MB out per 1 MB
+in): the extra time is spent catching 43 more leak classes.
 
 ## Canonical code untouched
 
