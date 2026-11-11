@@ -20,8 +20,12 @@ additional tails fail closed.
 The 9,542 invented controls cover all explicit key families, case spellings,
 export prefixes, source-shaped values, literal siblings, declarations and all
 four APIs plus idempotence. Pinned Rust 1.88 native and the exact downloaded
-alpha.7 WASM artifact fail the same 2,282 rows per API. Targeted successor native
-tests pass. Full gates, hosted successor replay and independent review are pending.
+alpha.7 WASM artifact fail the same 2,282 rows per API. The successor passes all 38,168 expectations and idempotence on native and
+exact downloaded hosted WASM. Source CI passes Rust 1.88 Linux106/Windows106,
+fmt, clippy with warnings denied, frozen199 with no misses, Node772/Bun772,
+Workers, reproducibility and packaging. The source WASM job fails only the old
+committed artifact pin comparison. Receipt-only exact-head all-green and
+independent engine/artifact review remain required.
 
 The lead explicitly authorizes 45 preservation-to-sensitive expectation
 corrections in `eval/alpha6_syntax_cases.json`; every row, old output and new output
@@ -34,6 +38,16 @@ input/expected object (19 controls, 18 preserved and one sensitive). The receipt
 enumerates this correction too. All other legacy fixture rows, declaration
 controls and security positives are unchanged. This retains alpha.7 whitespace and full-passphrase repairs. Desktop
 adoption, publication and a new security PASS remain separately scoped.
+
+Verified [source CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/43021347175), artifact `13855726467`:
+package `7f08abcda6ee1e463a2414878131433631de869125c8f9153ed8c9ded555f099`, WASM `546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825`,
+source `653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714`. Official archive digest and all six payload
+pins match. The downloaded package passes Node772/Bun772 against fresh
+235,546 text / 235,551 structured vectors. All 226,004 prior text / 226,009 prior
+structured outputs were compared: exactly the 45 authorized bare expectations
+change in each API group; every other prior output is byte-identical.
+Native timing maxima Linux 2.493s / Windows 6.105s remain below
+unchanged 10s, with the unchanged 5s WASM checks passing.
 
 ## Historical alpha.7 passphrase repair (PASS withdrawn)
 

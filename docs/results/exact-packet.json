@@ -2431,5 +2431,42 @@
     "localHostedPackageReplay": "Node60/Bun60, exact1186/final-ruling43/residual19benign+17positive across all3APIs,199frozen and Workers pass.",
     "pinEqualityGate": "Exact-head rebuild must equal committed source/WASM/glue/adapter pins and package digest. Candidate equality and final PR12 CI linked from PR12 body."
   },
-  "standaloneBearerFollowup": "docs/results/bearer-prefix.json"
+  "standaloneBearerFollowup": "docs/results/bearer-prefix.json",
+  "alpha8AssignmentRuling": {
+    "source": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+    "correction": {
+      "file": "eval/residual_cases.json",
+      "jsonPointer": "/benign/12",
+      "row": 12,
+      "oldExpected": "Proposed schema: auth = record { issuer, audience }",
+      "newExpected": "Proposed schema: auth = [REDACTED]",
+      "authority": "Same explicit-assignment-over-documentary-context ruling; lead message246242359458385920 and prior ref7456c09bd3e1",
+      "representation": "Retain original row position with explicit input/expected object; 19 residual controls remain, 18 preserved and one sensitive; all17 positive controls unchanged."
+    },
+    "currentResidualFixtureSha256": "0898a69b1456bb41ea16dc56855d89b210bae9110c4b3ae4deebeadd0e749936",
+    "hostedReplay": {
+      "schema": 1,
+      "source": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+      "exactPacket": {
+        "cases": 1186,
+        "failures": []
+      },
+      "finalRuling": {
+        "cases": 43,
+        "failures": []
+      },
+      "residualBenign": {
+        "cases": 19,
+        "failures": []
+      },
+      "residualPositive": {
+        "cases": 17,
+        "failures": []
+      },
+      "nestedStructuredJsonRecords": [
+        true,
+        true
+      ]
+    }
+  }
 }
