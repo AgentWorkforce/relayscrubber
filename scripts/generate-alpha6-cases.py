@@ -28,7 +28,16 @@ forms = {
     "identifier": "widgetPassword",
     "uppercase": "WIDGET_CREDENTIAL",
 }
+for prefix in ["", "const "]:
+    for literal in ["plain-secret", "123456"]:
+        hide("block_comment_rhs_attack", f"{prefix}token = /*{literal}*/;", literal)
+    for slash in ["%2F", "%252f", r"\x2f", r"\u002f"]:
+        hide("encoded_comment_lexer_attack", f"{prefix}token = widget.value {slash}{slash}plain-secret{slash};", "plain-secret")
 for family, expression in forms.items():
+    for prefix in ["", "const "]:
+        for literal in ["plain-secret", "123456"]:
+            for tail in [f" //{literal}/", f" /*{literal}*/"]:
+                hide(family + "_comment_lexer_attack", f"{prefix}token = {expression}{tail};", literal)
     for key in ["password", "token", "session_id", "PASSWORD"]:
         for prefix in ["", "const "]:
             text = f"{prefix}{key} = {expression};"

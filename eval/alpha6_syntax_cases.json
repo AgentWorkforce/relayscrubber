@@ -1,5 +1,105 @@
 [
   {
+    "family": "block_comment_rhs_attack",
+    "input": "token = /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "block_comment_rhs_attack",
+    "input": "token = /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "token = widget.value %2F%2Fplain-secret%2F;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "token = widget.value %252f%252fplain-secret%252f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "token = widget.value \\x2f\\x2fplain-secret\\x2f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "token = widget.value \\u002f\\u002fplain-secret\\u002f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "block_comment_rhs_attack",
+    "input": "const token = /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "block_comment_rhs_attack",
+    "input": "const token = /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "const token = widget.value %2F%2Fplain-secret%2F;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "const token = widget.value %252f%252fplain-secret%252f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "const token = widget.value \\x2f\\x2fplain-secret\\x2f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_lexer_attack",
+    "input": "const token = widget.value \\u002f\\u002fplain-secret\\u002f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "token = /widget[a-z]+/g //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "token = /widget[a-z]+/g /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "token = /widget[a-z]+/g //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "token = /widget[a-z]+/g /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "const token = /widget[a-z]+/g //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "const token = /widget[a-z]+/g /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "const token = /widget[a-z]+/g //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_comment_lexer_attack",
+    "input": "const token = /widget[a-z]+/g /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "regex",
     "input": "password = /widget[a-z]+/g;",
     "expected": "password = /widget[a-z]+/g;"
@@ -973,6 +1073,46 @@
     "family": "regex_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "token = readWidget(input) //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "token = readWidget(input) /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "token = readWidget(input) //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "token = readWidget(input) /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "const token = readWidget(input) //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "const token = readWidget(input) /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "const token = readWidget(input) //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_comment_lexer_attack",
+    "input": "const token = readWidget(input) /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "call",
@@ -1950,6 +2090,46 @@
     "secret": "12.375"
   },
   {
+    "family": "member_comment_lexer_attack",
+    "input": "token = widget.credentials //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "token = widget.credentials /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "token = widget.credentials //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "token = widget.credentials /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "const token = widget.credentials //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "const token = widget.credentials /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "const token = widget.credentials //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_comment_lexer_attack",
+    "input": "const token = widget.credentials /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "member",
     "input": "password = widget.credentials;",
     "expected": "password = widget.credentials;"
@@ -2923,6 +3103,46 @@
     "family": "member_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "token = widget.primary + widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "token = widget.primary + widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "token = widget.primary + widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "token = widget.primary + widget.secondary /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "const token = widget.primary + widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "const token = widget.primary + widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "const token = widget.primary + widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_comment_lexer_attack",
+    "input": "const token = widget.primary + widget.secondary /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "operator",
@@ -3900,6 +4120,46 @@
     "secret": "12.375"
   },
   {
+    "family": "logical_comment_lexer_attack",
+    "input": "token = widget.primary && widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "token = widget.primary && widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "token = widget.primary && widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "token = widget.primary && widget.secondary /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "const token = widget.primary && widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "const token = widget.primary && widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "const token = widget.primary && widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_comment_lexer_attack",
+    "input": "const token = widget.primary && widget.secondary /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "logical",
     "input": "password = widget.primary && widget.secondary;",
     "expected": "password = widget.primary && widget.secondary;"
@@ -4873,6 +5133,46 @@
     "family": "logical_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "token = widget.ready ? widget.primary : widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "token = widget.ready ? widget.primary : widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "token = widget.ready ? widget.primary : widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "token = widget.ready ? widget.primary : widget.secondary /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_comment_lexer_attack",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "conditional",
@@ -5850,6 +6150,46 @@
     "secret": "12.375"
   },
   {
+    "family": "object_comment_lexer_attack",
+    "input": "token = {widget: 1} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "token = {widget: 1} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "token = {widget: 1} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "token = {widget: 1} /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "const token = {widget: 1} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "const token = {widget: 1} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "const token = {widget: 1} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_comment_lexer_attack",
+    "input": "const token = {widget: 1} /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "object",
     "input": "password = {widget: 1};",
     "expected": "password = {widget: 1};"
@@ -6823,6 +7163,46 @@
     "family": "object_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "token = {widget: {count: 1}} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "token = {widget: {count: 1}} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "token = {widget: {count: 1}} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "token = {widget: {count: 1}} /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "const token = {widget: {count: 1}} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "const token = {widget: {count: 1}} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "const token = {widget: {count: 1}} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_comment_lexer_attack",
+    "input": "const token = {widget: {count: 1}} /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "nested_object",
@@ -7800,6 +8180,46 @@
     "secret": "12.375"
   },
   {
+    "family": "array_comment_lexer_attack",
+    "input": "token = [widget.primary, widget.secondary] //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "token = [widget.primary, widget.secondary] /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "token = [widget.primary, widget.secondary] //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "token = [widget.primary, widget.secondary] /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "const token = [widget.primary, widget.secondary] //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "const token = [widget.primary, widget.secondary] /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "const token = [widget.primary, widget.secondary] //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_comment_lexer_attack",
+    "input": "const token = [widget.primary, widget.secondary] /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "array",
     "input": "password = [widget.primary, widget.secondary];",
     "expected": "password = [widget.primary, widget.secondary];"
@@ -8775,6 +9195,46 @@
     "secret": "12.375"
   },
   {
+    "family": "template_comment_lexer_attack",
+    "input": "token = ${widget.credentials} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "token = ${widget.credentials} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "token = ${widget.credentials} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "token = ${widget.credentials} /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "const token = ${widget.credentials} //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "const token = ${widget.credentials} /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "const token = ${widget.credentials} //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_comment_lexer_attack",
+    "input": "const token = ${widget.credentials} /*123456*/;",
+    "secret": "123456"
+  },
+  {
     "family": "template",
     "input": "password = ${widget.credentials};",
     "expected": "password = ${widget.credentials};"
@@ -9708,6 +10168,46 @@
     "family": "template_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "token = widgetPassword //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "token = widgetPassword /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "token = widgetPassword //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "token = widgetPassword /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "const token = widgetPassword //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "const token = widgetPassword /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "const token = widgetPassword //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_comment_lexer_attack",
+    "input": "const token = widgetPassword /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "identifier",
@@ -10683,6 +11183,46 @@
     "family": "identifier_numeric",
     "input": "const token = 12.375;",
     "secret": "12.375"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "token = WIDGET_CREDENTIAL //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "token = WIDGET_CREDENTIAL /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "token = WIDGET_CREDENTIAL //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "token = WIDGET_CREDENTIAL /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "const token = WIDGET_CREDENTIAL //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "const token = WIDGET_CREDENTIAL /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "const token = WIDGET_CREDENTIAL //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_comment_lexer_attack",
+    "input": "const token = WIDGET_CREDENTIAL /*123456*/;",
+    "secret": "123456"
   },
   {
     "family": "uppercase",
