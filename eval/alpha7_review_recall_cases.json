@@ -6538,5 +6538,65 @@
     "family": "cli_argument_boundary",
     "input": "- tool --API_KEY=\"Blue ocean tree moon\" --format json",
     "expected": "- tool --API_KEY=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"password\": 1234 ocean tree moon",
+    "expected": "- Config \"password\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"password\": 1e3 ocean tree moon",
+    "expected": "- Config \"password\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"password\": 0 ocean tree moon",
+    "expected": "- Config \"password\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"token\": 1234 ocean tree moon",
+    "expected": "- Config \"token\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"token\": 1e3 ocean tree moon",
+    "expected": "- Config \"token\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"token\": 0 ocean tree moon",
+    "expected": "- Config \"token\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"api_key\": 1234 ocean tree moon",
+    "expected": "- Config \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"api_key\": 1e3 ocean tree moon",
+    "expected": "- Config \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"api_key\": 0 ocean tree moon",
+    "expected": "- Config \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"session_id\": 1234 ocean tree moon",
+    "expected": "- Config \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"session_id\": 1e3 ocean tree moon",
+    "expected": "- Config \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "quoted_key_numeric_passphrase",
+    "input": "- Config \"session_id\": 0 ocean tree moon",
+    "expected": "- Config \"session_id\": [REDACTED]"
   }
 ]
