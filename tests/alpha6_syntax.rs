@@ -35,11 +35,11 @@ fn alpha6_complete_syntax_and_literal_siblings_all_apis() {
 }
 
 #[test]
-fn bare_key_paths_and_credential_scope_agree_across_structured_apis() {
+fn bare_key_literals_and_credential_scope_agree_across_structured_apis() {
     for (input, expected) in [
         (
             json!({"Key":"raw/v1/widget.jsonl.zst"}),
-            json!({"Key":"raw/v1/widget.jsonl.zst"}),
+            json!({"Key":REDACTION_TOKEN}),
         ),
         (
             json!({"credentials":{"Key":"plain-secret"}}),

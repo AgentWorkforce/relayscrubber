@@ -325,9 +325,9 @@
     "secret": "123456"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "password = /widget[a-z]+/g;",
-    "expected": "password = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -445,9 +445,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "const password = /widget[a-z]+/g;",
-    "expected": "const password = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -565,9 +565,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "token = /widget[a-z]+/g;",
-    "expected": "token = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -685,9 +685,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "const token = /widget[a-z]+/g;",
-    "expected": "const token = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -805,9 +805,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "session_id = /widget[a-z]+/g;",
-    "expected": "session_id = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -925,9 +925,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "const session_id = /widget[a-z]+/g;",
-    "expected": "const session_id = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -1045,9 +1045,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "PASSWORD = /widget[a-z]+/g;",
-    "expected": "PASSWORD = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -1165,9 +1165,9 @@
     "secret": "/widget[a-z]+/g"
   },
   {
-    "family": "regex",
+    "family": "review_sensitive_regex_literal",
     "input": "const PASSWORD = /widget[a-z]+/g;",
-    "expected": "const PASSWORD = /widget[a-z]+/g;"
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_quoted_literal",
@@ -12425,9 +12425,9 @@
     "secret": "12.375"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "password: String,",
-    "expected": "password: String,"
+    "secret": "String"
   },
   {
     "family": "type_tail",
@@ -12485,9 +12485,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "token: String,",
-    "expected": "token: String,"
+    "secret": "String"
   },
   {
     "family": "type_tail",
@@ -12545,9 +12545,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "PASSWORD: String,",
-    "expected": "PASSWORD: String,"
+    "secret": "String"
   },
   {
     "family": "type_tail",
@@ -12965,9 +12965,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "password: WidgetCredentials,",
-    "expected": "password: WidgetCredentials,"
+    "secret": "WidgetCredentials"
   },
   {
     "family": "type_tail",
@@ -13025,9 +13025,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "token: WidgetCredentials,",
-    "expected": "token: WidgetCredentials,"
+    "secret": "WidgetCredentials"
   },
   {
     "family": "type_tail",
@@ -13085,9 +13085,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "review_ambiguous_type_scalar",
     "input": "PASSWORD: WidgetCredentials,",
-    "expected": "PASSWORD: WidgetCredentials,"
+    "secret": "WidgetCredentials"
   },
   {
     "family": "type_tail",
@@ -13435,9 +13435,9 @@
     "expected": "rg 'access token': src/ | head"
   },
   {
-    "family": "upstream_pr11",
+    "family": "review_sensitive_Key_scalar",
     "input": "{\"Key\": \"raw/v1/widget.jsonl.zst\"}",
-    "expected": "{\"Key\": \"raw/v1/widget.jsonl.zst\"}"
+    "secret": "raw/v1/widget.jsonl.zst"
   },
   {
     "family": "upstream_pr11",

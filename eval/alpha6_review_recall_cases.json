@@ -1,0 +1,4512 @@
+[
+  {
+    "family": "yaml_scalar",
+    "input": "password: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"password\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'password': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  password: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"password\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'password': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- password: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"password\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'password': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - password: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"password\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'password': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{password: SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"password\": SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'password': SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[password: SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"password\": SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['password': SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%3A SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%253a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\x3a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\u003a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: \"SecretValue\"",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: 'SecretValue'",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "password: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"password\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'password': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  password: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"password\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'password': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- password: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"password\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'password': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - password: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"password\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'password': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{password: ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"password\": ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'password': ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[password: ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"password\": ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['password': ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%3A ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%253a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\x3a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\u003a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: \"ProductionPassword\"",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: 'ProductionPassword'",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "password: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"password\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'password': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  password: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"password\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'password': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- password: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"password\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'password': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - password: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"password\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'password': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{password: WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"password\": WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'password': WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[password: WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"password\": WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['password': WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%3A WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%253a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\x3a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\u003a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: \"WidgetCredentials\"",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: 'WidgetCredentials'",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "password: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"password\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'password': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  password: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"password\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'password': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- password: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"password\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'password': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - password: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"password\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'password': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{password: String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"password\": String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'password': String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[password: String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"password\": String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['password': String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%3A String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%253a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\x3a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\u003a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: \"String\"",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: 'String'",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "password: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"password\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'password': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  password: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"password\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'password': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- password: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"password\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'password': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - password: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"password\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'password': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{password: SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"password\": SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'password': SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[password: SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"password\": SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['password': SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%3A SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password%253a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\x3a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "password\\u003a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: \"SecretValue123\"",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "password: 'SecretValue123'",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "token: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"token\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'token': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  token: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"token\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'token': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- token: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"token\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'token': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - token: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"token\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'token': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{token: SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"token\": SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'token': SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[token: SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"token\": SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['token': SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%3A SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%253a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\x3a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\u003a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: \"SecretValue\"",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: 'SecretValue'",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "token: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"token\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'token': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  token: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"token\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'token': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- token: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"token\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'token': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - token: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"token\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'token': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{token: ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"token\": ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'token': ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[token: ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"token\": ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['token': ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%3A ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%253a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\x3a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\u003a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: \"ProductionPassword\"",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: 'ProductionPassword'",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "token: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"token\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'token': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  token: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"token\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'token': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- token: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"token\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'token': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - token: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"token\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'token': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{token: WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"token\": WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'token': WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[token: WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"token\": WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['token': WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%3A WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%253a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\x3a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\u003a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: \"WidgetCredentials\"",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: 'WidgetCredentials'",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "token: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"token\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'token': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  token: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"token\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'token': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- token: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"token\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'token': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - token: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"token\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'token': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{token: String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"token\": String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'token': String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[token: String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"token\": String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['token': String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%3A String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%253a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\x3a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\u003a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: \"String\"",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: 'String'",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "token: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"token\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'token': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  token: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"token\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'token': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- token: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"token\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'token': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - token: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"token\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'token': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{token: SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"token\": SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'token': SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[token: SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"token\": SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['token': SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%3A SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token%253a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\x3a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "token\\u003a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: \"SecretValue123\"",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "token: 'SecretValue123'",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "session_id: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"session_id\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'session_id': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  session_id: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"session_id\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'session_id': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- session_id: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"session_id\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'session_id': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - session_id: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"session_id\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'session_id': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{session_id: SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"session_id\": SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'session_id': SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[session_id: SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"session_id\": SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['session_id': SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%3A SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%253a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\x3a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\u003a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: \"SecretValue\"",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: 'SecretValue'",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "session_id: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"session_id\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'session_id': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  session_id: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"session_id\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'session_id': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- session_id: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"session_id\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'session_id': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - session_id: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"session_id\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'session_id': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{session_id: ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"session_id\": ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'session_id': ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[session_id: ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"session_id\": ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['session_id': ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%3A ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%253a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\x3a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\u003a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: \"ProductionPassword\"",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: 'ProductionPassword'",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "session_id: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"session_id\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'session_id': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  session_id: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"session_id\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'session_id': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- session_id: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"session_id\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'session_id': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - session_id: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"session_id\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'session_id': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{session_id: WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"session_id\": WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'session_id': WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[session_id: WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"session_id\": WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['session_id': WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%3A WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%253a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\x3a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\u003a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: \"WidgetCredentials\"",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: 'WidgetCredentials'",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "session_id: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"session_id\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'session_id': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  session_id: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"session_id\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'session_id': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- session_id: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"session_id\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'session_id': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - session_id: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"session_id\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'session_id': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{session_id: String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"session_id\": String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'session_id': String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[session_id: String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"session_id\": String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['session_id': String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%3A String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%253a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\x3a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\u003a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: \"String\"",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: 'String'",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "session_id: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"session_id\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'session_id': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  session_id: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"session_id\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'session_id': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- session_id: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"session_id\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'session_id': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - session_id: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"session_id\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'session_id': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{session_id: SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"session_id\": SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'session_id': SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[session_id: SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"session_id\": SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['session_id': SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%3A SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id%253a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\x3a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "session_id\\u003a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: \"SecretValue123\"",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "session_id: 'SecretValue123'",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "PASSWORD: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"PASSWORD\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'PASSWORD': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  PASSWORD: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"PASSWORD\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'PASSWORD': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- PASSWORD: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"PASSWORD\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'PASSWORD': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - PASSWORD: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"PASSWORD\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'PASSWORD': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{PASSWORD: SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"PASSWORD\": SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'PASSWORD': SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[PASSWORD: SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"PASSWORD\": SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['PASSWORD': SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%3A SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%253a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\x3a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\u003a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: \"SecretValue\"",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: 'SecretValue'",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "PASSWORD: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"PASSWORD\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'PASSWORD': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  PASSWORD: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"PASSWORD\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'PASSWORD': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- PASSWORD: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"PASSWORD\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'PASSWORD': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - PASSWORD: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"PASSWORD\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'PASSWORD': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{PASSWORD: ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"PASSWORD\": ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'PASSWORD': ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[PASSWORD: ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"PASSWORD\": ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['PASSWORD': ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%3A ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%253a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\x3a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\u003a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: \"ProductionPassword\"",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: 'ProductionPassword'",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "PASSWORD: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"PASSWORD\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'PASSWORD': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  PASSWORD: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"PASSWORD\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'PASSWORD': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- PASSWORD: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"PASSWORD\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'PASSWORD': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - PASSWORD: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"PASSWORD\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'PASSWORD': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{PASSWORD: WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"PASSWORD\": WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'PASSWORD': WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[PASSWORD: WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"PASSWORD\": WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['PASSWORD': WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%3A WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%253a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\x3a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\u003a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: \"WidgetCredentials\"",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: 'WidgetCredentials'",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "PASSWORD: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"PASSWORD\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'PASSWORD': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  PASSWORD: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"PASSWORD\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'PASSWORD': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- PASSWORD: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"PASSWORD\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'PASSWORD': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - PASSWORD: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"PASSWORD\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'PASSWORD': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{PASSWORD: String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"PASSWORD\": String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'PASSWORD': String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[PASSWORD: String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"PASSWORD\": String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['PASSWORD': String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%3A String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%253a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\x3a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\u003a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: \"String\"",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: 'String'",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "PASSWORD: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"PASSWORD\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'PASSWORD': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  PASSWORD: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"PASSWORD\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'PASSWORD': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- PASSWORD: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"PASSWORD\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'PASSWORD': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - PASSWORD: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"PASSWORD\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'PASSWORD': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{PASSWORD: SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"PASSWORD\": SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'PASSWORD': SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[PASSWORD: SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"PASSWORD\": SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['PASSWORD': SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%3A SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD%253a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\x3a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "PASSWORD\\u003a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: \"SecretValue123\"",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "PASSWORD: 'SecretValue123'",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "client_secret: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"client_secret\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'client_secret': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  client_secret: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"client_secret\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'client_secret': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- client_secret: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"client_secret\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'client_secret': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - client_secret: SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"client_secret\": SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'client_secret': SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{client_secret: SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"client_secret\": SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'client_secret': SecretValue}",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[client_secret: SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"client_secret\": SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['client_secret': SecretValue]",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%3A SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%253a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\x3a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\u003a SecretValue",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: \"SecretValue\"",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: 'SecretValue'",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "client_secret: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"client_secret\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'client_secret': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  client_secret: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"client_secret\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'client_secret': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- client_secret: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"client_secret\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'client_secret': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - client_secret: ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"client_secret\": ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'client_secret': ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{client_secret: ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"client_secret\": ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'client_secret': ProductionPassword}",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[client_secret: ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"client_secret\": ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['client_secret': ProductionPassword]",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%3A ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%253a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\x3a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\u003a ProductionPassword",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: \"ProductionPassword\"",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: 'ProductionPassword'",
+    "secret": "ProductionPassword"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "client_secret: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"client_secret\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'client_secret': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  client_secret: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"client_secret\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'client_secret': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- client_secret: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"client_secret\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'client_secret': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - client_secret: WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"client_secret\": WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'client_secret': WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{client_secret: WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"client_secret\": WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'client_secret': WidgetCredentials}",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[client_secret: WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"client_secret\": WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['client_secret': WidgetCredentials]",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%3A WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%253a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\x3a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\u003a WidgetCredentials",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: \"WidgetCredentials\"",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: 'WidgetCredentials'",
+    "secret": "WidgetCredentials"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "client_secret: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"client_secret\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'client_secret': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  client_secret: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"client_secret\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'client_secret': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- client_secret: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"client_secret\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'client_secret': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - client_secret: String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"client_secret\": String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'client_secret': String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{client_secret: String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"client_secret\": String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'client_secret': String}",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[client_secret: String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"client_secret\": String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['client_secret': String]",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%3A String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%253a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\x3a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\u003a String",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: \"String\"",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: 'String'",
+    "secret": "String"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "client_secret: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "\"client_secret\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "'client_secret': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  client_secret: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  \"client_secret\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  'client_secret': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- client_secret: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- \"client_secret\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "- 'client_secret': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - client_secret: SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - \"client_secret\": SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "  - 'client_secret': SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{client_secret: SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{\"client_secret\": SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "{'client_secret': SecretValue123}",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[client_secret: SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "[\"client_secret\": SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_scalar",
+    "input": "['client_secret': SecretValue123]",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%3A SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret%253a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\x3a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_encoded_scalar",
+    "input": "client_secret\\u003a SecretValue123",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: \"SecretValue123\"",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "yaml_quoted_literal",
+    "input": "client_secret: 'SecretValue123'",
+    "secret": "SecretValue123"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %3D /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %253d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\x3d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\u003d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const password = readWidget(/SYNTH_ALPHA/);",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %3D /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %253d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\x3d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\u003d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const token = readWidget(/SYNTH_ALPHA/);",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SYNTH_ALPHA/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SYNTH_ALPHA/gi;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %3D /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %253d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\x3d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\u003d /SYNTH_ALPHA/;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const PASSWORD = readWidget(/SYNTH_ALPHA/);",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %3D /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %253d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\x3d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\u003d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const password = readWidget(/SecretValue/);",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %3D /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %253d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\x3d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\u003d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const token = readWidget(/SecretValue/);",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SecretValue/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /SecretValue/gi;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %3D /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %253d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\x3d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\u003d /SecretValue/;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const PASSWORD = readWidget(/SecretValue/);",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %3D /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %253d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\x3d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\u003d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const password = readWidget(/plain-secret/);",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %3D /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %253d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\x3d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\u003d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const token = readWidget(/plain-secret/);",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /plain-secret/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /plain-secret/gi;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %3D /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %253d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\x3d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\u003d /plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const PASSWORD = readWidget(/plain-secret/);",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "password = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const password = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let password = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %3D /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password %253d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\x3d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "password \\u003d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const password = readWidget(/123456/);",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "token = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const token = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let token = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %3D /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token %253d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\x3d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "token \\u003d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const token = readWidget(/123456/);",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "PASSWORD = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "const PASSWORD = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /123456/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_literal",
+    "input": "let PASSWORD = /123456/gi;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %3D /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD %253d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\x3d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_encoded_literal",
+    "input": "PASSWORD \\u003d /123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_call_literal",
+    "input": "const PASSWORD = readWidget(/123456/);",
+    "secret": "123456"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"ProductionPassword/path\"}",
+    "secret": "ProductionPassword/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"ProductionPassword/path\"}}",
+    "secret": "ProductionPassword/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"SecretValue/path\"}",
+    "secret": "SecretValue/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"SecretValue/path\"}}",
+    "secret": "SecretValue/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"String/path\"}",
+    "secret": "String/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"String/path\"}}",
+    "secret": "String/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"raw/ProductionPassword/path\"}",
+    "secret": "raw/ProductionPassword/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"raw/ProductionPassword/path\"}}",
+    "secret": "raw/ProductionPassword/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"raw/v1/ProductionPassword.jsonl.zst\"}",
+    "secret": "raw/v1/ProductionPassword.jsonl.zst"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"raw/v1/ProductionPassword.jsonl.zst\"}}",
+    "secret": "raw/v1/ProductionPassword.jsonl.zst"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"production-password/path\"}",
+    "secret": "production-password/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"production-password/path\"}}",
+    "secret": "production-password/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"raw/production-password.jsonl.zst\"}",
+    "secret": "raw/production-password.jsonl.zst"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"raw/production-password.jsonl.zst\"}}",
+    "secret": "raw/production-password.jsonl.zst"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"123456/path\"}",
+    "secret": "123456/path"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"123456/path\"}}",
+    "secret": "123456/path"
+  },
+  {
+    "family": "bare_key_path",
+    "input": "{\"Key\": \"raw/123456.jsonl.zst\"}",
+    "secret": "raw/123456.jsonl.zst"
+  },
+  {
+    "family": "bare_key_nested_path",
+    "input": "{\"wrapper\": {\"Key\": \"raw/123456.jsonl.zst\"}}",
+    "secret": "raw/123456.jsonl.zst"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "struct Widget { password: String, }",
+    "expected": "struct Widget { password: String, }"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "interface Widget { token: WidgetCredentials; }",
+    "expected": "interface Widget { token: WidgetCredentials; }"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "fn widget(password: SecretValue) {}",
+    "expected": "fn widget(password: SecretValue) {}"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "type Widget = { token: WidgetCredentials };",
+    "expected": "type Widget = { token: WidgetCredentials };"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "const value = {password: widgetPassword};",
+    "expected": "const value = {password: widgetPassword};"
+  },
+  {
+    "family": "source_and_public_controls",
+    "input": "{\"key\": \"raw/v1/widget.jsonl.zst\"}",
+    "expected": "{\"key\": \"raw/v1/widget.jsonl.zst\"}"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /SYNTH_ALPHA[a-z]+/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /^SYNTH_ALPHA$/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /(?:SYNTH_ALPHA)/g;",
+    "secret": "SYNTH_ALPHA"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /SecretValue[a-z]+/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /^SecretValue$/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /(?:SecretValue)/g;",
+    "secret": "SecretValue"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /plain-secret[a-z]+/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /^plain-secret$/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /(?:plain-secret)/g;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "password = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const password = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let password = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "token = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const token = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let token = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "PASSWORD = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "const PASSWORD = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /123456[a-z]+/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /^123456$/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_pattern_embedded_literal",
+    "input": "let PASSWORD = /(?:123456)/g;",
+    "secret": "123456"
+  },
+  {
+    "family": "noncredential_regex_source",
+    "input": "const pattern = /widget[a-z]+/g;",
+    "expected": "const pattern = /widget[a-z]+/g;"
+  },
+  {
+    "family": "noncredential_regex_source",
+    "input": "const matcher = /^widget_[a-z]+$/i;",
+    "expected": "const matcher = /^widget_[a-z]+$/i;"
+  }
+]

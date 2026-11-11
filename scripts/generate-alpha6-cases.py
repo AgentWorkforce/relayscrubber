@@ -69,7 +69,10 @@ for family, expression in forms.items():
     for key in ["password", "token", "session_id", "PASSWORD"]:
         for prefix in ["", "const "]:
             text = f"{prefix}{key} = {expression};"
-            keep(family, text)
+            if family == "regex":
+                hide("review_sensitive_regex_literal", text, expression)
+            else:
+                keep(family, text)
             for quote in ['"', "'", "`"]:
                 # Backtick templates already have a reviewed exemption.
                 if family == "template" and quote == "`":
@@ -92,7 +95,10 @@ for family, expression in forms.items():
 for expression in ["String", "Option<String>", "Vec<Widget>", "WidgetCredentials"]:
     for key in ["password", "token", "PASSWORD"]:
         for wrapper in ["{}", "struct Widget {{ {} }}", "interface Widget {{ {} }}"]:
-            keep("type", wrapper.format(f"{key}: {expression},"))
+            if wrapper == "{}" and expression in ["String", "WidgetCredentials"]:
+                hide("review_ambiguous_type_scalar", wrapper.format(f"{key}: {expression},"), expression)
+            else:
+                keep("type", wrapper.format(f"{key}: {expression},"))
             hide("type_tail", wrapper.format(f"{key}: {expression} {secret},"))
             hide("type_quote", wrapper.format(f'{key}: "{secret}",'))
             hide("type_embedded", wrapper.format(f'{key}: Option<"{secret}">,'))
@@ -116,7 +122,10 @@ for prefix in ["relay_ag_", "relay_pa_", "relay_ws_", "relay_id_"]:
         hide("provider_symbol_quote_encoding_case", text, symbol if symbol in text else prefix + "widget_TRANSPORT_adapter")
 
 for text in ['case "token": return parseToken(input);', "case 'password': return widget.credentials;", 'grep -rn "access token": src/ | head', "rg 'access token': src/ | head", '{"Key": "raw/v1/widget.jsonl.zst"}', "mysql --password -h db", "mysql --password --host db"]:
-    keep("upstream_pr11", text)
+    if text.startswith('{"Key":'):
+        hide("review_sensitive_Key_scalar", text, "raw/v1/widget.jsonl.zst")
+    else:
+        keep("upstream_pr11", text)
 for text in [f'case "token": return "{secret}";', f'case "token": return parseToken("{secret}");', f'grep -rn "access token": {secret}', f'grep -rn "access token": src/{secret} | head', f'{{"credentials":{{"Key":"{secret}"}}}}', f'mysql --password={secret} -h db', f'mysql --password "-{secret}" -h db', f'mysql --password -{secret} -h db']:
     hide("upstream_pr11_literal", text)
 for literal in [secret, "plain-secret", "123456"]:
