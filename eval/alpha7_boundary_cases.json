@@ -398,5 +398,65 @@
     "family": "complete_rejected_extent",
     "input": "const config = { secret: freshKey / plain-secret };",
     "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "token: String //plain-secret/ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "token: String /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "token: String \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "token: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "- Note token: String //plain-secret/ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "- Note token: String /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "- Note token: String \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "- Note token: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "const options = {token: String //plain-secret/ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "const options = {token: String /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "const options = {token: String \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "pascal_rejected_tail",
+    "input": "const options = {token: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
   }
 ]
