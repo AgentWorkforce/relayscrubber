@@ -44,6 +44,11 @@ for family, expression in forms.items():
             for sep in ["%3D", r"\u003d", r"\x3d", "%253d"]:
                 hide(family + "_encoded_tail", f"{prefix}{key} {sep} {expression} {secret};")
             hide(family + "_embedded", f'{prefix}{key} = readWidget("{secret}");')
+            for literal in ["plain-secret", "123456"]:
+                for tail in [f" {literal}", f" #{literal}", f" //{literal}", f' + "{literal}"']:
+                    hide(family + "_short_tail", f"{prefix}{key} = {expression}{tail};", literal)
+            for quote in ['"', "'"]:
+                hide(family + "_quoted_syntax", f"{prefix}{key} = {quote}{expression}{quote};", expression)
     for literal in ["123456", "-246810", "12.375"]:
         hide(family + "_numeric", f"const token = {literal};", literal)
 
@@ -68,6 +73,10 @@ for prefix in ["relay_ag_", "relay_pa_", "relay_ws_", "relay_id_"]:
     keep("provider_symbol", f"use {symbol};")
     for text in [f'const token = "{symbol}";', f"token={symbol}", f"https://{symbol}.example.invalid/path", f"use {symbol}{secret};", f"use {symbol} {secret};"]:
         hide("provider_symbol_attack", text, secret if secret in text else symbol)
+    for literal in ["plain-secret", "123456"]:
+        hide("provider_symbol_short_tail", f"use {symbol} {literal};", literal)
+    for text in [f'use "{symbol}";', f"use %22{symbol}%22;", f"use {prefix}widget_TRANSPORT_adapter;"]:
+        hide("provider_symbol_quote_encoding_case", text, symbol if symbol in text else prefix + "widget_TRANSPORT_adapter")
 
 for text in ['case "token": return parseToken(input);', "case 'password': return widget.credentials;", 'grep -rn "access token": src/ | head', "rg 'access token': src/ | head", '{"Key": "raw/v1/widget.jsonl.zst"}', "mysql --password -h db", "mysql --password --host db"]:
     keep("upstream_pr11", text)

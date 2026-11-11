@@ -4,7 +4,8 @@ use serde_json::{json, Value};
 
 #[test]
 fn alpha6_complete_syntax_and_literal_siblings_all_apis() {
-    let cases: Value = serde_json::from_str(include_str!("../eval/alpha6_syntax_cases.json")).unwrap();
+    let cases: Value =
+        serde_json::from_str(include_str!("../eval/alpha6_syntax_cases.json")).unwrap();
     let mut failures = Vec::new();
     for (id, case) in cases.as_array().unwrap().iter().enumerate() {
         let input = case["input"].as_str().unwrap();
@@ -21,7 +22,8 @@ fn alpha6_complete_syntax_and_literal_siblings_all_apis() {
             let valid = if let Some(expected) = case["expected"].as_str() {
                 output == expected
             } else {
-                !output.contains(case["secret"].as_str().unwrap()) && output.contains(REDACTION_TOKEN)
+                !output.contains(case["secret"].as_str().unwrap())
+                    && output.contains(REDACTION_TOKEN)
             };
             if !valid || scrub_text(output) != *output {
                 failures.push(format!("{id}/{}/{api}: {output:?}", case["family"]));
@@ -30,4 +32,26 @@ fn alpha6_complete_syntax_and_literal_siblings_all_apis() {
         assert_eq!(scrub_records(&records.bytes).unwrap().bytes, records.bytes);
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
+}
+
+#[test]
+fn bare_key_paths_and_credential_scope_agree_across_structured_apis() {
+    for (input, expected) in [
+        (
+            json!({"Key":"raw/v1/widget.jsonl.zst"}),
+            json!({"Key":"raw/v1/widget.jsonl.zst"}),
+        ),
+        (
+            json!({"credentials":{"Key":"plain-secret"}}),
+            json!({"credentials":REDACTION_TOKEN}),
+        ),
+    ] {
+        assert_eq!(scrub_json(&input).0, expected);
+        assert_eq!(scrub_json_text(&input.to_string()).unwrap().0, expected);
+        let records = scrub_records(input.to_string().as_bytes()).unwrap();
+        assert_eq!(
+            serde_json::from_slice::<Value>(&records.bytes).unwrap(),
+            expected
+        );
+    }
 }

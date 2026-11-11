@@ -70,6 +70,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "password = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "password = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "password = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
     "family": "regex",
     "input": "const password = /widget[a-z]+/g;",
     "expected": "const password = /widget[a-z]+/g;"
@@ -138,6 +188,56 @@
     "family": "regex_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const password = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const password = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const password = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex",
@@ -210,6 +310,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "token = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "token = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "token = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
     "family": "regex",
     "input": "const token = /widget[a-z]+/g;",
     "expected": "const token = /widget[a-z]+/g;"
@@ -278,6 +428,56 @@
     "family": "regex_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const token = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const token = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const token = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex",
@@ -350,6 +550,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "session_id = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "session_id = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "session_id = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
     "family": "regex",
     "input": "const session_id = /widget[a-z]+/g;",
     "expected": "const session_id = /widget[a-z]+/g;"
@@ -418,6 +668,56 @@
     "family": "regex_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const session_id = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const session_id = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const session_id = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex",
@@ -490,6 +790,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "PASSWORD = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "PASSWORD = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "PASSWORD = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
     "family": "regex",
     "input": "const PASSWORD = /widget[a-z]+/g;",
     "expected": "const PASSWORD = /widget[a-z]+/g;"
@@ -558,6 +908,56 @@
     "family": "regex_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_short_tail",
+    "input": "const PASSWORD = /widget[a-z]+/g + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const PASSWORD = \"/widget[a-z]+/g\";",
+    "secret": "/widget[a-z]+/g"
+  },
+  {
+    "family": "regex_quoted_syntax",
+    "input": "const PASSWORD = '/widget[a-z]+/g';",
+    "secret": "/widget[a-z]+/g"
   },
   {
     "family": "regex_numeric",
@@ -645,6 +1045,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "password = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "password = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "password = 'readWidget(input)';",
+    "secret": "readWidget(input)"
+  },
+  {
     "family": "call",
     "input": "const password = readWidget(input);",
     "expected": "const password = readWidget(input);"
@@ -713,6 +1163,56 @@
     "family": "call_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const password = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const password = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const password = 'readWidget(input)';",
+    "secret": "readWidget(input)"
   },
   {
     "family": "call",
@@ -785,6 +1285,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "token = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "token = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "token = 'readWidget(input)';",
+    "secret": "readWidget(input)"
+  },
+  {
     "family": "call",
     "input": "const token = readWidget(input);",
     "expected": "const token = readWidget(input);"
@@ -853,6 +1403,56 @@
     "family": "call_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const token = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const token = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const token = 'readWidget(input)';",
+    "secret": "readWidget(input)"
   },
   {
     "family": "call",
@@ -925,6 +1525,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "session_id = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "session_id = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "session_id = 'readWidget(input)';",
+    "secret": "readWidget(input)"
+  },
+  {
     "family": "call",
     "input": "const session_id = readWidget(input);",
     "expected": "const session_id = readWidget(input);"
@@ -993,6 +1643,56 @@
     "family": "call_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const session_id = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const session_id = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const session_id = 'readWidget(input)';",
+    "secret": "readWidget(input)"
   },
   {
     "family": "call",
@@ -1065,6 +1765,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "PASSWORD = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "PASSWORD = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "PASSWORD = 'readWidget(input)';",
+    "secret": "readWidget(input)"
+  },
+  {
     "family": "call",
     "input": "const PASSWORD = readWidget(input);",
     "expected": "const PASSWORD = readWidget(input);"
@@ -1133,6 +1883,56 @@
     "family": "call_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "call_short_tail",
+    "input": "const PASSWORD = readWidget(input) + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const PASSWORD = \"readWidget(input)\";",
+    "secret": "readWidget(input)"
+  },
+  {
+    "family": "call_quoted_syntax",
+    "input": "const PASSWORD = 'readWidget(input)';",
+    "secret": "readWidget(input)"
   },
   {
     "family": "call_numeric",
@@ -1220,6 +2020,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "password = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "password = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "password = 'widget.credentials';",
+    "secret": "widget.credentials"
+  },
+  {
     "family": "member",
     "input": "const password = widget.credentials;",
     "expected": "const password = widget.credentials;"
@@ -1288,6 +2138,56 @@
     "family": "member_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const password = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const password = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const password = 'widget.credentials';",
+    "secret": "widget.credentials"
   },
   {
     "family": "member",
@@ -1360,6 +2260,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "token = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "token = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "token = 'widget.credentials';",
+    "secret": "widget.credentials"
+  },
+  {
     "family": "member",
     "input": "const token = widget.credentials;",
     "expected": "const token = widget.credentials;"
@@ -1428,6 +2378,56 @@
     "family": "member_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const token = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const token = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const token = 'widget.credentials';",
+    "secret": "widget.credentials"
   },
   {
     "family": "member",
@@ -1500,6 +2500,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "session_id = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "session_id = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "session_id = 'widget.credentials';",
+    "secret": "widget.credentials"
+  },
+  {
     "family": "member",
     "input": "const session_id = widget.credentials;",
     "expected": "const session_id = widget.credentials;"
@@ -1568,6 +2618,56 @@
     "family": "member_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const session_id = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const session_id = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const session_id = 'widget.credentials';",
+    "secret": "widget.credentials"
   },
   {
     "family": "member",
@@ -1640,6 +2740,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "PASSWORD = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "PASSWORD = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "PASSWORD = 'widget.credentials';",
+    "secret": "widget.credentials"
+  },
+  {
     "family": "member",
     "input": "const PASSWORD = widget.credentials;",
     "expected": "const PASSWORD = widget.credentials;"
@@ -1708,6 +2858,56 @@
     "family": "member_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "member_short_tail",
+    "input": "const PASSWORD = widget.credentials + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const PASSWORD = \"widget.credentials\";",
+    "secret": "widget.credentials"
+  },
+  {
+    "family": "member_quoted_syntax",
+    "input": "const PASSWORD = 'widget.credentials';",
+    "secret": "widget.credentials"
   },
   {
     "family": "member_numeric",
@@ -1795,6 +2995,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "password = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "password = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "password = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
     "family": "operator",
     "input": "const password = widget.primary + widget.secondary;",
     "expected": "const password = widget.primary + widget.secondary;"
@@ -1863,6 +3113,56 @@
     "family": "operator_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const password = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const password = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const password = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
   },
   {
     "family": "operator",
@@ -1935,6 +3235,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "token = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "token = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "token = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
     "family": "operator",
     "input": "const token = widget.primary + widget.secondary;",
     "expected": "const token = widget.primary + widget.secondary;"
@@ -2003,6 +3353,56 @@
     "family": "operator_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const token = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const token = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const token = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
   },
   {
     "family": "operator",
@@ -2075,6 +3475,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "session_id = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "session_id = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "session_id = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
     "family": "operator",
     "input": "const session_id = widget.primary + widget.secondary;",
     "expected": "const session_id = widget.primary + widget.secondary;"
@@ -2143,6 +3593,56 @@
     "family": "operator_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const session_id = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const session_id = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const session_id = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
   },
   {
     "family": "operator",
@@ -2215,6 +3715,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "PASSWORD = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "PASSWORD = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "PASSWORD = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
     "family": "operator",
     "input": "const PASSWORD = widget.primary + widget.secondary;",
     "expected": "const PASSWORD = widget.primary + widget.secondary;"
@@ -2283,6 +3833,56 @@
     "family": "operator_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_short_tail",
+    "input": "const PASSWORD = widget.primary + widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const PASSWORD = \"widget.primary + widget.secondary\";",
+    "secret": "widget.primary + widget.secondary"
+  },
+  {
+    "family": "operator_quoted_syntax",
+    "input": "const PASSWORD = 'widget.primary + widget.secondary';",
+    "secret": "widget.primary + widget.secondary"
   },
   {
     "family": "operator_numeric",
@@ -2370,6 +3970,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "password = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "password = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "password = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
     "family": "logical",
     "input": "const password = widget.primary && widget.secondary;",
     "expected": "const password = widget.primary && widget.secondary;"
@@ -2438,6 +4088,56 @@
     "family": "logical_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const password = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const password = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const password = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
   },
   {
     "family": "logical",
@@ -2510,6 +4210,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "token = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "token = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "token = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
     "family": "logical",
     "input": "const token = widget.primary && widget.secondary;",
     "expected": "const token = widget.primary && widget.secondary;"
@@ -2578,6 +4328,56 @@
     "family": "logical_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const token = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const token = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const token = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
   },
   {
     "family": "logical",
@@ -2650,6 +4450,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "session_id = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "session_id = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "session_id = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
     "family": "logical",
     "input": "const session_id = widget.primary && widget.secondary;",
     "expected": "const session_id = widget.primary && widget.secondary;"
@@ -2718,6 +4568,56 @@
     "family": "logical_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const session_id = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const session_id = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const session_id = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
   },
   {
     "family": "logical",
@@ -2790,6 +4690,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "PASSWORD = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "PASSWORD = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "PASSWORD = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
     "family": "logical",
     "input": "const PASSWORD = widget.primary && widget.secondary;",
     "expected": "const PASSWORD = widget.primary && widget.secondary;"
@@ -2858,6 +4808,56 @@
     "family": "logical_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_short_tail",
+    "input": "const PASSWORD = widget.primary && widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const PASSWORD = \"widget.primary && widget.secondary\";",
+    "secret": "widget.primary && widget.secondary"
+  },
+  {
+    "family": "logical_quoted_syntax",
+    "input": "const PASSWORD = 'widget.primary && widget.secondary';",
+    "secret": "widget.primary && widget.secondary"
   },
   {
     "family": "logical_numeric",
@@ -2945,6 +4945,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "password = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "password = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "password = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
     "family": "conditional",
     "input": "const password = widget.ready ? widget.primary : widget.secondary;",
     "expected": "const password = widget.ready ? widget.primary : widget.secondary;"
@@ -3013,6 +5063,56 @@
     "family": "conditional_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const password = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const password = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const password = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
   },
   {
     "family": "conditional",
@@ -3085,6 +5185,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "token = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "token = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "token = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
     "family": "conditional",
     "input": "const token = widget.ready ? widget.primary : widget.secondary;",
     "expected": "const token = widget.ready ? widget.primary : widget.secondary;"
@@ -3153,6 +5303,56 @@
     "family": "conditional_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const token = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const token = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const token = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
   },
   {
     "family": "conditional",
@@ -3225,6 +5425,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "session_id = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "session_id = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
     "family": "conditional",
     "input": "const session_id = widget.ready ? widget.primary : widget.secondary;",
     "expected": "const session_id = widget.ready ? widget.primary : widget.secondary;"
@@ -3293,6 +5543,56 @@
     "family": "conditional_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const session_id = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const session_id = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const session_id = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
   },
   {
     "family": "conditional",
@@ -3365,6 +5665,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "PASSWORD = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "PASSWORD = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
     "family": "conditional",
     "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary;",
     "expected": "const PASSWORD = widget.ready ? widget.primary : widget.secondary;"
@@ -3433,6 +5783,56 @@
     "family": "conditional_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_short_tail",
+    "input": "const PASSWORD = widget.ready ? widget.primary : widget.secondary + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const PASSWORD = \"widget.ready ? widget.primary : widget.secondary\";",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
+  },
+  {
+    "family": "conditional_quoted_syntax",
+    "input": "const PASSWORD = 'widget.ready ? widget.primary : widget.secondary';",
+    "secret": "widget.ready ? widget.primary : widget.secondary"
   },
   {
     "family": "conditional_numeric",
@@ -3520,6 +5920,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "password = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "password = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "password = '{widget: 1}';",
+    "secret": "{widget: 1}"
+  },
+  {
     "family": "object",
     "input": "const password = {widget: 1};",
     "expected": "const password = {widget: 1};"
@@ -3588,6 +6038,56 @@
     "family": "object_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const password = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const password = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const password = '{widget: 1}';",
+    "secret": "{widget: 1}"
   },
   {
     "family": "object",
@@ -3660,6 +6160,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "token = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "token = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "token = '{widget: 1}';",
+    "secret": "{widget: 1}"
+  },
+  {
     "family": "object",
     "input": "const token = {widget: 1};",
     "expected": "const token = {widget: 1};"
@@ -3728,6 +6278,56 @@
     "family": "object_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const token = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const token = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const token = '{widget: 1}';",
+    "secret": "{widget: 1}"
   },
   {
     "family": "object",
@@ -3800,6 +6400,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "session_id = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "session_id = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "session_id = '{widget: 1}';",
+    "secret": "{widget: 1}"
+  },
+  {
     "family": "object",
     "input": "const session_id = {widget: 1};",
     "expected": "const session_id = {widget: 1};"
@@ -3868,6 +6518,56 @@
     "family": "object_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const session_id = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const session_id = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const session_id = '{widget: 1}';",
+    "secret": "{widget: 1}"
   },
   {
     "family": "object",
@@ -3940,6 +6640,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "PASSWORD = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "PASSWORD = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "PASSWORD = '{widget: 1}';",
+    "secret": "{widget: 1}"
+  },
+  {
     "family": "object",
     "input": "const PASSWORD = {widget: 1};",
     "expected": "const PASSWORD = {widget: 1};"
@@ -4008,6 +6758,56 @@
     "family": "object_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "object_short_tail",
+    "input": "const PASSWORD = {widget: 1} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const PASSWORD = \"{widget: 1}\";",
+    "secret": "{widget: 1}"
+  },
+  {
+    "family": "object_quoted_syntax",
+    "input": "const PASSWORD = '{widget: 1}';",
+    "secret": "{widget: 1}"
   },
   {
     "family": "object_numeric",
@@ -4095,6 +6895,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "password = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "password = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "password = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
     "family": "nested_object",
     "input": "const password = {widget: {count: 1}};",
     "expected": "const password = {widget: {count: 1}};"
@@ -4163,6 +7013,56 @@
     "family": "nested_object_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const password = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const password = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const password = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
   },
   {
     "family": "nested_object",
@@ -4235,6 +7135,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "token = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "token = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "token = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
     "family": "nested_object",
     "input": "const token = {widget: {count: 1}};",
     "expected": "const token = {widget: {count: 1}};"
@@ -4303,6 +7253,56 @@
     "family": "nested_object_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const token = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const token = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const token = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
   },
   {
     "family": "nested_object",
@@ -4375,6 +7375,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "session_id = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "session_id = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "session_id = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
     "family": "nested_object",
     "input": "const session_id = {widget: {count: 1}};",
     "expected": "const session_id = {widget: {count: 1}};"
@@ -4443,6 +7493,56 @@
     "family": "nested_object_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const session_id = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const session_id = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const session_id = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
   },
   {
     "family": "nested_object",
@@ -4515,6 +7615,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "PASSWORD = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "PASSWORD = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "PASSWORD = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
     "family": "nested_object",
     "input": "const PASSWORD = {widget: {count: 1}};",
     "expected": "const PASSWORD = {widget: {count: 1}};"
@@ -4583,6 +7733,56 @@
     "family": "nested_object_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_short_tail",
+    "input": "const PASSWORD = {widget: {count: 1}} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const PASSWORD = \"{widget: {count: 1}}\";",
+    "secret": "{widget: {count: 1}}"
+  },
+  {
+    "family": "nested_object_quoted_syntax",
+    "input": "const PASSWORD = '{widget: {count: 1}}';",
+    "secret": "{widget: {count: 1}}"
   },
   {
     "family": "nested_object_numeric",
@@ -4670,6 +7870,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "password = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "password = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "password = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
     "family": "array",
     "input": "const password = [widget.primary, widget.secondary];",
     "expected": "const password = [widget.primary, widget.secondary];"
@@ -4738,6 +7988,56 @@
     "family": "array_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const password = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const password = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const password = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
   },
   {
     "family": "array",
@@ -4810,6 +8110,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "token = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "token = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "token = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
     "family": "array",
     "input": "const token = [widget.primary, widget.secondary];",
     "expected": "const token = [widget.primary, widget.secondary];"
@@ -4878,6 +8228,56 @@
     "family": "array_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const token = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const token = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const token = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
   },
   {
     "family": "array",
@@ -4950,6 +8350,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "session_id = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "session_id = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "session_id = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
     "family": "array",
     "input": "const session_id = [widget.primary, widget.secondary];",
     "expected": "const session_id = [widget.primary, widget.secondary];"
@@ -5018,6 +8468,56 @@
     "family": "array_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const session_id = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const session_id = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const session_id = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
   },
   {
     "family": "array",
@@ -5090,6 +8590,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "PASSWORD = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "PASSWORD = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "PASSWORD = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
     "family": "array",
     "input": "const PASSWORD = [widget.primary, widget.secondary];",
     "expected": "const PASSWORD = [widget.primary, widget.secondary];"
@@ -5158,6 +8708,56 @@
     "family": "array_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "array_short_tail",
+    "input": "const PASSWORD = [widget.primary, widget.secondary] + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const PASSWORD = \"[widget.primary, widget.secondary]\";",
+    "secret": "[widget.primary, widget.secondary]"
+  },
+  {
+    "family": "array_quoted_syntax",
+    "input": "const PASSWORD = '[widget.primary, widget.secondary]';",
+    "secret": "[widget.primary, widget.secondary]"
   },
   {
     "family": "array_numeric",
@@ -5240,6 +8840,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "password = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "password = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "password = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
+  },
+  {
     "family": "template",
     "input": "const password = ${widget.credentials};",
     "expected": "const password = ${widget.credentials};"
@@ -5303,6 +8953,56 @@
     "family": "template_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const password = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const password = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const password = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
   },
   {
     "family": "template",
@@ -5370,6 +9070,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "token = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "token = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "token = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
+  },
+  {
     "family": "template",
     "input": "const token = ${widget.credentials};",
     "expected": "const token = ${widget.credentials};"
@@ -5433,6 +9183,56 @@
     "family": "template_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const token = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const token = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const token = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
   },
   {
     "family": "template",
@@ -5500,6 +9300,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "session_id = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "session_id = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "session_id = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
+  },
+  {
     "family": "template",
     "input": "const session_id = ${widget.credentials};",
     "expected": "const session_id = ${widget.credentials};"
@@ -5563,6 +9413,56 @@
     "family": "template_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const session_id = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const session_id = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const session_id = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
   },
   {
     "family": "template",
@@ -5630,6 +9530,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "PASSWORD = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "PASSWORD = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "PASSWORD = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
+  },
+  {
     "family": "template",
     "input": "const PASSWORD = ${widget.credentials};",
     "expected": "const PASSWORD = ${widget.credentials};"
@@ -5693,6 +9643,56 @@
     "family": "template_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "template_short_tail",
+    "input": "const PASSWORD = ${widget.credentials} + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const PASSWORD = \"${widget.credentials}\";",
+    "secret": "${widget.credentials}"
+  },
+  {
+    "family": "template_quoted_syntax",
+    "input": "const PASSWORD = '${widget.credentials}';",
+    "secret": "${widget.credentials}"
   },
   {
     "family": "template_numeric",
@@ -5780,6 +9780,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "password = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "password = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "password = 'widgetPassword';",
+    "secret": "widgetPassword"
+  },
+  {
     "family": "identifier",
     "input": "const password = widgetPassword;",
     "expected": "const password = widgetPassword;"
@@ -5848,6 +9898,56 @@
     "family": "identifier_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const password = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const password = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const password = 'widgetPassword';",
+    "secret": "widgetPassword"
   },
   {
     "family": "identifier",
@@ -5920,6 +10020,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "token = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "token = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "token = 'widgetPassword';",
+    "secret": "widgetPassword"
+  },
+  {
     "family": "identifier",
     "input": "const token = widgetPassword;",
     "expected": "const token = widgetPassword;"
@@ -5988,6 +10138,56 @@
     "family": "identifier_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const token = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const token = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const token = 'widgetPassword';",
+    "secret": "widgetPassword"
   },
   {
     "family": "identifier",
@@ -6060,6 +10260,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "session_id = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "session_id = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "session_id = 'widgetPassword';",
+    "secret": "widgetPassword"
+  },
+  {
     "family": "identifier",
     "input": "const session_id = widgetPassword;",
     "expected": "const session_id = widgetPassword;"
@@ -6128,6 +10378,56 @@
     "family": "identifier_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const session_id = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const session_id = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const session_id = 'widgetPassword';",
+    "secret": "widgetPassword"
   },
   {
     "family": "identifier",
@@ -6200,6 +10500,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "PASSWORD = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "PASSWORD = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "PASSWORD = 'widgetPassword';",
+    "secret": "widgetPassword"
+  },
+  {
     "family": "identifier",
     "input": "const PASSWORD = widgetPassword;",
     "expected": "const PASSWORD = widgetPassword;"
@@ -6268,6 +10618,56 @@
     "family": "identifier_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_short_tail",
+    "input": "const PASSWORD = widgetPassword + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const PASSWORD = \"widgetPassword\";",
+    "secret": "widgetPassword"
+  },
+  {
+    "family": "identifier_quoted_syntax",
+    "input": "const PASSWORD = 'widgetPassword';",
+    "secret": "widgetPassword"
   },
   {
     "family": "identifier_numeric",
@@ -6355,6 +10755,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "password = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "password = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "password = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
     "family": "uppercase",
     "input": "const password = WIDGET_CREDENTIAL;",
     "expected": "const password = WIDGET_CREDENTIAL;"
@@ -6423,6 +10873,56 @@
     "family": "uppercase_embedded",
     "input": "const password = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const password = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const password = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const password = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
   },
   {
     "family": "uppercase",
@@ -6495,6 +10995,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "token = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "token = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "token = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
     "family": "uppercase",
     "input": "const token = WIDGET_CREDENTIAL;",
     "expected": "const token = WIDGET_CREDENTIAL;"
@@ -6563,6 +11113,56 @@
     "family": "uppercase_embedded",
     "input": "const token = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const token = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const token = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const token = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
   },
   {
     "family": "uppercase",
@@ -6635,6 +11235,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "session_id = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "session_id = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "session_id = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
     "family": "uppercase",
     "input": "const session_id = WIDGET_CREDENTIAL;",
     "expected": "const session_id = WIDGET_CREDENTIAL;"
@@ -6703,6 +11353,56 @@
     "family": "uppercase_embedded",
     "input": "const session_id = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const session_id = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const session_id = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const session_id = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
   },
   {
     "family": "uppercase",
@@ -6775,6 +11475,56 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "PASSWORD = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "PASSWORD = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "PASSWORD = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
     "family": "uppercase",
     "input": "const PASSWORD = WIDGET_CREDENTIAL;",
     "expected": "const PASSWORD = WIDGET_CREDENTIAL;"
@@ -6843,6 +11593,56 @@
     "family": "uppercase_embedded",
     "input": "const PASSWORD = readWidget(\"M8zR4vK7nP2qW6xAq9\");",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL #plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL //plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL + \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL #123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL //123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_short_tail",
+    "input": "const PASSWORD = WIDGET_CREDENTIAL + \"123456\";",
+    "secret": "123456"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const PASSWORD = \"WIDGET_CREDENTIAL\";",
+    "secret": "WIDGET_CREDENTIAL"
+  },
+  {
+    "family": "uppercase_quoted_syntax",
+    "input": "const PASSWORD = 'WIDGET_CREDENTIAL';",
+    "secret": "WIDGET_CREDENTIAL"
   },
   {
     "family": "uppercase_numeric",
@@ -7660,6 +12460,31 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_ag_widget_transport_adapter plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_ag_widget_transport_adapter 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use \"relay_ag_widget_transport_adapter\";",
+    "secret": "relay_ag_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use %22relay_ag_widget_transport_adapter%22;",
+    "secret": "relay_ag_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use relay_ag_widget_TRANSPORT_adapter;",
+    "secret": "relay_ag_widget_TRANSPORT_adapter"
+  },
+  {
     "family": "provider_symbol",
     "input": "use relay_pa_widget_transport_adapter;",
     "expected": "use relay_pa_widget_transport_adapter;"
@@ -7688,6 +12513,31 @@
     "family": "provider_symbol_attack",
     "input": "use relay_pa_widget_transport_adapter M8zR4vK7nP2qW6xAq9;",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_pa_widget_transport_adapter plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_pa_widget_transport_adapter 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use \"relay_pa_widget_transport_adapter\";",
+    "secret": "relay_pa_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use %22relay_pa_widget_transport_adapter%22;",
+    "secret": "relay_pa_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use relay_pa_widget_TRANSPORT_adapter;",
+    "secret": "relay_pa_widget_TRANSPORT_adapter"
   },
   {
     "family": "provider_symbol",
@@ -7720,6 +12570,31 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_ws_widget_transport_adapter plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_ws_widget_transport_adapter 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use \"relay_ws_widget_transport_adapter\";",
+    "secret": "relay_ws_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use %22relay_ws_widget_transport_adapter%22;",
+    "secret": "relay_ws_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use relay_ws_widget_TRANSPORT_adapter;",
+    "secret": "relay_ws_widget_TRANSPORT_adapter"
+  },
+  {
     "family": "provider_symbol",
     "input": "use relay_id_widget_transport_adapter;",
     "expected": "use relay_id_widget_transport_adapter;"
@@ -7748,6 +12623,31 @@
     "family": "provider_symbol_attack",
     "input": "use relay_id_widget_transport_adapter M8zR4vK7nP2qW6xAq9;",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_id_widget_transport_adapter plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "provider_symbol_short_tail",
+    "input": "use relay_id_widget_transport_adapter 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use \"relay_id_widget_transport_adapter\";",
+    "secret": "relay_id_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use %22relay_id_widget_transport_adapter%22;",
+    "secret": "relay_id_widget_transport_adapter"
+  },
+  {
+    "family": "provider_symbol_quote_encoding_case",
+    "input": "use relay_id_widget_TRANSPORT_adapter;",
+    "secret": "relay_id_widget_TRANSPORT_adapter"
   },
   {
     "family": "upstream_pr11",
