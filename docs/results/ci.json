@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "identity-and-runtime-verified-independent-engine-review-pending",
+  "status": "independent-block-replacement-in-progress",
   "builder": "GitHub Actions Linux x86_64",
   "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
   "sourceRunHead": "24a8b98ff1caed8640f8f3213a9adec34da3ab8c",
@@ -35,6 +35,8 @@
   "sameEnvironmentReproduction": "passed",
   "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
-  "independentEngineReview": "alpha7 pending; alpha6 reviewed separately",
-  "runtimeChecks": "Rust1.88 Linux104/Windows104 fmt/clippy, all unchanged matrices/limits; Node731/Bun731 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded unbounded alpha7 pin comparison; receipt-only exact-head gate still required."
+  "independentEngineReview": "BLOCK on prior candidate; replacement pending",
+  "runtimeChecks": "Rust1.88 Linux104/Windows104 fmt/clippy, all unchanged matrices/limits; Node731/Bun731 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded unbounded alpha7 pin comparison; receipt-only exact-head gate still required.",
+  "blockedPredecessor": "dd0db0361808c086ddb9e4f5f05c88124ebdc975",
+  "supersededReason": "Markdown passphrase review BLOCK; current code3fc896a needs fresh artifact/pins."
 }

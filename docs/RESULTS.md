@@ -4,6 +4,12 @@ Candidate version is `0.5.0-alpha.7`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
+## Current independent alpha.7 BLOCK and replacement
+
+Independent review blocked head `dd0db036` for Markdown passphrase-tail leaks across native and exact hosted WASM. No engine/artifact PASS or publication clearance. The replacement removes word/case-based shortening and retains the four whitespace corrections. Five invented prose-preservation expectations are explicitly withdrawn as sensitive.
+
+Test-first 1,320 invented review controls reproduce 518 failures per API on the exact blocked native engine and hosted artifact. The expanded ruling also covers 435 inherited alpha.6 gaps. The local repair passes all controls and prior targeted security suites. Complete entity semicolons remain data only in rejected bullet credential extents; no global decoding or preservation exemption was added. Full fresh CI/artifact verification and independent review remain pending. See `docs/results/alpha7-passphrase-review-repair.json`. The previous generation evidence below is superseded and is not engine approval.
+
 ## Alpha.7 boundary-only verification
 
 Source/version commit `7ce3fb1b261010088e9d01b17cb53c5629f83b0e` starts from published alpha.6 main `1c667369`. Five invented reaudit-8 witnesses restore the alpha.5 spans: four trailing-whitespace boundaries and one Markdown prose boundary. Test-first commits `1c24d2e`, `b24edcb`, `c9b18bc` and `20e59a2` retain 551 controls: 28 exact boundary/quoted-whitespace cases plus 523 credential-key literal/tail attacks. Published alpha.6 native and exact hosted WASM each fail 22 boundary cases per API and pass all attacks; the repair passes all cases. Exact spans are checked natively; text, long, JSON, NDJSON and second passes agree.

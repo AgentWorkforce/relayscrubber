@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "status": "targeted repair pass; full CI/artifact and independent review pending",
+  "blockedHead": "dd0db0361808c086ddb9e4f5f05c88124ebdc975",
+  "blockedArtifact": 13835231887,
+  "codeCommit": "3fc896afece46905a40978af076bf5b9a913a2f2",
+  "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
+  "cases": 1320,
+  "fixtureSha256": "a1ea8eb000904b687d9bc209048aff8a0ee7e0c73d6dfc999107ca998a873f5f",
+  "blockedNative": {
+    "head": "dd0db0361808c086ddb9e4f5f05c88124ebdc975",
+    "cases": 1320,
+    "failuresPerApi": [
+      518,
+      518,
+      518,
+      518
+    ],
+    "failedIdsSha256": "c72d7c8e5ba860723de2dbda479b2c8701bdcf006df14cd48645276caa3580f5"
+  },
+  "blockedWasm": {
+    "head": "dd0db0361808c086ddb9e4f5f05c88124ebdc975",
+    "artifactId": 13835231887,
+    "cases": 1320,
+    "source": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+    "wasm": "c8e8941f1c5728bcb8f0215e7e3590e184f442d9319141c5d8cb6fef1aa9f7e9",
+    "failuresPerApi": [
+      518,
+      518,
+      518,
+      518
+    ],
+    "failedIdsSha256": "c72d7c8e5ba860723de2dbda479b2c8701bdcf006df14cd48645276caa3580f5"
+  },
+  "alpha6Inherited": {
+    "cases": 1320,
+    "failures": 435,
+    "scope": "Inherited alpha6 gaps under expanded reviewer ruling",
+    "failedIdsSha256": "9896f82bc14434e780705392c06b15a1895f4cd1e4c5982e4fec51c273f6bda4"
+  },
+  "repair": "Remove word/case-based Markdown shortening; explicit bullet assignments own the complete candidate. Entity-aware rejection bounds apply only after preservation decisions. CLI argument grammar remains separate, and numeric prefixes cannot truncate a bullet passphrase.",
+  "originalPrecisionTradeoff": "Five invented prose preservation expectations withdrawn as sensitive; four trailing-whitespace mechanisms retained.",
+  "targetedNative": "all review, whitespace, alpha6 syntax/recall, complete-value and numeric suites pass",
+  "independentEngineArtifactReview": "pending"
+}

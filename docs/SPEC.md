@@ -203,6 +203,6 @@ values before flags, destructuring binds, cased identifiers and Rust relay `use`
 symbols retain their reviewed syntax bounds. No version alone grants adoption;
 replacement engine/artifact PASS requires independent review after exact-head CI.
 
-### Alpha.7 boundary-only correction
+### Alpha.7 boundary and passphrase correction
 
-Rejected unquoted source values stop before delimiter-adjacent trailing whitespace; internal literal/comment tails remain covered. Quoted scalar contents retain their whitespace. For a labelled Markdown bullet followed by an explicit credential key and a complete sequence of alphabetic words, the colon/PascalCase extent heuristic alone does not extend the first scalar over later prose words. Other reference or source-context evidence still requires the full extent. This boundary rule uses syntax rather than word meanings; quoted, operator, comment, opaque, and incomplete tails keep their full credential extent. All alpha.6 recall rulings remain in force.
+Rejected unquoted source values stop before delimiter-adjacent trailing whitespace; internal literal/comment tails remain covered. Quoted scalar contents retain their whitespace. Explicit sensitive assignments in Markdown bullets own the complete value regardless of surrounding documentary wording or the words/case of a passphrase. The earlier prose-shortening rule is withdrawn. Entity-aware rejection bounds keep complete entity punctuation in that value; they apply only after existing preservation decisions and never admit an exemption. Prefix inspection remains bounded, with exhausted indentation context failing closed. CLI flag values retain their argument grammar. All alpha.6 recall rulings remain in force.
