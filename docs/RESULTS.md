@@ -66,6 +66,10 @@ package repeats Node725/Bun725 and Workers locally.
 Hosted source, archive/package hashes, runtime counts and platform timings are
 recorded in [the encoded-userinfo repair receipt](results/review-fixes.json)
 under `encodedUserinfoLayerRepair`; historical receipts remain intact.
+The version-only alpha.4 cut from reviewed head `77b89c60` is recorded under
+`alpha4Release`, with new hosted artifact identities and unchanged engine/tests.
+Its downloaded archive, embedded manifest and every payload digest were verified.
+Precision: non-zero false positives remain.
 [The artifact pin](results/artifact.json) and [CI receipt](results/ci.json)
 identify the verified hosted package. Handoff requires one immutable exact-head
 Linux, Windows and WASM CI run repeating every gate, including source, WASM,

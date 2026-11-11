@@ -576,7 +576,7 @@
       "call_refusal",
       "instance_poison"
     ],
-    "candidateVersion": "0.5.0-alpha.3",
+    "candidateVersion": "0.5.0-alpha.4",
     "npmPrivate": false,
     "published": false
   },
@@ -592,17 +592,17 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "f8cc7c8282d1d129501d8b5504cd2e0f3241413c",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42925612152",
-    "artifactId": 13814092634,
-    "artifactArchiveSha256": "bfc54981fac64fd7103d05328cc1fa5c886fc3e03eb96409c432dc7e65c636b7",
-    "sourceSha256": "cbbaa358433360534206ef96622715a62c215197f27611986174b2f35c5f41d7",
-    "wasmSha256": "b4039cb783aa73889f160a1fbc30ff9f1dc40d85c184fe0a7d44effb9838d68e",
+    "sourceCommit": "930da124ab9ba8a5a92b2429938d322b83864afb",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42932483475",
+    "artifactId": 13817292468,
+    "artifactArchiveSha256": "0f6775831a9bd36ac8a0875a90e00c6054b8fc3bbba85195e77133f051f3a296",
+    "sourceSha256": "959b6e2894600ec66381ae56cb9bc144d2814d0f27662ca1453e89491c41ceeb",
+    "wasmSha256": "bd181f94e2d03d7a5381a31488aa5ffbc991e4d41132c7f8f08095031608b5da",
     "wasmBytes": 1765595,
-    "packageSha256": "b9f315d697dac383edaf65c425d118a5aadeb6e42b77bb6a9e29d643bb772b25",
-    "packageBytes": 591641,
-    "hostedAllRuntimeChecks": "Linux96, Windows96, Node725, Bun725, frozen199, reproducibility, Workers and packaging pass. This artifact-generation run failed only the expected old-pin equality check.",
-    "localHostedPackageReplay": "SHA256-verified archive and every package payload digest; exact hosted package Node725/Bun725 with fresh218160text+218165structured vectors and frozen199, plus Workers.",
+    "packageSha256": "c0665dc5668bdefd5636656c3a7358273be09a4b8d1e086b99641943e3569641",
+    "packageBytes": 591645,
+    "hostedAllRuntimeChecks": "Linux96, Node725, Bun725, frozen199, reproducibility, Workers and packaging pass; Windows source-run completion pending. Artifact-generation WASM job failed only the expected old-pin equality check.",
+    "localHostedPackageReplay": "Downloaded archive API SHA256, embedded manifest and every WASM/glue/declaration/adapter payload digest verified; source identity independently recomputed. Runtime tests ran on the hosted alpha.4 package inputs.",
     "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
   },
   "additionalTestOnlyCommit": "408ac1e",
@@ -3167,6 +3167,27 @@
         "Skip impossible userinfo/attribute scans when the normalized view has no at-sign/angle bracket.",
         "Avoid rescanning an unchanged source view for percent/HTML recovery."
       ]
+    }
+  },
+  "alpha4Release": {
+    "reviewedBaseCommit": "77b89c602df05d130882198ee5db015ffcad32a0",
+    "versionOnlyCommit": "930da124ab9ba8a5a92b2429938d322b83864afb",
+    "candidateVersion": "0.5.0-alpha.4",
+    "diffProof": "Seven existing files each substitute exactly one alpha.3 version string with alpha.4, plus requested CHANGELOG note. Engine, tests, fixtures, scripts and build.rs byte-identical to reviewed base. Receipt successor changes only documentation and artifact identities.",
+    "precision": "Non-zero false positives remain. Engine/artifact security review does not imply precision or adoption approval.",
+    "hostedArtifact": {
+      "sourceCommit": "930da124ab9ba8a5a92b2429938d322b83864afb",
+      "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42932483475",
+      "artifactId": 13817292468,
+      "artifactArchiveSha256": "0f6775831a9bd36ac8a0875a90e00c6054b8fc3bbba85195e77133f051f3a296",
+      "sourceSha256": "959b6e2894600ec66381ae56cb9bc144d2814d0f27662ca1453e89491c41ceeb",
+      "wasmSha256": "bd181f94e2d03d7a5381a31488aa5ffbc991e4d41132c7f8f08095031608b5da",
+      "wasmBytes": 1765595,
+      "packageSha256": "c0665dc5668bdefd5636656c3a7358273be09a4b8d1e086b99641943e3569641",
+      "packageBytes": 591645,
+      "hostedAllRuntimeChecks": "Linux96, Node725, Bun725, frozen199, reproducibility, Workers and packaging pass; Windows source-run completion pending. Artifact-generation WASM job failed only the expected old-pin equality check.",
+      "localHostedPackageReplay": "Downloaded archive API SHA256, embedded manifest and every WASM/glue/declaration/adapter payload digest verified; source identity independently recomputed. Runtime tests ran on the hosted alpha.4 package inputs.",
+      "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
     }
   }
 }
