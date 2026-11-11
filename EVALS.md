@@ -27,7 +27,9 @@ credential appears anywhere in this repository.
   and SSN shapes must not survive; the default policy preserves contact
   details by contract.
 - `scrub_json_enhanced` / `scrub_json_text_enhanced` — the same treatment for
-  JSON values and JSON text (collision suffixes and counts preserved). The
+  JSON values and JSON text (collision suffixes and counts preserved; counts
+  cover pre-pass swaps plus canonical and post-pass redactions, with
+  already-redacted spans counting zero so second runs stay quiet). The
   value entry point runs both pre-passes over every string value and key
   before the canonical scrub, so it matches the text entry point exactly
   (pinned by parity tests for query parameters and empty-user Redis URLs).

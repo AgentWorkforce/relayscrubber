@@ -705,8 +705,9 @@ fn kube_key_data_at(input: &[u8], i: usize) -> Option<Hit> {
 /// `scheme://:password@host` (empty user, e.g. Redis URLs). The canonical
 /// userinfo rules need a non-empty user, and the email rule would otherwise
 /// eat the host too — so this runs as a pre-pass, keeping `://:` and `@`.
-fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
+fn pre_pass_bare_userinfo(input: &[u8]) -> (Vec<u8>, usize) {
     let mut out = Vec::with_capacity(input.len());
+    let mut count = 0;
     let mut i = 0;
     while i < input.len() {
         if input.len() >= i + 4 && input[i..i + 4] == *b"://:" {
@@ -723,6 +724,11 @@ fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
                 out.extend_from_slice(&input[i..i + 4]);
                 out.extend_from_slice(REDACTED);
                 out.push(b'@');
+                // Rewriting an already-redacted span is a no-op: emit it but
+                // do not count it, so second runs count zero.
+                if &input[i + 4..e] != REDACTED {
+                    count += 1;
+                }
                 i = e + 1;
                 continue;
             }
@@ -730,7 +736,7 @@ fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
         out.push(input[i]);
         i += 1;
     }
-    out
+    (out, count)
 }
 
 /// Redact `?name=value` / `&name=value` / `#name=value` precisely, stopping
@@ -741,8 +747,9 @@ fn pre_pass_bare_userinfo(input: &[u8]) -> Vec<u8> {
 /// `\"`/`\'`/`\n`/`\r`/`\t` (so the closing quote survives and the document
 /// stays valid) and consumes any other escape pair whole (so `\\` stays
 /// correct). Plain text keeps the raw-delimiter scan.
-fn pre_pass_params(input: &[u8], json: bool) -> Vec<u8> {
+fn pre_pass_params(input: &[u8], json: bool) -> (Vec<u8>, usize) {
     let mut out = Vec::with_capacity(input.len());
+    let mut count = 0;
     let mut i = 0;
     while i < input.len() {
         let c = input[i];
@@ -784,6 +791,11 @@ fn pre_pass_params(input: &[u8], json: bool) -> Vec<u8> {
                         }
                         i = e;
                         done = true;
+                        // Rewriting an already-redacted value is a no-op:
+                        // emit it but do not count it, so second runs zero.
+                        if &input[v + 1..e] != REDACTED {
+                            count += 1;
+                        }
                     }
                     break;
                 }
@@ -795,7 +807,7 @@ fn pre_pass_params(input: &[u8], json: bool) -> Vec<u8> {
         out.push(c);
         i += 1;
     }
-    out
+    (out, count)
 }
 
 /// Long CLI flags whose space-separated value is always a secret, at any
@@ -1091,11 +1103,9 @@ pub fn scrub_enhanced(value: &str) -> String {
 /// webhooks, CLI flags, private IPv4, userinfo tokens) applies either way.
 #[must_use]
 pub fn scrub_enhanced_with_policy(value: &str, policy: Policy) -> String {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
-        value.as_bytes(),
-        false,
-    )));
-    let mid = scrub_text_with_policy(&pre, policy);
+    let (params, _) = pre_pass_params(value.as_bytes(), false);
+    let (pre, _) = pre_pass_bare_userinfo(&params);
+    let mid = scrub_text_with_policy(&utf8(pre), policy);
     utf8(post_pass(mid.as_bytes()))
 }
 
@@ -1105,31 +1115,33 @@ pub fn scrub_enhanced_with_policy(value: &str, policy: Policy) -> String {
 /// decoded), so the plain-text scan applies. Keys that would collide after
 /// substitution keep their original spelling; the canonical scrub resolves
 /// collisions itself.
-fn pre_pass_value(node: &mut Value) {
+fn pre_pass_value(node: &mut Value) -> usize {
     match node {
         Value::String(s) => {
-            *s = utf8(pre_pass_bare_userinfo(&pre_pass_params(
-                s.as_bytes(),
-                false,
-            )));
+            let (params, n) = pre_pass_params(s.as_bytes(), false);
+            let (fixed, m) = pre_pass_bare_userinfo(&params);
+            *s = utf8(fixed);
+            n + m
         }
-        Value::Array(items) => items.iter_mut().for_each(pre_pass_value),
+        Value::Array(items) => items.iter_mut().map(pre_pass_value).sum(),
         Value::Object(map) => {
             let entries: Vec<(String, Value)> = std::mem::take(map).into_iter().collect();
+            let mut count = 0;
             for (key, mut item) in entries {
-                pre_pass_value(&mut item);
-                let fixed = utf8(pre_pass_bare_userinfo(&pre_pass_params(
-                    key.as_bytes(),
-                    false,
-                )));
+                count += pre_pass_value(&mut item);
+                let (params, n) = pre_pass_params(key.as_bytes(), false);
+                let (fixed_bytes, m) = pre_pass_bare_userinfo(&params);
+                let fixed = utf8(fixed_bytes);
+                count += n + m;
                 if fixed != key && map.contains_key(&fixed) {
                     map.insert(key, item);
                 } else {
                     map.insert(fixed, item);
                 }
             }
+            count
         }
-        _ => {}
+        _ => 0,
     }
 }
 
@@ -1200,9 +1212,9 @@ pub fn scrub_json_enhanced(value: &Value) -> (Value, usize) {
 #[must_use]
 pub fn scrub_json_enhanced_with_policy(value: &Value, policy: Policy) -> (Value, usize) {
     let mut pre = value.clone();
-    pre_pass_value(&mut pre);
-    let (mut clean, mut count) = scrub_json_with_policy(&pre, policy);
-    count += post_pass_value(&mut clean);
+    let mut count = pre_pass_value(&mut pre);
+    let (mut clean, n) = scrub_json_with_policy(&pre, policy);
+    count += n + post_pass_value(&mut clean);
     (clean, count)
 }
 
@@ -1213,12 +1225,11 @@ pub fn scrub_json_enhanced_with_policy(value: &Value, policy: Policy) -> (Value,
 /// point returns `None`.
 #[must_use]
 pub fn scrub_json_text_enhanced(text: &str) -> Option<(Value, usize)> {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
-        text.as_bytes(),
-        true,
-    )));
-    let (mut clean, mut count) = scrub_json_text(&pre)?;
-    count += post_pass_value(&mut clean);
+    let (params, n) = pre_pass_params(text.as_bytes(), true);
+    let (pre_bytes, m) = pre_pass_bare_userinfo(&params);
+    let pre = utf8(pre_bytes);
+    let (mut clean, k) = scrub_json_text(&pre)?;
+    let count = n + m + k + post_pass_value(&mut clean);
     Some((clean, count))
 }
 
@@ -1227,10 +1238,9 @@ pub fn scrub_json_text_enhanced(text: &str) -> Option<(Value, usize)> {
 /// to [`scrub_json_with_policy`]; `None` exactly for invalid JSON.
 #[must_use]
 pub fn scrub_json_text_enhanced_with_policy(text: &str, policy: Policy) -> Option<(Value, usize)> {
-    let pre = utf8(pre_pass_bare_userinfo(&pre_pass_params(
-        text.as_bytes(),
-        true,
-    )));
-    let parsed: Value = serde_json::from_str(&pre).ok()?;
-    Some(scrub_json_enhanced_with_policy(&parsed, policy))
+    let (params, n) = pre_pass_params(text.as_bytes(), true);
+    let (pre_bytes, m) = pre_pass_bare_userinfo(&params);
+    let parsed: Value = serde_json::from_str(&utf8(pre_bytes)).ok()?;
+    let (clean, k) = scrub_json_enhanced_with_policy(&parsed, policy);
+    Some((clean, n + m + k))
 }
