@@ -194,3 +194,10 @@ credential containers; non-path literals and malformed postfix tails still redac
 flag has no value unless an equals sign or quote supplies literal data. Switch
 case return references and complete grep/rg directory tails are source syntax.
 These invented regressions do not establish production false-positive rates.
+
+Adjacent `//` and `/*` openers are lexical comments, never division followed by
+a regex operand. A rejected source value retains its complete candidate extent,
+so comment text cannot survive as an explanation after an inserted marker.
+Borrow expressions preserve only complete reference operands; quoted/numeric
+borrow operands and literal tails remain sensitive. Type aliases retain their
+existing strict grammar and do not enter the new expression recognizer.

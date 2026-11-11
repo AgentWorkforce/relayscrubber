@@ -2,20 +2,20 @@
   "schema": 1,
   "status": "hosted-runtime-and-artifact-verified-final-exact-head-required",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "f7058d8974eedba045f0685d002c838ce7456f44",
-  "sourceRunHead": "5162e302014facc29427d683b3304b9f110de1b8",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42950738362",
+  "codeCommit": "1cf158cfefd9921cfc8b6a2c32fa2b027e5b11b7",
+  "sourceRunHead": "3bc981032818e035c444867256f1d62a6d9175bd",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42956203954",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13825690233,
-  "artifactArchiveSha256": "b3b6ee442af1345bb12a3ba3fe6f1b4fd5377fa5c1464bbc664523141c7a4b99",
-  "packageSha256": "e3a1c882f142584943baa3b7546dc58b7af3081a4674d1bcdd608d9132e048cb",
+  "artifactId": 13827980252,
+  "artifactArchiveSha256": "40d07b68d3888d4e7236fc108ec5f522a2b10f97bed911f77df913357ebe18fd",
+  "packageSha256": "4c7ee96b721517f86020e8bed77ecada9fba5fbee3437a73725b6c64387235f1",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "866b2d9396b039c24ab06991278bfadaae2e850c71cb16b4f1368212e3a1f836",
+    "rulesetSourceSha256": "8e6aa1d9d96f2cd3af4ce3421b3c73b7e3e8af63c24cf55c551974f14e016bb3",
     "crateVersion": "0.5.0-alpha.6",
     "abiVersion": 2,
     "policy": "secrets",
@@ -23,7 +23,7 @@
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "c2bfb1b6a342f4af833f91bb85ecfe34e72b96f71a0854990396cd5b0340e2f6",
+    "relayscrubber_bg.wasm": "3313d3614d9e5c2de3a8d80eac68fbd797bd294ecb6fbf20ed446164d0692e64",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -41,5 +41,5 @@
     "Linux",
     "Windows"
   ],
-  "runtimeChecks": "Linux Rust100/fmt/clippy, Node728/Bun728, fresh223069text+223074structured vectors, frozen199, Workers, independent reproducibility and packaging pass. WASM failed only equality with the superseded alpha.5 pin; this receipt refreshes it. Windows remains gated by final exact-head CI."
+  "runtimeChecks": "LinuxRust100/fmt/clippy, Node728/Bun728, fresh223222text+223227structured vectors, frozen199, Workers, independent reproducibility and packaging pass. WASM failed only equality with the superseded pin; this receipt refreshes it. Windows remains the required final exact-head gate."
 }

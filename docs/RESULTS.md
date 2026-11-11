@@ -107,33 +107,33 @@ precise source/WASM/glue/declaration/adapter/package pins. No merge or publish.
 ## Alpha.6 syntax precision
 
 This candidate starts from PR #16's exact reviewed alpha.5 head
-`5f9051711d40815690853761e5bd82627459aaac` and is rebased onto main after
-that PR merged. [The pinned Rust 1.88 baseline](results/alpha6-syntax-baseline.json)
-records the test-first evidence: 2,554 invented cases, 147 preservation controls,
-and 2,407 literal/attack controls. Alpha.5 fails 100 preservation controls and
-63 attacks; 47 existing preservation controls are retained. Direct structured
-bare-Key path and credential-container checks supplement that shared fixture.
+`5f9051711d40815690853761e5bd82627459aaac`, rebased onto main after that PR merged.
+[The pinned Rust 1.88 baseline](results/alpha6-syntax-baseline.json) records
+2,707 invented cases: 149 preservation controls and 2,558 literal/attack controls.
+Alpha.5 fails 101 preservation and 85 attacks; 48 prior preservation controls remain.
+Direct structured bare-Key paths and credential-container checks supplement it.
 
-The canonical engine covers complete source expressions and regexes, symbolic
-objects/arrays, destructuring binds, type members, template references, source
-identifier casing, isolated openers, and Rust relay-symbol imports. It also fixes
-PR #11's four upstream precision reports. Quoted, numeric and embedded credentials,
-short/opaque tails, and encoded separator attacks remain covered. The parser
-is bounded to 512 bytes and depth 32, and participates in the source digest.
+Complete source syntax covers expressions, regexes, symbolic objects/arrays,
+destructuring, type members, templates, cased identifiers, borrow expressions,
+isolated openers and Rust relay use declarations. The canonical engine also fixes
+PR #11's four upstream precision reports. Every exemption consumes its complete
+candidate and delimiter; strings, numeric credentials, embedded data, short/opaque
+tails, encoded delimiters and comment attacks remain sensitive. Adjacent line/block
+comment openers are lexical comments. Rejected source values retain complete
+extents so a marker cannot hide a lower-case comment tail. Type aliases retain
+their strict existing grammar. Parser candidates are at most 512 bytes, depth 32.
 
-Hosted artifact verification and exact-head checks are recorded in
-`alpha6SyntaxPrecisionRepair` in [the review receipt](results/review-fixes.json).
-The unchanged prior security matrices and 10-second timing limits remain gates.
-Only invented data and the public frozen witnesses were used. Independent
-production precision re-audit remains pending; no merge, tag or publish is authorized.
+The new [verified Linux artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42956203954)
+has package SHA-256 `4c7ee96b721517f86020e8bed77ecada9fba5fbee3437a73725b6c64387235f1` and WASM SHA-256 `3313d3614d9e5c2de3a8d80eac68fbd797bd294ecb6fbf20ed446164d0692e64`.
+[The artifact receipt](results/alpha6-artifact-verification.json) records GitHub's
+archive digest and independently recomputed source identity including the parser.
+Linux Rust 100/fmt/clippy, Node 728 / Bun 728, fresh 223,222 text and 223,227 structured native
+vectors, frozen 199 (no misses or second-pass changes), Workers, independent
+reproducibility and packaging pass. Downloaded-package replay is recorded in
+[the review receipt](results/review-fixes.json). The source WASM job failed only
+comparison with the superseded pin. Final immutable-head Linux/Windows/WASM CI
+must pass the refreshed source/WASM/glue/adapter/package pins before handoff.
 
-The verified implementation artifact is from [Linux source CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42950738362).
-Its package SHA-256 is `e3a1c882f142584943baa3b7546dc58b7af3081a4674d1bcdd608d9132e048cb`;
-WASM SHA-256 is `c2bfb1b6a342f4af833f91bb85ecfe34e72b96f71a0854990396cd5b0340e2f6`.
-[The artifact verification receipt](results/alpha6-artifact-verification.json)
-records the archive digest and independently recomputed source identity.
-The downloaded hosted package passes all 728 Node and 728 Bun checks, fresh
-223,069 text and 223,074 structured native vectors, frozen 199, and Workers.
-The source CI WASM job passed runtime/reproducibility/packaging and failed only
-comparison with the superseded alpha.5 pin. Final exact-head Linux/Windows/WASM
-CI must pass the refreshed source/WASM/glue/adapter/package pin before review.
+Every prior security matrix and timing limit remains unchanged. Only invented
+inputs/public frozen witnesses were used. Independent production precision
+re-audit remains pending; no merge, tag or publish is authorized.
