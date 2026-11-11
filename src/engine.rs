@@ -560,9 +560,24 @@ fn safe_code_literals(value: &str) -> bool {
     true
 }
 
+// Reference arguments contain identifiers rather than scalar literals.
+fn symbolic_arguments(value: &str) -> bool {
+    !value.contains(['"', '\'', '`'])
+        && !value
+            .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+            .any(|atom| atom.as_bytes().first().is_some_and(u8::is_ascii_digit))
+}
+
 fn code_expression(value: &str) -> bool {
     if !safe_code_literals(value) {
         return false;
+    }
+    if let Some(rest) = value.strip_prefix("await ") {
+        // Awaited credential calls may contain reference arguments, never
+        // scalar literals (including short numeric credentials).
+        return rest.contains('(')
+            && symbolic_arguments(rest)
+            && code_expression(rest.trim_start());
     }
     for op in ["??", "||"] {
         if let Some((left, right)) = value.split_once(op) {
@@ -596,6 +611,27 @@ fn code_expression(value: &str) -> bool {
 }
 
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
+    // Rust reference aliases have a lifetime apostrophe, not a quoted scalar.
+    // Check the entire declaration suffix before the general quote scanner.
+    if !colon && matches!(bounded_prefix(view, key).trim(), "type" | "pub type") {
+        let end = view.line_end(value).min(value.saturating_add(512));
+        if end == view.line_end(value) && view.text.is_char_boundary(end) {
+            let rest = &view.text[value..end];
+            static ALIAS: OnceLock<Regex> = OnceLock::new();
+            if !opaque_material(rest)
+                && ALIAS
+                    .get_or_init(|| {
+                        Regex::new(
+                            r"^&(?:'[A-Za-z_][A-Za-z0-9_]*[ \t]+)?(?:mut[ \t]+)?str[ \t]*;[ \t]*$",
+                        )
+                        .expect("complete Rust str reference alias")
+                    })
+                    .is_match(rest)
+            {
+                return true;
+            }
+        }
+    }
     let Some(rest) = candidate(view, value) else {
         return false;
     };
@@ -1851,6 +1887,35 @@ fn query_separator(view: &View, start: usize) -> usize {
     }
 }
 
+// Apply complete-value reference grammar in both normal and recovered queries.
+// The whole parameter must match; whitespace, comments and literal tails never
+// establish an exemption. Bound grammar work independently of parameter size.
+fn query_reference(value: &str) -> bool {
+    if value.len() > 512 {
+        return false;
+    }
+    let value = value.trim_end();
+    let variable = value.strip_prefix('$').map(|name| {
+        name.strip_prefix('{')
+            .and_then(|s| s.strip_suffix('}'))
+            .unwrap_or(name)
+    });
+    reference(value)
+        || shell_reference(value)
+            && variable.is_some_and(|name| {
+                name.as_bytes()
+                    .first()
+                    .is_some_and(|b| b.is_ascii_alphabetic() || *b == b'_')
+                    && name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+            })
+        || environment_reference(value)
+        || value.starts_with("${{") && symbolic_arguments(value) && expansion_reference(value)
+        || value
+            .strip_prefix('`')
+            .and_then(|s| s.strip_suffix('`'))
+            .is_some_and(|s| symbolic_arguments(s) && template_reference(s))
+}
+
 // A malformed earlier value cannot terminate parameter discovery. Query
 // separators remain visible beyond quotes, fragments, markup or line breaks.
 // Run once over the remaining suffix, including nested schemes: another URL
@@ -1900,7 +1965,14 @@ fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut V
             }
             value_end += 1;
         }
-        if value_end > value_start {
+        let whole = &view.text[value_start..parameter_end];
+        if value_end > value_start && !query_reference(whole) {
+            // A reference prefix cannot hide literal data after whitespace.
+            if whole.starts_with(['$', '`', '*'])
+                || query_reference(&view.text[value_start..value_end])
+            {
+                value_end = parameter_end;
+            }
             spans.push(value_start..value_end);
         }
         cursor = parameter_end;
@@ -2044,7 +2116,25 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
                     parameter_end = query_next(b, parameter_end);
                 }
                 if sensitive && eq + 1 < parameter_end {
-                    spans.push(eq + 1..parameter_end);
+                    let is_reference = query_reference(&view.text[eq + 1..parameter_end]);
+                    // A URL's whitespace boundary is not proof that a symbolic
+                    // credential has ended. Inspect its local parameter suffix;
+                    // never exempt a reference prefix followed by literal data.
+                    let mut complete = parameter_end;
+                    let reference_candidate = is_reference
+                        || view.text[eq + 1..parameter_end].starts_with(['$', '`', '*']);
+                    if reference_candidate && complete == end {
+                        let limit = view.line_end(complete);
+                        while complete < limit
+                            && b[complete] != b'?'
+                            && query_separator(view, complete) == 0
+                        {
+                            complete = query_next(b, complete);
+                        }
+                    }
+                    if !is_reference || !view.text[parameter_end..complete].trim().is_empty() {
+                        spans.push(eq + 1..complete);
+                    }
                 }
                 // Public redirect values may contain another encoded query.
                 // Each prefix/value is traversed once, including nested URLs.
@@ -2272,11 +2362,13 @@ struct UserinfoLayer {
     html: usize,
     network: bool,
     serialized: bool,
+    guard_references: bool,
 }
 
 fn userinfo_layers(
     view: &View,
     depth: usize,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) -> bool {
@@ -2285,6 +2377,7 @@ fn userinfo_layers(
         html: 4,
         network: encoded_network_prefix(&view.text),
         serialized: view.text.contains("&%23") || view.text.contains("%26%23"),
+        guard_references,
     };
     userinfo_layers_inner(view, state, &[], spans, guards)
 }
@@ -2311,6 +2404,7 @@ fn userinfo_layers_inner(
                         view,
                         at + 1 + query,
                         state.percent,
+                        state.guard_references,
                         &mut local,
                         &mut bounds,
                     );
@@ -2395,6 +2489,7 @@ fn nested_public_value(
     value: Range<usize>,
     depth: usize,
     bare_authority: bool,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) -> bool {
@@ -2422,8 +2517,23 @@ fn nested_public_value(
     let mut local = Vec::new();
     let mut bounds = Vec::new();
     let authority_context = bare_authority || encoded_network_prefix(&nested.text);
-    if !authority_context || !userinfo_layers(&nested, depth - 1, &mut local, &mut bounds) {
-        component_query_parameters(&nested, 0, depth - 1, &mut local, &mut bounds);
+    if !authority_context
+        || !userinfo_layers(
+            &nested,
+            depth - 1,
+            guard_references,
+            &mut local,
+            &mut bounds,
+        )
+    {
+        component_query_parameters(
+            &nested,
+            0,
+            depth - 1,
+            guard_references,
+            &mut local,
+            &mut bounds,
+        );
     }
     guards.extend(bounds.into_iter().map(|r| {
         value.start + nested.source_start(r.start)..value.start + nested.source_end(r.end - 1)
@@ -2438,6 +2548,7 @@ fn component_query_parameters(
     view: &View,
     start: usize,
     depth: usize,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) {
@@ -2516,13 +2627,40 @@ fn component_query_parameters(
             }
         }
         if sensitive {
-            if parameter_end > value {
-                spans.push(value..parameter_end);
+            let raw = &view.text[value..parameter_end];
+            let mut complete = parameter_end;
+            if query_reference(raw) || raw.starts_with(['$', '`', '*']) {
+                // A decoded component is already bounded by its URL region or
+                // attribute. Whitespace cannot prove a reference has ended;
+                // literal tails stay opaque through the next outer separator.
+                while complete < b.len() && !matches!(b[complete], b'&' | b';') {
+                    complete += 1;
+                }
             }
-            cursor = parameter_end;
+            if complete > value {
+                if query_reference(&view.text[value..complete]) {
+                    // Keep generic assignment/recovery scans within this
+                    // complete component's proven URL boundary as well.
+                    if guard_references {
+                        guards.push(value..complete);
+                    }
+                } else {
+                    spans.push(value..complete);
+                }
+            }
+            cursor = complete;
             continue;
         }
-        if encoded_key && nested_public_value(view, key..parameter_end, depth, false, spans, guards)
+        if encoded_key
+            && nested_public_value(
+                view,
+                key..parameter_end,
+                depth,
+                false,
+                guard_references,
+                spans,
+                guards,
+            )
         {
             cursor = parameter_end;
             continue;
@@ -2547,6 +2685,7 @@ fn component_query_parameters(
             value..parameter_end,
             depth,
             bare_authority,
+            guard_references,
             spans,
             guards,
         ) {
@@ -2560,7 +2699,15 @@ fn component_query_parameters(
         if !attribute_userinfo(view, &mut userinfo) {
             // A wholly encoded nested query can require another layer before
             // any key=value syntax becomes visible. Never decode userinfo data.
-            nested_public_value(view, start..b.len(), depth, false, spans, guards);
+            nested_public_value(
+                view,
+                start..b.len(),
+                depth,
+                false,
+                guard_references,
+                spans,
+                guards,
+            );
         }
     }
 }
@@ -2641,9 +2788,9 @@ fn source_url_regions(
             let components = View::html_components(spelling);
             let mut local = Vec::new();
             let mut bounds = Vec::new();
-            let authority = userinfo_layers(&components, 4, &mut local, &mut bounds);
+            let authority = userinfo_layers(&components, 4, false, &mut local, &mut bounds);
             if queries && !authority {
-                component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+                component_query_parameters(&components, 0, 4, false, &mut local, &mut bounds);
             }
             matches = local
                 .into_iter()
@@ -2859,9 +3006,16 @@ fn html_attribute_urls(
                         let mut bounds = Vec::new();
                         let mut userinfo = Vec::new();
                         let authority_found =
-                            userinfo_layers(&components, 4, &mut userinfo, &mut bounds);
+                            userinfo_layers(&components, 4, true, &mut userinfo, &mut bounds);
                         if !authority_found {
-                            component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+                            component_query_parameters(
+                                &components,
+                                0,
+                                4,
+                                true,
+                                &mut local,
+                                &mut bounds,
+                            );
                         }
                         // A real authority takes precedence over encoded punctuation
                         // inside its username/password. Fully encoded authorities
