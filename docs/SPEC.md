@@ -71,6 +71,10 @@ are ordinary strings: a marker prefix never exempts a surviving tail. A second
 scrub must be byte-identical to the first.
 
 Unquoted ordinary assignments end at whitespace or a structural separator.
+Source-shaped values do not establish source context for a bare credential
+reassignment. Spaced ` = ` and a terminal semicolon cannot exempt it. References
+may remain visible in an independently recognized declaration; literal siblings
+still redact. Word prefixes cannot waive an equals assignment.
 Unquoted YAML block scalars are sensitive through their indented body. Header
 values end at the next physical line unless quoted; sensitive JSON properties
 redact their entire value, including numbers, booleans, arrays and descendants.

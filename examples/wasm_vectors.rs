@@ -77,6 +77,7 @@ fn main() {
         include_str!("../eval/alpha6_review_recall_cases.json"),
         include_str!("../eval/alpha7_boundary_cases.json"),
         include_str!("../eval/alpha7_review_recall_cases.json"),
+        include_str!("../eval/alpha8_reassignment_cases.json"),
         include_str!("../eval/precision_10_1_cases.json"),
         include_str!("../eval/query_recovery_cases.json"),
         include_str!("../eval/entity_query_cases.json"),
@@ -91,7 +92,9 @@ fn main() {
         for case in structural.as_array().unwrap() {
             let input = case["input"].as_str().unwrap();
             let output = relayscrubber::scrub_text(input);
-            if let Some(expected) = case["expected"].as_str() {
+            if let Some(allowed) = case["allowedExpected"].as_array() {
+                assert!(allowed.iter().any(|s| s.as_str() == Some(output.as_str())));
+            } else if let Some(expected) = case["expected"].as_str() {
                 assert_eq!(output, expected);
             } else {
                 assert!(!output.contains(case["secret"].as_str().unwrap()));

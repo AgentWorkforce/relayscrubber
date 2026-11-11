@@ -14,7 +14,7 @@ test('exact reviewer matrix across every pinned WASM API',()=>{
 });
 test('invented residuals stay unchanged while positive controls redact',()=>{
  const cases=JSON.parse(readFileSync(new URL('../../eval/residual_cases.json',import.meta.url),'utf8').replaceAll('OPENAI_PREFIX_','sk'+'-proj-').replaceAll('GITHUB_PREFIX_','gh'+'p_').replaceAll('AWS_PREFIX_','AK'+'IA').replaceAll('SLACK_PREFIX_','xo'+'xb-').replaceAll('STRIPE_PREFIX_','sk'+'_live_'));
- assert.deepEqual(cases.benign.flatMap((input,i)=>verify(input,input)?[]:[i]),[]);
+ assert.deepEqual(cases.benign.flatMap((c,i)=>verify(typeof c==='string'?c:c.input,typeof c==='string'?c:c.expected)?[]:[i]),[]);
  for(const {shape,input} of cases.positive){const output=scrubber.scrubText(input);assert.notEqual(input,output,shape);assert.ok(verify(input,output),shape);}
 });
 test('nested credentials override a public selector in structured WASM',()=>{

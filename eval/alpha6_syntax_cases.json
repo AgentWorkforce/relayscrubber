@@ -242,7 +242,7 @@
   {
     "family": "borrow_reference",
     "input": "token = &widget;",
-    "expected": "token = &widget;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "borrow_literal",
@@ -1342,7 +1342,7 @@
   {
     "family": "call",
     "input": "password = readWidget(input);",
-    "expected": "password = readWidget(input);"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "call_quoted_literal",
@@ -1582,7 +1582,7 @@
   {
     "family": "call",
     "input": "token = readWidget(input);",
-    "expected": "token = readWidget(input);"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "call_quoted_literal",
@@ -1822,7 +1822,7 @@
   {
     "family": "call",
     "input": "session_id = readWidget(input);",
-    "expected": "session_id = readWidget(input);"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "call_quoted_literal",
@@ -2062,7 +2062,7 @@
   {
     "family": "call",
     "input": "PASSWORD = readWidget(input);",
-    "expected": "PASSWORD = readWidget(input);"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "call_quoted_literal",
@@ -2357,7 +2357,7 @@
   {
     "family": "member",
     "input": "password = widget.credentials;",
-    "expected": "password = widget.credentials;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "member_quoted_literal",
@@ -2597,7 +2597,7 @@
   {
     "family": "member",
     "input": "token = widget.credentials;",
-    "expected": "token = widget.credentials;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "member_quoted_literal",
@@ -2837,7 +2837,7 @@
   {
     "family": "member",
     "input": "session_id = widget.credentials;",
-    "expected": "session_id = widget.credentials;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "member_quoted_literal",
@@ -3077,7 +3077,7 @@
   {
     "family": "member",
     "input": "PASSWORD = widget.credentials;",
-    "expected": "PASSWORD = widget.credentials;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "member_quoted_literal",
@@ -3372,7 +3372,7 @@
   {
     "family": "operator",
     "input": "password = widget.primary + widget.secondary;",
-    "expected": "password = widget.primary + widget.secondary;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "operator_quoted_literal",
@@ -3612,7 +3612,7 @@
   {
     "family": "operator",
     "input": "token = widget.primary + widget.secondary;",
-    "expected": "token = widget.primary + widget.secondary;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "operator_quoted_literal",
@@ -3852,7 +3852,7 @@
   {
     "family": "operator",
     "input": "session_id = widget.primary + widget.secondary;",
-    "expected": "session_id = widget.primary + widget.secondary;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "operator_quoted_literal",
@@ -4092,7 +4092,7 @@
   {
     "family": "operator",
     "input": "PASSWORD = widget.primary + widget.secondary;",
-    "expected": "PASSWORD = widget.primary + widget.secondary;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "operator_quoted_literal",
@@ -4387,7 +4387,7 @@
   {
     "family": "logical",
     "input": "password = widget.primary && widget.secondary;",
-    "expected": "password = widget.primary && widget.secondary;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "logical_quoted_literal",
@@ -4627,7 +4627,7 @@
   {
     "family": "logical",
     "input": "token = widget.primary && widget.secondary;",
-    "expected": "token = widget.primary && widget.secondary;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "logical_quoted_literal",
@@ -4867,7 +4867,7 @@
   {
     "family": "logical",
     "input": "session_id = widget.primary && widget.secondary;",
-    "expected": "session_id = widget.primary && widget.secondary;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "logical_quoted_literal",
@@ -5107,7 +5107,7 @@
   {
     "family": "logical",
     "input": "PASSWORD = widget.primary && widget.secondary;",
-    "expected": "PASSWORD = widget.primary && widget.secondary;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "logical_quoted_literal",
@@ -5402,7 +5402,7 @@
   {
     "family": "conditional",
     "input": "password = widget.ready ? widget.primary : widget.secondary;",
-    "expected": "password = widget.ready ? widget.primary : widget.secondary;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "conditional_quoted_literal",
@@ -5642,7 +5642,7 @@
   {
     "family": "conditional",
     "input": "token = widget.ready ? widget.primary : widget.secondary;",
-    "expected": "token = widget.ready ? widget.primary : widget.secondary;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "conditional_quoted_literal",
@@ -5882,7 +5882,7 @@
   {
     "family": "conditional",
     "input": "session_id = widget.ready ? widget.primary : widget.secondary;",
-    "expected": "session_id = widget.ready ? widget.primary : widget.secondary;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "conditional_quoted_literal",
@@ -6122,7 +6122,7 @@
   {
     "family": "conditional",
     "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary;",
-    "expected": "PASSWORD = widget.ready ? widget.primary : widget.secondary;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "conditional_quoted_literal",
@@ -6417,7 +6417,7 @@
   {
     "family": "object",
     "input": "password = {widget: 1};",
-    "expected": "password = {widget: 1};"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "object_quoted_literal",
@@ -6657,7 +6657,7 @@
   {
     "family": "object",
     "input": "token = {widget: 1};",
-    "expected": "token = {widget: 1};"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "object_quoted_literal",
@@ -6897,7 +6897,7 @@
   {
     "family": "object",
     "input": "session_id = {widget: 1};",
-    "expected": "session_id = {widget: 1};"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "object_quoted_literal",
@@ -7137,7 +7137,7 @@
   {
     "family": "object",
     "input": "PASSWORD = {widget: 1};",
-    "expected": "PASSWORD = {widget: 1};"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "object_quoted_literal",
@@ -7432,7 +7432,7 @@
   {
     "family": "nested_object",
     "input": "password = {widget: {count: 1}};",
-    "expected": "password = {widget: {count: 1}};"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "nested_object_quoted_literal",
@@ -7672,7 +7672,7 @@
   {
     "family": "nested_object",
     "input": "token = {widget: {count: 1}};",
-    "expected": "token = {widget: {count: 1}};"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "nested_object_quoted_literal",
@@ -7912,7 +7912,7 @@
   {
     "family": "nested_object",
     "input": "session_id = {widget: {count: 1}};",
-    "expected": "session_id = {widget: {count: 1}};"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "nested_object_quoted_literal",
@@ -8152,7 +8152,7 @@
   {
     "family": "nested_object",
     "input": "PASSWORD = {widget: {count: 1}};",
-    "expected": "PASSWORD = {widget: {count: 1}};"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "nested_object_quoted_literal",
@@ -8447,7 +8447,7 @@
   {
     "family": "array",
     "input": "password = [widget.primary, widget.secondary];",
-    "expected": "password = [widget.primary, widget.secondary];"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "array_quoted_literal",
@@ -8687,7 +8687,7 @@
   {
     "family": "array",
     "input": "token = [widget.primary, widget.secondary];",
-    "expected": "token = [widget.primary, widget.secondary];"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "array_quoted_literal",
@@ -8927,7 +8927,7 @@
   {
     "family": "array",
     "input": "session_id = [widget.primary, widget.secondary];",
-    "expected": "session_id = [widget.primary, widget.secondary];"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "array_quoted_literal",
@@ -9167,7 +9167,7 @@
   {
     "family": "array",
     "input": "PASSWORD = [widget.primary, widget.secondary];",
-    "expected": "PASSWORD = [widget.primary, widget.secondary];"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "array_quoted_literal",
@@ -9462,7 +9462,7 @@
   {
     "family": "template",
     "input": "password = ${widget.credentials};",
-    "expected": "password = ${widget.credentials};"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "template_quoted_literal",
@@ -9692,7 +9692,7 @@
   {
     "family": "template",
     "input": "token = ${widget.credentials};",
-    "expected": "token = ${widget.credentials};"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "template_quoted_literal",
@@ -9922,7 +9922,7 @@
   {
     "family": "template",
     "input": "session_id = ${widget.credentials};",
-    "expected": "session_id = ${widget.credentials};"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "template_quoted_literal",
@@ -10152,7 +10152,7 @@
   {
     "family": "template",
     "input": "PASSWORD = ${widget.credentials};",
-    "expected": "PASSWORD = ${widget.credentials};"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "template_quoted_literal",
@@ -10437,7 +10437,7 @@
   {
     "family": "identifier",
     "input": "password = widgetPassword;",
-    "expected": "password = widgetPassword;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "identifier_quoted_literal",
@@ -10677,7 +10677,7 @@
   {
     "family": "identifier",
     "input": "token = widgetPassword;",
-    "expected": "token = widgetPassword;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "identifier_quoted_literal",
@@ -10917,7 +10917,7 @@
   {
     "family": "identifier",
     "input": "session_id = widgetPassword;",
-    "expected": "session_id = widgetPassword;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "identifier_quoted_literal",
@@ -11157,7 +11157,7 @@
   {
     "family": "identifier",
     "input": "PASSWORD = widgetPassword;",
-    "expected": "PASSWORD = widgetPassword;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "identifier_quoted_literal",
@@ -11452,7 +11452,7 @@
   {
     "family": "uppercase",
     "input": "password = WIDGET_CREDENTIAL;",
-    "expected": "password = WIDGET_CREDENTIAL;"
+    "expected": "password = [REDACTED];"
   },
   {
     "family": "uppercase_quoted_literal",
@@ -11692,7 +11692,7 @@
   {
     "family": "uppercase",
     "input": "token = WIDGET_CREDENTIAL;",
-    "expected": "token = WIDGET_CREDENTIAL;"
+    "expected": "token = [REDACTED];"
   },
   {
     "family": "uppercase_quoted_literal",
@@ -11932,7 +11932,7 @@
   {
     "family": "uppercase",
     "input": "session_id = WIDGET_CREDENTIAL;",
-    "expected": "session_id = WIDGET_CREDENTIAL;"
+    "expected": "session_id = [REDACTED];"
   },
   {
     "family": "uppercase_quoted_literal",
@@ -12172,7 +12172,7 @@
   {
     "family": "uppercase",
     "input": "PASSWORD = WIDGET_CREDENTIAL;",
-    "expected": "PASSWORD = WIDGET_CREDENTIAL;"
+    "expected": "PASSWORD = [REDACTED];"
   },
   {
     "family": "uppercase_quoted_literal",
