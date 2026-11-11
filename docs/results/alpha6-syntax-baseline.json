@@ -7,13 +7,14 @@
     "c00dfb082288314eb6d9e03b4e5987ae065b7283",
     "45c3cfdc0c571b0bb2fb00687a09109d53544000",
     "6a4606485b1e393785ab5d6e664ac549416487bc",
-    "67f9e15f5106f798111de2e9189f3ef2b55d026d"
+    "67f9e15f5106f798111de2e9189f3ef2b55d026d",
+    "95bd3da174b860a11fd93bef1b141ef03fb7933a"
   ],
   "toolchain": "1.88.0",
   "cases": 2707,
-  "benignCases": 149,
-  "attackCases": 2558,
-  "baselineInvalidBenign": 101,
+  "benignCases": 134,
+  "attackCases": 2573,
+  "baselineInvalidBenign": 86,
   "baselineInvalidAttacks": 85,
   "baselineFailuresByFamily": {
     "comment_after_rejected_lowercase_value": 7,
@@ -25,7 +26,6 @@
     "borrow_reference": 1,
     "borrow_encoded_literal": 1,
     "regex_comment_lexer_attack": 4,
-    "regex": 8,
     "regex_short_tail": 32,
     "call": 4,
     "member": 4,
@@ -42,13 +42,20 @@
     "uppercase_comment_lexer_attack": 1,
     "uppercase": 4,
     "uppercase_short_tail": 8,
-    "type": 6,
     "syntax_or_bind": 3,
     "provider_symbol": 4,
     "provider_symbol_attack": 4,
     "provider_symbol_short_tail": 8,
-    "upstream_pr11": 7,
+    "upstream_pr11": 6,
     "bare_Key_path_tail": 3
   },
-  "privacy": "Invented inputs only; exact git archive of alpha.5, with new tests/fixtures copied in. No private samples/labels opened."
+  "privacy": "Invented inputs only; exact git archive of alpha.5, with new tests/fixtures copied in. No private samples/labels opened.",
+  "reviewPolicyCorrection": {
+    "blockedHead": "1c86b849f7eafeab05f973dfdd54d1ee2f32c196",
+    "correctedControls": 15,
+    "regexLiteralAssignments": 8,
+    "standalonePascalScalars": 6,
+    "bareKeyScalarPath": 1,
+    "reason": "Independent review found recall regressions; complete source context is required, and regex/string literal bodies under credential keys plus bare Key scalar values remain sensitive. These are public invented policy corrections, not private held-out relabelling."
+  }
 }

@@ -1,14 +1,14 @@
 {
-  "sourceCommit": "1cf158cfefd9921cfc8b6a2c32fa2b027e5b11b7",
-  "sourceRunHead": "3bc981032818e035c444867256f1d62a6d9175bd",
-  "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42956203954",
-  "artifactId": 13827980252,
-  "artifactArchiveSha256": "40d07b68d3888d4e7236fc108ec5f522a2b10f97bed911f77df913357ebe18fd",
-  "sourceSha256": "8e6aa1d9d96f2cd3af4ce3421b3c73b7e3e8af63c24cf55c551974f14e016bb3",
-  "wasmSha256": "3313d3614d9e5c2de3a8d80eac68fbd797bd294ecb6fbf20ed446164d0692e64",
-  "wasmBytes": 1790002,
-  "packageSha256": "4c7ee96b721517f86020e8bed77ecada9fba5fbee3437a73725b6c64387235f1",
-  "packageBytes": 597971,
+  "sourceCommit": "f1562d13a9ea4f5821f02334952019195c45fb55",
+  "sourceRunHead": "d674050f5485c3ca37cc532723165b75aaa71fe9",
+  "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42962311431",
+  "artifactId": 13830380501,
+  "artifactArchiveSha256": "529f949e869e268fe89d9bdb321b3161fdbd55095949d0539a7c7b8ae3830735",
+  "sourceSha256": "aea569aaeca8a53190194eb10cb751195d3d21c27cd0fee2aeef78f81db3d814",
+  "wasmSha256": "f1d393b22ce47d4cb4ca762107a7f66e8b2747f6de60c193e8b07646db28e5fd",
+  "wasmBytes": 1787876,
+  "packageSha256": "374b72f5d21ecaae558273bb350103c2d111cdbbb1eaf803615c221449066cc6",
+  "packageBytes": 597354,
   "verification": "GitHub archive digest, package/WASM/glue/declaration/adapter digests, package/loose manifest agreement and independently recomputed canonical source identity all verified.",
   "sourceIdentityPaths": [
     "build.rs",
@@ -26,11 +26,12 @@
     "baseExactArchivedOracle": 162,
     "baseMissedSecretCases": 0,
     "cases": 199,
-    "headExactArchivedOracle": 165,
+    "headExactArchivedOracle": 164,
     "headMissedSecretCases": 0,
     "inheritedArchivedDifferences": [],
     "newMissedSecretCases": 0,
     "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
     "secondPassChangedCases": 0
-  }
+  },
+  "engineReviewStatus": "independent replacement approval pending; predecessor1c86b849blocked"
 }
