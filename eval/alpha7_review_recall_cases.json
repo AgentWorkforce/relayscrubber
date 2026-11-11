@@ -6418,5 +6418,125 @@
     "family": "entity_delimiter_boundary",
     "input": "- Config client_secret: Blue&amp;#32;ocean, next",
     "expected": "- Config client_secret: [REDACTED], next"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --password Blue --format json",
+    "expected": "- tool --password [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --password \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --password \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --password=Blue --format json",
+    "expected": "- tool --password=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --password=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --password=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --PASSWORD Blue --format json",
+    "expected": "- tool --PASSWORD [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --PASSWORD \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --PASSWORD \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --PASSWORD=Blue --format json",
+    "expected": "- tool --PASSWORD=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --PASSWORD=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --PASSWORD=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --token Blue --format json",
+    "expected": "- tool --token [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --token \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --token \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --token=Blue --format json",
+    "expected": "- tool --token=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --token=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --token=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --TOKEN Blue --format json",
+    "expected": "- tool --TOKEN [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --TOKEN \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --TOKEN \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --TOKEN=Blue --format json",
+    "expected": "- tool --TOKEN=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --TOKEN=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --TOKEN=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --api_key Blue --format json",
+    "expected": "- tool --api_key [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --api_key \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --api_key \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --api_key=Blue --format json",
+    "expected": "- tool --api_key=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --api_key=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --api_key=\"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --API_KEY Blue --format json",
+    "expected": "- tool --API_KEY [REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --API_KEY \"Blue ocean tree moon\" --format json",
+    "expected": "- tool --API_KEY \"[REDACTED]\" --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --API_KEY=Blue --format json",
+    "expected": "- tool --API_KEY=[REDACTED] --format json"
+  },
+  {
+    "family": "cli_argument_boundary",
+    "input": "- tool --API_KEY=\"Blue ocean tree moon\" --format json",
+    "expected": "- tool --API_KEY=\"[REDACTED]\" --format json"
   }
 ]
