@@ -20,3 +20,12 @@ test('alpha7 exact boundary and complete extent controls across WASM APIs',()=>{
  });
  assert.deepEqual(failures,[]);
 });
+
+test('long Markdown labels keep repeated sensitive-key scans bounded',()=>{
+ const input='- '+'a'.repeat(2*1024*1024)+' '+'token: The fox, '.repeat(4096);
+ const started=performance.now();
+ const output=s.scrubTextChecked(input);
+ assert.ok(performance.now()-started<5000,'Markdown prefix scan exceeded 5 seconds');
+ assert.equal(output.split('[REDACTED]').length-1,4096);
+ assert.ok(!output.includes('The fox'));
+});

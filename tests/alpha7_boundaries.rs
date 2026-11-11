@@ -46,3 +46,22 @@ fn alpha7_boundaries_and_complete_extents_all_apis() {
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
+
+#[test]
+fn long_markdown_label_keeps_repeated_key_scans_bounded() {
+    let input = format!(
+        "- {} {}",
+        "a".repeat(2 * 1024 * 1024),
+        "token: The fox, ".repeat(4096)
+    );
+    let started = std::time::Instant::now();
+    let output = scrub_text_checked(&input).unwrap();
+    let seconds = started.elapsed().as_secs_f64();
+    eprintln!(
+        "markdown label prefix: count=4096 bytes={} seconds={seconds:.3}",
+        input.len()
+    );
+    assert!(seconds < 10.0);
+    assert_eq!(output.matches(REDACTION_TOKEN).count(), 4096);
+    assert!(!output.contains("The fox"));
+}
