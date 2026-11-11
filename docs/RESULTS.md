@@ -1,6 +1,6 @@
 # Candidate validation results
 
-Candidate version remains `0.5.0-alpha.4`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.5`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
@@ -74,3 +74,31 @@ Precision: non-zero false positives remain.
 identify the verified hosted package. Handoff requires one immutable exact-head
 Linux, Windows and WASM CI run repeating every gate, including source, WASM,
 glue, declarations, adapter and package pin equality.
+
+The alpha.5 precision follow-up starts at published alpha.4 main `ba262739`.
+Its test-first additions and source are recorded in `alpha5PrecisionRepair`.
+All 194 unchanged benign cases fail on the published base; 491 positive/mixed
+controls also fail per API. The 2,355-case shared fixture covers complete query
+references, awaited calls and Rust reference aliases, with literal/encoding/tail
+siblings and mixed literal-userinfo/query-reference controls. The successor
+passes all precision cases and second-pass checks. Complete attribute guards
+propagate through nested component/userinfo views; standalone URL recovery
+remains active so whitespace tails cannot gain a prefix exemption.
+
+The newline-only lookup optimization changes no compared output bytes across
+220,515 native text and 220,520 JSON/NDJSON cases. Exact length-prefixed aggregate
+hashes and the reconstruction recipe are in [the byte proof](results/alpha5-newline-proof.json).
+The source/version manifest identities change as expected. No matrix input,
+fixture expectation, API assertion, Bun watchdog or ten-second limit is relaxed.
+
+The alpha.5 portable pin is the independently SHA256-verified [hosted implementation artifact](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42941589608)
+at `5843309e0d9bd0859c17736fb8f84bb5699ce3af`. Linux/Windows Rust98/fmt/clippy,
+Node726/Bun726, Workers, independent WASM reproduction and packaging pass;
+WASM fails only comparison with the superseded alpha.4 pin. Windows and Linux
+timings pass unchanged ten-second limits; the receipt records every measurement.
+Downloaded-package Node726/Bun726
+and Workers replay pass with fresh 220,515 text and 220,520 structured vectors,
+and frozen199 has zero misses or second-pass changes. The 63,906/84,840/26,873/
+23,002 matrices and every earlier gate remain intact. Final handoff requires
+ALL-green exact-head Linux, Windows and WASM, including equality with these
+precise source/WASM/glue/declaration/adapter/package pins. No merge or publish.

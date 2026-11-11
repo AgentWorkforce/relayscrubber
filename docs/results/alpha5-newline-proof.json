@@ -1,0 +1,35 @@
+{
+  "beforeSourceSha256": "07a4ade6eaa30a148e32e6cb1266a296e0266253159d2e70b12ac2cdeda81d7d",
+  "afterSourceSha256": "bd7d6620626ef40b4c319fa6260bb42ddb20035301ad974332a13453835563f5",
+  "beforeVersion": "0.5.0-alpha.4",
+  "afterVersion": "0.5.0-alpha.5",
+  "comparisons": {
+    "text": {
+      "cases": 220515,
+      "fields": [
+        "input",
+        "output"
+      ],
+      "changedFields": 0,
+      "beforeSha256": "598e75b383d01a08e353e4f7d629a2d41b9f2dbca9cfcf9d15e7874923135b98",
+      "afterSha256": "598e75b383d01a08e353e4f7d629a2d41b9f2dbca9cfcf9d15e7874923135b98"
+    },
+    "structured": {
+      "cases": 220520,
+      "fields": [
+        "input",
+        "jsonText",
+        "records"
+      ],
+      "changedFields": 0,
+      "beforeSha256": "7137e312194bbb54fe301d2bf350e04de65efac0d38c2ae8dbcf7013fc2e1397",
+      "afterSha256": "7137e312194bbb54fe301d2bf350e04de65efac0d38c2ae8dbcf7013fc2e1397"
+    }
+  },
+  "scope": "Exact UTF-8 byte equality before/after newline-only optimization. The precision engine and fixtures are identical; only normalization short-circuit and expected version/source manifest metadata differ.",
+  "reproduction": {
+    "sourceCommit": "5843309e0d9bd0859c17736fb8f84bb5699ce3af",
+    "before": "Use the same precision source/fixtures; restore the former literal=all_literal||binary_search computation in the line_keys loop, and change only root Cargo.toml/Cargo.lock crate version to alpha.4. Canonical source identity must equal beforeSourceSha256.",
+    "comparison": "Compare length-prefixed exact UTF-8 input/output fields, JSON text and NDJSON bytes; all semantic manifest fields are equal except expected source/version identity."
+  }
+}
