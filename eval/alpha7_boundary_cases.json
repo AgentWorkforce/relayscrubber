@@ -1,0 +1,402 @@
+[
+  {
+    "family": "object-call",
+    "input": "f({ apiKey: freshKey })",
+    "expected": "f({ apiKey: [REDACTED] })",
+    "spans": [
+      {
+        "end": 20,
+        "start": 12
+      }
+    ]
+  },
+  {
+    "family": "object-call-with-sibling",
+    "input": "f({ id, apiKey: freshKey })",
+    "expected": "f({ id, apiKey: [REDACTED] })",
+    "spans": [
+      {
+        "end": 24,
+        "start": 16
+      }
+    ]
+  },
+  {
+    "family": "template-binding",
+    "input": "{{ $apiToken := localToken }}",
+    "expected": "{{ $apiToken := [REDACTED] }}",
+    "spans": [
+      {
+        "end": 26,
+        "start": 16
+      }
+    ]
+  },
+  {
+    "family": "spread-return",
+    "input": "return { ...f(), token: localToken };",
+    "expected": "return { ...f(), token: [REDACTED] };",
+    "spans": [
+      {
+        "end": 34,
+        "start": 24
+      }
+    ]
+  },
+  {
+    "family": "markdown-prose",
+    "input": "- Note token: The fox, ok",
+    "expected": "- Note token: [REDACTED] fox, ok",
+    "spans": [
+      {
+        "end": 17,
+        "start": 14
+      }
+    ]
+  },
+  {
+    "family": "object-call_whitespace",
+    "input": "f({ apiKey: freshKey  })",
+    "expected": "f({ apiKey: [REDACTED]  })",
+    "spans": [
+      {
+        "start": 12,
+        "end": 20
+      }
+    ]
+  },
+  {
+    "family": "object-call_whitespace",
+    "input": "f({ apiKey: freshKey\t})",
+    "expected": "f({ apiKey: [REDACTED]\t})",
+    "spans": [
+      {
+        "start": 12,
+        "end": 20
+      }
+    ]
+  },
+  {
+    "family": "object-call_whitespace",
+    "input": "f({ apiKey: freshKey \t })",
+    "expected": "f({ apiKey: [REDACTED] \t })",
+    "spans": [
+      {
+        "start": 12,
+        "end": 20
+      }
+    ]
+  },
+  {
+    "family": "object-call_whitespace",
+    "input": "f({ apiKey: freshKey\u00a0})",
+    "expected": "f({ apiKey: [REDACTED]\u00a0})",
+    "spans": [
+      {
+        "start": 12,
+        "end": 20
+      }
+    ]
+  },
+  {
+    "family": "object-call-with-sibling_whitespace",
+    "input": "f({ id, apiKey: freshKey  })",
+    "expected": "f({ id, apiKey: [REDACTED]  })",
+    "spans": [
+      {
+        "start": 16,
+        "end": 24
+      }
+    ]
+  },
+  {
+    "family": "object-call-with-sibling_whitespace",
+    "input": "f({ id, apiKey: freshKey\t})",
+    "expected": "f({ id, apiKey: [REDACTED]\t})",
+    "spans": [
+      {
+        "start": 16,
+        "end": 24
+      }
+    ]
+  },
+  {
+    "family": "object-call-with-sibling_whitespace",
+    "input": "f({ id, apiKey: freshKey \t })",
+    "expected": "f({ id, apiKey: [REDACTED] \t })",
+    "spans": [
+      {
+        "start": 16,
+        "end": 24
+      }
+    ]
+  },
+  {
+    "family": "object-call-with-sibling_whitespace",
+    "input": "f({ id, apiKey: freshKey\u00a0})",
+    "expected": "f({ id, apiKey: [REDACTED]\u00a0})",
+    "spans": [
+      {
+        "start": 16,
+        "end": 24
+      }
+    ]
+  },
+  {
+    "family": "template-binding_whitespace",
+    "input": "{{ $apiToken := localToken  }}",
+    "expected": "{{ $apiToken := [REDACTED]  }}",
+    "spans": [
+      {
+        "start": 16,
+        "end": 26
+      }
+    ]
+  },
+  {
+    "family": "template-binding_whitespace",
+    "input": "{{ $apiToken := localToken\t}}",
+    "expected": "{{ $apiToken := [REDACTED]\t}}",
+    "spans": [
+      {
+        "start": 16,
+        "end": 26
+      }
+    ]
+  },
+  {
+    "family": "template-binding_whitespace",
+    "input": "{{ $apiToken := localToken \t }}",
+    "expected": "{{ $apiToken := [REDACTED] \t }}",
+    "spans": [
+      {
+        "start": 16,
+        "end": 26
+      }
+    ]
+  },
+  {
+    "family": "template-binding_whitespace",
+    "input": "{{ $apiToken := localToken\u00a0}}",
+    "expected": "{{ $apiToken := [REDACTED]\u00a0}}",
+    "spans": [
+      {
+        "start": 16,
+        "end": 26
+      }
+    ]
+  },
+  {
+    "family": "spread-return_whitespace",
+    "input": "return { ...f(), token: localToken  };",
+    "expected": "return { ...f(), token: [REDACTED]  };",
+    "spans": [
+      {
+        "start": 24,
+        "end": 34
+      }
+    ]
+  },
+  {
+    "family": "spread-return_whitespace",
+    "input": "return { ...f(), token: localToken\t};",
+    "expected": "return { ...f(), token: [REDACTED]\t};",
+    "spans": [
+      {
+        "start": 24,
+        "end": 34
+      }
+    ]
+  },
+  {
+    "family": "spread-return_whitespace",
+    "input": "return { ...f(), token: localToken \t };",
+    "expected": "return { ...f(), token: [REDACTED] \t };",
+    "spans": [
+      {
+        "start": 24,
+        "end": 34
+      }
+    ]
+  },
+  {
+    "family": "spread-return_whitespace",
+    "input": "return { ...f(), token: localToken\u00a0};",
+    "expected": "return { ...f(), token: [REDACTED]\u00a0};",
+    "spans": [
+      {
+        "start": 24,
+        "end": 34
+      }
+    ]
+  },
+  {
+    "family": "markdown_prose_case",
+    "input": "- Note token: A fox, ok",
+    "expected": "- Note token: [REDACTED] fox, ok",
+    "spans": [
+      {
+        "start": 14,
+        "end": 15
+      }
+    ]
+  },
+  {
+    "family": "markdown_prose_case",
+    "input": "- Note token: Another fox, ok",
+    "expected": "- Note token: [REDACTED] fox, ok",
+    "spans": [
+      {
+        "start": 14,
+        "end": 21
+      }
+    ]
+  },
+  {
+    "family": "markdown_prose_case",
+    "input": "- Note token: LOWER fox, ok",
+    "expected": "- Note token: [REDACTED] fox, ok",
+    "spans": [
+      {
+        "start": 14,
+        "end": 19
+      }
+    ]
+  },
+  {
+    "family": "markdown_prose_case",
+    "input": "- Note token: lower fox, ok",
+    "expected": "- Note token: [REDACTED] fox, ok",
+    "spans": [
+      {
+        "start": 14,
+        "end": 19
+      }
+    ]
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { password: freshKey /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { password: readWidget(\"plain-secret\") };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { password: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { password: freshKey + \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { password: freshKey / plain-secret };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { token: freshKey /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { token: readWidget(\"plain-secret\") };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { token: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { token: freshKey + \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { token: freshKey / plain-secret };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { api_key: freshKey /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { api_key: readWidget(\"plain-secret\") };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { api_key: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { api_key: freshKey + \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { api_key: freshKey / plain-secret };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { client_secret: freshKey /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { client_secret: readWidget(\"plain-secret\") };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { client_secret: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { client_secret: freshKey + \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { client_secret: freshKey / plain-secret };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { secret: freshKey /* plain-secret */ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { secret: readWidget(\"plain-secret\") };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { secret: String M8zR4vK7nP2qW6xAq9 };",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { secret: freshKey + \"plain-secret\" };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "complete_rejected_extent",
+    "input": "const config = { secret: freshKey / plain-secret };",
+    "secret": "plain-secret"
+  }
+]
