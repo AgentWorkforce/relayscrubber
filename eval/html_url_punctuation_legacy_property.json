@@ -1,0 +1,42 @@
+{
+  "secret": "7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+  "styles": [
+    "literal",
+    "decimal",
+    "decimal-bare",
+    "decimal-zero",
+    "decimal-zero-bare",
+    "hex",
+    "hex-bare",
+    "HEX",
+    "HEX-bare",
+    "hex-zero",
+    "hex-zero-bare",
+    "named",
+    "NAMED",
+    "double-named",
+    "triple-named",
+    "double-decimal",
+    "triple-hex",
+    "percent",
+    "double-percent",
+    "percent-entity",
+    "entity-percent",
+    "mixed"
+  ],
+  "keys": [
+    "sig",
+    "signature",
+    "X-Amz-Signature",
+    "token",
+    "access_token",
+    "secret",
+    "api_key",
+    "authorization"
+  ],
+  "benignKeys": [
+    "sort",
+    "page",
+    "caption"
+  ]
+}

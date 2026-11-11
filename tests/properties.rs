@@ -4,6 +4,9 @@ use proptest::prelude::*;
 use relayscrubber::{scrub_json, scrub_json_text, scrub_long, scrub_text, REDACTION_TOKEN};
 use serde_json::{Map, Number, Value};
 
+#[path = "../eval/nested_component_cases.rs"]
+mod nested_component_cases;
+
 fn json_value() -> BoxedStrategy<Value> {
     let leaf = prop_oneof![
         any::<bool>().prop_map(Value::Bool),
@@ -51,6 +54,29 @@ proptest! {
         let twice = scrub_json_text(&clean_text).unwrap();
         prop_assert_eq!(&twice.0, &from_text.0);
         prop_assert_eq!(twice.1, 0);
+    }
+
+    #[test]
+    fn url_component_reserved_escapes_are_data(
+        escape in prop::sample::select(vec!["%26", "%2F", "%3F", "%23", "%40", "%3A", "%3D", "%2526", "&#37;26", "%2525253F"]),
+        prefix in prop::sample::select(vec!["download", "/download", "//host/download", "", "https://host/download"]),
+        body in "[A-Z]{1,16}",
+    ) {
+        let secret = format!("SYNTH{escape}{body}");
+        let input = format!("<a href=\"{prefix}?signature={secret}&sort=asc\">x</a>");
+        let expected = input.replace(&secret, REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&input), expected.clone());
+        prop_assert_eq!(scrub_text(&expected), expected);
+        let secret = format!("SYNTH{}{body}", escape.replace("&#37;", "%"));
+        let userinfo=format!("<a href=\"%2F%2Falice%3A{secret}%40host\">");
+        let expected_userinfo=userinfo.replace(&secret,REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&userinfo),expected_userinfo.clone());
+        prop_assert_eq!(scrub_text(&expected_userinfo),expected_userinfo);
+        let inner = format!("{prefix}?signature={secret}&sort=asc");
+        let input = format!("<a href=\"/outer?url={}&page=2\">", nested_component_cases::encode(&inner));
+        let expected = input.replace(&nested_component_cases::encode(&secret), REDACTION_TOKEN);
+        prop_assert_eq!(scrub_text(&input), expected.clone());
+        prop_assert_eq!(scrub_text(&expected), expected);
     }
 
     #[test]

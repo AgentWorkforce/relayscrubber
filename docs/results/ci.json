@@ -1,27 +1,28 @@
 {
   "schema": 1,
-  "status": "runtime-checks-passed-awaiting-pin-equality",
+  "status": "hosted-runtime-and-artifact-verified",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "bebb029ae99fb90d9dab7d1f3db53308a9126ca1",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42828811205",
+  "codeCommit": "930da124ab9ba8a5a92b2429938d322b83864afb",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42932483475",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13771140455,
-  "packageSha256": "bc4b36bd27627d5c9e8df3f38f151e29e5842bace5cc0e4b4361d0e1caa8fe53",
+  "artifactId": 13817292468,
+  "artifactArchiveSha256": "0f6775831a9bd36ac8a0875a90e00c6054b8fc3bbba85195e77133f051f3a296",
+  "packageSha256": "c0665dc5668bdefd5636656c3a7358273be09a4b8d1e086b99641943e3569641",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "0853a546733e03f30119bc3d0fcf69b7c6d990f8ce205e647571cef31f64b716",
-    "crateVersion": "0.5.0-alpha.2",
+    "rulesetSourceSha256": "959b6e2894600ec66381ae56cb9bc144d2814d0f27662ca1453e89491c41ceeb",
+    "crateVersion": "0.5.0-alpha.4",
     "abiVersion": 2,
     "policy": "secrets",
     "redactionToken": "[REDACTED]",
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "c906569b160d117d0d7a1800257d2d5af565d702e67c18f013a7b84371d1a3d6",
+    "relayscrubber_bg.wasm": "bd181f94e2d03d7a5381a31488aa5ffbc991e4d41132c7f8f08095031608b5da",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -39,5 +40,5 @@
     "Linux",
     "Windows"
   ],
-  "runtimeChecks": "passed; old-pin equality failed as expected; new-pin exact-head gate linked from PR12"
+  "runtimeChecks": "Linux96, Node725, Bun725, frozen199, reproducibility, Workers and packaging pass; Windows source-run completion pending. Artifact-generation WASM job failed only the expected old-pin equality check."
 }

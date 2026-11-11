@@ -1,6 +1,16 @@
 //! Export only synthetic native reference results for cross-runtime checks.
+#[path = "../eval/encoded_userinfo_cases.rs"]
+mod encoded_userinfo_cases;
 #[path = "../eval/generate.rs"]
 mod generate;
+#[path = "../eval/html_url_component_cases.rs"]
+mod html_url_component_cases;
+#[path = "../eval/html_url_punctuation_cases.rs"]
+mod html_url_punctuation_cases;
+#[path = "../eval/nested_component_cases.rs"]
+mod nested_component_cases;
+#[path = "../eval/query_separator_cases.rs"]
+mod query_separator_cases;
 #[path = "../eval/review_cases.rs"]
 mod review_cases;
 fn main() {
@@ -61,6 +71,10 @@ fn main() {
     for source in [
         include_str!("../eval/structural_cases.json"),
         include_str!("../eval/complete_cases.json"),
+        include_str!("../eval/precision_10_1_cases.json"),
+        include_str!("../eval/query_recovery_cases.json"),
+        include_str!("../eval/entity_query_cases.json"),
+        include_str!("../eval/percent_query_cases.json"),
     ] {
         let structural: serde_json::Value = serde_json::from_str(
             &source
@@ -100,6 +114,19 @@ fn main() {
             let output = relayscrubber::scrub_text(&input);
             text.push(serde_json::json!({"input":input,"output":output}));
         }
+    }
+    for (input, output) in query_separator_cases::cases() {
+        assert_eq!(relayscrubber::scrub_text(&input), output);
+        text.push(serde_json::json!({"input":input,"output":output}));
+    }
+    for (input, output) in html_url_punctuation_cases::cases()
+        .into_iter()
+        .chain(html_url_component_cases::cases())
+        .chain(nested_component_cases::cases())
+        .chain(encoded_userinfo_cases::cases())
+    {
+        assert_eq!(relayscrubber::scrub_text(&input), output);
+        text.push(serde_json::json!({"input":input,"output":output}));
     }
     let mut structured: Vec<_> = text.iter().map(|case| {
         let value = serde_json::json!({"text":case["input"]});

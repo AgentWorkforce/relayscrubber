@@ -499,8 +499,35 @@ fn opaque_material(value: &str) -> bool {
         })
 }
 
+fn hexadecimal_code_literal(value: &str) -> bool {
+    value
+        .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')
+        .any(|atom| {
+            if atom.len() < 16 {
+                return false;
+            }
+            let compact = atom.replace('_', "");
+            let number = compact
+                .strip_prefix("0x")
+                .or_else(|| compact.strip_prefix("0X"))
+                .or_else(|| compact.strip_prefix("0o"))
+                .or_else(|| compact.strip_prefix("0b"))
+                .unwrap_or(&compact);
+            let number = [
+                "u128", "u64", "u32", "u16", "u8", "usize", "i128", "i64", "i32", "i16", "i8",
+                "isize",
+            ]
+            .iter()
+            .find_map(|suffix| number.strip_suffix(suffix))
+            .unwrap_or(number);
+            number.len() >= 16 && number.bytes().all(|b| b.is_ascii_hexdigit())
+        })
+}
+
 fn safe_code_literals(value: &str) -> bool {
-    if opaque_material(value) {
+    // Opaque numeric/hex material remains data inside a source call, including
+    // Rust radix prefixes, digit separators and integer type suffixes.
+    if opaque_material(value) || hexadecimal_code_literal(value) {
         return false;
     }
     let b = value.as_bytes();
@@ -516,7 +543,13 @@ fn safe_code_literals(value: &str) -> bool {
                         .all(|ch| ch.is_ascii_alphanumeric() || b"_ >&,".contains(&ch));
             };
             let literal = &value[i + 1..i + 1 + close];
-            if !(literal == "Bearer " || i > 0 && b[i - 1] == b'[' && sensitive(literal)) {
+            let header_lookup = value[..i].ends_with(".get(")
+                && b.get(i + close + 2) == Some(&b')')
+                && matches!(literal, "Authorization" | "authorization");
+            if !(literal == "Bearer "
+                || i > 0 && b[i - 1] == b'[' && sensitive(literal)
+                || header_lookup)
+            {
                 return false;
             }
             i += close + 2;
@@ -558,7 +591,7 @@ fn code_expression(value: &str) -> bool {
             .is_some_and(|s| code_expression(s.trim().trim_end_matches(';')));
     }
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
+    R.get_or_init(|| Regex::new(r#"^(?:new[ \t]+)?(?:\.[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*(?:(?:\?\.|\.|::)[A-Za-z_][A-Za-z0-9_]*|\?\.\([A-Za-z0-9_., \t]*\)|\([A-Za-z0-9_., \t"'\[\]]*\)\??|\[(?:[A-Za-z_][A-Za-z0-9_]*|"[A-Za-z_][A-Za-z0-9_]*"|'[A-Za-z_][A-Za-z0-9_]*')\])*)!?$"#).expect("complete code expression"))
         .is_match(value)
 }
 
@@ -568,6 +601,12 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     };
     if !safe_code_literals(rest) {
         return false;
+    }
+    if bounded_prefix(view, key).split_whitespace().last() == Some("type") {
+        static TUPLE: OnceLock<Regex> = OnceLock::new();
+        if TUPLE.get_or_init(|| Regex::new(r"^\((?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size))(?:[ \t]*,[ \t]*(?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size)))+[ \t]*,?\)$").expect("complete primitive tuple type")).is_match(rest) {
+            return true;
+        }
     }
     if (declaration || colon && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
         && code_expression(rest)
@@ -607,6 +646,42 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     false
 }
 
+// Preserve only a complete, single-field mapping whose URI password is already
+// a mask. A real password, extra field, query, or appended tail fails closed.
+pub(crate) fn masked_connection_mapping(value: &str) -> bool {
+    if !value.starts_with('{') || value.len() > 512 || opaque_material(value) {
+        return false;
+    }
+    static MASKED: OnceLock<Regex> = OnceLock::new();
+    MASKED.get_or_init(|| Regex::new(r#"^\{[ \t]*"[A-Z_]+"[ \t]*:[ \t]*"(?:postgresql|postgres|mysql)://[a-z_]{1,32}:\*{3,}@[a-z][a-z0-9.-]*/[a-z_]{1,32}"[ \t]*\}$"#).expect("complete masked connection mapping")).is_match(value)
+}
+
+pub(crate) fn cloud_tag_values(key: &str, value: &str) -> bool {
+    let atom =
+        |s: &str| !s.is_empty() && s.len() <= 12 && s.bytes().all(|b| b.is_ascii_lowercase());
+    key.split_once(':').is_some_and(|(a, b)| atom(a) && atom(b)) && atom(value)
+}
+
+fn cloud_tag_key(view: &View, key: usize, value: usize) -> bool {
+    let prefix = bounded_prefix(view, key);
+    if !prefix.ends_with("\"Tags\":[{\"") {
+        return false;
+    }
+    // Inspect the complete pair within one bounded physical line.
+    let mut end = view.line_end(value).min(value.saturating_add(256));
+    while !view.text.is_char_boundary(end) {
+        end -= 1;
+    }
+    let tail = &view.text[value..end];
+    static TAG_PAIR: OnceLock<Regex> = OnceLock::new();
+    TAG_PAIR
+        .get_or_init(|| {
+            Regex::new(r#"^"[a-z]{1,12}:[a-z]{1,12}","Value":"[a-z]{1,12}"\}\]\}(?:$|[;])"#)
+                .expect("complete cloud tag pair")
+        })
+        .is_match(tail)
+}
+
 // These exclusions require syntax, never the English meaning of a value.
 fn structural_value(
     view: &View,
@@ -619,7 +694,7 @@ fn structural_value(
     let first = view.text.as_bytes()[value];
     // Most credential scalars cannot be any of these structural forms. Reject
     // them before bounded lookbehind, tokenization or regex work.
-    if !(quoted_key && colon && matches!(first, b'-' | b'0'..=b'9')
+    if !(colon && numeric_identifier(name) && matches!(first, b'-' | b'0'..=b'9')
         || matches!(first, b'?' | b'$' | b':' | b'{')
         || view.text[key..].starts_with("Key=")
         || view.text[key..].starts_with("idempotency-token"))
@@ -647,9 +722,9 @@ fn structural_value(
     let complete = !rest.is_empty();
     let atom = rest.trim();
     if complete
-        && quoted_key
         && colon
         && numeric_identifier(name)
+        && (quoted_key || prefix.trim_end().ends_with(['{', ',']))
         && serde_json::from_str::<serde_json::Number>(atom).is_ok()
     {
         return true;
@@ -663,6 +738,12 @@ fn structural_value(
             .is_match(prefix)
     {
         static BIND: OnceLock<Regex> = OnceLock::new();
+        let sql_end = view.enclosing_end(value).min(view.line_end(value));
+        let sql_tail = &view.text[value..sql_end];
+        static CONTINUED_BIND: OnceLock<Regex> = OnceLock::new();
+        if CONTINUED_BIND.get_or_init(|| Regex::new(r"(?i)^(?:\?[0-9]*|\$[0-9]+|:[A-Za-z_][A-Za-z0-9_]*)(?:[ \t]+(?:AND|OR)[ \t]+[A-Za-z_][A-Za-z0-9_]*[ \t]*=[ \t]*(?:[0-9]+|\?[0-9]*|\$[0-9]+))+[ \t]*;?$").expect("complete SQL bind continuation")).is_match(sql_tail) {
+            return true;
+        }
         if BIND
             .get_or_init(|| {
                 Regex::new(r"^(?:\?[0-9]*|\$[0-9]+|:[A-Za-z_][A-Za-z0-9_]*)$")
@@ -779,7 +860,12 @@ fn match_arm_body(value: &str) -> bool {
         && code_expression(rhs.trim())
 }
 
-fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
+fn assignments(
+    view: &View,
+    inherited: bool,
+    spans: &mut Vec<Range<usize>>,
+    url_values: &[Range<usize>],
+) {
     let b = view.text.as_bytes();
     let mut i = 0;
     let mut public_until = if inherited { b.len() } else { 0 };
@@ -798,9 +884,26 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             i += 1;
             continue;
         }
+        // URL credential values have protocol-specific boundaries. Do not let
+        // a generic assignment inside one widen it over public parameters.
+        let n = url_values.partition_point(|span| span.start <= i);
+        if n > 0 && i < url_values[n - 1].end {
+            i = url_values[n - 1].end;
+            continue;
+        }
         let start = i;
         while i < b.len() && word(b[i]) {
             i += 1;
+        }
+        // Reject impossible assignment syntax before name hashing and scope
+        // classification. Keep every possible separator prefix (including
+        // Unicode whitespace); following words still enter the normal scan.
+        if !b.get(i).is_some_and(|ch| {
+            ch.is_ascii_whitespace()
+                || *ch >= 0x80
+                || matches!(ch, b':' | b'=' | b'"' | b'\'' | b'`' | b'?' | b'-')
+        }) {
+            continue;
         }
         while contexts.last().is_some_and(|c| c.0 <= start) {
             contexts.pop();
@@ -981,6 +1084,9 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
             }
         }
 
+        if b[value] == b'{' && masked_connection_mapping(candidate(view, value).unwrap_or("")) {
+            continue;
+        }
         if !quoted
             && structural_value(
                 view,
@@ -1046,9 +1152,37 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                         && (before == kw.len() || !word(b[before - kw.len() - 1]))
                 });
         let code = declaration || (before > 0 && b[before - 1] == b'.') || sep > i;
+        if quoted && numeric_identifier(name) && code_object_context(view, start) {
+            let close = view.quote_end(value);
+            let tail = skip_space(b, close.saturating_add(1));
+            if tail < view.line_end(value) && !matches!(b[tail], b',' | b'}' | b']' | b')' | b';') {
+                let end = candidate_end(view, close + 1).unwrap_or_else(|| view.line_end(value));
+                spans.push(value..end);
+                i = end;
+                continue;
+            }
+        }
+        if quoted
+            && numeric_identifier(name)
+            && code_object_context(view, start)
+            && candidate(view, value).is_some_and(|whole| {
+                let body = &whole[1..whole.len() - 1];
+                body.len() <= 32
+                    && body.contains('_')
+                    && !hexadecimal_code_literal(body)
+                    && body.split('_').all(|part| {
+                        !part.is_empty()
+                            && part.len() <= 12
+                            && part.bytes().all(|b| b.is_ascii_lowercase())
+                    })
+            })
+        {
+            continue;
+        }
         if !quoted
             && start >= public_until
             && (declaration
+                || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                 || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
                 || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
@@ -1081,6 +1215,11 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 view.enclosing_end(value).min(line_end(view, value))
             }
             .min(context.unwrap_or(b.len()));
+            continue;
+        }
+        let n = url_values.partition_point(|span| span.start <= value);
+        if n > 0 && value < url_values[n - 1].end {
+            i = url_values[n - 1].end;
             continue;
         }
         let mut end = if header && !quoted {
@@ -1136,8 +1275,12 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
                 || labeled_toy(view, start, whole)
                 || excerpt_value(view, start, whole)
         }) || non_assignment_wrapper(view, start)
+            && bounded_prefix(view, start).split_whitespace().last() != Some("type")
             && full.is_some_and(|s| !opaque_material(s) || s.starts_with("Bearer "))
         {
+            continue;
+        }
+        if name == "Key" && !credential && cloud_tag_key(view, start, value) {
             continue;
         }
         // Failed structural candidates redact through their complete delimiter,
@@ -1145,6 +1288,7 @@ fn assignments(view: &View, inherited: bool, spans: &mut Vec<Range<usize>>) {
         let failed_reference = raw.starts_with('$')
             || !quoted
                 && (declaration
+                    || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
                     || raw.contains(['(', '.']));
         if full.is_some_and(opaque_material) || failed_reference {
@@ -1347,19 +1491,32 @@ fn compact_regex() -> &'static Regex {
 }
 
 fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
+    // Repeated public hostnames often share a non-JWT first segment. Cache
+    // only its header classification; token spans remain specific to each run.
+    let mut previous_header = "";
+    let mut previous_count = None;
+    let mut previous_non_jwt = "";
     for run in compact_regex().find_iter(&view.text) {
+        // A complete run's JWT result is context independent. Reuse a single
+        // previously checked negative run without allocating its segments again.
+        if run.as_str() == previous_non_jwt {
+            continue;
+        }
+        let before = spans.len();
         let segments: Vec<_> = run.as_str().split('.').collect();
         let mut offset = run.start();
         let mut i = 0;
         while i + 2 < segments.len() {
-            let header = base64::engine::general_purpose::URL_SAFE_NO_PAD
-                .decode(segments[i])
-                .ok()
-                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
-            if let Some(header) =
-                header.filter(|h| h.get("alg").is_some_and(serde_json::Value::is_string))
-            {
-                let count = if header.get("enc").is_some() { 5 } else { 3 };
+            if segments[i] != previous_header {
+                previous_header = segments[i];
+                previous_count = base64::engine::general_purpose::URL_SAFE_NO_PAD
+                    .decode(segments[i])
+                    .ok()
+                    .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+                    .filter(|header| header.get("alg").is_some_and(serde_json::Value::is_string))
+                    .map(|header| if header.get("enc").is_some() { 5 } else { 3 });
+            }
+            if let Some(count) = previous_count {
                 if i + count <= segments.len() && (count == 5 || !segments[i + 1].is_empty()) {
                     let length = segments[i..i + count]
                         .iter()
@@ -1376,6 +1533,9 @@ fn jwts(view: &View, spans: &mut Vec<Range<usize>>) {
             offset += segments[i].len() + 1;
             i += 1;
         }
+        if spans.len() == before {
+            previous_non_jwt = run.as_str();
+        }
     }
 }
 
@@ -1390,6 +1550,7 @@ pub(crate) fn reference(value: &str) -> bool {
     let symbolic = SYMBOLIC.get_or_init(|| Regex::new(r"(?i)^(?:(?:example|dummy|fake|sample|test|placeholder|your)(?:[-_][A-Za-z][A-Za-z0-9_-]{0,63})?|replace[-_]me|change[-_]?me)$").expect("fixed symbolic placeholder syntax"));
     if symbolic.is_match(placeholder)
         || placeholder == "masked_..."
+        || placeholder == "hidden_..."
         || placeholder.len() >= 3 && placeholder.bytes().all(|b| b == b'*')
         || placeholder
             .strip_prefix('<')
@@ -1517,6 +1678,235 @@ fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
         || view.text[end..].starts_with('(')
 }
 
+fn plain_query_key_sensitive(key: &str) -> bool {
+    sensitive(key)
+        || matches!(
+            key.to_ascii_lowercase().as_str(),
+            "x-amz-signature"
+                | "x-amz-credential"
+                | "x-amz-security-token"
+                | "x-goog-signature"
+                | "x-goog-credential"
+                | "signature"
+                | "sig"
+                | "assertion"
+                | "code_verifier"
+        )
+}
+
+// Decode only the ASCII entity alphabet needed for query keys and nested
+// separators. This is a recognition view; output always uses original ranges.
+// Numeric accumulation saturates, so arbitrary leading zeros cannot overflow.
+fn query_entity_tail(b: &[u8], start: usize, separator: bool) -> Option<(u8, usize)> {
+    if b.get(start) != Some(&b'#') {
+        for (name, ch) in [
+            ("amp", b'&'),
+            ("percnt", b'%'),
+            ("lowbar", b'_'),
+            ("UnderBar", b'_'),
+            ("hyphen", b'-'),
+            ("dash", b'-'),
+            ("period", b'.'),
+        ] {
+            let end = start + name.len();
+            if b.get(start..end)
+                .is_some_and(|s| s.eq_ignore_ascii_case(name.as_bytes()))
+                && (ch == b'&' || b.get(end) == Some(&b';'))
+            {
+                return Some((ch, end + usize::from(b.get(end) == Some(&b';'))));
+            }
+        }
+        return None;
+    }
+    let mut p = start + 1;
+    let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
+    if hexadecimal {
+        p += 1;
+    }
+    // Fail closed for ambiguous semicolonless hex followed by a key starting
+    // with a-f, too: a superset of the HTML tokenizer's ampersand spellings.
+    if separator {
+        while b.get(p) == Some(&b'0') {
+            p += 1;
+        }
+        let digits = if hexadecimal { b"26" } else { b"38" };
+        if b.get(p..p + 2) == Some(digits) {
+            p += 2;
+            return Some((b'&', p + usize::from(b.get(p) == Some(&b';'))));
+        }
+    }
+    let first = p;
+    let mut value = 0u32;
+    while let Some(digit) = b
+        .get(p)
+        .and_then(|ch| char::from(*ch).to_digit(if hexadecimal { 16 } else { 10 }))
+    {
+        value = value
+            .saturating_mul(if hexadecimal { 16 } else { 10 })
+            .saturating_add(digit);
+        p += 1;
+    }
+    (p > first && value < 128).then_some((value as u8, p + usize::from(b.get(p) == Some(&b';'))))
+}
+
+// A chain consumes source bytes monotonically, even for thousands of nested
+// amp; or percent layers. Percent escapes normally arrive decoded by View;
+// decoding here also handles a percent sign produced by an HTML entity.
+fn query_character(b: &[u8], start: usize, separator: bool) -> (u8, usize) {
+    let mut ch = b[start];
+    let mut end = start + 1;
+    loop {
+        let next = match ch {
+            b'&' => query_entity_tail(b, end, separator),
+            b'%' => b.get(end..end + 2).and_then(|pair| {
+                let hi = char::from(pair[0]).to_digit(16)?;
+                let lo = char::from(pair[1]).to_digit(16)?;
+                Some(((hi * 16 + lo) as u8, end + 2))
+            }),
+            _ => None,
+        };
+        match next {
+            Some((value, p)) => {
+                ch = value;
+                end = p;
+            }
+            None => return (ch, end),
+        }
+    }
+}
+
+fn query_key_character(ch: u8) -> bool {
+    ch.is_ascii_alphanumeric() || matches!(ch, b'_' | b'-' | b'.')
+}
+
+fn query_key_end(b: &[u8], mut end: usize) -> usize {
+    while end < b.len() {
+        let (ch, next) = query_character(b, end, false);
+        if !query_key_character(ch) {
+            break;
+        }
+        end = next;
+    }
+    end
+}
+
+fn query_key_sensitive(key: &str) -> bool {
+    if !key.contains('&') {
+        return plain_query_key_sensitive(key);
+    }
+    let b = key.as_bytes();
+    let mut decoded = String::with_capacity(key.len());
+    let mut cursor = 0;
+    while cursor < b.len() {
+        let (ch, next) = query_character(b, cursor, false);
+        if !query_key_character(ch) {
+            return false;
+        }
+        decoded.push(char::from(ch));
+        cursor = next;
+    }
+    plain_query_key_sensitive(&decoded)
+}
+
+fn html_query_separator(b: &[u8], start: usize) -> usize {
+    match b[start] {
+        b';' => 1,
+        b'&' => {
+            let (ch, end) = query_character(b, start, true);
+            if ch == b'&' {
+                end - start
+            } else {
+                0
+            }
+        }
+        _ => 0,
+    }
+}
+
+// Skip an entire entity when it is data rather than a separator. Otherwise
+// each semicolon inside an encoded key could repeat the full key lookahead.
+fn query_next(b: &[u8], start: usize) -> usize {
+    if b[start] == b'&' {
+        query_character(b, start, false).1
+    } else {
+        start + 1
+    }
+}
+
+// An encoded ampersand inside an ordinary value is data unless it actually
+// introduces key=value. Decode the lookahead key too, including sensitive
+// names. A literal '&' retains ordinary URL semantics. No output is re-encoded.
+fn query_separator(view: &View, start: usize) -> usize {
+    let b = view.text.as_bytes();
+    let width = html_query_separator(b, start);
+    if width == 0 || width == 1 && b[start] == b'&' && view.literal(start) {
+        return width;
+    }
+    let key = start + width;
+    let end = query_key_end(b, key);
+    if end > key && b.get(end) == Some(&b'=') {
+        width
+    } else {
+        0
+    }
+}
+
+// A malformed earlier value cannot terminate parameter discovery. Query
+// separators remain visible beyond quotes, fragments, markup or line breaks.
+// Run once over the remaining suffix, including nested schemes: another URL
+// in a malformed value cannot hide a later parameter or trigger rescanning.
+// Value boundaries stay local: recovery must not eat trailing prose or records.
+fn recover_query_parameters(view: &View, start: usize, end: usize, spans: &mut Vec<Range<usize>>) {
+    let b = view.text.as_bytes();
+    let mut cursor = start;
+    while cursor < end {
+        let separator = if b[cursor] == b'?' {
+            1
+        } else {
+            query_separator(view, cursor)
+        };
+        if separator == 0 {
+            cursor = query_next(b, cursor);
+            continue;
+        }
+        let key_start = cursor + separator;
+        cursor = key_start;
+        cursor = query_key_end(b, cursor).min(end);
+        if b.get(cursor) != Some(&b'=') || !query_key_sensitive(&view.text[key_start..cursor]) {
+            continue;
+        }
+        let value_start = cursor + 1;
+        let mut parameter_end = value_start;
+        while parameter_end < end && query_separator(view, parameter_end) == 0 {
+            parameter_end = query_next(b, parameter_end);
+        }
+        let mut value_end = value_start;
+        while value_end < parameter_end {
+            if matches!(b[value_end], b'"' | b'\'' | b'`') {
+                let close = view.quote_end(value_end);
+                // An unmatched quote in the credential itself fails closed to
+                // this parameter's end, never through the next literal '&'.
+                value_end = if close < parameter_end {
+                    close + 1
+                } else {
+                    parameter_end
+                };
+                continue;
+            }
+            if view.literal(value_end)
+                && (b[value_end].is_ascii_whitespace() || matches!(b[value_end], b'<' | b'>'))
+            {
+                break;
+            }
+            value_end += 1;
+        }
+        if value_end > value_start {
+            spans.push(value_start..value_end);
+        }
+        cursor = parameter_end;
+    }
+}
+
 fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
     let b = view.text.as_bytes();
     // Inspect nested actual URL schemes too. Authority scans stop at the next
@@ -1551,25 +1941,55 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
         }
     }
     let mut cursor = 0;
+    let mut recovery_start = b.len();
     while let Some(scheme) = url_regex().find_at(&view.text, cursor) {
         if url_regex_source(view, scheme.start(), scheme.end()) {
             cursor = scheme.end();
             continue;
         }
         let mut end = scheme.end();
-        while end < b.len()
-            && !(view.literal(end)
+        let mut query_value = false;
+        let mut in_query = false;
+        let line = view.line_end(end);
+        while end < line {
+            if b[end] == b'?' {
+                in_query = true;
+            }
+            if in_query && b[end] == b'=' {
+                query_value = true;
+            } else if query_separator(view, end) > 0 {
+                query_value = false;
+            }
+            if query_value && matches!(b[end], b'"' | b'\'' | b'`') {
+                let close = view.quote_end(end);
+                if close < line {
+                    let mut continuation = close + 1;
+                    while continuation < line
+                        && !matches!(b[continuation], b'&' | b'"' | b'\'' | b'`' | b'<' | b'>')
+                        && space_width(b, continuation) == 0
+                    {
+                        continuation += 1;
+                    }
+                    if b.get(continuation) == Some(&b'&')
+                        || b.get(end.wrapping_sub(1)) == Some(&b'=')
+                    {
+                        end = close + 1;
+                        continue;
+                    }
+                }
+            }
+            if view.literal(end)
                 && (b[end].is_ascii_whitespace()
-                    || matches!(b[end], b'<' | b'>' | b'"' | b'\'' | b'`')))
-        {
-            end += 1;
+                    || matches!(b[end], b'<' | b'>' | b'"' | b'\'' | b'`'))
+            {
+                break;
+            }
+            end = query_next(b, end);
         }
         cursor = end;
         let authority = scheme.end();
         let mut authority_end = authority;
-        while authority_end < end
-            && !(view.literal(authority_end) && matches!(b[authority_end], b'/' | b'?' | b'#'))
-        {
+        while authority_end < end && !matches!(b[authority_end], b'/' | b'?' | b'#') {
             authority_end += 1;
         }
         if let Some(at) = (authority..authority_end)
@@ -1588,39 +2008,910 @@ fn urls(view: &View, spans: &mut Vec<Range<usize>>) {
             }
             // A URL username without a password is public userinfo.
         }
-        if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?' && view.literal(i)) {
+        if let Some(query) = (authority_end..end).find(|&i| b[i] == b'?') {
+            recovery_start = recovery_start.min(end);
             let mut start = query + 1;
             while start < end {
-                let mut parameter_end = start;
-                while parameter_end < end
-                    && !(b[parameter_end] == b'&' && view.literal(parameter_end))
-                {
-                    parameter_end += 1;
-                }
-                if let Some(eq) = (start..parameter_end).find(|&i| b[i] == b'=') {
-                    let key = &view.text[start..eq];
-                    let key_lower = key.to_ascii_lowercase();
-                    if eq + 1 < parameter_end
-                        && (sensitive(key)
-                            || matches!(
-                                key_lower.as_str(),
-                                "x-amz-signature"
-                                    | "x-amz-credential"
-                                    | "x-amz-security-token"
-                                    | "x-goog-signature"
-                                    | "x-goog-credential"
-                                    | "signature"
-                                    | "sig"
-                                    | "assertion"
-                                    | "code_verifier"
-                            ))
-                    {
-                        spans.push(eq + 1..parameter_end);
+                let mut eq = start;
+                while eq < end && b[eq] != b'=' && b[eq] != b'?' {
+                    let (ch, next) = query_character(b, eq, false);
+                    if query_key_character(ch) {
+                        eq = next;
+                    } else if query_separator(view, eq) > 0 {
+                        break;
+                    } else {
+                        eq += 1;
                     }
                 }
-                start = parameter_end + 1;
+                if eq == end {
+                    break;
+                }
+                if b[eq] != b'=' {
+                    start = eq
+                        + if b[eq] == b'?' {
+                            1
+                        } else {
+                            query_separator(view, eq)
+                        };
+                    continue;
+                }
+                let sensitive = query_key_sensitive(&view.text[start..eq]);
+                let mut parameter_end = eq + 1;
+                while parameter_end < end
+                    && query_separator(view, parameter_end) == 0
+                    && (sensitive || b[parameter_end] != b'?')
+                {
+                    parameter_end = query_next(b, parameter_end);
+                }
+                if sensitive && eq + 1 < parameter_end {
+                    spans.push(eq + 1..parameter_end);
+                }
+                // Public redirect values may contain another encoded query.
+                // Each prefix/value is traversed once, including nested URLs.
+                start = parameter_end
+                    + if parameter_end < end && b[parameter_end] != b'?' {
+                        query_separator(view, parameter_end)
+                    } else {
+                        1
+                    };
             }
         }
+    }
+    recover_query_parameters(view, recovery_start, b.len(), spans);
+}
+
+// Protocol-relative authorities also occur outside HTML. Consume each authority
+// once, stopping before paths/queries so a later // cannot repeat its suffix.
+fn relative_userinfo(view: &View, spans: &mut Vec<Range<usize>>) {
+    if !view.text.contains('@') {
+        return;
+    }
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    while cursor + 1 < b.len() {
+        if !matches!(b[cursor], b'/' | b'\\') || !matches!(b[cursor + 1], b'/' | b'\\') {
+            cursor += 1;
+            continue;
+        }
+        let slash = cursor;
+        cursor += 2;
+        let authority = cursor;
+        let encoded_authority = !view.literal(slash) && !view.literal(slash + 1);
+        let boundary = |p| encoded_authority || view.literal(p);
+        if b.get(slash.wrapping_sub(1)) == Some(&b':') {
+            let mut scheme = slash - 1;
+            while scheme > slash.saturating_sub(33)
+                && scheme > 0
+                && (b[scheme - 1].is_ascii_alphanumeric()
+                    || matches!(b[scheme - 1], b'+' | b'.' | b'-'))
+            {
+                scheme -= 1;
+            }
+            if url_regex_source(view, scheme, authority) {
+                continue;
+            }
+        }
+        while cursor < b.len()
+            && !(boundary(cursor) && b[cursor].is_ascii_whitespace())
+            && !(boundary(cursor)
+                && matches!(
+                    b[cursor],
+                    b'/' | b'\\' | b'?' | b'#' | b'"' | b'\'' | b'`' | b'<' | b'>'
+                ))
+        {
+            // A numeric entity's '#' is not an authority fragment boundary.
+            cursor = query_next(b, cursor);
+        }
+        if let Some(at) = (authority..cursor)
+            .rev()
+            .find(|&i| b[i] == b'@' && boundary(i))
+        {
+            if let Some(colon) = (authority..at).find(|&i| b[i] == b':' && boundary(i)) {
+                if colon + 1 < at
+                    && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..cursor])
+                {
+                    spans.push(colon + 1..at);
+                }
+            }
+        }
+    }
+}
+
+// An attribute supplies context for bare and single-slash authorities as well
+// as // authorities. Tokens keep srcset descriptors and refresh prefixes local.
+fn attribute_userinfo(view: &View, spans: &mut Vec<Range<usize>>) -> bool {
+    userinfo_at_layer(view, false, &[], spans, &mut Vec::new()).is_some()
+}
+
+fn userinfo_at_layer(
+    view: &View,
+    encoded: bool,
+    parents: &[&View],
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) -> Option<usize> {
+    let mut authority_found = None;
+    let literal = |position| {
+        if !view.literal(position) {
+            return false;
+        }
+        let mut source = view.source_start(position);
+        for parent in parents.iter().rev() {
+            if !parent.literal(source) {
+                return false;
+            }
+            source = parent.source_start(source);
+        }
+        true
+    };
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    while cursor < b.len() {
+        if literal(cursor)
+            && (b[cursor].is_ascii_whitespace() || matches!(b[cursor], b',' | b'"' | b'\''))
+        {
+            cursor += 1;
+            continue;
+        }
+        let start = cursor;
+        while cursor < b.len()
+            && !(literal(cursor)
+                && (b[cursor].is_ascii_whitespace() || matches!(b[cursor], b',' | b'"' | b'\'')))
+        {
+            cursor += 1;
+        }
+        let token = &view.text[start..cursor];
+        if token
+            .get(..7)
+            .is_some_and(|s| s.eq_ignore_ascii_case("mailto:"))
+        {
+            continue;
+        }
+        let mut authority = start;
+        if token
+            .get(..4)
+            .is_some_and(|s| s.eq_ignore_ascii_case("url="))
+        {
+            authority += 4;
+        }
+        let authority_text = &view.text[authority..cursor];
+        if authority_text
+            .get(..7)
+            .is_some_and(|s| s.eq_ignore_ascii_case("mailto:"))
+        {
+            continue;
+        }
+        if let Some(colon) = authority_text.find(':') {
+            if colon > 0
+                && colon <= 32
+                && authority_text.as_bytes()[0].is_ascii_alphabetic()
+                && authority_text.as_bytes()[..colon]
+                    .iter()
+                    .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, b'+' | b'.' | b'-'))
+                && authority_text
+                    .as_bytes()
+                    .get(colon + 1)
+                    .is_some_and(|ch| matches!(ch, b'/' | b'\\'))
+            {
+                authority += colon + 1;
+            }
+        }
+        while authority < cursor && matches!(b[authority], b'/' | b'\\') {
+            authority += 1;
+        }
+        let mut prefix_end = authority;
+        while prefix_end < cursor && !matches!(b[prefix_end], b'/' | b'\\' | b'?' | b'#' | b'@') {
+            prefix_end += 1;
+        }
+        let colon = (authority..prefix_end).find(|&p| b[p] == b':');
+        let mut end = authority;
+        while end < cursor {
+            if matches!(b[end], b'/' | b'\\' | b'?' | b'#')
+                && !(colon.is_some_and(|p| end > p) && (encoded || !literal(end)))
+            {
+                break;
+            }
+            end += 1;
+        }
+        if let Some(at) = (authority..end).rev().find(|&i| b[i] == b'@') {
+            authority_found = Some(at);
+            // Public userinfo must not suppress an independently recognized
+            // sensitive assignment such as password=value@host.
+            let assignment = view.text[authority..at]
+                .split_once('=')
+                .is_some_and(|(key, _)| plain_query_key_sensitive(key));
+            if !assignment {
+                guards.push(authority..at + 1);
+            }
+            if let Some(colon) = colon.filter(|&p| p < at) {
+                let host_end = (at + 1..end)
+                    .find(|&p| matches!(b[p], b'/' | b'\\' | b'?' | b'#'))
+                    .unwrap_or(end);
+                if colon + 1 < at
+                    && !documentation_url(&view.text[colon + 1..at], &view.text[at + 1..host_end])
+                {
+                    spans.push(colon + 1..at);
+                }
+            }
+        }
+    }
+    authority_found
+}
+
+fn has_network_prefix(text: &str) -> bool {
+    let text = text.trim_start();
+    text.starts_with("//") || url_regex().find(text).is_some_and(|m| m.start() == 0)
+}
+
+fn encoded_network_prefix(text: &str) -> bool {
+    if has_network_prefix(text) {
+        return true;
+    }
+    let mut end = text.len().min(512);
+    while !text.is_char_boundary(end) {
+        end -= 1;
+    }
+    let mut prefix = text[..end].to_owned();
+    for _ in 0..=4 {
+        let html = View::html_components(&prefix);
+        if has_network_prefix(&html.text) {
+            return true;
+        }
+        let next = View::percent_layer(&html.text);
+        if next.text == prefix {
+            return false;
+        }
+        prefix = next.text;
+    }
+    false
+}
+
+#[derive(Clone, Copy)]
+struct UserinfoLayer {
+    percent: usize,
+    html: usize,
+    network: bool,
+    serialized: bool,
+}
+
+fn userinfo_layers(
+    view: &View,
+    depth: usize,
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) -> bool {
+    let state = UserinfoLayer {
+        percent: depth,
+        html: 4,
+        network: encoded_network_prefix(&view.text),
+        serialized: view.text.contains("&%23") || view.text.contains("%26%23"),
+    };
+    userinfo_layers_inner(view, state, &[], spans, guards)
+}
+
+fn userinfo_layers_inner(
+    view: &View,
+    state: UserinfoLayer,
+    parents: &[&View],
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) -> bool {
+    if !state.network || has_network_prefix(&view.text) {
+        let mut local = Vec::new();
+        let mut bounds = Vec::new();
+        if let Some(at) = userinfo_at_layer(view, false, parents, &mut local, &mut bounds) {
+            let serialized = state.serialized
+                && (view.text.contains("&%23")
+                    || view.text.contains("%26%23")
+                    || view.text.contains("%3A")
+                    || view.text.contains("%3a"));
+            if !local.is_empty() || !serialized {
+                if let Some(query) = view.text[at + 1..].find('?') {
+                    component_query_parameters(
+                        view,
+                        at + 1 + query,
+                        state.percent,
+                        &mut local,
+                        &mut bounds,
+                    );
+                }
+                spans.extend(local);
+                guards.extend(bounds);
+                return true;
+            }
+        }
+    }
+    // A resolved ordinary host/path cannot gain userinfo by decoding its
+    // query values. Those values are handled separately by the query walker.
+    let text = view.text.trim_start();
+    if text.starts_with('/')
+        && !text.starts_with("//")
+        && text
+            .as_bytes()
+            .get(1)
+            .is_some_and(|ch| !matches!(ch, b'%' | b'&' | b'\\'))
+    {
+        return false;
+    }
+    if has_network_prefix(text) {
+        let start = if text.starts_with("//") {
+            2
+        } else {
+            url_regex().find(text).map_or(0, |m| m.end())
+        };
+        let end = text.as_bytes()[start..]
+            .iter()
+            .position(|ch| matches!(ch, b'/' | b'\\' | b'?' | b'#'))
+            .map_or(text.len(), |n| start + n);
+        if !text.as_bytes()[start..end]
+            .iter()
+            .any(|ch| matches!(ch, b'%' | b'&' | b'@'))
+        {
+            return false;
+        }
+    }
+    let html = View::html_components(&view.text);
+    let mut next_state = state;
+    let next = if html.text != view.text {
+        if state.html == 0 {
+            return false;
+        }
+        next_state.html -= 1;
+        html
+    } else {
+        if state.percent == 0 {
+            return false;
+        }
+        let percent = View::percent_layer(&view.text);
+        if percent.text == view.text {
+            return false;
+        }
+        next_state.percent -= 1;
+        percent
+    };
+    let mut local = Vec::new();
+    let mut bounds = Vec::new();
+    let mut lineage = parents.to_vec();
+    lineage.push(view);
+    let found = userinfo_layers_inner(&next, next_state, &lineage, &mut local, &mut bounds);
+    spans.extend(
+        local
+            .into_iter()
+            .map(|r| next.source_start(r.start)..next.source_end(r.end - 1)),
+    );
+    guards.extend(
+        bounds
+            .into_iter()
+            .map(|r| next.source_start(r.start)..next.source_end(r.end - 1)),
+    );
+    found
+}
+
+// This view has already decoded the HTML layer. Every ampersand is now
+// structural, including entity-produced ampersands without a following key.
+// Percent escapes are never consulted while finding a component's end.
+fn nested_public_value(
+    view: &View,
+    value: Range<usize>,
+    depth: usize,
+    bare_authority: bool,
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) -> bool {
+    let public = &view.text[value.clone()];
+    if depth == 0 {
+        // At the fixed layer budget, credential-bearing encoded values fail
+        // closed as a whole. Benign encoded data remains unchanged.
+        let recovery = View::html_url(public);
+        let mut local = Vec::new();
+        recover_query_parameters(&recovery, 0, recovery.text.len(), &mut local);
+        userinfo_at_layer(&recovery, true, &[], &mut local, &mut Vec::new());
+        let bare = recovery
+            .text
+            .split_once('=')
+            .is_some_and(|(key, _)| plain_query_key_sensitive(key));
+        if bare || !local.is_empty() {
+            spans.push(value);
+        }
+        return true;
+    }
+    let nested = View::percent_layer(public);
+    if nested.text == public {
+        return false;
+    }
+    let mut local = Vec::new();
+    let mut bounds = Vec::new();
+    let authority_context = bare_authority || encoded_network_prefix(&nested.text);
+    if !authority_context || !userinfo_layers(&nested, depth - 1, &mut local, &mut bounds) {
+        component_query_parameters(&nested, 0, depth - 1, &mut local, &mut bounds);
+    }
+    guards.extend(bounds.into_iter().map(|r| {
+        value.start + nested.source_start(r.start)..value.start + nested.source_end(r.end - 1)
+    }));
+    spans.extend(local.into_iter().map(|r| {
+        value.start + nested.source_start(r.start)..value.start + nested.source_end(r.end - 1)
+    }));
+    true
+}
+
+fn component_query_parameters(
+    view: &View,
+    start: usize,
+    depth: usize,
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) {
+    let b = view.text.as_bytes();
+    let mut cursor = start;
+    if start == 0 && view.text.contains('@') {
+        let mut userinfo = Vec::new();
+        let prefix_end = b
+            .iter()
+            .position(|ch| matches!(ch, b'=' | b'?' | b'&' | b';'))
+            .unwrap_or(b.len());
+        let explicit = view.text.starts_with("//")
+            || url_regex().find(&view.text).is_some_and(|m| m.start() == 0);
+        if (explicit || b[..prefix_end].contains(&b':')) && attribute_userinfo(view, &mut userinfo)
+        {
+            // '=' and percent escapes in an established password are opaque.
+            // Only a later actual query can introduce parameter discovery.
+            let at = userinfo
+                .iter()
+                .map(|r| r.end)
+                .max()
+                .or_else(|| view.text.find('@'))
+                .unwrap_or(0);
+            let Some(query) = view.text[at + 1..].find('?') else {
+                return;
+            };
+            cursor = at + 1 + query;
+        }
+    }
+    let mut initial = true;
+    let mut recognized = false;
+    let mut parameter_end = start;
+    let mut percent = start;
+    let mut unchanged_until = start;
+    while cursor < b.len() {
+        let separator = matches!(b[cursor], b'?' | b'&' | b';');
+        if !separator && !initial {
+            cursor += 1;
+            continue;
+        }
+        initial = false;
+        let key = cursor + usize::from(separator);
+        cursor = key;
+        while cursor < b.len() && !matches!(b[cursor], b'=' | b'?' | b'&' | b';') {
+            cursor += 1;
+        }
+        if b.get(cursor) != Some(&b'=') {
+            continue;
+        }
+        recognized = true;
+        let spelling = &view.text[key..cursor];
+        let decoded;
+        let name = if spelling.bytes().any(|ch| matches!(ch, b'%' | b'\\')) {
+            decoded = View::new(spelling);
+            decoded.text.as_str()
+        } else {
+            spelling
+        };
+        let valid_key = name.bytes().all(query_key_character);
+        let sensitive = valid_key && plain_query_key_sensitive(name);
+        let encoded_key = !valid_key && spelling.contains('%');
+        cursor += 1;
+        let value = cursor;
+        // Raw nested ?url= prefixes share the same outer separator. Cache its
+        // end and next percent position instead of rescanning every suffix.
+        if parameter_end <= value {
+            parameter_end = value;
+            while parameter_end < b.len() && !matches!(b[parameter_end], b'&' | b';') {
+                if view.literal(parameter_end)
+                    && (b[parameter_end].is_ascii_whitespace()
+                        || matches!(b[parameter_end], b'<' | b'>'))
+                {
+                    break;
+                }
+                parameter_end += 1;
+            }
+        }
+        if sensitive {
+            if parameter_end > value {
+                spans.push(value..parameter_end);
+            }
+            cursor = parameter_end;
+            continue;
+        }
+        if encoded_key && nested_public_value(view, key..parameter_end, depth, false, spans, guards)
+        {
+            cursor = parameter_end;
+            continue;
+        }
+        if percent < value {
+            percent = value;
+            while percent < b.len() && b[percent] != b'%' {
+                percent += 1;
+            }
+        }
+        if percent >= parameter_end || value < unchanged_until {
+            // No new decoding layer is needed; raw nested queries are scanned
+            // in this same view, with monotonically advancing cursors.
+            continue;
+        }
+        let bare_authority = matches!(
+            name.to_ascii_lowercase().as_str(),
+            "url" | "uri" | "redirect_uri" | "redirect_url" | "next" | "return_to" | "caption"
+        );
+        if nested_public_value(
+            view,
+            value..parameter_end,
+            depth,
+            bare_authority,
+            spans,
+            guards,
+        ) {
+            cursor = parameter_end;
+        } else {
+            unchanged_until = parameter_end;
+        }
+    }
+    if !recognized && view.text.contains('%') {
+        let mut userinfo = Vec::new();
+        if !attribute_userinfo(view, &mut userinfo) {
+            // A wholly encoded nested query can require another layer before
+            // any key=value syntax becomes visible. Never decode userinfo data.
+            nested_public_value(view, start..b.len(), depth, false, spans, guards);
+        }
+    }
+}
+
+// Literal and encoded absolute/protocol-relative URLs also occur without
+// markup. Locate disjoint lexical URL regions in the ordinary view, but parse
+// component boundaries from their original bytes. Skip nested scheme starts
+// inside a region so deeply repeated redirect prefixes cannot rescan suffixes.
+fn source_url_regions(
+    input: &str,
+    view: &View,
+    output: &View,
+    ancestors: &[View],
+    queries: bool,
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) {
+    let b = view.text.as_bytes();
+    let literal = |position| {
+        if !view.literal(position) {
+            return false;
+        }
+        let mut source = view.source_start(position);
+        for parent in ancestors.iter().rev() {
+            if !parent.literal(source) {
+                return false;
+            }
+            source = parent.source_start(source);
+        }
+        true
+    };
+    let mut cursor = 0;
+    let mut previous = "";
+    let mut matches = Vec::new();
+    let mut authority_guards = Vec::new();
+    while cursor + 1 < b.len() {
+        if !matches!(b[cursor], b'/' | b'\\') || !matches!(b[cursor + 1], b'/' | b'\\') {
+            cursor += 1;
+            continue;
+        }
+        let start = cursor;
+        cursor += 2;
+        if b.get(start.wrapping_sub(1)) == Some(&b':') {
+            let mut scheme = start - 1;
+            while scheme > start.saturating_sub(33)
+                && scheme > 0
+                && (b[scheme - 1].is_ascii_alphanumeric()
+                    || matches!(b[scheme - 1], b'+' | b'.' | b'-'))
+            {
+                scheme -= 1;
+            }
+            if url_regex_source(view, scheme, cursor) {
+                continue;
+            }
+        }
+        let limit = view.enclosing_end(start).min(b.len());
+        while cursor < limit
+            && !((b[cursor].is_ascii_whitespace()
+                || matches!(b[cursor], b'"' | b'\'' | b'`' | b'<' | b'>'))
+                && literal(cursor))
+        {
+            cursor += 1;
+        }
+        if cursor <= start {
+            continue;
+        }
+        let mut source = view.source_start(start);
+        let mut end = view.source_end(cursor - 1);
+        for parent in ancestors.iter().rev() {
+            source = parent.source_start(source);
+            end = parent.source_end(end - 1);
+        }
+        if !input[source..end].contains('%') && !input[source..end].contains('&') {
+            continue;
+        }
+        let spelling = &input[source..end];
+        if spelling != previous {
+            let components = View::html_components(spelling);
+            let mut local = Vec::new();
+            let mut bounds = Vec::new();
+            let authority = userinfo_layers(&components, 4, &mut local, &mut bounds);
+            if queries && !authority {
+                component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+            }
+            matches = local
+                .into_iter()
+                .map(|r| components.source_start(r.start)..components.source_end(r.end - 1))
+                .collect::<Vec<_>>();
+            authority_guards = bounds
+                .into_iter()
+                .map(|r| components.source_start(r.start)..components.source_end(r.end - 1))
+                .collect::<Vec<_>>();
+            previous = spelling;
+        }
+        spans.extend(
+            matches.iter().map(|r| {
+                output.position(source + r.start)..output.position(source + r.end - 1) + 1
+            }),
+        );
+        guards.extend(
+            authority_guards.iter().map(|r| {
+                output.position(source + r.start)..output.position(source + r.end - 1) + 1
+            }),
+        );
+    }
+}
+
+fn source_url_components(
+    input: &str,
+    view: &View,
+    spans: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) {
+    if !view.unchanged() && input.contains('%') {
+        source_url_regions(input, view, view, &[], true, spans, guards);
+    }
+    let entity = |text: &str| {
+        text.split('&').skip(1).any(|mut tail| {
+            while tail.get(..3).is_some_and(|p| p.eq_ignore_ascii_case("amp")) {
+                tail = &tail[3..];
+                if let Some(rest) = tail.strip_prefix(';') {
+                    tail = rest;
+                }
+            }
+            tail.starts_with('#')
+                || ["percnt", "sol", "colon", "commat"].iter().any(|name| {
+                    tail.get(..name.len())
+                        .is_some_and(|p| p.eq_ignore_ascii_case(name))
+                })
+        })
+    };
+    let at_entity = |text: &str| {
+        text.split('&').skip(1).any(|mut tail| {
+            while tail.get(..3).is_some_and(|p| p.eq_ignore_ascii_case("amp")) {
+                tail = &tail[3..];
+                if let Some(rest) = tail.strip_prefix(';') {
+                    tail = rest;
+                }
+            }
+            tail.starts_with('#')
+                || ["percnt", "commat"].iter().any(|name| {
+                    tail.get(..name.len())
+                        .is_some_and(|p| p.eq_ignore_ascii_case(name))
+                })
+        })
+    };
+    // A plain query with no entity spelling needs no whole-input authority
+    // recovery. Do not rescan an unchanged view of the same source bytes.
+    let original_entity = entity(input);
+    let decoded_entity = !view.unchanged() && entity(&view.text);
+    if (original_entity || decoded_entity)
+        && (view.text.contains('@') || at_entity(input) || decoded_entity && at_entity(&view.text))
+    {
+        let mut locators = Vec::new();
+        let mut text = input.to_owned();
+        let mut remaining = 4;
+        for _ in 0..9 {
+            let html = View::html_components(&text);
+            let locator = if html.text != text {
+                html
+            } else {
+                if remaining == 0 || !text.contains('%') {
+                    break;
+                }
+                remaining -= 1;
+                View::percent_layer(&text)
+            };
+            if locator.text == text {
+                break;
+            }
+            text = locator.text.clone();
+            locators.push(locator);
+            let last = locators.len() - 1;
+            source_url_regions(
+                input,
+                &locators[last],
+                view,
+                &locators[..last],
+                false,
+                spans,
+                guards,
+            );
+        }
+    }
+}
+
+// Scan each disjoint HTML attribute value with separate component and nested
+// recognition layers. Entity-only component bounds take precedence over the
+// percent-decoded recovery view. Map spans back without re-encoding HTML.
+fn html_attribute_urls(
+    input: &str,
+    view: &View,
+    spans: &mut Vec<Range<usize>>,
+    components: &mut Vec<Range<usize>>,
+    guards: &mut Vec<Range<usize>>,
+) {
+    if !view.text.contains('<') {
+        return;
+    }
+    let b = view.text.as_bytes();
+    let mut cursor = 0;
+    let mut in_tag = false;
+    let mut raw_text: Option<&[u8]> = None;
+    // Repeated adjacent attribute values share relative matches. Keep only
+    // one borrowed spelling and its ranges, with no unbounded cache growth.
+    let mut previous = "";
+    let mut matches = Vec::new();
+    let mut component_matches = Vec::new();
+    let mut component_guards = Vec::new();
+    while cursor < b.len() {
+        if !in_tag {
+            if let Some(name) = raw_text {
+                if b.get(cursor..cursor + 2) != Some(b"</")
+                    || !b
+                        .get(cursor + 2..cursor + 2 + name.len())
+                        .is_some_and(|s| s.eq_ignore_ascii_case(name))
+                    || !b
+                        .get(cursor + 2 + name.len())
+                        .is_some_and(|ch| ch.is_ascii_whitespace() || matches!(ch, b'>' | b'/'))
+                {
+                    cursor += 1;
+                    continue;
+                }
+                raw_text = None;
+            }
+            if b.get(cursor..cursor + 4) == Some(b"<!--") {
+                cursor += 4;
+                while cursor < b.len() && b.get(cursor..cursor + 3) != Some(b"-->") {
+                    cursor += 1;
+                }
+                cursor = (cursor + 3).min(b.len());
+                continue;
+            }
+        }
+        match b[cursor] {
+            b'<' if b
+                .get(cursor + 1)
+                .is_some_and(|ch| ch.is_ascii_alphabetic() || *ch == b'/') =>
+            {
+                in_tag = true;
+                for name in [b"script".as_slice(), b"style", b"textarea", b"title"] {
+                    let end = cursor + 1 + name.len();
+                    if b.get(cursor + 1..end)
+                        .is_some_and(|s| s.eq_ignore_ascii_case(name))
+                        && b.get(end)
+                            .is_some_and(|ch| ch.is_ascii_whitespace() || *ch == b'>')
+                    {
+                        raw_text = Some(name);
+                    }
+                }
+            }
+            b'>' => in_tag = false,
+            b'=' if in_tag => {
+                cursor = skip_space(b, cursor + 1);
+                if cursor >= b.len() {
+                    break;
+                }
+                let quoted = view.literal(cursor) && matches!(b[cursor], b'"' | b'\'' | b'`');
+                let start = cursor + usize::from(quoted);
+                let end = if quoted {
+                    view.quote_end(cursor)
+                } else {
+                    let mut end = cursor;
+                    while end < b.len()
+                        && !(view.literal(end) && (b[end].is_ascii_whitespace() || b[end] == b'>'))
+                    {
+                        end += 1;
+                    }
+                    end
+                };
+                let value = &view.text[start..end];
+                let source_start = view.source_start(start);
+                let source_end = if end > start {
+                    view.source_end(end - 1)
+                } else {
+                    source_start
+                };
+                let source = &input[source_start..source_end];
+                if value
+                    .bytes()
+                    .any(|ch| matches!(ch, b'&' | b'?' | b'@' | b'/' | b'\\'))
+                {
+                    if source != previous {
+                        let html = View::html_url(value);
+                        let mut local = Vec::new();
+                        // The attribute supplies URL context; no scheme is
+                        // required for query recognition in this disjoint view.
+                        if let Some(query) = html.text.find('?') {
+                            recover_query_parameters(&html, query, html.text.len(), &mut local);
+                        }
+                        let mut decoded = local;
+                        // Component boundaries are determined before percent decoding.
+                        // Entity punctuation is structure; percent escapes stay data.
+                        let components = View::html_components(source);
+                        let mut local = Vec::new();
+                        let mut bounds = Vec::new();
+                        let mut userinfo = Vec::new();
+                        let authority_found =
+                            userinfo_layers(&components, 4, &mut userinfo, &mut bounds);
+                        if !authority_found {
+                            component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+                        }
+                        // A real authority takes precedence over encoded punctuation
+                        // inside its username/password. Fully encoded authorities
+                        // still have their own recognition layer.
+                        let encoded_authority = html.text.trim_start().starts_with("//")
+                            && !components.text.trim_start().starts_with("//");
+                        let serialized_entity =
+                            components.text.contains("&%23") || components.text.contains("%26%23");
+                        if !authority_found
+                            || encoded_authority
+                            || userinfo.is_empty() && serialized_entity
+                        {
+                            relative_userinfo(&html, &mut decoded);
+                            attribute_userinfo(&html, &mut decoded);
+                        }
+                        local.extend(userinfo);
+                        matches = decoded
+                            .into_iter()
+                            .map(|r| html.source_start(r.start)..html.source_end(r.end - 1))
+                            .collect::<Vec<_>>();
+                        component_matches = local
+                            .into_iter()
+                            .map(|r| {
+                                components.source_start(r.start)..components.source_end(r.end - 1)
+                            })
+                            .collect::<Vec<_>>();
+                        component_guards = bounds
+                            .into_iter()
+                            .map(|r| {
+                                components.source_start(r.start)..components.source_end(r.end - 1)
+                            })
+                            .collect();
+                        previous = source;
+                    }
+                    spans.extend(matches.iter().map(|r| start + r.start..start + r.end));
+                    components.extend(component_matches.iter().map(|r| {
+                        view.position(source_start + r.start)
+                            ..view.position(source_start + r.end - 1) + 1
+                    }));
+                    guards.extend(component_guards.iter().map(|r| {
+                        view.position(source_start + r.start)
+                            ..view.position(source_start + r.end - 1) + 1
+                    }));
+                }
+                cursor = end + usize::from(quoted && end < b.len());
+                continue;
+            }
+            _ => {}
+        }
+        cursor += 1;
     }
 }
 
@@ -1720,6 +3011,12 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     for c in bearer_regex().captures_iter(&view.text) {
         let token = c.get(1).expect("credential capture");
         if let Some(end) = candidate_end(&view, token.start()) {
+            if token.as_str() == "hidden_..."
+                && view.text[token.start()..end].trim() != token.as_str()
+            {
+                spans.push(token.start()..end);
+                continue;
+            }
             if end > token.end() && opaque_material(&view.text[token.end()..end]) {
                 spans.push(token.start()..end);
                 continue;
@@ -1748,8 +3045,53 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         pos = end;
     }
     credential_prose(&view, &mut spans);
-    assignments(&view, inherited, &mut spans);
-    urls(&view, &mut spans);
+    let mut url_values = Vec::new();
+    urls(&view, &mut url_values);
+    relative_userinfo(&view, &mut url_values);
+    let mut components = Vec::new();
+    let mut guards = Vec::new();
+    source_url_components(input, &view, &mut components, &mut guards);
+    html_attribute_urls(input, &view, &mut url_values, &mut components, &mut guards);
+    // Component spans supersede decoded-layer matches that cross their real
+    // boundary. Sort/merge once, then use logarithmic overlap lookups.
+    components.sort_unstable_by_key(|r| (r.start, r.end));
+    let mut boundaries: Vec<Range<usize>> = Vec::new();
+    for span in components {
+        if let Some(last) = boundaries.last_mut().filter(|last| span.start < last.end) {
+            last.end = last.end.max(span.end);
+        } else {
+            boundaries.push(span);
+        }
+    }
+    guards.extend(boundaries.iter().cloned());
+    guards.sort_unstable_by_key(|r| (r.start, r.end));
+    let mut protected: Vec<Range<usize>> = Vec::new();
+    for range in guards {
+        if let Some(last) = protected.last_mut().filter(|last| range.start < last.end) {
+            last.end = last.end.max(range.end);
+        } else {
+            protected.push(range);
+        }
+    }
+    url_values.retain(|r| {
+        let n = protected.partition_point(|span| span.end <= r.start);
+        protected.get(n).is_none_or(|span| span.start >= r.end)
+    });
+    url_values.extend(boundaries);
+    url_values.sort_unstable_by_key(|span| (span.start, span.end));
+    let mut url_context = url_values.clone();
+    url_context.extend(protected);
+    url_context.sort_unstable_by_key(|r| (r.start, r.end));
+    let mut context: Vec<Range<usize>> = Vec::new();
+    for range in url_context {
+        if let Some(last) = context.last_mut().filter(|last| range.start < last.end) {
+            last.end = last.end.max(range.end);
+        } else {
+            context.push(range);
+        }
+    }
+    assignments(&view, inherited, &mut spans, &context);
+    spans.extend(url_values);
     if policy == Policy::Pii {
         for m in pii_regex().find_iter(&view.text) {
             spans.push(m.range());
