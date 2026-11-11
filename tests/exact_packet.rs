@@ -36,8 +36,9 @@ fn invented_residuals_and_positive_controls() {
         .iter()
         .enumerate()
         .filter_map(|(i, x)| {
-            let input = x.as_str().unwrap();
-            (!verify(input, input)).then_some(i)
+            let input = x.as_str().or_else(|| x["input"].as_str()).unwrap();
+            let expected = x["expected"].as_str().unwrap_or(input);
+            (!verify(input, expected)).then_some(i)
         })
         .collect();
     assert!(failed.is_empty(), "benign case indices {failed:?}");

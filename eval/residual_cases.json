@@ -12,7 +12,10 @@
     "{\"excerpt\":\"auth: pl\"}",
     "// Document the scheme as Bearer credentialVariable",
     "Documentation: https://public-user@code.example.invalid/repo",
-    "Proposed schema: auth = record { issuer, audience }",
+    {
+      "input": "Proposed schema: auth = record { issuer, audience }",
+      "expected": "Proposed schema: auth = [REDACTED]"
+    },
     "test_vector = \"Bearer toyBearerMaterial\";",
     "Authorization header is missing",
     "bearer token handling is described in AUTH.md",

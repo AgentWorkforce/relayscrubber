@@ -61266,5 +61266,235 @@
     "family": "comment_bearer_tail_assignment",
     "input": "// api_key = bEaReR  summerDays trailingSecret;",
     "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "legacy_documentary_bare_assignment",
+    "input": "Proposed schema: auth = record { issuer, audience }",
+    "expected": "Proposed schema: auth = [REDACTED]"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = &widget;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = readWidget(input);",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = readWidget(input);",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = readWidget(input);",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = readWidget(input);",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = widget.credentials;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = widget.credentials;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = widget.credentials;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = widget.credentials;",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = widget.primary + widget.secondary;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = widget.primary + widget.secondary;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = widget.primary + widget.secondary;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = widget.primary + widget.secondary;",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = widget.primary && widget.secondary;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = widget.primary && widget.secondary;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = widget.primary && widget.secondary;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = widget.primary && widget.secondary;",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = widget.ready ? widget.primary : widget.secondary;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = widget.ready ? widget.primary : widget.secondary;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = widget.ready ? widget.primary : widget.secondary;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary;",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = {widget: 1};",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = {widget: 1};",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = {widget: 1};",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = {widget: 1};",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = {widget: {count: 1}};",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = {widget: {count: 1}};",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = {widget: {count: 1}};",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = {widget: {count: 1}};",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = [widget.primary, widget.secondary];",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = [widget.primary, widget.secondary];",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = [widget.primary, widget.secondary];",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = [widget.primary, widget.secondary];",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = ${widget.credentials};",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = ${widget.credentials};",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = ${widget.credentials};",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = ${widget.credentials};",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = widgetPassword;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = widgetPassword;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = widgetPassword;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = widgetPassword;",
+    "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "password = WIDGET_CREDENTIAL;",
+    "expected": "password = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "token = WIDGET_CREDENTIAL;",
+    "expected": "token = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "session_id = WIDGET_CREDENTIAL;",
+    "expected": "session_id = [REDACTED];"
+  },
+  {
+    "family": "authorized_legacy_bare_reassignment",
+    "input": "PASSWORD = WIDGET_CREDENTIAL;",
+    "expected": "PASSWORD = [REDACTED];"
   }
 ]

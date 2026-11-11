@@ -39,8 +39,9 @@ fn main() {
             .unwrap()
             .iter()
             .map(|s| {
-                let s = s.as_str().unwrap().to_string();
-                (s.clone(), s)
+                let input = s.as_str().or_else(|| s["input"].as_str()).unwrap();
+                let expected = s["expected"].as_str().unwrap_or(input);
+                (input.to_string(), expected.to_string())
             })
             .collect(),
     );

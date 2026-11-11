@@ -17,17 +17,22 @@ assignment, including exported declaration literals. Only a complete Bearer
 literal may delegate its entire credential body to the standalone scanner;
 additional tails fail closed.
 
-The 9,496 invented controls cover all explicit key families, case spellings,
+The 9,542 invented controls cover all explicit key families, case spellings,
 export prefixes, source-shaped values, literal siblings, declarations and all
 four APIs plus idempotence. Pinned Rust 1.88 native and the exact downloaded
-alpha.7 WASM artifact fail the same 2,236 rows per API. Targeted successor native
+alpha.7 WASM artifact fail the same 2,282 rows per API. Targeted successor native
 tests pass. Full gates, hosted successor replay and independent review are pending.
 
 The lead explicitly authorizes 45 preservation-to-sensitive expectation
 corrections in `eval/alpha6_syntax_cases.json`; every row, old output and new output
 is enumerated in [the receipt](results/alpha8-reassignment-repair.json).
-All other legacy fixture rows, declaration controls and security positives are
-unchanged. This retains alpha.7 whitespace and full-passphrase repairs. Desktop
+One additional inherited residual precision control contradicts the same
+assignment policy: `eval/residual_cases.json` `/benign/12`, input
+`Proposed schema: auth = record { issuer, audience }`, now expects
+`Proposed schema: auth = [REDACTED]`. Its position remains stable with an explicit
+input/expected object (19 controls, 18 preserved and one sensitive). The receipt
+enumerates this correction too. All other legacy fixture rows, declaration
+controls and security positives are unchanged. This retains alpha.7 whitespace and full-passphrase repairs. Desktop
 adoption, publication and a new security PASS remain separately scoped.
 
 ## Historical alpha.7 passphrase repair (PASS withdrawn)

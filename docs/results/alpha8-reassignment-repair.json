@@ -4,7 +4,7 @@
   "blockedHead": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
   "basePublishedMain": "f4188515ff5406fe87593cb5efefcefbbdf8f502",
   "authority": "relayscrubber-lead BLOCK/PASS withdrawal message246242359458385920",
-  "cases": 9496,
+  "cases": 9542,
   "families": {
     "bare_source_shaped": 1152,
     "bare_literal_control": 504,
@@ -15,24 +15,28 @@
     "noncredential_control": 24,
     "word_prefix_assignment": 380,
     "complete_comment_bearer_control": 64,
-    "comment_bearer_tail_assignment": 64
+    "comment_bearer_tail_assignment": 64,
+    "legacy_documentary_bare_assignment": 1,
+    "authorized_legacy_bare_reassignment": 45
   },
   "baselineNative": {
-    "cases": 9496,
-    "fixtureSha256": "54e8c32125c19173a4d79fd02d350c0e452921985d568efaab51980753c946f9",
+    "cases": 9542,
+    "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
     "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
     "failuresPerApi": [
-      2236,
-      2236,
-      2236,
-      2236
+      2282,
+      2282,
+      2282,
+      2282
     ],
-    "failedIdsSha256": "e9f2a85faeb1097c422934cca07c6615991c902af5b05521c2387bdf6195377f",
+    "failedIdsSha256": "092a4e5585c263ba61d638cc5f0671bc045f4d81be4237d5128597f0a6a3b466",
     "failedFamilies": {
       "bare_source_shaped": 1024,
       "declaration_literal_sibling": 768,
       "word_prefix_assignment": 380,
-      "comment_bearer_tail_assignment": 64
+      "comment_bearer_tail_assignment": 64,
+      "legacy_documentary_bare_assignment": 1,
+      "authorized_legacy_bare_reassignment": 45
     },
     "idempotenceChecked": true,
     "head": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
@@ -40,23 +44,25 @@
   },
   "baselineHostedWasm": {
     "artifactId": 13840491052,
-    "cases": 9496,
-    "fixtureSha256": "54e8c32125c19173a4d79fd02d350c0e452921985d568efaab51980753c946f9",
+    "cases": 9542,
+    "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
     "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
     "wasmSha256": "0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470",
     "allInnerPinsVerified": true,
     "failuresPerApi": [
-      2236,
-      2236,
-      2236,
-      2236
+      2282,
+      2282,
+      2282,
+      2282
     ],
-    "failedIdsSha256": "e9f2a85faeb1097c422934cca07c6615991c902af5b05521c2387bdf6195377f",
+    "failedIdsSha256": "092a4e5585c263ba61d638cc5f0671bc045f4d81be4237d5128597f0a6a3b466",
     "failedFamilies": {
       "bare_source_shaped": 1024,
       "declaration_literal_sibling": 768,
       "word_prefix_assignment": 380,
-      "comment_bearer_tail_assignment": 64
+      "comment_bearer_tail_assignment": 64,
+      "legacy_documentary_bare_assignment": 1,
+      "authorized_legacy_bare_reassignment": 45
     },
     "idempotenceChecked": true
   },
@@ -470,5 +476,32 @@
   "allOtherLegacyFixtureRowsUnchanged": true,
   "priorSecurityPositiveControlsUnchanged": true,
   "independentEngineArtifactReview": "pending; alpha7 PASS withdrawn",
-  "adoptionApproved": false
+  "adoptionApproved": false,
+  "additionalAuthorizedLegacyCorrection": {
+    "file": "eval/residual_cases.json",
+    "jsonPointer": "/benign/12",
+    "row": 12,
+    "oldExpected": "Proposed schema: auth = record { issuer, audience }",
+    "newExpected": "Proposed schema: auth = [REDACTED]",
+    "authority": "Same explicit-assignment-over-documentary-context ruling; lead message246242359458385920 and prior ref7456c09bd3e1",
+    "representation": "Retain original row position with explicit input/expected object; 19 residual controls remain, 18 preserved and one sensitive; all17 positive controls unchanged."
+  },
+  "codeCommit": "4d6a9d7a3125dea6ae49a6067a23557336a34dea",
+  "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+  "targetedLocalWasm": {
+    "cases": 9542,
+    "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+    "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+    "wasmSha256": "250be99245d9bfeec7258ed99b3d462b0625c2d7810f2df2e530d062c47f730b",
+    "allInnerPinsVerified": true,
+    "failuresPerApi": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "failedIdsSha256": "210e130878aabaf46f1fe72749a263f9eb71c6a262b80f13882ed08d472c0ecd",
+    "failedFamilies": {},
+    "idempotenceChecked": true
+  }
 }
