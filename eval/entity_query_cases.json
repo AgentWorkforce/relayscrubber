@@ -1,0 +1,857 @@
+[
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&amp;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#38;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x26;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x26;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x26;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x26;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x26;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x26;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#x26;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x26;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X26;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X26;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X26;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X26;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X26;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X26;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#X26;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X26;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#038;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#038;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#038;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#038;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#038;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#038;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#038;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#038;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#038;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#038;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#038;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#038;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#038;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#038;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#0000038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#0000038;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#0000038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#0000038;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#0000038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#0000038;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#0000038;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#0000038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#0000038;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#0000038;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#0000038;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#0000038;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x000026;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x000026;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x000026;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#x000026;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#x000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x000026;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#x000026;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#x000026;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#x000026;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X000026;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X000026;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X000026;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#X000026;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#X000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X000026;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#X000026;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#X000026;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#X000026;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;amp;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;amp;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;amp;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;amp;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;amp;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;amp;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&amp;amp;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;amp;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;AMP;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;AMP;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;AMP;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&AMP;AMP;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;AMP;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&AMP;AMP;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&AMP;AMP;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&AMP;AMP;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;#38;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;#38;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;#38;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&amp;#38;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&amp;#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;#38;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&amp;#38;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&amp;#38;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&amp;#38;sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;sig=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;amp;sig=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;sig=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;amp;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;X-Amz-Signature=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;amp;X-Amz-Signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;X-Amz-Signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;X-Amz-Signature=[REDACTED]"
+  },
+  {
+    "family": "entity_separator",
+    "input": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9\">open</a>",
+    "expected": "<a href=\"https://media.example.invalid/render?caption=audit&#38;amp;token=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=audit&#38;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;amp;token=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "entity_separator",
+    "input": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;token=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9",
+    "expected": "https://media.example.invalid/render?caption=\"unfinished\n&#38;amp;token=[REDACTED]"
+  },
+  {
+    "family": "entity_benign",
+    "input": "https://media.example.invalid/render?caption=audit&#38;amp;sort=asc",
+    "expected": "https://media.example.invalid/render?caption=audit&#38;amp;sort=asc"
+  },
+  {
+    "family": "mixed_separator",
+    "input": "https://media.example.invalid/?caption=audit&amp;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&page=2&#38;signature=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9&sort=asc",
+    "expected": "https://media.example.invalid/?caption=audit&amp;sig=[REDACTED]&page=2&#38;signature=[REDACTED]&sort=asc"
+  },
+  {
+    "family": "mixed_separator",
+    "input": "https://media.example.invalid/?caption=audit;sig=7e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c97e3b15c9;sort=asc",
+    "expected": "https://media.example.invalid/?caption=audit;sig=[REDACTED];sort=asc"
+  }
+]
