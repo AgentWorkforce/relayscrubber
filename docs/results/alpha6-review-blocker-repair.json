@@ -1,0 +1,49 @@
+{
+  "blockedHead": "1c86b849f7eafeab05f973dfdd54d1ee2f32c196",
+  "testCases": 902,
+  "alpha5Invalid": 0,
+  "originalFrozenAlpha6Invalid": 844,
+  "nativeApis": [
+    "text",
+    "long",
+    "JSON string",
+    "NDJSON string"
+  ],
+  "policyCorrection": "Context-free PascalCase fields, every regex literal under a credential key, and bare Key scalar paths are sensitive. Fifteen original invented preservation expectations were corrected explicitly; no pre-alpha6 security matrix changed.",
+  "nativeInvalidByApi": {
+    "0": 844,
+    "1": 844,
+    "2": 844,
+    "3": 844
+  },
+  "hostedWasm": {
+    "blockedHead": "1c86b849f7eafeab05f973dfdd54d1ee2f32c196",
+    "wasm": "3313d3614d9e5c2de3a8d80eac68fbd797bd294ecb6fbf20ed446164d0692e64",
+    "cases": 902,
+    "invalidByApi": [
+      844,
+      844,
+      844,
+      844
+    ]
+  },
+  "policyCorrectedPreservationControls": 15,
+  "replacementSourceCommit": "f1562d13a9ea4f5821f02334952019195c45fb55",
+  "replacementSourceSha256": "aea569aaeca8a53190194eb10cb751195d3d21c27cd0fee2aeef78f81db3d814",
+  "replacementNativeInvalidByApi": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "replacementReviewStatus": "pending independent engine/artifact review",
+  "jointControls": 3609,
+  "jointBenign": 142,
+  "jointPositive": 3467,
+  "replacementHostedInvalidByApi": [
+    0,
+    0,
+    0,
+    0
+  ]
+}

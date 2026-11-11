@@ -611,6 +611,11 @@ fn code_expression(value: &str) -> bool {
 }
 
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
+    // An isolated opener has no credential bytes. Never exempt a prefix of an
+    // unfinished multi-line object: its entire remaining value must be empty.
+    if !colon && view.text.len() - value <= 512 && view.text[value..].trim() == "{" {
+        return true;
+    }
     // Rust reference aliases have a lifetime apostrophe, not a quoted scalar.
     // Check the entire declaration suffix before the general quote scanner.
     if !colon && matches!(bounded_prefix(view, key).trim(), "type" | "pub type") {
@@ -637,6 +642,37 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     };
     if !safe_code_literals(rest) {
         return false;
+    }
+    // Env/config assignments have no source statement delimiter. New bare
+    // reassignments require both a spaced assignment and a complete semicolon;
+    // declarations retain their existing explicit source context.
+    let reassignment = view.text[key..value].contains(" = ")
+        && candidate_end(view, value)
+            .is_some_and(|end| view.text.as_bytes().get(end) == Some(&b';'));
+    if !colon
+        && (declaration || reassignment)
+        && template_reference(rest)
+        && symbolic_arguments(rest)
+    {
+        return true;
+    }
+    // Reassignments do not need a let/const declaration. A single bare word
+    // outside a declaration needs identifier casing syntax; ordinary scalar
+    // passwords still have no source-expression evidence.
+    let source_shape = declaration
+        || rest.contains(['.', '(', '[', '{', '/', '+', '*', '?', '&', '|'])
+        || rest
+            .as_bytes()
+            .windows(2)
+            .any(|w| w[0].is_ascii_lowercase() && w[1].is_ascii_uppercase())
+        || rest.contains('_') && rest.bytes().all(|b| b.is_ascii_uppercase() || b == b'_');
+    if !colon
+        && bounded_prefix(view, key).split_whitespace().last() != Some("type")
+        && (declaration || reassignment)
+        && source_shape
+        && crate::syntax::expression(rest)
+    {
+        return true;
     }
     if bounded_prefix(view, key).split_whitespace().last() == Some("type") {
         static TUPLE: OnceLock<Regex> = OnceLock::new();
@@ -1034,6 +1070,11 @@ fn assignments(
         if flag && (name.starts_with("no-") || matches!(b[value], b'|' | b'&' | b';')) {
             continue;
         }
+        // A whitespace-separated option followed by another complete flag has
+        // no value. Equals and quoted spellings still carry literal data.
+        if flag && !has_sep && next_cli_flag(view, value) {
+            continue;
+        }
         if ["([^ ]+)/g;", "([^ ]+)/g", "([^ ]+)/"]
             .contains(&view.text[value..view.line_end(value)].trim())
         {
@@ -1043,6 +1084,40 @@ fn assignments(
             continue;
         }
         let quoted = matches!(b[value], b'"' | b'\'' | b'`');
+        if name == "Key"
+            && quoted
+            && !credential
+            && !bounded_prefix(view, start).contains("--tags ")
+            && !bounded_prefix(view, start).ends_with("\"Tags\":[{\"")
+        {
+            if let Some(end) = candidate_end(view, value) {
+                let after = skip_space(b, end);
+                if after < b.len() && !matches!(b[after], b',' | b'}' | b']' | b')' | b';') {
+                    // A quoted scalar is only a prefix when data follows its
+                    // closer. Keep the malformed value's full rejection extent.
+                    let tail = candidate_end(view, end)
+                        .unwrap_or_else(|| view.line_end(value).min(view.enclosing_end(value)));
+                    spans.push(value..tail);
+                    i = tail;
+                    continue;
+                }
+            }
+        }
+        if !quoted && destructuring_bind(view, start) {
+            continue;
+        }
+        if quoted_key && b.get(sep) == Some(&b':') && source_label(view, start, value) {
+            continue;
+        }
+        if quoted_key && b.get(sep) == Some(&b':') && case_label(view, start) {
+            // A rejected return body is still one whole labelled value;
+            // removing only the `return` keyword would leave literal arguments.
+            let end = candidate_end(view, value)
+                .unwrap_or_else(|| view.line_end(value).min(view.enclosing_end(value)));
+            spans.push(value..end);
+            i = end;
+            continue;
+        }
         // Match-arm code bodies are references; PHP/Ruby hash-rocket string
         // assignments in the same position must still redact.
         if quoted_key
@@ -1123,6 +1198,11 @@ fn assignments(
         if b[value] == b'{' && masked_connection_mapping(candidate(view, value).unwrap_or("")) {
             continue;
         }
+        let source_context = !quoted
+            && start >= public_until
+            && b.get(sep) == Some(&b':')
+            && !name.eq_ignore_ascii_case("key")
+            && (code_object_context(view, start) || type_context(view, start));
         if !quoted
             && structural_value(
                 view,
@@ -1217,7 +1297,8 @@ fn assignments(
         }
         if !quoted
             && start >= public_until
-            && (declaration
+            && (!flag && b.get(sep) == Some(&b'=')
+                || declaration
                 || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                 || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
@@ -1227,10 +1308,7 @@ fn assignments(
                 start,
                 value,
                 b.get(sep) == Some(&b':'),
-                declaration
-                    || (b.get(sep) == Some(&b':')
-                        && !name.eq_ignore_ascii_case("key")
-                        && code_object_context(view, start)),
+                declaration || source_context,
             )
         {
             continue;
@@ -1324,9 +1402,24 @@ fn assignments(
         let failed_reference = raw.starts_with('$')
             || !quoted
                 && (declaration
+                    || source_context && b[value].is_ascii_alphabetic()
+                    || !flag
+                        && b.get(sep) == Some(&b'=')
+                        && view.text[start..value].contains(" = ")
+                        && complete_end.is_some_and(|end| b.get(end) == Some(&b';'))
                     || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
-                    || raw.contains(['(', '.']));
+                    || raw.contains(['(', '.', '/'])
+                    || raw
+                        .as_bytes()
+                        .windows(2)
+                        .any(|w| w[0].is_ascii_lowercase() && w[1].is_ascii_uppercase())
+                    || b.get(sep) == Some(&b':')
+                        && raw.as_bytes().first().is_some_and(u8::is_ascii_uppercase)
+                        && raw.bytes().any(|b| b.is_ascii_lowercase())
+                        && raw.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+                    || raw.contains('_')
+                        && raw.bytes().all(|b| b.is_ascii_uppercase() || b == b'_'));
         if full.is_some_and(opaque_material) || failed_reference {
             let limit = complete_end.map_or_else(
                 || view.line_end(value).min(view.enclosing_end(value)),
@@ -1364,6 +1457,65 @@ fn marker_reference(value: &str) -> bool {
     })
 }
 
+fn next_cli_flag(view: &View, value: usize) -> bool {
+    let tail = &view.text[value..view.line_end(value)];
+    let flag = tail.split_whitespace().next().unwrap_or("");
+    flag.strip_prefix("--").is_some_and(|name| {
+        !name.is_empty() && name.bytes().all(|b| b.is_ascii_lowercase() || b == b'-')
+    }) || flag.len() == 2 && flag.starts_with('-') && flag.as_bytes()[1].is_ascii_alphabetic()
+}
+
+fn destructuring_bind(view: &View, key: usize) -> bool {
+    let start = view.line_start(key);
+    let end = view.line_end(key);
+    if end - start > 512 {
+        return false;
+    }
+    let line = view.text[start..end].trim();
+    if !safe_code_literals(line) {
+        return false;
+    }
+    static BIND: OnceLock<Regex> = OnceLock::new();
+    let Some(c) = BIND.get_or_init(|| Regex::new(r"^(?:const|let|var)[ \t]+\{[ \t]*[A-Za-z_][A-Za-z0-9_]*(?:[ \t]*:[ \t]*[A-Za-z_][A-Za-z0-9_]*)?(?:[ \t]*,[ \t]*[A-Za-z_][A-Za-z0-9_]*(?:[ \t]*:[ \t]*[A-Za-z_][A-Za-z0-9_]*)?)*[ \t]*\}[ \t]*=[ \t]*(.+?);?$").expect("complete destructuring bind")).captures(line) else { return false };
+    crate::syntax::expression(c.get(1).expect("bound expression").as_str())
+}
+
+fn source_label(view: &View, key: usize, value: usize) -> bool {
+    let prefix = bounded_prefix(view, key).trim_end();
+    if case_label(view, key) {
+        return candidate(view, value)
+            .and_then(|s| s.strip_prefix("return "))
+            .is_some_and(|s| safe_code_literals(s) && crate::syntax::expression(s));
+    }
+    // The quoted search pattern ends before this colon. Require the whole
+    // following command to be a path and an optional simple head pipeline.
+    let Some(command) = prefix.split_whitespace().next() else {
+        return false;
+    };
+    if !matches!(command, "grep" | "rg") {
+        return false;
+    }
+    let tail = &view.text[value..view.line_end(value)];
+    if tail.len() > 512 || opaque_material(tail) {
+        return false;
+    }
+    static SEARCH: OnceLock<Regex> = OnceLock::new();
+    SEARCH
+        .get_or_init(|| {
+            Regex::new(r"^(?:\./|/)?[A-Za-z_][A-Za-z0-9_./-]*/(?:[ \t]*\|[ \t]*head)?[ \t]*$")
+                .expect("complete search path tail")
+        })
+        .is_match(tail)
+}
+
+fn case_label(view: &View, key: usize) -> bool {
+    bounded_prefix(view, key)
+        .trim_end()
+        .trim_end_matches(['"', '\''])
+        .trim_end()
+        == "case"
+}
+
 // Only syntax before a key can establish a non-assignment wrapper. Never
 // inspect the English credential value to decide whether it is documentary.
 fn non_assignment_wrapper(view: &View, position: usize) -> bool {
@@ -1371,7 +1523,7 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
     if prefix.starts_with('#') || prefix.starts_with("//") {
         return true;
     }
-    let prefix = prefix.trim_end_matches(['"', '\'', '`']).trim_end();
+    let prefix = prefix.trim_end_matches(['"', '\'']).trim_end();
     let sentence = prefix.trim_end_matches(':');
     sentence
         .bytes()
@@ -1479,7 +1631,7 @@ fn authorization_reference(value: &str) -> bool {
         return false;
     }
     let rest = value[end..].trim();
-    let rest = rest.trim_end_matches(['"', '\'', '`']);
+    let rest = rest.trim_end_matches(['"', '\'']);
     rest.is_empty()
         || marker_reference(rest)
         || reference(rest)
@@ -1683,6 +1835,19 @@ fn url_regex_source(view: &View, start: usize, authority: usize) -> bool {
 }
 
 fn provider_symbol(view: &View, value: &str, start: usize, end: usize) -> bool {
+    if ["relay_ag_", "relay_pa_", "relay_ws_", "relay_id_"]
+        .iter()
+        .any(|p| value.starts_with(p))
+    {
+        let prefix = bounded_prefix(view, start).trim();
+        let tail = &view.text[end..view.line_end(end)];
+        return matches!(prefix, "use" | "pub use")
+            && value[9..].contains('_')
+            && value[9..]
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b == b'_')
+            && tail.trim() == ";";
+    }
     if !(value.starts_with("capy_") || value.starts_with("crsr_")) {
         return false;
     }
@@ -3158,6 +3323,16 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         let value = &view.text[m.clone()];
         if provider_symbol(&view, value, m.start, m.end) {
             continue;
+        }
+        if matches!(bounded_prefix(&view, m.start).trim(), "use" | "pub use") {
+            if let Some(end) = candidate_end(&view, m.start) {
+                if opaque_material(&view.text[m.start..end])
+                    || value.starts_with("relay_") && end > m.end
+                {
+                    spans.push(m.start..end);
+                    continue;
+                }
+            }
         }
         spans.push(m);
     }

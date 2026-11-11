@@ -171,3 +171,34 @@ is `call_refusal` for deterministic admission failures and `instance_poison` for
 unexpected JS/WASM failures. See `MIGRATION.md` for the tagged-code contract.
 Independent re-audit pending. Named invented regression tests are behavioral
 checks, not evidence of production precision.
+
+## Alpha.6 source precision and independent review correction
+
+Complete bounded source expressions may contain reference calls, member chains,
+operators, symbolic arrays/objects and borrow expressions. Numeric object values
+require a non-credential field. Strings and regex literal bodies under credential
+keys remain sensitive; regex source under non-credential keys stays visible.
+Candidates are at most 512 bytes with parser nesting at most 32. Every accepted
+reference consumes the whole candidate and delimiter. Rejected source values
+retain their complete extent, including comment tails after an inserted marker.
+Adjacent `//` and `/*` openers are lexical comments, never division plus regex.
+
+PascalCase scalar text alone does not establish a type declaration. Source types
+use the existing bounded declaration/field context. Bare scalar `Key` values
+retain alpha.5 redaction: path shape, case or extension is not an exemption.
+Malformed quoted postfix values retain their full rejection extent. Type aliases
+retain their strict prior grammar and bypass the new expression recognizer.
+
+An independent review blocked `1c86b849` for three recall regressions. Fifteen
+invented preservation expectations were explicitly corrected to sensitive:
+eight credential-key regex assignments, six standalone PascalCase fragments and
+one bare `Key` path. These ambiguous cases do not prove safe source/resource
+context. The original PR #11 bare-Key path precision request remains unresolved
+without an approved contextual rule; this repair does not substitute a value or
+filename allowlist. This is a public invented-policy correction, not relabelling
+private held-out data. No existing security matrix or timing limit was changed.
+
+Complete source-case return references, grep/rg directory tails, omitted CLI
+values before flags, destructuring binds, cased identifiers and Rust relay `use`
+symbols retain their reviewed syntax bounds. No version alone grants adoption;
+replacement engine/artifact PASS requires independent review after exact-head CI.

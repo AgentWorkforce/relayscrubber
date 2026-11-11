@@ -11,6 +11,7 @@ fn main() {
         "rust-toolchain.toml",
         "src/lib.rs",
         "src/engine.rs",
+        "src/syntax.rs",
         "src/normalize.rs",
         "src/json.rs",
         "src/wasm.rs",

@@ -1,6 +1,6 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.5`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.6`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
@@ -102,3 +102,48 @@ and frozen199 has zero misses or second-pass changes. The 63,906/84,840/26,873/
 23,002 matrices and every earlier gate remain intact. Final handoff requires
 ALL-green exact-head Linux, Windows and WASM, including equality with these
 precise source/WASM/glue/declaration/adapter/package pins. No merge or publish.
+
+
+## Alpha.6 syntax precision and independent recall repair
+
+Independent review BLOCKED `1c86b849` despite green CI and matching artifact
+hashes. Context-free PascalCase YAML scalars, literal regex bodies under
+credential keys, and bare `Key` scalar paths regressed alpha.5 recall. The prior
+engine/artifact PASS is withdrawn. Cryptographic identity does not prove recall.
+
+[The public review suite](../eval/alpha6_review_recall_cases.json) contains 902
+invented controls. Exact alpha.5 has zero failures. The frozen blocked native
+binary and its exact hosted WASM each fail 844 cases on every text/long/JSON-string/
+NDJSON-string API. The replacement passes every native control, including direct
+structured `Key` inputs. [The repair receipt](results/alpha6-review-blocker-repair.json)
+records the observed red-before/green-after evidence.
+
+The limited repair removes those three unsafe exemptions. Types require the
+existing source-context grammar; regex literal bodies under credential keys and
+bare `Key` scalars retain alpha.5 redaction. Non-credential regex source and
+explicit source types stay preserved. Fifteen public invented preservation
+expectations are explicitly corrected to sensitive: 8 regex assignments, 6 standalone
+PascalCase fragments and 1 bare Key path. No private held-out labels were opened
+or relabelled. The original ambiguous Key/path precision request is not claimed
+solved without an approved contextual rule; no filename/type allowlist replaces it.
+
+The original precision corpus now has 2707 controls (134 preservation/2573 attack),
+with 902 review controls (8 preservation/894 attack): 3609 total (142/3467).
+[The pinned Rust 1.88 baseline](results/alpha6-syntax-baseline.json) fails 86 benign
+and 85 attack controls in the corrected original corpus. All replacement controls
+pass across text/long/JSON/NDJSON and second passes. Every pre-alpha6 security
+matrix, frozen witness and resource limit remains unchanged.
+
+[Replacement source CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42962311431)
+verifies Linux/Windows Rust 102/fmt/clippy, Node 729/Bun 729, fresh 224,124 text and 224,129 structured
+vectors, frozen 199 with zero misses/regressions/second-pass changes, Workers,
+independent reproducibility and packaging. It failed only the superseded pin
+comparison. Package SHA-256 `374b72f5d21ecaae558273bb350103c2d111cdbbb1eaf803615c221449066cc6`; WASM SHA-256 `f1d393b22ce47d4cb4ca762107a7f66e8b2747f6de60c193e8b07646db28e5fd`.
+[Artifact verification](results/alpha6-artifact-verification.json) independently
+checks GitHub's archive digest, all file/package hashes and canonical source identity.
+Downloaded-package replay and final immutable-head pin gates are recorded in
+[the review receipt](results/review-fixes.json).
+
+Exact-head Linux/Windows/WASM must all pass before resubmission. Independent
+replacement engine/artifact approval and production precision re-audit remain
+pending. Only invented/public frozen data was used; no merge, tag or publish.

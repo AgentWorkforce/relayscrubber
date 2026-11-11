@@ -4,6 +4,7 @@
 mod engine;
 mod json;
 mod normalize;
+mod syntax;
 #[cfg(feature = "wasm")]
 mod wasm;
 
