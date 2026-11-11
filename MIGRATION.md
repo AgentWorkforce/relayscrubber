@@ -134,7 +134,7 @@ publish, tag, yank, main push or cross-repository edits are authorized here.
 
 ## Proposed release
 
-Crate and npm candidate version: **0.5.0-alpha.3**, with npm `private: false` so
+Crate and npm candidate version: **0.5.0-alpha.4**, with npm `private: false` so
 this head is packageable for an authorized release. This version is proposed for
 review only. No registry publish, tag, merge, deployment or consumer edit is
 performed. Independent re-audit pending; zero false positives is a release gate.

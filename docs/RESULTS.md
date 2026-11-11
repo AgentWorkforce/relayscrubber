@@ -1,6 +1,6 @@
 # Candidate validation results
 
-Candidate version remains `0.5.0-alpha.3`. Only invented inputs were used; no
+Candidate version remains `0.5.0-alpha.4`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
