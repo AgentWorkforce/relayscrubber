@@ -180,6 +180,66 @@
     "secret": "123456"
   },
   {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "token = widget //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "token = first - second //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "token = first / second //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "token = await widget //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "const options = {token: widget //plain-secret/};",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "struct Widget { token: String //plain-secret/ };",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "comment_after_rejected_lowercase_value",
+    "input": "case \"token\": return widget //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_after_rejected_lowercase_value",
+    "input": "token = widget %2F%2Fplain-secret%2F;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_after_rejected_lowercase_value",
+    "input": "token = widget %252f%252fplain-secret%252f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_after_rejected_lowercase_value",
+    "input": "token = widget \\x2f\\x2fplain-secret\\x2f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "encoded_comment_after_rejected_lowercase_value",
+    "input": "token = widget \\u002f\\u002fplain-secret\\u002f;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "distant_type_rejected_comment",
+    "input": "const options = {pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,pad: 0,token: String //plain-secret/};",
+    "secret": "plain-secret"
+  },
+  {
     "family": "regex_comment_lexer_attack",
     "input": "token = /widget[a-z]+/g //plain-secret/;",
     "secret": "plain-secret"

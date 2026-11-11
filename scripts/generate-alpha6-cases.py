@@ -42,6 +42,19 @@ for expression in ["await readWidget(input)", "new Widget(input)"]:
 for literal in ["plain-secret", "123456"]:
     for expression in [f'parseToken("{literal}")', f'"{literal}"']:
         hide("switch_short_literal", f'case "token": return {expression};', literal)
+for text in [
+    "token = widget //plain-secret/;",
+    "token = first - second //plain-secret/;",
+    "token = first / second //plain-secret/;",
+    "token = await widget //plain-secret/;",
+    "const options = {token: widget //plain-secret/};",
+    "struct Widget { token: String //plain-secret/ };",
+    'case "token": return widget //plain-secret/;',
+]:
+    hide("comment_after_rejected_lowercase_value", text, "plain-secret")
+for slash in ["%2F", "%252f", r"\x2f", r"\u002f"]:
+    hide("encoded_comment_after_rejected_lowercase_value", f"token = widget {slash}{slash}plain-secret{slash};", "plain-secret")
+hide("distant_type_rejected_comment", "const options = {" + "pad: 0," * 100 + "token: String //plain-secret/};", "plain-secret")
 for family, expression in forms.items():
     for prefix in ["", "const "]:
         for literal in ["plain-secret", "123456"]:
