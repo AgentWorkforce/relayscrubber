@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "identity-and-runtime-verified-independent-engine-review-pending",
+  "status": "superseded-awaiting-bounded-prefix-artifact",
   "builder": "GitHub Actions Linux x86_64",
   "codeCommit": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
   "sourceRunHead": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
@@ -36,5 +36,6 @@
   "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
   "independentEngineReview": "alpha7 pending; alpha6 reviewed separately",
-  "runtimeChecks": "Rust1.88 Linux103/Windows103 fmt/clippy, all unchanged matrices/limits; Node730/Bun730 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded alpha6 pin comparison; receipt-only exact-head gate still required."
+  "runtimeChecks": "Rust1.88 Linux103/Windows103 fmt/clippy, all unchanged matrices/limits; Node730/Bun730 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded alpha6 pin comparison; receipt-only exact-head gate still required.",
+  "supersededReason": "Boundary helper long-prefix timing failure; source7ce3fb1 requires fresh artifact/pins."
 }

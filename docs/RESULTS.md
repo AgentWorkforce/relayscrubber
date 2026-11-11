@@ -5,6 +5,10 @@ sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
 
+## Current alpha.7 prefix-budget correction
+
+Receipt head `f1255d1` is superseded: a new long Markdown label timing witness timed out after12s. Test-first `20e59a2` and code `7ce3fb1` bound each prefix to512bytes, retaining full credential extents outside that context budget. Native debug now takes1.106s against the unchanged10s limit. Fresh hosted artifact,104native/731Node/Bun checks and replacement exact-head gate are pending. The artifact pins and evidence below still identify the superseded source until refreshed. See `docs/results/alpha7-prefix-budget.json`.
+
 ## Alpha.7 boundary-only verification
 
 Source/version commit `41cda9324cc7d7ba1ab253e97d09e821d9cf3037` starts from published alpha.6 main `1c667369`. Five invented reaudit-8 witnesses restore the alpha.5 spans: four trailing-whitespace boundaries and one Markdown prose boundary. Test-first commits `1c24d2e`, `b24edcb` and `c9b18bc` retain 551 controls: 28 exact boundary/quoted-whitespace cases plus 523 credential-key literal/tail attacks. Published alpha.6 native and exact hosted WASM each fail 22 boundary cases per API and pass all attacks; the repair passes all cases. Exact spans are checked natively; text, long, JSON, NDJSON and second passes agree.

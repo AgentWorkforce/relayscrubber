@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "scope": "Boundary-helper scaling regression only",
+  "blockedReceiptHead": "f1255d1bc7e416c3ffeacf1d41123cb1e9ad6fb5",
+  "red": {
+    "bytes": 2162691,
+    "keys": 4096,
+    "seconds": 12.006878458,
+    "timedOut": true
+  },
+  "inventedShape": "2MiB alphabetic Markdown bullet label, then4096 token: The fox, values",
+  "testFirstCommit": "20e59a2e1c12322f65dd83b0961045f393b4b29d",
+  "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
+  "sourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+  "greenNativeDebugSeconds": 1.106,
+  "nativeLimitSeconds": 10,
+  "wasmLimitSeconds": 5,
+  "hostedVerification": "pending fresh source artifact; old pins not current"
+}
