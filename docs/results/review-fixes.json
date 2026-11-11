@@ -532,8 +532,8 @@
     "inventedBenignVariants": 78,
     "positiveControls": 25,
     "structuredCases": 3,
-    "nativeTextVectors": 235546,
-    "nativeStructuredVectors": 235551,
+    "nativeTextVectors": 235556,
+    "nativeStructuredVectors": 235561,
     "nodeTests": 772,
     "bunTests": 772,
     "secondPassParity": true,
@@ -5924,11 +5924,11 @@
   },
   "alpha8ReassignmentRepair": {
     "schema": 1,
-    "status": "source runtime and downloaded hosted package verified; receipt-only exact-head gate and independent review required",
+    "status": "late-authority supplemental sibling coverage verified on unchanged engine; follow-up exact-head CI pending",
     "blockedHead": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
     "basePublishedMain": "f4188515ff5406fe87593cb5efefcefbbdf8f502",
     "authority": "relayscrubber-lead BLOCK/PASS withdrawal message246242359458385920",
-    "cases": 9542,
+    "cases": 9552,
     "families": {
       "bare_source_shaped": 1152,
       "bare_literal_control": 504,
@@ -5941,11 +5941,14 @@
       "complete_comment_bearer_control": 64,
       "comment_bearer_tail_assignment": 64,
       "legacy_documentary_bare_assignment": 1,
-      "authorized_legacy_bare_reassignment": 45
+      "authorized_legacy_bare_reassignment": 45,
+      "residual_noncredential_same_position_control": 2,
+      "residual_declaration_same_position_control": 6,
+      "residual_declaration_literal_sibling": 2
     },
     "baselineNative": {
-      "cases": 9542,
-      "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+      "cases": 9552,
+      "fixtureSha256": "78ad069de44764e5121f5de89e3f7503860cf51e3760bcf2c8876d44605cf599",
       "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
       "failuresPerApi": [
         2282,
@@ -5968,8 +5971,8 @@
     },
     "baselineHostedWasm": {
       "artifactId": 13840491052,
-      "cases": 9542,
-      "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+      "cases": 9552,
+      "fixtureSha256": "78ad069de44764e5121f5de89e3f7503860cf51e3760bcf2c8876d44605cf599",
       "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
       "wasmSha256": "0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470",
       "allInnerPinsVerified": true,
@@ -6407,7 +6410,7 @@
       "row": 12,
       "oldExpected": "Proposed schema: auth = record { issuer, audience }",
       "newExpected": "Proposed schema: auth = [REDACTED]",
-      "authority": "Same explicit-assignment-over-documentary-context ruling; lead message246242359458385920 and prior ref7456c09bd3e1",
+      "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
       "representation": "Retain original row position with explicit input/expected object; 19 residual controls remain, 18 preserved and one sensitive; all17 positive controls unchanged."
     },
     "codeCommit": "4d6a9d7a3125dea6ae49a6067a23557336a34dea",
@@ -6507,8 +6510,8 @@
       "independentEngineReview": "pending; alpha7 PASS withdrawn"
     },
     "hostedReplay": {
-      "cases": 9542,
-      "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+      "cases": 9552,
+      "fixtureSha256": "78ad069de44764e5121f5de89e3f7503860cf51e3760bcf2c8876d44605cf599",
       "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
       "wasmSha256": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
       "allInnerPinsVerified": true,
@@ -6974,6 +6977,185 @@
       "sourceWasmFailure": "only superseded committed artifact pin comparison; no runtime failure"
     },
     "canonicalCodeUnchangedSinceVersionCommit": true,
-    "precisionTradeoff": "Bare source-shaped reassignment preservation is withdrawn under the lead ruling; all3456 declaration controls, 12 public session-ID controls and24 noncredential controls remain. No broad production-precision claim."
+    "precisionTradeoff": "Bare source-shaped reassignment preservation is withdrawn under the lead ruling; all3456 declaration controls, 12 public session-ID controls and24 noncredential controls remain. No broad production-precision claim.",
+    "previousE7fValidation": {
+      "cases": 9542,
+      "baselineNative": {
+        "cases": 9542,
+        "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+        "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
+        "failuresPerApi": [
+          2282,
+          2282,
+          2282,
+          2282
+        ],
+        "failedIdsSha256": "092a4e5585c263ba61d638cc5f0671bc045f4d81be4237d5128597f0a6a3b466",
+        "failedFamilies": {
+          "bare_source_shaped": 1024,
+          "declaration_literal_sibling": 768,
+          "word_prefix_assignment": 380,
+          "comment_bearer_tail_assignment": 64,
+          "legacy_documentary_bare_assignment": 1,
+          "authorized_legacy_bare_reassignment": 45
+        },
+        "idempotenceChecked": true,
+        "head": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
+        "toolchain": "1.88.0"
+      },
+      "baselineHostedWasm": {
+        "artifactId": 13840491052,
+        "cases": 9542,
+        "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+        "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
+        "wasmSha256": "0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470",
+        "allInnerPinsVerified": true,
+        "failuresPerApi": [
+          2282,
+          2282,
+          2282,
+          2282
+        ],
+        "failedIdsSha256": "092a4e5585c263ba61d638cc5f0671bc045f4d81be4237d5128597f0a6a3b466",
+        "failedFamilies": {
+          "bare_source_shaped": 1024,
+          "declaration_literal_sibling": 768,
+          "word_prefix_assignment": 380,
+          "comment_bearer_tail_assignment": 64,
+          "legacy_documentary_bare_assignment": 1,
+          "authorized_legacy_bare_reassignment": 45
+        },
+        "idempotenceChecked": true
+      },
+      "hostedReplay": {
+        "cases": 9542,
+        "fixtureSha256": "0e5a0a189a901e71540851a23fbe32b97022dcfe0645f79d297d3a26b58815aa",
+        "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+        "wasmSha256": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
+        "allInnerPinsVerified": true,
+        "failuresPerApi": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "failedIdsSha256": "210e130878aabaf46f1fe72749a263f9eb71c6a262b80f13882ed08d472c0ecd",
+        "failedFamilies": {},
+        "idempotenceChecked": true
+      },
+      "hostedArtifact": {
+        "head": "65c1467ea5de7b79308225bf82d561459833c64c",
+        "run": 43021347175,
+        "artifactId": 13855726467,
+        "archiveSha256": "81b75490b3d0a1198927b0c90d1a375bd8b4b50f482e35112f67a750aa562867",
+        "packageSha256": "7f08abcda6ee1e463a2414878131433631de869125c8f9153ed8c9ded555f099",
+        "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+        "wasmSha256": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
+        "allManifestFilePinsVerified": true,
+        "committedPinsEqual": true,
+        "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/43021347175",
+        "codeCommit": "4d6a9d7a3125dea6ae49a6067a23557336a34dea",
+        "toolchain": "1.88.0",
+        "manifest": {
+          "schema": 3,
+          "ruleset": "relayhistory-scrub",
+          "rulesetVersion": 10,
+          "rulesetSourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
+          "crateVersion": "0.5.0-alpha.8",
+          "abiVersion": 2,
+          "policy": "secrets",
+          "redactionToken": "[REDACTED]",
+          "scrubProfile": "relayhistory-secrets-v10"
+        },
+        "files": {
+          "relayscrubber_bg.wasm": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
+          "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
+          "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
+          "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
+        },
+        "adapterFiles": {
+          "index.js": "ff139ab391a958475b455ef483e7119d66215d172647223965dc35348f912490",
+          "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
+        },
+        "independentEngineReview": "pending; alpha7 PASS withdrawn"
+      }
+    },
+    "supplementalResidualSiblings": {
+      "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
+      "priorAllGreenHead": "e7f02d398acb180b5609e9bca7a9a6cec8ec6157",
+      "engineSourceUnchanged": true,
+      "hostedArtifact": 13857345338,
+      "cases": [
+        {
+          "family": "residual_noncredential_same_position_control",
+          "input": "Proposed schema: mode = record { issuer, audience }",
+          "expected": "Proposed schema: mode = record { issuer, audience }"
+        },
+        {
+          "family": "residual_noncredential_same_position_control",
+          "input": "Proposed schema: route = record { issuer, audience }",
+          "expected": "Proposed schema: route = record { issuer, audience }"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "const auth = { issuer, audience };",
+          "expected": "const auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: const auth = { issuer, audience };",
+          "expected": "Proposed schema: const auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "let auth = { issuer, audience };",
+          "expected": "let auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: let auth = { issuer, audience };",
+          "expected": "Proposed schema: let auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "var auth = { issuer, audience };",
+          "expected": "var auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: var auth = { issuer, audience };",
+          "expected": "Proposed schema: var auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_literal_sibling",
+          "input": "Proposed schema: const auth = \"record { issuer, audience }\";",
+          "expected": "Proposed schema: const auth = \"[REDACTED]\";"
+        },
+        {
+          "family": "residual_declaration_literal_sibling",
+          "input": "Proposed schema: const auth = 'record { issuer, audience }';",
+          "expected": "Proposed schema: const auth = '[REDACTED]';"
+        }
+      ],
+      "nativeRust188": "passed four APIs and idempotence",
+      "exactHostedWasm": "passed four APIs and idempotence",
+      "noFurtherLegacyExpectationChanges": true,
+      "freshTextVectors": 235556,
+      "freshStructuredVectors": 235561,
+      "followupExactHeadGate": "pending",
+      "nodeTests": 772,
+      "bunTests": 772,
+      "frozen": {
+        "baseExactArchivedOracle": 164,
+        "baseMissedSecretCases": 0,
+        "cases": 199,
+        "headExactArchivedOracle": 164,
+        "headMissedSecretCases": 0,
+        "inheritedArchivedDifferences": [],
+        "newMissedSecretCases": 0,
+        "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
+        "secondPassChangedCases": 0
+      }
+    }
   }
 }

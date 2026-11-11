@@ -61496,5 +61496,55 @@
     "family": "authorized_legacy_bare_reassignment",
     "input": "PASSWORD = WIDGET_CREDENTIAL;",
     "expected": "PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "residual_noncredential_same_position_control",
+    "input": "Proposed schema: mode = record { issuer, audience }",
+    "expected": "Proposed schema: mode = record { issuer, audience }"
+  },
+  {
+    "family": "residual_noncredential_same_position_control",
+    "input": "Proposed schema: route = record { issuer, audience }",
+    "expected": "Proposed schema: route = record { issuer, audience }"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "const auth = { issuer, audience };",
+    "expected": "const auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "Proposed schema: const auth = { issuer, audience };",
+    "expected": "Proposed schema: const auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "let auth = { issuer, audience };",
+    "expected": "let auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "Proposed schema: let auth = { issuer, audience };",
+    "expected": "Proposed schema: let auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "var auth = { issuer, audience };",
+    "expected": "var auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_same_position_control",
+    "input": "Proposed schema: var auth = { issuer, audience };",
+    "expected": "Proposed schema: var auth = { issuer, audience };"
+  },
+  {
+    "family": "residual_declaration_literal_sibling",
+    "input": "Proposed schema: const auth = \"record { issuer, audience }\";",
+    "expected": "Proposed schema: const auth = \"[REDACTED]\";"
+  },
+  {
+    "family": "residual_declaration_literal_sibling",
+    "input": "Proposed schema: const auth = 'record { issuer, audience }';",
+    "expected": "Proposed schema: const auth = '[REDACTED]';"
   }
 ]

@@ -2440,7 +2440,7 @@
       "row": 12,
       "oldExpected": "Proposed schema: auth = record { issuer, audience }",
       "newExpected": "Proposed schema: auth = [REDACTED]",
-      "authority": "Same explicit-assignment-over-documentary-context ruling; lead message246242359458385920 and prior ref7456c09bd3e1",
+      "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
       "representation": "Retain original row position with explicit input/expected object; 19 residual controls remain, 18 preserved and one sensitive; all17 positive controls unchanged."
     },
     "currentResidualFixtureSha256": "0898a69b1456bb41ea16dc56855d89b210bae9110c4b3ae4deebeadd0e749936",
@@ -2467,6 +2467,70 @@
         true,
         true
       ]
+    },
+    "supplementalSiblings": {
+      "authority": "relayscrubber-lead ref4cd7f0bfa23b, relayed verbatim by fab-pipe message246250741124923392",
+      "priorAllGreenHead": "e7f02d398acb180b5609e9bca7a9a6cec8ec6157",
+      "engineSourceUnchanged": true,
+      "hostedArtifact": 13857345338,
+      "cases": [
+        {
+          "family": "residual_noncredential_same_position_control",
+          "input": "Proposed schema: mode = record { issuer, audience }",
+          "expected": "Proposed schema: mode = record { issuer, audience }"
+        },
+        {
+          "family": "residual_noncredential_same_position_control",
+          "input": "Proposed schema: route = record { issuer, audience }",
+          "expected": "Proposed schema: route = record { issuer, audience }"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "const auth = { issuer, audience };",
+          "expected": "const auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: const auth = { issuer, audience };",
+          "expected": "Proposed schema: const auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "let auth = { issuer, audience };",
+          "expected": "let auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: let auth = { issuer, audience };",
+          "expected": "Proposed schema: let auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "var auth = { issuer, audience };",
+          "expected": "var auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_same_position_control",
+          "input": "Proposed schema: var auth = { issuer, audience };",
+          "expected": "Proposed schema: var auth = { issuer, audience };"
+        },
+        {
+          "family": "residual_declaration_literal_sibling",
+          "input": "Proposed schema: const auth = \"record { issuer, audience }\";",
+          "expected": "Proposed schema: const auth = \"[REDACTED]\";"
+        },
+        {
+          "family": "residual_declaration_literal_sibling",
+          "input": "Proposed schema: const auth = 'record { issuer, audience }';",
+          "expected": "Proposed schema: const auth = '[REDACTED]';"
+        }
+      ],
+      "nativeRust188": "passed four APIs and idempotence",
+      "exactHostedWasm": "passed four APIs and idempotence",
+      "noFurtherLegacyExpectationChanges": true,
+      "freshTextVectors": 235556,
+      "freshStructuredVectors": 235561,
+      "followupExactHeadGate": "pending"
     }
   }
 }
