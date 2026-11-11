@@ -2362,11 +2362,13 @@ struct UserinfoLayer {
     html: usize,
     network: bool,
     serialized: bool,
+    guard_references: bool,
 }
 
 fn userinfo_layers(
     view: &View,
     depth: usize,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) -> bool {
@@ -2375,6 +2377,7 @@ fn userinfo_layers(
         html: 4,
         network: encoded_network_prefix(&view.text),
         serialized: view.text.contains("&%23") || view.text.contains("%26%23"),
+        guard_references,
     };
     userinfo_layers_inner(view, state, &[], spans, guards)
 }
@@ -2401,6 +2404,7 @@ fn userinfo_layers_inner(
                         view,
                         at + 1 + query,
                         state.percent,
+                        state.guard_references,
                         &mut local,
                         &mut bounds,
                     );
@@ -2485,6 +2489,7 @@ fn nested_public_value(
     value: Range<usize>,
     depth: usize,
     bare_authority: bool,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) -> bool {
@@ -2512,8 +2517,23 @@ fn nested_public_value(
     let mut local = Vec::new();
     let mut bounds = Vec::new();
     let authority_context = bare_authority || encoded_network_prefix(&nested.text);
-    if !authority_context || !userinfo_layers(&nested, depth - 1, &mut local, &mut bounds) {
-        component_query_parameters(&nested, 0, depth - 1, &mut local, &mut bounds);
+    if !authority_context
+        || !userinfo_layers(
+            &nested,
+            depth - 1,
+            guard_references,
+            &mut local,
+            &mut bounds,
+        )
+    {
+        component_query_parameters(
+            &nested,
+            0,
+            depth - 1,
+            guard_references,
+            &mut local,
+            &mut bounds,
+        );
     }
     guards.extend(bounds.into_iter().map(|r| {
         value.start + nested.source_start(r.start)..value.start + nested.source_end(r.end - 1)
@@ -2528,6 +2548,7 @@ fn component_query_parameters(
     view: &View,
     start: usize,
     depth: usize,
+    guard_references: bool,
     spans: &mut Vec<Range<usize>>,
     guards: &mut Vec<Range<usize>>,
 ) {
@@ -2606,13 +2627,40 @@ fn component_query_parameters(
             }
         }
         if sensitive {
-            if parameter_end > value {
-                spans.push(value..parameter_end);
+            let raw = &view.text[value..parameter_end];
+            let mut complete = parameter_end;
+            if query_reference(raw) || raw.starts_with(['$', '`', '*']) {
+                // A decoded component is already bounded by its URL region or
+                // attribute. Whitespace cannot prove a reference has ended;
+                // literal tails stay opaque through the next outer separator.
+                while complete < b.len() && !matches!(b[complete], b'&' | b';') {
+                    complete += 1;
+                }
             }
-            cursor = parameter_end;
+            if complete > value {
+                if query_reference(&view.text[value..complete]) {
+                    // Keep generic assignment/recovery scans within this
+                    // complete component's proven URL boundary as well.
+                    if guard_references {
+                        guards.push(value..complete);
+                    }
+                } else {
+                    spans.push(value..complete);
+                }
+            }
+            cursor = complete;
             continue;
         }
-        if encoded_key && nested_public_value(view, key..parameter_end, depth, false, spans, guards)
+        if encoded_key
+            && nested_public_value(
+                view,
+                key..parameter_end,
+                depth,
+                false,
+                guard_references,
+                spans,
+                guards,
+            )
         {
             cursor = parameter_end;
             continue;
@@ -2637,6 +2685,7 @@ fn component_query_parameters(
             value..parameter_end,
             depth,
             bare_authority,
+            guard_references,
             spans,
             guards,
         ) {
@@ -2650,7 +2699,15 @@ fn component_query_parameters(
         if !attribute_userinfo(view, &mut userinfo) {
             // A wholly encoded nested query can require another layer before
             // any key=value syntax becomes visible. Never decode userinfo data.
-            nested_public_value(view, start..b.len(), depth, false, spans, guards);
+            nested_public_value(
+                view,
+                start..b.len(),
+                depth,
+                false,
+                guard_references,
+                spans,
+                guards,
+            );
         }
     }
 }
@@ -2731,9 +2788,9 @@ fn source_url_regions(
             let components = View::html_components(spelling);
             let mut local = Vec::new();
             let mut bounds = Vec::new();
-            let authority = userinfo_layers(&components, 4, &mut local, &mut bounds);
+            let authority = userinfo_layers(&components, 4, false, &mut local, &mut bounds);
             if queries && !authority {
-                component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+                component_query_parameters(&components, 0, 4, false, &mut local, &mut bounds);
             }
             matches = local
                 .into_iter()
@@ -2949,9 +3006,16 @@ fn html_attribute_urls(
                         let mut bounds = Vec::new();
                         let mut userinfo = Vec::new();
                         let authority_found =
-                            userinfo_layers(&components, 4, &mut userinfo, &mut bounds);
+                            userinfo_layers(&components, 4, true, &mut userinfo, &mut bounds);
                         if !authority_found {
-                            component_query_parameters(&components, 0, 4, &mut local, &mut bounds);
+                            component_query_parameters(
+                                &components,
+                                0,
+                                4,
+                                true,
+                                &mut local,
+                                &mut bounds,
+                            );
                         }
                         // A real authority takes precedence over encoded punctuation
                         // inside its username/password. Fully encoded authorities

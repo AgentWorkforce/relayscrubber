@@ -469,11 +469,12 @@ impl View {
         let mut line_keys = Vec::new();
         let mut leading = true;
         for (position, &ch) in b.iter().enumerate() {
-            let literal = all_literal
-                || changes
-                    .binary_search_by_key(&position, |c| c.position)
-                    .is_err();
-            if ch == b'\n' && literal {
+            if ch == b'\n'
+                && (all_literal
+                    || changes
+                        .binary_search_by_key(&position, |c| c.position)
+                        .is_err())
+            {
                 leading = true;
             } else if leading
                 && !ch.is_ascii_whitespace()
