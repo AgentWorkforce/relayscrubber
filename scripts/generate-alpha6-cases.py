@@ -82,6 +82,10 @@ for text in ['case "token": return parseToken(input);', "case 'password': return
     keep("upstream_pr11", text)
 for text in [f'case "token": return "{secret}";', f'case "token": return parseToken("{secret}");', f'grep -rn "access token": {secret}', f'grep -rn "access token": src/{secret} | head', f'{{"credentials":{{"Key":"{secret}"}}}}', f'mysql --password={secret} -h db', f'mysql --password "-{secret}" -h db', f'mysql --password -{secret} -h db']:
     hide("upstream_pr11_literal", text)
+for literal in [secret, "plain-secret", "123456"]:
+    hide("bare_Key_literal_sibling", f'{{"Key":"{literal}"}}', literal)
+    hide("bare_Key_path_tail", f'{{"Key":"raw/v1/widget.jsonl.zst" {literal}}}', literal)
+    hide("bare_Key_embedded", f'{{"Key":"raw/v1/password={literal}"}}', literal)
 
 path = Path(__file__).resolve().parents[1] / "eval/alpha6_syntax_cases.json"
 path.write_text(json.dumps(cases, indent=2) + "\n")

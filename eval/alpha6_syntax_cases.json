@@ -12723,5 +12723,50 @@
     "family": "upstream_pr11_literal",
     "input": "mysql --password -M8zR4vK7nP2qW6xAq9 -h db",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bare_Key_literal_sibling",
+    "input": "{\"Key\":\"M8zR4vK7nP2qW6xAq9\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bare_Key_path_tail",
+    "input": "{\"Key\":\"raw/v1/widget.jsonl.zst\" M8zR4vK7nP2qW6xAq9}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bare_Key_embedded",
+    "input": "{\"Key\":\"raw/v1/password=M8zR4vK7nP2qW6xAq9\"}",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "bare_Key_literal_sibling",
+    "input": "{\"Key\":\"plain-secret\"}",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "bare_Key_path_tail",
+    "input": "{\"Key\":\"raw/v1/widget.jsonl.zst\" plain-secret}",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "bare_Key_embedded",
+    "input": "{\"Key\":\"raw/v1/password=plain-secret\"}",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "bare_Key_literal_sibling",
+    "input": "{\"Key\":\"123456\"}",
+    "secret": "123456"
+  },
+  {
+    "family": "bare_Key_path_tail",
+    "input": "{\"Key\":\"raw/v1/widget.jsonl.zst\" 123456}",
+    "secret": "123456"
+  },
+  {
+    "family": "bare_Key_embedded",
+    "input": "{\"Key\":\"raw/v1/password=123456\"}",
+    "secret": "123456"
   }
 ]
