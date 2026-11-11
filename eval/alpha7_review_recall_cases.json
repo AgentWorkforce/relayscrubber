@@ -1,0 +1,6122 @@
+[
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: Blue ocean tree moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label password = Blue ocean tree moon",
+    "expected": "* Label password = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"password\": Blue ocean tree moon",
+    "expected": "+ Label \"password\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- password: Blue ocean tree moon",
+    "expected": "- password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: \"Blue ocean tree moon\"",
+    "expected": "- Config password: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: blue ocean tree moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label password = blue ocean tree moon",
+    "expected": "* Label password = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"password\": blue ocean tree moon",
+    "expected": "+ Label \"password\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- password: blue ocean tree moon",
+    "expected": "- password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: \"blue ocean tree moon\"",
+    "expected": "- Config password: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: BLUE ocean tree moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label password = BLUE ocean tree moon",
+    "expected": "* Label password = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"password\": BLUE ocean tree moon",
+    "expected": "+ Label \"password\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- password: BLUE ocean tree moon",
+    "expected": "- password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: \"BLUE ocean tree moon\"",
+    "expected": "- Config password: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: bLuE ocean tree moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label password = bLuE ocean tree moon",
+    "expected": "* Label password = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"password\": bLuE ocean tree moon",
+    "expected": "+ Label \"password\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- password: bLuE ocean tree moon",
+    "expected": "- password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config password: \"bLuE ocean tree moon\"",
+    "expected": "- Config password: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: Blue ocean tree moon",
+    "expected": "- Config PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWORD = Blue ocean tree moon",
+    "expected": "* Label PASSWORD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWORD\": Blue ocean tree moon",
+    "expected": "+ Label \"PASSWORD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWORD: Blue ocean tree moon",
+    "expected": "- PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: \"Blue ocean tree moon\"",
+    "expected": "- Config PASSWORD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: blue ocean tree moon",
+    "expected": "- Config PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWORD = blue ocean tree moon",
+    "expected": "* Label PASSWORD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWORD\": blue ocean tree moon",
+    "expected": "+ Label \"PASSWORD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWORD: blue ocean tree moon",
+    "expected": "- PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: \"blue ocean tree moon\"",
+    "expected": "- Config PASSWORD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: BLUE ocean tree moon",
+    "expected": "- Config PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWORD = BLUE ocean tree moon",
+    "expected": "* Label PASSWORD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWORD\": BLUE ocean tree moon",
+    "expected": "+ Label \"PASSWORD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWORD: BLUE ocean tree moon",
+    "expected": "- PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: \"BLUE ocean tree moon\"",
+    "expected": "- Config PASSWORD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: bLuE ocean tree moon",
+    "expected": "- Config PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWORD = bLuE ocean tree moon",
+    "expected": "* Label PASSWORD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWORD\": bLuE ocean tree moon",
+    "expected": "+ Label \"PASSWORD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWORD: bLuE ocean tree moon",
+    "expected": "- PASSWORD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWORD: \"bLuE ocean tree moon\"",
+    "expected": "- Config PASSWORD: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config password: Blue%20ocean%20tree%20moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config password: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config password: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config password: Blue\tocean\ttree\tmoon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config password: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: Blue ocean tree moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passwd = Blue ocean tree moon",
+    "expected": "* Label passwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passwd\": Blue ocean tree moon",
+    "expected": "+ Label \"passwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passwd: Blue ocean tree moon",
+    "expected": "- passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: \"Blue ocean tree moon\"",
+    "expected": "- Config passwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: blue ocean tree moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passwd = blue ocean tree moon",
+    "expected": "* Label passwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passwd\": blue ocean tree moon",
+    "expected": "+ Label \"passwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passwd: blue ocean tree moon",
+    "expected": "- passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: \"blue ocean tree moon\"",
+    "expected": "- Config passwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: BLUE ocean tree moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passwd = BLUE ocean tree moon",
+    "expected": "* Label passwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passwd\": BLUE ocean tree moon",
+    "expected": "+ Label \"passwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passwd: BLUE ocean tree moon",
+    "expected": "- passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: \"BLUE ocean tree moon\"",
+    "expected": "- Config passwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: bLuE ocean tree moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passwd = bLuE ocean tree moon",
+    "expected": "* Label passwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passwd\": bLuE ocean tree moon",
+    "expected": "+ Label \"passwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passwd: bLuE ocean tree moon",
+    "expected": "- passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passwd: \"bLuE ocean tree moon\"",
+    "expected": "- Config passwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: Blue ocean tree moon",
+    "expected": "- Config PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWD = Blue ocean tree moon",
+    "expected": "* Label PASSWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWD\": Blue ocean tree moon",
+    "expected": "+ Label \"PASSWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWD: Blue ocean tree moon",
+    "expected": "- PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: \"Blue ocean tree moon\"",
+    "expected": "- Config PASSWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: blue ocean tree moon",
+    "expected": "- Config PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWD = blue ocean tree moon",
+    "expected": "* Label PASSWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWD\": blue ocean tree moon",
+    "expected": "+ Label \"PASSWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWD: blue ocean tree moon",
+    "expected": "- PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: \"blue ocean tree moon\"",
+    "expected": "- Config PASSWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: BLUE ocean tree moon",
+    "expected": "- Config PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWD = BLUE ocean tree moon",
+    "expected": "* Label PASSWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWD\": BLUE ocean tree moon",
+    "expected": "+ Label \"PASSWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWD: BLUE ocean tree moon",
+    "expected": "- PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: \"BLUE ocean tree moon\"",
+    "expected": "- Config PASSWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: bLuE ocean tree moon",
+    "expected": "- Config PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSWD = bLuE ocean tree moon",
+    "expected": "* Label PASSWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSWD\": bLuE ocean tree moon",
+    "expected": "+ Label \"PASSWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSWD: bLuE ocean tree moon",
+    "expected": "- PASSWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSWD: \"bLuE ocean tree moon\"",
+    "expected": "- Config PASSWD: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passwd: Blue%20ocean%20tree%20moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passwd: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passwd: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passwd: Blue\tocean\ttree\tmoon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passwd: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config passwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: Blue ocean tree moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pwd = Blue ocean tree moon",
+    "expected": "* Label pwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pwd\": Blue ocean tree moon",
+    "expected": "+ Label \"pwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pwd: Blue ocean tree moon",
+    "expected": "- pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: \"Blue ocean tree moon\"",
+    "expected": "- Config pwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: blue ocean tree moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pwd = blue ocean tree moon",
+    "expected": "* Label pwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pwd\": blue ocean tree moon",
+    "expected": "+ Label \"pwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pwd: blue ocean tree moon",
+    "expected": "- pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: \"blue ocean tree moon\"",
+    "expected": "- Config pwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: BLUE ocean tree moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pwd = BLUE ocean tree moon",
+    "expected": "* Label pwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pwd\": BLUE ocean tree moon",
+    "expected": "+ Label \"pwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pwd: BLUE ocean tree moon",
+    "expected": "- pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: \"BLUE ocean tree moon\"",
+    "expected": "- Config pwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: bLuE ocean tree moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pwd = bLuE ocean tree moon",
+    "expected": "* Label pwd = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pwd\": bLuE ocean tree moon",
+    "expected": "+ Label \"pwd\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pwd: bLuE ocean tree moon",
+    "expected": "- pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pwd: \"bLuE ocean tree moon\"",
+    "expected": "- Config pwd: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: Blue ocean tree moon",
+    "expected": "- Config PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PWD = Blue ocean tree moon",
+    "expected": "* Label PWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PWD\": Blue ocean tree moon",
+    "expected": "+ Label \"PWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PWD: Blue ocean tree moon",
+    "expected": "- PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: \"Blue ocean tree moon\"",
+    "expected": "- Config PWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: blue ocean tree moon",
+    "expected": "- Config PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PWD = blue ocean tree moon",
+    "expected": "* Label PWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PWD\": blue ocean tree moon",
+    "expected": "+ Label \"PWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PWD: blue ocean tree moon",
+    "expected": "- PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: \"blue ocean tree moon\"",
+    "expected": "- Config PWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: BLUE ocean tree moon",
+    "expected": "- Config PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PWD = BLUE ocean tree moon",
+    "expected": "* Label PWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PWD\": BLUE ocean tree moon",
+    "expected": "+ Label \"PWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PWD: BLUE ocean tree moon",
+    "expected": "- PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: \"BLUE ocean tree moon\"",
+    "expected": "- Config PWD: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: bLuE ocean tree moon",
+    "expected": "- Config PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PWD = bLuE ocean tree moon",
+    "expected": "* Label PWD = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PWD\": bLuE ocean tree moon",
+    "expected": "+ Label \"PWD\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PWD: bLuE ocean tree moon",
+    "expected": "- PWD: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PWD: \"bLuE ocean tree moon\"",
+    "expected": "- Config PWD: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pwd: Blue%20ocean%20tree%20moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pwd: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pwd: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pwd: Blue\tocean\ttree\tmoon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pwd: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config pwd: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: Blue ocean tree moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pin = Blue ocean tree moon",
+    "expected": "* Label pin = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pin\": Blue ocean tree moon",
+    "expected": "+ Label \"pin\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pin: Blue ocean tree moon",
+    "expected": "- pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: \"Blue ocean tree moon\"",
+    "expected": "- Config pin: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: blue ocean tree moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pin = blue ocean tree moon",
+    "expected": "* Label pin = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pin\": blue ocean tree moon",
+    "expected": "+ Label \"pin\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pin: blue ocean tree moon",
+    "expected": "- pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: \"blue ocean tree moon\"",
+    "expected": "- Config pin: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: BLUE ocean tree moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pin = BLUE ocean tree moon",
+    "expected": "* Label pin = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pin\": BLUE ocean tree moon",
+    "expected": "+ Label \"pin\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pin: BLUE ocean tree moon",
+    "expected": "- pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: \"BLUE ocean tree moon\"",
+    "expected": "- Config pin: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: bLuE ocean tree moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label pin = bLuE ocean tree moon",
+    "expected": "* Label pin = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"pin\": bLuE ocean tree moon",
+    "expected": "+ Label \"pin\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- pin: bLuE ocean tree moon",
+    "expected": "- pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config pin: \"bLuE ocean tree moon\"",
+    "expected": "- Config pin: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: Blue ocean tree moon",
+    "expected": "- Config PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PIN = Blue ocean tree moon",
+    "expected": "* Label PIN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PIN\": Blue ocean tree moon",
+    "expected": "+ Label \"PIN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PIN: Blue ocean tree moon",
+    "expected": "- PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: \"Blue ocean tree moon\"",
+    "expected": "- Config PIN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: blue ocean tree moon",
+    "expected": "- Config PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PIN = blue ocean tree moon",
+    "expected": "* Label PIN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PIN\": blue ocean tree moon",
+    "expected": "+ Label \"PIN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PIN: blue ocean tree moon",
+    "expected": "- PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: \"blue ocean tree moon\"",
+    "expected": "- Config PIN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: BLUE ocean tree moon",
+    "expected": "- Config PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PIN = BLUE ocean tree moon",
+    "expected": "* Label PIN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PIN\": BLUE ocean tree moon",
+    "expected": "+ Label \"PIN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PIN: BLUE ocean tree moon",
+    "expected": "- PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: \"BLUE ocean tree moon\"",
+    "expected": "- Config PIN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: bLuE ocean tree moon",
+    "expected": "- Config PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PIN = bLuE ocean tree moon",
+    "expected": "* Label PIN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PIN\": bLuE ocean tree moon",
+    "expected": "+ Label \"PIN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PIN: bLuE ocean tree moon",
+    "expected": "- PIN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PIN: \"bLuE ocean tree moon\"",
+    "expected": "- Config PIN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pin: Blue%20ocean%20tree%20moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pin: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pin: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pin: Blue\tocean\ttree\tmoon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config pin: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config pin: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: Blue ocean tree moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passphrase = Blue ocean tree moon",
+    "expected": "* Label passphrase = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passphrase\": Blue ocean tree moon",
+    "expected": "+ Label \"passphrase\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passphrase: Blue ocean tree moon",
+    "expected": "- passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: \"Blue ocean tree moon\"",
+    "expected": "- Config passphrase: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: blue ocean tree moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passphrase = blue ocean tree moon",
+    "expected": "* Label passphrase = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passphrase\": blue ocean tree moon",
+    "expected": "+ Label \"passphrase\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passphrase: blue ocean tree moon",
+    "expected": "- passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: \"blue ocean tree moon\"",
+    "expected": "- Config passphrase: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: BLUE ocean tree moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passphrase = BLUE ocean tree moon",
+    "expected": "* Label passphrase = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passphrase\": BLUE ocean tree moon",
+    "expected": "+ Label \"passphrase\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passphrase: BLUE ocean tree moon",
+    "expected": "- passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: \"BLUE ocean tree moon\"",
+    "expected": "- Config passphrase: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: bLuE ocean tree moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label passphrase = bLuE ocean tree moon",
+    "expected": "* Label passphrase = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"passphrase\": bLuE ocean tree moon",
+    "expected": "+ Label \"passphrase\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- passphrase: bLuE ocean tree moon",
+    "expected": "- passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config passphrase: \"bLuE ocean tree moon\"",
+    "expected": "- Config passphrase: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: Blue ocean tree moon",
+    "expected": "- Config PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSPHRASE = Blue ocean tree moon",
+    "expected": "* Label PASSPHRASE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSPHRASE\": Blue ocean tree moon",
+    "expected": "+ Label \"PASSPHRASE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSPHRASE: Blue ocean tree moon",
+    "expected": "- PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: \"Blue ocean tree moon\"",
+    "expected": "- Config PASSPHRASE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: blue ocean tree moon",
+    "expected": "- Config PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSPHRASE = blue ocean tree moon",
+    "expected": "* Label PASSPHRASE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSPHRASE\": blue ocean tree moon",
+    "expected": "+ Label \"PASSPHRASE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSPHRASE: blue ocean tree moon",
+    "expected": "- PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: \"blue ocean tree moon\"",
+    "expected": "- Config PASSPHRASE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: BLUE ocean tree moon",
+    "expected": "- Config PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSPHRASE = BLUE ocean tree moon",
+    "expected": "* Label PASSPHRASE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSPHRASE\": BLUE ocean tree moon",
+    "expected": "+ Label \"PASSPHRASE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSPHRASE: BLUE ocean tree moon",
+    "expected": "- PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: \"BLUE ocean tree moon\"",
+    "expected": "- Config PASSPHRASE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: bLuE ocean tree moon",
+    "expected": "- Config PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PASSPHRASE = bLuE ocean tree moon",
+    "expected": "* Label PASSPHRASE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PASSPHRASE\": bLuE ocean tree moon",
+    "expected": "+ Label \"PASSPHRASE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PASSPHRASE: bLuE ocean tree moon",
+    "expected": "- PASSPHRASE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PASSPHRASE: \"bLuE ocean tree moon\"",
+    "expected": "- Config PASSPHRASE: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passphrase: Blue%20ocean%20tree%20moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passphrase: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passphrase: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passphrase: Blue\tocean\ttree\tmoon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config passphrase: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config passphrase: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: Blue ocean tree moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret = Blue ocean tree moon",
+    "expected": "* Label secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret\": Blue ocean tree moon",
+    "expected": "+ Label \"secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret: Blue ocean tree moon",
+    "expected": "- secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: \"Blue ocean tree moon\"",
+    "expected": "- Config secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: blue ocean tree moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret = blue ocean tree moon",
+    "expected": "* Label secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret\": blue ocean tree moon",
+    "expected": "+ Label \"secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret: blue ocean tree moon",
+    "expected": "- secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: \"blue ocean tree moon\"",
+    "expected": "- Config secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: BLUE ocean tree moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret = BLUE ocean tree moon",
+    "expected": "* Label secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret\": BLUE ocean tree moon",
+    "expected": "+ Label \"secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret: BLUE ocean tree moon",
+    "expected": "- secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: \"BLUE ocean tree moon\"",
+    "expected": "- Config secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: bLuE ocean tree moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret = bLuE ocean tree moon",
+    "expected": "* Label secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret\": bLuE ocean tree moon",
+    "expected": "+ Label \"secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret: bLuE ocean tree moon",
+    "expected": "- secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret: \"bLuE ocean tree moon\"",
+    "expected": "- Config secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: Blue ocean tree moon",
+    "expected": "- Config SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET = Blue ocean tree moon",
+    "expected": "* Label SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET\": Blue ocean tree moon",
+    "expected": "+ Label \"SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET: Blue ocean tree moon",
+    "expected": "- SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: \"Blue ocean tree moon\"",
+    "expected": "- Config SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: blue ocean tree moon",
+    "expected": "- Config SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET = blue ocean tree moon",
+    "expected": "* Label SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET\": blue ocean tree moon",
+    "expected": "+ Label \"SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET: blue ocean tree moon",
+    "expected": "- SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: \"blue ocean tree moon\"",
+    "expected": "- Config SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: BLUE ocean tree moon",
+    "expected": "- Config SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET = BLUE ocean tree moon",
+    "expected": "* Label SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET\": BLUE ocean tree moon",
+    "expected": "+ Label \"SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET: BLUE ocean tree moon",
+    "expected": "- SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: \"BLUE ocean tree moon\"",
+    "expected": "- Config SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: bLuE ocean tree moon",
+    "expected": "- Config SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET = bLuE ocean tree moon",
+    "expected": "* Label SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET\": bLuE ocean tree moon",
+    "expected": "+ Label \"SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET: bLuE ocean tree moon",
+    "expected": "- SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET: \"bLuE ocean tree moon\"",
+    "expected": "- Config SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret: Blue%20ocean%20tree%20moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret: Blue\tocean\ttree\tmoon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: Blue ocean tree moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label client_secret = Blue ocean tree moon",
+    "expected": "* Label client_secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"client_secret\": Blue ocean tree moon",
+    "expected": "+ Label \"client_secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- client_secret: Blue ocean tree moon",
+    "expected": "- client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: \"Blue ocean tree moon\"",
+    "expected": "- Config client_secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: blue ocean tree moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label client_secret = blue ocean tree moon",
+    "expected": "* Label client_secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"client_secret\": blue ocean tree moon",
+    "expected": "+ Label \"client_secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- client_secret: blue ocean tree moon",
+    "expected": "- client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: \"blue ocean tree moon\"",
+    "expected": "- Config client_secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: BLUE ocean tree moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label client_secret = BLUE ocean tree moon",
+    "expected": "* Label client_secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"client_secret\": BLUE ocean tree moon",
+    "expected": "+ Label \"client_secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- client_secret: BLUE ocean tree moon",
+    "expected": "- client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: \"BLUE ocean tree moon\"",
+    "expected": "- Config client_secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: bLuE ocean tree moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label client_secret = bLuE ocean tree moon",
+    "expected": "* Label client_secret = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"client_secret\": bLuE ocean tree moon",
+    "expected": "+ Label \"client_secret\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- client_secret: bLuE ocean tree moon",
+    "expected": "- client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config client_secret: \"bLuE ocean tree moon\"",
+    "expected": "- Config client_secret: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: Blue ocean tree moon",
+    "expected": "- Config CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CLIENT_SECRET = Blue ocean tree moon",
+    "expected": "* Label CLIENT_SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CLIENT_SECRET\": Blue ocean tree moon",
+    "expected": "+ Label \"CLIENT_SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CLIENT_SECRET: Blue ocean tree moon",
+    "expected": "- CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: \"Blue ocean tree moon\"",
+    "expected": "- Config CLIENT_SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: blue ocean tree moon",
+    "expected": "- Config CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CLIENT_SECRET = blue ocean tree moon",
+    "expected": "* Label CLIENT_SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CLIENT_SECRET\": blue ocean tree moon",
+    "expected": "+ Label \"CLIENT_SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CLIENT_SECRET: blue ocean tree moon",
+    "expected": "- CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: \"blue ocean tree moon\"",
+    "expected": "- Config CLIENT_SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: BLUE ocean tree moon",
+    "expected": "- Config CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CLIENT_SECRET = BLUE ocean tree moon",
+    "expected": "* Label CLIENT_SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CLIENT_SECRET\": BLUE ocean tree moon",
+    "expected": "+ Label \"CLIENT_SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CLIENT_SECRET: BLUE ocean tree moon",
+    "expected": "- CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: \"BLUE ocean tree moon\"",
+    "expected": "- Config CLIENT_SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: bLuE ocean tree moon",
+    "expected": "- Config CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CLIENT_SECRET = bLuE ocean tree moon",
+    "expected": "* Label CLIENT_SECRET = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CLIENT_SECRET\": bLuE ocean tree moon",
+    "expected": "+ Label \"CLIENT_SECRET\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CLIENT_SECRET: bLuE ocean tree moon",
+    "expected": "- CLIENT_SECRET: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CLIENT_SECRET: \"bLuE ocean tree moon\"",
+    "expected": "- Config CLIENT_SECRET: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config client_secret: Blue%20ocean%20tree%20moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config client_secret: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config client_secret: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config client_secret: Blue\tocean\ttree\tmoon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config client_secret: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: Blue ocean tree moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label api_key = Blue ocean tree moon",
+    "expected": "* Label api_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"api_key\": Blue ocean tree moon",
+    "expected": "+ Label \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- api_key: Blue ocean tree moon",
+    "expected": "- api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: \"Blue ocean tree moon\"",
+    "expected": "- Config api_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: blue ocean tree moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label api_key = blue ocean tree moon",
+    "expected": "* Label api_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"api_key\": blue ocean tree moon",
+    "expected": "+ Label \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- api_key: blue ocean tree moon",
+    "expected": "- api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: \"blue ocean tree moon\"",
+    "expected": "- Config api_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: BLUE ocean tree moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label api_key = BLUE ocean tree moon",
+    "expected": "* Label api_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"api_key\": BLUE ocean tree moon",
+    "expected": "+ Label \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- api_key: BLUE ocean tree moon",
+    "expected": "- api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: \"BLUE ocean tree moon\"",
+    "expected": "- Config api_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: bLuE ocean tree moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label api_key = bLuE ocean tree moon",
+    "expected": "* Label api_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"api_key\": bLuE ocean tree moon",
+    "expected": "+ Label \"api_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- api_key: bLuE ocean tree moon",
+    "expected": "- api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config api_key: \"bLuE ocean tree moon\"",
+    "expected": "- Config api_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: Blue ocean tree moon",
+    "expected": "- Config API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label API_KEY = Blue ocean tree moon",
+    "expected": "* Label API_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"API_KEY\": Blue ocean tree moon",
+    "expected": "+ Label \"API_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- API_KEY: Blue ocean tree moon",
+    "expected": "- API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: \"Blue ocean tree moon\"",
+    "expected": "- Config API_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: blue ocean tree moon",
+    "expected": "- Config API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label API_KEY = blue ocean tree moon",
+    "expected": "* Label API_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"API_KEY\": blue ocean tree moon",
+    "expected": "+ Label \"API_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- API_KEY: blue ocean tree moon",
+    "expected": "- API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: \"blue ocean tree moon\"",
+    "expected": "- Config API_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: BLUE ocean tree moon",
+    "expected": "- Config API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label API_KEY = BLUE ocean tree moon",
+    "expected": "* Label API_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"API_KEY\": BLUE ocean tree moon",
+    "expected": "+ Label \"API_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- API_KEY: BLUE ocean tree moon",
+    "expected": "- API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: \"BLUE ocean tree moon\"",
+    "expected": "- Config API_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: bLuE ocean tree moon",
+    "expected": "- Config API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label API_KEY = bLuE ocean tree moon",
+    "expected": "* Label API_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"API_KEY\": bLuE ocean tree moon",
+    "expected": "+ Label \"API_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- API_KEY: bLuE ocean tree moon",
+    "expected": "- API_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config API_KEY: \"bLuE ocean tree moon\"",
+    "expected": "- Config API_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config api_key: Blue%20ocean%20tree%20moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config api_key: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config api_key: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config api_key: Blue\tocean\ttree\tmoon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config api_key: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: Blue ocean tree moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label access_key = Blue ocean tree moon",
+    "expected": "* Label access_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"access_key\": Blue ocean tree moon",
+    "expected": "+ Label \"access_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- access_key: Blue ocean tree moon",
+    "expected": "- access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: \"Blue ocean tree moon\"",
+    "expected": "- Config access_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: blue ocean tree moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label access_key = blue ocean tree moon",
+    "expected": "* Label access_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"access_key\": blue ocean tree moon",
+    "expected": "+ Label \"access_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- access_key: blue ocean tree moon",
+    "expected": "- access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: \"blue ocean tree moon\"",
+    "expected": "- Config access_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: BLUE ocean tree moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label access_key = BLUE ocean tree moon",
+    "expected": "* Label access_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"access_key\": BLUE ocean tree moon",
+    "expected": "+ Label \"access_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- access_key: BLUE ocean tree moon",
+    "expected": "- access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: \"BLUE ocean tree moon\"",
+    "expected": "- Config access_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: bLuE ocean tree moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label access_key = bLuE ocean tree moon",
+    "expected": "* Label access_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"access_key\": bLuE ocean tree moon",
+    "expected": "+ Label \"access_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- access_key: bLuE ocean tree moon",
+    "expected": "- access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config access_key: \"bLuE ocean tree moon\"",
+    "expected": "- Config access_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: Blue ocean tree moon",
+    "expected": "- Config ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESS_KEY = Blue ocean tree moon",
+    "expected": "* Label ACCESS_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESS_KEY\": Blue ocean tree moon",
+    "expected": "+ Label \"ACCESS_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESS_KEY: Blue ocean tree moon",
+    "expected": "- ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: \"Blue ocean tree moon\"",
+    "expected": "- Config ACCESS_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: blue ocean tree moon",
+    "expected": "- Config ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESS_KEY = blue ocean tree moon",
+    "expected": "* Label ACCESS_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESS_KEY\": blue ocean tree moon",
+    "expected": "+ Label \"ACCESS_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESS_KEY: blue ocean tree moon",
+    "expected": "- ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: \"blue ocean tree moon\"",
+    "expected": "- Config ACCESS_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: BLUE ocean tree moon",
+    "expected": "- Config ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESS_KEY = BLUE ocean tree moon",
+    "expected": "* Label ACCESS_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESS_KEY\": BLUE ocean tree moon",
+    "expected": "+ Label \"ACCESS_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESS_KEY: BLUE ocean tree moon",
+    "expected": "- ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: \"BLUE ocean tree moon\"",
+    "expected": "- Config ACCESS_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: bLuE ocean tree moon",
+    "expected": "- Config ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESS_KEY = bLuE ocean tree moon",
+    "expected": "* Label ACCESS_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESS_KEY\": bLuE ocean tree moon",
+    "expected": "+ Label \"ACCESS_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESS_KEY: bLuE ocean tree moon",
+    "expected": "- ACCESS_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESS_KEY: \"bLuE ocean tree moon\"",
+    "expected": "- Config ACCESS_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config access_key: Blue%20ocean%20tree%20moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config access_key: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config access_key: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config access_key: Blue\tocean\ttree\tmoon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config access_key: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config access_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: Blue ocean tree moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label account_key = Blue ocean tree moon",
+    "expected": "* Label account_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"account_key\": Blue ocean tree moon",
+    "expected": "+ Label \"account_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- account_key: Blue ocean tree moon",
+    "expected": "- account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: \"Blue ocean tree moon\"",
+    "expected": "- Config account_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: blue ocean tree moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label account_key = blue ocean tree moon",
+    "expected": "* Label account_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"account_key\": blue ocean tree moon",
+    "expected": "+ Label \"account_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- account_key: blue ocean tree moon",
+    "expected": "- account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: \"blue ocean tree moon\"",
+    "expected": "- Config account_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: BLUE ocean tree moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label account_key = BLUE ocean tree moon",
+    "expected": "* Label account_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"account_key\": BLUE ocean tree moon",
+    "expected": "+ Label \"account_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- account_key: BLUE ocean tree moon",
+    "expected": "- account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: \"BLUE ocean tree moon\"",
+    "expected": "- Config account_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: bLuE ocean tree moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label account_key = bLuE ocean tree moon",
+    "expected": "* Label account_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"account_key\": bLuE ocean tree moon",
+    "expected": "+ Label \"account_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- account_key: bLuE ocean tree moon",
+    "expected": "- account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config account_key: \"bLuE ocean tree moon\"",
+    "expected": "- Config account_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: Blue ocean tree moon",
+    "expected": "- Config ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCOUNT_KEY = Blue ocean tree moon",
+    "expected": "* Label ACCOUNT_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCOUNT_KEY\": Blue ocean tree moon",
+    "expected": "+ Label \"ACCOUNT_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCOUNT_KEY: Blue ocean tree moon",
+    "expected": "- ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: \"Blue ocean tree moon\"",
+    "expected": "- Config ACCOUNT_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: blue ocean tree moon",
+    "expected": "- Config ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCOUNT_KEY = blue ocean tree moon",
+    "expected": "* Label ACCOUNT_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCOUNT_KEY\": blue ocean tree moon",
+    "expected": "+ Label \"ACCOUNT_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCOUNT_KEY: blue ocean tree moon",
+    "expected": "- ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: \"blue ocean tree moon\"",
+    "expected": "- Config ACCOUNT_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: BLUE ocean tree moon",
+    "expected": "- Config ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCOUNT_KEY = BLUE ocean tree moon",
+    "expected": "* Label ACCOUNT_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCOUNT_KEY\": BLUE ocean tree moon",
+    "expected": "+ Label \"ACCOUNT_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCOUNT_KEY: BLUE ocean tree moon",
+    "expected": "- ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: \"BLUE ocean tree moon\"",
+    "expected": "- Config ACCOUNT_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: bLuE ocean tree moon",
+    "expected": "- Config ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCOUNT_KEY = bLuE ocean tree moon",
+    "expected": "* Label ACCOUNT_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCOUNT_KEY\": bLuE ocean tree moon",
+    "expected": "+ Label \"ACCOUNT_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCOUNT_KEY: bLuE ocean tree moon",
+    "expected": "- ACCOUNT_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCOUNT_KEY: \"bLuE ocean tree moon\"",
+    "expected": "- Config ACCOUNT_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config account_key: Blue%20ocean%20tree%20moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config account_key: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config account_key: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config account_key: Blue\tocean\ttree\tmoon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config account_key: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config account_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: Blue ocean tree moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret_key = Blue ocean tree moon",
+    "expected": "* Label secret_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret_key\": Blue ocean tree moon",
+    "expected": "+ Label \"secret_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret_key: Blue ocean tree moon",
+    "expected": "- secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: \"Blue ocean tree moon\"",
+    "expected": "- Config secret_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: blue ocean tree moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret_key = blue ocean tree moon",
+    "expected": "* Label secret_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret_key\": blue ocean tree moon",
+    "expected": "+ Label \"secret_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret_key: blue ocean tree moon",
+    "expected": "- secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: \"blue ocean tree moon\"",
+    "expected": "- Config secret_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: BLUE ocean tree moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret_key = BLUE ocean tree moon",
+    "expected": "* Label secret_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret_key\": BLUE ocean tree moon",
+    "expected": "+ Label \"secret_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret_key: BLUE ocean tree moon",
+    "expected": "- secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: \"BLUE ocean tree moon\"",
+    "expected": "- Config secret_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: bLuE ocean tree moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label secret_key = bLuE ocean tree moon",
+    "expected": "* Label secret_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"secret_key\": bLuE ocean tree moon",
+    "expected": "+ Label \"secret_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- secret_key: bLuE ocean tree moon",
+    "expected": "- secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config secret_key: \"bLuE ocean tree moon\"",
+    "expected": "- Config secret_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: Blue ocean tree moon",
+    "expected": "- Config SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET_KEY = Blue ocean tree moon",
+    "expected": "* Label SECRET_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET_KEY\": Blue ocean tree moon",
+    "expected": "+ Label \"SECRET_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET_KEY: Blue ocean tree moon",
+    "expected": "- SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: \"Blue ocean tree moon\"",
+    "expected": "- Config SECRET_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: blue ocean tree moon",
+    "expected": "- Config SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET_KEY = blue ocean tree moon",
+    "expected": "* Label SECRET_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET_KEY\": blue ocean tree moon",
+    "expected": "+ Label \"SECRET_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET_KEY: blue ocean tree moon",
+    "expected": "- SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: \"blue ocean tree moon\"",
+    "expected": "- Config SECRET_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: BLUE ocean tree moon",
+    "expected": "- Config SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET_KEY = BLUE ocean tree moon",
+    "expected": "* Label SECRET_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET_KEY\": BLUE ocean tree moon",
+    "expected": "+ Label \"SECRET_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET_KEY: BLUE ocean tree moon",
+    "expected": "- SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: \"BLUE ocean tree moon\"",
+    "expected": "- Config SECRET_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: bLuE ocean tree moon",
+    "expected": "- Config SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SECRET_KEY = bLuE ocean tree moon",
+    "expected": "* Label SECRET_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SECRET_KEY\": bLuE ocean tree moon",
+    "expected": "+ Label \"SECRET_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SECRET_KEY: bLuE ocean tree moon",
+    "expected": "- SECRET_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SECRET_KEY: \"bLuE ocean tree moon\"",
+    "expected": "- Config SECRET_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret_key: Blue%20ocean%20tree%20moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret_key: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret_key: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret_key: Blue\tocean\ttree\tmoon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config secret_key: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config secret_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: Blue ocean tree moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label private_key = Blue ocean tree moon",
+    "expected": "* Label private_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"private_key\": Blue ocean tree moon",
+    "expected": "+ Label \"private_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- private_key: Blue ocean tree moon",
+    "expected": "- private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: \"Blue ocean tree moon\"",
+    "expected": "- Config private_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: blue ocean tree moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label private_key = blue ocean tree moon",
+    "expected": "* Label private_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"private_key\": blue ocean tree moon",
+    "expected": "+ Label \"private_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- private_key: blue ocean tree moon",
+    "expected": "- private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: \"blue ocean tree moon\"",
+    "expected": "- Config private_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: BLUE ocean tree moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label private_key = BLUE ocean tree moon",
+    "expected": "* Label private_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"private_key\": BLUE ocean tree moon",
+    "expected": "+ Label \"private_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- private_key: BLUE ocean tree moon",
+    "expected": "- private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: \"BLUE ocean tree moon\"",
+    "expected": "- Config private_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: bLuE ocean tree moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label private_key = bLuE ocean tree moon",
+    "expected": "* Label private_key = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"private_key\": bLuE ocean tree moon",
+    "expected": "+ Label \"private_key\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- private_key: bLuE ocean tree moon",
+    "expected": "- private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config private_key: \"bLuE ocean tree moon\"",
+    "expected": "- Config private_key: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: Blue ocean tree moon",
+    "expected": "- Config PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PRIVATE_KEY = Blue ocean tree moon",
+    "expected": "* Label PRIVATE_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PRIVATE_KEY\": Blue ocean tree moon",
+    "expected": "+ Label \"PRIVATE_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PRIVATE_KEY: Blue ocean tree moon",
+    "expected": "- PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: \"Blue ocean tree moon\"",
+    "expected": "- Config PRIVATE_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: blue ocean tree moon",
+    "expected": "- Config PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PRIVATE_KEY = blue ocean tree moon",
+    "expected": "* Label PRIVATE_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PRIVATE_KEY\": blue ocean tree moon",
+    "expected": "+ Label \"PRIVATE_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PRIVATE_KEY: blue ocean tree moon",
+    "expected": "- PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: \"blue ocean tree moon\"",
+    "expected": "- Config PRIVATE_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: BLUE ocean tree moon",
+    "expected": "- Config PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PRIVATE_KEY = BLUE ocean tree moon",
+    "expected": "* Label PRIVATE_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PRIVATE_KEY\": BLUE ocean tree moon",
+    "expected": "+ Label \"PRIVATE_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PRIVATE_KEY: BLUE ocean tree moon",
+    "expected": "- PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: \"BLUE ocean tree moon\"",
+    "expected": "- Config PRIVATE_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: bLuE ocean tree moon",
+    "expected": "- Config PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PRIVATE_KEY = bLuE ocean tree moon",
+    "expected": "* Label PRIVATE_KEY = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PRIVATE_KEY\": bLuE ocean tree moon",
+    "expected": "+ Label \"PRIVATE_KEY\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PRIVATE_KEY: bLuE ocean tree moon",
+    "expected": "- PRIVATE_KEY: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PRIVATE_KEY: \"bLuE ocean tree moon\"",
+    "expected": "- Config PRIVATE_KEY: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config private_key: Blue%20ocean%20tree%20moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config private_key: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config private_key: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config private_key: Blue\tocean\ttree\tmoon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config private_key: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config private_key: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: Blue ocean tree moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label token = Blue ocean tree moon",
+    "expected": "* Label token = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"token\": Blue ocean tree moon",
+    "expected": "+ Label \"token\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- token: Blue ocean tree moon",
+    "expected": "- token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: \"Blue ocean tree moon\"",
+    "expected": "- Config token: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: blue ocean tree moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label token = blue ocean tree moon",
+    "expected": "* Label token = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"token\": blue ocean tree moon",
+    "expected": "+ Label \"token\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- token: blue ocean tree moon",
+    "expected": "- token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: \"blue ocean tree moon\"",
+    "expected": "- Config token: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: BLUE ocean tree moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label token = BLUE ocean tree moon",
+    "expected": "* Label token = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"token\": BLUE ocean tree moon",
+    "expected": "+ Label \"token\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- token: BLUE ocean tree moon",
+    "expected": "- token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: \"BLUE ocean tree moon\"",
+    "expected": "- Config token: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: bLuE ocean tree moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label token = bLuE ocean tree moon",
+    "expected": "* Label token = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"token\": bLuE ocean tree moon",
+    "expected": "+ Label \"token\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- token: bLuE ocean tree moon",
+    "expected": "- token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config token: \"bLuE ocean tree moon\"",
+    "expected": "- Config token: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: Blue ocean tree moon",
+    "expected": "- Config TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label TOKEN = Blue ocean tree moon",
+    "expected": "* Label TOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"TOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"TOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- TOKEN: Blue ocean tree moon",
+    "expected": "- TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config TOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: blue ocean tree moon",
+    "expected": "- Config TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label TOKEN = blue ocean tree moon",
+    "expected": "* Label TOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"TOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"TOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- TOKEN: blue ocean tree moon",
+    "expected": "- TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config TOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: BLUE ocean tree moon",
+    "expected": "- Config TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label TOKEN = BLUE ocean tree moon",
+    "expected": "* Label TOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"TOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"TOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- TOKEN: BLUE ocean tree moon",
+    "expected": "- TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config TOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: bLuE ocean tree moon",
+    "expected": "- Config TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label TOKEN = bLuE ocean tree moon",
+    "expected": "* Label TOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"TOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"TOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- TOKEN: bLuE ocean tree moon",
+    "expected": "- TOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config TOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config TOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config token: Blue%20ocean%20tree%20moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config token: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config token: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config token: Blue\tocean\ttree\tmoon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config token: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: Blue ocean tree moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label accessToken = Blue ocean tree moon",
+    "expected": "* Label accessToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"accessToken\": Blue ocean tree moon",
+    "expected": "+ Label \"accessToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- accessToken: Blue ocean tree moon",
+    "expected": "- accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: \"Blue ocean tree moon\"",
+    "expected": "- Config accessToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: blue ocean tree moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label accessToken = blue ocean tree moon",
+    "expected": "* Label accessToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"accessToken\": blue ocean tree moon",
+    "expected": "+ Label \"accessToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- accessToken: blue ocean tree moon",
+    "expected": "- accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: \"blue ocean tree moon\"",
+    "expected": "- Config accessToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: BLUE ocean tree moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label accessToken = BLUE ocean tree moon",
+    "expected": "* Label accessToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"accessToken\": BLUE ocean tree moon",
+    "expected": "+ Label \"accessToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- accessToken: BLUE ocean tree moon",
+    "expected": "- accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: \"BLUE ocean tree moon\"",
+    "expected": "- Config accessToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: bLuE ocean tree moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label accessToken = bLuE ocean tree moon",
+    "expected": "* Label accessToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"accessToken\": bLuE ocean tree moon",
+    "expected": "+ Label \"accessToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- accessToken: bLuE ocean tree moon",
+    "expected": "- accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config accessToken: \"bLuE ocean tree moon\"",
+    "expected": "- Config accessToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: Blue ocean tree moon",
+    "expected": "- Config ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESSTOKEN = Blue ocean tree moon",
+    "expected": "* Label ACCESSTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESSTOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"ACCESSTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESSTOKEN: Blue ocean tree moon",
+    "expected": "- ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config ACCESSTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: blue ocean tree moon",
+    "expected": "- Config ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESSTOKEN = blue ocean tree moon",
+    "expected": "* Label ACCESSTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESSTOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"ACCESSTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESSTOKEN: blue ocean tree moon",
+    "expected": "- ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config ACCESSTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: BLUE ocean tree moon",
+    "expected": "- Config ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESSTOKEN = BLUE ocean tree moon",
+    "expected": "* Label ACCESSTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESSTOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"ACCESSTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESSTOKEN: BLUE ocean tree moon",
+    "expected": "- ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config ACCESSTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: bLuE ocean tree moon",
+    "expected": "- Config ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label ACCESSTOKEN = bLuE ocean tree moon",
+    "expected": "* Label ACCESSTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"ACCESSTOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"ACCESSTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- ACCESSTOKEN: bLuE ocean tree moon",
+    "expected": "- ACCESSTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config ACCESSTOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config ACCESSTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config accessToken: Blue%20ocean%20tree%20moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config accessToken: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config accessToken: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config accessToken: Blue\tocean\ttree\tmoon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config accessToken: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config accessToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: Blue ocean tree moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authToken = Blue ocean tree moon",
+    "expected": "* Label authToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authToken\": Blue ocean tree moon",
+    "expected": "+ Label \"authToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authToken: Blue ocean tree moon",
+    "expected": "- authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: \"Blue ocean tree moon\"",
+    "expected": "- Config authToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: blue ocean tree moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authToken = blue ocean tree moon",
+    "expected": "* Label authToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authToken\": blue ocean tree moon",
+    "expected": "+ Label \"authToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authToken: blue ocean tree moon",
+    "expected": "- authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: \"blue ocean tree moon\"",
+    "expected": "- Config authToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: BLUE ocean tree moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authToken = BLUE ocean tree moon",
+    "expected": "* Label authToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authToken\": BLUE ocean tree moon",
+    "expected": "+ Label \"authToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authToken: BLUE ocean tree moon",
+    "expected": "- authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: \"BLUE ocean tree moon\"",
+    "expected": "- Config authToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: bLuE ocean tree moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authToken = bLuE ocean tree moon",
+    "expected": "* Label authToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authToken\": bLuE ocean tree moon",
+    "expected": "+ Label \"authToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authToken: bLuE ocean tree moon",
+    "expected": "- authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authToken: \"bLuE ocean tree moon\"",
+    "expected": "- Config authToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: Blue ocean tree moon",
+    "expected": "- Config AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHTOKEN = Blue ocean tree moon",
+    "expected": "* Label AUTHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHTOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"AUTHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHTOKEN: Blue ocean tree moon",
+    "expected": "- AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config AUTHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: blue ocean tree moon",
+    "expected": "- Config AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHTOKEN = blue ocean tree moon",
+    "expected": "* Label AUTHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHTOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"AUTHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHTOKEN: blue ocean tree moon",
+    "expected": "- AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config AUTHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: BLUE ocean tree moon",
+    "expected": "- Config AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHTOKEN = BLUE ocean tree moon",
+    "expected": "* Label AUTHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHTOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"AUTHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHTOKEN: BLUE ocean tree moon",
+    "expected": "- AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config AUTHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: bLuE ocean tree moon",
+    "expected": "- Config AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHTOKEN = bLuE ocean tree moon",
+    "expected": "* Label AUTHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHTOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"AUTHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHTOKEN: bLuE ocean tree moon",
+    "expected": "- AUTHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHTOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config AUTHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authToken: Blue%20ocean%20tree%20moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authToken: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authToken: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authToken: Blue\tocean\ttree\tmoon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authToken: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config authToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: Blue ocean tree moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label refreshToken = Blue ocean tree moon",
+    "expected": "* Label refreshToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"refreshToken\": Blue ocean tree moon",
+    "expected": "+ Label \"refreshToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- refreshToken: Blue ocean tree moon",
+    "expected": "- refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: \"Blue ocean tree moon\"",
+    "expected": "- Config refreshToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: blue ocean tree moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label refreshToken = blue ocean tree moon",
+    "expected": "* Label refreshToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"refreshToken\": blue ocean tree moon",
+    "expected": "+ Label \"refreshToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- refreshToken: blue ocean tree moon",
+    "expected": "- refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: \"blue ocean tree moon\"",
+    "expected": "- Config refreshToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: BLUE ocean tree moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label refreshToken = BLUE ocean tree moon",
+    "expected": "* Label refreshToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"refreshToken\": BLUE ocean tree moon",
+    "expected": "+ Label \"refreshToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- refreshToken: BLUE ocean tree moon",
+    "expected": "- refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: \"BLUE ocean tree moon\"",
+    "expected": "- Config refreshToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: bLuE ocean tree moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label refreshToken = bLuE ocean tree moon",
+    "expected": "* Label refreshToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"refreshToken\": bLuE ocean tree moon",
+    "expected": "+ Label \"refreshToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- refreshToken: bLuE ocean tree moon",
+    "expected": "- refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config refreshToken: \"bLuE ocean tree moon\"",
+    "expected": "- Config refreshToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: Blue ocean tree moon",
+    "expected": "- Config REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label REFRESHTOKEN = Blue ocean tree moon",
+    "expected": "* Label REFRESHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"REFRESHTOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"REFRESHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- REFRESHTOKEN: Blue ocean tree moon",
+    "expected": "- REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config REFRESHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: blue ocean tree moon",
+    "expected": "- Config REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label REFRESHTOKEN = blue ocean tree moon",
+    "expected": "* Label REFRESHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"REFRESHTOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"REFRESHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- REFRESHTOKEN: blue ocean tree moon",
+    "expected": "- REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config REFRESHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: BLUE ocean tree moon",
+    "expected": "- Config REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label REFRESHTOKEN = BLUE ocean tree moon",
+    "expected": "* Label REFRESHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"REFRESHTOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"REFRESHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- REFRESHTOKEN: BLUE ocean tree moon",
+    "expected": "- REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config REFRESHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: bLuE ocean tree moon",
+    "expected": "- Config REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label REFRESHTOKEN = bLuE ocean tree moon",
+    "expected": "* Label REFRESHTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"REFRESHTOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"REFRESHTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- REFRESHTOKEN: bLuE ocean tree moon",
+    "expected": "- REFRESHTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config REFRESHTOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config REFRESHTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config refreshToken: Blue%20ocean%20tree%20moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config refreshToken: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config refreshToken: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config refreshToken: Blue\tocean\ttree\tmoon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config refreshToken: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config refreshToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: Blue ocean tree moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label idToken = Blue ocean tree moon",
+    "expected": "* Label idToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"idToken\": Blue ocean tree moon",
+    "expected": "+ Label \"idToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- idToken: Blue ocean tree moon",
+    "expected": "- idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: \"Blue ocean tree moon\"",
+    "expected": "- Config idToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: blue ocean tree moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label idToken = blue ocean tree moon",
+    "expected": "* Label idToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"idToken\": blue ocean tree moon",
+    "expected": "+ Label \"idToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- idToken: blue ocean tree moon",
+    "expected": "- idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: \"blue ocean tree moon\"",
+    "expected": "- Config idToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: BLUE ocean tree moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label idToken = BLUE ocean tree moon",
+    "expected": "* Label idToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"idToken\": BLUE ocean tree moon",
+    "expected": "+ Label \"idToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- idToken: BLUE ocean tree moon",
+    "expected": "- idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: \"BLUE ocean tree moon\"",
+    "expected": "- Config idToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: bLuE ocean tree moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label idToken = bLuE ocean tree moon",
+    "expected": "* Label idToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"idToken\": bLuE ocean tree moon",
+    "expected": "+ Label \"idToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- idToken: bLuE ocean tree moon",
+    "expected": "- idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config idToken: \"bLuE ocean tree moon\"",
+    "expected": "- Config idToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: Blue ocean tree moon",
+    "expected": "- Config IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label IDTOKEN = Blue ocean tree moon",
+    "expected": "* Label IDTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"IDTOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"IDTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- IDTOKEN: Blue ocean tree moon",
+    "expected": "- IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config IDTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: blue ocean tree moon",
+    "expected": "- Config IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label IDTOKEN = blue ocean tree moon",
+    "expected": "* Label IDTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"IDTOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"IDTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- IDTOKEN: blue ocean tree moon",
+    "expected": "- IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config IDTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: BLUE ocean tree moon",
+    "expected": "- Config IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label IDTOKEN = BLUE ocean tree moon",
+    "expected": "* Label IDTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"IDTOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"IDTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- IDTOKEN: BLUE ocean tree moon",
+    "expected": "- IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config IDTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: bLuE ocean tree moon",
+    "expected": "- Config IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label IDTOKEN = bLuE ocean tree moon",
+    "expected": "* Label IDTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"IDTOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"IDTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- IDTOKEN: bLuE ocean tree moon",
+    "expected": "- IDTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config IDTOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config IDTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config idToken: Blue%20ocean%20tree%20moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config idToken: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config idToken: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config idToken: Blue\tocean\ttree\tmoon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config idToken: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config idToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: Blue ocean tree moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label sessionToken = Blue ocean tree moon",
+    "expected": "* Label sessionToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"sessionToken\": Blue ocean tree moon",
+    "expected": "+ Label \"sessionToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- sessionToken: Blue ocean tree moon",
+    "expected": "- sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: \"Blue ocean tree moon\"",
+    "expected": "- Config sessionToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: blue ocean tree moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label sessionToken = blue ocean tree moon",
+    "expected": "* Label sessionToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"sessionToken\": blue ocean tree moon",
+    "expected": "+ Label \"sessionToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- sessionToken: blue ocean tree moon",
+    "expected": "- sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: \"blue ocean tree moon\"",
+    "expected": "- Config sessionToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: BLUE ocean tree moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label sessionToken = BLUE ocean tree moon",
+    "expected": "* Label sessionToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"sessionToken\": BLUE ocean tree moon",
+    "expected": "+ Label \"sessionToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- sessionToken: BLUE ocean tree moon",
+    "expected": "- sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: \"BLUE ocean tree moon\"",
+    "expected": "- Config sessionToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: bLuE ocean tree moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label sessionToken = bLuE ocean tree moon",
+    "expected": "* Label sessionToken = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"sessionToken\": bLuE ocean tree moon",
+    "expected": "+ Label \"sessionToken\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- sessionToken: bLuE ocean tree moon",
+    "expected": "- sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config sessionToken: \"bLuE ocean tree moon\"",
+    "expected": "- Config sessionToken: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: Blue ocean tree moon",
+    "expected": "- Config SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSIONTOKEN = Blue ocean tree moon",
+    "expected": "* Label SESSIONTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSIONTOKEN\": Blue ocean tree moon",
+    "expected": "+ Label \"SESSIONTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSIONTOKEN: Blue ocean tree moon",
+    "expected": "- SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: \"Blue ocean tree moon\"",
+    "expected": "- Config SESSIONTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: blue ocean tree moon",
+    "expected": "- Config SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSIONTOKEN = blue ocean tree moon",
+    "expected": "* Label SESSIONTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSIONTOKEN\": blue ocean tree moon",
+    "expected": "+ Label \"SESSIONTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSIONTOKEN: blue ocean tree moon",
+    "expected": "- SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: \"blue ocean tree moon\"",
+    "expected": "- Config SESSIONTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: BLUE ocean tree moon",
+    "expected": "- Config SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSIONTOKEN = BLUE ocean tree moon",
+    "expected": "* Label SESSIONTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSIONTOKEN\": BLUE ocean tree moon",
+    "expected": "+ Label \"SESSIONTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSIONTOKEN: BLUE ocean tree moon",
+    "expected": "- SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: \"BLUE ocean tree moon\"",
+    "expected": "- Config SESSIONTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: bLuE ocean tree moon",
+    "expected": "- Config SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSIONTOKEN = bLuE ocean tree moon",
+    "expected": "* Label SESSIONTOKEN = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSIONTOKEN\": bLuE ocean tree moon",
+    "expected": "+ Label \"SESSIONTOKEN\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSIONTOKEN: bLuE ocean tree moon",
+    "expected": "- SESSIONTOKEN: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSIONTOKEN: \"bLuE ocean tree moon\"",
+    "expected": "- Config SESSIONTOKEN: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config sessionToken: Blue%20ocean%20tree%20moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config sessionToken: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config sessionToken: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config sessionToken: Blue\tocean\ttree\tmoon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config sessionToken: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config sessionToken: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: Blue ocean tree moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label session_id = Blue ocean tree moon",
+    "expected": "* Label session_id = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"session_id\": Blue ocean tree moon",
+    "expected": "+ Label \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- session_id: Blue ocean tree moon",
+    "expected": "- session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: \"Blue ocean tree moon\"",
+    "expected": "- Config session_id: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: blue ocean tree moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label session_id = blue ocean tree moon",
+    "expected": "* Label session_id = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"session_id\": blue ocean tree moon",
+    "expected": "+ Label \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- session_id: blue ocean tree moon",
+    "expected": "- session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: \"blue ocean tree moon\"",
+    "expected": "- Config session_id: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: BLUE ocean tree moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label session_id = BLUE ocean tree moon",
+    "expected": "* Label session_id = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"session_id\": BLUE ocean tree moon",
+    "expected": "+ Label \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- session_id: BLUE ocean tree moon",
+    "expected": "- session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: \"BLUE ocean tree moon\"",
+    "expected": "- Config session_id: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: bLuE ocean tree moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label session_id = bLuE ocean tree moon",
+    "expected": "* Label session_id = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"session_id\": bLuE ocean tree moon",
+    "expected": "+ Label \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- session_id: bLuE ocean tree moon",
+    "expected": "- session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config session_id: \"bLuE ocean tree moon\"",
+    "expected": "- Config session_id: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: Blue ocean tree moon",
+    "expected": "- Config SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSION_ID = Blue ocean tree moon",
+    "expected": "* Label SESSION_ID = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSION_ID\": Blue ocean tree moon",
+    "expected": "+ Label \"SESSION_ID\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSION_ID: Blue ocean tree moon",
+    "expected": "- SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: \"Blue ocean tree moon\"",
+    "expected": "- Config SESSION_ID: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: blue ocean tree moon",
+    "expected": "- Config SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSION_ID = blue ocean tree moon",
+    "expected": "* Label SESSION_ID = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSION_ID\": blue ocean tree moon",
+    "expected": "+ Label \"SESSION_ID\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSION_ID: blue ocean tree moon",
+    "expected": "- SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: \"blue ocean tree moon\"",
+    "expected": "- Config SESSION_ID: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: BLUE ocean tree moon",
+    "expected": "- Config SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSION_ID = BLUE ocean tree moon",
+    "expected": "* Label SESSION_ID = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSION_ID\": BLUE ocean tree moon",
+    "expected": "+ Label \"SESSION_ID\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSION_ID: BLUE ocean tree moon",
+    "expected": "- SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: \"BLUE ocean tree moon\"",
+    "expected": "- Config SESSION_ID: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: bLuE ocean tree moon",
+    "expected": "- Config SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SESSION_ID = bLuE ocean tree moon",
+    "expected": "* Label SESSION_ID = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SESSION_ID\": bLuE ocean tree moon",
+    "expected": "+ Label \"SESSION_ID\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SESSION_ID: bLuE ocean tree moon",
+    "expected": "- SESSION_ID: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SESSION_ID: \"bLuE ocean tree moon\"",
+    "expected": "- Config SESSION_ID: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config session_id: Blue%20ocean%20tree%20moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config session_id: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config session_id: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config session_id: Blue\tocean\ttree\tmoon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config session_id: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config session_id: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: Blue ocean tree moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credential = Blue ocean tree moon",
+    "expected": "* Label credential = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credential\": Blue ocean tree moon",
+    "expected": "+ Label \"credential\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credential: Blue ocean tree moon",
+    "expected": "- credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: \"Blue ocean tree moon\"",
+    "expected": "- Config credential: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: blue ocean tree moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credential = blue ocean tree moon",
+    "expected": "* Label credential = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credential\": blue ocean tree moon",
+    "expected": "+ Label \"credential\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credential: blue ocean tree moon",
+    "expected": "- credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: \"blue ocean tree moon\"",
+    "expected": "- Config credential: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: BLUE ocean tree moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credential = BLUE ocean tree moon",
+    "expected": "* Label credential = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credential\": BLUE ocean tree moon",
+    "expected": "+ Label \"credential\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credential: BLUE ocean tree moon",
+    "expected": "- credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: \"BLUE ocean tree moon\"",
+    "expected": "- Config credential: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: bLuE ocean tree moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credential = bLuE ocean tree moon",
+    "expected": "* Label credential = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credential\": bLuE ocean tree moon",
+    "expected": "+ Label \"credential\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credential: bLuE ocean tree moon",
+    "expected": "- credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credential: \"bLuE ocean tree moon\"",
+    "expected": "- Config credential: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: Blue ocean tree moon",
+    "expected": "- Config CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIAL = Blue ocean tree moon",
+    "expected": "* Label CREDENTIAL = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIAL\": Blue ocean tree moon",
+    "expected": "+ Label \"CREDENTIAL\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIAL: Blue ocean tree moon",
+    "expected": "- CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: \"Blue ocean tree moon\"",
+    "expected": "- Config CREDENTIAL: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: blue ocean tree moon",
+    "expected": "- Config CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIAL = blue ocean tree moon",
+    "expected": "* Label CREDENTIAL = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIAL\": blue ocean tree moon",
+    "expected": "+ Label \"CREDENTIAL\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIAL: blue ocean tree moon",
+    "expected": "- CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: \"blue ocean tree moon\"",
+    "expected": "- Config CREDENTIAL: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: BLUE ocean tree moon",
+    "expected": "- Config CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIAL = BLUE ocean tree moon",
+    "expected": "* Label CREDENTIAL = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIAL\": BLUE ocean tree moon",
+    "expected": "+ Label \"CREDENTIAL\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIAL: BLUE ocean tree moon",
+    "expected": "- CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: \"BLUE ocean tree moon\"",
+    "expected": "- Config CREDENTIAL: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: bLuE ocean tree moon",
+    "expected": "- Config CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIAL = bLuE ocean tree moon",
+    "expected": "* Label CREDENTIAL = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIAL\": bLuE ocean tree moon",
+    "expected": "+ Label \"CREDENTIAL\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIAL: bLuE ocean tree moon",
+    "expected": "- CREDENTIAL: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIAL: \"bLuE ocean tree moon\"",
+    "expected": "- Config CREDENTIAL: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credential: Blue%20ocean%20tree%20moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credential: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credential: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credential: Blue\tocean\ttree\tmoon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credential: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config credential: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: Blue ocean tree moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credentials = Blue ocean tree moon",
+    "expected": "* Label credentials = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credentials\": Blue ocean tree moon",
+    "expected": "+ Label \"credentials\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credentials: Blue ocean tree moon",
+    "expected": "- credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: \"Blue ocean tree moon\"",
+    "expected": "- Config credentials: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: blue ocean tree moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credentials = blue ocean tree moon",
+    "expected": "* Label credentials = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credentials\": blue ocean tree moon",
+    "expected": "+ Label \"credentials\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credentials: blue ocean tree moon",
+    "expected": "- credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: \"blue ocean tree moon\"",
+    "expected": "- Config credentials: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: BLUE ocean tree moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credentials = BLUE ocean tree moon",
+    "expected": "* Label credentials = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credentials\": BLUE ocean tree moon",
+    "expected": "+ Label \"credentials\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credentials: BLUE ocean tree moon",
+    "expected": "- credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: \"BLUE ocean tree moon\"",
+    "expected": "- Config credentials: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: bLuE ocean tree moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label credentials = bLuE ocean tree moon",
+    "expected": "* Label credentials = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"credentials\": bLuE ocean tree moon",
+    "expected": "+ Label \"credentials\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- credentials: bLuE ocean tree moon",
+    "expected": "- credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config credentials: \"bLuE ocean tree moon\"",
+    "expected": "- Config credentials: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: Blue ocean tree moon",
+    "expected": "- Config CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIALS = Blue ocean tree moon",
+    "expected": "* Label CREDENTIALS = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIALS\": Blue ocean tree moon",
+    "expected": "+ Label \"CREDENTIALS\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIALS: Blue ocean tree moon",
+    "expected": "- CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: \"Blue ocean tree moon\"",
+    "expected": "- Config CREDENTIALS: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: blue ocean tree moon",
+    "expected": "- Config CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIALS = blue ocean tree moon",
+    "expected": "* Label CREDENTIALS = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIALS\": blue ocean tree moon",
+    "expected": "+ Label \"CREDENTIALS\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIALS: blue ocean tree moon",
+    "expected": "- CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: \"blue ocean tree moon\"",
+    "expected": "- Config CREDENTIALS: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: BLUE ocean tree moon",
+    "expected": "- Config CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIALS = BLUE ocean tree moon",
+    "expected": "* Label CREDENTIALS = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIALS\": BLUE ocean tree moon",
+    "expected": "+ Label \"CREDENTIALS\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIALS: BLUE ocean tree moon",
+    "expected": "- CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: \"BLUE ocean tree moon\"",
+    "expected": "- Config CREDENTIALS: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: bLuE ocean tree moon",
+    "expected": "- Config CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label CREDENTIALS = bLuE ocean tree moon",
+    "expected": "* Label CREDENTIALS = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"CREDENTIALS\": bLuE ocean tree moon",
+    "expected": "+ Label \"CREDENTIALS\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- CREDENTIALS: bLuE ocean tree moon",
+    "expected": "- CREDENTIALS: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config CREDENTIALS: \"bLuE ocean tree moon\"",
+    "expected": "- Config CREDENTIALS: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credentials: Blue%20ocean%20tree%20moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credentials: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credentials: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credentials: Blue\tocean\ttree\tmoon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config credentials: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config credentials: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: Blue ocean tree moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authorization = Blue ocean tree moon",
+    "expected": "* Label authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authorization\": Blue ocean tree moon",
+    "expected": "+ Label \"authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authorization: Blue ocean tree moon",
+    "expected": "- authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: \"Blue ocean tree moon\"",
+    "expected": "- Config authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: blue ocean tree moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authorization = blue ocean tree moon",
+    "expected": "* Label authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authorization\": blue ocean tree moon",
+    "expected": "+ Label \"authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authorization: blue ocean tree moon",
+    "expected": "- authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: \"blue ocean tree moon\"",
+    "expected": "- Config authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: BLUE ocean tree moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authorization = BLUE ocean tree moon",
+    "expected": "* Label authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authorization\": BLUE ocean tree moon",
+    "expected": "+ Label \"authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authorization: BLUE ocean tree moon",
+    "expected": "- authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: \"BLUE ocean tree moon\"",
+    "expected": "- Config authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: bLuE ocean tree moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label authorization = bLuE ocean tree moon",
+    "expected": "* Label authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"authorization\": bLuE ocean tree moon",
+    "expected": "+ Label \"authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- authorization: bLuE ocean tree moon",
+    "expected": "- authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config authorization: \"bLuE ocean tree moon\"",
+    "expected": "- Config authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: Blue ocean tree moon",
+    "expected": "- Config AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHORIZATION = Blue ocean tree moon",
+    "expected": "* Label AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHORIZATION\": Blue ocean tree moon",
+    "expected": "+ Label \"AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHORIZATION: Blue ocean tree moon",
+    "expected": "- AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: \"Blue ocean tree moon\"",
+    "expected": "- Config AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: blue ocean tree moon",
+    "expected": "- Config AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHORIZATION = blue ocean tree moon",
+    "expected": "* Label AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHORIZATION\": blue ocean tree moon",
+    "expected": "+ Label \"AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHORIZATION: blue ocean tree moon",
+    "expected": "- AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: \"blue ocean tree moon\"",
+    "expected": "- Config AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: BLUE ocean tree moon",
+    "expected": "- Config AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHORIZATION = BLUE ocean tree moon",
+    "expected": "* Label AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHORIZATION\": BLUE ocean tree moon",
+    "expected": "+ Label \"AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHORIZATION: BLUE ocean tree moon",
+    "expected": "- AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: \"BLUE ocean tree moon\"",
+    "expected": "- Config AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: bLuE ocean tree moon",
+    "expected": "- Config AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTHORIZATION = bLuE ocean tree moon",
+    "expected": "* Label AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTHORIZATION\": bLuE ocean tree moon",
+    "expected": "+ Label \"AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTHORIZATION: bLuE ocean tree moon",
+    "expected": "- AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTHORIZATION: \"bLuE ocean tree moon\"",
+    "expected": "- Config AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authorization: Blue%20ocean%20tree%20moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authorization: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authorization: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authorization: Blue\tocean\ttree\tmoon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config authorization: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: Blue ocean tree moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label auth = Blue ocean tree moon",
+    "expected": "* Label auth = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"auth\": Blue ocean tree moon",
+    "expected": "+ Label \"auth\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- auth: Blue ocean tree moon",
+    "expected": "- auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: \"Blue ocean tree moon\"",
+    "expected": "- Config auth: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: blue ocean tree moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label auth = blue ocean tree moon",
+    "expected": "* Label auth = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"auth\": blue ocean tree moon",
+    "expected": "+ Label \"auth\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- auth: blue ocean tree moon",
+    "expected": "- auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: \"blue ocean tree moon\"",
+    "expected": "- Config auth: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: BLUE ocean tree moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label auth = BLUE ocean tree moon",
+    "expected": "* Label auth = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"auth\": BLUE ocean tree moon",
+    "expected": "+ Label \"auth\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- auth: BLUE ocean tree moon",
+    "expected": "- auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: \"BLUE ocean tree moon\"",
+    "expected": "- Config auth: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: bLuE ocean tree moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label auth = bLuE ocean tree moon",
+    "expected": "* Label auth = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"auth\": bLuE ocean tree moon",
+    "expected": "+ Label \"auth\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- auth: bLuE ocean tree moon",
+    "expected": "- auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config auth: \"bLuE ocean tree moon\"",
+    "expected": "- Config auth: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: Blue ocean tree moon",
+    "expected": "- Config AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTH = Blue ocean tree moon",
+    "expected": "* Label AUTH = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTH\": Blue ocean tree moon",
+    "expected": "+ Label \"AUTH\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTH: Blue ocean tree moon",
+    "expected": "- AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: \"Blue ocean tree moon\"",
+    "expected": "- Config AUTH: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: blue ocean tree moon",
+    "expected": "- Config AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTH = blue ocean tree moon",
+    "expected": "* Label AUTH = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTH\": blue ocean tree moon",
+    "expected": "+ Label \"AUTH\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTH: blue ocean tree moon",
+    "expected": "- AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: \"blue ocean tree moon\"",
+    "expected": "- Config AUTH: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: BLUE ocean tree moon",
+    "expected": "- Config AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTH = BLUE ocean tree moon",
+    "expected": "* Label AUTH = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTH\": BLUE ocean tree moon",
+    "expected": "+ Label \"AUTH\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTH: BLUE ocean tree moon",
+    "expected": "- AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: \"BLUE ocean tree moon\"",
+    "expected": "- Config AUTH: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: bLuE ocean tree moon",
+    "expected": "- Config AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label AUTH = bLuE ocean tree moon",
+    "expected": "* Label AUTH = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"AUTH\": bLuE ocean tree moon",
+    "expected": "+ Label \"AUTH\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- AUTH: bLuE ocean tree moon",
+    "expected": "- AUTH: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config AUTH: \"bLuE ocean tree moon\"",
+    "expected": "- Config AUTH: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config auth: Blue%20ocean%20tree%20moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config auth: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config auth: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config auth: Blue\tocean\ttree\tmoon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config auth: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config auth: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: Blue ocean tree moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label bearer = Blue ocean tree moon",
+    "expected": "* Label bearer = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"bearer\": Blue ocean tree moon",
+    "expected": "+ Label \"bearer\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- bearer: Blue ocean tree moon",
+    "expected": "- bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: \"Blue ocean tree moon\"",
+    "expected": "- Config bearer: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: blue ocean tree moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label bearer = blue ocean tree moon",
+    "expected": "* Label bearer = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"bearer\": blue ocean tree moon",
+    "expected": "+ Label \"bearer\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- bearer: blue ocean tree moon",
+    "expected": "- bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: \"blue ocean tree moon\"",
+    "expected": "- Config bearer: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: BLUE ocean tree moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label bearer = BLUE ocean tree moon",
+    "expected": "* Label bearer = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"bearer\": BLUE ocean tree moon",
+    "expected": "+ Label \"bearer\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- bearer: BLUE ocean tree moon",
+    "expected": "- bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: \"BLUE ocean tree moon\"",
+    "expected": "- Config bearer: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: bLuE ocean tree moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label bearer = bLuE ocean tree moon",
+    "expected": "* Label bearer = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"bearer\": bLuE ocean tree moon",
+    "expected": "+ Label \"bearer\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- bearer: bLuE ocean tree moon",
+    "expected": "- bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config bearer: \"bLuE ocean tree moon\"",
+    "expected": "- Config bearer: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: Blue ocean tree moon",
+    "expected": "- Config BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label BEARER = Blue ocean tree moon",
+    "expected": "* Label BEARER = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"BEARER\": Blue ocean tree moon",
+    "expected": "+ Label \"BEARER\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- BEARER: Blue ocean tree moon",
+    "expected": "- BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: \"Blue ocean tree moon\"",
+    "expected": "- Config BEARER: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: blue ocean tree moon",
+    "expected": "- Config BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label BEARER = blue ocean tree moon",
+    "expected": "* Label BEARER = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"BEARER\": blue ocean tree moon",
+    "expected": "+ Label \"BEARER\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- BEARER: blue ocean tree moon",
+    "expected": "- BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: \"blue ocean tree moon\"",
+    "expected": "- Config BEARER: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: BLUE ocean tree moon",
+    "expected": "- Config BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label BEARER = BLUE ocean tree moon",
+    "expected": "* Label BEARER = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"BEARER\": BLUE ocean tree moon",
+    "expected": "+ Label \"BEARER\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- BEARER: BLUE ocean tree moon",
+    "expected": "- BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: \"BLUE ocean tree moon\"",
+    "expected": "- Config BEARER: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: bLuE ocean tree moon",
+    "expected": "- Config BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label BEARER = bLuE ocean tree moon",
+    "expected": "* Label BEARER = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"BEARER\": bLuE ocean tree moon",
+    "expected": "+ Label \"BEARER\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- BEARER: bLuE ocean tree moon",
+    "expected": "- BEARER: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config BEARER: \"bLuE ocean tree moon\"",
+    "expected": "- Config BEARER: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config bearer: Blue%20ocean%20tree%20moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config bearer: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config bearer: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config bearer: Blue\tocean\ttree\tmoon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config bearer: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config bearer: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: Blue ocean tree moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label proxy_authorization = Blue ocean tree moon",
+    "expected": "* Label proxy_authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"proxy_authorization\": Blue ocean tree moon",
+    "expected": "+ Label \"proxy_authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- proxy_authorization: Blue ocean tree moon",
+    "expected": "- proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: \"Blue ocean tree moon\"",
+    "expected": "- Config proxy_authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: blue ocean tree moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label proxy_authorization = blue ocean tree moon",
+    "expected": "* Label proxy_authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"proxy_authorization\": blue ocean tree moon",
+    "expected": "+ Label \"proxy_authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- proxy_authorization: blue ocean tree moon",
+    "expected": "- proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: \"blue ocean tree moon\"",
+    "expected": "- Config proxy_authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: BLUE ocean tree moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label proxy_authorization = BLUE ocean tree moon",
+    "expected": "* Label proxy_authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"proxy_authorization\": BLUE ocean tree moon",
+    "expected": "+ Label \"proxy_authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- proxy_authorization: BLUE ocean tree moon",
+    "expected": "- proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: \"BLUE ocean tree moon\"",
+    "expected": "- Config proxy_authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: bLuE ocean tree moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label proxy_authorization = bLuE ocean tree moon",
+    "expected": "* Label proxy_authorization = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"proxy_authorization\": bLuE ocean tree moon",
+    "expected": "+ Label \"proxy_authorization\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- proxy_authorization: bLuE ocean tree moon",
+    "expected": "- proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config proxy_authorization: \"bLuE ocean tree moon\"",
+    "expected": "- Config proxy_authorization: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: Blue ocean tree moon",
+    "expected": "- Config PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PROXY_AUTHORIZATION = Blue ocean tree moon",
+    "expected": "* Label PROXY_AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PROXY_AUTHORIZATION\": Blue ocean tree moon",
+    "expected": "+ Label \"PROXY_AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PROXY_AUTHORIZATION: Blue ocean tree moon",
+    "expected": "- PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: \"Blue ocean tree moon\"",
+    "expected": "- Config PROXY_AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: blue ocean tree moon",
+    "expected": "- Config PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PROXY_AUTHORIZATION = blue ocean tree moon",
+    "expected": "* Label PROXY_AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PROXY_AUTHORIZATION\": blue ocean tree moon",
+    "expected": "+ Label \"PROXY_AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PROXY_AUTHORIZATION: blue ocean tree moon",
+    "expected": "- PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: \"blue ocean tree moon\"",
+    "expected": "- Config PROXY_AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: BLUE ocean tree moon",
+    "expected": "- Config PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PROXY_AUTHORIZATION = BLUE ocean tree moon",
+    "expected": "* Label PROXY_AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PROXY_AUTHORIZATION\": BLUE ocean tree moon",
+    "expected": "+ Label \"PROXY_AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PROXY_AUTHORIZATION: BLUE ocean tree moon",
+    "expected": "- PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: \"BLUE ocean tree moon\"",
+    "expected": "- Config PROXY_AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: bLuE ocean tree moon",
+    "expected": "- Config PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label PROXY_AUTHORIZATION = bLuE ocean tree moon",
+    "expected": "* Label PROXY_AUTHORIZATION = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"PROXY_AUTHORIZATION\": bLuE ocean tree moon",
+    "expected": "+ Label \"PROXY_AUTHORIZATION\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- PROXY_AUTHORIZATION: bLuE ocean tree moon",
+    "expected": "- PROXY_AUTHORIZATION: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config PROXY_AUTHORIZATION: \"bLuE ocean tree moon\"",
+    "expected": "- Config PROXY_AUTHORIZATION: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config proxy_authorization: Blue%20ocean%20tree%20moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config proxy_authorization: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config proxy_authorization: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config proxy_authorization: Blue\tocean\ttree\tmoon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config proxy_authorization: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config proxy_authorization: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: Blue ocean tree moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label cookie = Blue ocean tree moon",
+    "expected": "* Label cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"cookie\": Blue ocean tree moon",
+    "expected": "+ Label \"cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- cookie: Blue ocean tree moon",
+    "expected": "- cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: \"Blue ocean tree moon\"",
+    "expected": "- Config cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: blue ocean tree moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label cookie = blue ocean tree moon",
+    "expected": "* Label cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"cookie\": blue ocean tree moon",
+    "expected": "+ Label \"cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- cookie: blue ocean tree moon",
+    "expected": "- cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: \"blue ocean tree moon\"",
+    "expected": "- Config cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: BLUE ocean tree moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label cookie = BLUE ocean tree moon",
+    "expected": "* Label cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"cookie\": BLUE ocean tree moon",
+    "expected": "+ Label \"cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- cookie: BLUE ocean tree moon",
+    "expected": "- cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: \"BLUE ocean tree moon\"",
+    "expected": "- Config cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: bLuE ocean tree moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label cookie = bLuE ocean tree moon",
+    "expected": "* Label cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"cookie\": bLuE ocean tree moon",
+    "expected": "+ Label \"cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- cookie: bLuE ocean tree moon",
+    "expected": "- cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config cookie: \"bLuE ocean tree moon\"",
+    "expected": "- Config cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: Blue ocean tree moon",
+    "expected": "- Config COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label COOKIE = Blue ocean tree moon",
+    "expected": "* Label COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"COOKIE\": Blue ocean tree moon",
+    "expected": "+ Label \"COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- COOKIE: Blue ocean tree moon",
+    "expected": "- COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: \"Blue ocean tree moon\"",
+    "expected": "- Config COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: blue ocean tree moon",
+    "expected": "- Config COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label COOKIE = blue ocean tree moon",
+    "expected": "* Label COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"COOKIE\": blue ocean tree moon",
+    "expected": "+ Label \"COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- COOKIE: blue ocean tree moon",
+    "expected": "- COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: \"blue ocean tree moon\"",
+    "expected": "- Config COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: BLUE ocean tree moon",
+    "expected": "- Config COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label COOKIE = BLUE ocean tree moon",
+    "expected": "* Label COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"COOKIE\": BLUE ocean tree moon",
+    "expected": "+ Label \"COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- COOKIE: BLUE ocean tree moon",
+    "expected": "- COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: \"BLUE ocean tree moon\"",
+    "expected": "- Config COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: bLuE ocean tree moon",
+    "expected": "- Config COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label COOKIE = bLuE ocean tree moon",
+    "expected": "* Label COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"COOKIE\": bLuE ocean tree moon",
+    "expected": "+ Label \"COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- COOKIE: bLuE ocean tree moon",
+    "expected": "- COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config COOKIE: \"bLuE ocean tree moon\"",
+    "expected": "- Config COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config cookie: Blue%20ocean%20tree%20moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config cookie: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config cookie: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config cookie: Blue\tocean\ttree\tmoon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config cookie: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: Blue ocean tree moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label set_cookie = Blue ocean tree moon",
+    "expected": "* Label set_cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"set_cookie\": Blue ocean tree moon",
+    "expected": "+ Label \"set_cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- set_cookie: Blue ocean tree moon",
+    "expected": "- set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: \"Blue ocean tree moon\"",
+    "expected": "- Config set_cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: blue ocean tree moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label set_cookie = blue ocean tree moon",
+    "expected": "* Label set_cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"set_cookie\": blue ocean tree moon",
+    "expected": "+ Label \"set_cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- set_cookie: blue ocean tree moon",
+    "expected": "- set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: \"blue ocean tree moon\"",
+    "expected": "- Config set_cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: BLUE ocean tree moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label set_cookie = BLUE ocean tree moon",
+    "expected": "* Label set_cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"set_cookie\": BLUE ocean tree moon",
+    "expected": "+ Label \"set_cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- set_cookie: BLUE ocean tree moon",
+    "expected": "- set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: \"BLUE ocean tree moon\"",
+    "expected": "- Config set_cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: bLuE ocean tree moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label set_cookie = bLuE ocean tree moon",
+    "expected": "* Label set_cookie = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"set_cookie\": bLuE ocean tree moon",
+    "expected": "+ Label \"set_cookie\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- set_cookie: bLuE ocean tree moon",
+    "expected": "- set_cookie: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config set_cookie: \"bLuE ocean tree moon\"",
+    "expected": "- Config set_cookie: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: Blue ocean tree moon",
+    "expected": "- Config SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SET_COOKIE = Blue ocean tree moon",
+    "expected": "* Label SET_COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SET_COOKIE\": Blue ocean tree moon",
+    "expected": "+ Label \"SET_COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SET_COOKIE: Blue ocean tree moon",
+    "expected": "- SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: \"Blue ocean tree moon\"",
+    "expected": "- Config SET_COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: blue ocean tree moon",
+    "expected": "- Config SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SET_COOKIE = blue ocean tree moon",
+    "expected": "* Label SET_COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SET_COOKIE\": blue ocean tree moon",
+    "expected": "+ Label \"SET_COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SET_COOKIE: blue ocean tree moon",
+    "expected": "- SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: \"blue ocean tree moon\"",
+    "expected": "- Config SET_COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: BLUE ocean tree moon",
+    "expected": "- Config SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SET_COOKIE = BLUE ocean tree moon",
+    "expected": "* Label SET_COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SET_COOKIE\": BLUE ocean tree moon",
+    "expected": "+ Label \"SET_COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SET_COOKIE: BLUE ocean tree moon",
+    "expected": "- SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: \"BLUE ocean tree moon\"",
+    "expected": "- Config SET_COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: bLuE ocean tree moon",
+    "expected": "- Config SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "* Label SET_COOKIE = bLuE ocean tree moon",
+    "expected": "* Label SET_COOKIE = [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "+ Label \"SET_COOKIE\": bLuE ocean tree moon",
+    "expected": "+ Label \"SET_COOKIE\": [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- SET_COOKIE: bLuE ocean tree moon",
+    "expected": "- SET_COOKIE: [REDACTED]"
+  },
+  {
+    "family": "markdown_passphrase",
+    "input": "- Config SET_COOKIE: \"bLuE ocean tree moon\"",
+    "expected": "- Config SET_COOKIE: \"[REDACTED]\""
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config set_cookie: Blue%20ocean%20tree%20moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config set_cookie: Blue\\u0020ocean\\u0020tree\\u0020moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config set_cookie: Blue&#32;ocean&#32;tree&#32;moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config set_cookie: Blue\tocean\ttree\tmoon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "encoded_passphrase",
+    "input": "- Config set_cookie: Blue\u00a0ocean\u00a0tree\u00a0moon",
+    "expected": "- Config set_cookie: [REDACTED]"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "- A color: Blue ocean tree moon",
+    "expected": "- A color: Blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "* A status: Blue ocean tree moon",
+    "expected": "* A status: Blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "+ A description: Blue ocean tree moon",
+    "expected": "+ A description: Blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "- A color: blue ocean tree moon",
+    "expected": "- A color: blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "* A status: blue ocean tree moon",
+    "expected": "* A status: blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "+ A description: blue ocean tree moon",
+    "expected": "+ A description: blue ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "- A color: BLUE ocean tree moon",
+    "expected": "- A color: BLUE ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "* A status: BLUE ocean tree moon",
+    "expected": "* A status: BLUE ocean tree moon"
+  },
+  {
+    "family": "noncredential_words",
+    "input": "+ A description: BLUE ocean tree moon",
+    "expected": "+ A description: BLUE ocean tree moon"
+  }
+]
