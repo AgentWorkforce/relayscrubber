@@ -46,13 +46,14 @@
   {
     "family": "markdown-prose",
     "input": "- Note token: The fox, ok",
-    "expected": "- Note token: [REDACTED] fox, ok",
+    "expected": "- Note token: [REDACTED], ok",
     "spans": [
       {
-        "end": 17,
-        "start": 14
+        "start": 14,
+        "end": 21
       }
-    ]
+    ],
+    "reviewRuling": "explicit credential passphrase; prose precision expectation withdrawn"
   },
   {
     "family": "object-call_whitespace",
@@ -233,46 +234,50 @@
   {
     "family": "markdown_prose_case",
     "input": "- Note token: A fox, ok",
-    "expected": "- Note token: [REDACTED] fox, ok",
+    "expected": "- Note token: [REDACTED], ok",
     "spans": [
       {
         "start": 14,
-        "end": 15
+        "end": 19
       }
-    ]
+    ],
+    "reviewRuling": "explicit credential passphrase; prose precision expectation withdrawn"
   },
   {
     "family": "markdown_prose_case",
     "input": "- Note token: Another fox, ok",
-    "expected": "- Note token: [REDACTED] fox, ok",
+    "expected": "- Note token: [REDACTED], ok",
     "spans": [
       {
         "start": 14,
-        "end": 21
+        "end": 25
       }
-    ]
+    ],
+    "reviewRuling": "explicit credential passphrase; prose precision expectation withdrawn"
   },
   {
     "family": "markdown_prose_case",
     "input": "- Note token: LOWER fox, ok",
-    "expected": "- Note token: [REDACTED] fox, ok",
+    "expected": "- Note token: [REDACTED], ok",
     "spans": [
       {
         "start": 14,
-        "end": 19
+        "end": 23
       }
-    ]
+    ],
+    "reviewRuling": "explicit credential passphrase; prose precision expectation withdrawn"
   },
   {
     "family": "markdown_prose_case",
     "input": "- Note token: lower fox, ok",
-    "expected": "- Note token: [REDACTED] fox, ok",
+    "expected": "- Note token: [REDACTED], ok",
     "spans": [
       {
         "start": 14,
-        "end": 19
+        "end": 23
       }
-    ]
+    ],
+    "reviewRuling": "explicit credential passphrase; prose precision expectation withdrawn"
   },
   {
     "family": "complete_rejected_extent",

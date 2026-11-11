@@ -6118,5 +6118,305 @@
     "family": "noncredential_words",
     "input": "+ A description: BLUE ocean tree moon",
     "expected": "+ A description: BLUE ocean tree moon"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config password: Blue ocean tree moon",
+    "expected": "\t- Config password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config password: blue ocean tree moon",
+    "expected": "\t- Config password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config password: BLUE ocean tree moon",
+    "expected": "\t- Config password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label password: Blue ocean tree moon",
+    "expected": "\u00a0* Label password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label password: blue ocean tree moon",
+    "expected": "\u00a0* Label password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label password: BLUE ocean tree moon",
+    "expected": "\u00a0* Label password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: Blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: BLUE ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label password: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config password: Blue&#x20;ocean&#x20;tree&#x20;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config password: Blue&nbsp;ocean&nbsp;tree&nbsp;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config password: Blue&amp;#32;ocean&amp;#32;tree&amp;#32;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config password: Blue&AMP;amp;#x20;ocean&AMP;amp;#x20;tree&AMP;amp;#x20;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config password: Blue&#000000000000000000032;ocean&#000000000000000000032;tree&#000000000000000000032;moon",
+    "expected": "- Config password: [REDACTED]"
+  },
+  {
+    "family": "entity_delimiter_boundary",
+    "input": "- Config password: Blue&amp;#32;ocean, next",
+    "expected": "- Config password: [REDACTED], next"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config token: Blue ocean tree moon",
+    "expected": "\t- Config token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config token: blue ocean tree moon",
+    "expected": "\t- Config token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config token: BLUE ocean tree moon",
+    "expected": "\t- Config token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label token: Blue ocean tree moon",
+    "expected": "\u00a0* Label token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label token: blue ocean tree moon",
+    "expected": "\u00a0* Label token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label token: BLUE ocean tree moon",
+    "expected": "\u00a0* Label token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: Blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: BLUE ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label token: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config token: Blue&#x20;ocean&#x20;tree&#x20;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config token: Blue&nbsp;ocean&nbsp;tree&nbsp;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config token: Blue&amp;#32;ocean&amp;#32;tree&amp;#32;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config token: Blue&AMP;amp;#x20;ocean&AMP;amp;#x20;tree&AMP;amp;#x20;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config token: Blue&#000000000000000000032;ocean&#000000000000000000032;tree&#000000000000000000032;moon",
+    "expected": "- Config token: [REDACTED]"
+  },
+  {
+    "family": "entity_delimiter_boundary",
+    "input": "- Config token: Blue&amp;#32;ocean, next",
+    "expected": "- Config token: [REDACTED], next"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config api_key: Blue ocean tree moon",
+    "expected": "\t- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config api_key: blue ocean tree moon",
+    "expected": "\t- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config api_key: BLUE ocean tree moon",
+    "expected": "\t- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label api_key: Blue ocean tree moon",
+    "expected": "\u00a0* Label api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label api_key: blue ocean tree moon",
+    "expected": "\u00a0* Label api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label api_key: BLUE ocean tree moon",
+    "expected": "\u00a0* Label api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: Blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: BLUE ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config api_key: Blue&#x20;ocean&#x20;tree&#x20;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config api_key: Blue&nbsp;ocean&nbsp;tree&nbsp;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config api_key: Blue&amp;#32;ocean&amp;#32;tree&amp;#32;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config api_key: Blue&AMP;amp;#x20;ocean&AMP;amp;#x20;tree&AMP;amp;#x20;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config api_key: Blue&#000000000000000000032;ocean&#000000000000000000032;tree&#000000000000000000032;moon",
+    "expected": "- Config api_key: [REDACTED]"
+  },
+  {
+    "family": "entity_delimiter_boundary",
+    "input": "- Config api_key: Blue&amp;#32;ocean, next",
+    "expected": "- Config api_key: [REDACTED], next"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config client_secret: Blue ocean tree moon",
+    "expected": "\t- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config client_secret: blue ocean tree moon",
+    "expected": "\t- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\t- Config client_secret: BLUE ocean tree moon",
+    "expected": "\t- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label client_secret: Blue ocean tree moon",
+    "expected": "\u00a0* Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label client_secret: blue ocean tree moon",
+    "expected": "\u00a0* Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "\u00a0* Label client_secret: BLUE ocean tree moon",
+    "expected": "\u00a0* Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: Blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: blue ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "indented_bullet_passphrase",
+    "input": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: BLUE ocean tree moon",
+    "expected": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                - Label client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config client_secret: Blue&#x20;ocean&#x20;tree&#x20;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config client_secret: Blue&nbsp;ocean&nbsp;tree&nbsp;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config client_secret: Blue&amp;#32;ocean&amp;#32;tree&amp;#32;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config client_secret: Blue&AMP;amp;#x20;ocean&AMP;amp;#x20;tree&AMP;amp;#x20;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_passphrase",
+    "input": "- Config client_secret: Blue&#000000000000000000032;ocean&#000000000000000000032;tree&#000000000000000000032;moon",
+    "expected": "- Config client_secret: [REDACTED]"
+  },
+  {
+    "family": "entity_delimiter_boundary",
+    "input": "- Config client_secret: Blue&amp;#32;ocean, next",
+    "expected": "- Config client_secret: [REDACTED], next"
   }
 ]
