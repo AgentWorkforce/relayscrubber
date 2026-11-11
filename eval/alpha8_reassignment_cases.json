@@ -59304,12 +59304,9 @@
     ]
   },
   {
-    "family": "word_prefix_assignment",
+    "family": "existing_public_session_identifier_control",
     "input": "export default session_id = \"plain-secret\";",
-    "allowedExpected": [
-      "export default session_id = \"[REDACTED]\";",
-      "export default session_id = \"[REDACTED]\""
-    ]
+    "expected": "export default session_id = \"plain-secret\";"
   },
   {
     "family": "word_prefix_assignment",
@@ -59328,12 +59325,9 @@
     ]
   },
   {
-    "family": "word_prefix_assignment",
+    "family": "existing_public_session_identifier_control",
     "input": "notice config session_id = \"plain-secret\";",
-    "allowedExpected": [
-      "notice config session_id = \"[REDACTED]\";",
-      "notice config session_id = \"[REDACTED]\""
-    ]
+    "expected": "notice config session_id = \"plain-secret\";"
   },
   {
     "family": "word_prefix_assignment",
@@ -59352,12 +59346,9 @@
     ]
   },
   {
-    "family": "word_prefix_assignment",
+    "family": "existing_public_session_identifier_control",
     "input": "export default SESSION_ID = \"plain-secret\";",
-    "allowedExpected": [
-      "export default SESSION_ID = \"[REDACTED]\";",
-      "export default SESSION_ID = \"[REDACTED]\""
-    ]
+    "expected": "export default SESSION_ID = \"plain-secret\";"
   },
   {
     "family": "word_prefix_assignment",
@@ -59376,12 +59367,9 @@
     ]
   },
   {
-    "family": "word_prefix_assignment",
+    "family": "existing_public_session_identifier_control",
     "input": "notice config SESSION_ID = \"plain-secret\";",
-    "allowedExpected": [
-      "notice config SESSION_ID = \"[REDACTED]\";",
-      "notice config SESSION_ID = \"[REDACTED]\""
-    ]
+    "expected": "notice config SESSION_ID = \"plain-secret\";"
   },
   {
     "family": "word_prefix_assignment",
@@ -60638,5 +60626,645 @@
       "notice config PROVIDER_API_KEY = [REDACTED];",
       "notice config PROVIDER_API_KEY = [REDACTED]"
     ]
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = Bearer plain-secret;",
+    "expected": "# password = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = Bearer plain-secret trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = Bearer summerDays;",
+    "expected": "# password = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = Bearer summerDays trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = bearer plain-secret;",
+    "expected": "# password = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = bearer plain-secret trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = bearer summerDays;",
+    "expected": "# password = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = bearer summerDays trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = BEARER\tplain-secret;",
+    "expected": "# password = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = BEARER\tplain-secret trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = BEARER\tsummerDays;",
+    "expected": "# password = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = BEARER\tsummerDays trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = bEaReR  plain-secret;",
+    "expected": "# password = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = bEaReR  plain-secret trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# password = bEaReR  summerDays;",
+    "expected": "# password = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# password = bEaReR  summerDays trailingSecret;",
+    "expected": "# password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = Bearer plain-secret;",
+    "expected": "// password = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = Bearer plain-secret trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = Bearer summerDays;",
+    "expected": "// password = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = Bearer summerDays trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = bearer plain-secret;",
+    "expected": "// password = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = bearer plain-secret trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = bearer summerDays;",
+    "expected": "// password = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = bearer summerDays trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = BEARER\tplain-secret;",
+    "expected": "// password = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = BEARER\tplain-secret trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = BEARER\tsummerDays;",
+    "expected": "// password = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = BEARER\tsummerDays trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = bEaReR  plain-secret;",
+    "expected": "// password = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = bEaReR  plain-secret trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// password = bEaReR  summerDays;",
+    "expected": "// password = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// password = bEaReR  summerDays trailingSecret;",
+    "expected": "// password = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = Bearer plain-secret;",
+    "expected": "# PASSWORD = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = Bearer plain-secret trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = Bearer summerDays;",
+    "expected": "# PASSWORD = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = Bearer summerDays trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = bearer plain-secret;",
+    "expected": "# PASSWORD = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = bearer plain-secret trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = bearer summerDays;",
+    "expected": "# PASSWORD = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = bearer summerDays trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = BEARER\tplain-secret;",
+    "expected": "# PASSWORD = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = BEARER\tplain-secret trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = BEARER\tsummerDays;",
+    "expected": "# PASSWORD = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = BEARER\tsummerDays trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = bEaReR  plain-secret;",
+    "expected": "# PASSWORD = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = bEaReR  plain-secret trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# PASSWORD = bEaReR  summerDays;",
+    "expected": "# PASSWORD = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# PASSWORD = bEaReR  summerDays trailingSecret;",
+    "expected": "# PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = Bearer plain-secret;",
+    "expected": "// PASSWORD = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = Bearer plain-secret trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = Bearer summerDays;",
+    "expected": "// PASSWORD = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = Bearer summerDays trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = bearer plain-secret;",
+    "expected": "// PASSWORD = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = bearer plain-secret trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = bearer summerDays;",
+    "expected": "// PASSWORD = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = bearer summerDays trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = BEARER\tplain-secret;",
+    "expected": "// PASSWORD = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = BEARER\tplain-secret trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = BEARER\tsummerDays;",
+    "expected": "// PASSWORD = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = BEARER\tsummerDays trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = bEaReR  plain-secret;",
+    "expected": "// PASSWORD = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = bEaReR  plain-secret trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// PASSWORD = bEaReR  summerDays;",
+    "expected": "// PASSWORD = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// PASSWORD = bEaReR  summerDays trailingSecret;",
+    "expected": "// PASSWORD = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = Bearer plain-secret;",
+    "expected": "# token = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = Bearer plain-secret trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = Bearer summerDays;",
+    "expected": "# token = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = Bearer summerDays trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = bearer plain-secret;",
+    "expected": "# token = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = bearer plain-secret trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = bearer summerDays;",
+    "expected": "# token = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = bearer summerDays trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = BEARER\tplain-secret;",
+    "expected": "# token = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = BEARER\tplain-secret trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = BEARER\tsummerDays;",
+    "expected": "# token = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = BEARER\tsummerDays trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = bEaReR  plain-secret;",
+    "expected": "# token = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = bEaReR  plain-secret trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# token = bEaReR  summerDays;",
+    "expected": "# token = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# token = bEaReR  summerDays trailingSecret;",
+    "expected": "# token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = Bearer plain-secret;",
+    "expected": "// token = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = Bearer plain-secret trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = Bearer summerDays;",
+    "expected": "// token = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = Bearer summerDays trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = bearer plain-secret;",
+    "expected": "// token = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = bearer plain-secret trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = bearer summerDays;",
+    "expected": "// token = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = bearer summerDays trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = BEARER\tplain-secret;",
+    "expected": "// token = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = BEARER\tplain-secret trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = BEARER\tsummerDays;",
+    "expected": "// token = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = BEARER\tsummerDays trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = bEaReR  plain-secret;",
+    "expected": "// token = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = bEaReR  plain-secret trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// token = bEaReR  summerDays;",
+    "expected": "// token = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// token = bEaReR  summerDays trailingSecret;",
+    "expected": "// token = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = Bearer plain-secret;",
+    "expected": "# api_key = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = Bearer plain-secret trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = Bearer summerDays;",
+    "expected": "# api_key = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = Bearer summerDays trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = bearer plain-secret;",
+    "expected": "# api_key = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = bearer plain-secret trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = bearer summerDays;",
+    "expected": "# api_key = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = bearer summerDays trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = BEARER\tplain-secret;",
+    "expected": "# api_key = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = BEARER\tplain-secret trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = BEARER\tsummerDays;",
+    "expected": "# api_key = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = BEARER\tsummerDays trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = bEaReR  plain-secret;",
+    "expected": "# api_key = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = bEaReR  plain-secret trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "# api_key = bEaReR  summerDays;",
+    "expected": "# api_key = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "# api_key = bEaReR  summerDays trailingSecret;",
+    "expected": "# api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = Bearer plain-secret;",
+    "expected": "// api_key = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = Bearer plain-secret trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = Bearer summerDays;",
+    "expected": "// api_key = Bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = Bearer summerDays trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = bearer plain-secret;",
+    "expected": "// api_key = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = bearer plain-secret trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = bearer summerDays;",
+    "expected": "// api_key = bearer [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = bearer summerDays trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = BEARER\tplain-secret;",
+    "expected": "// api_key = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = BEARER\tplain-secret trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = BEARER\tsummerDays;",
+    "expected": "// api_key = BEARER\t[REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = BEARER\tsummerDays trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = bEaReR  plain-secret;",
+    "expected": "// api_key = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = bEaReR  plain-secret trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
+  },
+  {
+    "family": "complete_comment_bearer_control",
+    "input": "// api_key = bEaReR  summerDays;",
+    "expected": "// api_key = bEaReR  [REDACTED];"
+  },
+  {
+    "family": "comment_bearer_tail_assignment",
+    "input": "// api_key = bEaReR  summerDays trailingSecret;",
+    "expected": "// api_key = [REDACTED];"
   }
 ]
