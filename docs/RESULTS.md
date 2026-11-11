@@ -4,11 +4,13 @@ Candidate version is `0.5.0-alpha.7`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
-## Current independent alpha.7 BLOCK and replacement
+## Current alpha.7 review repair and resolved expectation
 
-Independent review blocked head `dd0db036` for Markdown passphrase-tail leaks across native and exact hosted WASM. No engine/artifact PASS or publication clearance. The replacement removes word/case-based shortening and retains the four whitespace corrections. Five invented prose-preservation expectations are explicitly withdrawn as sensitive.
+Independent review blocked `dd0db036` for Markdown passphrase tails. Replacement code `3fc896a` removes word/case shortening, retains four whitespace corrections, closes inherited gaps, and keeps CLI argument grammar. Five original prose precision expectations are withdrawn as sensitive. No replacement engine/artifact PASS is claimed.
 
-Test-first 1,320 invented review controls reproduce 518 failures per API on the exact blocked native engine and hosted artifact. The expanded ruling also covers 435 inherited alpha.6 gaps. The local repair passes all controls and prior targeted security suites. Complete entity semicolons remain data only in rejected bullet credential extents; no global decoding or preservation exemption was added. Full fresh CI/artifact verification and independent review remain pending. See `docs/results/alpha7-passphrase-review-repair.json`. The previous generation evidence below is superseded and is not engine approval.
+The lead ruling ref `7456c09bd3e1`, resent by fab-pipe message `246182902534492160`, authorizes exactly one legacy correction: `eval/structural_cases.json` row10 `/10/expected`, family `prose_outside_assignment`. For input `- During the deployment discussion, auth: review the available alternatives.`, the old expectation `- During the deployment discussion, auth: [REDACTED] the available alternatives.` becomes `- During the deployment discussion, auth: [REDACTED]`. All other legacy rows and positive controls remain unchanged; nine case variants are added to the new review corpus.
+
+The 1,329 invented review controls reproduce 524 failures per API on exact blocked native/hosted WASM, and pass with the repair. Fresh vectors, full gates, artifact receipts and a replacement exact-head all-green run are required before one reviewer re-handoff. Evidence: `docs/results/alpha7-passphrase-review-repair.json`. The earlier generation evidence below is superseded and is not engine approval.
 
 ## Alpha.7 boundary-only verification
 

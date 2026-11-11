@@ -52,7 +52,7 @@
   {
     "family": "prose_outside_assignment",
     "input": "- During the deployment discussion, auth: review the available alternatives.",
-    "expected": "- During the deployment discussion, auth: [REDACTED] the available alternatives."
+    "expected": "- During the deployment discussion, auth: [REDACTED]"
   },
   {
     "family": "type_or_enum",

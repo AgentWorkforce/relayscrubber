@@ -6598,5 +6598,50 @@
     "family": "quoted_key_numeric_passphrase",
     "input": "- Config \"session_id\": 0 ocean tree moon",
     "expected": "- Config \"session_id\": [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, auth: review the available alternatives.",
+    "expected": "- During the deployment discussion, auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, auth: Review the available alternatives.",
+    "expected": "- During the deployment discussion, auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, auth: REVIEW the available alternatives.",
+    "expected": "- During the deployment discussion, auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, Auth: review the available alternatives.",
+    "expected": "- During the deployment discussion, Auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, Auth: Review the available alternatives.",
+    "expected": "- During the deployment discussion, Auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, Auth: REVIEW the available alternatives.",
+    "expected": "- During the deployment discussion, Auth: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, AUTH: review the available alternatives.",
+    "expected": "- During the deployment discussion, AUTH: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, AUTH: Review the available alternatives.",
+    "expected": "- During the deployment discussion, AUTH: [REDACTED]"
+  },
+  {
+    "family": "review_ruling_structural_prose_case",
+    "input": "- During the deployment discussion, AUTH: REVIEW the available alternatives.",
+    "expected": "- During the deployment discussion, AUTH: [REDACTED]"
   }
 ]
