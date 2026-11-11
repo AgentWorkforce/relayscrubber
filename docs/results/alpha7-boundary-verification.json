@@ -600,5 +600,7 @@
     "allManifestFilePinsVerified": true,
     "committedPinsEqual": true
   },
-  "sourceCiRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42972876745"
+  "sourceCiRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42972876745",
+  "status": "superseded by independent BLOCK on dd0db036",
+  "supersededBy": "alpha7-passphrase-review-repair.json"
 }

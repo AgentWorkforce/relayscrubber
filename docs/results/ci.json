@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "resolved-ruling-replacement-gates-in-progress",
+  "status": "identity-and-runtime-verified-independent-engine-review-pending",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
-  "sourceRunHead": "24a8b98ff1caed8640f8f3213a9adec34da3ab8c",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42972876745",
+  "codeCommit": "3fc896afece46905a40978af076bf5b9a913a2f2",
+  "sourceRunHead": "df4ea319c0bd4f61d0167e40fe77db47773f5115",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42984758558",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13834990441,
-  "artifactArchiveSha256": "3ab64330337abd3a1b111a396e099ebe4f2fcd39e2713a6d546e4e30f64e2d87",
-  "packageSha256": "523fb00289a4da9ab1595805bf804da4e5f20213f05b4338fb6c3d42b615b815",
+  "artifactId": 13838748927,
+  "artifactArchiveSha256": "3fa41795a2e07e38545fc8553d2866d055dc2051f0b1c233dc149ed977d5cbda",
+  "packageSha256": "adb643dadac708b934ce91ce39fa7d4c34d205dc9e55c657ea649680675ce51a",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+    "rulesetSourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
     "crateVersion": "0.5.0-alpha.7",
     "abiVersion": 2,
     "policy": "secrets",
@@ -23,7 +23,7 @@
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "c8e8941f1c5728bcb8f0215e7e3590e184f442d9319141c5d8cb6fef1aa9f7e9",
+    "relayscrubber_bg.wasm": "0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -33,11 +33,20 @@
     "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
   },
   "sameEnvironmentReproduction": "passed",
-  "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
-  "independentEngineReview": "BLOCK on prior candidate; replacement pending",
-  "runtimeChecks": "Rust1.88 Linux104/Windows104 fmt/clippy, all unchanged matrices/limits; Node731/Bun731 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded unbounded alpha7 pin comparison; receipt-only exact-head gate still required.",
   "blockedPredecessor": "dd0db0361808c086ddb9e4f5f05c88124ebdc975",
-  "supersededReason": "Markdown passphrase review BLOCK; current code3fc896a needs fresh artifact/pins.",
-  "ruling": "Lead ref7456c09bd3e1 authorizes structural_cases row10 full-redaction expectation; all other legacy rows unchanged."
+  "independentEngineReview": "replacement pending; prior candidate blocked",
+  "authorizedLegacyCorrection": {
+    "file": "eval/structural_cases.json",
+    "row": 10,
+    "jsonPointer": "/10/expected",
+    "family": "prose_outside_assignment",
+    "input": "- During the deployment discussion, auth: review the available alternatives.",
+    "oldExpected": "- During the deployment discussion, auth: [REDACTED] the available alternatives.",
+    "newExpected": "- During the deployment discussion, auth: [REDACTED]",
+    "authority": "relayscrubber-lead ruling ref7456c09bd3e1, relayed by fab-pipe message246182902534492160",
+    "caseVariantsAdded": 9,
+    "allOtherLegacyRowsUnchanged": true
+  },
+  "runtimeChecks": "Rust1.88 Linux105/Windows105 fmt/clippy; Node732/Bun732; fresh226004text/226009structured; frozen199 zero misses/regressions/secondpass; Workers/repro/packaging and downloaded package replay pass. Source WASM fails only superseded pinned artifact equality; receipt-only exact-head gate required."
 }
