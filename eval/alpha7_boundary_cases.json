@@ -458,5 +458,2468 @@
     "family": "pascal_rejected_tail",
     "input": "const options = {token: String M8zR4vK7nP2qW6xAq9 };",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label password: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label password: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label password: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pwd: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label pin: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label pin: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label pin: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label passphrase: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label passphrase: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label passphrase: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label client_secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label client_secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label client_secret: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label api_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label api_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label api_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label access_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label access_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label access_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label account_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label account_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label account_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label secret_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label secret_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label secret_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label private_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label private_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label private_key: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label token: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label token: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label token: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label accessToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label accessToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label accessToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label refreshToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label refreshToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label refreshToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label idToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label idToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label idToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label sessionToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label sessionToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label sessionToken: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label session_id: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label session_id: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label session_id: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credential: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credential: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credential: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label credentials: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label credentials: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label credentials: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label auth: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label auth: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label auth: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label bearer: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label bearer: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label bearer: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label proxy_authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label proxy_authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label proxy_authorization: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "- Label set_cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "* Label set_cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The \"plain-secret\", ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The /* plain-secret */, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The //plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The M8zR4vK7nP2qW6xAq9, ok",
+    "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The \\x70lain-secret, ok",
+    "secret": "\\x70lain-secret"
+  },
+  {
+    "family": "markdown_literal_and_tail_attack",
+    "input": "+ Label set_cookie: The /plain-secret/, ok",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "quoted_internal_whitespace",
+    "input": "- Label token: \"The fox  \", ok",
+    "expected": "- Label token: \"[REDACTED]\", ok",
+    "spans": [
+      {
+        "start": 16,
+        "end": 25
+      }
+    ]
+  },
+  {
+    "family": "quoted_internal_whitespace",
+    "input": "- Label token: 'The fox  ', ok",
+    "expected": "- Label token: '[REDACTED]', ok",
+    "spans": [
+      {
+        "start": 16,
+        "end": 25
+      }
+    ]
+  },
+  {
+    "family": "quoted_internal_whitespace",
+    "input": "- Label token: `The fox  `, ok",
+    "expected": "- Label token: `[REDACTED]`, ok",
+    "spans": [
+      {
+        "start": 16,
+        "end": 25
+      }
+    ]
   }
 ]
