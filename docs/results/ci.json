@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "superseded-awaiting-bounded-prefix-artifact",
+  "status": "identity-and-runtime-verified-independent-engine-review-pending",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
-  "sourceRunHead": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42969184638",
+  "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
+  "sourceRunHead": "24a8b98ff1caed8640f8f3213a9adec34da3ab8c",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42972876745",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13833632205,
-  "artifactArchiveSha256": "50598534fa1c07daedcb8fe651b2e6b3b51c6ac884e50265816ce9c3cda8e54f",
-  "packageSha256": "8568d4d8a0b573d5c445e8aa6914c1cc2140213909ee67eedb9355ec0fa5992f",
+  "artifactId": 13834990441,
+  "artifactArchiveSha256": "3ab64330337abd3a1b111a396e099ebe4f2fcd39e2713a6d546e4e30f64e2d87",
+  "packageSha256": "523fb00289a4da9ab1595805bf804da4e5f20213f05b4338fb6c3d42b615b815",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "43a70eaad0d3608120886f19ffd7b933f850b84a7de229aa1c73822bae5137b8",
+    "rulesetSourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
     "crateVersion": "0.5.0-alpha.7",
     "abiVersion": 2,
     "policy": "secrets",
@@ -23,7 +23,7 @@
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "d77fc42d63eb492c46e481d695f9471caba2ab46538ca2a9a03ed1f55abf5d61",
+    "relayscrubber_bg.wasm": "c8e8941f1c5728bcb8f0215e7e3590e184f442d9319141c5d8cb6fef1aa9f7e9",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -36,6 +36,5 @@
   "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
   "independentEngineReview": "alpha7 pending; alpha6 reviewed separately",
-  "runtimeChecks": "Rust1.88 Linux103/Windows103 fmt/clippy, all unchanged matrices/limits; Node730/Bun730 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded alpha6 pin comparison; receipt-only exact-head gate still required.",
-  "supersededReason": "Boundary helper long-prefix timing failure; source7ce3fb1 requires fresh artifact/pins."
+  "runtimeChecks": "Rust1.88 Linux104/Windows104 fmt/clippy, all unchanged matrices/limits; Node731/Bun731 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded unbounded alpha7 pin comparison; receipt-only exact-head gate still required."
 }

@@ -15,5 +15,5 @@
   "greenNativeDebugSeconds": 1.106,
   "nativeLimitSeconds": 10,
   "wasmLimitSeconds": 5,
-  "hostedVerification": "pending fresh source artifact; old pins not current"
+  "hostedVerification": "source CI native104/Node731/Bun731 and downloaded package replay passed"
 }

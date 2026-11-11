@@ -6,7 +6,7 @@
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "43a70eaad0d3608120886f19ffd7b933f850b84a7de229aa1c73822bae5137b8",
+    "rulesetSourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
     "crateVersion": "0.5.0-alpha.7",
     "abiVersion": 2,
     "policy": "secrets",
@@ -14,7 +14,7 @@
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "d77fc42d63eb492c46e481d695f9471caba2ab46538ca2a9a03ed1f55abf5d61",
+    "relayscrubber_bg.wasm": "c8e8941f1c5728bcb8f0215e7e3590e184f442d9319141c5d8cb6fef1aa9f7e9",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
