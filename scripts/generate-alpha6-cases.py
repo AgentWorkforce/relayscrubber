@@ -33,6 +33,15 @@ for prefix in ["", "const "]:
         hide("block_comment_rhs_attack", f"{prefix}token = /*{literal}*/;", literal)
     for slash in ["%2F", "%252f", r"\x2f", r"\u002f"]:
         hide("encoded_comment_lexer_attack", f"{prefix}token = widget.value {slash}{slash}plain-secret{slash};", "plain-secret")
+for expression in ["await readWidget(input)", "new Widget(input)"]:
+    for literal in ["plain-secret", "123456"]:
+        for tail in [f" {literal}", f" //{literal}/", f" /*{literal}*/"]:
+            hide("keyword_reference_rejected_tail", f"token = {expression}{tail};", literal)
+        hide("keyword_reference_literal_argument", f'token = {expression.replace("input", json.dumps(literal))};', literal)
+        hide("object_keyword_literal_argument", f'const options = {{token: {expression.replace("input", json.dumps(literal))}}};', literal)
+for literal in ["plain-secret", "123456"]:
+    for expression in [f'parseToken("{literal}")', f'"{literal}"']:
+        hide("switch_short_literal", f'case "token": return {expression};', literal)
 for family, expression in forms.items():
     for prefix in ["", "const "]:
         for literal in ["plain-secret", "123456"]:

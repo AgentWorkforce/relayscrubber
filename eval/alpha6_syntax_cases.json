@@ -60,6 +60,126 @@
     "secret": "plain-secret"
   },
   {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_literal_argument",
+    "input": "token = await readWidget(\"plain-secret\");",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_keyword_literal_argument",
+    "input": "const options = {token: await readWidget(\"plain-secret\")};",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = await readWidget(input) /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_literal_argument",
+    "input": "token = await readWidget(\"123456\");",
+    "secret": "123456"
+  },
+  {
+    "family": "object_keyword_literal_argument",
+    "input": "const options = {token: await readWidget(\"123456\")};",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) plain-secret;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) /*plain-secret*/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_literal_argument",
+    "input": "token = new Widget(\"plain-secret\");",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "object_keyword_literal_argument",
+    "input": "const options = {token: new Widget(\"plain-secret\")};",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) 123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) //123456/;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_rejected_tail",
+    "input": "token = new Widget(input) /*123456*/;",
+    "secret": "123456"
+  },
+  {
+    "family": "keyword_reference_literal_argument",
+    "input": "token = new Widget(\"123456\");",
+    "secret": "123456"
+  },
+  {
+    "family": "object_keyword_literal_argument",
+    "input": "const options = {token: new Widget(\"123456\")};",
+    "secret": "123456"
+  },
+  {
+    "family": "switch_short_literal",
+    "input": "case \"token\": return parseToken(\"plain-secret\");",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "switch_short_literal",
+    "input": "case \"token\": return \"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "switch_short_literal",
+    "input": "case \"token\": return parseToken(\"123456\");",
+    "secret": "123456"
+  },
+  {
+    "family": "switch_short_literal",
+    "input": "case \"token\": return \"123456\";",
+    "secret": "123456"
+  },
+  {
     "family": "regex_comment_lexer_attack",
     "input": "token = /widget[a-z]+/g //plain-secret/;",
     "secret": "plain-secret"
