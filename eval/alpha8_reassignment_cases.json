@@ -32400,20 +32400,14 @@
     ]
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "session_id = summerdays;",
-    "allowedExpected": [
-      "session_id = [REDACTED];",
-      "session_id = [REDACTED]"
-    ]
+    "expected": "session_id = summerdays;"
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "session_id = plain-secret;",
-    "allowedExpected": [
-      "session_id = [REDACTED];",
-      "session_id = [REDACTED]"
-    ]
+    "expected": "session_id = plain-secret;"
   },
   {
     "family": "bare_literal_control",
@@ -32849,20 +32843,14 @@
     ]
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "export session_id = summerdays;",
-    "allowedExpected": [
-      "export session_id = [REDACTED];",
-      "export session_id = [REDACTED]"
-    ]
+    "expected": "export session_id = summerdays;"
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "export session_id = plain-secret;",
-    "allowedExpected": [
-      "export session_id = [REDACTED];",
-      "export session_id = [REDACTED]"
-    ]
+    "expected": "export session_id = plain-secret;"
   },
   {
     "family": "bare_literal_control",
@@ -33298,20 +33286,14 @@
     ]
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "SESSION_ID = summerdays;",
-    "allowedExpected": [
-      "SESSION_ID = [REDACTED];",
-      "SESSION_ID = [REDACTED]"
-    ]
+    "expected": "SESSION_ID = summerdays;"
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "SESSION_ID = plain-secret;",
-    "allowedExpected": [
-      "SESSION_ID = [REDACTED];",
-      "SESSION_ID = [REDACTED]"
-    ]
+    "expected": "SESSION_ID = plain-secret;"
   },
   {
     "family": "bare_literal_control",
@@ -33747,20 +33729,14 @@
     ]
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "export SESSION_ID = summerdays;",
-    "allowedExpected": [
-      "export SESSION_ID = [REDACTED];",
-      "export SESSION_ID = [REDACTED]"
-    ]
+    "expected": "export SESSION_ID = summerdays;"
   },
   {
-    "family": "bare_literal_control",
+    "family": "existing_public_session_identifier_control",
     "input": "export SESSION_ID = plain-secret;",
-    "allowedExpected": [
-      "export SESSION_ID = [REDACTED];",
-      "export SESSION_ID = [REDACTED]"
-    ]
+    "expected": "export SESSION_ID = plain-secret;"
   },
   {
     "family": "bare_literal_control",
@@ -57590,5 +57566,3077 @@
     "family": "noncredential_control",
     "input": "mode = widget.readToken(input);",
     "expected": "mode = widget.readToken(input);"
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default password = summerDays;",
+    "allowedExpected": [
+      "export default password = [REDACTED];",
+      "export default password = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default password = \"plain-secret\";",
+    "allowedExpected": [
+      "export default password = \"[REDACTED]\";",
+      "export default password = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default password = 123456;",
+    "allowedExpected": [
+      "export default password = [REDACTED];",
+      "export default password = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config password = summerDays;",
+    "allowedExpected": [
+      "notice config password = [REDACTED];",
+      "notice config password = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config password = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config password = \"[REDACTED]\";",
+      "notice config password = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config password = 123456;",
+    "allowedExpected": [
+      "notice config password = [REDACTED];",
+      "notice config password = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWORD = summerDays;",
+    "allowedExpected": [
+      "export default PASSWORD = [REDACTED];",
+      "export default PASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWORD = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PASSWORD = \"[REDACTED]\";",
+      "export default PASSWORD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWORD = 123456;",
+    "allowedExpected": [
+      "export default PASSWORD = [REDACTED];",
+      "export default PASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWORD = summerDays;",
+    "allowedExpected": [
+      "notice config PASSWORD = [REDACTED];",
+      "notice config PASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWORD = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PASSWORD = \"[REDACTED]\";",
+      "notice config PASSWORD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWORD = 123456;",
+    "allowedExpected": [
+      "notice config PASSWORD = [REDACTED];",
+      "notice config PASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passwd = summerDays;",
+    "allowedExpected": [
+      "export default passwd = [REDACTED];",
+      "export default passwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passwd = \"plain-secret\";",
+    "allowedExpected": [
+      "export default passwd = \"[REDACTED]\";",
+      "export default passwd = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passwd = 123456;",
+    "allowedExpected": [
+      "export default passwd = [REDACTED];",
+      "export default passwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passwd = summerDays;",
+    "allowedExpected": [
+      "notice config passwd = [REDACTED];",
+      "notice config passwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passwd = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config passwd = \"[REDACTED]\";",
+      "notice config passwd = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passwd = 123456;",
+    "allowedExpected": [
+      "notice config passwd = [REDACTED];",
+      "notice config passwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWD = summerDays;",
+    "allowedExpected": [
+      "export default PASSWD = [REDACTED];",
+      "export default PASSWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWD = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PASSWD = \"[REDACTED]\";",
+      "export default PASSWD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSWD = 123456;",
+    "allowedExpected": [
+      "export default PASSWD = [REDACTED];",
+      "export default PASSWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWD = summerDays;",
+    "allowedExpected": [
+      "notice config PASSWD = [REDACTED];",
+      "notice config PASSWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWD = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PASSWD = \"[REDACTED]\";",
+      "notice config PASSWD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSWD = 123456;",
+    "allowedExpected": [
+      "notice config PASSWD = [REDACTED];",
+      "notice config PASSWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pwd = summerDays;",
+    "allowedExpected": [
+      "export default pwd = [REDACTED];",
+      "export default pwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pwd = \"plain-secret\";",
+    "allowedExpected": [
+      "export default pwd = \"[REDACTED]\";",
+      "export default pwd = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pwd = 123456;",
+    "allowedExpected": [
+      "export default pwd = [REDACTED];",
+      "export default pwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pwd = summerDays;",
+    "allowedExpected": [
+      "notice config pwd = [REDACTED];",
+      "notice config pwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pwd = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config pwd = \"[REDACTED]\";",
+      "notice config pwd = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pwd = 123456;",
+    "allowedExpected": [
+      "notice config pwd = [REDACTED];",
+      "notice config pwd = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PWD = summerDays;",
+    "allowedExpected": [
+      "export default PWD = [REDACTED];",
+      "export default PWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PWD = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PWD = \"[REDACTED]\";",
+      "export default PWD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PWD = 123456;",
+    "allowedExpected": [
+      "export default PWD = [REDACTED];",
+      "export default PWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PWD = summerDays;",
+    "allowedExpected": [
+      "notice config PWD = [REDACTED];",
+      "notice config PWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PWD = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PWD = \"[REDACTED]\";",
+      "notice config PWD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PWD = 123456;",
+    "allowedExpected": [
+      "notice config PWD = [REDACTED];",
+      "notice config PWD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pin = summerDays;",
+    "allowedExpected": [
+      "export default pin = [REDACTED];",
+      "export default pin = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pin = \"plain-secret\";",
+    "allowedExpected": [
+      "export default pin = \"[REDACTED]\";",
+      "export default pin = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default pin = 123456;",
+    "allowedExpected": [
+      "export default pin = [REDACTED];",
+      "export default pin = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pin = summerDays;",
+    "allowedExpected": [
+      "notice config pin = [REDACTED];",
+      "notice config pin = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pin = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config pin = \"[REDACTED]\";",
+      "notice config pin = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config pin = 123456;",
+    "allowedExpected": [
+      "notice config pin = [REDACTED];",
+      "notice config pin = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PIN = summerDays;",
+    "allowedExpected": [
+      "export default PIN = [REDACTED];",
+      "export default PIN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PIN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PIN = \"[REDACTED]\";",
+      "export default PIN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PIN = 123456;",
+    "allowedExpected": [
+      "export default PIN = [REDACTED];",
+      "export default PIN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PIN = summerDays;",
+    "allowedExpected": [
+      "notice config PIN = [REDACTED];",
+      "notice config PIN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PIN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PIN = \"[REDACTED]\";",
+      "notice config PIN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PIN = 123456;",
+    "allowedExpected": [
+      "notice config PIN = [REDACTED];",
+      "notice config PIN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passphrase = summerDays;",
+    "allowedExpected": [
+      "export default passphrase = [REDACTED];",
+      "export default passphrase = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passphrase = \"plain-secret\";",
+    "allowedExpected": [
+      "export default passphrase = \"[REDACTED]\";",
+      "export default passphrase = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default passphrase = 123456;",
+    "allowedExpected": [
+      "export default passphrase = [REDACTED];",
+      "export default passphrase = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passphrase = summerDays;",
+    "allowedExpected": [
+      "notice config passphrase = [REDACTED];",
+      "notice config passphrase = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passphrase = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config passphrase = \"[REDACTED]\";",
+      "notice config passphrase = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config passphrase = 123456;",
+    "allowedExpected": [
+      "notice config passphrase = [REDACTED];",
+      "notice config passphrase = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSPHRASE = summerDays;",
+    "allowedExpected": [
+      "export default PASSPHRASE = [REDACTED];",
+      "export default PASSPHRASE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSPHRASE = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PASSPHRASE = \"[REDACTED]\";",
+      "export default PASSPHRASE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PASSPHRASE = 123456;",
+    "allowedExpected": [
+      "export default PASSPHRASE = [REDACTED];",
+      "export default PASSPHRASE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSPHRASE = summerDays;",
+    "allowedExpected": [
+      "notice config PASSPHRASE = [REDACTED];",
+      "notice config PASSPHRASE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSPHRASE = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PASSPHRASE = \"[REDACTED]\";",
+      "notice config PASSPHRASE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PASSPHRASE = 123456;",
+    "allowedExpected": [
+      "notice config PASSPHRASE = [REDACTED];",
+      "notice config PASSPHRASE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret = summerDays;",
+    "allowedExpected": [
+      "export default secret = [REDACTED];",
+      "export default secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret = \"plain-secret\";",
+    "allowedExpected": [
+      "export default secret = \"[REDACTED]\";",
+      "export default secret = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret = 123456;",
+    "allowedExpected": [
+      "export default secret = [REDACTED];",
+      "export default secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret = summerDays;",
+    "allowedExpected": [
+      "notice config secret = [REDACTED];",
+      "notice config secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config secret = \"[REDACTED]\";",
+      "notice config secret = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret = 123456;",
+    "allowedExpected": [
+      "notice config secret = [REDACTED];",
+      "notice config secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET = summerDays;",
+    "allowedExpected": [
+      "export default SECRET = [REDACTED];",
+      "export default SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SECRET = \"[REDACTED]\";",
+      "export default SECRET = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET = 123456;",
+    "allowedExpected": [
+      "export default SECRET = [REDACTED];",
+      "export default SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET = summerDays;",
+    "allowedExpected": [
+      "notice config SECRET = [REDACTED];",
+      "notice config SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SECRET = \"[REDACTED]\";",
+      "notice config SECRET = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET = 123456;",
+    "allowedExpected": [
+      "notice config SECRET = [REDACTED];",
+      "notice config SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default client_secret = summerDays;",
+    "allowedExpected": [
+      "export default client_secret = [REDACTED];",
+      "export default client_secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default client_secret = \"plain-secret\";",
+    "allowedExpected": [
+      "export default client_secret = \"[REDACTED]\";",
+      "export default client_secret = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default client_secret = 123456;",
+    "allowedExpected": [
+      "export default client_secret = [REDACTED];",
+      "export default client_secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config client_secret = summerDays;",
+    "allowedExpected": [
+      "notice config client_secret = [REDACTED];",
+      "notice config client_secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config client_secret = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config client_secret = \"[REDACTED]\";",
+      "notice config client_secret = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config client_secret = 123456;",
+    "allowedExpected": [
+      "notice config client_secret = [REDACTED];",
+      "notice config client_secret = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CLIENT_SECRET = summerDays;",
+    "allowedExpected": [
+      "export default CLIENT_SECRET = [REDACTED];",
+      "export default CLIENT_SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CLIENT_SECRET = \"plain-secret\";",
+    "allowedExpected": [
+      "export default CLIENT_SECRET = \"[REDACTED]\";",
+      "export default CLIENT_SECRET = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CLIENT_SECRET = 123456;",
+    "allowedExpected": [
+      "export default CLIENT_SECRET = [REDACTED];",
+      "export default CLIENT_SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CLIENT_SECRET = summerDays;",
+    "allowedExpected": [
+      "notice config CLIENT_SECRET = [REDACTED];",
+      "notice config CLIENT_SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CLIENT_SECRET = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config CLIENT_SECRET = \"[REDACTED]\";",
+      "notice config CLIENT_SECRET = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CLIENT_SECRET = 123456;",
+    "allowedExpected": [
+      "notice config CLIENT_SECRET = [REDACTED];",
+      "notice config CLIENT_SECRET = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default api_key = summerDays;",
+    "allowedExpected": [
+      "export default api_key = [REDACTED];",
+      "export default api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default api_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default api_key = \"[REDACTED]\";",
+      "export default api_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default api_key = 123456;",
+    "allowedExpected": [
+      "export default api_key = [REDACTED];",
+      "export default api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config api_key = summerDays;",
+    "allowedExpected": [
+      "notice config api_key = [REDACTED];",
+      "notice config api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config api_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config api_key = \"[REDACTED]\";",
+      "notice config api_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config api_key = 123456;",
+    "allowedExpected": [
+      "notice config api_key = [REDACTED];",
+      "notice config api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default API_KEY = summerDays;",
+    "allowedExpected": [
+      "export default API_KEY = [REDACTED];",
+      "export default API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default API_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default API_KEY = \"[REDACTED]\";",
+      "export default API_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default API_KEY = 123456;",
+    "allowedExpected": [
+      "export default API_KEY = [REDACTED];",
+      "export default API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config API_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config API_KEY = [REDACTED];",
+      "notice config API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config API_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config API_KEY = \"[REDACTED]\";",
+      "notice config API_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config API_KEY = 123456;",
+    "allowedExpected": [
+      "notice config API_KEY = [REDACTED];",
+      "notice config API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default access_key = summerDays;",
+    "allowedExpected": [
+      "export default access_key = [REDACTED];",
+      "export default access_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default access_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default access_key = \"[REDACTED]\";",
+      "export default access_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default access_key = 123456;",
+    "allowedExpected": [
+      "export default access_key = [REDACTED];",
+      "export default access_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config access_key = summerDays;",
+    "allowedExpected": [
+      "notice config access_key = [REDACTED];",
+      "notice config access_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config access_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config access_key = \"[REDACTED]\";",
+      "notice config access_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config access_key = 123456;",
+    "allowedExpected": [
+      "notice config access_key = [REDACTED];",
+      "notice config access_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESS_KEY = summerDays;",
+    "allowedExpected": [
+      "export default ACCESS_KEY = [REDACTED];",
+      "export default ACCESS_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESS_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default ACCESS_KEY = \"[REDACTED]\";",
+      "export default ACCESS_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESS_KEY = 123456;",
+    "allowedExpected": [
+      "export default ACCESS_KEY = [REDACTED];",
+      "export default ACCESS_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESS_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config ACCESS_KEY = [REDACTED];",
+      "notice config ACCESS_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESS_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config ACCESS_KEY = \"[REDACTED]\";",
+      "notice config ACCESS_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESS_KEY = 123456;",
+    "allowedExpected": [
+      "notice config ACCESS_KEY = [REDACTED];",
+      "notice config ACCESS_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default account_key = summerDays;",
+    "allowedExpected": [
+      "export default account_key = [REDACTED];",
+      "export default account_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default account_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default account_key = \"[REDACTED]\";",
+      "export default account_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default account_key = 123456;",
+    "allowedExpected": [
+      "export default account_key = [REDACTED];",
+      "export default account_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config account_key = summerDays;",
+    "allowedExpected": [
+      "notice config account_key = [REDACTED];",
+      "notice config account_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config account_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config account_key = \"[REDACTED]\";",
+      "notice config account_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config account_key = 123456;",
+    "allowedExpected": [
+      "notice config account_key = [REDACTED];",
+      "notice config account_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCOUNT_KEY = summerDays;",
+    "allowedExpected": [
+      "export default ACCOUNT_KEY = [REDACTED];",
+      "export default ACCOUNT_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCOUNT_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default ACCOUNT_KEY = \"[REDACTED]\";",
+      "export default ACCOUNT_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCOUNT_KEY = 123456;",
+    "allowedExpected": [
+      "export default ACCOUNT_KEY = [REDACTED];",
+      "export default ACCOUNT_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCOUNT_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config ACCOUNT_KEY = [REDACTED];",
+      "notice config ACCOUNT_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCOUNT_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config ACCOUNT_KEY = \"[REDACTED]\";",
+      "notice config ACCOUNT_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCOUNT_KEY = 123456;",
+    "allowedExpected": [
+      "notice config ACCOUNT_KEY = [REDACTED];",
+      "notice config ACCOUNT_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret_key = summerDays;",
+    "allowedExpected": [
+      "export default secret_key = [REDACTED];",
+      "export default secret_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default secret_key = \"[REDACTED]\";",
+      "export default secret_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default secret_key = 123456;",
+    "allowedExpected": [
+      "export default secret_key = [REDACTED];",
+      "export default secret_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret_key = summerDays;",
+    "allowedExpected": [
+      "notice config secret_key = [REDACTED];",
+      "notice config secret_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config secret_key = \"[REDACTED]\";",
+      "notice config secret_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config secret_key = 123456;",
+    "allowedExpected": [
+      "notice config secret_key = [REDACTED];",
+      "notice config secret_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET_KEY = summerDays;",
+    "allowedExpected": [
+      "export default SECRET_KEY = [REDACTED];",
+      "export default SECRET_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SECRET_KEY = \"[REDACTED]\";",
+      "export default SECRET_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SECRET_KEY = 123456;",
+    "allowedExpected": [
+      "export default SECRET_KEY = [REDACTED];",
+      "export default SECRET_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config SECRET_KEY = [REDACTED];",
+      "notice config SECRET_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SECRET_KEY = \"[REDACTED]\";",
+      "notice config SECRET_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SECRET_KEY = 123456;",
+    "allowedExpected": [
+      "notice config SECRET_KEY = [REDACTED];",
+      "notice config SECRET_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default private_key = summerDays;",
+    "allowedExpected": [
+      "export default private_key = [REDACTED];",
+      "export default private_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default private_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default private_key = \"[REDACTED]\";",
+      "export default private_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default private_key = 123456;",
+    "allowedExpected": [
+      "export default private_key = [REDACTED];",
+      "export default private_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config private_key = summerDays;",
+    "allowedExpected": [
+      "notice config private_key = [REDACTED];",
+      "notice config private_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config private_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config private_key = \"[REDACTED]\";",
+      "notice config private_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config private_key = 123456;",
+    "allowedExpected": [
+      "notice config private_key = [REDACTED];",
+      "notice config private_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PRIVATE_KEY = summerDays;",
+    "allowedExpected": [
+      "export default PRIVATE_KEY = [REDACTED];",
+      "export default PRIVATE_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PRIVATE_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PRIVATE_KEY = \"[REDACTED]\";",
+      "export default PRIVATE_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PRIVATE_KEY = 123456;",
+    "allowedExpected": [
+      "export default PRIVATE_KEY = [REDACTED];",
+      "export default PRIVATE_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PRIVATE_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config PRIVATE_KEY = [REDACTED];",
+      "notice config PRIVATE_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PRIVATE_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PRIVATE_KEY = \"[REDACTED]\";",
+      "notice config PRIVATE_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PRIVATE_KEY = 123456;",
+    "allowedExpected": [
+      "notice config PRIVATE_KEY = [REDACTED];",
+      "notice config PRIVATE_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default token = summerDays;",
+    "allowedExpected": [
+      "export default token = [REDACTED];",
+      "export default token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default token = \"plain-secret\";",
+    "allowedExpected": [
+      "export default token = \"[REDACTED]\";",
+      "export default token = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default token = 123456;",
+    "allowedExpected": [
+      "export default token = [REDACTED];",
+      "export default token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config token = summerDays;",
+    "allowedExpected": [
+      "notice config token = [REDACTED];",
+      "notice config token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config token = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config token = \"[REDACTED]\";",
+      "notice config token = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config token = 123456;",
+    "allowedExpected": [
+      "notice config token = [REDACTED];",
+      "notice config token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default TOKEN = summerDays;",
+    "allowedExpected": [
+      "export default TOKEN = [REDACTED];",
+      "export default TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default TOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default TOKEN = \"[REDACTED]\";",
+      "export default TOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default TOKEN = 123456;",
+    "allowedExpected": [
+      "export default TOKEN = [REDACTED];",
+      "export default TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config TOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config TOKEN = [REDACTED];",
+      "notice config TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config TOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config TOKEN = \"[REDACTED]\";",
+      "notice config TOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config TOKEN = 123456;",
+    "allowedExpected": [
+      "notice config TOKEN = [REDACTED];",
+      "notice config TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default accessToken = summerDays;",
+    "allowedExpected": [
+      "export default accessToken = [REDACTED];",
+      "export default accessToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default accessToken = \"plain-secret\";",
+    "allowedExpected": [
+      "export default accessToken = \"[REDACTED]\";",
+      "export default accessToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default accessToken = 123456;",
+    "allowedExpected": [
+      "export default accessToken = [REDACTED];",
+      "export default accessToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config accessToken = summerDays;",
+    "allowedExpected": [
+      "notice config accessToken = [REDACTED];",
+      "notice config accessToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config accessToken = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config accessToken = \"[REDACTED]\";",
+      "notice config accessToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config accessToken = 123456;",
+    "allowedExpected": [
+      "notice config accessToken = [REDACTED];",
+      "notice config accessToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESSTOKEN = summerDays;",
+    "allowedExpected": [
+      "export default ACCESSTOKEN = [REDACTED];",
+      "export default ACCESSTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESSTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default ACCESSTOKEN = \"[REDACTED]\";",
+      "export default ACCESSTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default ACCESSTOKEN = 123456;",
+    "allowedExpected": [
+      "export default ACCESSTOKEN = [REDACTED];",
+      "export default ACCESSTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESSTOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config ACCESSTOKEN = [REDACTED];",
+      "notice config ACCESSTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESSTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config ACCESSTOKEN = \"[REDACTED]\";",
+      "notice config ACCESSTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config ACCESSTOKEN = 123456;",
+    "allowedExpected": [
+      "notice config ACCESSTOKEN = [REDACTED];",
+      "notice config ACCESSTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authToken = summerDays;",
+    "allowedExpected": [
+      "export default authToken = [REDACTED];",
+      "export default authToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authToken = \"plain-secret\";",
+    "allowedExpected": [
+      "export default authToken = \"[REDACTED]\";",
+      "export default authToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authToken = 123456;",
+    "allowedExpected": [
+      "export default authToken = [REDACTED];",
+      "export default authToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authToken = summerDays;",
+    "allowedExpected": [
+      "notice config authToken = [REDACTED];",
+      "notice config authToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authToken = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config authToken = \"[REDACTED]\";",
+      "notice config authToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authToken = 123456;",
+    "allowedExpected": [
+      "notice config authToken = [REDACTED];",
+      "notice config authToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHTOKEN = summerDays;",
+    "allowedExpected": [
+      "export default AUTHTOKEN = [REDACTED];",
+      "export default AUTHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default AUTHTOKEN = \"[REDACTED]\";",
+      "export default AUTHTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHTOKEN = 123456;",
+    "allowedExpected": [
+      "export default AUTHTOKEN = [REDACTED];",
+      "export default AUTHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHTOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config AUTHTOKEN = [REDACTED];",
+      "notice config AUTHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config AUTHTOKEN = \"[REDACTED]\";",
+      "notice config AUTHTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHTOKEN = 123456;",
+    "allowedExpected": [
+      "notice config AUTHTOKEN = [REDACTED];",
+      "notice config AUTHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default refreshToken = summerDays;",
+    "allowedExpected": [
+      "export default refreshToken = [REDACTED];",
+      "export default refreshToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default refreshToken = \"plain-secret\";",
+    "allowedExpected": [
+      "export default refreshToken = \"[REDACTED]\";",
+      "export default refreshToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default refreshToken = 123456;",
+    "allowedExpected": [
+      "export default refreshToken = [REDACTED];",
+      "export default refreshToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config refreshToken = summerDays;",
+    "allowedExpected": [
+      "notice config refreshToken = [REDACTED];",
+      "notice config refreshToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config refreshToken = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config refreshToken = \"[REDACTED]\";",
+      "notice config refreshToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config refreshToken = 123456;",
+    "allowedExpected": [
+      "notice config refreshToken = [REDACTED];",
+      "notice config refreshToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default REFRESHTOKEN = summerDays;",
+    "allowedExpected": [
+      "export default REFRESHTOKEN = [REDACTED];",
+      "export default REFRESHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default REFRESHTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default REFRESHTOKEN = \"[REDACTED]\";",
+      "export default REFRESHTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default REFRESHTOKEN = 123456;",
+    "allowedExpected": [
+      "export default REFRESHTOKEN = [REDACTED];",
+      "export default REFRESHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config REFRESHTOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config REFRESHTOKEN = [REDACTED];",
+      "notice config REFRESHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config REFRESHTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config REFRESHTOKEN = \"[REDACTED]\";",
+      "notice config REFRESHTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config REFRESHTOKEN = 123456;",
+    "allowedExpected": [
+      "notice config REFRESHTOKEN = [REDACTED];",
+      "notice config REFRESHTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default idToken = summerDays;",
+    "allowedExpected": [
+      "export default idToken = [REDACTED];",
+      "export default idToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default idToken = \"plain-secret\";",
+    "allowedExpected": [
+      "export default idToken = \"[REDACTED]\";",
+      "export default idToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default idToken = 123456;",
+    "allowedExpected": [
+      "export default idToken = [REDACTED];",
+      "export default idToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config idToken = summerDays;",
+    "allowedExpected": [
+      "notice config idToken = [REDACTED];",
+      "notice config idToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config idToken = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config idToken = \"[REDACTED]\";",
+      "notice config idToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config idToken = 123456;",
+    "allowedExpected": [
+      "notice config idToken = [REDACTED];",
+      "notice config idToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default IDTOKEN = summerDays;",
+    "allowedExpected": [
+      "export default IDTOKEN = [REDACTED];",
+      "export default IDTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default IDTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default IDTOKEN = \"[REDACTED]\";",
+      "export default IDTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default IDTOKEN = 123456;",
+    "allowedExpected": [
+      "export default IDTOKEN = [REDACTED];",
+      "export default IDTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config IDTOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config IDTOKEN = [REDACTED];",
+      "notice config IDTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config IDTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config IDTOKEN = \"[REDACTED]\";",
+      "notice config IDTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config IDTOKEN = 123456;",
+    "allowedExpected": [
+      "notice config IDTOKEN = [REDACTED];",
+      "notice config IDTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default sessionToken = summerDays;",
+    "allowedExpected": [
+      "export default sessionToken = [REDACTED];",
+      "export default sessionToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default sessionToken = \"plain-secret\";",
+    "allowedExpected": [
+      "export default sessionToken = \"[REDACTED]\";",
+      "export default sessionToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default sessionToken = 123456;",
+    "allowedExpected": [
+      "export default sessionToken = [REDACTED];",
+      "export default sessionToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config sessionToken = summerDays;",
+    "allowedExpected": [
+      "notice config sessionToken = [REDACTED];",
+      "notice config sessionToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config sessionToken = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config sessionToken = \"[REDACTED]\";",
+      "notice config sessionToken = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config sessionToken = 123456;",
+    "allowedExpected": [
+      "notice config sessionToken = [REDACTED];",
+      "notice config sessionToken = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSIONTOKEN = summerDays;",
+    "allowedExpected": [
+      "export default SESSIONTOKEN = [REDACTED];",
+      "export default SESSIONTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSIONTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SESSIONTOKEN = \"[REDACTED]\";",
+      "export default SESSIONTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSIONTOKEN = 123456;",
+    "allowedExpected": [
+      "export default SESSIONTOKEN = [REDACTED];",
+      "export default SESSIONTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSIONTOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config SESSIONTOKEN = [REDACTED];",
+      "notice config SESSIONTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSIONTOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SESSIONTOKEN = \"[REDACTED]\";",
+      "notice config SESSIONTOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSIONTOKEN = 123456;",
+    "allowedExpected": [
+      "notice config SESSIONTOKEN = [REDACTED];",
+      "notice config SESSIONTOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default session_id = summerDays;",
+    "allowedExpected": [
+      "export default session_id = [REDACTED];",
+      "export default session_id = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default session_id = \"plain-secret\";",
+    "allowedExpected": [
+      "export default session_id = \"[REDACTED]\";",
+      "export default session_id = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default session_id = 123456;",
+    "allowedExpected": [
+      "export default session_id = [REDACTED];",
+      "export default session_id = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config session_id = summerDays;",
+    "allowedExpected": [
+      "notice config session_id = [REDACTED];",
+      "notice config session_id = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config session_id = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config session_id = \"[REDACTED]\";",
+      "notice config session_id = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config session_id = 123456;",
+    "allowedExpected": [
+      "notice config session_id = [REDACTED];",
+      "notice config session_id = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSION_ID = summerDays;",
+    "allowedExpected": [
+      "export default SESSION_ID = [REDACTED];",
+      "export default SESSION_ID = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSION_ID = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SESSION_ID = \"[REDACTED]\";",
+      "export default SESSION_ID = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SESSION_ID = 123456;",
+    "allowedExpected": [
+      "export default SESSION_ID = [REDACTED];",
+      "export default SESSION_ID = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSION_ID = summerDays;",
+    "allowedExpected": [
+      "notice config SESSION_ID = [REDACTED];",
+      "notice config SESSION_ID = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSION_ID = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SESSION_ID = \"[REDACTED]\";",
+      "notice config SESSION_ID = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SESSION_ID = 123456;",
+    "allowedExpected": [
+      "notice config SESSION_ID = [REDACTED];",
+      "notice config SESSION_ID = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credential = summerDays;",
+    "allowedExpected": [
+      "export default credential = [REDACTED];",
+      "export default credential = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credential = \"plain-secret\";",
+    "allowedExpected": [
+      "export default credential = \"[REDACTED]\";",
+      "export default credential = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credential = 123456;",
+    "allowedExpected": [
+      "export default credential = [REDACTED];",
+      "export default credential = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credential = summerDays;",
+    "allowedExpected": [
+      "notice config credential = [REDACTED];",
+      "notice config credential = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credential = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config credential = \"[REDACTED]\";",
+      "notice config credential = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credential = 123456;",
+    "allowedExpected": [
+      "notice config credential = [REDACTED];",
+      "notice config credential = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIAL = summerDays;",
+    "allowedExpected": [
+      "export default CREDENTIAL = [REDACTED];",
+      "export default CREDENTIAL = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIAL = \"plain-secret\";",
+    "allowedExpected": [
+      "export default CREDENTIAL = \"[REDACTED]\";",
+      "export default CREDENTIAL = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIAL = 123456;",
+    "allowedExpected": [
+      "export default CREDENTIAL = [REDACTED];",
+      "export default CREDENTIAL = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIAL = summerDays;",
+    "allowedExpected": [
+      "notice config CREDENTIAL = [REDACTED];",
+      "notice config CREDENTIAL = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIAL = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config CREDENTIAL = \"[REDACTED]\";",
+      "notice config CREDENTIAL = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIAL = 123456;",
+    "allowedExpected": [
+      "notice config CREDENTIAL = [REDACTED];",
+      "notice config CREDENTIAL = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credentials = summerDays;",
+    "allowedExpected": [
+      "export default credentials = [REDACTED];",
+      "export default credentials = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credentials = \"plain-secret\";",
+    "allowedExpected": [
+      "export default credentials = \"[REDACTED]\";",
+      "export default credentials = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default credentials = 123456;",
+    "allowedExpected": [
+      "export default credentials = [REDACTED];",
+      "export default credentials = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credentials = summerDays;",
+    "allowedExpected": [
+      "notice config credentials = [REDACTED];",
+      "notice config credentials = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credentials = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config credentials = \"[REDACTED]\";",
+      "notice config credentials = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config credentials = 123456;",
+    "allowedExpected": [
+      "notice config credentials = [REDACTED];",
+      "notice config credentials = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIALS = summerDays;",
+    "allowedExpected": [
+      "export default CREDENTIALS = [REDACTED];",
+      "export default CREDENTIALS = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIALS = \"plain-secret\";",
+    "allowedExpected": [
+      "export default CREDENTIALS = \"[REDACTED]\";",
+      "export default CREDENTIALS = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default CREDENTIALS = 123456;",
+    "allowedExpected": [
+      "export default CREDENTIALS = [REDACTED];",
+      "export default CREDENTIALS = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIALS = summerDays;",
+    "allowedExpected": [
+      "notice config CREDENTIALS = [REDACTED];",
+      "notice config CREDENTIALS = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIALS = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config CREDENTIALS = \"[REDACTED]\";",
+      "notice config CREDENTIALS = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config CREDENTIALS = 123456;",
+    "allowedExpected": [
+      "notice config CREDENTIALS = [REDACTED];",
+      "notice config CREDENTIALS = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authorization = summerDays;",
+    "allowedExpected": [
+      "export default authorization = [REDACTED];",
+      "export default authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "export default authorization = \"[REDACTED]\";",
+      "export default authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default authorization = 123456;",
+    "allowedExpected": [
+      "export default authorization = [REDACTED];",
+      "export default authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authorization = summerDays;",
+    "allowedExpected": [
+      "notice config authorization = [REDACTED];",
+      "notice config authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config authorization = \"[REDACTED]\";",
+      "notice config authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config authorization = 123456;",
+    "allowedExpected": [
+      "notice config authorization = [REDACTED];",
+      "notice config authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "export default AUTHORIZATION = [REDACTED];",
+      "export default AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "export default AUTHORIZATION = \"[REDACTED]\";",
+      "export default AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "export default AUTHORIZATION = [REDACTED];",
+      "export default AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "notice config AUTHORIZATION = [REDACTED];",
+      "notice config AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config AUTHORIZATION = \"[REDACTED]\";",
+      "notice config AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "notice config AUTHORIZATION = [REDACTED];",
+      "notice config AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default auth = summerDays;",
+    "allowedExpected": [
+      "export default auth = [REDACTED];",
+      "export default auth = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default auth = \"plain-secret\";",
+    "allowedExpected": [
+      "export default auth = \"[REDACTED]\";",
+      "export default auth = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default auth = 123456;",
+    "allowedExpected": [
+      "export default auth = [REDACTED];",
+      "export default auth = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config auth = summerDays;",
+    "allowedExpected": [
+      "notice config auth = [REDACTED];",
+      "notice config auth = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config auth = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config auth = \"[REDACTED]\";",
+      "notice config auth = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config auth = 123456;",
+    "allowedExpected": [
+      "notice config auth = [REDACTED];",
+      "notice config auth = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTH = summerDays;",
+    "allowedExpected": [
+      "export default AUTH = [REDACTED];",
+      "export default AUTH = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTH = \"plain-secret\";",
+    "allowedExpected": [
+      "export default AUTH = \"[REDACTED]\";",
+      "export default AUTH = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default AUTH = 123456;",
+    "allowedExpected": [
+      "export default AUTH = [REDACTED];",
+      "export default AUTH = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTH = summerDays;",
+    "allowedExpected": [
+      "notice config AUTH = [REDACTED];",
+      "notice config AUTH = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTH = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config AUTH = \"[REDACTED]\";",
+      "notice config AUTH = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config AUTH = 123456;",
+    "allowedExpected": [
+      "notice config AUTH = [REDACTED];",
+      "notice config AUTH = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default bearer = summerDays;",
+    "allowedExpected": [
+      "export default bearer = [REDACTED];",
+      "export default bearer = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default bearer = \"plain-secret\";",
+    "allowedExpected": [
+      "export default bearer = \"[REDACTED]\";",
+      "export default bearer = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default bearer = 123456;",
+    "allowedExpected": [
+      "export default bearer = [REDACTED];",
+      "export default bearer = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config bearer = summerDays;",
+    "allowedExpected": [
+      "notice config bearer = [REDACTED];",
+      "notice config bearer = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config bearer = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config bearer = \"[REDACTED]\";",
+      "notice config bearer = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config bearer = 123456;",
+    "allowedExpected": [
+      "notice config bearer = [REDACTED];",
+      "notice config bearer = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default BEARER = summerDays;",
+    "allowedExpected": [
+      "export default BEARER = [REDACTED];",
+      "export default BEARER = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default BEARER = \"plain-secret\";",
+    "allowedExpected": [
+      "export default BEARER = \"[REDACTED]\";",
+      "export default BEARER = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default BEARER = 123456;",
+    "allowedExpected": [
+      "export default BEARER = [REDACTED];",
+      "export default BEARER = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config BEARER = summerDays;",
+    "allowedExpected": [
+      "notice config BEARER = [REDACTED];",
+      "notice config BEARER = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config BEARER = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config BEARER = \"[REDACTED]\";",
+      "notice config BEARER = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config BEARER = 123456;",
+    "allowedExpected": [
+      "notice config BEARER = [REDACTED];",
+      "notice config BEARER = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy_authorization = summerDays;",
+    "allowedExpected": [
+      "export default proxy_authorization = [REDACTED];",
+      "export default proxy_authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy_authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "export default proxy_authorization = \"[REDACTED]\";",
+      "export default proxy_authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy_authorization = 123456;",
+    "allowedExpected": [
+      "export default proxy_authorization = [REDACTED];",
+      "export default proxy_authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy_authorization = summerDays;",
+    "allowedExpected": [
+      "notice config proxy_authorization = [REDACTED];",
+      "notice config proxy_authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy_authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config proxy_authorization = \"[REDACTED]\";",
+      "notice config proxy_authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy_authorization = 123456;",
+    "allowedExpected": [
+      "notice config proxy_authorization = [REDACTED];",
+      "notice config proxy_authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY_AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "export default PROXY_AUTHORIZATION = [REDACTED];",
+      "export default PROXY_AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY_AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PROXY_AUTHORIZATION = \"[REDACTED]\";",
+      "export default PROXY_AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY_AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "export default PROXY_AUTHORIZATION = [REDACTED];",
+      "export default PROXY_AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY_AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "notice config PROXY_AUTHORIZATION = [REDACTED];",
+      "notice config PROXY_AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY_AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PROXY_AUTHORIZATION = \"[REDACTED]\";",
+      "notice config PROXY_AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY_AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "notice config PROXY_AUTHORIZATION = [REDACTED];",
+      "notice config PROXY_AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default cookie = summerDays;",
+    "allowedExpected": [
+      "export default cookie = [REDACTED];",
+      "export default cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "export default cookie = \"[REDACTED]\";",
+      "export default cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default cookie = 123456;",
+    "allowedExpected": [
+      "export default cookie = [REDACTED];",
+      "export default cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config cookie = summerDays;",
+    "allowedExpected": [
+      "notice config cookie = [REDACTED];",
+      "notice config cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config cookie = \"[REDACTED]\";",
+      "notice config cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config cookie = 123456;",
+    "allowedExpected": [
+      "notice config cookie = [REDACTED];",
+      "notice config cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default COOKIE = summerDays;",
+    "allowedExpected": [
+      "export default COOKIE = [REDACTED];",
+      "export default COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "export default COOKIE = \"[REDACTED]\";",
+      "export default COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default COOKIE = 123456;",
+    "allowedExpected": [
+      "export default COOKIE = [REDACTED];",
+      "export default COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config COOKIE = summerDays;",
+    "allowedExpected": [
+      "notice config COOKIE = [REDACTED];",
+      "notice config COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config COOKIE = \"[REDACTED]\";",
+      "notice config COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config COOKIE = 123456;",
+    "allowedExpected": [
+      "notice config COOKIE = [REDACTED];",
+      "notice config COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set_cookie = summerDays;",
+    "allowedExpected": [
+      "export default set_cookie = [REDACTED];",
+      "export default set_cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set_cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "export default set_cookie = \"[REDACTED]\";",
+      "export default set_cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set_cookie = 123456;",
+    "allowedExpected": [
+      "export default set_cookie = [REDACTED];",
+      "export default set_cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set_cookie = summerDays;",
+    "allowedExpected": [
+      "notice config set_cookie = [REDACTED];",
+      "notice config set_cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set_cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config set_cookie = \"[REDACTED]\";",
+      "notice config set_cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set_cookie = 123456;",
+    "allowedExpected": [
+      "notice config set_cookie = [REDACTED];",
+      "notice config set_cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET_COOKIE = summerDays;",
+    "allowedExpected": [
+      "export default SET_COOKIE = [REDACTED];",
+      "export default SET_COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET_COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SET_COOKIE = \"[REDACTED]\";",
+      "export default SET_COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET_COOKIE = 123456;",
+    "allowedExpected": [
+      "export default SET_COOKIE = [REDACTED];",
+      "export default SET_COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET_COOKIE = summerDays;",
+    "allowedExpected": [
+      "notice config SET_COOKIE = [REDACTED];",
+      "notice config SET_COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET_COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SET_COOKIE = \"[REDACTED]\";",
+      "notice config SET_COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET_COOKIE = 123456;",
+    "allowedExpected": [
+      "notice config SET_COOKIE = [REDACTED];",
+      "notice config SET_COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy-authorization = summerDays;",
+    "allowedExpected": [
+      "export default proxy-authorization = [REDACTED];",
+      "export default proxy-authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy-authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "export default proxy-authorization = \"[REDACTED]\";",
+      "export default proxy-authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default proxy-authorization = 123456;",
+    "allowedExpected": [
+      "export default proxy-authorization = [REDACTED];",
+      "export default proxy-authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy-authorization = summerDays;",
+    "allowedExpected": [
+      "notice config proxy-authorization = [REDACTED];",
+      "notice config proxy-authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy-authorization = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config proxy-authorization = \"[REDACTED]\";",
+      "notice config proxy-authorization = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config proxy-authorization = 123456;",
+    "allowedExpected": [
+      "notice config proxy-authorization = [REDACTED];",
+      "notice config proxy-authorization = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY-AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "export default PROXY-AUTHORIZATION = [REDACTED];",
+      "export default PROXY-AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY-AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PROXY-AUTHORIZATION = \"[REDACTED]\";",
+      "export default PROXY-AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROXY-AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "export default PROXY-AUTHORIZATION = [REDACTED];",
+      "export default PROXY-AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY-AUTHORIZATION = summerDays;",
+    "allowedExpected": [
+      "notice config PROXY-AUTHORIZATION = [REDACTED];",
+      "notice config PROXY-AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY-AUTHORIZATION = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PROXY-AUTHORIZATION = \"[REDACTED]\";",
+      "notice config PROXY-AUTHORIZATION = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROXY-AUTHORIZATION = 123456;",
+    "allowedExpected": [
+      "notice config PROXY-AUTHORIZATION = [REDACTED];",
+      "notice config PROXY-AUTHORIZATION = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set-cookie = summerDays;",
+    "allowedExpected": [
+      "export default set-cookie = [REDACTED];",
+      "export default set-cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set-cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "export default set-cookie = \"[REDACTED]\";",
+      "export default set-cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default set-cookie = 123456;",
+    "allowedExpected": [
+      "export default set-cookie = [REDACTED];",
+      "export default set-cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set-cookie = summerDays;",
+    "allowedExpected": [
+      "notice config set-cookie = [REDACTED];",
+      "notice config set-cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set-cookie = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config set-cookie = \"[REDACTED]\";",
+      "notice config set-cookie = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config set-cookie = 123456;",
+    "allowedExpected": [
+      "notice config set-cookie = [REDACTED];",
+      "notice config set-cookie = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET-COOKIE = summerDays;",
+    "allowedExpected": [
+      "export default SET-COOKIE = [REDACTED];",
+      "export default SET-COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET-COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SET-COOKIE = \"[REDACTED]\";",
+      "export default SET-COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SET-COOKIE = 123456;",
+    "allowedExpected": [
+      "export default SET-COOKIE = [REDACTED];",
+      "export default SET-COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET-COOKIE = summerDays;",
+    "allowedExpected": [
+      "notice config SET-COOKIE = [REDACTED];",
+      "notice config SET-COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET-COOKIE = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SET-COOKIE = \"[REDACTED]\";",
+      "notice config SET-COOKIE = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SET-COOKIE = 123456;",
+    "allowedExpected": [
+      "notice config SET-COOKIE = [REDACTED];",
+      "notice config SET-COOKIE = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default dbPassword = summerDays;",
+    "allowedExpected": [
+      "export default dbPassword = [REDACTED];",
+      "export default dbPassword = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default dbPassword = \"plain-secret\";",
+    "allowedExpected": [
+      "export default dbPassword = \"[REDACTED]\";",
+      "export default dbPassword = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default dbPassword = 123456;",
+    "allowedExpected": [
+      "export default dbPassword = [REDACTED];",
+      "export default dbPassword = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config dbPassword = summerDays;",
+    "allowedExpected": [
+      "notice config dbPassword = [REDACTED];",
+      "notice config dbPassword = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config dbPassword = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config dbPassword = \"[REDACTED]\";",
+      "notice config dbPassword = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config dbPassword = 123456;",
+    "allowedExpected": [
+      "notice config dbPassword = [REDACTED];",
+      "notice config dbPassword = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default DBPASSWORD = summerDays;",
+    "allowedExpected": [
+      "export default DBPASSWORD = [REDACTED];",
+      "export default DBPASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default DBPASSWORD = \"plain-secret\";",
+    "allowedExpected": [
+      "export default DBPASSWORD = \"[REDACTED]\";",
+      "export default DBPASSWORD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default DBPASSWORD = 123456;",
+    "allowedExpected": [
+      "export default DBPASSWORD = [REDACTED];",
+      "export default DBPASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config DBPASSWORD = summerDays;",
+    "allowedExpected": [
+      "notice config DBPASSWORD = [REDACTED];",
+      "notice config DBPASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config DBPASSWORD = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config DBPASSWORD = \"[REDACTED]\";",
+      "notice config DBPASSWORD = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config DBPASSWORD = 123456;",
+    "allowedExpected": [
+      "notice config DBPASSWORD = [REDACTED];",
+      "notice config DBPASSWORD = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default service_token = summerDays;",
+    "allowedExpected": [
+      "export default service_token = [REDACTED];",
+      "export default service_token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default service_token = \"plain-secret\";",
+    "allowedExpected": [
+      "export default service_token = \"[REDACTED]\";",
+      "export default service_token = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default service_token = 123456;",
+    "allowedExpected": [
+      "export default service_token = [REDACTED];",
+      "export default service_token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config service_token = summerDays;",
+    "allowedExpected": [
+      "notice config service_token = [REDACTED];",
+      "notice config service_token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config service_token = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config service_token = \"[REDACTED]\";",
+      "notice config service_token = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config service_token = 123456;",
+    "allowedExpected": [
+      "notice config service_token = [REDACTED];",
+      "notice config service_token = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SERVICE_TOKEN = summerDays;",
+    "allowedExpected": [
+      "export default SERVICE_TOKEN = [REDACTED];",
+      "export default SERVICE_TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SERVICE_TOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "export default SERVICE_TOKEN = \"[REDACTED]\";",
+      "export default SERVICE_TOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default SERVICE_TOKEN = 123456;",
+    "allowedExpected": [
+      "export default SERVICE_TOKEN = [REDACTED];",
+      "export default SERVICE_TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SERVICE_TOKEN = summerDays;",
+    "allowedExpected": [
+      "notice config SERVICE_TOKEN = [REDACTED];",
+      "notice config SERVICE_TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SERVICE_TOKEN = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config SERVICE_TOKEN = \"[REDACTED]\";",
+      "notice config SERVICE_TOKEN = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config SERVICE_TOKEN = 123456;",
+    "allowedExpected": [
+      "notice config SERVICE_TOKEN = [REDACTED];",
+      "notice config SERVICE_TOKEN = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default provider_api_key = summerDays;",
+    "allowedExpected": [
+      "export default provider_api_key = [REDACTED];",
+      "export default provider_api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default provider_api_key = \"plain-secret\";",
+    "allowedExpected": [
+      "export default provider_api_key = \"[REDACTED]\";",
+      "export default provider_api_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default provider_api_key = 123456;",
+    "allowedExpected": [
+      "export default provider_api_key = [REDACTED];",
+      "export default provider_api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config provider_api_key = summerDays;",
+    "allowedExpected": [
+      "notice config provider_api_key = [REDACTED];",
+      "notice config provider_api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config provider_api_key = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config provider_api_key = \"[REDACTED]\";",
+      "notice config provider_api_key = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config provider_api_key = 123456;",
+    "allowedExpected": [
+      "notice config provider_api_key = [REDACTED];",
+      "notice config provider_api_key = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROVIDER_API_KEY = summerDays;",
+    "allowedExpected": [
+      "export default PROVIDER_API_KEY = [REDACTED];",
+      "export default PROVIDER_API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROVIDER_API_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "export default PROVIDER_API_KEY = \"[REDACTED]\";",
+      "export default PROVIDER_API_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "export default PROVIDER_API_KEY = 123456;",
+    "allowedExpected": [
+      "export default PROVIDER_API_KEY = [REDACTED];",
+      "export default PROVIDER_API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROVIDER_API_KEY = summerDays;",
+    "allowedExpected": [
+      "notice config PROVIDER_API_KEY = [REDACTED];",
+      "notice config PROVIDER_API_KEY = [REDACTED]"
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROVIDER_API_KEY = \"plain-secret\";",
+    "allowedExpected": [
+      "notice config PROVIDER_API_KEY = \"[REDACTED]\";",
+      "notice config PROVIDER_API_KEY = \"[REDACTED]\""
+    ]
+  },
+  {
+    "family": "word_prefix_assignment",
+    "input": "notice config PROVIDER_API_KEY = 123456;",
+    "allowedExpected": [
+      "notice config PROVIDER_API_KEY = [REDACTED];",
+      "notice config PROVIDER_API_KEY = [REDACTED]"
+    ]
   }
 ]
