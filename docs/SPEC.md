@@ -202,3 +202,7 @@ Complete source-case return references, grep/rg directory tails, omitted CLI
 values before flags, destructuring binds, cased identifiers and Rust relay `use`
 symbols retain their reviewed syntax bounds. No version alone grants adoption;
 replacement engine/artifact PASS requires independent review after exact-head CI.
+
+### Alpha.7 boundary-only correction
+
+Rejected unquoted source values stop before delimiter-adjacent trailing whitespace; internal literal/comment tails remain covered. Quoted scalar contents retain their whitespace. A labelled Markdown bullet followed by an explicit credential key and a complete sequence of alphabetic words redacts the first scalar without extending over later prose words. This boundary rule uses syntax rather than word meanings; quoted, operator, comment, opaque, and incomplete tails keep their full credential extent. All alpha.6 recall rulings remain in force.
