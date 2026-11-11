@@ -1,15 +1,16 @@
 {
   "baseCommit": "5f9051711d40815690853761e5bd82627459aaac",
   "testOnlyCommits": [
-    "ca55a22",
-    "a8374a1"
+    "dd9f189f020549c0ba8a72de177afb41bf68d824",
+    "bb5fb3611f73366047f0d129cdd6784bc1728ae4",
+    "b16f203faebf6727584c0c9c46456e4128ba6a13"
   ],
   "toolchain": "1.88.0",
-  "cases": 2545,
+  "cases": 2554,
   "benignCases": 147,
-  "attackCases": 2398,
+  "attackCases": 2407,
   "baselineInvalidBenign": 100,
-  "baselineInvalidAttacks": 60,
+  "baselineInvalidAttacks": 63,
   "baselineFailuresByFamily": {
     "regex": 8,
     "regex_short_tail": 32,
@@ -31,7 +32,8 @@
     "provider_symbol": 4,
     "provider_symbol_attack": 4,
     "provider_symbol_short_tail": 8,
-    "upstream_pr11": 7
+    "upstream_pr11": 7,
+    "bare_Key_path_tail": 3
   },
   "privacy": "Invented inputs only; exact git archive of alpha.5, with new tests/fixtures copied in. No private samples/labels opened."
 }

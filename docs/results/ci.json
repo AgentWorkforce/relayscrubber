@@ -1,28 +1,29 @@
 {
   "schema": 1,
-  "status": "hosted-runtime-and-artifact-verified",
+  "status": "hosted-runtime-and-artifact-verified-final-exact-head-required",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "930da124ab9ba8a5a92b2429938d322b83864afb",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42932483475",
+  "codeCommit": "f7058d8974eedba045f0685d002c838ce7456f44",
+  "sourceRunHead": "5162e302014facc29427d683b3304b9f110de1b8",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42950738362",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13817292468,
-  "artifactArchiveSha256": "0f6775831a9bd36ac8a0875a90e00c6054b8fc3bbba85195e77133f051f3a296",
-  "packageSha256": "c0665dc5668bdefd5636656c3a7358273be09a4b8d1e086b99641943e3569641",
+  "artifactId": 13825690233,
+  "artifactArchiveSha256": "b3b6ee442af1345bb12a3ba3fe6f1b4fd5377fa5c1464bbc664523141c7a4b99",
+  "packageSha256": "e3a1c882f142584943baa3b7546dc58b7af3081a4674d1bcdd608d9132e048cb",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "959b6e2894600ec66381ae56cb9bc144d2814d0f27662ca1453e89491c41ceeb",
-    "crateVersion": "0.5.0-alpha.4",
+    "rulesetSourceSha256": "866b2d9396b039c24ab06991278bfadaae2e850c71cb16b4f1368212e3a1f836",
+    "crateVersion": "0.5.0-alpha.6",
     "abiVersion": 2,
     "policy": "secrets",
     "redactionToken": "[REDACTED]",
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "bd181f94e2d03d7a5381a31488aa5ffbc991e4d41132c7f8f08095031608b5da",
+    "relayscrubber_bg.wasm": "c2bfb1b6a342f4af833f91bb85ecfe34e72b96f71a0854990396cd5b0340e2f6",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -33,12 +34,12 @@
   },
   "sameEnvironmentReproduction": "passed",
   "macDevelopmentBuildByteIdentical": false,
-  "canonicalPipelineArtifact": "Linux CI package",
+  "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
-  "independentPrecision": "Independent re-audit pending",
+  "independentPrecision": "Independent production re-audit pending",
   "nativePlatforms": [
     "Linux",
     "Windows"
   ],
-  "runtimeChecks": "Linux96, Node725, Bun725, frozen199, reproducibility, Workers and packaging pass; Windows source-run completion pending. Artifact-generation WASM job failed only the expected old-pin equality check."
+  "runtimeChecks": "Linux Rust100/fmt/clippy, Node728/Bun728, fresh223069text+223074structured vectors, frozen199, Workers, independent reproducibility and packaging pass. WASM failed only equality with the superseded alpha.5 pin; this receipt refreshes it. Windows remains gated by final exact-head CI."
 }

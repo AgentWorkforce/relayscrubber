@@ -1,6 +1,6 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.5`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.6`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
@@ -102,3 +102,38 @@ and frozen199 has zero misses or second-pass changes. The 63,906/84,840/26,873/
 23,002 matrices and every earlier gate remain intact. Final handoff requires
 ALL-green exact-head Linux, Windows and WASM, including equality with these
 precise source/WASM/glue/declaration/adapter/package pins. No merge or publish.
+
+
+## Alpha.6 syntax precision
+
+This candidate starts from PR #16's exact reviewed alpha.5 head
+`5f9051711d40815690853761e5bd82627459aaac` and is rebased onto main after
+that PR merged. [The pinned Rust 1.88 baseline](results/alpha6-syntax-baseline.json)
+records the test-first evidence: 2,554 invented cases, 147 preservation controls,
+and 2,407 literal/attack controls. Alpha.5 fails 100 preservation controls and
+63 attacks; 47 existing preservation controls are retained. Direct structured
+bare-Key path and credential-container checks supplement that shared fixture.
+
+The canonical engine covers complete source expressions and regexes, symbolic
+objects/arrays, destructuring binds, type members, template references, source
+identifier casing, isolated openers, and Rust relay-symbol imports. It also fixes
+PR #11's four upstream precision reports. Quoted, numeric and embedded credentials,
+short/opaque tails, and encoded separator attacks remain covered. The parser
+is bounded to 512 bytes and depth 32, and participates in the source digest.
+
+Hosted artifact verification and exact-head checks are recorded in
+`alpha6SyntaxPrecisionRepair` in [the review receipt](results/review-fixes.json).
+The unchanged prior security matrices and 10-second timing limits remain gates.
+Only invented data and the public frozen witnesses were used. Independent
+production precision re-audit remains pending; no merge, tag or publish is authorized.
+
+The verified implementation artifact is from [Linux source CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42950738362).
+Its package SHA-256 is `e3a1c882f142584943baa3b7546dc58b7af3081a4674d1bcdd608d9132e048cb`;
+WASM SHA-256 is `c2bfb1b6a342f4af833f91bb85ecfe34e72b96f71a0854990396cd5b0340e2f6`.
+[The artifact verification receipt](results/alpha6-artifact-verification.json)
+records the archive digest and independently recomputed source identity.
+The downloaded hosted package passes all 728 Node and 728 Bun checks, fresh
+223,069 text and 223,074 structured native vectors, frozen 199, and Workers.
+The source CI WASM job passed runtime/reproducibility/packaging and failed only
+comparison with the superseded alpha.5 pin. Final exact-head Linux/Windows/WASM
+CI must pass the refreshed source/WASM/glue/adapter/package pin before review.

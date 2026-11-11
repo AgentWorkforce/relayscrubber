@@ -171,3 +171,26 @@ is `call_refusal` for deterministic admission failures and `instance_poison` for
 unexpected JS/WASM failures. See `MIGRATION.md` for the tagged-code contract.
 Independent re-audit pending. Named invented regression tests are behavioral
 checks, not evidence of production precision.
+
+## Alpha.6 source precision
+
+Complete bounded source expressions may contain regex literals, reference calls,
+member chains, operators, symbolic arrays and object fields. Numeric object
+values require a non-credential field; a credential number, quoted scalar or
+embedded literal is never proof of a reference. Candidate length is at most
+512 bytes and parser nesting at most 32. A failed reference removes its full
+candidate, including short or opaque literal tails. Comments do not terminate
+an exemption. Standalone type members and destructuring binds must also consume
+their complete syntax. New bare reassignment expressions require a spaced
+assignment and terminal semicolon; env/config scalar syntax does not establish
+a code reference. Isolated PascalCase type members must be on the same physical
+line, so indented YAML values remain credential data. An isolated object opener is preserved only when the
+entire remaining value is that opener and whitespace, within the same bound.
+
+A lowercase snake-case relay provider-shaped symbol is preserved in a complete
+Rust `use symbol;` or `pub use symbol;` declaration. Strings, URLs, mixed-case
+material and appended data retain credential recognition. A bare `Key` with a complete path value is preserved outside cloud tags and
+credential containers; non-path literals and malformed postfix tails still redact. A CLI option followed by a complete
+flag has no value unless an equals sign or quote supplies literal data. Switch
+case return references and complete grep/rg directory tails are source syntax.
+These invented regressions do not establish production false-positive rates.

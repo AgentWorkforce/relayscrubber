@@ -592,18 +592,20 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "sourceCommit": "5843309e0d9bd0859c17736fb8f84bb5699ce3af",
-    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42941589608",
-    "artifactId": 13820449804,
-    "artifactArchiveSha256": "854c04e66b8423a89ad00f1dd68d7c9f4a3fb31b42e933f5976f07f4f2de8503",
-    "sourceSha256": "bd7d6620626ef40b4c319fa6260bb42ddb20035301ad974332a13453835563f5",
-    "wasmSha256": "91cf23177f1d9fa42484f4ce76b54bdd468177852b9e8b259af0b72ad5823f4d",
-    "wasmBytes": 1765307,
-    "packageSha256": "bc4101df467ba520e16b8b8d766c63a9017631a6551a369ee100b34e47de441b",
-    "packageBytes": 593774,
-    "hostedAllRuntimeChecks": "Linux/Windows Rust98/fmt/clippy; Node726/Bun726, fresh220515text+220520structured vectors, frozen199, Workers, reproducibility and packaging pass. WASM failed only comparison with the superseded alpha.4 pin; this receipt refreshes it.",
-    "localHostedPackageReplay": "Archive SHA256 verified against GitHub metadata; source identity independently recomputed; package/WASM/glue/declarations/adapter hashes verified. Downloaded hosted package Node726/Bun726 and Workers pass with all fresh native parity/frozen witnesses.",
-    "pinEqualityGate": "Final immutable exact-head CI must be ALL-green Linux/Windows/WASM and reproduce every source/WASM/glue/adapter/package digest. The implementation artifact alone does not satisfy this gate."
+    "sourceCommit": "f7058d8974eedba045f0685d002c838ce7456f44",
+    "sourceRunHead": "5162e302014facc29427d683b3304b9f110de1b8",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42950738362",
+    "artifactId": 13825690233,
+    "artifactArchiveSha256": "b3b6ee442af1345bb12a3ba3fe6f1b4fd5377fa5c1464bbc664523141c7a4b99",
+    "sourceSha256": "866b2d9396b039c24ab06991278bfadaae2e850c71cb16b4f1368212e3a1f836",
+    "wasmSha256": "c2bfb1b6a342f4af833f91bb85ecfe34e72b96f71a0854990396cd5b0340e2f6",
+    "wasmBytes": 1788263,
+    "packageSha256": "e3a1c882f142584943baa3b7546dc58b7af3081a4674d1bcdd608d9132e048cb",
+    "packageBytes": 597477,
+    "verification": "GitHub archive digest, package/WASM/glue/declaration/adapter digests, package/loose manifest agreement and independently recomputed canonical source identity all verified.",
+    "hostedAllRuntimeChecks": "Linux Rust100/fmt/clippy, Node728/Bun728, fresh223069text+223074structured vectors, frozen199, Workers, independent reproducibility and packaging pass. WASM failed only equality with the superseded alpha.5 pin; this receipt refreshes it. Windows remains gated by final exact-head CI.",
+    "localHostedPackageReplay": "Archive SHA256 verified against GitHub metadata; canonical source identity independently recomputed; package/WASM/glue/declaration/adapter hashes verified. Downloaded hosted package passes Node728, Bun728 and Workers with all fresh223069text+223074structured vectors and frozen199.",
+    "pinEqualityGate": "Final immutable exact-head CI must be ALL-green Linux/Windows/WASM and reproduce every source/WASM/glue/adapter/package digest; the implementation artifact alone does not satisfy this gate."
   },
   "additionalTestOnlyCommit": "408ac1e",
   "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",
@@ -3920,5 +3922,312 @@
       "localHostedPackageReplay": "Downloaded archive API SHA256, embedded manifest and every WASM/glue/declaration/adapter payload digest verified; source identity independently recomputed. Runtime tests ran on the hosted alpha.4 package inputs.",
       "pinEqualityGate": "Receipt successor must pass a new immutable exact-head Linux/Windows/WASM CI run, including source/WASM/glue/declaration/adapter/package pin equality, before handoff."
     }
+  },
+  "alpha5HostedArtifact": {
+    "sourceCommit": "5843309e0d9bd0859c17736fb8f84bb5699ce3af",
+    "ciRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42941589608",
+    "artifactId": 13820449804,
+    "artifactArchiveSha256": "854c04e66b8423a89ad00f1dd68d7c9f4a3fb31b42e933f5976f07f4f2de8503",
+    "sourceSha256": "bd7d6620626ef40b4c319fa6260bb42ddb20035301ad974332a13453835563f5",
+    "wasmSha256": "91cf23177f1d9fa42484f4ce76b54bdd468177852b9e8b259af0b72ad5823f4d",
+    "wasmBytes": 1765307,
+    "packageSha256": "bc4101df467ba520e16b8b8d766c63a9017631a6551a369ee100b34e47de441b",
+    "packageBytes": 593774,
+    "hostedAllRuntimeChecks": "Linux/Windows Rust98/fmt/clippy; Node726/Bun726, fresh220515text+220520structured vectors, frozen199, Workers, reproducibility and packaging pass. WASM failed only comparison with the superseded alpha.4 pin; this receipt refreshes it.",
+    "localHostedPackageReplay": "Archive SHA256 verified against GitHub metadata; source identity independently recomputed; package/WASM/glue/declarations/adapter hashes verified. Downloaded hosted package Node726/Bun726 and Workers pass with all fresh native parity/frozen witnesses.",
+    "pinEqualityGate": "Final immutable exact-head CI must be ALL-green Linux/Windows/WASM and reproduce every source/WASM/glue/adapter/package digest. The implementation artifact alone does not satisfy this gate."
+  },
+  "alpha6SyntaxPrecisionRepair": {
+    "baseCommit": "5f9051711d40815690853761e5bd82627459aaac",
+    "mainMergeCommit": "8f1e26cac90b0f623cb7b0400c2c8a8d9ac99374",
+    "candidateVersion": "0.5.0-alpha.6",
+    "testOnlyCommits": [
+      "dd9f189f020549c0ba8a72de177afb41bf68d824",
+      "bb5fb3611f73366047f0d129cdd6784bc1728ae4",
+      "b16f203faebf6727584c0c9c46456e4128ba6a13"
+    ],
+    "implementationCommit": "f7058d8974eedba045f0685d002c838ce7456f44",
+    "sourceSha256": "866b2d9396b039c24ab06991278bfadaae2e850c71cb16b4f1368212e3a1f836",
+    "baselineReceipt": "docs/results/alpha6-syntax-baseline.json",
+    "privacy": "Invented inputs only; exact git archive of alpha.5, with new tests/fixtures copied in. No private samples/labels opened.",
+    "cases": {
+      "fixture": "eval/alpha6_syntax_cases.json",
+      "total": 2554,
+      "byteIdenticalBenign": 147,
+      "positiveAndMixedControls": 2407,
+      "baselineInvalidBenign": 100,
+      "baselineInvalidAttacks": 63,
+      "headInvalidTextLongJsonRecords": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "additionalDirectStructuredChecks": 2
+    },
+    "behavior": {
+      "recognition": "Complete bounded source expressions, regexes, symbolic structures, destructuring binds, PascalCase type members, templates, cased identifiers, isolated openers and Rust relay use symbols; no semantic English-value allowlist.",
+      "boundaries": "512-byte candidate, depth32; full syntax and delimiter required. Literal and numeric credential siblings, opaque/short tails, quoted syntax and encoded attacks remain sensitive. Bare reassignments need spaced separator and semicolon. Isolated types stay on the same line; env/YAML scalars retain sensitive context.",
+      "bareKey": "Only complete path values outside credential/cloud-tag contexts are preserved; non-path literal siblings and malformed quoted postfixes redact.",
+      "upstreamPr11": "Switch-case reference returns, complete grep/rg directory tails, Key path values and omitted CLI values before flags covered in canonical engine.",
+      "sourceIdentity": "src/syntax.rs participates in build.rs canonical digest."
+    },
+    "gates": {
+      "htmlPunctuationCases": 63906,
+      "outerComponentCases": 84840,
+      "encodedUserinfoCases": 26873,
+      "nestedComponentCases": 23002,
+      "separatorCases": 12512,
+      "originalSeparatorCases": 12330,
+      "encodedQueryCases": 754,
+      "queryRecoveryCases": 371,
+      "queryRecoveryBenignControls": 58,
+      "queryRecoveryExact16MiB": "pass",
+      "fix11Cases": 257,
+      "reviewerMatrixCases": 1186,
+      "rulingCases": 43,
+      "residualControls": [
+        19,
+        17
+      ],
+      "earlierInventedReproductions": 27,
+      "bearerCases": [
+        43,
+        9
+      ],
+      "completeReferenceCases": 141,
+      "numericCredentialCases": 45,
+      "historicalTableRows": [
+        34,
+        13
+      ],
+      "frozenCases": 199,
+      "frozenMissedSecretCases": 0,
+      "frozenSecondPassChanges": 0,
+      "timingDeadlineSeconds": 10,
+      "timingLimitsChanged": false,
+      "nativeRust": "1.88.0 all-target/all-feature/locked",
+      "linuxNativeTests": 100,
+      "windowsNative": "Required rust (windows-latest) gate on the final immutable head: pinned1.88 all-target/all-feature/locked, unchanged matrices and timing limits.",
+      "fmt": "pass",
+      "clippy": "-D warnings pass",
+      "nodeTests": 728,
+      "bunTests": 728,
+      "freshNativeTextVectors": 223069,
+      "freshNativeStructuredVectors": 223074,
+      "workers": "Hosted CI and local verified hosted package pass",
+      "independentWasmReproducibility": "Hosted CI pass",
+      "linuxTimings": {
+        "nested percent queries": [
+          {
+            "count": 2048,
+            "bytes": 96347,
+            "seconds": 0.159
+          },
+          {
+            "count": 16384,
+            "bytes": 770139,
+            "seconds": 1.258
+          }
+        ],
+        "malformed entity recovery": [
+          {
+            "count": 2048,
+            "bytes": 45156,
+            "seconds": 0.023
+          },
+          {
+            "count": 16384,
+            "bytes": 360548,
+            "seconds": 0.185
+          }
+        ],
+        "nested entity layers": [
+          {
+            "count": 2048,
+            "bytes": 8272,
+            "seconds": 0.003
+          },
+          {
+            "count": 16384,
+            "bytes": 65616,
+            "seconds": 0.022
+          }
+        ],
+        "numeric leading zeros": [
+          {
+            "count": 2048,
+            "bytes": 2133,
+            "seconds": 0.001
+          },
+          {
+            "count": 16384,
+            "bytes": 16469,
+            "seconds": 0.005
+          }
+        ],
+        "unassigned encoded key": [
+          {
+            "count": 2048,
+            "bytes": 14387,
+            "seconds": 0.005
+          },
+          {
+            "count": 16384,
+            "bytes": 114739,
+            "seconds": 0.036
+          }
+        ],
+        "HTML punctuation numeric equals zeros": [
+          {
+            "count": 2048,
+            "bytes": 2131,
+            "seconds": 0.007
+          },
+          {
+            "count": 16384,
+            "bytes": 16467,
+            "seconds": 0.042
+          }
+        ],
+        "HTML punctuation nested named equals": [
+          {
+            "count": 2048,
+            "bytes": 8295,
+            "seconds": 0.019
+          },
+          {
+            "count": 16384,
+            "bytes": 65639,
+            "seconds": 0.155
+          }
+        ],
+        "HTML punctuation many HTML attributes": [
+          {
+            "count": 2048,
+            "bytes": 174183,
+            "seconds": 0.354
+          },
+          {
+            "count": 16384,
+            "bytes": 1392743,
+            "seconds": 2.864
+          }
+        ],
+        "semicolonless decimal zeros": [
+          {
+            "count": 2048,
+            "bytes": 2137,
+            "seconds": 0.001
+          },
+          {
+            "count": 16384,
+            "bytes": 16473,
+            "seconds": 0.005
+          }
+        ],
+        "semicolonless hex zeros": [
+          {
+            "count": 2048,
+            "bytes": 2135,
+            "seconds": 0.001
+          },
+          {
+            "count": 16384,
+            "bytes": 16471,
+            "seconds": 0.006
+          }
+        ],
+        "semicolonless nested names": [
+          {
+            "count": 2048,
+            "bytes": 6224,
+            "seconds": 0.003
+          },
+          {
+            "count": 16384,
+            "bytes": 49232,
+            "seconds": 0.023
+          }
+        ],
+        "nested entity key": [
+          {
+            "count": 2048,
+            "bytes": 8284,
+            "seconds": 0.004
+          },
+          {
+            "count": 16384,
+            "bytes": 65628,
+            "seconds": 0.032
+          }
+        ],
+        "long encoded key": [
+          {
+            "count": 2048,
+            "bytes": 10321,
+            "seconds": 0.006
+          },
+          {
+            "count": 16384,
+            "bytes": 82001,
+            "seconds": 0.044
+          }
+        ],
+        "malformed recovery": [
+          {
+            "count": 2048,
+            "bytes": 26708,
+            "seconds": 0.016
+          },
+          {
+            "count": 16384,
+            "bytes": 213076,
+            "seconds": 0.133
+          }
+        ],
+        "nested component prefixes": [
+          {
+            "count": 2048,
+            "bytes": 24661,
+            "seconds": 0.154,
+            "invalid": false
+          },
+          {
+            "count": 2048,
+            "bytes": 24666,
+            "seconds": 0.158,
+            "invalid": true
+          },
+          {
+            "count": 16384,
+            "bytes": 196693,
+            "seconds": 1.316,
+            "invalid": false
+          },
+          {
+            "count": 16384,
+            "bytes": 196698,
+            "seconds": 1.397,
+            "invalid": true
+          }
+        ],
+        "reserved component all APIs": [
+          {
+            "count": 2048,
+            "bytes": 57399,
+            "seconds": 0.032
+          },
+          {
+            "count": 16384,
+            "bytes": 458807,
+            "seconds": 0.207
+          }
+        ]
+      },
+      "localNativeTests": 100,
+      "localHostedPackageReplay": "Node728/Bun728/Workers pass"
+    },
+    "independentPrecision": "Production re-audit pending; invented controls are behavioral evidence only; synthetic/placeholder and credential-prefix-only policy was not relaxed."
   }
 }
