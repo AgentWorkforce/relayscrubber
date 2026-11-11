@@ -2848,5 +2848,365 @@
     "family": "component_reference_tail",
     "input": "<a href=https&colon;&sol;&sol;example.invalid/&quest;password&equals;`${secrets.password}`%26M8zR4vK7nP2qW6xAq9>open</a>",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=***\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=***\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"https://user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=***'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=***'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='https://user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=***>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=***>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=https://user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=https://user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=${PASSWORD}\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=$PASSWORD\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=process.env.PASSWORD\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=***\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=***\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=`${secrets.password}`\">open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=\"//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876\">open</a>",
+    "expected": "<a href=\"//user:[REDACTED]@example.invalid/?password=[REDACTED]\">open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=${PASSWORD}'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=$PASSWORD'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=process.env.PASSWORD'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=***'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=***'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=`${secrets.password}`'>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href='//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876'>open</a>",
+    "expected": "<a href='//user:[REDACTED]@example.invalid/?password=[REDACTED]'>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=${PASSWORD}>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=${PASSWORD}>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=$PASSWORD>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=$PASSWORD>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=${{secrets.PASSWORD}}>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=${{secrets.PASSWORD}}>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=process.env.PASSWORD>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=process.env.PASSWORD>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=***>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=***>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
+  },
+  {
+    "family": "userinfo_with_query_reference",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=`${secrets.password}`>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=`${secrets.password}`>open</a>"
+  },
+  {
+    "family": "userinfo_and_query_literals",
+    "input": "<a href=//user:DemoUserInfoPass6789@example.invalid/?password=DemoQueryToken9876>open</a>",
+    "expected": "<a href=//user:[REDACTED]@example.invalid/?password=[REDACTED]>open</a>"
   }
 ]
