@@ -1,8 +1,22 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.6`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.7`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
+
+## Alpha.7 passphrase review repair
+
+Source/version commit `3fc896afece46905a40978af076bf5b9a913a2f2` closes the independent BLOCK on `dd0db036`. The four trailing-whitespace corrections remain. The unsafe Markdown prose shortening is removed; explicit bullet assignments retain the complete credential value regardless of words/case, including numeric prefixes and entity-encoded tails. CLI argument grammar remains separate. Entity-aware bounds are used only after preservation decisions, and never enable an exemption. Prefix inspection stays bounded. Five original prose precision expectations are withdrawn as sensitive.
+
+The 1,329 invented review controls fail in 524 cases per API on exact blocked native and hosted artifact 13835231887; the repair passes across text/long/JSON/NDJSON and idempotence. Inherited gaps are closed rather than deferred. All prior 224,124 text / 224,129 structured outputs were compared: only the intended trailing-space restoration and the authorized correction below differ. Every other prior output is byte-identical.
+
+**Authorized legacy correction:** lead ruling ref 7456c09bd3e1, resent by fab-pipe message 246182902534492160, changes exactly `eval/structural_cases.json` row10 `/10/expected` (`prose_outside_assignment`). Input: `- During the deployment discussion, auth: review the available alternatives.`. Old expected: `- During the deployment discussion, auth: [REDACTED] the available alternatives.`. New expected: `- During the deployment discussion, auth: [REDACTED]`. Nine case variants were added; all other legacy rows and prior positive controls remain unchanged. No security positive was removed or weakened.
+
+Rust 1.88 Linux 105 / Windows 105 fmt/clippy, Node 732 / Bun 732, fresh 226,004 text / 226,009 structured vectors, frozen 199 zero misses/regressions/secondpass, Workers, independent reproducibility, packaging and downloaded-package replay pass. Source timing maxima Linux 2.879s / Windows 5.367s stay below the unchanged 10s limit; WASM timing limit remains 5s.
+
+Verified source-generation [CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42984758558), artifact `13838748927`: archive `3fa41795a2e07e38545fc8553d2866d055dc2051f0b1c233dc149ed977d5cbda`, package `adb643dadac708b934ce91ce39fa7d4c34d205dc9e55c657ea649680675ce51a`, WASM `0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470`, source `cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb`. Every official archive/manifest/payload/glue/adapter/package hash was verified. Source WASM fails only superseded pin equality. Receipt-only exact-head all-green and independent replacement engine/artifact review remain required. Production precision/adoption/publication remain separate. Evidence: `docs/results/alpha7-passphrase-review-repair.json`.
+
+## Historical alpha.6 evidence
 
 HTML entities establish the outer URL structure. Percent escapes stay inside
 their components: a sensitive outer parameter is redacted through the next
@@ -98,7 +112,7 @@ WASM fails only comparison with the superseded alpha.4 pin. Windows and Linux
 timings pass unchanged ten-second limits; the receipt records every measurement.
 Downloaded-package Node726/Bun726
 and Workers replay pass with fresh 220,515 text and 220,520 structured vectors,
-and frozen199 has zero misses or second-pass changes. The 63,906/84,840/26,873/
+and frozen 199 has zero misses or second-pass changes. The 63,906/84,840/26,873/
 23,002 matrices and every earlier gate remain intact. Final handoff requires
 ALL-green exact-head Linux, Windows and WASM, including equality with these
 precise source/WASM/glue/declaration/adapter/package pins. No merge or publish.

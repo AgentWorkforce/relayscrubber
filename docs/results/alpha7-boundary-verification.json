@@ -1,0 +1,606 @@
+{
+  "schema": 1,
+  "scope": "Invented boundary-only alpha7 controls; not production precision or adoption approval",
+  "baseCommit": "1c6673693d2c533ed8d856ccc20f3a190ed2922a",
+  "baseVersion": "0.5.0-alpha.6",
+  "testOnlyCommits": [
+    "1c24d2e",
+    "b24edcb",
+    "c9b18bc",
+    "20e59a2e1c12322f65dd83b0961045f393b4b29d"
+  ],
+  "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
+  "sourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+  "cases": 551,
+  "boundaryControls": 28,
+  "attackControls": 523,
+  "baseNative": {
+    "cases": 551,
+    "failureCount": 22,
+    "failedIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      22
+    ],
+    "version": "0.5.0-alpha.6",
+    "baseCommit": "1c667369",
+    "allOriginalFiveFail": true
+  },
+  "baseHostedWasm": {
+    "source": "aea569aaeca8a53190194eb10cb751195d3d21c27cd0fee2aeef78f81db3d814",
+    "wasm": "f1d393b22ce47d4cb4ca762107a7f66e8b2747f6de60c193e8b07646db28e5fd",
+    "cases": 551,
+    "boundaryCases": 28,
+    "attackCases": 523,
+    "failuresPerApi": [
+      22,
+      22,
+      22,
+      22
+    ],
+    "failedIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      22
+    ]
+  },
+  "priorVectorDifferential": {
+    "counts": {
+      "text": {
+        "preexistingVectors": 224124,
+        "changesOnlyWhitespace": 1,
+        "nonWhitespaceChanges": 0
+      },
+      "structured": {
+        "preexistingVectors": 224129,
+        "changesOnlyWhitespace": 1,
+        "nonWhitespaceChanges": 0
+      }
+    },
+    "samples": [
+      {
+        "api": "text",
+        "input": "struct Widget { token: String //plain-secret/ };",
+        "before": "struct Widget { token: [REDACTED]};",
+        "after": "struct Widget { token: [REDACTED] };"
+      },
+      {
+        "api": "structured",
+        "input": "{\"text\":\"struct Widget { token: String //plain-secret/ };\"}",
+        "before": "{\"text\":\"struct Widget { token: [REDACTED]};\"}",
+        "after": "{\"text\":\"struct Widget { token: [REDACTED] };\"}"
+      }
+    ],
+    "note": "All preexisting invented vectors compared; only whitespace visibility changes. New prose expectations are separately test-first."
+  },
+  "frozen": {
+    "baseExactArchivedOracle": 164,
+    "baseMissedSecretCases": 0,
+    "cases": 199,
+    "headExactArchivedOracle": 164,
+    "headMissedSecretCases": 0,
+    "inheritedArchivedDifferences": [],
+    "newMissedSecretCases": 0,
+    "scope": "Historical v8 oracle has superseded semantics; this checks no new loss of secret removal and current idempotence.",
+    "secondPassChangedCases": 0
+  },
+  "candidateTargetedNative": "all pass; exact spans and text/long/JSON/NDJSON plus second passes",
+  "independentEngineReview": "pending",
+  "prefixBudget": {
+    "schema": 1,
+    "scope": "Boundary-helper scaling regression only",
+    "blockedReceiptHead": "f1255d1bc7e416c3ffeacf1d41123cb1e9ad6fb5",
+    "red": {
+      "bytes": 2162691,
+      "keys": 4096,
+      "seconds": 12.006878458,
+      "timedOut": true
+    },
+    "inventedShape": "2MiB alphabetic Markdown bullet label, then4096 token: The fox, values",
+    "testFirstCommit": "20e59a2e1c12322f65dd83b0961045f393b4b29d",
+    "codeCommit": "7ce3fb1b261010088e9d01b17cb53c5629f83b0e",
+    "sourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+    "greenNativeDebugSeconds": 1.106,
+    "nativeLimitSeconds": 10,
+    "wasmLimitSeconds": 5,
+    "hostedVerification": "source CI native104/Node731/Bun731 and downloaded package replay passed"
+  },
+  "sourceRuntime": {
+    "nativeLinux": {
+      "nativeTests": 104,
+      "timingGroups": 35,
+      "maxSeconds": 2.51,
+      "times": [
+        {
+          "name": "markdown label prefix",
+          "count": 4096,
+          "bytes": 2162691,
+          "seconds": 0.821
+        },
+        {
+          "name": "nested percent queries",
+          "count": 2048,
+          "bytes": 96347,
+          "seconds": 0.121
+        },
+        {
+          "name": "malformed entity recovery",
+          "count": 2048,
+          "bytes": 45156,
+          "seconds": 0.02
+        },
+        {
+          "name": "nested entity layers",
+          "count": 2048,
+          "bytes": 8272,
+          "seconds": 0.003
+        },
+        {
+          "name": "numeric leading zeros",
+          "count": 2048,
+          "bytes": 2133,
+          "seconds": 0.001
+        },
+        {
+          "name": "nested percent queries",
+          "count": 16384,
+          "bytes": 770139,
+          "seconds": 1.071
+        },
+        {
+          "name": "malformed entity recovery",
+          "count": 16384,
+          "bytes": 360548,
+          "seconds": 0.163
+        },
+        {
+          "name": "nested entity layers",
+          "count": 16384,
+          "bytes": 65616,
+          "seconds": 0.021
+        },
+        {
+          "name": "numeric leading zeros",
+          "count": 16384,
+          "bytes": 16469,
+          "seconds": 0.005
+        },
+        {
+          "name": "unassigned encoded key",
+          "count": 2048,
+          "bytes": 14387,
+          "seconds": 0.005
+        },
+        {
+          "name": "unassigned encoded key",
+          "count": 16384,
+          "bytes": 114739,
+          "seconds": 0.035
+        },
+        {
+          "name": "HTML punctuation numeric equals zeros",
+          "count": 2048,
+          "bytes": 2131,
+          "seconds": 0.006
+        },
+        {
+          "name": "HTML punctuation nested named equals",
+          "count": 2048,
+          "bytes": 8295,
+          "seconds": 0.017
+        },
+        {
+          "name": "HTML punctuation many HTML attributes",
+          "count": 2048,
+          "bytes": 174183,
+          "seconds": 0.317
+        },
+        {
+          "name": "HTML punctuation numeric equals zeros",
+          "count": 16384,
+          "bytes": 16467,
+          "seconds": 0.04
+        },
+        {
+          "name": "HTML punctuation nested named equals",
+          "count": 16384,
+          "bytes": 65639,
+          "seconds": 0.133
+        },
+        {
+          "name": "HTML punctuation many HTML attributes",
+          "count": 16384,
+          "bytes": 1392743,
+          "seconds": 2.51
+        },
+        {
+          "name": "semicolonless decimal zeros",
+          "count": 2048,
+          "bytes": 2137,
+          "seconds": 0.001
+        },
+        {
+          "name": "semicolonless hex zeros",
+          "count": 2048,
+          "bytes": 2135,
+          "seconds": 0.001
+        },
+        {
+          "name": "semicolonless nested names",
+          "count": 2048,
+          "bytes": 6224,
+          "seconds": 0.003
+        },
+        {
+          "name": "nested entity key",
+          "count": 2048,
+          "bytes": 8284,
+          "seconds": 0.004
+        },
+        {
+          "name": "long encoded key",
+          "count": 2048,
+          "bytes": 10321,
+          "seconds": 0.006
+        },
+        {
+          "name": "malformed recovery",
+          "count": 2048,
+          "bytes": 26708,
+          "seconds": 0.017
+        },
+        {
+          "name": "semicolonless decimal zeros",
+          "count": 16384,
+          "bytes": 16473,
+          "seconds": 0.006
+        },
+        {
+          "name": "semicolonless hex zeros",
+          "count": 16384,
+          "bytes": 16471,
+          "seconds": 0.007
+        },
+        {
+          "name": "semicolonless nested names",
+          "count": 16384,
+          "bytes": 49232,
+          "seconds": 0.023
+        },
+        {
+          "name": "nested entity key",
+          "count": 16384,
+          "bytes": 65628,
+          "seconds": 0.033
+        },
+        {
+          "name": "long encoded key",
+          "count": 16384,
+          "bytes": 82001,
+          "seconds": 0.062
+        },
+        {
+          "name": "malformed recovery",
+          "count": 16384,
+          "bytes": 213076,
+          "seconds": 0.2
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 2048,
+          "bytes": 24661,
+          "seconds": 0.236
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 2048,
+          "bytes": 24666,
+          "seconds": 0.22
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 16384,
+          "bytes": 196693,
+          "seconds": 1.336
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 16384,
+          "bytes": 196698,
+          "seconds": 1.328
+        },
+        {
+          "name": "reserved component all APIs",
+          "count": 2048,
+          "bytes": 57399,
+          "seconds": 0.041
+        },
+        {
+          "name": "reserved component all APIs",
+          "count": 16384,
+          "bytes": 458807,
+          "seconds": 0.242
+        }
+      ]
+    },
+    "nativeWindows": {
+      "nativeTests": 104,
+      "timingGroups": 35,
+      "maxSeconds": 3.296,
+      "times": [
+        {
+          "name": "markdown label prefix",
+          "count": 4096,
+          "bytes": 2162691,
+          "seconds": 1.177
+        },
+        {
+          "name": "nested percent queries",
+          "count": 2048,
+          "bytes": 96347,
+          "seconds": 0.303
+        },
+        {
+          "name": "malformed entity recovery",
+          "count": 2048,
+          "bytes": 45156,
+          "seconds": 0.043
+        },
+        {
+          "name": "nested entity layers",
+          "count": 2048,
+          "bytes": 8272,
+          "seconds": 0.005
+        },
+        {
+          "name": "numeric leading zeros",
+          "count": 2048,
+          "bytes": 2133,
+          "seconds": 0.002
+        },
+        {
+          "name": "nested percent queries",
+          "count": 16384,
+          "bytes": 770139,
+          "seconds": 1.923
+        },
+        {
+          "name": "malformed entity recovery",
+          "count": 16384,
+          "bytes": 360548,
+          "seconds": 0.251
+        },
+        {
+          "name": "nested entity layers",
+          "count": 16384,
+          "bytes": 65616,
+          "seconds": 0.025
+        },
+        {
+          "name": "numeric leading zeros",
+          "count": 16384,
+          "bytes": 16469,
+          "seconds": 0.006
+        },
+        {
+          "name": "unassigned encoded key",
+          "count": 2048,
+          "bytes": 14387,
+          "seconds": 0.006
+        },
+        {
+          "name": "unassigned encoded key",
+          "count": 16384,
+          "bytes": 114739,
+          "seconds": 0.043
+        },
+        {
+          "name": "HTML punctuation numeric equals zeros",
+          "count": 2048,
+          "bytes": 2131,
+          "seconds": 0.007
+        },
+        {
+          "name": "HTML punctuation nested named equals",
+          "count": 2048,
+          "bytes": 8295,
+          "seconds": 0.021
+        },
+        {
+          "name": "HTML punctuation many HTML attributes",
+          "count": 2048,
+          "bytes": 174183,
+          "seconds": 0.404
+        },
+        {
+          "name": "HTML punctuation numeric equals zeros",
+          "count": 16384,
+          "bytes": 16467,
+          "seconds": 0.05
+        },
+        {
+          "name": "HTML punctuation nested named equals",
+          "count": 16384,
+          "bytes": 65639,
+          "seconds": 0.161
+        },
+        {
+          "name": "HTML punctuation many HTML attributes",
+          "count": 16384,
+          "bytes": 1392743,
+          "seconds": 3.296
+        },
+        {
+          "name": "semicolonless decimal zeros",
+          "count": 2048,
+          "bytes": 2137,
+          "seconds": 0.002
+        },
+        {
+          "name": "semicolonless hex zeros",
+          "count": 2048,
+          "bytes": 2135,
+          "seconds": 0.002
+        },
+        {
+          "name": "semicolonless nested names",
+          "count": 2048,
+          "bytes": 6224,
+          "seconds": 0.006
+        },
+        {
+          "name": "nested entity key",
+          "count": 2048,
+          "bytes": 8284,
+          "seconds": 0.008
+        },
+        {
+          "name": "long encoded key",
+          "count": 2048,
+          "bytes": 10321,
+          "seconds": 0.007
+        },
+        {
+          "name": "malformed recovery",
+          "count": 2048,
+          "bytes": 26708,
+          "seconds": 0.02
+        },
+        {
+          "name": "semicolonless decimal zeros",
+          "count": 16384,
+          "bytes": 16473,
+          "seconds": 0.007
+        },
+        {
+          "name": "semicolonless hex zeros",
+          "count": 16384,
+          "bytes": 16471,
+          "seconds": 0.008
+        },
+        {
+          "name": "semicolonless nested names",
+          "count": 16384,
+          "bytes": 49232,
+          "seconds": 0.028
+        },
+        {
+          "name": "nested entity key",
+          "count": 16384,
+          "bytes": 65628,
+          "seconds": 0.042
+        },
+        {
+          "name": "long encoded key",
+          "count": 16384,
+          "bytes": 82001,
+          "seconds": 0.056
+        },
+        {
+          "name": "malformed recovery",
+          "count": 16384,
+          "bytes": 213076,
+          "seconds": 0.183
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 2048,
+          "bytes": 24661,
+          "seconds": 0.219
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 2048,
+          "bytes": 24666,
+          "seconds": 0.205
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 16384,
+          "bytes": 196693,
+          "seconds": 1.671
+        },
+        {
+          "name": "nested component prefixes",
+          "count": 16384,
+          "bytes": 196698,
+          "seconds": 1.667
+        },
+        {
+          "name": "reserved component all APIs",
+          "count": 2048,
+          "bytes": 57399,
+          "seconds": 0.034
+        },
+        {
+          "name": "reserved component all APIs",
+          "count": 16384,
+          "bytes": 458807,
+          "seconds": 0.259
+        }
+      ]
+    },
+    "nodeTests": 731,
+    "bunTests": 731,
+    "textVectors": 224675,
+    "structuredVectors": 224680,
+    "frozenWitnesses": 199,
+    "workers": "passed",
+    "independentReproducibility": "passed",
+    "nodeDownloadedPackage": "731 passed",
+    "bunDownloadedPackage": "731 passed",
+    "workersDownloadedPackage": "passed"
+  },
+  "hostedArtifact": {
+    "head": "24a8b98ff1caed8640f8f3213a9adec34da3ab8c",
+    "run": 42972876745,
+    "artifactId": 13834990441,
+    "archiveSha256": "3ab64330337abd3a1b111a396e099ebe4f2fcd39e2713a6d546e4e30f64e2d87",
+    "packageSha256": "523fb00289a4da9ab1595805bf804da4e5f20213f05b4338fb6c3d42b615b815",
+    "sourceSha256": "6cbe12c25593dbfd58e40f9719ab1a3479e8358a11b761340acadee8e319c637",
+    "wasmSha256": "c8e8941f1c5728bcb8f0215e7e3590e184f442d9319141c5d8cb6fef1aa9f7e9",
+    "allManifestFilePinsVerified": true,
+    "committedPinsEqual": true
+  },
+  "sourceCiRun": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42972876745",
+  "status": "superseded by independent BLOCK on dd0db036",
+  "supersededBy": "alpha7-passphrase-review-repair.json"
+}

@@ -435,6 +435,56 @@ fn code_object_context(view: &View, key: usize) -> bool {
 // A reference must reach its delimiter within this budget. Whitespace and
 // comments are part of the value, not proof that a reference has ended.
 fn candidate_end(view: &View, value: usize) -> Option<usize> {
+    candidate_end_with_entities(view, value, false)
+}
+
+// Entity punctuation in a documentary assignment is value data. This only
+// extends redaction; it never decodes words or enables a source exemption.
+fn entity_end(b: &[u8], start: usize, limit: usize) -> Option<usize> {
+    let mut i = start + 1;
+    let mut amp_end = None;
+    while b
+        .get(i..i + 4)
+        .is_some_and(|s| s.eq_ignore_ascii_case(b"amp;"))
+        && i + 4 <= limit
+    {
+        i += 4;
+        amp_end = Some(i);
+    }
+    let body = i;
+    if b.get(i) == Some(&b'#') {
+        i += 1;
+        let hex = b.get(i).is_some_and(|b| b.eq_ignore_ascii_case(&b'x'));
+        i += usize::from(hex);
+        let digits = i;
+        while i < limit
+            && if hex {
+                b[i].is_ascii_hexdigit()
+            } else {
+                b[i].is_ascii_digit()
+            }
+        {
+            i += 1;
+        }
+        if i == digits {
+            return amp_end;
+        }
+    } else {
+        while i < limit && b[i].is_ascii_alphanumeric() {
+            i += 1;
+        }
+        if i == body {
+            return amp_end;
+        }
+    }
+    if i < limit && b[i] == b';' {
+        Some(i + 1)
+    } else {
+        amp_end
+    }
+}
+
+fn candidate_end_with_entities(view: &View, value: usize, entities: bool) -> Option<usize> {
     let b = view.text.as_bytes();
     let line = view.line_end(value).min(view.enclosing_end(value));
     let limit = line.min(value.saturating_add(512));
@@ -444,6 +494,12 @@ fn candidate_end(view: &View, value: usize) -> Option<usize> {
     let mut stack = Vec::new();
     while i < limit {
         let ch = b[i];
+        if entities && ch == b'&' {
+            if let Some(end) = entity_end(b, i, limit) {
+                i = end;
+                continue;
+            }
+        }
         if stack.is_empty() && outer == Some(ch) && outer_end == Some(i) {
             return Some(i + 1);
         }
@@ -486,6 +542,23 @@ fn candidate_end(view: &View, value: usize) -> Option<usize> {
 
 fn candidate(view: &View, value: usize) -> Option<&str> {
     candidate_end(view, value).map(|end| view.text[value..end].trim_end())
+}
+
+// An explicit sensitive assignment in a bullet owns the full scalar, even
+// when surrounding text looks documentary. Inspect a bounded line prefix so
+// repeated keys never rescan a long label. Value words and case are irrelevant.
+fn bullet_assignment(view: &View, key: usize) -> bool {
+    let prefix = &view.text.as_bytes()[view.line_start(key)..key];
+    let mut i = 0;
+    while i < prefix.len() && i < 512 {
+        let width = space_width(prefix, i);
+        if width == 0 {
+            return matches!(prefix[i], b'-' | b'*' | b'+') && space_width(prefix, i + 1) > 0;
+        }
+        i += width;
+    }
+    // Exhausted indentation context is not evidence for ending a credential.
+    prefix.len() >= 512
 }
 
 fn opaque_material(value: &str) -> bool {
@@ -1343,6 +1416,7 @@ fn assignments(
         };
         let content = value + usize::from(quoted);
         let raw = &view.text[content..end];
+        let bullet = !quoted && !flag && has_sep && bullet_assignment(view, start);
         if name == "Key" && bounded_prefix(view, start).contains("--tags ") {
             let tail = &view.text[value..view.line_end(value)];
             if opaque_material(tail) {
@@ -1357,6 +1431,7 @@ fn assignments(
         if quoted_key
             && b.get(sep) == Some(&b':')
             && !quoted
+            && !bullet
             && serde_json::from_str::<serde_json::Number>(raw).is_ok()
         {
             // Include the numeric scalar in a quoted marker, preserving the
@@ -1401,7 +1476,8 @@ fn assignments(
         // including opaque tails and literals inside calls/substitutions.
         let failed_reference = raw.starts_with('$')
             || !quoted
-                && (declaration
+                && (bullet
+                    || declaration
                     || source_context && b[value].is_ascii_alphabetic()
                     || !flag
                         && b.get(sep) == Some(&b'=')
@@ -1421,9 +1497,24 @@ fn assignments(
                     || raw.contains('_')
                         && raw.bytes().all(|b| b.is_ascii_uppercase() || b == b'_'));
         if full.is_some_and(opaque_material) || failed_reference {
+            // Entity-aware bounds apply only after preservation decisions.
+            // They can extend a rejected value, never admit an exemption.
+            let complete_end = if bullet {
+                candidate_end_with_entities(view, value, true)
+            } else {
+                complete_end
+            };
             let limit = complete_end.map_or_else(
                 || view.line_end(value).min(view.enclosing_end(value)),
-                |end| end - usize::from(quoted),
+                |end| {
+                    if quoted {
+                        end - 1
+                    } else {
+                        // Delimiter-adjacent whitespace is outside a rejected
+                        // source value; keep all internal literal/comment tails.
+                        value + view.text[value..end].trim_end().len()
+                    }
+                },
             );
             end = end.max(limit);
         }
