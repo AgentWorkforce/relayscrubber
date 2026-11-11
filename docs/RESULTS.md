@@ -1,8 +1,21 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.6`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.7`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
+
+
+## Alpha.7 boundary-only verification
+
+Source/version commit `41cda9324cc7d7ba1ab253e97d09e821d9cf3037` starts from published alpha.6 main `1c667369`. Five invented reaudit-8 witnesses restore the alpha.5 spans: four trailing-whitespace boundaries and one Markdown prose boundary. Test-first commits `1c24d2e`, `b24edcb` and `c9b18bc` retain 551 controls: 28 exact boundary/quoted-whitespace cases plus 523 credential-key literal/tail attacks. Published alpha.6 native and exact hosted WASM each fail 22 boundary cases per API and pass all attacks; the repair passes all cases. Exact spans are checked natively; text, long, JSON, NDJSON and second passes agree.
+
+The prose rule uses a complete sequence of alphabetic words in a labelled Markdown bullet; it does not exempt the first sensitive scalar. Quoted contents, comments, operators, opaque and incomplete tails retain their credential extents. All alpha.6 recall rulings, legacy security matrices and timing limits remain unchanged.
+
+All 224,124 prior text and 224,129 prior structured invented vectors were compared: exactly one output per group changes, restoring a trailing space after an existing redaction. Every other prior output is byte-identical. Fresh vectors now contain 224,675 text and 224,680 structured cases. Frozen 199 has zero missed secrets, regressions or second-pass changes. Rust1.88 Linux103/Windows103, fmt/clippy, Node730/Bun730, Workers, independent reproducibility and downloaded-package replay pass. Source timing maxima are Linux 3.359s and Windows 5.281s against the unchanged 10s limit.
+
+Verified source-generation [CI](https://github.com/AgentWorkforce/relayscrubber/actions/runs/42969184638), artifact `13833632205`: archive `50598534fa1c07daedcb8fe651b2e6b3b51c6ac884e50265816ce9c3cda8e54f`, package `8568d4d8a0b573d5c445e8aa6914c1cc2140213909ee67eedb9355ec0fa5992f`, WASM `d77fc42d63eb492c46e481d695f9471caba2ab46538ca2a9a03ed1f55abf5d61`, source `43a70eaad0d3608120886f19ffd7b933f850b84a7de229aa1c73822bae5137b8`. Official archive digest, inner manifest, all payload files and adapters were verified. Source WASM fails only old alpha.6 pin equality; receipt-only exact-head CI remains required. Independent alpha.7 engine/artifact review and production precision remain pending. Evidence: `docs/results/alpha7-boundary-verification.json`.
+
+## Historical alpha.6 evidence
 
 HTML entities establish the outer URL structure. Percent escapes stay inside
 their components: a sensitive outer parameter is redacted through the next

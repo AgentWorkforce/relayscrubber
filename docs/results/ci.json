@@ -2,28 +2,28 @@
   "schema": 1,
   "status": "identity-and-runtime-verified-independent-engine-review-pending",
   "builder": "GitHub Actions Linux x86_64",
-  "codeCommit": "f1562d13a9ea4f5821f02334952019195c45fb55",
-  "sourceRunHead": "d674050f5485c3ca37cc532723165b75aaa71fe9",
-  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42962311431",
+  "codeCommit": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
+  "sourceRunHead": "41cda9324cc7d7ba1ab253e97d09e821d9cf3037",
+  "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/42969184638",
   "artifactName": "relayscrubber-wasm-candidate",
-  "artifactId": 13830380501,
-  "artifactArchiveSha256": "529f949e869e268fe89d9bdb321b3161fdbd55095949d0539a7c7b8ae3830735",
-  "packageSha256": "374b72f5d21ecaae558273bb350103c2d111cdbbb1eaf803615c221449066cc6",
+  "artifactId": 13833632205,
+  "artifactArchiveSha256": "50598534fa1c07daedcb8fe651b2e6b3b51c6ac884e50265816ce9c3cda8e54f",
+  "packageSha256": "8568d4d8a0b573d5c445e8aa6914c1cc2140213909ee67eedb9355ec0fa5992f",
   "toolchain": "1.88.0",
   "wasmBindgen": "0.2.104",
   "manifest": {
     "schema": 3,
     "ruleset": "relayhistory-scrub",
     "rulesetVersion": 10,
-    "rulesetSourceSha256": "aea569aaeca8a53190194eb10cb751195d3d21c27cd0fee2aeef78f81db3d814",
-    "crateVersion": "0.5.0-alpha.6",
+    "rulesetSourceSha256": "43a70eaad0d3608120886f19ffd7b933f850b84a7de229aa1c73822bae5137b8",
+    "crateVersion": "0.5.0-alpha.7",
     "abiVersion": 2,
     "policy": "secrets",
     "redactionToken": "[REDACTED]",
     "scrubProfile": "relayhistory-secrets-v10"
   },
   "files": {
-    "relayscrubber_bg.wasm": "f1d393b22ce47d4cb4ca762107a7f66e8b2747f6de60c193e8b07646db28e5fd",
+    "relayscrubber_bg.wasm": "d77fc42d63eb492c46e481d695f9471caba2ab46538ca2a9a03ed1f55abf5d61",
     "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
     "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
     "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -33,10 +33,8 @@
     "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
   },
   "sameEnvironmentReproduction": "passed",
-  "macDevelopmentBuildByteIdentical": false,
   "canonicalPipelineArtifact": "Verified Linux CI package",
   "adoptionApproved": false,
-  "blockedPredecessor": "1c86b849f7eafeab05f973dfdd54d1ee2f32c196",
-  "independentEngineReview": "replacement pending; predecessor blocked",
-  "runtimeChecks": "Rust1.88 Linux102/Windows102 fmt/clippy pass with all unchanged matrices/limits; Node729/Bun729, fresh224124text+224129structured vectors, frozen199 zero misses/secondpass, Workers, independent reproducibility and packaging pass. Source WASM failed only superseded pin equality; replacement immutable-head CI remains required."
+  "independentEngineReview": "alpha7 pending; alpha6 reviewed separately",
+  "runtimeChecks": "Rust1.88 Linux103/Windows103 fmt/clippy, all unchanged matrices/limits; Node730/Bun730 fresh224675text+224680structured vectors; frozen199 zero misses/regressions/secondpass; Workers, independent reproducibility and packaging pass. Source WASM fails only superseded alpha6 pin comparison; receipt-only exact-head gate still required."
 }
