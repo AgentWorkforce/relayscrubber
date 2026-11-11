@@ -55,6 +55,12 @@ for text in [
 for slash in ["%2F", "%252f", r"\x2f", r"\u002f"]:
     hide("encoded_comment_after_rejected_lowercase_value", f"token = widget {slash}{slash}plain-secret{slash};", "plain-secret")
 hide("distant_type_rejected_comment", "const options = {" + "pad: 0," * 100 + "token: String //plain-secret/};", "plain-secret")
+for prefix in ["", "const "]:
+    keep("borrow_reference", f"{prefix}token = &widget;")
+    hide("borrow_literal", f'{prefix}token = &"plain-secret";', "plain-secret")
+    hide("borrow_numeric", f"{prefix}token = &123456;", "123456")
+    hide("borrow_comment_tail", f"{prefix}token = &widget //plain-secret/;", "plain-secret")
+hide("borrow_encoded_literal", 'token %3D &"plain-secret";', "plain-secret")
 for family, expression in forms.items():
     for prefix in ["", "const "]:
         for literal in ["plain-secret", "123456"]:

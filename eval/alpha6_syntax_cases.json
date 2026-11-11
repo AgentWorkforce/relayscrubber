@@ -240,6 +240,51 @@
     "secret": "plain-secret"
   },
   {
+    "family": "borrow_reference",
+    "input": "token = &widget;",
+    "expected": "token = &widget;"
+  },
+  {
+    "family": "borrow_literal",
+    "input": "token = &\"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "borrow_numeric",
+    "input": "token = &123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "borrow_comment_tail",
+    "input": "token = &widget //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "borrow_reference",
+    "input": "const token = &widget;",
+    "expected": "const token = &widget;"
+  },
+  {
+    "family": "borrow_literal",
+    "input": "const token = &\"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "borrow_numeric",
+    "input": "const token = &123456;",
+    "secret": "123456"
+  },
+  {
+    "family": "borrow_comment_tail",
+    "input": "const token = &widget //plain-secret/;",
+    "secret": "plain-secret"
+  },
+  {
+    "family": "borrow_encoded_literal",
+    "input": "token %3D &\"plain-secret\";",
+    "secret": "plain-secret"
+  },
+  {
     "family": "regex_comment_lexer_attack",
     "input": "token = /widget[a-z]+/g //plain-secret/;",
     "secret": "plain-secret"
