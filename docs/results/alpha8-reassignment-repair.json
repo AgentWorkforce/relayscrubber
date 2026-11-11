@@ -1,0 +1,474 @@
+{
+  "schema": 1,
+  "status": "native targeted verified; full gates and hosted replacement pending",
+  "blockedHead": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
+  "basePublishedMain": "f4188515ff5406fe87593cb5efefcefbbdf8f502",
+  "authority": "relayscrubber-lead BLOCK/PASS withdrawal message246242359458385920",
+  "cases": 9496,
+  "families": {
+    "bare_source_shaped": 1152,
+    "bare_literal_control": 504,
+    "bare_layout_control": 2304,
+    "declaration_control": 3456,
+    "declaration_literal_sibling": 1536,
+    "existing_public_session_identifier_control": 12,
+    "noncredential_control": 24,
+    "word_prefix_assignment": 380,
+    "complete_comment_bearer_control": 64,
+    "comment_bearer_tail_assignment": 64
+  },
+  "baselineNative": {
+    "cases": 9496,
+    "fixtureSha256": "54e8c32125c19173a4d79fd02d350c0e452921985d568efaab51980753c946f9",
+    "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
+    "failuresPerApi": [
+      2236,
+      2236,
+      2236,
+      2236
+    ],
+    "failedIdsSha256": "e9f2a85faeb1097c422934cca07c6615991c902af5b05521c2387bdf6195377f",
+    "failedFamilies": {
+      "bare_source_shaped": 1024,
+      "declaration_literal_sibling": 768,
+      "word_prefix_assignment": 380,
+      "comment_bearer_tail_assignment": 64
+    },
+    "idempotenceChecked": true,
+    "head": "bfeaa79def3719d3dd99823bc5d09e373bb0b7f8",
+    "toolchain": "1.88.0"
+  },
+  "baselineHostedWasm": {
+    "artifactId": 13840491052,
+    "cases": 9496,
+    "fixtureSha256": "54e8c32125c19173a4d79fd02d350c0e452921985d568efaab51980753c946f9",
+    "sourceSha256": "cef2939f0b78a54c050a13f32c2cb70903a7e79a5558b3f9e915e621503bacdb",
+    "wasmSha256": "0896ae88f27d90645f8bec4b6da5bacff4dcbe35365864bea00638a9c989c470",
+    "allInnerPinsVerified": true,
+    "failuresPerApi": [
+      2236,
+      2236,
+      2236,
+      2236
+    ],
+    "failedIdsSha256": "e9f2a85faeb1097c422934cca07c6615991c902af5b05521c2387bdf6195377f",
+    "failedFamilies": {
+      "bare_source_shaped": 1024,
+      "declaration_literal_sibling": 768,
+      "word_prefix_assignment": 380,
+      "comment_bearer_tail_assignment": 64
+    },
+    "idempotenceChecked": true
+  },
+  "authorizedLegacyCorrections": [
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 48,
+      "jsonPointer": "/48/expected",
+      "family": "borrow_reference",
+      "input": "token = &widget;",
+      "oldExpected": "token = &widget;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 268,
+      "jsonPointer": "/268/expected",
+      "family": "call",
+      "input": "password = readWidget(input);",
+      "oldExpected": "password = readWidget(input);",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 316,
+      "jsonPointer": "/316/expected",
+      "family": "call",
+      "input": "token = readWidget(input);",
+      "oldExpected": "token = readWidget(input);",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 364,
+      "jsonPointer": "/364/expected",
+      "family": "call",
+      "input": "session_id = readWidget(input);",
+      "oldExpected": "session_id = readWidget(input);",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 412,
+      "jsonPointer": "/412/expected",
+      "family": "call",
+      "input": "PASSWORD = readWidget(input);",
+      "oldExpected": "PASSWORD = readWidget(input);",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 471,
+      "jsonPointer": "/471/expected",
+      "family": "member",
+      "input": "password = widget.credentials;",
+      "oldExpected": "password = widget.credentials;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 519,
+      "jsonPointer": "/519/expected",
+      "family": "member",
+      "input": "token = widget.credentials;",
+      "oldExpected": "token = widget.credentials;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 567,
+      "jsonPointer": "/567/expected",
+      "family": "member",
+      "input": "session_id = widget.credentials;",
+      "oldExpected": "session_id = widget.credentials;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 615,
+      "jsonPointer": "/615/expected",
+      "family": "member",
+      "input": "PASSWORD = widget.credentials;",
+      "oldExpected": "PASSWORD = widget.credentials;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 674,
+      "jsonPointer": "/674/expected",
+      "family": "operator",
+      "input": "password = widget.primary + widget.secondary;",
+      "oldExpected": "password = widget.primary + widget.secondary;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 722,
+      "jsonPointer": "/722/expected",
+      "family": "operator",
+      "input": "token = widget.primary + widget.secondary;",
+      "oldExpected": "token = widget.primary + widget.secondary;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 770,
+      "jsonPointer": "/770/expected",
+      "family": "operator",
+      "input": "session_id = widget.primary + widget.secondary;",
+      "oldExpected": "session_id = widget.primary + widget.secondary;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 818,
+      "jsonPointer": "/818/expected",
+      "family": "operator",
+      "input": "PASSWORD = widget.primary + widget.secondary;",
+      "oldExpected": "PASSWORD = widget.primary + widget.secondary;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 877,
+      "jsonPointer": "/877/expected",
+      "family": "logical",
+      "input": "password = widget.primary && widget.secondary;",
+      "oldExpected": "password = widget.primary && widget.secondary;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 925,
+      "jsonPointer": "/925/expected",
+      "family": "logical",
+      "input": "token = widget.primary && widget.secondary;",
+      "oldExpected": "token = widget.primary && widget.secondary;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 973,
+      "jsonPointer": "/973/expected",
+      "family": "logical",
+      "input": "session_id = widget.primary && widget.secondary;",
+      "oldExpected": "session_id = widget.primary && widget.secondary;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1021,
+      "jsonPointer": "/1021/expected",
+      "family": "logical",
+      "input": "PASSWORD = widget.primary && widget.secondary;",
+      "oldExpected": "PASSWORD = widget.primary && widget.secondary;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1080,
+      "jsonPointer": "/1080/expected",
+      "family": "conditional",
+      "input": "password = widget.ready ? widget.primary : widget.secondary;",
+      "oldExpected": "password = widget.ready ? widget.primary : widget.secondary;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1128,
+      "jsonPointer": "/1128/expected",
+      "family": "conditional",
+      "input": "token = widget.ready ? widget.primary : widget.secondary;",
+      "oldExpected": "token = widget.ready ? widget.primary : widget.secondary;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1176,
+      "jsonPointer": "/1176/expected",
+      "family": "conditional",
+      "input": "session_id = widget.ready ? widget.primary : widget.secondary;",
+      "oldExpected": "session_id = widget.ready ? widget.primary : widget.secondary;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1224,
+      "jsonPointer": "/1224/expected",
+      "family": "conditional",
+      "input": "PASSWORD = widget.ready ? widget.primary : widget.secondary;",
+      "oldExpected": "PASSWORD = widget.ready ? widget.primary : widget.secondary;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1283,
+      "jsonPointer": "/1283/expected",
+      "family": "object",
+      "input": "password = {widget: 1};",
+      "oldExpected": "password = {widget: 1};",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1331,
+      "jsonPointer": "/1331/expected",
+      "family": "object",
+      "input": "token = {widget: 1};",
+      "oldExpected": "token = {widget: 1};",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1379,
+      "jsonPointer": "/1379/expected",
+      "family": "object",
+      "input": "session_id = {widget: 1};",
+      "oldExpected": "session_id = {widget: 1};",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1427,
+      "jsonPointer": "/1427/expected",
+      "family": "object",
+      "input": "PASSWORD = {widget: 1};",
+      "oldExpected": "PASSWORD = {widget: 1};",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1486,
+      "jsonPointer": "/1486/expected",
+      "family": "nested_object",
+      "input": "password = {widget: {count: 1}};",
+      "oldExpected": "password = {widget: {count: 1}};",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1534,
+      "jsonPointer": "/1534/expected",
+      "family": "nested_object",
+      "input": "token = {widget: {count: 1}};",
+      "oldExpected": "token = {widget: {count: 1}};",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1582,
+      "jsonPointer": "/1582/expected",
+      "family": "nested_object",
+      "input": "session_id = {widget: {count: 1}};",
+      "oldExpected": "session_id = {widget: {count: 1}};",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1630,
+      "jsonPointer": "/1630/expected",
+      "family": "nested_object",
+      "input": "PASSWORD = {widget: {count: 1}};",
+      "oldExpected": "PASSWORD = {widget: {count: 1}};",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1689,
+      "jsonPointer": "/1689/expected",
+      "family": "array",
+      "input": "password = [widget.primary, widget.secondary];",
+      "oldExpected": "password = [widget.primary, widget.secondary];",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1737,
+      "jsonPointer": "/1737/expected",
+      "family": "array",
+      "input": "token = [widget.primary, widget.secondary];",
+      "oldExpected": "token = [widget.primary, widget.secondary];",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1785,
+      "jsonPointer": "/1785/expected",
+      "family": "array",
+      "input": "session_id = [widget.primary, widget.secondary];",
+      "oldExpected": "session_id = [widget.primary, widget.secondary];",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1833,
+      "jsonPointer": "/1833/expected",
+      "family": "array",
+      "input": "PASSWORD = [widget.primary, widget.secondary];",
+      "oldExpected": "PASSWORD = [widget.primary, widget.secondary];",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1892,
+      "jsonPointer": "/1892/expected",
+      "family": "template",
+      "input": "password = ${widget.credentials};",
+      "oldExpected": "password = ${widget.credentials};",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1938,
+      "jsonPointer": "/1938/expected",
+      "family": "template",
+      "input": "token = ${widget.credentials};",
+      "oldExpected": "token = ${widget.credentials};",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 1984,
+      "jsonPointer": "/1984/expected",
+      "family": "template",
+      "input": "session_id = ${widget.credentials};",
+      "oldExpected": "session_id = ${widget.credentials};",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2030,
+      "jsonPointer": "/2030/expected",
+      "family": "template",
+      "input": "PASSWORD = ${widget.credentials};",
+      "oldExpected": "PASSWORD = ${widget.credentials};",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2087,
+      "jsonPointer": "/2087/expected",
+      "family": "identifier",
+      "input": "password = widgetPassword;",
+      "oldExpected": "password = widgetPassword;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2135,
+      "jsonPointer": "/2135/expected",
+      "family": "identifier",
+      "input": "token = widgetPassword;",
+      "oldExpected": "token = widgetPassword;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2183,
+      "jsonPointer": "/2183/expected",
+      "family": "identifier",
+      "input": "session_id = widgetPassword;",
+      "oldExpected": "session_id = widgetPassword;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2231,
+      "jsonPointer": "/2231/expected",
+      "family": "identifier",
+      "input": "PASSWORD = widgetPassword;",
+      "oldExpected": "PASSWORD = widgetPassword;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2290,
+      "jsonPointer": "/2290/expected",
+      "family": "uppercase",
+      "input": "password = WIDGET_CREDENTIAL;",
+      "oldExpected": "password = WIDGET_CREDENTIAL;",
+      "newExpected": "password = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2338,
+      "jsonPointer": "/2338/expected",
+      "family": "uppercase",
+      "input": "token = WIDGET_CREDENTIAL;",
+      "oldExpected": "token = WIDGET_CREDENTIAL;",
+      "newExpected": "token = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2386,
+      "jsonPointer": "/2386/expected",
+      "family": "uppercase",
+      "input": "session_id = WIDGET_CREDENTIAL;",
+      "oldExpected": "session_id = WIDGET_CREDENTIAL;",
+      "newExpected": "session_id = [REDACTED];"
+    },
+    {
+      "file": "eval/alpha6_syntax_cases.json",
+      "row": 2434,
+      "jsonPointer": "/2434/expected",
+      "family": "uppercase",
+      "input": "PASSWORD = WIDGET_CREDENTIAL;",
+      "oldExpected": "PASSWORD = WIDGET_CREDENTIAL;",
+      "newExpected": "PASSWORD = [REDACTED];"
+    }
+  ],
+  "allOtherLegacyFixtureRowsUnchanged": true,
+  "priorSecurityPositiveControlsUnchanged": true,
+  "independentEngineArtifactReview": "pending; alpha7 PASS withdrawn",
+  "adoptionApproved": false
+}

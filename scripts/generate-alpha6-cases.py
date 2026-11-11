@@ -56,7 +56,10 @@ for slash in ["%2F", "%252f", r"\x2f", r"\u002f"]:
     hide("encoded_comment_after_rejected_lowercase_value", f"token = widget {slash}{slash}plain-secret{slash};", "plain-secret")
 hide("distant_type_rejected_comment", "const options = {" + "pad: 0," * 100 + "token: String //plain-secret/};", "plain-secret")
 for prefix in ["", "const "]:
-    keep("borrow_reference", f"{prefix}token = &widget;")
+    if prefix:
+        keep("borrow_reference", f"{prefix}token = &widget;")
+    else:
+        cases.append(dict(family="borrow_reference", input="token = &widget;", expected="token = [REDACTED];"))
     hide("borrow_literal", f'{prefix}token = &"plain-secret";', "plain-secret")
     hide("borrow_numeric", f"{prefix}token = &123456;", "123456")
     hide("borrow_comment_tail", f"{prefix}token = &widget //plain-secret/;", "plain-secret")
@@ -71,8 +74,10 @@ for family, expression in forms.items():
             text = f"{prefix}{key} = {expression};"
             if family == "regex":
                 hide("review_sensitive_regex_literal", text, expression)
-            else:
+            elif prefix:
                 keep(family, text)
+            else:
+                cases.append(dict(family=family, input=text, expected=f"{key} = [REDACTED];"))
             for quote in ['"', "'", "`"]:
                 # Backtick templates already have a reviewed exemption.
                 if family == "template" and quote == "`":

@@ -716,33 +716,14 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     if !safe_code_literals(rest) {
         return false;
     }
-    // Env/config assignments have no source statement delimiter. New bare
-    // reassignments require both a spaced assignment and a complete semicolon;
-    // declarations retain their existing explicit source context.
-    let reassignment = view.text[key..value].contains(" = ")
-        && candidate_end(view, value)
-            .is_some_and(|end| view.text.as_bytes().get(end) == Some(&b';'));
-    if !colon
-        && (declaration || reassignment)
-        && template_reference(rest)
-        && symbolic_arguments(rest)
-    {
+    // A source-shaped RHS does not establish source context. Only an
+    // independently recognized declaration/context may preserve expressions.
+    if !colon && declaration && template_reference(rest) && symbolic_arguments(rest) {
         return true;
     }
-    // Reassignments do not need a let/const declaration. A single bare word
-    // outside a declaration needs identifier casing syntax; ordinary scalar
-    // passwords still have no source-expression evidence.
-    let source_shape = declaration
-        || rest.contains(['.', '(', '[', '{', '/', '+', '*', '?', '&', '|'])
-        || rest
-            .as_bytes()
-            .windows(2)
-            .any(|w| w[0].is_ascii_lowercase() && w[1].is_ascii_uppercase())
-        || rest.contains('_') && rest.bytes().all(|b| b.is_ascii_uppercase() || b == b'_');
     if !colon
         && bounded_prefix(view, key).split_whitespace().last() != Some("type")
-        && (declaration || reassignment)
-        && source_shape
+        && declaration
         && crate::syntax::expression(rest)
     {
         return true;
@@ -1465,7 +1446,20 @@ fn assignments(
                 || excerpt_value(view, start, whole)
         }) || non_assignment_wrapper(view, start)
             && bounded_prefix(view, start).split_whitespace().last() != Some("type")
-            && full.is_some_and(|s| !opaque_material(s) || s.starts_with("Bearer "))
+            && full.is_some_and(|s| {
+                b.get(sep) != Some(&b'=')
+                    && (!opaque_material(s) || s.starts_with("Bearer "))
+                    // Delegate only a complete Bearer literal to the standalone
+                    // scanner, which removes its entire credential body. A
+                    // source-shaped value or an additional tail cannot qualify.
+                    || s.split_once([' ', '\t']).is_some_and(|(scheme, body)| {
+                        scheme.eq_ignore_ascii_case("bearer")
+                            && body.trim_start_matches([' ', '\t']) == REDACTION_TOKEN
+                    })
+                    || bearer_regex()
+                        .find(s)
+                        .is_some_and(|m| m.start() == 0 && m.end() == s.len())
+            })
         {
             continue;
         }

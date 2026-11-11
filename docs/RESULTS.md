@@ -1,10 +1,36 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.7`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.8`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
 
-## Alpha.7 passphrase review repair
+## Alpha.8 bare reassignment recall repair
+
+The alpha.7 engine/artifact PASS for `bfeaa79d` was withdrawn by the independent
+reviewer (message 246242359458385920). Published alpha.6/alpha.7 preserve some
+bare sensitive reassignments that alpha.5 redacts. The successor removes the
+spaced-equals/semicolon source-shape exemption: `password = summerDays;`,
+`password = API_TOKEN;`, members, calls and templates redact without an
+independently recognized declaration. `const`/`let`/`var` declaration references
+retain their existing controls. Word prefixes also cannot waive an equals
+assignment, including exported declaration literals. Only a complete Bearer
+literal may delegate its entire credential body to the standalone scanner;
+additional tails fail closed.
+
+The 9,496 invented controls cover all explicit key families, case spellings,
+export prefixes, source-shaped values, literal siblings, declarations and all
+four APIs plus idempotence. Pinned Rust 1.88 native and the exact downloaded
+alpha.7 WASM artifact fail the same 2,236 rows per API. Targeted successor native
+tests pass. Full gates, hosted successor replay and independent review are pending.
+
+The lead explicitly authorizes 45 preservation-to-sensitive expectation
+corrections in `eval/alpha6_syntax_cases.json`; every row, old output and new output
+is enumerated in [the receipt](results/alpha8-reassignment-repair.json).
+All other legacy fixture rows, declaration controls and security positives are
+unchanged. This retains alpha.7 whitespace and full-passphrase repairs. Desktop
+adoption, publication and a new security PASS remain separately scoped.
+
+## Historical alpha.7 passphrase repair (PASS withdrawn)
 
 Source/version commit `3fc896afece46905a40978af076bf5b9a913a2f2` closes the independent BLOCK on `dd0db036`. The four trailing-whitespace corrections remain. The unsafe Markdown prose shortening is removed; explicit bullet assignments retain the complete credential value regardless of words/case, including numeric prefixes and entity-encoded tails. CLI argument grammar remains separate. Entity-aware bounds are used only after preservation decisions, and never enable an exemption. Prefix inspection stays bounded. Five original prose precision expectations are withdrawn as sensitive.
 
