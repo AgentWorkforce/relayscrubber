@@ -36,6 +36,14 @@ is an atomic UTF-8 NDJSON interface with deterministic, content-free errors;
 limits are 16 MiB per record and 64 MiB per operation. No partial output escapes
 an error. JSON recursion is bounded at 128 levels.
 
+`scrub_enhanced` is the recommended upload-safe entry point. It runs a
+precise query/fragment-parameter pre-pass, then `scrub_long`, then a
+whole-output post-pass (chat-webhook URLs, newer provider prefixes,
+any-length CLI-flag secrets, validated SSNs, private-range IPv4). It is a
+strict superset of the canonical engine, idempotent, and never truncates; the
+canonical pipeline itself is untouched (see `EVALS.md` for the accuracy and
+performance benchmark).
+
 `manifest()` returns ruleset family/version, source digest, ABI, crate version
 and policy. The source digest includes ordered Rust sources, build script,
 pinned toolchain, original Cargo manifest and lockfile with LF normalization and

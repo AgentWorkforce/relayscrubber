@@ -8,6 +8,13 @@ mod syntax;
 #[cfg(feature = "wasm")]
 mod wasm;
 
+mod enhanced;
+
+pub use enhanced::{
+    scrub_enhanced, scrub_enhanced_with_policy, scrub_json_enhanced,
+    scrub_json_enhanced_with_policy, scrub_json_text_enhanced,
+    scrub_json_text_enhanced_with_policy,
+};
 pub use json::{
     scrub_json, scrub_json_checked, scrub_json_text, scrub_json_text_checked,
     scrub_json_with_policy, scrub_records, RecordError, RecordOutput,
