@@ -154,7 +154,7 @@
     "scripts/qualification-ts-loader.mjs": "f75289fc8595b3db5de6fbdd2ca7eac835a9a5cc6aa87d06cae92ee91ae31f48",
     "scripts/summarize-pr21-families.mjs": "ebfc8d7dd6eae572919765ea3fd75d11c99cf18220778cb21167b182c0bbac15"
   },
-  "scopeCountsFromFullAudit": {
+  "historicalScopeCountsFromFullAudit": {
     "desktop-native-alpha5": {
       "broader_grammar_pending_authorization": {
         "observations": 19194,
@@ -987,7 +987,7 @@
     ],
     "scope": [
       {
-        "family": "pr21_length_boundary_question",
+        "family": "pr21_required_short_values",
         "positiveCases": 216,
         "failedCases": {
           "desktop-native-alpha5": 180,
@@ -1021,7 +1021,7 @@
   "witnesses": [
     {
       "caseId": "grammar-000000",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "noun/password",
         "separator/is",
@@ -1030,7 +1030,7 @@
         "multiline/inline",
         "multiplicity/one_disclosure",
         "generator_family/grammar",
-        "scope/pr21_length_boundary_question"
+        "scope/pr21_required_short_values"
       ],
       "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
       "inputUtf8Bytes": 45,
@@ -1096,7 +1096,7 @@
     },
     {
       "caseId": "grammar-000567",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "noun/passcode"
       ],
@@ -1164,7 +1164,7 @@
     },
     {
       "caseId": "grammar-001134",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "noun/passphrase"
       ],
@@ -1232,7 +1232,7 @@
     },
     {
       "caseId": "grammar-001701",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "noun/pw"
       ],
@@ -1716,7 +1716,7 @@
     },
     {
       "caseId": "grammar-000081",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "separator/was"
       ],
@@ -2331,7 +2331,7 @@
     },
     {
       "caseId": "grammar-000001",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "value_shape/fixed/short_symbol"
       ],
@@ -2744,7 +2744,7 @@
       "families": [
         "value_shape/fixed/unicode"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now \u677e\ud83d\udd10\u00e9\u0436",
       "inputUtf8Bytes": 59,
       "inputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
       "protectedSpans": [
@@ -2758,7 +2758,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now \u677e\ud83d\udd10\u00e9\u0436",
           "decodedOutputUtf8Bytes": 59,
           "forms": [
             "text",
@@ -2770,7 +2770,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now \u677e\ud83d\udd10\u00e9\u0436",
           "decodedOutputUtf8Bytes": 59,
           "forms": [
             "text",
@@ -2782,7 +2782,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "c817f406bf3fa575b4e3aa0aa054eee6cea09b3801399ab7d24994d817eb866b",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 松🔐éж",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] \u677e\ud83d\udd10\u00e9\u0436",
           "decodedOutputUtf8Bytes": 66,
           "forms": [
             "text",
@@ -2794,7 +2794,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "c817f406bf3fa575b4e3aa0aa054eee6cea09b3801399ab7d24994d817eb866b",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 松🔐éж",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] \u677e\ud83d\udd10\u00e9\u0436",
           "decodedOutputUtf8Bytes": 66,
           "forms": [
             "text",
@@ -3090,7 +3090,7 @@
       "families": [
         "value_shape/seeded/codepoints_257"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?K\u00e9/FRM&v=rmD5%CWV6{k#A\u677e54n?x\ud83d\udd10!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
       "inputUtf8Bytes": 311,
       "inputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
       "protectedSpans": [
@@ -3104,7 +3104,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?K\u00e9/FRM&v=rmD5%CWV6{k#A\u677e54n?x\ud83d\udd10!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 311,
           "forms": [
             "text",
@@ -3116,7 +3116,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?K\u00e9/FRM&v=rmD5%CWV6{k#A\u677e54n?x\ud83d\udd10!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 311,
           "forms": [
             "text",
@@ -3128,7 +3128,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?K\u00e9/FRM&v=rmD5%CWV6{k#A\u677e54n?x\ud83d\udd10!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 311,
           "forms": [
             "text",
@@ -3140,7 +3140,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?K\u00e9/FRM&v=rmD5%CWV6{k#A\u677e54n?x\ud83d\udd10!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 311,
           "forms": [
             "text",
@@ -3158,7 +3158,7 @@
       "families": [
         "value_shape/seeded/codepoints_1024"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t\ud83d\udd10k4FY]\u677edjW/MZat#vU+#Hn\u677e_P!hE?:c#:gjDDH74vA}V3T\ud83d\udd10s_HrKeJnu5\u00e9W77%EXta[rm7A{9P4[P48\u00e9HSreQa(FXfTC\u00e9vBd2NdJ [preview truncated; regenerate by caseId]",
       "inputUtf8Bytes": 1157,
       "inputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
       "protectedSpans": [
@@ -3172,7 +3172,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t\ud83d\udd10k4FY]\u677edjW/MZat#vU+#Hn\u677e_P!hE?:c#:gjDDH74vA}V3T\ud83d\udd10s_HrKeJnu5\u00e9W77%EXta[rm7A{9P4[P48\u00e9HSreQa(FXfTC\u00e9vBd2NdJ [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 1157,
           "forms": [
             "text",
@@ -3184,7 +3184,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t\ud83d\udd10k4FY]\u677edjW/MZat#vU+#Hn\u677e_P!hE?:c#:gjDDH74vA}V3T\ud83d\udd10s_HrKeJnu5\u00e9W77%EXta[rm7A{9P4[P48\u00e9HSreQa(FXfTC\u00e9vBd2NdJ [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 1157,
           "forms": [
             "text",
@@ -3196,7 +3196,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "89851db31db0c9065215dcf96777e63e135731a7eef474c27a20cd42481ad807",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCé [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t\ud83d\udd10k4FY]\u677edjW/MZat#vU+#Hn\u677e_P!hE?:c#:gjDDH74vA}V3T\ud83d\udd10s_HrKeJnu5\u00e9W77%EXta[rm7A{9P4[P48\u00e9HSreQa(FXfTC\u00e9 [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 1164,
           "forms": [
             "text",
@@ -3208,7 +3208,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "89851db31db0c9065215dcf96777e63e135731a7eef474c27a20cd42481ad807",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCé [preview truncated; regenerate by caseId]",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t\ud83d\udd10k4FY]\u677edjW/MZat#vU+#Hn\u677e_P!hE?:c#:gjDDH74vA}V3T\ud83d\udd10s_HrKeJnu5\u00e9W77%EXta[rm7A{9P4[P48\u00e9HSreQa(FXfTC\u00e9 [preview truncated; regenerate by caseId]",
           "decodedOutputUtf8Bytes": 1164,
           "forms": [
             "text",
@@ -3432,7 +3432,7 @@
       "families": [
         "value_shape/seeded/codepoints_31"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQ\u00e9JnM5\u677eGb\u00e9\u00e9+sN}+nFRy9X&U&b\ud83d\udd10p26'",
       "inputUtf8Bytes": 79,
       "inputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
       "protectedSpans": [
@@ -3446,7 +3446,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQ\u00e9JnM5\u677eGb\u00e9\u00e9+sN}+nFRy9X&U&b\ud83d\udd10p26'",
           "decodedOutputUtf8Bytes": 79,
           "forms": [
             "text",
@@ -3458,7 +3458,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQ\u00e9JnM5\u677eGb\u00e9\u00e9+sN}+nFRy9X&U&b\ud83d\udd10p26'",
           "decodedOutputUtf8Bytes": 79,
           "forms": [
             "text",
@@ -3470,7 +3470,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQ\u00e9JnM5\u677eGb\u00e9\u00e9+sN}+nFRy9X&U&b\ud83d\udd10p26'",
           "decodedOutputUtf8Bytes": 79,
           "forms": [
             "text",
@@ -3482,7 +3482,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQ\u00e9JnM5\u677eGb\u00e9\u00e9+sN}+nFRy9X&U&b\ud83d\udd10p26'",
           "decodedOutputUtf8Bytes": 79,
           "forms": [
             "text",
@@ -3632,7 +3632,7 @@
     },
     {
       "caseId": "grammar-000009",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "quoting/single"
       ],
@@ -3700,7 +3700,7 @@
     },
     {
       "caseId": "grammar-000018",
-      "scope": "pr21_length_boundary_question",
+      "scope": "pr21_required_short_values",
       "families": [
         "quoting/double"
       ],
@@ -3840,7 +3840,7 @@
       "families": [
         "quoting/curly_double"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \u201csynthetic violet\nsynthetic cobalt\u201d",
       "inputUtf8Bytes": 83,
       "inputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
       "protectedSpans": [
@@ -3854,7 +3854,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \u201csynthetic violet\nsynthetic cobalt\u201d",
           "decodedOutputUtf8Bytes": 83,
           "forms": [
             "text",
@@ -3866,7 +3866,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \u201csynthetic violet\nsynthetic cobalt\u201d",
           "decodedOutputUtf8Bytes": 83,
           "forms": [
             "text",
@@ -3878,7 +3878,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "7e22065b7f5e8ca866e9ff357f7cf5909c7dd9eb43f1aa7c6107aac5881de178",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt”",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt\u201d",
           "decodedOutputUtf8Bytes": 81,
           "forms": [
             "text",
@@ -3890,7 +3890,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "7e22065b7f5e8ca866e9ff357f7cf5909c7dd9eb43f1aa7c6107aac5881de178",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt”",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt\u201d",
           "decodedOutputUtf8Bytes": 81,
           "forms": [
             "text",
@@ -4112,7 +4112,7 @@
       "families": [
         "multiline/unicode_space"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\u2003is\nsynthetic-amber#47",
       "inputUtf8Bytes": 64,
       "inputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
       "protectedSpans": [
@@ -4126,7 +4126,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\u2003is\nsynthetic-amber#47",
           "decodedOutputUtf8Bytes": 64,
           "forms": [
             "text",
@@ -4138,7 +4138,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\u2003is\nsynthetic-amber#47",
           "decodedOutputUtf8Bytes": 64,
           "forms": [
             "text",
@@ -4150,7 +4150,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\u2003is\nsynthetic-amber#47",
           "decodedOutputUtf8Bytes": 64,
           "forms": [
             "text",
@@ -4162,7 +4162,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\u2003is\nsynthetic-amber#47",
           "decodedOutputUtf8Bytes": 64,
           "forms": [
             "text",
@@ -4180,7 +4180,7 @@
       "families": [
         "multiline/seeded_gap_crlf"
       ],
-      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC\u677eu[\ud83d\udd10!E",
       "inputUtf8Bytes": 65,
       "inputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
       "protectedSpans": [
@@ -4194,7 +4194,7 @@
       "variants": {
         "desktop-native-alpha5": {
           "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC\u677eu[\ud83d\udd10!E",
           "decodedOutputUtf8Bytes": 65,
           "forms": [
             "text",
@@ -4206,7 +4206,7 @@
         },
         "pipeline-adapter-alpha5": {
           "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC\u677eu[\ud83d\udd10!E",
           "decodedOutputUtf8Bytes": 65,
           "forms": [
             "text",
@@ -4218,7 +4218,7 @@
         },
         "desktop-native-alpha9": {
           "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC\u677eu[\ud83d\udd10!E",
           "decodedOutputUtf8Bytes": 65,
           "forms": [
             "text",
@@ -4230,7 +4230,7 @@
         },
         "pipeline-adapter-alpha9": {
           "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
-          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC\u677eu[\ud83d\udd10!E",
           "decodedOutputUtf8Bytes": 65,
           "forms": [
             "text",
@@ -4313,11 +4313,23 @@
   ],
   "limits": [
     "PR21 remains draft; no merge/publication approval inferred.",
-    "Expanded-policy cases remain pending direct authorization. Length boundary is a scope question, not silently excluded.",
+    "One-character password-family disclosures are required PR21 cases with no minimum length. Their 162 misses block b547451. Only the other 6182 expanded-policy cases remain pending direct authorization.",
     "No session bodies or fixture queries. Only invented corpus observations and bounded calls to existing native probes are used.",
     "Fresh native witness hashes match the saved real-adapter hashes in every form; full-matrix native/adapter parity is from the completed exact-hosted-artifact audit.",
     "Candidate adapter identity is in-memory test-only with an UNRELEASED-CI schema label; no consumer pin file changed.",
     "Output hashes cover UTF-8 decoded synthetic content, including the public marker; wire JSON formatting is intentionally not hashed.",
     "Long witnesses are bounded previews plus complete hashes and deterministic regeneration recipes. No rule edits, engine builds, repins or deploys."
-  ]
+  ],
+  "qualificationSummary": {
+    "source": "relayscrubber-lead Agent Relay message 246932985776848896",
+    "explicitDisclosureMinimumValueLength": "none",
+    "requiredShortValueCases": 216,
+    "requiredShortValueMissesPerCandidatePath": 162,
+    "expandedPolicyCasesPendingDirectAuthorization": 6182,
+    "expandedPolicyMissesPerCandidatePath": 5092,
+    "qualificationStatus": "blocked",
+    "runtimeResultsUnchanged": true,
+    "testsRerun": false,
+    "historicalHarnessUnchanged": true
+  }
 }

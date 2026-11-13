@@ -6,7 +6,7 @@ The complete matrix contains **7148 positive** and **60 benign** cases: 7,126 ge
 
 Generator: seed 24301; 1,024 seeded mutations. The core cross-product is 9 nouns × 7 separators × 3 casing modes × 3 quotes × 9 value shapes = 5,103 cases. Extra families cover gap/split-connector line breaks, quoted multiline values, unmatched quotes, and two disclosures on a line. Complete dimensions and identities are in the machine report below.
 
-**Scope separation:** 728 additional intent-aligned cases and all 37 author fixtures pass on both candidate paths. The 216 one-character boundary cases have 162 candidate misses and require an explicit minimum-length decision. The other 6,182 generated positive cases are labeled `expanded_policy_pending_direct_authorization`, with 5,092 candidate misses. These are not asserted as current PR21 blockers. The earlier 6,398-case broader bucket includes the 216 length questions; do not add those counts twice.
+**Scope correction:** explicit password/passcode/passphrase/pw disclosure cues with is/was/possessive-colon have **no minimum value length**. The 216 one-character cases are required PR21 cases; their **162 candidate misses keep b547451 BLOCKED**. The 728 other intent-aligned cases and all 37 author fixtures still pass. Only the other 6,182 generated positive cases / 5,092 misses remain `expanded_policy_pending_direct_authorization`. Historical 6,398-case aggregate buckets include the 216 required cases; do not add them twice. This reporting-only correction changes no measurements, hashes, harness execution, or runtime state.
 
 Tables count unique **generated positive cases** failing any form; each axis partitions the same 7,126 positives. Axes overlap each other and do not identify the cause of a miss. Author fixtures and benign controls are counted separately. Native and real pipeline-adapter counts match exactly, so each version has one displayed failure column.
 
@@ -117,7 +117,7 @@ Tables count unique **generated positive cases** failing any form; each axis par
 
 | Family | Positive cases | alpha.5 failed | alpha.9 failed |
 | --- | ---: | ---: | ---: |
-| `pr21_length_boundary_question` | 216 | 180 | 162 |
+| `pr21_required_short_values` | 216 | 180 | 162 |
 | `pr21_intent_subset` | 728 | 614 | 0 |
 | `expanded_policy_pending_direct_authorization` | 6182 | 5325 | 5092 |
 
@@ -132,3 +132,5 @@ The exact package/WASM/manifest/source hashes and adapter/source limitations are
 Harness: `scripts/summarize-pr21-families.mjs`; original runner: `scripts/audit-pr21-disclosures.mjs`; generator: `eval/disclosure-coverage.mjs`. File SHA-256 identities are in the machine report. Run the summarizer after the scoped audit; it reads only ignored synthetic results and makes bounded calls to existing native probes.
 
 No session access, fixture search/change, rule edit, re-pin, engine build, tag, publish, or deployment. Finite property-style tests do not prove detection of every natural-language disclosure.
+
+Scope ruling: relayscrubber-lead message `246932985776848896`. Historical harness hashes remain the identities of the executed test-only harness; no tests or engine code were rerun or changed for this amendment.

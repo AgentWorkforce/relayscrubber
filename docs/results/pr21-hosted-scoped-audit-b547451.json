@@ -203,7 +203,8 @@
   "scopePolicy": {
     "author": "37 frozen author fixtures, exact output required",
     "intentSubset": "Inline password/passcode/passphrase/pw, is/was/possessive-colon, values >=3 characters; spaces only in quoted values; plus unmatched quotes. This is a tested subset, not a claim about all PR intent.",
-    "broader": "Extra nouns/connectors, values under 3 characters, unquoted multiword values, multiline forms, multiple disclosures and mutations are separately classified; not asserted as current PR blockers."
+    "broader": "The other 6182 expanded-policy cases / 5092 misses remain separately pending direct authorization. Historical engine scope buckets retain the original aggregate; this scope correction does not change measurements.",
+    "requiredShortValues": "Explicit password/passcode/passphrase/pw with is/was/possessive-colon have no minimum value length. All 216 one-character cases are required; 162 misses keep b547451 blocked."
   },
   "limits": [
     "No session access, new native/WASM builds, rule edits, consumer pin-file edits or deployment.",
@@ -213,11 +214,23 @@
     "Engine/seam qualification does not prove live Desktop transport, pipeline storage, or every natural-language disclosure."
   ],
   "testedIntentSubsetPass": true,
-  "lengthBoundaryQuestion": {
+  "requiredShortValueCases": {
     "cases": 216,
     "candidateFailingCases": {
       "desktop-native-alpha9": 162,
       "pipeline-adapter-alpha9": 162
     }
+  },
+  "qualificationSummary": {
+    "source": "relayscrubber-lead Agent Relay message 246932985776848896",
+    "explicitDisclosureMinimumValueLength": "none",
+    "requiredShortValueCases": 216,
+    "requiredShortValueMissesPerCandidatePath": 162,
+    "expandedPolicyCasesPendingDirectAuthorization": 6182,
+    "expandedPolicyMissesPerCandidatePath": 5092,
+    "qualificationStatus": "blocked",
+    "runtimeResultsUnchanged": true,
+    "testsRerun": false,
+    "historicalHarnessUnchanged": true
   }
 }

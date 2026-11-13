@@ -13,17 +13,16 @@ pass on native alpha.9 and the real pipeline adapter with hosted alpha.9.
 This is a bounded subset result, not a claim that all natural-language
 disclosures are covered or a merge/publication approval.
 
-**Length-boundary question:** `my password is q` and `my password is !`
-remain unchanged on both candidate paths. Of 216 one-character cases using
-password/passcode/passphrase/pw and is/was/possessive-colon, 162 miss complete
-redaction. Some quoted assignment forms do redact. PR21's summary does not
-state an accepted minimum length; confirm that boundary before treating
-these as either required fixes or explicitly unsupported inputs. Do not
-silently count them as outside scope.
+**Required short-value fixes:** `my password is q` and `my password is !`
+remain unchanged on both candidate paths. Explicit password/passcode/passphrase/pw
+disclosure cues with is/was/possessive-colon have **no minimum value length**.
+All 216 one-character cases are required PR21 cases; their **162 misses keep
+b547451 BLOCKED**. Some quoted assignment forms do redact. This replaces the
+earlier pending-boundary label without changing any runtime evidence.
 
 **Broader grammar, reported separately:** the original broader corpus has
 5,254 incomplete-redaction cases per candidate path. That includes the 162
-length-boundary cases above and 5,092 other broader/stress misses. This
+required short-value cases above and 5,092 other broader/stress misses. This
 collection exercises extra nouns (`pass`, `PIN`, `secret`, `key`, `token`),
 extra connectors (`=`, `is now`, `set to`, `is set to`), unquoted multiword
 values, multiline disclosures/values, multiple disclosures, and seeded
@@ -36,13 +35,14 @@ counts must not be presented as failures of the 37 author fixtures.
 | PR21 author fixtures, 22 positive + 15 benign | 20 / 37 | 0 / 37 |
 | Additional intent subset, 728 positive | 614 / 728 | 0 / 728 |
 | Additional benign controls | 0 / 45 | 0 / 45 |
-| Broader collection including length questions | 5,505 / 6,398 | 5,254 / 6,398 |
+| Historical aggregate including required short values | 5,505 / 6,398 | 5,254 / 6,398 |
 
 Each case runs as text, JSON and NDJSON. Across all 7,208 cases, 86,496
 observations were made. Native and actual pipeline-adapter decoded results
 agree exactly: zero differences in 21,624 comparisons for each version.
-All 60 benign cases remain unchanged. The scoped audit exits 0 for its tested
-intent subset; it does not green the wider grammar. Seven oracle/generator
+All 60 benign cases remain unchanged. The historical scoped audit exited 0 for its selected
+subset; that does not qualify PR21. The 162 required short-value misses keep
+the candidate blocked. No harness execution or measurements changed in this amendment. Seven oracle/generator
 tests pass.
 
 ## Exact artifacts and real seams
@@ -102,3 +102,5 @@ ingest, storage, dashboard, or deployment is exercised by this command.
 The [family breakdown](pr21-family-breakdown.md) supplies per-noun, separator,
 value-shape, quoting, multiline and multiplicity counts, plus bounded invented
 witnesses with four-path output hashes and deterministic regeneration recipes.
+
+Scope correction: relayscrubber-lead message `246932985776848896`. PR21 remains draft and blocked; no merge or publication approval.
