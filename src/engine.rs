@@ -1769,13 +1769,13 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
                 end -= 1;
             }
         }
-        if start < end && prose_disclosure_value(&view.text[start..end], possessed) {
+        if start < end && prose_disclosure_value(&view.text[start..end]) {
             spans.push(start..end);
         }
     }
 }
 
-fn prose_disclosure_value(value: &str, possessed: bool) -> bool {
+fn prose_disclosure_value(value: &str) -> bool {
     if value.chars().count() < 3
         || marker_reference(value)
         || reference(value)
@@ -1825,17 +1825,7 @@ fn prose_disclosure_value(value: &str, possessed: bool) -> bool {
     {
         return false;
     }
-    let bytes = value.as_bytes();
-    let alphabetic = bytes.iter().any(u8::is_ascii_alphabetic);
-    let digit = bytes.iter().any(u8::is_ascii_digit);
-    let upper = bytes.iter().any(u8::is_ascii_uppercase);
-    let lower_case = bytes.iter().any(u8::is_ascii_lowercase);
-    let strong_symbol = bytes.iter().any(|b| b"!@#$%^&*()[]{}+=:|\\~".contains(b));
-    possessed
-        || opaque_material(value)
-        || alphabetic && strong_symbol
-        || digit && value.len() >= 4
-        || upper && lower_case && value.len() >= 6
+    true
 }
 
 fn comment_variable(value: &str) -> bool {
