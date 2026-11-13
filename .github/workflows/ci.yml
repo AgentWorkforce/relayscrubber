@@ -76,7 +76,7 @@ jobs:
           cd js
           npm pack --ignore-scripts --pack-destination ../target/wasm-package
       - name: Check hosted artifact against committed pin
-        run: node scripts/check-hosted-artifact.mjs target/wasm-package/agentworkforce-relayscrubber-0.5.0-alpha.8.tgz
+        run: node scripts/check-hosted-artifact.mjs target/wasm-package/agentworkforce-relayscrubber-0.5.0-alpha.9.tgz
       - uses: actions/upload-artifact@v4
         if: always()
         with:

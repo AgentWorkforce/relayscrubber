@@ -156,6 +156,7 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "password",
         "passwd",
         "pwd",
+        "passcode",
         "pin",
         "passphrase",
         "secret",
@@ -1725,14 +1726,106 @@ fn authorization_reference(value: &str) -> bool {
 }
 
 fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
-    static R: OnceLock<Regex> = OnceLock::new();
-    let r = R.get_or_init(|| {
+    static API_KEY: OnceLock<Regex> = OnceLock::new();
+    let api_key = API_KEY.get_or_init(|| {
         Regex::new(r"(?i)\bAPI[ \t]+key[ \t]+([A-Za-z0-9_+/=-]{24,})")
             .expect("fixed credential prose regex")
     });
-    for c in r.captures_iter(&view.text) {
+    for c in api_key.captures_iter(&view.text) {
         spans.push(c.get(1).expect("credential capture").range());
     }
+
+    // Natural-language disclosures are not assignments, and short
+    // symbol-heavy passwords have no provider/entropy shape. Require an
+    // explicit credential noun plus disclosure separator, then distinguish a
+    // value from ordinary documentary states ("password is required/reset")
+    // using syntax only. References, placeholders and masks remain visible.
+    static DISCLOSURE: OnceLock<Regex> = OnceLock::new();
+    let disclosure = DISCLOSURE.get_or_init(|| {
+        Regex::new(
+            r#"(?i)\b(?:(my|our|your|his|her|their|its)[ \t]+)?(?:password|pass[ \t]*code|pass[ \t]*phrase|passwd|pwd|pw)[ \t]*(?:(is|was)[ \t]+|(:)[ \t]*)(\"[^\"\r\n]*\"|\"[^\"\r\n]*|'[^'\r\n]*'|'[^'\r\n]*|`[^`\r\n]*`|`[^`\r\n]*|[^ \t\r\n]+)"#,
+        )
+        .expect("fixed natural-language credential disclosure regex")
+    });
+    for captures in disclosure.captures_iter(&view.text) {
+        let possessed = captures.get(1).is_some();
+        // A bare colon is also source type syntax. Existing assignment
+        // scanning handles bare `password: value`; this prose rule accepts a
+        // colon only when a possessive phrase makes the disclosure explicit.
+        if captures.get(3).is_some() && !possessed {
+            continue;
+        }
+        let token = captures.get(4).expect("disclosure value capture");
+        let mut start = token.start();
+        let mut end = token.end();
+        if matches!(view.text.as_bytes().get(start), Some(b'"' | b'\'' | b'`')) {
+            let close = view.quote_end(start);
+            if close < view.text.len() && close < end {
+                start += 1;
+                end = close;
+            }
+        } else {
+            while end > start && matches!(view.text.as_bytes()[end - 1], b'.' | b',' | b';') {
+                end -= 1;
+            }
+        }
+        if start < end && prose_disclosure_value(&view.text[start..end]) {
+            spans.push(start..end);
+        }
+    }
+}
+
+fn prose_disclosure_value(value: &str) -> bool {
+    if value.chars().count() < 3
+        || marker_reference(value)
+        || reference(value)
+        || shell_reference(value)
+        || environment_reference(value)
+        || template_reference(value)
+    {
+        return false;
+    }
+    let lower = value.to_ascii_lowercase();
+    if [
+        "required",
+        "optional",
+        "missing",
+        "unset",
+        "set",
+        "stored",
+        "configured",
+        "invalid",
+        "wrong",
+        "correct",
+        "strong",
+        "weak",
+        "changed",
+        "reset",
+        "expired",
+        "rotated",
+        "updated",
+        "redacted",
+        "hidden",
+        "masked",
+        "empty",
+        "blank",
+        "null",
+        "none",
+        "unknown",
+        "secure",
+        "compromised",
+        "protected",
+        "encrypted",
+        "hashed",
+    ]
+    .contains(&lower.as_str())
+        || lower.ends_with("-encoded")
+        || lower.ends_with("-encrypted")
+        || lower.ends_with("-hashed")
+    {
+        return false;
+    }
+    true
 }
 
 fn comment_variable(value: &str) -> bool {
