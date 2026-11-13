@@ -576,7 +576,7 @@
       "call_refusal",
       "instance_poison"
     ],
-    "candidateVersion": "0.5.0-alpha.8",
+    "candidateVersion": "0.5.0-alpha.9",
     "npmPrivate": false,
     "published": false
   },
@@ -592,31 +592,31 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
-    "head": "65c1467ea5de7b79308225bf82d561459833c64c",
-    "run": 43021347175,
-    "artifactId": 13855726467,
-    "archiveSha256": "81b75490b3d0a1198927b0c90d1a375bd8b4b50f482e35112f67a750aa562867",
-    "packageSha256": "7f08abcda6ee1e463a2414878131433631de869125c8f9153ed8c9ded555f099",
-    "sourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
-    "wasmSha256": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
+    "head": "local-alpha9-candidate",
+    "run": null,
+    "artifactId": null,
+    "archiveSha256": null,
+    "packageSha256": "e6029c5048ce066435a724eddbb1eca45086dec03329fc2678038a86efb510a9",
+    "sourceSha256": "4aff5bd013176909ea3ff610de84487dbe7481373261d6141c0d199838ab9354",
+    "wasmSha256": "2c375082b9672dccc18ddbbf48eba044f1a7f347b3bc5a1e9b065a0cb07392ce",
     "allManifestFilePinsVerified": true,
     "committedPinsEqual": true,
-    "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/43021347175",
-    "codeCommit": "4d6a9d7a3125dea6ae49a6067a23557336a34dea",
+    "runUrl": null,
+    "codeCommit": "7f91cb7",
     "toolchain": "1.88.0",
     "manifest": {
       "schema": 3,
       "ruleset": "relayhistory-scrub",
       "rulesetVersion": 10,
-      "rulesetSourceSha256": "653b5822768c7ef2ae51f74f52f3514389a7fcd019cf5d92eb5fb6c173d01714",
-      "crateVersion": "0.5.0-alpha.8",
+      "rulesetSourceSha256": "4aff5bd013176909ea3ff610de84487dbe7481373261d6141c0d199838ab9354",
+      "crateVersion": "0.5.0-alpha.9",
       "abiVersion": 2,
       "policy": "secrets",
       "redactionToken": "[REDACTED]",
       "scrubProfile": "relayhistory-secrets-v10"
     },
     "files": {
-      "relayscrubber_bg.wasm": "546cc6e7f9bf0d644608d84686dc59e1638045661cc43f2fb9255d29cc28c825",
+      "relayscrubber_bg.wasm": "2c375082b9672dccc18ddbbf48eba044f1a7f347b3bc5a1e9b065a0cb07392ce",
       "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
       "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
       "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
@@ -625,7 +625,7 @@
       "index.js": "ff139ab391a958475b455ef483e7119d66215d172647223965dc35348f912490",
       "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
     },
-    "independentEngineReview": "pending; alpha7 PASS withdrawn"
+    "independentEngineReview": "pending; local alpha9 candidate only"
   },
   "additionalTestOnlyCommit": "408ac1e",
   "startupErrorTestCommit": "cbc4ed7 (targeted injection corrected in be770b3)",

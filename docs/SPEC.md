@@ -33,7 +33,7 @@ Redact these independently of entropy:
   (including unsigned tokens), and JWE compact tokens with five segments;
   signatures are not verified. Private PEM/OpenSSH key blocks, including an
   unterminated block, are removed through their end or end of input.
-* Values assigned to password, passwd, pwd, passphrase, secret, client_secret,
+* Values assigned to password, passwd, pwd, passcode, passphrase, secret, client_secret,
   api_key/apikey, access_key, secret_key, private_key, access_token, auth_token,
   refresh_token, id_token, session_token/session_id, credential(s), token,
   account_key and provider-prefixed equivalents. Connection-string and database
@@ -54,6 +54,12 @@ Redact these independently of entropy:
   `id` and `code_challenge` are preserved unless explicitly credentialled. Generic
   `key` alone is preserved, including in a query; reviewed provider shapes
   remain sensitive regardless of their label.
+* Explicit natural-language disclosures using password/passcode/passphrase/pw
+  with `is`, `was` or a possessive colon redact the disclosed value even when
+  it is short and symbol-heavy rather than provider-shaped. Documentary states
+  such as required/reset/stored, symbolic placeholders, masks and variable
+  references remain visible. Bare colon assignments continue to use the normal
+  assignment grammar so source type annotations are not reclassified as prose.
 
 A quote opening a later line's assignment is not accepted as a credential closer;
 that malformed extent fails closed through EOF. A fixed budget of at most five

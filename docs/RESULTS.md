@@ -1,8 +1,18 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.8`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.9`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
+
+## Natural-language password disclosure repair
+
+The reported symbol-heavy phrase and 32 invented positive/precision siblings
+pass native text/long/JSON/NDJSON and the identical hosted WASM APIs, including
+second-pass idempotence. The published alpha.8 behavior leaves the reported
+phrase unchanged; alpha.9 replaces only the disclosed value with
+`[REDACTED]`. Documentary password prose, variable/template references,
+placeholders, masks, and source type annotations remain byte-identical. See
+[`alpha9-natural-language-password.json`](results/alpha9-natural-language-password.json).
 
 ## Supplemental residual-row controls
 
