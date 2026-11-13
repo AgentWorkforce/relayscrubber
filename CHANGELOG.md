@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0-alpha.9
 
 Preserve an exact `project_key` whose value is a normalized repository identity
 (`github.com/owner/repo`), so session capture can record which project a session
