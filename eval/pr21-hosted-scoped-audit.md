@@ -98,3 +98,7 @@ QUALIFICATION_TYPESCRIPT_MODULE=/path/to/typescript/lib/typescript.js \
 The loader executes TypeScript at runtime and emits no build files. The
 audit writes only synthetic reports under ignored `.task-tmp/`. No network
 ingest, storage, dashboard, or deployment is exercised by this command.
+
+The [family breakdown](pr21-family-breakdown.md) supplies per-noun, separator,
+value-shape, quoting, multiline and multiplicity counts, plus bounded invented
+witnesses with four-path output hashes and deterministic regeneration recipes.

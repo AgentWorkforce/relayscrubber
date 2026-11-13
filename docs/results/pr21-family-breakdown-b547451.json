@@ -1,0 +1,4323 @@
+{
+  "schema": "relayscrubber.pr21-family-breakdown/v1",
+  "generatedAt": "2026-11-13T09:42:06.278Z",
+  "syntheticOnly": true,
+  "candidateSource": "b54745161cade161318e6e1dc9ca5486b91c474d",
+  "hostedRun": 43394654201,
+  "hostedArtifact": 14024110518,
+  "artifactIdentity": {
+    "packageSha256": "d7eb1702fe73092d6607efe2481d67c1b3a97a06a90505afd2c5d5b6dec7db68",
+    "wasmSha256": "008406d7ed78ff85bea510544ceaf0818477f277f0705a4d61a56783ef7117f4",
+    "artifactJsonSha256": "b6f3f5b93f58e9fb0725825cc6fc85e046221d5ded006e3cb8f27a91318659ef",
+    "sourceSha256": "291a6b373388b7bc5295091d1bcbc13a2e8c64e37b2bfe0d06b2dc4f12df32c9"
+  },
+  "counts": {
+    "generatedPositive": 7126,
+    "generatedBenign": 45,
+    "authorPositive": 22,
+    "authorBenign": 15,
+    "totalPositive": 7148,
+    "totalBenign": 60,
+    "totalCases": 7208,
+    "observations": 86496
+  },
+  "dimensions": {
+    "seed": 24301,
+    "seededMutations": 1024,
+    "grammarCrossProduct": "9 nouns * 7 separators * 3 casing modes * 3 quote forms * 9 fixed value shapes = 5103 cases",
+    "nouns": [
+      "password",
+      "passcode",
+      "passphrase",
+      "pw",
+      "pass",
+      "PIN",
+      "secret",
+      "key",
+      "token"
+    ],
+    "separators": [
+      "is",
+      "was",
+      "=",
+      ":",
+      "is now",
+      "set to",
+      "is set to"
+    ],
+    "casing": [
+      "lower",
+      "upper",
+      "mixed"
+    ],
+    "quotes": [
+      "none",
+      "single",
+      "double"
+    ],
+    "extraMultilineQuotes": [
+      "backtick",
+      "curly double"
+    ],
+    "fixedValueShapes": [
+      "one letter",
+      "one symbol",
+      "four digits",
+      "symbols",
+      "ordinary word",
+      "type-like word",
+      "unquoted/quoted spaces",
+      "unicode",
+      "2049-code-unit long value"
+    ],
+    "seededValueCodepointLengths": [
+      1,
+      2,
+      3,
+      8,
+      31,
+      64,
+      257,
+      1024
+    ],
+    "whitespace": [
+      "space",
+      "double space",
+      "tab",
+      "LF",
+      "CRLF",
+      "U+2003"
+    ],
+    "additionalFamilies": [
+      "gap line breaks",
+      "split connectors",
+      "quoted multiline values",
+      "unmatched quotes",
+      "two disclosures per line"
+    ]
+  },
+  "countSemantics": "Counts are unique positive corpus cases failing any of text/JSON/NDJSON, not observation totals. Each axis partitions 7126 generated positives; axes overlap each other and are not causal attribution. Author fixtures and benign cases are counted separately.",
+  "engineIdentities": {
+    "desktop-native-alpha5": {
+      "marker": "relayscrubber-0.5.0-alpha.5",
+      "binarySha256": "d71e98bfda371936e88b25f8c8d6ebd4a3ed676ef5a68fbfa89ceb729c59a34d"
+    },
+    "pipeline-adapter-alpha5": {
+      "version": "0.5.0-alpha.5",
+      "manifest": {
+        "schema": 3,
+        "ruleset": "relayhistory-scrub",
+        "rulesetVersion": 10,
+        "rulesetSourceSha256": "bd7d6620626ef40b4c319fa6260bb42ddb20035301ad974332a13453835563f5",
+        "crateVersion": "0.5.0-alpha.5",
+        "abiVersion": 2,
+        "policy": "secrets",
+        "redactionToken": "[REDACTED]",
+        "scrubProfile": "relayhistory-secrets-v10"
+      },
+      "marker": {
+        "ruleset": "relayhistory-scrub",
+        "version": 10,
+        "profile": "relayhistory-secrets-v10"
+      },
+      "wasmSha256": "91cf23177f1d9fa42484f4ce76b54bdd468177852b9e8b259af0b72ad5823f4d"
+    },
+    "desktop-native-alpha9": {
+      "marker": "relayscrubber-0.5.0-alpha.9",
+      "binarySha256": "5d4daca1653ba203c5a6b1ebbcd923e1c93ae02b43c83b64e527dc1e446e0ccf"
+    },
+    "pipeline-adapter-alpha9": {
+      "version": "0.5.0-alpha.9",
+      "manifest": {
+        "schema": 3,
+        "ruleset": "relayhistory-scrub",
+        "rulesetVersion": 10,
+        "rulesetSourceSha256": "291a6b373388b7bc5295091d1bcbc13a2e8c64e37b2bfe0d06b2dc4f12df32c9",
+        "crateVersion": "0.5.0-alpha.9",
+        "abiVersion": 2,
+        "policy": "secrets",
+        "redactionToken": "[REDACTED]",
+        "scrubProfile": "relayhistory-secrets-v10"
+      },
+      "marker": {
+        "ruleset": "relayhistory-scrub",
+        "version": 10,
+        "profile": "relayhistory-secrets-v10"
+      },
+      "wasmSha256": "008406d7ed78ff85bea510544ceaf0818477f277f0705a4d61a56783ef7117f4"
+    }
+  },
+  "harnessFileSha256": {
+    "eval/disclosure-coverage.mjs": "44034d0fd6362b5311780357bcff980039ca1e6949046353a3e036283233ff3f",
+    "scripts/prepare-arlap-probes.py": "4055058afd0850e4fbaf36cdb33e69c68843083fa01566ea742a738a982da9ce",
+    "scripts/audit-pr21-disclosures.mjs": "972a427480e3bff4fdae8777e697110a8cfb5e14f0fe65d43d0719aa621ed5a9",
+    "scripts/qualification-ts-loader.mjs": "f75289fc8595b3db5de6fbdd2ca7eac835a9a5cc6aa87d06cae92ee91ae31f48",
+    "scripts/summarize-pr21-families.mjs": "ebfc8d7dd6eae572919765ea3fd75d11c99cf18220778cb21167b182c0bbac15"
+  },
+  "scopeCountsFromFullAudit": {
+    "desktop-native-alpha5": {
+      "broader_grammar_pending_authorization": {
+        "observations": 19194,
+        "cases": 6398,
+        "failingCases": 5505,
+        "failures": {
+          "coverage": 16515
+        }
+      },
+      "pr21_intent_subset": {
+        "observations": 2184,
+        "cases": 728,
+        "failingCases": 614,
+        "failures": {
+          "coverage": 1842
+        }
+      },
+      "benign_controls": {
+        "observations": 135,
+        "cases": 45,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "pr21_author_fixtures": {
+        "observations": 111,
+        "cases": 37,
+        "failingCases": 20,
+        "failures": {
+          "coverage": 60,
+          "exact_expected_output": 60
+        }
+      }
+    },
+    "pipeline-adapter-alpha5": {
+      "broader_grammar_pending_authorization": {
+        "observations": 19194,
+        "cases": 6398,
+        "failingCases": 5505,
+        "failures": {
+          "coverage": 16515
+        }
+      },
+      "pr21_intent_subset": {
+        "observations": 2184,
+        "cases": 728,
+        "failingCases": 614,
+        "failures": {
+          "coverage": 1842
+        }
+      },
+      "benign_controls": {
+        "observations": 135,
+        "cases": 45,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "pr21_author_fixtures": {
+        "observations": 111,
+        "cases": 37,
+        "failingCases": 20,
+        "failures": {
+          "coverage": 60,
+          "exact_expected_output": 60
+        }
+      }
+    },
+    "desktop-native-alpha9": {
+      "broader_grammar_pending_authorization": {
+        "observations": 19194,
+        "cases": 6398,
+        "failingCases": 5254,
+        "failures": {
+          "coverage": 15762
+        }
+      },
+      "pr21_intent_subset": {
+        "observations": 2184,
+        "cases": 728,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "benign_controls": {
+        "observations": 135,
+        "cases": 45,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "pr21_author_fixtures": {
+        "observations": 111,
+        "cases": 37,
+        "failingCases": 0,
+        "failures": {}
+      }
+    },
+    "pipeline-adapter-alpha9": {
+      "broader_grammar_pending_authorization": {
+        "observations": 19194,
+        "cases": 6398,
+        "failingCases": 5254,
+        "failures": {
+          "coverage": 15762
+        }
+      },
+      "pr21_intent_subset": {
+        "observations": 2184,
+        "cases": 728,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "benign_controls": {
+        "observations": 135,
+        "cases": 45,
+        "failingCases": 0,
+        "failures": {}
+      },
+      "pr21_author_fixtures": {
+        "observations": 111,
+        "cases": 37,
+        "failingCases": 0,
+        "failures": {}
+      }
+    }
+  },
+  "parity": {
+    "alpha5": {
+      "comparisons": 21624,
+      "differences": 0
+    },
+    "alpha9": {
+      "comparisons": 21624,
+      "differences": 0
+    }
+  },
+  "boundedWitnessNativeCalls": 288,
+  "boundedWitnessCount": 48,
+  "breakdowns": {
+    "noun": [
+      {
+        "family": "password",
+        "positiveCases": 798,
+        "failedCases": {
+          "desktop-native-alpha5": 593,
+          "pipeline-adapter-alpha5": 593,
+          "desktop-native-alpha9": 453,
+          "pipeline-adapter-alpha9": 453
+        }
+      },
+      {
+        "family": "passcode",
+        "positiveCases": 766,
+        "failedCases": {
+          "desktop-native-alpha5": 766,
+          "pipeline-adapter-alpha5": 766,
+          "desktop-native-alpha9": 431,
+          "pipeline-adapter-alpha9": 431
+        }
+      },
+      {
+        "family": "passphrase",
+        "positiveCases": 786,
+        "failedCases": {
+          "desktop-native-alpha5": 581,
+          "pipeline-adapter-alpha5": 581,
+          "desktop-native-alpha9": 440,
+          "pipeline-adapter-alpha9": 440
+        }
+      },
+      {
+        "family": "pw",
+        "positiveCases": 792,
+        "failedCases": {
+          "desktop-native-alpha5": 792,
+          "pipeline-adapter-alpha5": 792,
+          "desktop-native-alpha9": 583,
+          "pipeline-adapter-alpha9": 583
+        }
+      },
+      {
+        "family": "pass",
+        "positiveCases": 759,
+        "failedCases": {
+          "desktop-native-alpha5": 759,
+          "pipeline-adapter-alpha5": 759,
+          "desktop-native-alpha9": 759,
+          "pipeline-adapter-alpha9": 759
+        }
+      },
+      {
+        "family": "pin",
+        "positiveCases": 755,
+        "failedCases": {
+          "desktop-native-alpha5": 563,
+          "pipeline-adapter-alpha5": 563,
+          "desktop-native-alpha9": 563,
+          "pipeline-adapter-alpha9": 563
+        }
+      },
+      {
+        "family": "secret",
+        "positiveCases": 765,
+        "failedCases": {
+          "desktop-native-alpha5": 575,
+          "pipeline-adapter-alpha5": 575,
+          "desktop-native-alpha9": 575,
+          "pipeline-adapter-alpha9": 575
+        }
+      },
+      {
+        "family": "key",
+        "positiveCases": 776,
+        "failedCases": {
+          "desktop-native-alpha5": 776,
+          "pipeline-adapter-alpha5": 776,
+          "desktop-native-alpha9": 776,
+          "pipeline-adapter-alpha9": 776
+        }
+      },
+      {
+        "family": "token",
+        "positiveCases": 767,
+        "failedCases": {
+          "desktop-native-alpha5": 577,
+          "pipeline-adapter-alpha5": 577,
+          "desktop-native-alpha9": 577,
+          "pipeline-adapter-alpha9": 577
+        }
+      },
+      {
+        "family": "multiple_nouns_see_multiplicity",
+        "positiveCases": 162,
+        "failedCases": {
+          "desktop-native-alpha5": 137,
+          "pipeline-adapter-alpha5": 137,
+          "desktop-native-alpha9": 97,
+          "pipeline-adapter-alpha9": 97
+        }
+      }
+    ],
+    "separator": [
+      {
+        "family": "is",
+        "positiveCases": 1121,
+        "failedCases": {
+          "desktop-native-alpha5": 1121,
+          "pipeline-adapter-alpha5": 1121,
+          "desktop-native-alpha9": 829,
+          "pipeline-adapter-alpha9": 829
+        }
+      },
+      {
+        "family": "was",
+        "positiveCases": 999,
+        "failedCases": {
+          "desktop-native-alpha5": 999,
+          "pipeline-adapter-alpha5": 999,
+          "desktop-native-alpha9": 727,
+          "pipeline-adapter-alpha9": 727
+        }
+      },
+      {
+        "family": "=",
+        "positiveCases": 979,
+        "failedCases": {
+          "desktop-native-alpha5": 486,
+          "pipeline-adapter-alpha5": 486,
+          "desktop-native-alpha9": 383,
+          "pipeline-adapter-alpha9": 383
+        }
+      },
+      {
+        "family": ":",
+        "positiveCases": 1074,
+        "failedCases": {
+          "desktop-native-alpha5": 560,
+          "pipeline-adapter-alpha5": 560,
+          "desktop-native-alpha9": 362,
+          "pipeline-adapter-alpha9": 362
+        }
+      },
+      {
+        "family": "is now",
+        "positiveCases": 971,
+        "failedCases": {
+          "desktop-native-alpha5": 971,
+          "pipeline-adapter-alpha5": 971,
+          "desktop-native-alpha9": 971,
+          "pipeline-adapter-alpha9": 971
+        }
+      },
+      {
+        "family": "set to",
+        "positiveCases": 967,
+        "failedCases": {
+          "desktop-native-alpha5": 967,
+          "pipeline-adapter-alpha5": 967,
+          "desktop-native-alpha9": 967,
+          "pipeline-adapter-alpha9": 967
+        }
+      },
+      {
+        "family": "is set to",
+        "positiveCases": 988,
+        "failedCases": {
+          "desktop-native-alpha5": 988,
+          "pipeline-adapter-alpha5": 988,
+          "desktop-native-alpha9": 988,
+          "pipeline-adapter-alpha9": 988
+        }
+      },
+      {
+        "family": "is\nnow",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 9,
+          "pipeline-adapter-alpha9": 9
+        }
+      },
+      {
+        "family": "set\nto",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 9,
+          "pipeline-adapter-alpha9": 9
+        }
+      },
+      {
+        "family": "is\nset\nto",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 9,
+          "pipeline-adapter-alpha9": 9
+        }
+      }
+    ],
+    "value_shape": [
+      {
+        "family": "fixed/short_letter",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 459,
+          "pipeline-adapter-alpha9": 459
+        }
+      },
+      {
+        "family": "fixed/short_symbol",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 459,
+          "pipeline-adapter-alpha9": 459
+        }
+      },
+      {
+        "family": "fixed/digits",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 378,
+          "pipeline-adapter-alpha9": 378
+        }
+      },
+      {
+        "family": "fixed/symbols",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 378,
+          "pipeline-adapter-alpha9": 378
+        }
+      },
+      {
+        "family": "fixed/ordinary_word",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 378,
+          "pipeline-adapter-alpha9": 378
+        }
+      },
+      {
+        "family": "fixed/type_word",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 492,
+          "pipeline-adapter-alpha5": 492,
+          "desktop-native-alpha9": 387,
+          "pipeline-adapter-alpha9": 387
+        }
+      },
+      {
+        "family": "fixed/spaces",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 507,
+          "pipeline-adapter-alpha5": 507,
+          "desktop-native-alpha9": 441,
+          "pipeline-adapter-alpha9": 441
+        }
+      },
+      {
+        "family": "fixed/unicode",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 378,
+          "pipeline-adapter-alpha9": 378
+        }
+      },
+      {
+        "family": "fixed/long",
+        "positiveCases": 567,
+        "failedCases": {
+          "desktop-native-alpha5": 477,
+          "pipeline-adapter-alpha5": 477,
+          "desktop-native-alpha9": 378,
+          "pipeline-adapter-alpha9": 378
+        }
+      },
+      {
+        "family": "fixed_symbols_with_gap_break",
+        "positiveCases": 756,
+        "failedCases": {
+          "desktop-native-alpha5": 666,
+          "pipeline-adapter-alpha5": 666,
+          "desktop-native-alpha9": 648,
+          "pipeline-adapter-alpha9": 648
+        }
+      },
+      {
+        "family": "fixed_symbols_with_connector_break",
+        "positiveCases": 27,
+        "failedCases": {
+          "desktop-native-alpha5": 27,
+          "pipeline-adapter-alpha5": 27,
+          "desktop-native-alpha9": 27,
+          "pipeline-adapter-alpha9": 27
+        }
+      },
+      {
+        "family": "quoted_multiline_value",
+        "positiveCases": 36,
+        "failedCases": {
+          "desktop-native-alpha5": 36,
+          "pipeline-adapter-alpha5": 36,
+          "desktop-native-alpha9": 36,
+          "pipeline-adapter-alpha9": 36
+        }
+      },
+      {
+        "family": "unclosed_multiword_value",
+        "positiveCases": 18,
+        "failedCases": {
+          "desktop-native-alpha5": 18,
+          "pipeline-adapter-alpha5": 18,
+          "desktop-native-alpha9": 10,
+          "pipeline-adapter-alpha9": 10
+        }
+      },
+      {
+        "family": "two_fixed_symbol_values",
+        "positiveCases": 162,
+        "failedCases": {
+          "desktop-native-alpha5": 137,
+          "pipeline-adapter-alpha5": 137,
+          "desktop-native-alpha9": 97,
+          "pipeline-adapter-alpha9": 97
+        }
+      },
+      {
+        "family": "seeded/codepoints_257",
+        "positiveCases": 128,
+        "failedCases": {
+          "desktop-native-alpha5": 114,
+          "pipeline-adapter-alpha5": 114,
+          "desktop-native-alpha9": 96,
+          "pipeline-adapter-alpha9": 96
+        }
+      },
+      {
+        "family": "seeded/codepoints_1024",
+        "positiveCases": 125,
+        "failedCases": {
+          "desktop-native-alpha5": 107,
+          "pipeline-adapter-alpha5": 107,
+          "desktop-native-alpha9": 90,
+          "pipeline-adapter-alpha9": 90
+        }
+      },
+      {
+        "family": "seeded/codepoints_1",
+        "positiveCases": 112,
+        "failedCases": {
+          "desktop-native-alpha5": 100,
+          "pipeline-adapter-alpha5": 100,
+          "desktop-native-alpha9": 95,
+          "pipeline-adapter-alpha9": 95
+        }
+      },
+      {
+        "family": "seeded/codepoints_64",
+        "positiveCases": 134,
+        "failedCases": {
+          "desktop-native-alpha5": 119,
+          "pipeline-adapter-alpha5": 119,
+          "desktop-native-alpha9": 104,
+          "pipeline-adapter-alpha9": 104
+        }
+      },
+      {
+        "family": "seeded/codepoints_8",
+        "positiveCases": 122,
+        "failedCases": {
+          "desktop-native-alpha5": 107,
+          "pipeline-adapter-alpha5": 107,
+          "desktop-native-alpha9": 94,
+          "pipeline-adapter-alpha9": 94
+        }
+      },
+      {
+        "family": "seeded/codepoints_31",
+        "positiveCases": 144,
+        "failedCases": {
+          "desktop-native-alpha5": 127,
+          "pipeline-adapter-alpha5": 127,
+          "desktop-native-alpha9": 113,
+          "pipeline-adapter-alpha9": 113
+        }
+      },
+      {
+        "family": "seeded/codepoints_3",
+        "positiveCases": 132,
+        "failedCases": {
+          "desktop-native-alpha5": 115,
+          "pipeline-adapter-alpha5": 115,
+          "desktop-native-alpha9": 101,
+          "pipeline-adapter-alpha9": 101
+        }
+      },
+      {
+        "family": "seeded/codepoints_2",
+        "positiveCases": 127,
+        "failedCases": {
+          "desktop-native-alpha5": 108,
+          "pipeline-adapter-alpha5": 108,
+          "desktop-native-alpha9": 107,
+          "pipeline-adapter-alpha9": 107
+        }
+      }
+    ],
+    "quoting": [
+      {
+        "family": "unquoted",
+        "positiveCases": 2319,
+        "failedCases": {
+          "desktop-native-alpha5": 2069,
+          "pipeline-adapter-alpha5": 2069,
+          "desktop-native-alpha9": 1823,
+          "pipeline-adapter-alpha9": 1823
+        }
+      },
+      {
+        "family": "single",
+        "positiveCases": 2300,
+        "failedCases": {
+          "desktop-native-alpha5": 1940,
+          "pipeline-adapter-alpha5": 1940,
+          "desktop-native-alpha9": 1651,
+          "pipeline-adapter-alpha9": 1651
+        }
+      },
+      {
+        "family": "double",
+        "positiveCases": 2309,
+        "failedCases": {
+          "desktop-native-alpha5": 1937,
+          "pipeline-adapter-alpha5": 1937,
+          "desktop-native-alpha9": 1655,
+          "pipeline-adapter-alpha9": 1655
+        }
+      },
+      {
+        "family": "backtick",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 9,
+          "pipeline-adapter-alpha9": 9
+        }
+      },
+      {
+        "family": "curly_double",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 9,
+          "pipeline-adapter-alpha9": 9
+        }
+      },
+      {
+        "family": "unmatched_single",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 5,
+          "pipeline-adapter-alpha9": 5
+        }
+      },
+      {
+        "family": "unmatched_double",
+        "positiveCases": 9,
+        "failedCases": {
+          "desktop-native-alpha5": 9,
+          "pipeline-adapter-alpha5": 9,
+          "desktop-native-alpha9": 5,
+          "pipeline-adapter-alpha9": 5
+        }
+      },
+      {
+        "family": "double_and_single",
+        "positiveCases": 162,
+        "failedCases": {
+          "desktop-native-alpha5": 137,
+          "pipeline-adapter-alpha5": 137,
+          "desktop-native-alpha9": 97,
+          "pipeline-adapter-alpha9": 97
+        }
+      }
+    ],
+    "multiline": [
+      {
+        "family": "inline",
+        "positiveCases": 5686,
+        "failedCases": {
+          "desktop-native-alpha5": 4838,
+          "pipeline-adapter-alpha5": 4838,
+          "desktop-native-alpha9": 4004,
+          "pipeline-adapter-alpha9": 4004
+        }
+      },
+      {
+        "family": "before_connector",
+        "positiveCases": 189,
+        "failedCases": {
+          "desktop-native-alpha5": 159,
+          "pipeline-adapter-alpha5": 159,
+          "desktop-native-alpha9": 153,
+          "pipeline-adapter-alpha9": 153
+        }
+      },
+      {
+        "family": "before_value",
+        "positiveCases": 189,
+        "failedCases": {
+          "desktop-native-alpha5": 169,
+          "pipeline-adapter-alpha5": 169,
+          "desktop-native-alpha9": 165,
+          "pipeline-adapter-alpha9": 165
+        }
+      },
+      {
+        "family": "crlf",
+        "positiveCases": 189,
+        "failedCases": {
+          "desktop-native-alpha5": 169,
+          "pipeline-adapter-alpha5": 169,
+          "desktop-native-alpha9": 165,
+          "pipeline-adapter-alpha9": 165
+        }
+      },
+      {
+        "family": "unicode_space",
+        "positiveCases": 189,
+        "failedCases": {
+          "desktop-native-alpha5": 169,
+          "pipeline-adapter-alpha5": 169,
+          "desktop-native-alpha9": 165,
+          "pipeline-adapter-alpha9": 165
+        }
+      },
+      {
+        "family": "split_connector",
+        "positiveCases": 27,
+        "failedCases": {
+          "desktop-native-alpha5": 27,
+          "pipeline-adapter-alpha5": 27,
+          "desktop-native-alpha9": 27,
+          "pipeline-adapter-alpha9": 27
+        }
+      },
+      {
+        "family": "inside_quoted_value",
+        "positiveCases": 36,
+        "failedCases": {
+          "desktop-native-alpha5": 36,
+          "pipeline-adapter-alpha5": 36,
+          "desktop-native-alpha9": 36,
+          "pipeline-adapter-alpha9": 36
+        }
+      },
+      {
+        "family": "seeded_gap_lf",
+        "positiveCases": 382,
+        "failedCases": {
+          "desktop-native-alpha5": 339,
+          "pipeline-adapter-alpha5": 339,
+          "desktop-native-alpha9": 328,
+          "pipeline-adapter-alpha9": 328
+        }
+      },
+      {
+        "family": "seeded_gap_crlf",
+        "positiveCases": 239,
+        "failedCases": {
+          "desktop-native-alpha5": 213,
+          "pipeline-adapter-alpha5": 213,
+          "desktop-native-alpha9": 211,
+          "pipeline-adapter-alpha9": 211
+        }
+      }
+    ],
+    "multiplicity": [
+      {
+        "family": "one_disclosure",
+        "positiveCases": 6964,
+        "failedCases": {
+          "desktop-native-alpha5": 5982,
+          "pipeline-adapter-alpha5": 5982,
+          "desktop-native-alpha9": 5157,
+          "pipeline-adapter-alpha9": 5157
+        }
+      },
+      {
+        "family": "two_disclosures",
+        "positiveCases": 162,
+        "failedCases": {
+          "desktop-native-alpha5": 137,
+          "pipeline-adapter-alpha5": 137,
+          "desktop-native-alpha9": 97,
+          "pipeline-adapter-alpha9": 97
+        }
+      }
+    ],
+    "generator_family": [
+      {
+        "family": "grammar",
+        "positiveCases": 5103,
+        "failedCases": {
+          "desktop-native-alpha5": 4338,
+          "pipeline-adapter-alpha5": 4338,
+          "desktop-native-alpha9": 3636,
+          "pipeline-adapter-alpha9": 3636
+        }
+      },
+      {
+        "family": "line_break",
+        "positiveCases": 756,
+        "failedCases": {
+          "desktop-native-alpha5": 666,
+          "pipeline-adapter-alpha5": 666,
+          "desktop-native-alpha9": 648,
+          "pipeline-adapter-alpha9": 648
+        }
+      },
+      {
+        "family": "split_connector",
+        "positiveCases": 27,
+        "failedCases": {
+          "desktop-native-alpha5": 27,
+          "pipeline-adapter-alpha5": 27,
+          "desktop-native-alpha9": 27,
+          "pipeline-adapter-alpha9": 27
+        }
+      },
+      {
+        "family": "multiline_value",
+        "positiveCases": 36,
+        "failedCases": {
+          "desktop-native-alpha5": 36,
+          "pipeline-adapter-alpha5": 36,
+          "desktop-native-alpha9": 36,
+          "pipeline-adapter-alpha9": 36
+        }
+      },
+      {
+        "family": "unmatched_quote",
+        "positiveCases": 18,
+        "failedCases": {
+          "desktop-native-alpha5": 18,
+          "pipeline-adapter-alpha5": 18,
+          "desktop-native-alpha9": 10,
+          "pipeline-adapter-alpha9": 10
+        }
+      },
+      {
+        "family": "multiple",
+        "positiveCases": 162,
+        "failedCases": {
+          "desktop-native-alpha5": 137,
+          "pipeline-adapter-alpha5": 137,
+          "desktop-native-alpha9": 97,
+          "pipeline-adapter-alpha9": 97
+        }
+      },
+      {
+        "family": "seeded_mutation",
+        "positiveCases": 1024,
+        "failedCases": {
+          "desktop-native-alpha5": 897,
+          "pipeline-adapter-alpha5": 897,
+          "desktop-native-alpha9": 800,
+          "pipeline-adapter-alpha9": 800
+        }
+      }
+    ],
+    "scope": [
+      {
+        "family": "pr21_length_boundary_question",
+        "positiveCases": 216,
+        "failedCases": {
+          "desktop-native-alpha5": 180,
+          "pipeline-adapter-alpha5": 180,
+          "desktop-native-alpha9": 162,
+          "pipeline-adapter-alpha9": 162
+        }
+      },
+      {
+        "family": "pr21_intent_subset",
+        "positiveCases": 728,
+        "failedCases": {
+          "desktop-native-alpha5": 614,
+          "pipeline-adapter-alpha5": 614,
+          "desktop-native-alpha9": 0,
+          "pipeline-adapter-alpha9": 0
+        }
+      },
+      {
+        "family": "expanded_policy_pending_direct_authorization",
+        "positiveCases": 6182,
+        "failedCases": {
+          "desktop-native-alpha5": 5325,
+          "pipeline-adapter-alpha5": 5325,
+          "desktop-native-alpha9": 5092,
+          "pipeline-adapter-alpha9": 5092
+        }
+      }
+    ]
+  },
+  "witnesses": [
+    {
+      "caseId": "grammar-000000",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "noun/password",
+        "separator/is",
+        "value_shape/fixed/short_letter",
+        "quoting/unquoted",
+        "multiline/inline",
+        "multiplicity/one_disclosure",
+        "generator_family/grammar",
+        "scope/pr21_length_boundary_question"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
+      "inputUtf8Bytes": 45,
+      "inputSha256": "0b3a1f1129a51d73ce3b31f9da181330ad5beae93aa2e721aee17108beb4bb2c",
+      "protectedSpans": [
+        [
+          44,
+          45
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000000\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "0b3a1f1129a51d73ce3b31f9da181330ad5beae93aa2e721aee17108beb4bb2c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "0b3a1f1129a51d73ce3b31f9da181330ad5beae93aa2e721aee17108beb4bb2c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "0b3a1f1129a51d73ce3b31f9da181330ad5beae93aa2e721aee17108beb4bb2c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "0b3a1f1129a51d73ce3b31f9da181330ad5beae93aa2e721aee17108beb4bb2c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000567",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "noun/passcode"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passcode is q",
+      "inputUtf8Bytes": 45,
+      "inputSha256": "9ad9a4de263f3ec0933c2f6ed616c4d757963e63e4fb3ceac0b642cfff42c726",
+      "protectedSpans": [
+        [
+          44,
+          45
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000567\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "9ad9a4de263f3ec0933c2f6ed616c4d757963e63e4fb3ceac0b642cfff42c726",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passcode is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "9ad9a4de263f3ec0933c2f6ed616c4d757963e63e4fb3ceac0b642cfff42c726",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passcode is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "9ad9a4de263f3ec0933c2f6ed616c4d757963e63e4fb3ceac0b642cfff42c726",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passcode is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "9ad9a4de263f3ec0933c2f6ed616c4d757963e63e4fb3ceac0b642cfff42c726",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passcode is q",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-001134",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "noun/passphrase"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passphrase is q",
+      "inputUtf8Bytes": 47,
+      "inputSha256": "2a5253a80cea7a8c28030072dbdad39d8783b233a48e419bab35eac9d9fca281",
+      "protectedSpans": [
+        [
+          46,
+          47
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-001134\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "2a5253a80cea7a8c28030072dbdad39d8783b233a48e419bab35eac9d9fca281",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passphrase is q",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "2a5253a80cea7a8c28030072dbdad39d8783b233a48e419bab35eac9d9fca281",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passphrase is q",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "2a5253a80cea7a8c28030072dbdad39d8783b233a48e419bab35eac9d9fca281",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passphrase is q",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "2a5253a80cea7a8c28030072dbdad39d8783b233a48e419bab35eac9d9fca281",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy passphrase is q",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-001701",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "noun/pw"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pw is q",
+      "inputUtf8Bytes": 39,
+      "inputSha256": "0fce7e6e7f69a78db91f220b389f0b57d17883a7954ac5a47dc25f873ff78495",
+      "protectedSpans": [
+        [
+          38,
+          39
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-001701\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "0fce7e6e7f69a78db91f220b389f0b57d17883a7954ac5a47dc25f873ff78495",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pw is q",
+          "decodedOutputUtf8Bytes": 39,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "0fce7e6e7f69a78db91f220b389f0b57d17883a7954ac5a47dc25f873ff78495",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pw is q",
+          "decodedOutputUtf8Bytes": 39,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "0fce7e6e7f69a78db91f220b389f0b57d17883a7954ac5a47dc25f873ff78495",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pw is q",
+          "decodedOutputUtf8Bytes": 39,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "0fce7e6e7f69a78db91f220b389f0b57d17883a7954ac5a47dc25f873ff78495",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pw is q",
+          "decodedOutputUtf8Bytes": 39,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-002268",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/pass"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is q",
+      "inputUtf8Bytes": 41,
+      "inputSha256": "0ee110510afa002a722242ebbde4bf11cb04bc70901c03fbefebef4502e66503",
+      "protectedSpans": [
+        [
+          40,
+          41
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-002268\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "0ee110510afa002a722242ebbde4bf11cb04bc70901c03fbefebef4502e66503",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is q",
+          "decodedOutputUtf8Bytes": 41,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "0ee110510afa002a722242ebbde4bf11cb04bc70901c03fbefebef4502e66503",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is q",
+          "decodedOutputUtf8Bytes": 41,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "0ee110510afa002a722242ebbde4bf11cb04bc70901c03fbefebef4502e66503",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is q",
+          "decodedOutputUtf8Bytes": 41,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "0ee110510afa002a722242ebbde4bf11cb04bc70901c03fbefebef4502e66503",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is q",
+          "decodedOutputUtf8Bytes": 41,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-002835",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/pin"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin is q",
+      "inputUtf8Bytes": 40,
+      "inputSha256": "b59ce6d9277b3df13fef9e0a6fc02729b30a8611a08eb181d0bc6f9f1bf1187c",
+      "protectedSpans": [
+        [
+          39,
+          40
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-002835\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "b59ce6d9277b3df13fef9e0a6fc02729b30a8611a08eb181d0bc6f9f1bf1187c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "b59ce6d9277b3df13fef9e0a6fc02729b30a8611a08eb181d0bc6f9f1bf1187c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "b59ce6d9277b3df13fef9e0a6fc02729b30a8611a08eb181d0bc6f9f1bf1187c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "b59ce6d9277b3df13fef9e0a6fc02729b30a8611a08eb181d0bc6f9f1bf1187c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-003402",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/secret"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret is q",
+      "inputUtf8Bytes": 43,
+      "inputSha256": "7b2d53a91a55868467707330618e784badbe15b7a60fbbed9c6b50956c123459",
+      "protectedSpans": [
+        [
+          42,
+          43
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-003402\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "7b2d53a91a55868467707330618e784badbe15b7a60fbbed9c6b50956c123459",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret is q",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "7b2d53a91a55868467707330618e784badbe15b7a60fbbed9c6b50956c123459",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret is q",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "7b2d53a91a55868467707330618e784badbe15b7a60fbbed9c6b50956c123459",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret is q",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "7b2d53a91a55868467707330618e784badbe15b7a60fbbed9c6b50956c123459",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret is q",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-003969",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/key"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key is q",
+      "inputUtf8Bytes": 40,
+      "inputSha256": "80132c8e8bae30b4448e85eb801e096b4c773e4a06e2482d22ac23f354c992c3",
+      "protectedSpans": [
+        [
+          39,
+          40
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-003969\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "80132c8e8bae30b4448e85eb801e096b4c773e4a06e2482d22ac23f354c992c3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "80132c8e8bae30b4448e85eb801e096b4c773e4a06e2482d22ac23f354c992c3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "80132c8e8bae30b4448e85eb801e096b4c773e4a06e2482d22ac23f354c992c3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "80132c8e8bae30b4448e85eb801e096b4c773e4a06e2482d22ac23f354c992c3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key is q",
+          "decodedOutputUtf8Bytes": 40,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-004536",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/token"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy token is q",
+      "inputUtf8Bytes": 42,
+      "inputSha256": "d8972f5c23ea33c493a0c784d5ffb9d3ed1e1ce6d5f1b319e1d14e0526c4f5ee",
+      "protectedSpans": [
+        [
+          41,
+          42
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-004536\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "d8972f5c23ea33c493a0c784d5ffb9d3ed1e1ce6d5f1b319e1d14e0526c4f5ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy token is q",
+          "decodedOutputUtf8Bytes": 42,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "d8972f5c23ea33c493a0c784d5ffb9d3ed1e1ce6d5f1b319e1d14e0526c4f5ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy token is q",
+          "decodedOutputUtf8Bytes": 42,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "d8972f5c23ea33c493a0c784d5ffb9d3ed1e1ce6d5f1b319e1d14e0526c4f5ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy token is q",
+          "decodedOutputUtf8Bytes": 42,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "d8972f5c23ea33c493a0c784d5ffb9d3ed1e1ce6d5f1b319e1d14e0526c4f5ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy token is q",
+          "decodedOutputUtf8Bytes": 42,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "multiple-005948",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "noun/multiple_nouns_see_multiplicity",
+        "value_shape/two_fixed_symbol_values",
+        "quoting/double_and_single",
+        "multiplicity/two_disclosures",
+        "generator_family/multiple"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"synthetic-mauve#17\"; then my pass is 'synthetic-teal#29'",
+      "inputUtf8Bytes": 101,
+      "inputSha256": "169bfcae26d4e5b3c44b6312d40a6ba8df0cd25522ed9f44fa35225897fcc210",
+      "protectedSpans": [
+        [
+          45,
+          63
+        ],
+        [
+          83,
+          100
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"multiple-005948\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "169bfcae26d4e5b3c44b6312d40a6ba8df0cd25522ed9f44fa35225897fcc210",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"synthetic-mauve#17\"; then my pass is 'synthetic-teal#29'",
+          "decodedOutputUtf8Bytes": 101,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "169bfcae26d4e5b3c44b6312d40a6ba8df0cd25522ed9f44fa35225897fcc210",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"synthetic-mauve#17\"; then my pass is 'synthetic-teal#29'",
+          "decodedOutputUtf8Bytes": 101,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "dbbaf19175bedaf4332de1048d9759f7147ce9ecd112b2cbc52c8e09dd475c5e",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"[REDACTED]\"; then my pass is 'synthetic-teal#29'",
+          "decodedOutputUtf8Bytes": 93,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "dbbaf19175bedaf4332de1048d9759f7147ce9ecd112b2cbc52c8e09dd475c5e",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"[REDACTED]\"; then my pass is 'synthetic-teal#29'",
+          "decodedOutputUtf8Bytes": 93,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000081",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "separator/was"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password was q",
+      "inputUtf8Bytes": 46,
+      "inputSha256": "b6b8caca881ba3204f9726ce18d5535b950e6a4e5b3de84c465faba470df87c0",
+      "protectedSpans": [
+        [
+          45,
+          46
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000081\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "b6b8caca881ba3204f9726ce18d5535b950e6a4e5b3de84c465faba470df87c0",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password was q",
+          "decodedOutputUtf8Bytes": 46,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "b6b8caca881ba3204f9726ce18d5535b950e6a4e5b3de84c465faba470df87c0",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password was q",
+          "decodedOutputUtf8Bytes": 46,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "b6b8caca881ba3204f9726ce18d5535b950e6a4e5b3de84c465faba470df87c0",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password was q",
+          "decodedOutputUtf8Bytes": 46,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "b6b8caca881ba3204f9726ce18d5535b950e6a4e5b3de84c465faba470df87c0",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password was q",
+          "decodedOutputUtf8Bytes": 46,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000168",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/="
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password = velvet river lantern",
+      "inputUtf8Bytes": 63,
+      "inputSha256": "48a38a8702e13b6d48579435d072122ac91d57e3693a7bbcd928806903198144",
+      "protectedSpans": [
+        [
+          43,
+          63
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000168\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "a24eb7b0238d296e9feab945cc9b95d7dfb3aa718da2ff38b9ea5980846dee2a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password = [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "a24eb7b0238d296e9feab945cc9b95d7dfb3aa718da2ff38b9ea5980846dee2a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password = [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "a24eb7b0238d296e9feab945cc9b95d7dfb3aa718da2ff38b9ea5980846dee2a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password = [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "a24eb7b0238d296e9feab945cc9b95d7dfb3aa718da2ff38b9ea5980846dee2a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password = [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000249",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/:"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password : velvet river lantern",
+      "inputUtf8Bytes": 63,
+      "inputSha256": "6a49745ae865595be8a7161a5cb8795079f867a4679921d6448eaaa3dd5e7017",
+      "protectedSpans": [
+        [
+          43,
+          63
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000249\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "17f419331750b192cfdd28c7d17fe620bd87c1b07d5646c49bcfb8e9e4dba211",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password : [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "17f419331750b192cfdd28c7d17fe620bd87c1b07d5646c49bcfb8e9e4dba211",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password : [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "17f419331750b192cfdd28c7d17fe620bd87c1b07d5646c49bcfb8e9e4dba211",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password : [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "17f419331750b192cfdd28c7d17fe620bd87c1b07d5646c49bcfb8e9e4dba211",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password : [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000324",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/is now"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now q",
+      "inputUtf8Bytes": 49,
+      "inputSha256": "59991c4b41b96aee339895f321586c196d10f22b03c13ab95ccad76c100d02e8",
+      "protectedSpans": [
+        [
+          48,
+          49
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000324\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "59991c4b41b96aee339895f321586c196d10f22b03c13ab95ccad76c100d02e8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "59991c4b41b96aee339895f321586c196d10f22b03c13ab95ccad76c100d02e8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "8ba693fd4806d3f4d8fd75303f1c8152e64da75bfa005d88fb0c1c1d867c0986",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] q",
+          "decodedOutputUtf8Bytes": 56,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "8ba693fd4806d3f4d8fd75303f1c8152e64da75bfa005d88fb0c1c1d867c0986",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] q",
+          "decodedOutputUtf8Bytes": 56,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000405",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/set to"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set to q",
+      "inputUtf8Bytes": 49,
+      "inputSha256": "aadf34815423b7a924f0261243b2003e4a30a78120f98a91afd82d6a92004f3a",
+      "protectedSpans": [
+        [
+          48,
+          49
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000405\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "aadf34815423b7a924f0261243b2003e4a30a78120f98a91afd82d6a92004f3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set to q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "aadf34815423b7a924f0261243b2003e4a30a78120f98a91afd82d6a92004f3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set to q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "aadf34815423b7a924f0261243b2003e4a30a78120f98a91afd82d6a92004f3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set to q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "aadf34815423b7a924f0261243b2003e4a30a78120f98a91afd82d6a92004f3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set to q",
+          "decodedOutputUtf8Bytes": 49,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000486",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/is set to"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is set to q",
+      "inputUtf8Bytes": 52,
+      "inputSha256": "f7c3000a179cf82150c3ce83cfe795d7ca23053a83c4bbc443f4e842bcc2bb12",
+      "protectedSpans": [
+        [
+          51,
+          52
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000486\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "f7c3000a179cf82150c3ce83cfe795d7ca23053a83c4bbc443f4e842bcc2bb12",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is set to q",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "f7c3000a179cf82150c3ce83cfe795d7ca23053a83c4bbc443f4e842bcc2bb12",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is set to q",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "f7c3000a179cf82150c3ce83cfe795d7ca23053a83c4bbc443f4e842bcc2bb12",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is set to q",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "f7c3000a179cf82150c3ce83cfe795d7ca23053a83c4bbc443f4e842bcc2bb12",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is set to q",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "split_connector-005859",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/is\nnow",
+        "value_shape/fixed_symbols_with_connector_break",
+        "multiline/split_connector",
+        "generator_family/split_connector"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nnow synthetic-cobalt#53",
+      "inputUtf8Bytes": 67,
+      "inputSha256": "952c4ee73e99c79b838bdeb67fd942d96080ab3d24b76e2d3884ca6a70ad25f7",
+      "protectedSpans": [
+        [
+          48,
+          67
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"split_connector-005859\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "952c4ee73e99c79b838bdeb67fd942d96080ab3d24b76e2d3884ca6a70ad25f7",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nnow synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "952c4ee73e99c79b838bdeb67fd942d96080ab3d24b76e2d3884ca6a70ad25f7",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nnow synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "952c4ee73e99c79b838bdeb67fd942d96080ab3d24b76e2d3884ca6a70ad25f7",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nnow synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "952c4ee73e99c79b838bdeb67fd942d96080ab3d24b76e2d3884ca6a70ad25f7",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nnow synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "split_connector-005860",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/set\nto"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set\nto synthetic-cobalt#53",
+      "inputUtf8Bytes": 67,
+      "inputSha256": "13d89c5cbd80aa786bbd6b29ba58f5ea8cae0bdaa72e31d9911e1a65a23eafb8",
+      "protectedSpans": [
+        [
+          48,
+          67
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"split_connector-005860\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "13d89c5cbd80aa786bbd6b29ba58f5ea8cae0bdaa72e31d9911e1a65a23eafb8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "13d89c5cbd80aa786bbd6b29ba58f5ea8cae0bdaa72e31d9911e1a65a23eafb8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "13d89c5cbd80aa786bbd6b29ba58f5ea8cae0bdaa72e31d9911e1a65a23eafb8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "13d89c5cbd80aa786bbd6b29ba58f5ea8cae0bdaa72e31d9911e1a65a23eafb8",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password set\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "split_connector-005861",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "separator/is\nset\nto"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nset\nto synthetic-cobalt#53",
+      "inputUtf8Bytes": 70,
+      "inputSha256": "30c829c0596625042724c4ed890dee2275fcd0bbef33e3eda7b00ff3e2f3b126",
+      "protectedSpans": [
+        [
+          51,
+          70
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"split_connector-005861\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "30c829c0596625042724c4ed890dee2275fcd0bbef33e3eda7b00ff3e2f3b126",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nset\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 70,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "30c829c0596625042724c4ed890dee2275fcd0bbef33e3eda7b00ff3e2f3b126",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nset\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 70,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "30c829c0596625042724c4ed890dee2275fcd0bbef33e3eda7b00ff3e2f3b126",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nset\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 70,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "30c829c0596625042724c4ed890dee2275fcd0bbef33e3eda7b00ff3e2f3b126",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nset\nto synthetic-cobalt#53",
+          "decodedOutputUtf8Bytes": 70,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000001",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "value_shape/fixed/short_symbol"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is !",
+      "inputUtf8Bytes": 45,
+      "inputSha256": "ea6863b90ae2f7e9d58e935cb25d23857a651f25f5e03f8a53ca515adb7113cc",
+      "protectedSpans": [
+        [
+          44,
+          45
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000001\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "ea6863b90ae2f7e9d58e935cb25d23857a651f25f5e03f8a53ca515adb7113cc",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is !",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "ea6863b90ae2f7e9d58e935cb25d23857a651f25f5e03f8a53ca515adb7113cc",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is !",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "ea6863b90ae2f7e9d58e935cb25d23857a651f25f5e03f8a53ca515adb7113cc",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is !",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "ea6863b90ae2f7e9d58e935cb25d23857a651f25f5e03f8a53ca515adb7113cc",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is !",
+          "decodedOutputUtf8Bytes": 45,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000326",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/digits"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 0047",
+      "inputUtf8Bytes": 52,
+      "inputSha256": "93318f00de31af18f70a251a8205f3cadef4a570ecbf571045c6fa6edcb026c4",
+      "protectedSpans": [
+        [
+          48,
+          52
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000326\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "93318f00de31af18f70a251a8205f3cadef4a570ecbf571045c6fa6edcb026c4",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 0047",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "93318f00de31af18f70a251a8205f3cadef4a570ecbf571045c6fa6edcb026c4",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 0047",
+          "decodedOutputUtf8Bytes": 52,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "d0cfd11643b35980320dedc8c16af0d039e5688763a1f2ebac0b50f0fee38606",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 0047",
+          "decodedOutputUtf8Bytes": 59,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "d0cfd11643b35980320dedc8c16af0d039e5688763a1f2ebac0b50f0fee38606",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 0047",
+          "decodedOutputUtf8Bytes": 59,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000327",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/symbols"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now R7!#%&(=~",
+      "inputUtf8Bytes": 57,
+      "inputSha256": "2a7874a450944ff20e4527b9ea1a2a0edd1fe9a5962fc7f8d2aff23219e1c893",
+      "protectedSpans": [
+        [
+          48,
+          57
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000327\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "2a7874a450944ff20e4527b9ea1a2a0edd1fe9a5962fc7f8d2aff23219e1c893",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now R7!#%&(=~",
+          "decodedOutputUtf8Bytes": 57,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "2a7874a450944ff20e4527b9ea1a2a0edd1fe9a5962fc7f8d2aff23219e1c893",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now R7!#%&(=~",
+          "decodedOutputUtf8Bytes": 57,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "5ecc20e27ba914c1dfc452ceb40f4d4ffbcfdd52cc63c1c279c709389b3787ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] R7!#%&(=~",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "5ecc20e27ba914c1dfc452ceb40f4d4ffbcfdd52cc63c1c279c709389b3787ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] R7!#%&(=~",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000328",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/ordinary_word"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now orchid",
+      "inputUtf8Bytes": 54,
+      "inputSha256": "46481fb83eaef022bf6f990540da6b94e67e0b4244319d77e12becf1a36f7f51",
+      "protectedSpans": [
+        [
+          48,
+          54
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000328\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "46481fb83eaef022bf6f990540da6b94e67e0b4244319d77e12becf1a36f7f51",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now orchid",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "46481fb83eaef022bf6f990540da6b94e67e0b4244319d77e12becf1a36f7f51",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now orchid",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "2c0bb9ef2b1276c773e8e8673622da6f111281de7d54f13a9422121b9ddf933b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] orchid",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "2c0bb9ef2b1276c773e8e8673622da6f111281de7d54f13a9422121b9ddf933b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] orchid",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000329",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/type_word"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now string",
+      "inputUtf8Bytes": 54,
+      "inputSha256": "68198fbf11cbb992c1a34b02adc3f378c255b73be9f41cb1caa9b10e09fef695",
+      "protectedSpans": [
+        [
+          48,
+          54
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000329\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "68198fbf11cbb992c1a34b02adc3f378c255b73be9f41cb1caa9b10e09fef695",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now string",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "68198fbf11cbb992c1a34b02adc3f378c255b73be9f41cb1caa9b10e09fef695",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now string",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "28e5624f7e7f6d0a83c69b835eedda270394f5be83e534c6db7eacf8c92098dd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] string",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "28e5624f7e7f6d0a83c69b835eedda270394f5be83e534c6db7eacf8c92098dd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] string",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000006",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/spaces",
+        "scope/expanded_policy_pending_direct_authorization"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is velvet river lantern",
+      "inputUtf8Bytes": 64,
+      "inputSha256": "da6233f28395e6139e92310f1c0a3ae6ac8d68a9937290ce3f4df328d7d5964c",
+      "protectedSpans": [
+        [
+          44,
+          64
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000006\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "da6233f28395e6139e92310f1c0a3ae6ac8d68a9937290ce3f4df328d7d5964c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is velvet river lantern",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "da6233f28395e6139e92310f1c0a3ae6ac8d68a9937290ce3f4df328d7d5964c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is velvet river lantern",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "311fe935dc29e0062859c0dd21223bd0b8e300b027753a384806b34575437846",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 68,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "311fe935dc29e0062859c0dd21223bd0b8e300b027753a384806b34575437846",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] river lantern",
+          "decodedOutputUtf8Bytes": 68,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000331",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/unicode"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+      "inputUtf8Bytes": 59,
+      "inputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
+      "protectedSpans": [
+        [
+          48,
+          53
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000331\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+          "decodedOutputUtf8Bytes": 59,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "afe67d3fa7cd5ee79a665829817290d57357fcd267c52383c075e068b725e03e",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now 松🔐éж",
+          "decodedOutputUtf8Bytes": 59,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "c817f406bf3fa575b4e3aa0aa054eee6cea09b3801399ab7d24994d817eb866b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 松🔐éж",
+          "decodedOutputUtf8Bytes": 66,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "c817f406bf3fa575b4e3aa0aa054eee6cea09b3801399ab7d24994d817eb866b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] 松🔐éж",
+          "decodedOutputUtf8Bytes": 66,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000332",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed/long"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv [preview truncated; regenerate by caseId]",
+      "inputUtf8Bytes": 2097,
+      "inputSha256": "363c44f0e93800878c712ad8838543cb262d30422741a4cc3648b6f4bae74837",
+      "protectedSpans": [
+        [
+          48,
+          2097
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": true,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000332\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "363c44f0e93800878c712ad8838543cb262d30422741a4cc3648b6f4bae74837",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 2097,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "363c44f0e93800878c712ad8838543cb262d30422741a4cc3648b6f4bae74837",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is now vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 2097,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "e27adc378305d99b4ed1aa7b086eb08f0da5c570ba4f5449a828f20688fa8829",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 2104,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "e27adc378305d99b4ed1aa7b086eb08f0da5c570ba4f5449a828f20688fa8829",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 2104,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "line_break-005103",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/fixed_symbols_with_gap_break",
+        "multiline/before_connector",
+        "generator_family/line_break"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\nis synthetic-amber#47",
+      "inputUtf8Bytes": 62,
+      "inputSha256": "3e4af44022fcf677cf7ead347b27c06295a4ac2e64dcc707908c12485e40fb3a",
+      "protectedSpans": [
+        [
+          44,
+          62
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"line_break-005103\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "3e4af44022fcf677cf7ead347b27c06295a4ac2e64dcc707908c12485e40fb3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\nis synthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "3e4af44022fcf677cf7ead347b27c06295a4ac2e64dcc707908c12485e40fb3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\nis synthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "3e4af44022fcf677cf7ead347b27c06295a4ac2e64dcc707908c12485e40fb3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\nis synthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "3e4af44022fcf677cf7ead347b27c06295a4ac2e64dcc707908c12485e40fb3a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\nis synthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "multiline_value-005886",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/quoted_multiline_value",
+        "multiline/inside_quoted_value",
+        "generator_family/multiline_value"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'synthetic violet\nsynthetic cobalt'",
+      "inputUtf8Bytes": 79,
+      "inputSha256": "d798c76d517d832402e1ab41e6bed85e554aa8aa868622f9134cfa6e002c08ee",
+      "protectedSpans": [
+        [
+          45,
+          78
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"multiline_value-005886\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "d798c76d517d832402e1ab41e6bed85e554aa8aa868622f9134cfa6e002c08ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'synthetic violet\nsynthetic cobalt'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "d798c76d517d832402e1ab41e6bed85e554aa8aa868622f9134cfa6e002c08ee",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'synthetic violet\nsynthetic cobalt'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "7dcb3af3a9cc13bf3c52e30c8aee41a18971aa91cab7cdc333a700daf608fb85",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]\nsynthetic cobalt'",
+          "decodedOutputUtf8Bytes": 72,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "7dcb3af3a9cc13bf3c52e30c8aee41a18971aa91cab7cdc333a700daf608fb85",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]\nsynthetic cobalt'",
+          "decodedOutputUtf8Bytes": 72,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "unmatched_quote-005930",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/unclosed_multiword_value",
+        "quoting/unmatched_single",
+        "generator_family/unmatched_quote"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is 'synthetic unfinished river",
+      "inputUtf8Bytes": 67,
+      "inputSha256": "6cc9c56b239dce44384b2b1b056c86355b4f155a5825f490bd203c875a7fc4fb",
+      "protectedSpans": [
+        [
+          41,
+          67
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"unmatched_quote-005930\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "6cc9c56b239dce44384b2b1b056c86355b4f155a5825f490bd203c875a7fc4fb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is 'synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "6cc9c56b239dce44384b2b1b056c86355b4f155a5825f490bd203c875a7fc4fb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is 'synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "6cc9c56b239dce44384b2b1b056c86355b4f155a5825f490bd203c875a7fc4fb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is 'synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "6cc9c56b239dce44384b2b1b056c86355b4f155a5825f490bd203c875a7fc4fb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is 'synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006102",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_257"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+      "inputUtf8Bytes": 311,
+      "inputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
+      "protectedSpans": [
+        [
+          40,
+          299
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": true,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006102\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 311,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 311,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 311,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "2ae1f4dcdcff3636e985bf1b089bbe0ae7a7f0315ebbe5a455c53ef377d69036",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pin\nis \"{{]Q(V8yM]FMnNM/WgV?Ké/FRM&v=rmD5%CWV6{k#A松54n?x🔐!f^~d&:jCm-W&C}n=NSHynRS?9}{C(AhhwXMN^Ekpg6EhSD:(B)gD-78+ceR [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 311,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006104",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_1024"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+      "inputUtf8Bytes": 1157,
+      "inputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
+      "protectedSpans": [
+        [
+          48,
+          1086
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": true,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006104\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 1157,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "e8cb070ca44f54c8e88196599492bec5afbad1a985e4f9a2d2cc9dd264c79cab",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS NoW\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCévBd2NdJ [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 1157,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "89851db31db0c9065215dcf96777e63e135731a7eef474c27a20cd42481ad807",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCé [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 1164,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "89851db31db0c9065215dcf96777e63e135731a7eef474c27a20cd42481ad807",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsScOdE\tiS [REDACTED]\t🔐k4FY]松djW/MZat#vU+#Hn松_P!hE?:c#:gjDDH74vA}V3T🔐s_HrKeJnu5éW77%EXta[rm7A{9P4[P48éHSreQa(FXfTCé [preview truncated; regenerate by caseId]",
+          "decodedOutputUtf8Bytes": 1164,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006105",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_1",
+        "generator_family/seeded_mutation"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS SeT To\t\"]\"",
+      "inputUtf8Bytes": 54,
+      "inputSha256": "482fc3436a7ccd04fd1c309b469de1f1b9f31c69834449a8ca642d7e6818042b",
+      "protectedSpans": [
+        [
+          52,
+          53
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006105\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "482fc3436a7ccd04fd1c309b469de1f1b9f31c69834449a8ca642d7e6818042b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS SeT To\t\"]\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "482fc3436a7ccd04fd1c309b469de1f1b9f31c69834449a8ca642d7e6818042b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS SeT To\t\"]\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "482fc3436a7ccd04fd1c309b469de1f1b9f31c69834449a8ca642d7e6818042b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS SeT To\t\"]\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "482fc3436a7ccd04fd1c309b469de1f1b9f31c69834449a8ca642d7e6818042b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS SeT To\t\"]\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006106",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_64",
+        "multiline/seeded_gap_lf"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nMY TOKEN\nWAS\n'Uq_x6!}p22jFgYzu{_Q9%74##K-#Ba!Ya^9hB+n?Xk5RhZ3V/7Y%^w(##=X:XhK4'",
+      "inputUtf8Bytes": 108,
+      "inputSha256": "842347cd6d8987486a9c12dda274d364c53337fb7529e5b51509ecd1cb299d3c",
+      "protectedSpans": [
+        [
+          43,
+          107
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006106\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "842347cd6d8987486a9c12dda274d364c53337fb7529e5b51509ecd1cb299d3c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nMY TOKEN\nWAS\n'Uq_x6!}p22jFgYzu{_Q9%74##K-#Ba!Ya^9hB+n?Xk5RhZ3V/7Y%^w(##=X:XhK4'",
+          "decodedOutputUtf8Bytes": 108,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "842347cd6d8987486a9c12dda274d364c53337fb7529e5b51509ecd1cb299d3c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nMY TOKEN\nWAS\n'Uq_x6!}p22jFgYzu{_Q9%74##K-#Ba!Ya^9hB+n?Xk5RhZ3V/7Y%^w(##=X:XhK4'",
+          "decodedOutputUtf8Bytes": 108,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "842347cd6d8987486a9c12dda274d364c53337fb7529e5b51509ecd1cb299d3c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nMY TOKEN\nWAS\n'Uq_x6!}p22jFgYzu{_Q9%74##K-#Ba!Ya^9hB+n?Xk5RhZ3V/7Y%^w(##=X:XhK4'",
+          "decodedOutputUtf8Bytes": 108,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "842347cd6d8987486a9c12dda274d364c53337fb7529e5b51509ecd1cb299d3c",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nMY TOKEN\nWAS\n'Uq_x6!}p22jFgYzu{_Q9%74##K-#Ba!Ya^9hB+n?Xk5RhZ3V/7Y%^w(##=X:XhK4'",
+          "decodedOutputUtf8Bytes": 108,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006107",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_8"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret  is\t'7sp/4Y+6'",
+      "inputUtf8Bytes": 53,
+      "inputSha256": "4bc3d7cd6a11d3256b84acb3cec025ccf6afc9428ae658eb80e282926e5bfdc5",
+      "protectedSpans": [
+        [
+          44,
+          52
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006107\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "4bc3d7cd6a11d3256b84acb3cec025ccf6afc9428ae658eb80e282926e5bfdc5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret  is\t'7sp/4Y+6'",
+          "decodedOutputUtf8Bytes": 53,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "4bc3d7cd6a11d3256b84acb3cec025ccf6afc9428ae658eb80e282926e5bfdc5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret  is\t'7sp/4Y+6'",
+          "decodedOutputUtf8Bytes": 53,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "4bc3d7cd6a11d3256b84acb3cec025ccf6afc9428ae658eb80e282926e5bfdc5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret  is\t'7sp/4Y+6'",
+          "decodedOutputUtf8Bytes": 53,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "4bc3d7cd6a11d3256b84acb3cec025ccf6afc9428ae658eb80e282926e5bfdc5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy secret  is\t'7sp/4Y+6'",
+          "decodedOutputUtf8Bytes": 53,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006108",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_31"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+      "inputUtf8Bytes": 79,
+      "inputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
+      "protectedSpans": [
+        [
+          39,
+          71
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006108\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "2ffe0c5ddab964628e4c9da598f1597a084a624669345543be298bc634a5a7da",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy key\t: 'uQéJnM5松Gbéé+sN}+nFRy9X&U&b🔐p26'",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006124",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_3"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS NoW\r\n\"p3e\"",
+      "inputUtf8Bytes": 54,
+      "inputSha256": "c3410f4d6fa18b9e3a7509610f9065d737df5ae551d68ddf447a086c3fd80779",
+      "protectedSpans": [
+        [
+          50,
+          53
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006124\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "c3410f4d6fa18b9e3a7509610f9065d737df5ae551d68ddf447a086c3fd80779",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS NoW\r\n\"p3e\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "c3410f4d6fa18b9e3a7509610f9065d737df5ae551d68ddf447a086c3fd80779",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS NoW\r\n\"p3e\"",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "3d5cc19a698932751acb39faf9976cab37eb90e4712ca6bf76d7368c3887235a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS [REDACTED]\r\n\"p3e\"",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "3d5cc19a698932751acb39faf9976cab37eb90e4712ca6bf76d7368c3887235a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD\tiS [REDACTED]\r\n\"p3e\"",
+          "decodedOutputUtf8Bytes": 61,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006127",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "value_shape/seeded/codepoints_2"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsS\t=\n'UQ'",
+      "inputUtf8Bytes": 43,
+      "inputSha256": "1cab4a905927103dfdce808a6fc977c39615824d9b0584d6d7bba67f7dbb6e4f",
+      "protectedSpans": [
+        [
+          40,
+          42
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006127\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "1cab4a905927103dfdce808a6fc977c39615824d9b0584d6d7bba67f7dbb6e4f",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsS\t=\n'UQ'",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "1cab4a905927103dfdce808a6fc977c39615824d9b0584d6d7bba67f7dbb6e4f",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsS\t=\n'UQ'",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "1cab4a905927103dfdce808a6fc977c39615824d9b0584d6d7bba67f7dbb6e4f",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsS\t=\n'UQ'",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "1cab4a905927103dfdce808a6fc977c39615824d9b0584d6d7bba67f7dbb6e4f",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsS\t=\n'UQ'",
+          "decodedOutputUtf8Bytes": 43,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000009",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "quoting/single"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'q'",
+      "inputUtf8Bytes": 47,
+      "inputSha256": "266a4123c0181fd4e220db948afa0aa51d41904f2fd9bd89e4584ca31497cc77",
+      "protectedSpans": [
+        [
+          45,
+          46
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000009\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "266a4123c0181fd4e220db948afa0aa51d41904f2fd9bd89e4584ca31497cc77",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'q'",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "266a4123c0181fd4e220db948afa0aa51d41904f2fd9bd89e4584ca31497cc77",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'q'",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "266a4123c0181fd4e220db948afa0aa51d41904f2fd9bd89e4584ca31497cc77",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'q'",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "266a4123c0181fd4e220db948afa0aa51d41904f2fd9bd89e4584ca31497cc77",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 'q'",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000018",
+      "scope": "pr21_length_boundary_question",
+      "families": [
+        "quoting/double"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"q\"",
+      "inputUtf8Bytes": 47,
+      "inputSha256": "3a3e07ce9dbf30023de7e076cffd93cf632c4e4f2366dc7e723b48cb7fd69e56",
+      "protectedSpans": [
+        [
+          45,
+          46
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000018\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "3a3e07ce9dbf30023de7e076cffd93cf632c4e4f2366dc7e723b48cb7fd69e56",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"q\"",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "3a3e07ce9dbf30023de7e076cffd93cf632c4e4f2366dc7e723b48cb7fd69e56",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"q\"",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "3a3e07ce9dbf30023de7e076cffd93cf632c4e4f2366dc7e723b48cb7fd69e56",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"q\"",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "3a3e07ce9dbf30023de7e076cffd93cf632c4e4f2366dc7e723b48cb7fd69e56",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is \"q\"",
+          "decodedOutputUtf8Bytes": 47,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "multiline_value-005888",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "quoting/backtick"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is `synthetic violet\nsynthetic cobalt`",
+      "inputUtf8Bytes": 79,
+      "inputSha256": "a8af2fc2494f81fc7cbdc7d95056443f87c089326ef913b15f9080afeeaf80eb",
+      "protectedSpans": [
+        [
+          45,
+          78
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"multiline_value-005888\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "a8af2fc2494f81fc7cbdc7d95056443f87c089326ef913b15f9080afeeaf80eb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is `synthetic violet\nsynthetic cobalt`",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "a8af2fc2494f81fc7cbdc7d95056443f87c089326ef913b15f9080afeeaf80eb",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is `synthetic violet\nsynthetic cobalt`",
+          "decodedOutputUtf8Bytes": 79,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "0737e01ddcad03829085997152a9282a101ed1e0251abec2ae8e276e71065a44",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]\nsynthetic cobalt`",
+          "decodedOutputUtf8Bytes": 72,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "0737e01ddcad03829085997152a9282a101ed1e0251abec2ae8e276e71065a44",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]\nsynthetic cobalt`",
+          "decodedOutputUtf8Bytes": 72,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "multiline_value-005889",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "quoting/curly_double"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+      "inputUtf8Bytes": 83,
+      "inputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
+      "protectedSpans": [
+        [
+          45,
+          78
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"multiline_value-005889\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+          "decodedOutputUtf8Bytes": 83,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "4b4357196a887cb8743e2e2b4e3fdcde49849869a719726f2bfcc87ad15336d3",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is “synthetic violet\nsynthetic cobalt”",
+          "decodedOutputUtf8Bytes": 83,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "7e22065b7f5e8ca866e9ff357f7cf5909c7dd9eb43f1aa7c6107aac5881de178",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt”",
+          "decodedOutputUtf8Bytes": 81,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "7e22065b7f5e8ca866e9ff357f7cf5909c7dd9eb43f1aa7c6107aac5881de178",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED] violet\nsynthetic cobalt”",
+          "decodedOutputUtf8Bytes": 81,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "unmatched_quote-005931",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "quoting/unmatched_double"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is \"synthetic unfinished river",
+      "inputUtf8Bytes": 67,
+      "inputSha256": "59d450298e801572de784c2b4e1200c39dd7119d6c9aa8ccc62f80c8cc2a0c79",
+      "protectedSpans": [
+        [
+          41,
+          67
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"unmatched_quote-005931\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "59d450298e801572de784c2b4e1200c39dd7119d6c9aa8ccc62f80c8cc2a0c79",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is \"synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "59d450298e801572de784c2b4e1200c39dd7119d6c9aa8ccc62f80c8cc2a0c79",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is \"synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "59d450298e801572de784c2b4e1200c39dd7119d6c9aa8ccc62f80c8cc2a0c79",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is \"synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "59d450298e801572de784c2b4e1200c39dd7119d6c9aa8ccc62f80c8cc2a0c79",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy pass is \"synthetic unfinished river",
+          "decodedOutputUtf8Bytes": 67,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "line_break-005104",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "multiline/before_value"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+      "inputUtf8Bytes": 62,
+      "inputSha256": "96a9d7c1a4f49ae0896ac511cce21991399310f5d65287fa9424396194d94c0b",
+      "protectedSpans": [
+        [
+          44,
+          62
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"line_break-005104\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "96a9d7c1a4f49ae0896ac511cce21991399310f5d65287fa9424396194d94c0b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "96a9d7c1a4f49ae0896ac511cce21991399310f5d65287fa9424396194d94c0b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "96a9d7c1a4f49ae0896ac511cce21991399310f5d65287fa9424396194d94c0b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "96a9d7c1a4f49ae0896ac511cce21991399310f5d65287fa9424396194d94c0b",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 62,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "line_break-005105",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "multiline/crlf"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\r\nis\r\nsynthetic-amber#47",
+      "inputUtf8Bytes": 64,
+      "inputSha256": "9132ca0fa4c16a9ef023a93eaf476fa9fd450c972416df7fcdc8519ef460ca7a",
+      "protectedSpans": [
+        [
+          46,
+          64
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"line_break-005105\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "9132ca0fa4c16a9ef023a93eaf476fa9fd450c972416df7fcdc8519ef460ca7a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\r\nis\r\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "9132ca0fa4c16a9ef023a93eaf476fa9fd450c972416df7fcdc8519ef460ca7a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\r\nis\r\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "9132ca0fa4c16a9ef023a93eaf476fa9fd450c972416df7fcdc8519ef460ca7a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\r\nis\r\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "9132ca0fa4c16a9ef023a93eaf476fa9fd450c972416df7fcdc8519ef460ca7a",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password\r\nis\r\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "line_break-005106",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "multiline/unicode_space"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+      "inputUtf8Bytes": 64,
+      "inputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
+      "protectedSpans": [
+        [
+          44,
+          62
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"line_break-005106\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "13d447ea3c73febf044e0d57813e6cc8e00efe78792c48a6bfd7c8cf1c099170",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is\nsynthetic-amber#47",
+          "decodedOutputUtf8Bytes": 64,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "seeded_mutation-006117",
+      "scope": "expanded_policy_pending_direct_authorization",
+      "families": [
+        "multiline/seeded_gap_crlf"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+      "inputUtf8Bytes": 65,
+      "inputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
+      "protectedSpans": [
+        [
+          52,
+          61
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"seeded_mutation-006117\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputUtf8Bytes": 65,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputUtf8Bytes": 65,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputUtf8Bytes": 65,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "c3ca0777b4362552aa3a18db6e1b97354aca2239f3bdd177c4d772a6f5874bfd",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmY pAsSwOrD iS SeT To\r\ndC松u[🔐!E",
+          "decodedOutputUtf8Bytes": 65,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        }
+      }
+    },
+    {
+      "caseId": "grammar-000002",
+      "scope": "pr21_intent_subset",
+      "families": [
+        "scope/pr21_intent_subset"
+      ],
+      "inventedInputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 0047",
+      "inputUtf8Bytes": 48,
+      "inputSha256": "1f4c2e7f99fb269494ae63a6ac0963b29cb2ff28b2d7439bb8c756089be809d5",
+      "protectedSpans": [
+        [
+          44,
+          48
+        ]
+      ],
+      "fullInputOmittedIfOver200CodeUnits": false,
+      "regenerate": "disclosureCases(24301, 1024).find(c => c.id === \"grammar-000002\")",
+      "variants": {
+        "desktop-native-alpha5": {
+          "decodedOutputSha256": "1f4c2e7f99fb269494ae63a6ac0963b29cb2ff28b2d7439bb8c756089be809d5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 0047",
+          "decodedOutputUtf8Bytes": 48,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "pipeline-adapter-alpha5": {
+          "decodedOutputSha256": "1f4c2e7f99fb269494ae63a6ac0963b29cb2ff28b2d7439bb8c756089be809d5",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is 0047",
+          "decodedOutputUtf8Bytes": 48,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": false
+        },
+        "desktop-native-alpha9": {
+          "decodedOutputSha256": "a8fd1f403009d0e8aa68c994c34ea9aad1a7b49d29e00be53a4ca64339d6e0ed",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": true
+        },
+        "pipeline-adapter-alpha9": {
+          "decodedOutputSha256": "a8fd1f403009d0e8aa68c994c34ea9aad1a7b49d29e00be53a4ca64339d6e0ed",
+          "decodedOutputPreview": "QUALIFICATION_PUBLIC_CONTEXT\nmy password is [REDACTED]",
+          "decodedOutputUtf8Bytes": 54,
+          "forms": [
+            "text",
+            "json",
+            "ndjson"
+          ],
+          "allFormsIdentical": true,
+          "protectedSpansFullyRedacted": true
+        }
+      }
+    }
+  ],
+  "limits": [
+    "PR21 remains draft; no merge/publication approval inferred.",
+    "Expanded-policy cases remain pending direct authorization. Length boundary is a scope question, not silently excluded.",
+    "No session bodies or fixture queries. Only invented corpus observations and bounded calls to existing native probes are used.",
+    "Fresh native witness hashes match the saved real-adapter hashes in every form; full-matrix native/adapter parity is from the completed exact-hosted-artifact audit.",
+    "Candidate adapter identity is in-memory test-only with an UNRELEASED-CI schema label; no consumer pin file changed.",
+    "Output hashes cover UTF-8 decoded synthetic content, including the public marker; wire JSON formatting is intentionally not hashed.",
+    "Long witnesses are bounded previews plus complete hashes and deterministic regeneration recipes. No rule edits, engine builds, repins or deploys."
+  ]
+}
