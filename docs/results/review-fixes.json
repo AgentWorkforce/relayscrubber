@@ -596,19 +596,19 @@
     "run": null,
     "artifactId": null,
     "archiveSha256": null,
-    "packageSha256": "2666a760fe789b7a240c3056585058db3f8bbe3fa46e69031efba27a1eb329fe",
-    "sourceSha256": "b941ddbe31f1d56f3a0660f50d5d8c8fd88d4d9de51efe79d4974117229c9dd0",
-    "wasmSha256": "9da35e29b0b2c58303e40bb1430a345e253c7c7130d1f277f646bb9cc84fa7e7",
+    "packageSha256": "d7eb1702fe73092d6607efe2481d67c1b3a97a06a90505afd2c5d5b6dec7db68",
+    "sourceSha256": "291a6b373388b7bc5295091d1bcbc13a2e8c64e37b2bfe0d06b2dc4f12df32c9",
+    "wasmSha256": "008406d7ed78ff85bea510544ceaf0818477f277f0705a4d61a56783ef7117f4",
     "allManifestFilePinsVerified": true,
     "committedPinsEqual": true,
     "runUrl": null,
-    "codeCommit": "5fbd5d6",
+    "codeCommit": "091babc",
     "toolchain": "1.88.0",
     "manifest": {
       "schema": 3,
       "ruleset": "relayhistory-scrub",
       "rulesetVersion": 10,
-      "rulesetSourceSha256": "b941ddbe31f1d56f3a0660f50d5d8c8fd88d4d9de51efe79d4974117229c9dd0",
+      "rulesetSourceSha256": "291a6b373388b7bc5295091d1bcbc13a2e8c64e37b2bfe0d06b2dc4f12df32c9",
       "crateVersion": "0.5.0-alpha.9",
       "abiVersion": 2,
       "policy": "secrets",
@@ -616,7 +616,7 @@
       "scrubProfile": "relayhistory-secrets-v10"
     },
     "files": {
-      "relayscrubber_bg.wasm": "9da35e29b0b2c58303e40bb1430a345e253c7c7130d1f277f646bb9cc84fa7e7",
+      "relayscrubber_bg.wasm": "008406d7ed78ff85bea510544ceaf0818477f277f0705a4d61a56783ef7117f4",
       "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
       "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
       "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
