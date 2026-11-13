@@ -1,0 +1,223 @@
+{
+  "schema": "relayscrubber.pr21-scoped-audit/v1",
+  "generatedAt": "2026-11-13T09:33:50.646Z",
+  "syntheticOnly": true,
+  "candidateSource": "b54745161cade161318e6e1dc9ca5486b91c474d",
+  "hostedArtifact": 14024110518,
+  "hostedRun": 43394654201,
+  "adapterSource": "7e9b2f0f6b1af7af9b49087c4f4677f5d6d1a496",
+  "adapterSha256": "6a4d19ac3558c266158e5b033f4ae4c50cbd313e3513ce088f51391ca53a43de",
+  "cases": 7208,
+  "observations": 86496,
+  "corpusSha256": "d0b20d1df6513e6257063c7990eccf542b4e66be7803194b5f68f4c46dcab689",
+  "engines": {
+    "desktop-native-alpha5": {
+      "identity": {
+        "marker": "relayscrubber-0.5.0-alpha.5",
+        "binarySha256": "d71e98bfda371936e88b25f8c8d6ebd4a3ed676ef5a68fbfa89ceb729c59a34d"
+      },
+      "scopes": {
+        "broader_grammar_pending_authorization": {
+          "observations": 19194,
+          "cases": 6398,
+          "failingCases": 5505,
+          "failures": {
+            "coverage": 16515
+          }
+        },
+        "pr21_intent_subset": {
+          "observations": 2184,
+          "cases": 728,
+          "failingCases": 614,
+          "failures": {
+            "coverage": 1842
+          }
+        },
+        "benign_controls": {
+          "observations": 135,
+          "cases": 45,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "pr21_author_fixtures": {
+          "observations": 111,
+          "cases": 37,
+          "failingCases": 20,
+          "failures": {
+            "coverage": 60,
+            "exact_expected_output": 60
+          }
+        }
+      }
+    },
+    "desktop-native-alpha9": {
+      "identity": {
+        "marker": "relayscrubber-0.5.0-alpha.9",
+        "binarySha256": "5d4daca1653ba203c5a6b1ebbcd923e1c93ae02b43c83b64e527dc1e446e0ccf"
+      },
+      "scopes": {
+        "broader_grammar_pending_authorization": {
+          "observations": 19194,
+          "cases": 6398,
+          "failingCases": 5254,
+          "failures": {
+            "coverage": 15762
+          }
+        },
+        "pr21_intent_subset": {
+          "observations": 2184,
+          "cases": 728,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "benign_controls": {
+          "observations": 135,
+          "cases": 45,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "pr21_author_fixtures": {
+          "observations": 111,
+          "cases": 37,
+          "failingCases": 0,
+          "failures": {}
+        }
+      }
+    },
+    "pipeline-adapter-alpha5": {
+      "identity": {
+        "version": "0.5.0-alpha.5",
+        "manifest": {
+          "schema": 3,
+          "ruleset": "relayhistory-scrub",
+          "rulesetVersion": 10,
+          "rulesetSourceSha256": "bd7d6620626ef40b4c319fa6260bb42ddb20035301ad974332a13453835563f5",
+          "crateVersion": "0.5.0-alpha.5",
+          "abiVersion": 2,
+          "policy": "secrets",
+          "redactionToken": "[REDACTED]",
+          "scrubProfile": "relayhistory-secrets-v10"
+        },
+        "marker": {
+          "ruleset": "relayhistory-scrub",
+          "version": 10,
+          "profile": "relayhistory-secrets-v10"
+        },
+        "wasmSha256": "91cf23177f1d9fa42484f4ce76b54bdd468177852b9e8b259af0b72ad5823f4d"
+      },
+      "scopes": {
+        "broader_grammar_pending_authorization": {
+          "observations": 19194,
+          "cases": 6398,
+          "failingCases": 5505,
+          "failures": {
+            "coverage": 16515
+          }
+        },
+        "pr21_intent_subset": {
+          "observations": 2184,
+          "cases": 728,
+          "failingCases": 614,
+          "failures": {
+            "coverage": 1842
+          }
+        },
+        "benign_controls": {
+          "observations": 135,
+          "cases": 45,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "pr21_author_fixtures": {
+          "observations": 111,
+          "cases": 37,
+          "failingCases": 20,
+          "failures": {
+            "coverage": 60,
+            "exact_expected_output": 60
+          }
+        }
+      }
+    },
+    "pipeline-adapter-alpha9": {
+      "identity": {
+        "version": "0.5.0-alpha.9",
+        "manifest": {
+          "schema": 3,
+          "ruleset": "relayhistory-scrub",
+          "rulesetVersion": 10,
+          "rulesetSourceSha256": "291a6b373388b7bc5295091d1bcbc13a2e8c64e37b2bfe0d06b2dc4f12df32c9",
+          "crateVersion": "0.5.0-alpha.9",
+          "abiVersion": 2,
+          "policy": "secrets",
+          "redactionToken": "[REDACTED]",
+          "scrubProfile": "relayhistory-secrets-v10"
+        },
+        "marker": {
+          "ruleset": "relayhistory-scrub",
+          "version": 10,
+          "profile": "relayhistory-secrets-v10"
+        },
+        "wasmSha256": "008406d7ed78ff85bea510544ceaf0818477f277f0705a4d61a56783ef7117f4"
+      },
+      "scopes": {
+        "broader_grammar_pending_authorization": {
+          "observations": 19194,
+          "cases": 6398,
+          "failingCases": 5254,
+          "failures": {
+            "coverage": 15762
+          }
+        },
+        "pr21_intent_subset": {
+          "observations": 2184,
+          "cases": 728,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "benign_controls": {
+          "observations": 135,
+          "cases": 45,
+          "failingCases": 0,
+          "failures": {}
+        },
+        "pr21_author_fixtures": {
+          "observations": 111,
+          "cases": 37,
+          "failingCases": 0,
+          "failures": {}
+        }
+      }
+    }
+  },
+  "parity": {
+    "alpha5": {
+      "comparisons": 21624,
+      "differences": 0
+    },
+    "alpha9": {
+      "comparisons": 21624,
+      "differences": 0
+    }
+  },
+  "scopePolicy": {
+    "author": "37 frozen author fixtures, exact output required",
+    "intentSubset": "Inline password/passcode/passphrase/pw, is/was/possessive-colon, values >=3 characters; spaces only in quoted values; plus unmatched quotes. This is a tested subset, not a claim about all PR intent.",
+    "broader": "Extra nouns/connectors, values under 3 characters, unquoted multiword values, multiline forms, multiple disclosures and mutations are separately classified; not asserted as current PR blockers."
+  },
+  "limits": [
+    "No session access, new native/WASM builds, rule edits, consumer pin-file edits or deployment.",
+    "Existing native candidate binary has source-identical engine code at 8213b34/b547451; Desktop seam changes only the candidate version marker/dependency in ignored probes.",
+    "Real pinned pipeline adapter runs against verified artifact bytes. Candidate pin is an in-memory test identity using an UNRELEASED-CI schema label, not a published-release claim or deployable consumer pin.",
+    "Runtime TypeScript loader uses TypeScript 6.0.3; adapter dependency zod 4.6.7 satisfies its declared ^4.1.13 range. No generated runtime files or binaries are emitted.",
+    "Engine/seam qualification does not prove live Desktop transport, pipeline storage, or every natural-language disclosure."
+  ],
+  "testedIntentSubsetPass": true,
+  "lengthBoundaryQuestion": {
+    "cases": 216,
+    "candidateFailingCases": {
+      "desktop-native-alpha9": 162,
+      "pipeline-adapter-alpha9": 162
+    }
+  }
+}

@@ -9,6 +9,9 @@ source `06164e88bcf7bd77f49d5979527f0d5aafb8b450`, and sessions-pipeline
 `sha256:77022c5b6a1d30f96f921d703eb27a1acada8ec273ad84aebdde24f8eddce305`,
 source `7e9b2f0f6b1af7af9b49087c4f4677f5d6d1a496`. Both carry **alpha.5**.
 The proposed upgrade is alpha.5 to alpha.9; it is not deployed by this work.
+The later [exact hosted-artifact audit](pr21-hosted-scoped-audit.md) separates
+PR21's tested intent subset from this broader grammar and flags the short-value
+boundary for clarification. Its scoped pass does not supersede this broad FAIL.
 The literal/session-body trace is closed by request. No earliest leaking
 upload layer is inferred from this offline test.
 
