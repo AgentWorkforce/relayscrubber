@@ -1890,9 +1890,9 @@ pub(crate) fn field_reference(name: &str, value: &str) -> bool {
             name.to_ascii_lowercase().as_str(),
             "authorization" | "proxy-authorization"
         ) && authorization_reference(value)
-        || name
-            .replace(['_', '-'], "")
-            .eq_ignore_ascii_case("projectkey")
+        || ["project_key", "project-key", "projectkey"]
+            .iter()
+            .any(|exact| name.eq_ignore_ascii_case(exact))
             && repository_identity(value)
 }
 
@@ -1902,8 +1902,11 @@ pub(crate) fn field_reference(name: &str, value: &str) -> bool {
 /// alphabetic top-level label; each path segment is ASCII letters, digits, `.`, `_`
 /// or `-`, never `.` or `..`. A scheme, userinfo, port, query, percent or other
 /// encoding, a local path, a single opaque token (a vendor "project key" such as
-/// `c0ab12_...`), a hex segment of 20 or more digits, or any generated-looking atom
-/// keeps the value sensitive. Like every
+/// `c0ab12_...`), a hex segment of 20 or more digits, a segment piece (between `.`,
+/// `_` or `-`) of 16 or more characters with a digit in it, or any generated-looking
+/// atom keeps the value sensitive. Only the exact names `project_key`, `project-key`
+/// and `projectKey` (any case) qualify; `project__key` or a prefixed name does not.
+/// Like every
 /// field reference, text assignments are judged on the decoded recognition view (so a
 /// percent-spelled `/` reads as `/`); structured property values are judged literally.
 fn repository_identity(value: &str) -> bool {
@@ -1937,6 +1940,11 @@ fn repository_identity(value: &str) -> bool {
                     .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'))
                 // A long lowercase hex run is digest or token material, not a name.
                 && !(s.len() >= 20 && s.bytes().all(|b| b.is_ascii_hexdigit()))
+                // So is a long piece mixing letters and digits (`abc12def34ghi56jkl78`):
+                // repository names split long words with `-`, `_` or `.`.
+                && !s
+                    .split(['.', '_', '-'])
+                    .any(|piece| piece.len() >= 16 && piece.bytes().any(|b| b.is_ascii_digit()))
         })
 }
 

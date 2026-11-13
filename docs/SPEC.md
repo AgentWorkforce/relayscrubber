@@ -170,7 +170,11 @@ value is a normalized repository identity, `host.tld/owner/repo` with at most si
 further group segments, is preserved: session capture records the project this way,
 and it names no credential. Any other value (a vendor project key, an opaque token, a
 local path, a URL with scheme, userinfo, port or query, a generated-looking segment),
-a composite value and every prefixed name (`deta_project_key`) remain sensitive.
+a composite value, any other spelling (`project__key`) and every prefixed name
+(`deta_project_key`) remain sensitive. A path segment piece of 16 or more characters
+with a digit in it is token material. An unquoted identity followed by another
+assignment on the same line is judged with it and redacted (fail closed); quoted and
+structured values keep the identity.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
 resource names, language literals, code expressions and type annotations are
 preserved. Placeholder URL passwords are preserved only on reserved example or

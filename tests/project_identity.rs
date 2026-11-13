@@ -85,6 +85,9 @@ fn other_project_key_values_stay_redacted() {
         // A generated-looking atom inside an otherwise path-shaped value.
         "github.com/owner/a94a8fe5ccb19ba61c4c0873d391e987982fbbd3",
         "github.com/a94a8fe5ccb19ba61c4c/repo",
+        // A long lowercase letters-and-digits piece is token material too.
+        "github.com/owner/abc12def34ghi56jkl78mnop90",
+        "github.com/owner/repo-abc12def34ghi56jk",
         "github.com/owner/SYNTHETICaZ91bY82cX73dW64eV55",
     ] {
         let text = format!("project_key={value}");
@@ -106,6 +109,10 @@ fn only_the_exact_name_is_exempt() {
         "DETA_PROJECT_KEY",
         "request_project_key",
         "projectKeySecret",
+        // Only the exact spellings: extra or mixed separators are other names.
+        "project__key",
+        "project-_key",
+        "pro_ject_key",
     ] {
         let text = format!("{name}={id}");
         for output in paths(&text) {
@@ -113,6 +120,20 @@ fn only_the_exact_name_is_exempt() {
         }
         both_structured(json!({ name: id }), json!({ name: REDACTION_TOKEN }));
     }
+}
+
+#[test]
+fn an_identity_followed_by_another_assignment_on_its_line_fails_closed() {
+    // An unquoted value runs to the end of its candidate, so the identity is judged
+    // together with the next assignment and is redacted with it. Nothing leaks; the
+    // identity is lost only in this shape. Quoted or structured values keep it.
+    let text = "project_key=github.com/o/r password=\"SYNTHaZ91bY82cX73dW64\"";
+    for output in paths(text) {
+        assert!(!output.contains("SYNTHaZ91bY82cX73dW64"), "{output}");
+    }
+    let quoted = "project_key=\"github.com/o/r\" password=\"SYNTHaZ91bY82cX73dW64\"";
+    assert!(scrub_text(quoted).contains("project_key=\"github.com/o/r\""));
+    assert!(!scrub_text(quoted).contains("SYNTHaZ91bY82cX73dW64"));
 }
 
 #[test]
