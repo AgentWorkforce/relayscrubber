@@ -1743,7 +1743,7 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
     static DISCLOSURE: OnceLock<Regex> = OnceLock::new();
     let disclosure = DISCLOSURE.get_or_init(|| {
         Regex::new(
-            r"(?i)\b(?:(my|our|your|his|her|their|its)[ \t]+)?(?:password|pass[ \t]*code|pass[ \t]*phrase|passwd|pwd|pw)[ \t]*(?:(is|was)[ \t]+|(:)[ \t]*)([^ \t\r\n]+)",
+            r#"(?i)\b(?:(my|our|your|his|her|their|its)[ \t]+)?(?:password|pass[ \t]*code|pass[ \t]*phrase|passwd|pwd|pw)[ \t]*(?:(is|was)[ \t]+|(:)[ \t]*)(\"[^\"\r\n]*\"|'[^'\r\n]*'|`[^`\r\n]*`|[^ \t\r\n]+)"#,
         )
         .expect("fixed natural-language credential disclosure regex")
     });
