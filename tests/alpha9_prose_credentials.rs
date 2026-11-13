@@ -43,7 +43,9 @@ fn natural_language_credentials_are_consistent_and_idempotent() {
         let parsed: serde_json::Value = serde_json::from_slice(&first.bytes).unwrap();
         assert_eq!(parsed["text"], case.expected, "{} records", case.id);
         assert_eq!(
-            scrub_records(&first.bytes).expect("second record pass").bytes,
+            scrub_records(&first.bytes)
+                .expect("second record pass")
+                .bytes,
             first.bytes,
             "{} records second pass",
             case.id
