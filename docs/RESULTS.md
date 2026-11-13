@@ -6,7 +6,7 @@ tag, publication or consumer adoption is authorized by these results.
 
 ## Natural-language password disclosure repair
 
-The reported symbol-heavy phrase and 32 invented positive/precision siblings
+The reported symbol-heavy phrase and 34 invented positive/precision siblings
 pass native text/long/JSON/NDJSON and the identical hosted WASM APIs, including
 second-pass idempotence. The published alpha.8 behavior leaves the reported
 phrase unchanged; alpha.9 replaces only the disclosed value with
