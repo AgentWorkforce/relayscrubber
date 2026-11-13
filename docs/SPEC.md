@@ -165,6 +165,12 @@ A bare `key` name alone does not establish credential semantics. Recognized
 provider values and structural credential contexts such as `aws`/`credentials`
 do. Exact public idempotency selectors retain nested generic `key` values;
 nested explicit credentials and `request_idempotency_key` remain sensitive.
+An exact `project_key` (any underscore, hyphen, camel or case spelling) whose string
+value is a normalized repository identity, `host.tld/owner/repo` with at most six
+further group segments, is preserved: session capture records the project this way,
+and it names no credential. Any other value (a vendor project key, an opaque token, a
+local path, a URL with scheme, userinfo, port or query, a generated-looking segment),
+a composite value and every prefixed name (`deta_project_key`) remain sensitive.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
 resource names, language literals, code expressions and type annotations are
 preserved. Placeholder URL passwords are preserved only on reserved example or

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+Preserve an exact `project_key` whose value is a normalized repository identity
+(`github.com/owner/repo`), so session capture can record which project a session
+belongs to. Other `project_key` values, prefixed names and composite values stay
+sensitive; credentials beside or inside a kept identity still redact.
+
 ## 0.5.0-alpha.5 (unreleased)
 
 Preserve complete query references, awaited calls and Rust reference type aliases while retaining literal-secret redaction across URL decoding layers. Avoid unnecessary normalization lookups outside newlines.

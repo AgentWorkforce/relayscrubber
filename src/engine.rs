@@ -1890,6 +1890,54 @@ pub(crate) fn field_reference(name: &str, value: &str) -> bool {
             name.to_ascii_lowercase().as_str(),
             "authorization" | "proxy-authorization"
         ) && authorization_reference(value)
+        || name
+            .replace(['_', '-'], "")
+            .eq_ignore_ascii_case("projectkey")
+            && repository_identity(value)
+}
+
+/// A normalized repository identity as session capture records it under an exact
+/// `project_key`: `host.tld/owner/repo`, optionally with up to six more group
+/// segments (`gitlab.com/group/sub/repo`). The host is dotted DNS labels with an
+/// alphabetic top-level label; each path segment is ASCII letters, digits, `.`, `_`
+/// or `-`, never `.` or `..`. A scheme, userinfo, port, query, percent or other
+/// encoding, a local path, a single opaque token (a vendor "project key" such as
+/// `c0ab12_...`), a hex segment of 20 or more digits, or any generated-looking atom
+/// keeps the value sensitive. Like every
+/// field reference, text assignments are judged on the decoded recognition view (so a
+/// percent-spelled `/` reads as `/`); structured property values are judged literally.
+fn repository_identity(value: &str) -> bool {
+    if value.len() > 512 || opaque_material(value) {
+        return false;
+    }
+    let mut parts = value.split('/');
+    let host = parts.next().unwrap_or("");
+    let labels: Vec<&str> = host.split('.').collect();
+    let host_ok = host.len() <= 253
+        && labels.len() >= 2
+        && labels.iter().all(|l| {
+            !l.is_empty()
+                && l.len() <= 63
+                && !l.starts_with('-')
+                && !l.ends_with('-')
+                && l.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-')
+        })
+        && labels
+            .last()
+            .is_some_and(|tld| tld.bytes().all(|b| b.is_ascii_alphabetic()));
+    let segments: Vec<&str> = parts.collect();
+    host_ok
+        && (2..=8).contains(&segments.len())
+        && segments.iter().all(|s| {
+            !s.is_empty()
+                && s.len() <= 100
+                && *s != "."
+                && *s != ".."
+                && s.bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'))
+                // A long lowercase hex run is digest or token material, not a name.
+                && !(s.len() >= 20 && s.bytes().all(|b| b.is_ascii_hexdigit()))
+        })
 }
 
 fn documentation_url(password: &str, host: &str) -> bool {
