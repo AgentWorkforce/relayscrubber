@@ -8,6 +8,9 @@
 # crate uses trusted publishing bound to publish.yml) or npm. It uploads the
 # `cargo package` .crate and the WASM npm tarball as workflow artifacts named
 # relayscrubber-crate-<sha> and relayscrubber-wasm-<sha>. It never tags git.
+#
+# Caches are restore-only: this builds unreviewed refs, so it never saves into
+# a cache that normal CI or release workflows restore.
 name: fast-path
 run-name: fast-path ${{ inputs.ref }} (${{ inputs.reason }})
 on:
@@ -23,7 +26,8 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: fast-path-${{ inputs.ref }}
+  # run_id: a run waiting for approval must not let a later dispatch cancel it.
+  group: fast-path-${{ inputs.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 env:
   CARGO_TERM_COLOR: always
@@ -91,6 +95,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: '1.3.14'
+          no-cache: true
       - run: cargo install wasm-bindgen-cli --version 0.2.104 --locked
       - run: bash scripts/build-wasm.sh
       - name: Generate synthetic native parity vectors privately
