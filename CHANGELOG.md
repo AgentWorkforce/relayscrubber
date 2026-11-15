@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0-alpha.10
 
 Redact natural-language password disclosures such as `my password is x`, `the
 passcode was '#'` and `my pwd: !`, with no minimum value length, for password,
