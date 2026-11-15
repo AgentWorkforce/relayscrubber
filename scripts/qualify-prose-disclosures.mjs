@@ -31,7 +31,7 @@ const sha = value => createHash('sha256').update(value).digest('hex');
 
 const generated = disclosureCases(seed, fuzzCount);
 const fixtures = [];
-for (const file of ['eval/alpha9_prose_credential_cases.json', 'eval/prose_disclosure_cases.json'])
+for (const file of ['eval/alpha9_prose_credential_cases.json', 'eval/prose_disclosure_cases.json', 'eval/prose_disclosure_coverage_cases.json'])
   for (const f of JSON.parse(await fs.readFile(path.join(root, file), 'utf8')))
     fixtures.push({id: `${path.basename(file, '.json')}/${f.id}`, group: 'exact_fixture', kind: f.kind,
       expected: f.kind === 'positive' ? 'redact' : 'preserve', input: f.input, exact: f.expected});
