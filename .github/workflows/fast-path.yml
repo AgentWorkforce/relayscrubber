@@ -118,7 +118,10 @@ jobs:
         env:
           FILE: ${{ steps.pack.outputs.file }}
         run: node scripts/check-hosted-artifact.mjs "target/wasm-package/$FILE"
+      # Upload even when the pin check fails, like ci.yml, so a changed WASM
+      # build still leaves a candidate tarball to inspect or pin.
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: relayscrubber-wasm-${{ needs.rust.outputs.sha }}
           path: |
