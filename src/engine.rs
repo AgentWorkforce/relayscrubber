@@ -2066,11 +2066,12 @@ fn unquoted_prose_value(
             break;
         }
     }
-    // Sentence punctuation after the value is kept, unless it is the value.
+    // One mark of sentence punctuation after the value is kept, unless the
+    // value is only punctuation; any further marks belong to the value.
     let value = &text[start..end];
-    let trimmed = value.trim_end_matches(['.', ',', ';']);
+    let trimmed = value.strip_suffix(['.', ',', ';']).unwrap_or(value);
     let mut end = start
-        + if trimmed.is_empty() {
+        + if trimmed.trim_end_matches(['.', ',', ';']).is_empty() {
             value.len()
         } else {
             trimmed.len()
