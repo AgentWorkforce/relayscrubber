@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+Redact natural-language password disclosures such as `my password is x`, `the
+passcode was '#'` and `my pwd: !`, with no minimum value length, for password,
+passcode, passphrase, passwd, pwd, pw, `pass code` and `pass phrase` after
+`is`, `was`, `is now`, `set to`, `is set to`, a colon, or `=` after a
+determiner (`my pw = x`). Quoted values keep their
+quotes and an unmatched quote is redacted through its line. Documentary
+sentences (`the password is required`), references (`$PASSWORD`,
+`{{password}}`), masks, placeholders and type annotations (`password: string`)
+are unchanged. `passcode` is now a sensitive assignment name.
+
 ## 0.5.0-alpha.9
 
 Preserve an exact `project_key` whose value is a normalized repository identity

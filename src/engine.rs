@@ -158,6 +158,7 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "pwd",
         "pin",
         "passphrase",
+        "passcode",
         "secret",
         "clientsecret",
         "apikey",
@@ -1733,6 +1734,378 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
     for c in r.captures_iter(&view.text) {
         spans.push(c.get(1).expect("credential capture").range());
     }
+    prose_disclosures(view, spans);
+}
+
+// Natural-language password disclosures: `my password is x`, `the passcode
+// was '#'`, `my pwd: !`. There is no minimum value length; documentary
+// predicates (`the password is required`), references (`$PASSWORD`) and code
+// (`if password is None`) are excluded. See docs/SPEC.md.
+fn prose_disclosures(view: &View, spans: &mut Vec<Range<usize>>) {
+    static R: OnceLock<Regex> = OnceLock::new();
+    let r = R.get_or_init(|| {
+        // H: horizontal space; S: one or more spaces with at most one line
+        // break; O: like S but possibly empty.
+        const H: &str = r"[\t \u{a0}\u{2000}-\u{200a}\u{202f}\u{3000}]";
+        let s = format!(r"(?:{H}+(?:\r?\n{H}*)?|\r?\n{H}*)");
+        let o = format!(r"{H}*(?:\r?\n{H}*)?");
+        Regex::new(&format!(
+            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{H}+code|pass{H}+phrase)\b{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
+        ))
+        .expect("fixed prose disclosure regex")
+    });
+    let text = view.text.as_str();
+    let mut covered = 0;
+    for c in r.captures_iter(text) {
+        let whole = c.get(0).expect("prose disclosure match");
+        let noun = c.get(2).expect("prose disclosure noun");
+        let determiner = c.get(1).is_some();
+        if whole.start() < covered
+            || text[..noun.start()]
+                .chars()
+                .next_back()
+                .is_some_and(|ch| matches!(ch, '.' | '$' | '@' | '-' | '/' | '\\'))
+            || !determiner && code_condition(&text[view.line_start(noun.start())..noun.start()])
+            || c.get(5).is_some() && !determiner
+            || text[whole.end()..].starts_with('=')
+        {
+            continue;
+        }
+        // The value follows the cue after spaces with at most one line break.
+        let mut start = whole.end();
+        let mut breaks = 0;
+        while let Some(ch) = text[start..].chars().next() {
+            if ch == '\n' {
+                breaks += 1;
+                if breaks > 1 {
+                    break;
+                }
+            } else if !(ch == '\r' || ch != '\n' && ch.is_whitespace()) {
+                break;
+            }
+            start += ch.len_utf8();
+        }
+        if start == whole.end() && c.get(3).is_some() && c.get(4).is_none_or(|m| m.is_empty()) {
+            continue;
+        }
+        let line_end = text[start..].find('\n').map_or(text.len(), |n| start + n);
+        let line_end = start + text[start..line_end].trim_end().len();
+        if start >= line_end {
+            continue;
+        }
+        let prefix = &text[view.line_start(whole.start())..whole.start()];
+        if let Some(span) = prose_value(text, start, line_end, prefix) {
+            covered = span.end;
+            spans.push(span);
+        }
+    }
+}
+
+// A Python-style condition (`if password is None`) compares, not discloses.
+fn code_condition(prefix: &str) -> bool {
+    let word = prefix
+        .trim_end()
+        .rsplit(|c: char| !c.is_ascii_alphabetic())
+        .next()
+        .unwrap_or("");
+    [
+        "if", "elif", "while", "assert", "and", "or", "not", "return", "lambda",
+    ]
+    .contains(&word)
+}
+
+fn prose_value(text: &str, start: usize, line_end: usize, prefix: &str) -> Option<Range<usize>> {
+    let open = text[start..].chars().next()?;
+    let close = match open {
+        '\'' | '"' | '`' => open,
+        '“' => '”',
+        '‘' => '’',
+        _ => return unquoted_prose_value(text, start, line_end, prefix),
+    };
+    let inner = start + open.len_utf8();
+    let mut limit = (inner + 1024).min(text.len());
+    while !text.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    // Prefer a close on the same line; a quoted value may span lines. An
+    // unmatched quote fails closed through the end of the line.
+    let Some(end) = text[inner..line_end.max(inner)]
+        .find(close)
+        .or_else(|| text[inner..limit].find(close))
+        .map(|n| inner + n)
+    else {
+        return Some(start..line_end);
+    };
+    let value = text[inner..end].trim();
+    (!value.is_empty() && !prose_reference(value)).then_some(inner..end)
+}
+
+fn unquoted_prose_value(
+    text: &str,
+    start: usize,
+    line_end: usize,
+    prefix: &str,
+) -> Option<Range<usize>> {
+    // Documentary predicates are decided by the first word or two.
+    const PREDICATES: &[&str] = &[
+        "required",
+        "optional",
+        "mandatory",
+        "missing",
+        "unset",
+        "set",
+        "stored",
+        "saved",
+        "configured",
+        "invalid",
+        "incorrect",
+        "wrong",
+        "correct",
+        "valid",
+        "strong",
+        "weak",
+        "changed",
+        "reset",
+        "expired",
+        "expire",
+        "expires",
+        "expiring",
+        "rotated",
+        "updated",
+        "redacted",
+        "hidden",
+        "masked",
+        "empty",
+        "blank",
+        "null",
+        "nil",
+        "none",
+        "undefined",
+        "unknown",
+        "secure",
+        "insecure",
+        "compromised",
+        "protected",
+        "encrypted",
+        "hashed",
+        "salted",
+        "generated",
+        "needed",
+        "used",
+        "sensitive",
+        "case-sensitive",
+        "case-insensitive",
+        "leaked",
+        "exposed",
+        "stolen",
+        "cracked",
+        "guessed",
+        "shared",
+        "sent",
+        "accepted",
+        "rejected",
+        "revoked",
+        "disabled",
+        "enabled",
+        "locked",
+        "unlocked",
+        "deleted",
+        "removed",
+        "cleared",
+        "entered",
+        "typed",
+        "provided",
+        "supplied",
+        "given",
+        "accepted",
+        "verified",
+        "checked",
+        "validated",
+        "displayed",
+        "shown",
+        "logged",
+        "printed",
+        "visible",
+        "known",
+        "forgotten",
+        "lost",
+        "too",
+        "long",
+        "short",
+        "longer",
+        "shorter",
+        "ok",
+        "okay",
+        "fine",
+        "good",
+        "bad",
+        "same",
+        "different",
+        "it",
+        "this",
+        "that",
+        "here",
+        "there",
+        "below",
+        "above",
+        "following",
+        "what",
+        "which",
+        "who",
+        "mine",
+        "yours",
+        "ours",
+        "theirs",
+        "default",
+        "unchanged",
+        "incomplete",
+        "complete",
+        "ready",
+        "pending",
+        "available",
+        "unavailable",
+        "random",
+        "temporary",
+        "permanent",
+        "unique",
+        "personal",
+        "private",
+        "reused",
+        "recycled",
+        "persisted",
+        "expected",
+        "based",
+        "outdated",
+        "obsolete",
+        "deprecated",
+    ];
+    // Determiners, prepositions and adverbs lead a documentary phrase when
+    // more words follow; alone they may be the value (`my password is a`).
+    const LEADS: &[&str] = &[
+        "the", "a", "an", "this", "that", "these", "those", "your", "my", "our", "their", "his",
+        "her", "its", "in", "on", "at", "for", "from", "by", "with", "of", "to", "under", "into",
+        "not", "never", "also", "still", "now", "just", "only", "always", "being", "been",
+        "usually", "often", "going", "about", "like", "more", "less", "least", "most", "exactly",
+        "no", "any", "some", "all", "each", "every", "one", "two", "how", "where", "when",
+        "managed", "kept", "sent", "set", "see", "refer", "check", "ask", "use", "contact",
+    ];
+    // `-able` adjectives and `-ed` participles before a preposition are
+    // documentary (`configurable`, `stored in the vault`).
+    const PREPOSITIONS: &[&str] = &[
+        "to", "on", "in", "by", "with", "for", "from", "at", "as", "into", "using", "via",
+    ];
+    const UNITS: &[&str] = &[
+        "character",
+        "characters",
+        "chars",
+        "char",
+        "digit",
+        "digits",
+        "letter",
+        "letters",
+        "byte",
+        "bytes",
+        "symbol",
+        "symbols",
+        "word",
+        "words",
+        "long",
+    ];
+    const CONJUNCTIONS: &[&str] = &[
+        "and", "but", "so", "then", "because", "which", "or", "though", "although", "while",
+        "when", "if", "unless", "until", "since",
+    ];
+    // A bracketed placeholder may contain spaces: `{{ password }}`.
+    let line = &text[start..line_end];
+    for (open, close) in [("{{", "}}"), ("<", ">"), ("${", "}")] {
+        if line.starts_with(open)
+            && line
+                .find(close)
+                .is_some_and(|n| prose_reference(&line[..n + close.len()]))
+        {
+            return None;
+        }
+    }
+    let words = text[start..line_end]
+        .split(|c: char| c != '\n' && c.is_whitespace())
+        .filter(|w| !w.is_empty());
+    let mut end = start;
+    let mut cursor = start;
+    for (i, word) in words.enumerate() {
+        let at = cursor + text[cursor..].find(word).expect("word in line");
+        cursor = at + word.len();
+        let bare = word.trim_end_matches(['.', ',', ';', ':', '!', '?']);
+        let lower = bare.to_ascii_lowercase();
+        if i == 0 {
+            let more = text[cursor..line_end].split_whitespace().next();
+            let lexical = lower.len() >= 5 && lower.bytes().all(|b| b.is_ascii_lowercase());
+            if PREDICATES.contains(&lower.as_str())
+                || lexical && (lower.ends_with("able") || lower.ends_with("ible"))
+                || lexical
+                    && lower.ends_with("ed")
+                    && more.is_some_and(|m| PREPOSITIONS.contains(&m.to_ascii_lowercase().as_str()))
+                || more.is_some() && LEADS.contains(&lower.as_str())
+                || !bare.is_empty()
+                    && bare.bytes().all(|b| b.is_ascii_digit())
+                    && more.is_some_and(|m| {
+                        UNITS.contains(
+                            &m.trim_end_matches(['.', ',', ';'])
+                                .to_ascii_lowercase()
+                                .as_str(),
+                        )
+                    })
+                || prose_reference(word.trim_end_matches(['.', ',', ';']))
+            {
+                return None;
+            }
+        } else if CONJUNCTIONS.contains(&lower.as_str()) {
+            break;
+        }
+        end = cursor;
+        if word.ends_with([',', ';', '.']) {
+            break;
+        }
+    }
+    // Sentence punctuation after the value is kept, unless it is the value.
+    let value = &text[start..end];
+    let trimmed = value.trim_end_matches(['.', ',', ';']);
+    let mut end = start
+        + if trimmed.is_empty() {
+            value.len()
+        } else {
+            trimmed.len()
+        };
+    for (open, close) in [('(', ')'), ('[', ']'), ('{', '}')] {
+        // Only a bracket opened before the disclosure closes after it.
+        let value = &text[start..end];
+        if value.len() > 1
+            && value.ends_with(close)
+            && prefix.matches(open).count() > prefix.matches(close).count()
+            && value.matches(open).count() < value.matches(close).count()
+        {
+            end -= 1;
+        }
+    }
+    (end > start).then_some(start..end)
+}
+
+// Placeholders, masks and variable references name a password, not disclose it.
+fn prose_reference(value: &str) -> bool {
+    value.starts_with(REDACTION_TOKEN)
+        || shell_reference(value)
+        || environment_reference(value)
+        || template_reference(value)
+        || value.chars().count() >= 3 && value.chars().all(|c| matches!(c, '*' | '•' | '●'))
+        || value.starts_with("{{") && value.ends_with("}}")
+        || value.starts_with('<') && value.ends_with('>') && value.len() > 2
+        || value.len() > 2 && value.starts_with('%') && value.ends_with('%')
+        || value.strip_prefix("$env:").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+        })
+        || value.strip_prefix("YOUR_").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_uppercase() || b == b'_')
+        })
+        || value.starts_with("op://")
 }
 
 fn comment_variable(value: &str) -> bool {

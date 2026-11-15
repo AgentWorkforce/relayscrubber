@@ -33,11 +33,12 @@ Redact these independently of entropy:
   (including unsigned tokens), and JWE compact tokens with five segments;
   signatures are not verified. Private PEM/OpenSSH key blocks, including an
   unterminated block, are removed through their end or end of input.
-* Values assigned to password, passwd, pwd, passphrase, secret, client_secret,
-  api_key/apikey, access_key, secret_key, private_key, access_token, auth_token,
-  refresh_token, id_token, session_token/session_id, credential(s), token,
-  account_key and provider-prefixed equivalents. Connection-string and database
-  URL fields are inspected without removing unauthenticated URLs. Underscore,
+* Values assigned to password, passwd, pwd, passphrase, passcode, secret,
+  client_secret, api_key/apikey, access_key, secret_key, private_key,
+  access_token, auth_token, refresh_token, id_token, session_token/session_id,
+  credential(s), token, account_key and provider-prefixed equivalents.
+  Connection-string and database URL fields are inspected without removing
+  unauthenticated URLs. Underscore,
   hyphen and camel spellings are recognized. Separated key suffixes and credential suffixes such as
   dbPassword/githubToken/stripeSecret are sensitive. Bare `key` requires
   credential structure/context or a reviewed provider value shape. Exact public_key and
@@ -82,6 +83,36 @@ Empty env/header values end at their physical line. Cross-line values require an
 explicit quoted literal, quoted JSON key, inherited public-value context, code
 assignment literal, or indented YAML value. YAML blocks stop at sibling/outer
 indentation. Empty values stay empty. Redaction uses `[REDACTED]`.
+
+Prose disclosures of the nouns password, passcode, passphrase, passwd, pwd, pw,
+`pass code` and `pass phrase` (any case, optionally after my/our/your/his/her/
+their/its/the) redact the value after `is`, `was`, `is now`, `set to`, `is set
+to` or `was set to` (optionally followed by `:`), or after `:` or a single `=`
+when a determiner precedes the noun; bare `password: x` and `password = x` stay
+with the assignment rules and `==` is a comparison. Words may be separated by
+spaces with at most one line break, and a value has no minimum length: `my
+password is x` and `the password is #` redact `x` and `#`. A value opened by
+`'`, `"`, `` ` ``, `“` or `‘` is the content up to its matching close on the
+same line, otherwise within the next 1024 bytes; an unmatched quote redacts from
+the quote through the end of its line. An unquoted value runs to the end of its
+line and stops before `, `, `; `, `. ` or a following conjunction (and, but, so,
+then, because, which, or, though, although, while, when, if, unless, until,
+since); one trailing `.`, `,` or `;` stays visible, as does a closing bracket
+when the line opened that bracket before the disclosure. Documentary text is not
+a value: an unquoted value whose first word is a predicate or participle
+(required, optional, stored, hashed, wrong, case-sensitive and the reviewed list
+in the engine), an `-able`/`-ible` adjective, an `-ed` participle followed by a
+preposition, a determiner, preposition or adverb followed by more words (`the
+password is at least 8 characters`), or a count followed by a unit (`8
+characters long`). References and placeholders are not values, quoted or not:
+`$PASSWORD`, `${PASSWORD}`, `process.env.PASSWORD`, `{{password}}`,
+`<password>`, `%PASSWORD%`, `$env:PASSWORD`, `YOUR_PASSWORD`, `op://` paths,
+masks of three or more `*`/`•`, and `[REDACTED]`, which keeps a second scrub
+byte-identical. Code is not prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
+`\`, or directly by if/elif/while/assert/and/or/not/return/lambda (`if password
+is None`), is skipped. These spans merge with assignment spans and stay within
+the five-pass budget. pass, PIN, secret, key and token are not prose-disclosure
+nouns (`the key is pressed`, `a token is a unit of text`).
 
 ## Information preserved and PII policy
 
