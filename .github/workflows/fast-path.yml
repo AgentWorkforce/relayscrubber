@@ -1,0 +1,145 @@
+# Fast path: run relayscrubber's CI checks (Rust fmt, clippy, tests and frozen
+# witnesses on Linux and Windows; WASM build, parity, JS/Bun/Workers tests and
+# the reproducibility and hosted-artifact pins) on Blacksmith runners, outside
+# the shared GitHub-hosted queue. Anyone with write access (people or agents)
+# may start it; nothing runs until Khaliq approves the fast-path environment.
+#
+# It does not publish to crates.io (consumers take the latest version, and the
+# crate uses trusted publishing bound to publish.yml) or npm. It uploads the
+# `cargo package` .crate and the WASM npm tarball as workflow artifacts named
+# relayscrubber-crate-<sha> and relayscrubber-wasm-<sha>. It never tags git.
+name: fast-path
+run-name: fast-path ${{ inputs.ref }} (${{ inputs.reason }})
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag or commit to build (a PR branch is fine)
+        required: true
+        default: main
+      reason:
+        description: Why this needs the fast path
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: fast-path-${{ inputs.ref }}
+  cancel-in-progress: false
+env:
+  CARGO_TERM_COLOR: always
+  TMPDIR: ${{ github.workspace }}/.task-tmp
+jobs:
+  rust:
+    environment: fast-path
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - id: sha
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - run: mkdir -p "$TMPDIR"
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo test --all-targets --all-features --locked -- --show-output
+      - name: Require zero missed secrets in frozen witnesses
+        run: |
+          cargo build --locked --example scrub_lines
+          python3 scripts/check-frozen-witnesses.py target/debug/examples/scrub_lines target/debug/examples/scrub_lines
+      - run: cargo package --locked
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relayscrubber-crate-${{ steps.sha.outputs.sha }}
+          path: target/package/*.crate
+          if-no-files-found: error
+  rust-windows:
+    needs: rust
+    runs-on: blacksmith-4vcpu-windows-2025
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.rust.outputs.sha }}
+      - run: mkdir -p "$TMPDIR"
+        shell: bash
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo test --all-targets --all-features --locked -- --show-output
+  wasm:
+    needs: rust
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    outputs:
+      tarball: ${{ steps.pack.outputs.file }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.rust.outputs.sha }}
+      - run: mkdir -p "$TMPDIR"
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+      - run: cargo install wasm-bindgen-cli --version 0.2.104 --locked
+      - run: bash scripts/build-wasm.sh
+      - name: Generate synthetic native parity vectors privately
+        run: |
+          mkdir -p "$HOME/scrubber-eval"
+          chmod 700 "$HOME/scrubber-eval"
+          umask 077
+          cargo run --release --locked --example wasm_vectors > "$HOME/scrubber-eval/wasm-vectors.json"
+          cargo build --release --locked --example scrub_lines
+          python3 scripts/check-frozen-witnesses.py target/release/examples/scrub_lines target/release/examples/scrub_lines "$HOME/scrubber-eval/wasm-vectors.json"
+      - run: node --test js/test/*.test.mjs
+      - run: bun test js/test/*.test.mjs
+      - run: bash scripts/check-reproducible.sh
+      - run: bash scripts/test-workers.sh
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+      - name: Package the WASM adapter locally
+        id: pack
+        run: |
+          mkdir -p target/wasm-package
+          cd js
+          file=$(npm pack --ignore-scripts --pack-destination ../target/wasm-package | tail -n 1)
+          echo "file=$file" >> "$GITHUB_OUTPUT"
+      - name: Check hosted artifact against committed pin
+        env:
+          FILE: ${{ steps.pack.outputs.file }}
+        run: node scripts/check-hosted-artifact.mjs "target/wasm-package/$FILE"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relayscrubber-wasm-${{ needs.rust.outputs.sha }}
+          path: |
+            target/wasm-package/*.tgz
+            js/generated/artifact.json
+          if-no-files-found: error
+  summary:
+    needs: [rust, rust-windows, wasm]
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Summary
+        env:
+          REF: ${{ inputs.ref }}
+          SHA: ${{ needs.rust.outputs.sha }}
+          REASON: ${{ inputs.reason }}
+          TARBALL: ${{ needs.wasm.outputs.tarball }}
+        run: |
+          {
+            echo "### relayscrubber fast path"
+            echo "- ref: \`$REF\` at \`$SHA\`"
+            echo "- reason: $REASON"
+            echo "- crate: artifact \`relayscrubber-crate-$SHA\` (not published to crates.io)"
+            echo "- WASM npm tarball: \`$TARBALL\` in artifact \`relayscrubber-wasm-$SHA\` (not published to npm)"
+          } >> "$GITHUB_STEP_SUMMARY"
