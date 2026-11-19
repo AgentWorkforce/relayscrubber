@@ -8,8 +8,19 @@ tag, publication or consumer adoption is authorized by these results.
 
 Three classes reported against the alpha.10 candidate (`643beb8`) are fixed
 before any release; this section records local results only and is not a PASS
-or an adoption claim. The hosted artifact pin in `docs/results/` still names
-the `643beb8` build and has not been refreshed.
+or an adoption claim. The hosted artifact pin in `docs/results/` now names
+the build of the fixed code head `a9c679f5` from CI run `44568426111`
+(artifact `14553292026`, package SHA-256 `77615f5b…`, WASM `f7876d57…`,
+ruleset source `80e36607…`); a local Rust 1.88.0 rebuild reproduces the
+package and every payload byte for byte. That run passed Linux and Windows
+Rust, Node 805/805 and Bun 805/805, and failed only its committed-pin check,
+which still compared against the superseded `643beb8` pins. The earlier pin
+(run `44509387631` on `d36050c5`, code `135c26de`) is kept as
+`alpha10SupersededHostedArtifact` in
+[the receipt](results/review-fixes.json); that run's pin check had also
+failed, against the alpha.9 pins. The exact-head run of the commit carrying
+this pin must report committed-pin equality and reproduce the same package
+and payloads; that gate has not run yet.
 
 - Colon and equals cues for all eight nouns, with or without `my`, redact the
   whole value; type annotations, references and a lone `None` stay visible.

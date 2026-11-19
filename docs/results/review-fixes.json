@@ -592,6 +592,60 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
+    "sourceHead": "a9c679f5dffe3dd263e60622860f777fde2da8d9",
+    "sourceRun": 44568426111,
+    "sourceRunUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/44568426111",
+    "sourceRunCheckout": "pull_request merge d20c58cf3a13a712334e8153b334b57fd79d35b7 of the source head into main 477bf672147947b3903b3dc9c612209ee36b6312; its tree aa7a04e108b292deabf8ebc55a2be42123c47603 equals the source head's tree",
+    "sourceArtifact": {
+      "name": "relayscrubber-wasm-candidate",
+      "id": 14553292026,
+      "sizeBytes": 613712,
+      "apiDigest": "sha256:90dd5998110a59368f7e307dea6e637d23f6478c8e691705a1f68d77a19e8f5a",
+      "archiveSha256": "90dd5998110a59368f7e307dea6e637d23f6478c8e691705a1f68d77a19e8f5a"
+    },
+    "packageSha256": "77615f5b082bcd4255ba67952220d9cf21216afdc15c462b8779023db4cfc14a",
+    "packageBytes": 617552,
+    "sourceSha256": "80e366079c17265d6059709ba5dd4624017ac92d2c67a5a52712e058b9601f5d",
+    "wasmSha256": "f7876d570514a84159f455de58aad76656cafc9192d07e7a139d70b2317214c6",
+    "wasmBytes": 1846908,
+    "payloadIdentityRecomputed": "Downloaded archive SHA256 equals the API digest; the package's generated/artifact.json equals the loose one; every file and adapterFiles hash below was recomputed from the extracted package; sourceSha256 was recomputed independently from the source head's tracked files with the build.rs algorithm; a local Rust 1.88.0 / wasm-bindgen 0.2.104 rebuild of the source head and npm pack reproduce the package and every payload byte for byte.",
+    "committedPinsEqual": false,
+    "sourceRunResult": "failure by design at the wasm job's step 15 \"Check hosted artifact against committed pin\" only: the built WASM and rulesetSourceSha256 differed from the pins committed in 643beb8 for the superseded candidate. rust (ubuntu-latest) and rust (windows-latest) passed (132 Rust tests each, frozen witnesses 199 cases with 0 missed secrets on Linux); every earlier wasm step passed: Node 805/805, Bun 805/805, native parity vectors 0-235556, frozen witnesses, independent target-directory reproducibility, Workers and npm pack.",
+    "codeCommit": "a9c679f5dffe3dd263e60622860f777fde2da8d9",
+    "supersededCandidateCodeCommit": "135c26de997e95d1e5f1f76c55adabf068c15e65",
+    "supersededHostedArtifact": "alpha10SupersededHostedArtifact",
+    "toolchain": "1.88.0",
+    "manifest": {
+      "schema": 3,
+      "ruleset": "relayhistory-scrub",
+      "rulesetVersion": 10,
+      "rulesetSourceSha256": "80e366079c17265d6059709ba5dd4624017ac92d2c67a5a52712e058b9601f5d",
+      "crateVersion": "0.5.0-alpha.10",
+      "abiVersion": 2,
+      "policy": "secrets",
+      "redactionToken": "[REDACTED]",
+      "scrubProfile": "relayhistory-secrets-v10"
+    },
+    "files": {
+      "relayscrubber_bg.wasm": "f7876d570514a84159f455de58aad76656cafc9192d07e7a139d70b2317214c6",
+      "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
+      "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
+      "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
+    },
+    "adapterFiles": {
+      "index.js": "ff139ab391a958475b455ef483e7119d66215d172647223965dc35348f912490",
+      "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
+    },
+    "finalGate": {
+      "status": "required externally",
+      "conditions": [
+        "The exact-head CI run of the receipt commit that pins this artifact reports committed-pin equality true (its \"Check hosted artifact against committed pin\" step passes).",
+        "That run's package and every payload are byte-identical to sourceRun's: package SHA256 equals packageSha256 and the WASM, glue, declaration and adapter hashes equal files and adapterFiles."
+      ]
+    },
+    "independentEngineReview": "pending; alpha7 PASS withdrawn"
+  },
+  "alpha10SupersededHostedArtifact": {
     "head": "d36050c56597b59daff199e669ece22d9b82bb38",
     "run": 44509387631,
     "artifactId": 14521386885,
@@ -599,10 +653,12 @@
     "packageSha256": "cb3342c80c321ffde1fbf8fceda834a557caf480c8de36d071c0bda177a166cd",
     "sourceSha256": "22f6432056043afe08dc5e60ef2d43a38f34e800d5fca735d869988dcef0bcd4",
     "wasmSha256": "fe8fddf71b82cdb329199c2e0ca70760583ef5a270ee2afb692b6014bb439596",
-    "allManifestFilePinsVerified": true,
-    "committedPinsEqual": true,
+    "payloadIdentityRecomputed": "Archive SHA256 equals the API digest; package and payload hashes recomputed from the downloaded package equal the values below.",
+    "committedPinsEqual": false,
+    "runResult": "failure at the wasm job's step 15 \"Check hosted artifact against committed pin\" only: that run compared against the alpha.9 pins committed before 643beb8 (WASM 4228d2cd50334a6b714dcbd8cfc89220fdf36b1c903d170f873ad9b738fee090, source 7837062214ff56145c72999880179598244cff5f80554a4b697548920561c143, crateVersion 0.5.0-alpha.9). Both rust jobs and every earlier wasm step passed (Node 788/788, Bun 788/788). 643beb8 then committed this run's payloads as the pins; this run never compared against them.",
     "runUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/44509387631",
     "codeCommit": "135c26de997e95d1e5f1f76c55adabf068c15e65",
+    "status": "superseded: the S1-S3 security fixes and prefix fixes changed the engine; see hostedArtifact",
     "toolchain": "1.88.0",
     "manifest": {
       "schema": 3,
