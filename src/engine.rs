@@ -2103,11 +2103,11 @@ fn unquoted_prose_value(
                 }
             }
         }
-        // So does one inside brackets, at the first unbalanced close. After
-        // words or a bullet before the key (`my password: ab)cd`) only a
-        // bracket the line opened before the key encloses it.
+        // So does one inside brackets, at the first unbalanced close, but only
+        // a bracket the line opened before the key encloses it: after a bare
+        // cue too, `pw: x]yq` and `my password: ab)cd` keep the close.
         let mut depth = 0usize;
-        let bracketed = cue == Cue::Bare || {
+        let bracketed = {
             let mut open = 0usize;
             for ch in prefix.chars() {
                 match ch {
@@ -2130,11 +2130,11 @@ fn unquoted_prose_value(
             }
         }
         // And one inside a `;` or `&` separated key/value list (a connection
-        // string, a query) at the separator before the next key. After words
-        // or a bullet before the key (`my pw: abc&def=ghi`) only a line that
-        // was already such a list before the key is one.
+        // string, a query) at the separator before the next key, but only on a
+        // line that was already such a list before the key: `pw: abc&def=ghi`
+        // and `my pw: abc&def=ghi` are one value.
         let list = &text[start..line_end];
-        let listed = cue == Cue::Bare || prefix.contains([';', '&']);
+        let listed = prefix.contains([';', '&']);
         if let Some(n) = list.char_indices().filter(|_| listed).find_map(|(i, ch)| {
             (matches!(ch, ';' | '&') && next_list_key(&list[i + 1..])).then_some(i)
         }) {
