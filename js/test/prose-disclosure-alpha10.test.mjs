@@ -121,10 +121,15 @@ const prefixMatrix=[];
     prefixMatrix.push({id:`prefix ${JSON.stringify(prefix)} ${noun}${JSON.stringify(cue)} ${quote}${value}${quote}`,input:left+value+quote,expected:left+R+quote});
   }
 }
-test('a prefix never redacts less than the bare cue',()=>{
-  assert.equal(prefixMatrix.length,8*8*16*34);
-  assert.deepEqual(run(prefixMatrix),[]);
-});
+// One test per noun: Bun's default limit is 5 s a test, and the whole matrix takes longer on hosted runners.
+assert.equal(prefixMatrix.length,8*8*16*34);
+for(let start=0;start<prefixMatrix.length;start+=8*16*34){
+  const rows=prefixMatrix.slice(start,start+8*16*34);
+  test(`a prefix never redacts less than the bare cue: ${NOUNS[start/(8*16*34)]}`,()=>{
+    assert.equal(rows.length,8*16*34);
+    assert.deepEqual(run(rows),[]);
+  });
+}
 test('a prefix redacts a value with a close bracket or separator whole',()=>{
   const cases=[];
   for(const noun of NOUNS) for(const cue of CUES) for(const value of ['ab)cd','x]y z','q}r','6)K','h{E]MT-a','f(x) y','ab&cd=ef','k;host=y'])
