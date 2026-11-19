@@ -516,5 +516,47 @@
     "kind": "benign",
     "input": "and my password = $PASSWORD",
     "expected": "and my password = $PASSWORD"
+  },
+  {
+    "id": "prefix-close-bracket-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new password: ab)cd",
+    "expected": "The new password: [REDACTED]"
+  },
+  {
+    "id": "prefix-bullet-close-bracket-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "* password: ab)cd",
+    "expected": "* password: [REDACTED]"
+  },
+  {
+    "id": "prefix-determiner-separator-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my pw: abc&def=ghi",
+    "expected": "my pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-semicolon-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Use this passcode = k;host=y",
+    "expected": "Use this passcode = [REDACTED]"
+  },
+  {
+    "id": "prefix-bracket-opened-before-key",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "(my password: abc) see docs",
+    "expected": "(my password: [REDACTED]) see docs"
+  },
+  {
+    "id": "prefix-list-before-key",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "host=db;my password=abc;user=x",
+    "expected": "host=db;my password=[REDACTED];user=x"
   }
 ]

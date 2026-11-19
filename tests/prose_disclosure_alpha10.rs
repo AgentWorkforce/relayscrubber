@@ -451,6 +451,64 @@ fn a_prefix_never_redacts_less_than_the_bare_cue() {
     report("prefix matrix", cases.len(), &run(&cases));
 }
 
+/// A value with an unbalanced close bracket, or a `&` or `;` before what
+/// looks like another key, after any prefix (a word, a bullet) is redacted whole,
+/// as the bare cue's assignment redacts it: the bracket or separator is part
+/// of the value unless the line opened a bracket or a list before the key.
+#[test]
+fn a_prefix_redacts_a_value_with_a_close_bracket_or_separator_whole() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for cue in CUES {
+            for value in [
+                "ab)cd", "x]y z", "q}r", "6)K", "h{E]MT-a", "f(x) y", "ab&cd=ef", "k;host=y",
+            ] {
+                for prefix in PREFIXES {
+                    let left = format!("{PUBLIC}\n{prefix}{noun}{cue}");
+                    cases.push((
+                        format!("bracket {prefix:?} {noun}{cue:?} {value}"),
+                        format!("{left}{value}"),
+                        format!("{left}{R}"),
+                    ));
+                }
+            }
+        }
+    }
+    assert_eq!(cases.len(), 8 * 8 * 8 * 34);
+    // A bracket or a list the line opened before the key still ends it.
+    for (input, expected) in [
+        (
+            "(my password: abc) see docs",
+            "(my password: [REDACTED]) see docs",
+        ),
+        (
+            "f(the password=abc) more",
+            "f(the password=[REDACTED]) more",
+        ),
+        ("[my pw: x] ok", "[my pw: [REDACTED]] ok"),
+        (
+            "call(note password: abc) end",
+            "call(note password: [REDACTED]) end",
+        ),
+        (
+            "host=db;my password=abc;user=x",
+            "host=db;my password=[REDACTED];user=x",
+        ),
+        ("?a=1&my pw=abc&b=2", "?a=1&my pw=[REDACTED]&b=2"),
+    ] {
+        cases.push((
+            format!("enclosed {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            format!("{PUBLIC}\n{expected}"),
+        ));
+    }
+    report(
+        "prefix bracket and separator values",
+        cases.len(),
+        &run(&cases),
+    );
+}
+
 /// A benign control never redacts less after a prefix: what the bare cue
 /// redacts (`password=string`) the prefixed form redacts too, and what the
 /// bare cue keeps (`password: $PASSWORD`) the prefixed form keeps or redacts

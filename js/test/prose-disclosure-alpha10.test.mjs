@@ -125,6 +125,21 @@ test('a prefix never redacts less than the bare cue',()=>{
   assert.equal(prefixMatrix.length,8*8*16*34);
   assert.deepEqual(run(prefixMatrix),[]);
 });
+test('a prefix redacts a value with a close bracket or separator whole',()=>{
+  const cases=[];
+  for(const noun of NOUNS) for(const cue of CUES) for(const value of ['ab)cd','x]y z','q}r','6)K','h{E]MT-a','f(x) y','ab&cd=ef','k;host=y'])
+    for(const prefix of PREFIXES){
+      const left=`${PUBLIC}\n${prefix}${noun}${cue}`;
+      cases.push({id:`bracket ${JSON.stringify(prefix)} ${noun}${JSON.stringify(cue)} ${value}`,input:left+value,expected:left+R});
+    }
+  assert.equal(cases.length,8*8*8*34);
+  for(const [input,expected] of [['(my password: abc) see docs','(my password: [REDACTED]) see docs'],
+    ['f(the password=abc) more','f(the password=[REDACTED]) more'],['[my pw: x] ok','[my pw: [REDACTED]] ok'],
+    ['call(note password: abc) end','call(note password: [REDACTED]) end'],
+    ['host=db;my password=abc;user=x','host=db;my password=[REDACTED];user=x'],['?a=1&my pw=abc&b=2','?a=1&my pw=[REDACTED]&b=2']])
+    cases.push({id:`enclosed ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  assert.deepEqual(run(cases),[]);
+});
 test('a prefix keeps the bare cue outcome for benign controls',()=>{
   const cases=[];
   for(const noun of NOUNS) for(const cue of CUES) for(const value of ['string','$PASSWORD','${{ secrets.PW }}','none','null']){
