@@ -425,5 +425,96 @@
     "kind": "positive",
     "input": "pass code=velvet river&ssl=true",
     "expected": "pass code=[REDACTED]&ssl=true"
+  },
+  {
+    "id": "prefix-f1-the-new",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new password: zq9Secret",
+    "expected": "The new password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-please-use",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Please use password=zq9Secret",
+    "expected": "Please use password=[REDACTED]"
+  },
+  {
+    "id": "prefix-f1-enter-your",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Enter your pass phrase : velvet river lantern",
+    "expected": "Enter your pass phrase : [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-label",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "note: the new pw: hunter2",
+    "expected": "note: the new pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-bullet",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "- The new passcode = 4711",
+    "expected": "- The new passcode = [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-first-word-reference",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "We use the password: example and then some",
+    "expected": "We use the password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-determiner-multiword",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my password: correct horseq batteryq",
+    "expected": "my password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-conjunction-determiner",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "and my password: correct horseq batteryq",
+    "expected": "and my password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-documentary-word",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "the password: see vault later",
+    "expected": "the password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-conjunction-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "our passwd = orchid7 and tulip",
+    "expected": "our passwd = [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-quoted",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "your pwd: \"velvet river\"",
+    "expected": "your pwd: \"[REDACTED]\""
+  },
+  {
+    "id": "prefix-benign-expression",
+    "family": "prefix",
+    "kind": "benign",
+    "input": "Use the password: ${{ secrets.PW }}",
+    "expected": "Use the password: ${{ secrets.PW }}"
+  },
+  {
+    "id": "prefix-benign-variable",
+    "family": "prefix",
+    "kind": "benign",
+    "input": "and my password = $PASSWORD",
+    "expected": "and my password = $PASSWORD"
   }
 ]

@@ -106,6 +106,42 @@ test('encoded separators join the disclosure',()=>{
   assert.deepEqual(run(encodedMatrix),[]);
 });
 
+const CUES=[':',' :',': ',' : ','=',' = ','= ',' ='];
+const PREFIXES=['my ','our ','your ','the ','The ','its ','my new ','The new ','the old ','The wifi ',
+  'Use this ','Please use ','Enter your ','Use the new ','Here is the ','and my ','and the ','but your ','And the new ',
+  '- ','* ','- my ','1. ','* the new ','note: ','Note: my ','FYI: ','note: the new ','x y ','Reset ','admin ',
+  'We discussed ','Here is my ','or the '];
+const prefixMatrix=[];
+{
+  const values=[['','Q'],['','zq9Secret'],['','velvet river lantern'],['','correct horse battery'],['','required and then'],
+    ['','see vault later'],['','example and then'],['','none and then'],['','orchid7 and tulip'],['','wrong or right'],
+    ['','valid but long'],['"','velvet river'],["'",'velvet river'],['`','velvet river'],['','pässwört ünï'],['','密码 秘密']];
+  for(const noun of NOUNS) for(const cue of CUES) for(const [quote,value] of values) for(const prefix of PREFIXES){
+    const left=`${PUBLIC}\n${prefix}${noun}${cue}${quote}`;
+    prefixMatrix.push({id:`prefix ${JSON.stringify(prefix)} ${noun}${JSON.stringify(cue)} ${quote}${value}${quote}`,input:left+value+quote,expected:left+R+quote});
+  }
+}
+test('a prefix never redacts less than the bare cue',()=>{
+  assert.equal(prefixMatrix.length,8*8*16*34);
+  assert.deepEqual(run(prefixMatrix),[]);
+});
+test('a prefix keeps the bare cue outcome for benign controls',()=>{
+  const cases=[];
+  for(const noun of NOUNS) for(const cue of CUES) for(const value of ['string','$PASSWORD','${{ secrets.PW }}','none','null']){
+    const bareInput=`${PUBLIC}\n${noun}${cue}${value}`;
+    const bare=scrubber.scrubText(bareInput);
+    const tail=bare.slice(PUBLIC.length+1);
+    for(const prefix of PREFIXES){
+      const input=`${PUBLIC}\n${prefix}${noun}${cue}${value}`;
+      const redacted=`${PUBLIC}\n${prefix}${noun}${cue}${R}`;
+      const expected=bare!==bareInput?`${PUBLIC}\n${prefix}${tail}`:scrubber.scrubText(input)===redacted?redacted:input;
+      cases.push({id:`benign ${JSON.stringify(prefix)} ${noun}${JSON.stringify(cue)} ${value}`,input,expected});
+    }
+  }
+  assert.equal(cases.length,8*8*5*34);
+  assert.deepEqual(run(cases),[]);
+});
+
 test('named lead examples, benign controls and JSON-escaped quotes agree on every hosted API',()=>{
   for(const kind of ['positive','benign']) assert.ok(fixtures.some(c=>c.kind===kind));
   for(const c of fixtures) assert.ok(c.kind==='positive'||c.input===c.expected,c.id);

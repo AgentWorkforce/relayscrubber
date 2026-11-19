@@ -9,6 +9,9 @@
 //!   backslashes (`"abc\"def"` is one value; `"abc\\"` closes).
 //! - Every `char::is_whitespace` separator, and its encoded spellings, joins
 //!   the words of a disclosure.
+//! - Words before a colon or equals cue (a determiner, an adjective, a verb
+//!   phrase, a conjunction, a bullet or a label) never redact less than the
+//!   bare cue does.
 
 use relayscrubber::{scrub_json, scrub_long, scrub_records, scrub_text, scrub_text_checked};
 use serde::Deserialize;
@@ -359,6 +362,130 @@ fn encoded_separators_join_the_disclosure() {
     let cases = encoded_matrix();
     assert_eq!(cases.len(), 30 * 5 + 7 * 2);
     report("encoded separator matrix", cases.len(), &run(&cases));
+}
+
+const CUES: [&str; 8] = [":", " :", ": ", " : ", "=", " = ", "= ", " ="];
+/// Determiners, adjectives, verb phrases, conjunctions, bullets and labels.
+const PREFIXES: [&str; 34] = [
+    "my ",
+    "our ",
+    "your ",
+    "the ",
+    "The ",
+    "its ",
+    "my new ",
+    "The new ",
+    "the old ",
+    "The wifi ",
+    "Use this ",
+    "Please use ",
+    "Enter your ",
+    "Use the new ",
+    "Here is the ",
+    "and my ",
+    "and the ",
+    "but your ",
+    "And the new ",
+    "- ",
+    "* ",
+    "- my ",
+    "1. ",
+    "* the new ",
+    "note: ",
+    "Note: my ",
+    "FYI: ",
+    "note: the new ",
+    "x y ",
+    "Reset ",
+    "admin ",
+    "We discussed ",
+    "Here is my ",
+    "or the ",
+];
+
+/// Whatever the bare colon or equals cue redacts, the same disclosure after
+/// any prefix redacts too: one character, an ordinary value, several words,
+/// a value that starts with a documentary word or holds a conjunction, a
+/// quoted value with spaces, and Unicode.
+fn prefix_matrix() -> Vec<(String, String, String)> {
+    let values = [
+        ("", "Q"),
+        ("", "zq9Secret"),
+        ("", "velvet river lantern"),
+        ("", "correct horse battery"),
+        ("", "required and then"),
+        ("", "see vault later"),
+        ("", "example and then"),
+        ("", "none and then"),
+        ("", "orchid7 and tulip"),
+        ("", "wrong or right"),
+        ("", "valid but long"),
+        ("\"", "velvet river"),
+        ("'", "velvet river"),
+        ("`", "velvet river"),
+        ("", "pässwört ünï"),
+        ("", "密码 秘密"),
+    ];
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for cue in CUES {
+            for (quote, value) in values {
+                for prefix in PREFIXES {
+                    let left = format!("{PUBLIC}\n{prefix}{noun}{cue}{quote}");
+                    cases.push((
+                        format!("prefix {prefix:?} {noun}{cue:?} {quote}{value}{quote}"),
+                        format!("{left}{value}{quote}"),
+                        format!("{left}{R}{quote}"),
+                    ));
+                }
+            }
+        }
+    }
+    cases
+}
+
+#[test]
+fn a_prefix_never_redacts_less_than_the_bare_cue() {
+    let cases = prefix_matrix();
+    assert_eq!(cases.len(), 8 * 8 * 16 * 34);
+    report("prefix matrix", cases.len(), &run(&cases));
+}
+
+/// A benign control never redacts less after a prefix: what the bare cue
+/// redacts (`password=string`) the prefixed form redacts too, and what the
+/// bare cue keeps (`password: $PASSWORD`) the prefixed form keeps or redacts
+/// whole, never in part. `{{ password }}` is a template placeholder: the bare
+/// cue redacts it as a failed reference, while a prefixed sentence keeps it.
+#[test]
+fn a_prefix_keeps_the_bare_cue_outcome_for_benign_controls() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for cue in CUES {
+            for value in ["string", "$PASSWORD", "${{ secrets.PW }}", "none", "null"] {
+                let input = format!("{PUBLIC}\n{noun}{cue}{value}");
+                let bare = scrub_text(&input);
+                let tail = bare.strip_prefix(&format!("{PUBLIC}\n")).unwrap();
+                for prefix in PREFIXES {
+                    let input = format!("{PUBLIC}\n{prefix}{noun}{cue}{value}");
+                    let redacted = format!("{PUBLIC}\n{prefix}{noun}{cue}{R}");
+                    let expected = if bare != format!("{PUBLIC}\n{noun}{cue}{value}") {
+                        format!("{PUBLIC}\n{prefix}{tail}")
+                    } else if scrub_text(&input) == redacted {
+                        redacted
+                    } else {
+                        input.clone()
+                    };
+                    cases.push((
+                        format!("benign {prefix:?} {noun}{cue:?} {value}"),
+                        input,
+                        expected,
+                    ));
+                }
+            }
+        }
+    }
+    assert_eq!(cases.len(), 8 * 8 * 5 * 34);
+    report("prefix benign controls", cases.len(), &run(&cases));
 }
 
 #[test]
