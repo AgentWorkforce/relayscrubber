@@ -125,9 +125,15 @@ the noun: a bare value after `:` or `=` ends at the first such close, and any
 other value at the first one that structure follows (the end of the line,
 whitespace, a bracket, `:`, or a separator before a key-like field), so an
 unterminated segment in a JSON string redacts up to, never including, the
-string's close. A quote opened before the noun closes the clause, so text that
-touches that close is not part of the value (`he said 'pw: abc'defq` keeps
-`defq`); this is a known residual. An empty quoted segment followed by text
+string's close. When a value ends at the close of a quote the line opened
+before the noun and that close is touched by a quote of any mark or escape
+level, a letter, a digit, `_` or `$`, the touching run is part of the value as
+the text touching the value's own close is: it runs to the next whitespace, or
+up to and never including the close of a further enclosing layer, and the
+close is redacted with it (`he said 'pw: abc'defq` gives `he said 'pw:
+[REDACTED]`, `{"note":"he said \"pw: abc\"defq","user":"bob"}` keeps the
+`user` field). Sentence or list punctuation, whitespace or a field after that
+close ends the value there (`He said "pw: abc".`, `1,"pw: abc",3`). An empty quoted segment followed by text
 (`password=""abc`) is not an empty assignment. A
 straight quote preceded by an odd number of backslashes at the opener's escape
 level is escaped and does not close the

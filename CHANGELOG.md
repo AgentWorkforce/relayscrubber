@@ -49,8 +49,15 @@ Security fixes to the alpha.10 candidate, before any release:
   JSON string that holds the disclosure; an unterminated value inside it
   redacts up to that quote, so the line stays valid JSON with the same keys
   (`{"note":"password:\"abc\"defq","user":"bob"}` kept `password:\"` and
-  dropped `","user":"bob"}`). A quote opened before the noun still closes
-  the clause: `he said 'pw: abc'defq` keeps `defq` (known residual).
+  dropped `","user":"bob"}`). When a value ends at the close of a quote
+  opened before the noun and a quote, letter, digit, `_` or `$` touches
+  that close, the touching run is part of the value up to the next
+  whitespace or the close of a further enclosing layer, and the close is
+  redacted with it: `he said 'pw: abc'defq`, `x "pw: abc""defq"` and
+  `echo "pw: abc"$X` no longer keep `defq` or `$X`, and
+  `{"note":"he said \"pw: abc\"defq","user":"bob"}` keeps the `user` field.
+  Punctuation, whitespace or a field after that close ends the value as
+  before (`He said "pw: abc".`, `1,"pw: abc",3`).
 - Separators: every Rust/WHATWG whitespace character (including U+1680,
   U+205F and U+0085) and one line break may separate the words, so `my
   pass\ncode is x` redacts; HTML character references (`&#32;`, `&#x20;`,
