@@ -1081,3 +1081,313 @@ fn only_a_list_the_line_already_is_ends_the_value_at_its_separator() {
     }
     report("list separator", cases.len(), &run(&cases));
 }
+
+/// The scalar-free shape of a JSON value: every key and array length, with
+/// each string, number, boolean or null replaced by null.
+fn json_shape(value: &serde_json::Value) -> serde_json::Value {
+    match value {
+        serde_json::Value::Object(map) => serde_json::Value::Object(
+            map.iter()
+                .map(|(k, v)| (k.clone(), json_shape(v)))
+                .collect(),
+        ),
+        serde_json::Value::Array(items) => {
+            serde_json::Value::Array(items.iter().map(json_shape).collect())
+        }
+        _ => serde_json::Value::Null,
+    }
+}
+
+/// A line of the input that parses as JSON must still parse as JSON in the
+/// output, with the same keys: a redaction never eats an enclosing string's
+/// closing quote.
+fn json_lines_keep_their_keys(id: &str, input: &str, output: &str) -> Option<String> {
+    let inputs: Vec<&str> = input.split('\n').collect();
+    let outputs: Vec<&str> = output.split('\n').collect();
+    for (n, line) in inputs.iter().enumerate() {
+        let Ok(before) = serde_json::from_str::<serde_json::Value>(line) else {
+            continue;
+        };
+        let after = outputs
+            .get(n)
+            .filter(|_| outputs.len() == inputs.len())
+            .and_then(|o| serde_json::from_str::<serde_json::Value>(o).ok());
+        if after.as_ref().map(json_shape) != Some(json_shape(&before)) {
+            return Some(format!("{id}/json-shape: {input:?} -> {output:?}"));
+        }
+    }
+    None
+}
+
+/// `run` plus the JSON property and, for a case whose expectation is
+/// `None`, no surviving `defq`: every API must agree with `scrub_text`.
+fn run_leak_free(cases: &[(String, String, Option<String>)]) -> Vec<String> {
+    let mut failures = Vec::new();
+    for (id, input, expected) in cases {
+        let text = scrub_text(input);
+        let expected = expected.clone().unwrap_or_else(|| {
+            if text.contains("defq") || !text.starts_with(&format!("{PUBLIC}\n")) {
+                failures.push(format!("{id}/leak: {input:?} -> {text:?}"));
+            }
+            text.clone()
+        });
+        failures.extend(check(id, input, &expected));
+        failures.extend(json_lines_keep_their_keys(id, input, &text));
+    }
+    failures
+}
+
+/// Key forms and layouts for leak class E: each noun bare and after `my`
+/// with every colon and equals layout, and after `my` with every word cue.
+fn class_e_layouts() -> Vec<String> {
+    let mut layouts = Vec::new();
+    for noun in ["pw", "pass code", "pass phrase", "password", "passcode"] {
+        for cue in CUES {
+            layouts.push(format!("{noun}{cue}"));
+            layouts.push(format!("my {noun}{cue}"));
+        }
+        for cue in WORD_CUES {
+            layouts.push(format!("my {noun} {cue} "));
+        }
+    }
+    layouts
+}
+
+/// Leak class E: a contiguous segment that opens with any quote type at the
+/// noun's own escape level or deeper is part of the value, after a quoted or
+/// a bare value, on a plain line and inside a JSON string value.
+#[test]
+fn a_contiguous_segment_of_any_quote_or_deeper_escape_is_part_of_the_value() {
+    let mut cases = Vec::new();
+    for layout in class_e_layouts() {
+        for first in ["abc", "\"abc\"", "'abc'", "`abc`"] {
+            for quote in ['"', '\'', '`'] {
+                for level in 0..3u32 {
+                    let escape = "\\".repeat((1usize << level) - 1);
+                    let line = format!("{layout}{first}{escape}{quote}defq{escape}{quote}");
+                    cases.push((format!("class E {line}"), format!("{PUBLIC}\n{line}"), None));
+                    let json = format!(
+                        "{{\"note\":{},\"user\":\"bob\"}}",
+                        serde_json::to_string(&line).unwrap()
+                    );
+                    cases.push((
+                        format!("class E json {json}"),
+                        format!("{PUBLIC}\n{json}"),
+                        None,
+                    ));
+                }
+            }
+        }
+    }
+    assert_eq!(cases.len(), 110 * 4 * 3 * 3 * 2);
+    report("class E segments", cases.len(), &run_leak_free(&cases));
+}
+
+/// The inputs the third-pass brief names for leak class E, each pinned.
+#[test]
+fn named_class_e_inputs() {
+    let cases: Vec<(String, String, Option<String>)> = [
+        ("pw: \"abc\"\\\"defq\\\"", "pw: \"[REDACTED]\\\""),
+        (
+            "my password is \"abc\"\\'defq\\'",
+            "my password is \"[REDACTED]\\'",
+        ),
+        (
+            "my password is 'abc'\\'defq\\'",
+            "my password is '[REDACTED]\\'",
+        ),
+        (
+            "{\"note\":\"my password is \\\"abc\\\"'defq'\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]'\"}",
+        ),
+        (
+            "{\"note\":\"my password is 'abc'\\\"defq\\\"\"}",
+            "{\"note\":\"my password is '[REDACTED]\\\"\"}",
+        ),
+        (
+            "{\"note\":\"my password is \\\"abc\\\"\\\\\\\"defq\\\\\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]\\\\\\\"\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"my password is \\\"abc\\\"`defq`\",\"user\":\"bob\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]`\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"pw: abc\\\"defq\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"pw: [REDACTED]\",\"user\":\"bob\"}",
+        ),
+    ]
+    .into_iter()
+    .map(|(input, expected)| {
+        (
+            format!("named class E {input}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        )
+    })
+    .collect();
+    report("named class E", cases.len(), &run_leak_free(&cases));
+}
+
+/// Every fixture: a line that parses as JSON still parses, with the same
+/// keys, after the scrub.
+#[test]
+fn every_fixture_json_line_keeps_its_keys() {
+    let cases: Vec<Case> =
+        serde_json::from_str(include_str!("../eval/prose_disclosure_alpha10_cases.json")).unwrap();
+    let failures: Vec<String> = cases
+        .iter()
+        .filter_map(|c| json_lines_keep_their_keys(&c.id, &c.input, &scrub_text(&c.input)))
+        .collect();
+    report("fixture JSON shape", cases.len(), &failures);
+}
+
+/// After a closing quote, a list separator before a key-like field, or the
+/// close of a tag opened before the noun, ends the value; text that is not a
+/// key-like field still fails closed, and a bare value keeps its rules.
+#[test]
+fn a_key_like_field_or_tag_close_after_a_quoted_value_ends_it() {
+    let mut cases = Vec::new();
+    for (input, expected) in [
+        (
+            "password=\"abc\",user=\"bob\"",
+            "password=\"[REDACTED]\",user=\"bob\"",
+        ),
+        (
+            "f(password=\"abc\",user=\"bob\")",
+            "f(password=\"[REDACTED]\",user=\"bob\")",
+        ),
+        (
+            "password=\"abc\";user=\"bob\"",
+            "password=\"[REDACTED]\";user=\"bob\"",
+        ),
+        (
+            "password=\"abc\"&user=bob",
+            "password=\"[REDACTED]\"&user=bob",
+        ),
+        (
+            "password: \"abc\",user: bob",
+            "password: \"[REDACTED]\",user: bob",
+        ),
+        (
+            "<a password=\"abc\">text</a>",
+            "<a password=\"[REDACTED]\">text</a>",
+        ),
+        ("<a password=\"abc\"/>", "<a password=\"[REDACTED]\"/>"),
+        ("pw=\"abc\",user=\"bob\"", "pw=\"[REDACTED]\",user=\"bob\""),
+        (
+            "my password is \"abc\",user: bob",
+            "my password is \"[REDACTED]\",user: bob",
+        ),
+        (
+            "pw: 'abc'; \"user\": bob",
+            "pw: '[REDACTED]'; \"user\": bob",
+        ),
+        (
+            "<a pass code=\"abc\">text</a>",
+            "<a pass code=\"[REDACTED]\">text</a>",
+        ),
+        (
+            "{\"note\":\"password=\\\"abc\\\",user=\\\"bob\\\"\"}",
+            "{\"note\":\"password=\\\"[REDACTED]\\\",user=\\\"bob\\\"\"}",
+        ),
+        // Controls that stay redacted.
+        ("password=\"abc\"def", "password=\"[REDACTED]"),
+        ("password=\"abc\"\"defq\"", "password=\"[REDACTED]\""),
+        ("password=\"abc\",defq", "password=\"[REDACTED]"),
+        ("password=\"abc\";defq", "password=\"[REDACTED]"),
+        ("my password is \"abc\",ok", "my password is \"[REDACTED]"),
+        ("password=\"abc\"><tag", "password=\"[REDACTED]"),
+        ("pw: \"abc\"==user:x", "pw: \"[REDACTED]"),
+        // A bare value keeps rules C and D.
+        ("pw: abc)def", "pw: [REDACTED]"),
+        ("pw: abc&k=defq", "pw: [REDACTED]"),
+        ("pw: abc;k=defq", "pw: [REDACTED]"),
+        ("<a pw: abc>def", "<a pw: [REDACTED]"),
+    ] {
+        cases.push((
+            format!("after quote {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        ));
+    }
+    report("after a quoted value", cases.len(), &run_leak_free(&cases));
+}
+
+/// Never eat an enclosing layer's closer: an unterminated segment inside a
+/// JSON string redacts up to the string's close.
+#[test]
+fn an_unterminated_segment_stops_at_the_enclosing_close() {
+    let mut cases = Vec::new();
+    for (input, expected) in [
+        (
+            "{\"note\": \"my password is \\\"abc\\\\\\\\\\\"def\\\"\"}",
+            "{\"note\": \"my password is \\\"[REDACTED]\"}",
+        ),
+        (
+            "{\"note\":\"my password is \\\"abc\",\"user\":\"bob\"}",
+            // After a word cue an unterminated value redacts from its quote.
+            "{\"note\":\"my password is [REDACTED]\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"pw: 'abc\",\"user\":\"bob\"}",
+            "{\"note\":\"pw: '[REDACTED]\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"my password is abc\\\"defq\\\"\"}",
+            "{\"note\":\"my password is [REDACTED]\"}",
+        ),
+        (
+            "{\"note\":\"my password is abc\",\"user\":\"bob\"}",
+            "{\"note\":\"my password is [REDACTED]\",\"user\":\"bob\"}",
+        ),
+        // The sensitive assignment's own fail-closed quote stops there too,
+        // on the second pass over an already redacted value.
+        (
+            "{\"note\":\"password:\\\"abc\\\"defq\",\"user\":\"bob\"}",
+            "{\"note\":\"password:\\\"[REDACTED]\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"passcode=\\\"abc\\\"'defq'\",\"user\":\"bob\"}",
+            "{\"note\":\"passcode=\\\"[REDACTED]\",\"user\":\"bob\"}",
+        ),
+        // An unterminated segment on a plain line still fails closed.
+        ("my password is \"abc\"\"de", "my password is \"[REDACTED]"),
+    ] {
+        cases.push((
+            format!("enclosing close {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        ));
+    }
+    report("enclosing close", cases.len(), &run_leak_free(&cases));
+}
+
+/// Declared residual: a quote opened before the noun closes the clause, so
+/// text touching that close is not part of the value. These pin today's
+/// output; they are known leaks, not endorsed behaviour.
+#[test]
+fn residual_a_quote_opened_before_the_noun_closes_the_clause() {
+    let cases: Vec<(String, String, Option<String>)> = [
+        ("he said 'pw: abc'defq", "he said 'pw: [REDACTED]'defq"),
+        ("x \"pw: abc\"\"defq\"", "x \"pw: [REDACTED]\"\"defq\""),
+        (
+            "he said \"my password is 'abc'\"defq",
+            "he said \"my password is '[REDACTED]'\"defq",
+        ),
+    ]
+    .into_iter()
+    .map(|(input, expected)| {
+        (
+            format!("residual {input}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        )
+    })
+    .collect();
+    report(
+        "residual quote before the noun",
+        cases.len(),
+        &run_leak_free(&cases),
+    );
+}

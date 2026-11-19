@@ -300,3 +300,95 @@ test('only a list the line already is ends the value at its separator',()=>{
     cases.push({id:`list ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
   assert.deepEqual(run(cases),[]);
 });
+
+// A line of the input that parses as JSON must parse in the output with the same keys: a redaction never eats an
+// enclosing string's closing quote.
+const shape=value=>Array.isArray(value)?value.map(shape):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,shape(v)])):null;
+function jsonShapeFailures(id,input,output){
+  const ins=input.split('\n'), outs=output.split('\n');
+  for(const [n,line] of ins.entries()){
+    let before; try{before=JSON.parse(line);}catch{continue;}
+    let after=null; try{if(outs.length===ins.length) after=shape(JSON.parse(outs[n]));}catch{}
+    if(JSON.stringify(after)!==JSON.stringify(shape(before))) return [`${id}/json-shape: ${JSON.stringify(input)} -> ${JSON.stringify(output)}`];
+  }
+  return [];
+}
+// `run` plus the JSON property; a case without an expectation must lose every `defq` and keep the public line.
+function runLeakFree(cases){
+  const failures=[];
+  for(const entry of cases){
+    const text=scrubber.scrubText(entry.input);
+    if(entry.expected===undefined&&(text.includes('defq')||!text.startsWith(`${PUBLIC}\n`))) failures.push(`${entry.id}/leak: ${JSON.stringify(entry.input)} -> ${JSON.stringify(text)}`);
+    failures.push(...run([{...entry,expected:entry.expected??text}]),...jsonShapeFailures(entry.id,entry.input,text));
+  }
+  return failures;
+}
+const pinned=(label,pairs)=>pairs.map(([input,expected])=>({id:`${label} ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`}));
+
+// Leak class E: a contiguous segment that opens with any quote at the noun's escape level or deeper is part of the
+// value, on a plain line and inside a JSON string. One test per layout to stay inside Bun's 5 s limit.
+for(const layout of ['pw: ','pw=','my password = ','password: ','my pass code is ']){
+  test(`a contiguous segment of any quote or deeper escape is part of the value: ${JSON.stringify(layout)}`,()=>{
+    const cases=[];
+    for(const first of ['abc','"abc"',"'abc'",'`abc`']) for(const quote of ['"',"'",'`']) for(let level=0;level<3;level++){
+      const escape='\\'.repeat((1<<level)-1), line=`${layout}${first}${escape}${quote}defq${escape}${quote}`;
+      cases.push({id:`class E ${line}`,input:`${PUBLIC}\n${line}`});
+      const json=`{"note":${JSON.stringify(line)},"user":"bob"}`;
+      cases.push({id:`class E json ${json}`,input:`${PUBLIC}\n${json}`});
+    }
+    assert.equal(cases.length,4*3*3*2);
+    assert.deepEqual(runLeakFree(cases),[]);
+  });
+}
+test('the named class E inputs',()=>{
+  assert.deepEqual(runLeakFree(pinned('named class E',[
+    [String.raw`pw: "abc"\"defq\"`,String.raw`pw: "[REDACTED]\"`],
+    [String.raw`my password is "abc"\'defq\'`,String.raw`my password is "[REDACTED]\'`],
+    [String.raw`my password is 'abc'\'defq\'`,String.raw`my password is '[REDACTED]\'`],
+    [String.raw`{"note":"my password is \"abc\"'defq'"}`,String.raw`{"note":"my password is \"[REDACTED]'"}`],
+    [String.raw`{"note":"my password is 'abc'\"defq\""}`,String.raw`{"note":"my password is '[REDACTED]\""}`],
+    [String.raw`{"note":"my password is \"abc\"\\\"defq\\\"","user":"bob"}`,String.raw`{"note":"my password is \"[REDACTED]\\\"","user":"bob"}`],
+    [String.raw`{"note":"my password is \"abc\"` + '`defq`' + String.raw`","user":"bob"}`,String.raw`{"note":"my password is \"[REDACTED]` + '`' + String.raw`","user":"bob"}`],
+    [String.raw`{"note":"pw: abc\"defq\"","user":"bob"}`,String.raw`{"note":"pw: [REDACTED]","user":"bob"}`],
+  ])),[]);
+});
+test('every fixture JSON line keeps its keys',()=>{
+  assert.deepEqual(fixtures.flatMap(c=>jsonShapeFailures(c.id,c.input,scrubber.scrubText(c.input))),[]);
+});
+test('a key-like field or tag close after a quoted value ends it',()=>{
+  assert.deepEqual(runLeakFree(pinned('after quote',[
+    ['password="abc",user="bob"','password="[REDACTED]",user="bob"'],['f(password="abc",user="bob")','f(password="[REDACTED]",user="bob")'],
+    ['password="abc";user="bob"','password="[REDACTED]";user="bob"'],['password="abc"&user=bob','password="[REDACTED]"&user=bob'],
+    ['password: "abc",user: bob','password: "[REDACTED]",user: bob'],['<a password="abc">text</a>','<a password="[REDACTED]">text</a>'],
+    ['<a password="abc"/>','<a password="[REDACTED]"/>'],['pw="abc",user="bob"','pw="[REDACTED]",user="bob"'],
+    ['my password is "abc",user: bob','my password is "[REDACTED]",user: bob'],[`pw: 'abc'; "user": bob`,`pw: '[REDACTED]'; "user": bob`],
+    ['<a pass code="abc">text</a>','<a pass code="[REDACTED]">text</a>'],
+    [String.raw`{"note":"password=\"abc\",user=\"bob\""}`,String.raw`{"note":"password=\"[REDACTED]\",user=\"bob\""}`],
+    // Controls that stay redacted.
+    ['password="abc"def','password="[REDACTED]'],['password="abc""defq"','password="[REDACTED]"'],['password="abc",defq','password="[REDACTED]'],
+    ['password="abc";defq','password="[REDACTED]'],['my password is "abc",ok','my password is "[REDACTED]'],['password="abc"><tag','password="[REDACTED]'],
+    ['pw: "abc"==user:x','pw: "[REDACTED]'],
+    // A bare value keeps its rules.
+    ['pw: abc)def','pw: [REDACTED]'],['pw: abc&k=defq','pw: [REDACTED]'],['pw: abc;k=defq','pw: [REDACTED]'],['<a pw: abc>def','<a pw: [REDACTED]'],
+  ])),[]);
+});
+test('an unterminated segment stops at the enclosing close',()=>{
+  assert.deepEqual(runLeakFree(pinned('enclosing close',[
+    [String.raw`{"note": "my password is \"abc\\\\\"def\""}`,String.raw`{"note": "my password is \"[REDACTED]"}`],
+    [String.raw`{"note":"my password is \"abc","user":"bob"}`,String.raw`{"note":"my password is [REDACTED]","user":"bob"}`],
+    [String.raw`{"note":"pw: 'abc","user":"bob"}`,String.raw`{"note":"pw: '[REDACTED]","user":"bob"}`],
+    [String.raw`{"note":"my password is abc\"defq\""}`,String.raw`{"note":"my password is [REDACTED]"}`],
+    [String.raw`{"note":"my password is abc","user":"bob"}`,String.raw`{"note":"my password is [REDACTED]","user":"bob"}`],
+    [String.raw`{"note":"password:\"abc\"defq","user":"bob"}`,String.raw`{"note":"password:\"[REDACTED]","user":"bob"}`],
+    [String.raw`{"note":"passcode=\"abc\"'defq'","user":"bob"}`,String.raw`{"note":"passcode=\"[REDACTED]","user":"bob"}`],
+    ['my password is "abc""de','my password is "[REDACTED]'],
+  ])),[]);
+});
+// Declared residual: a quote opened before the noun closes the clause. These pin today's output; they are known
+// leaks, not endorsed behaviour.
+test('residual: a quote opened before the noun closes the clause',()=>{
+  assert.deepEqual(runLeakFree(pinned('residual',[
+    [`he said 'pw: abc'defq`,`he said 'pw: [REDACTED]'defq`],['x "pw: abc""defq"','x "pw: [REDACTED]""defq"'],
+    [`he said "my password is 'abc'"defq`,`he said "my password is '[REDACTED]'"defq`],
+  ])),[]);
+});

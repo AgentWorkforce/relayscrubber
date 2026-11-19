@@ -109,7 +109,7 @@
     "family": "lead",
     "kind": "positive",
     "input": "{\"note\": \"my password is \\\"abc\\\\\\\\\\\"def\\\"\"}",
-    "expected": "{\"note\": \"my password is \\\"[REDACTED]"
+    "expected": "{\"note\": \"my password is \\\"[REDACTED]\"}"
   },
   {
     "id": "lead-s2-json-level-one-five-spaced",
