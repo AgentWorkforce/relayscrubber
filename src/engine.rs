@@ -1,6 +1,9 @@
 //! Fixed automata and a monotone contextual scanner; no backtracking regex.
 
-use crate::{normalize::View, Policy, REDACTION_TOKEN};
+use crate::{
+    normalize::{Spaced, View},
+    Policy, REDACTION_TOKEN,
+};
 use aho_corasick::AhoCorasick;
 use base64::Engine;
 use regex::Regex;
@@ -1725,7 +1728,7 @@ fn authorization_reference(value: &str) -> bool {
         || environment_reference(rest)
 }
 
-fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
+fn credential_prose(view: &View, input: &str, spans: &mut Vec<Range<usize>>) -> Vec<ProseValue> {
     static R: OnceLock<Regex> = OnceLock::new();
     let r = R.get_or_init(|| {
         Regex::new(r"(?i)\bAPI[ \t]+key[ \t]+([A-Za-z0-9_+/=-]{24,})")
@@ -1734,71 +1737,288 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
     for c in r.captures_iter(&view.text) {
         spans.push(c.get(1).expect("credential capture").range());
     }
-    prose_disclosures(view, spans);
+    prose_disclosures(view, input)
+}
+
+// A prose disclosure's value in source coordinates. Word cues and determiner
+// forms always disclose. A bare `noun: value` or `noun = value` discloses
+// only where the assignment engine also finds a credential value (sensitive
+// nouns) or, for the short nouns it does not know, outside URL components;
+// either way the prose rule then decides the whole extent of the value.
+pub(crate) struct ProseValue {
+    probe: usize,
+    source: Range<usize>,
+    gate: Gate,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum Gate {
+    Always,
+    Assigned,
+    Outside,
+}
+
+// Every `char::is_whitespace` code point is a separator: these horizontal
+// ones and the line breaks below. Encoded spellings are decoded first by
+// `Spaced`. A CRLF pair counts as one line break.
+const PROSE_SPACE: &str = r"[\t \u{a0}\u{1680}\u{2000}-\u{200a}\u{202f}\u{205f}\u{3000}]";
+const PROSE_BREAK: &str = r"(?:\r\n|[\n\x0B\x0C\r\u{85}\u{2028}\u{2029}])";
+
+fn line_break(c: char) -> bool {
+    matches!(
+        c,
+        '\n' | '\r' | '\u{b}' | '\u{c}' | '\u{85}' | '\u{2028}' | '\u{2029}'
+    )
+}
+
+// Start of the line holding `position`, given every line start of the text.
+fn prose_line_start(starts: &[usize], position: usize) -> usize {
+    starts[starts.partition_point(|&s| s <= position) - 1]
 }
 
 // Natural-language password disclosures: `my password is x`, `the passcode
-// was '#'`, `my pwd: !`. There is no minimum value length; documentary
-// predicates (`the password is required`), references (`$PASSWORD`) and code
+// was '#'`, `pw: !`, `password = velvet river lantern`. There is no minimum
+// value length; documentary predicates (`the password is required`),
+// references (`$PASSWORD`), type annotations (`pw: string`) and code
 // (`if password is None`) are excluded. See docs/SPEC.md.
-fn prose_disclosures(view: &View, spans: &mut Vec<Range<usize>>) {
+fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
     static R: OnceLock<Regex> = OnceLock::new();
     let r = R.get_or_init(|| {
-        // H: horizontal space; S: one or more spaces with at most one line
-        // break; O: like S but possibly empty.
-        const H: &str = r"[\t \u{a0}\u{2000}-\u{200a}\u{202f}\u{3000}]";
-        let s = format!(r"(?:{H}+(?:\r?\n{H}*)?|\r?\n{H}*)");
-        let o = format!(r"{H}*(?:\r?\n{H}*)?");
+        // S: one or more separators with at most one line break; O: like S
+        // but possibly empty.
+        let (h, b) = (PROSE_SPACE, PROSE_BREAK);
+        let s = format!(r"(?:{h}+(?:{b}{h}*)?|{b}{h}*)");
+        let o = format!(r"{h}*(?:{b}{h}*)?");
         Regex::new(&format!(
-            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{H}+code|pass{H}+phrase)\b{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
+            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{s}code|pass{s}phrase)\b{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
         ))
         .expect("fixed prose disclosure regex")
     });
-    let text = view.text.as_str();
+    let layer = Spaced::new(&view.text);
+    let text: &str = &layer.text;
+    let starts: Vec<usize> = std::iter::once(0)
+        .chain(
+            text.char_indices()
+                .filter(|(_, c)| line_break(*c))
+                .map(|(i, c)| i + c.len_utf8()),
+        )
+        .collect();
+    let mut found = Vec::new();
     let mut covered = 0;
     for c in r.captures_iter(text) {
         let whole = c.get(0).expect("prose disclosure match");
         let noun = c.get(2).expect("prose disclosure noun");
         let determiner = c.get(1).is_some();
+        let bare = c.get(5).filter(|_| !determiner);
+        let rest = &text[whole.end()..];
         if whole.start() < covered
             || text[..noun.start()]
                 .chars()
                 .next_back()
                 .is_some_and(|ch| matches!(ch, '.' | '$' | '@' | '-' | '/' | '\\'))
-            || !determiner && code_condition(&text[view.line_start(noun.start())..noun.start()])
-            || c.get(5).is_some() && !determiner
-            || text[whole.end()..].starts_with('=')
+            || !determiner
+                && code_condition(&text[prose_line_start(&starts, noun.start())..noun.start()])
+            || rest.starts_with('=')
+            || bare.is_some_and(|m| {
+                m.as_str() == "=" && rest.starts_with('>')
+                    || m.as_str() == ":" && rest.starts_with(':')
+            })
         {
             continue;
         }
-        // The value follows the cue after spaces with at most one line break.
+        // The value follows the cue after separators with at most one line
+        // break; after a bare cue it must start on the cue's line.
         let mut start = whole.end();
         let mut breaks = 0;
+        let allowed = if bare.is_some() { 0 } else { 1 };
         while let Some(ch) = text[start..].chars().next() {
-            if ch == '\n' {
-                breaks += 1;
-                if breaks > 1 {
+            if line_break(ch) {
+                if !(ch == '\n' && text[..start].ends_with('\r')) {
+                    breaks += 1;
+                }
+                if breaks > allowed {
                     break;
                 }
-            } else if !(ch == '\r' || ch != '\n' && ch.is_whitespace()) {
+            } else if !ch.is_whitespace() {
                 break;
             }
             start += ch.len_utf8();
         }
+        if breaks > allowed {
+            continue;
+        }
         if start == whole.end() && c.get(3).is_some() && c.get(4).is_none_or(|m| m.is_empty()) {
             continue;
         }
-        let line_end = text[start..].find('\n').map_or(text.len(), |n| start + n);
+        // The line ends at the break before the next line start.
+        let line_end = starts
+            .get(starts.partition_point(|&s| s <= start))
+            .map_or(text.len(), |&next| {
+                next - text[..next].chars().next_back().map_or(0, char::len_utf8)
+            });
         let line_end = start + text[start..line_end].trim_end().len();
         if start >= line_end {
             continue;
         }
-        let prefix = &text[view.line_start(whole.start())..whole.start()];
-        if let Some(span) = prose_value(text, start, line_end, prefix) {
-            covered = span.end;
-            spans.push(span);
+        let gate = match bare {
+            None => Gate::Always,
+            Some(cue) => {
+                let key = layer.start(noun.start());
+                if code_value(view, key, layer.start(start), cue.as_str() == ":", false) {
+                    continue;
+                }
+                if noun.as_str().contains(|ch: char| !ch.is_ascii_alphabetic())
+                    || !sensitive(noun.as_str())
+                {
+                    Gate::Outside
+                } else {
+                    Gate::Assigned
+                }
+            }
+        };
+        let prefix = &text[prose_line_start(&starts, whole.start())..whole.start()];
+        if let Some((source, probe, end)) =
+            prose_value(view, input, &layer, start, line_end, prefix, bare.is_some())
+        {
+            covered = end;
+            found.push(ProseValue {
+                probe,
+                source,
+                gate,
+            });
         }
     }
+    found
+}
+
+// Source range of a layer range.
+fn prose_source(view: &View, layer: &Spaced, r: &Range<usize>) -> Range<usize> {
+    let start = layer.start(r.start);
+    let end = layer.end(r.end - 1);
+    view.source_start(start)..view.source_end(end - 1)
+}
+
+// The source position of a quote spelled literally (possibly after an
+// escape that View decoded) and the run of backslashes before it.
+fn quote_escape(view: &View, input: &str, position: usize, quote: char) -> Option<(usize, u32)> {
+    let b = input.as_bytes();
+    let at = view.source_end(position).checked_sub(1)?;
+    (u32::from(b[at]) == u32::from(quote)).then(|| {
+        let n = b[..at].iter().rev().take_while(|&&c| c == b'\\').count();
+        (at, u32::try_from(n).unwrap_or(u32::MAX))
+    })
+}
+
+// A close quote ends the value when it is at the opener's escape level: an
+// even run of backslashes before a literal quote is part of the value and
+// leaves the quote closing (`"abc\\"`); an odd run escapes it (`"abc\"def"`).
+// At escape level L (a JSON-encoded `\"` opener is level 1) a quote spelled
+// with n backslashes closes exactly when n has L trailing one bits.
+fn closes(opener: Option<u32>, candidate: Option<u32>, open: &str, close: &str) -> bool {
+    match (opener, candidate) {
+        (Some(a), Some(b)) => a.trailing_ones() == b.trailing_ones(),
+        _ => open.eq_ignore_ascii_case(close),
+    }
+}
+
+// Returns the value's source range, the View position where its content
+// starts, and the layer position the disclosure covers up to.
+fn prose_value(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    start: usize,
+    line_end: usize,
+    prefix: &str,
+    enclosed: bool,
+) -> Option<(Range<usize>, usize, usize)> {
+    let text: &str = &layer.text;
+    let open = text[start..].chars().next()?;
+    let close = match open {
+        '\'' | '"' | '`' => open,
+        '“' => '”',
+        '‘' => '’',
+        _ => {
+            let r = unquoted_prose_value(text, start, line_end, prefix, enclosed)?;
+            return Some((prose_source(view, layer, &r), layer.start(r.start), r.end));
+        }
+    };
+    let inner = start + open.len_utf8();
+    let mut limit = (inner + 1024).min(text.len());
+    while !text.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    let spelling = |p: usize| {
+        let v = layer.start(p);
+        &input[view.source_start(v)..view.source_end(v)]
+    };
+    // Prefer a close on the same line; a quoted value may span lines up to
+    // the bound. An unmatched quote fails closed through the end of the line.
+    // `end` is the close's layer position, `value_end` the source end of the
+    // value: backslashes before the close's own escape are value bytes.
+    let found = if open == close {
+        let opener = quote_escape(view, input, layer.start(start), open);
+        text[inner..line_end.max(limit)]
+            .match_indices(close)
+            .map(|(n, _)| inner + n)
+            // After a colon or equals cue, a quote that opens a later line's
+            // own assignment (`note="`) is not this value's close.
+            .filter(|&p| !enclosed || p < line_end || !text[..p].trim_end().ends_with(['=', ':']))
+            .find_map(|p| {
+                let candidate = quote_escape(view, input, layer.start(p), close);
+                closes(
+                    opener.map(|o| o.1),
+                    candidate.map(|c| c.1),
+                    spelling(start),
+                    spelling(p),
+                )
+                .then(|| {
+                    let value_end = match (opener, candidate) {
+                        (Some((_, l)), Some((at, _))) => {
+                            at - ((1usize << l.trailing_ones().min(31)) - 1)
+                        }
+                        _ => view.source_start(layer.start(p)),
+                    };
+                    (p, value_end)
+                })
+            })
+    } else {
+        text[inner..line_end.max(inner)]
+            .find(close)
+            .or_else(|| text[inner..limit].find(close))
+            .map(|n| (inner + n, view.source_start(layer.start(inner + n))))
+    };
+    let Some((end, value_end)) = found else {
+        // A redacted value is already scrubbed. After a colon or equals cue
+        // the opening quote stays, as it does for a sensitive assignment.
+        if text[inner..line_end.max(inner)]
+            .trim_start()
+            .starts_with(REDACTION_TOKEN)
+        {
+            return None;
+        }
+        let probe = if inner < line_end { inner } else { start };
+        let from = if enclosed && inner < line_end {
+            inner
+        } else {
+            start
+        };
+        return Some((
+            prose_source(view, layer, &(from..line_end)),
+            layer.start(probe),
+            line_end,
+        ));
+    };
+    let value_start = view.source_start(layer.start(inner));
+    let value = text[inner..end].trim();
+    if value_end <= value_start
+        || value.is_empty() && value_end == view.source_start(layer.start(end))
+        || prose_reference(value)
+    {
+        return None;
+    }
+    let source = value_start..value_end;
+    Some((source, layer.start(inner), end))
 }
 
 // A Python-style condition (`if password is None`) compares, not discloses.
@@ -1814,38 +2034,40 @@ fn code_condition(prefix: &str) -> bool {
     .contains(&word)
 }
 
-fn prose_value(text: &str, start: usize, line_end: usize, prefix: &str) -> Option<Range<usize>> {
-    let open = text[start..].chars().next()?;
-    let close = match open {
-        '\'' | '"' | '`' => open,
-        '“' => '”',
-        '‘' => '’',
-        _ => return unquoted_prose_value(text, start, line_end, prefix),
-    };
-    let inner = start + open.len_utf8();
-    let mut limit = (inner + 1024).min(text.len());
-    while !text.is_char_boundary(limit) {
-        limit -= 1;
-    }
-    // Prefer a close on the same line; a quoted value may span lines. An
-    // unmatched quote fails closed through the end of the line.
-    let Some(end) = text[inner..line_end.max(inner)]
-        .find(close)
-        .or_else(|| text[inner..limit].find(close))
-        .map(|n| inner + n)
-    else {
-        return Some(start..line_end);
-    };
-    let value = text[inner..end].trim();
-    (!value.is_empty() && !prose_reference(value)).then_some(inner..end)
-}
-
 fn unquoted_prose_value(
     text: &str,
     start: usize,
-    line_end: usize,
+    mut line_end: usize,
     prefix: &str,
+    assigned: bool,
 ) -> Option<Range<usize>> {
+    // A bare `noun=value` inside a quoted string (an HTML attribute, a
+    // shell argument) ends where the enclosing quote closes.
+    if assigned {
+        for quote in ['"', '\'', '`'] {
+            if prefix.matches(quote).count() % 2 == 1 {
+                if let Some(n) = text[start..line_end].find(quote) {
+                    line_end = start + n;
+                }
+            }
+        }
+        // So does one inside brackets, at the first unbalanced close.
+        let mut depth = 0usize;
+        for (i, ch) in text[start..line_end].char_indices() {
+            match ch {
+                '(' | '[' | '{' => depth += 1,
+                ')' | ']' | '}' if depth == 0 => {
+                    line_end = start + i;
+                    break;
+                }
+                ')' | ']' | '}' => depth -= 1,
+                _ => {}
+            }
+        }
+        if line_end <= start {
+            return None;
+        }
+    }
     // Documentary predicates are decided by the first word or two.
     const PREDICATES: &[&str] = &[
         "required",
@@ -2017,7 +2239,7 @@ fn unquoted_prose_value(
     ];
     // A bracketed placeholder may contain spaces: `{{ password }}`.
     let line = &text[start..line_end];
-    for (open, close) in [("{{", "}}"), ("<", ">"), ("${", "}")] {
+    for (open, close) in [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")] {
         if line.starts_with(open)
             && line
                 .find(close)
@@ -2036,7 +2258,18 @@ fn unquoted_prose_value(
         cursor = at + word.len();
         let bare = word.trim_end_matches(['.', ',', ';', ':', '!', '?']);
         let lower = bare.to_ascii_lowercase();
-        if i == 0 {
+        // A colon or equals cue assigns its whole value, as `password:
+        // required` always has: only references, a lone null and code types
+        // (checked by the caller) are exempt, and conjunctions belong to the
+        // value.
+        if i == 0 && assigned {
+            let only = text[cursor..line_end].trim().is_empty();
+            if prose_reference(word.trim_end_matches(['.', ',', ';']))
+                || only && matches!(lower.as_str(), "none" | "null" | "nil" | "undefined")
+            {
+                return None;
+            }
+        } else if i == 0 {
             let more = text[cursor..line_end].split_whitespace().next();
             let lexical = lower.len() >= 5 && lower.bytes().all(|b| b.is_ascii_lowercase());
             if PREDICATES.contains(&lower.as_str())
@@ -2058,7 +2291,7 @@ fn unquoted_prose_value(
             {
                 return None;
             }
-        } else if CONJUNCTIONS.contains(&lower.as_str()) {
+        } else if !assigned && CONJUNCTIONS.contains(&lower.as_str()) {
             break;
         }
         end = cursor;
@@ -2097,7 +2330,7 @@ fn prose_reference(value: &str) -> bool {
         || environment_reference(value)
         || template_reference(value)
         || value.chars().count() >= 3 && value.chars().all(|c| matches!(c, '*' | '•' | '●'))
-        || value.starts_with("{{") && value.ends_with("}}")
+        || (value.starts_with("{{") || value.starts_with("${{")) && value.ends_with("}}")
         || value.starts_with('<') && value.ends_with('>') && value.len() > 2
         || value.len() > 2 && value.starts_with('%') && value.ends_with('%')
         || value.strip_prefix("$env:").is_some_and(|s| {
@@ -3888,7 +4121,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         spans.push(begin.start()..end);
         pos = end;
     }
-    credential_prose(&view, &mut spans);
+    let prose = credential_prose(&view, input, &mut spans);
     let mut url_values = Vec::new();
     urls(&view, &mut url_values);
     relative_userinfo(&view, &mut url_values);
@@ -3934,7 +4167,34 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
             context.push(range);
         }
     }
+    let assigned = spans.len();
     assignments(&view, inherited, &mut spans, &context);
+    let mut values: Vec<Range<usize>> = Vec::new();
+    if prose.iter().any(|p| p.gate == Gate::Assigned) {
+        let mut found = spans[assigned..].to_vec();
+        found.sort_unstable_by_key(|r| (r.start, r.end));
+        for range in found {
+            if let Some(last) = values.last_mut().filter(|last| range.start <= last.end) {
+                last.end = last.end.max(range.end);
+            } else {
+                values.push(range);
+            }
+        }
+    }
+    let within = |ranges: &[Range<usize>], probe: usize| {
+        let n = ranges.partition_point(|r| r.end <= probe);
+        ranges.get(n).is_some_and(|r| r.start <= probe)
+    };
+    let inside = |probe: usize| within(&context, probe);
+    let disclosed: Vec<Range<usize>> = prose
+        .into_iter()
+        .filter(|p| match p.gate {
+            Gate::Always => true,
+            Gate::Outside => !inside(p.probe),
+            Gate::Assigned => !inside(p.probe) && within(&values, p.probe),
+        })
+        .map(|p| p.source)
+        .collect();
     spans.extend(url_values);
     if policy == Policy::Pii {
         for m in pii_regex().find_iter(&view.text) {
@@ -3945,6 +4205,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         .into_iter()
         .filter(|r| r.start < r.end)
         .map(|r| view.source_start(r.start)..view.source_end(r.end - 1))
+        .chain(disclosed.into_iter().filter(|r| r.start < r.end))
         .collect();
     render(input, original)
 }
