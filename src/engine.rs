@@ -2004,8 +2004,29 @@ fn closes(opener: Option<u32>, candidate: Option<u32>, open: &str, close: &str) 
     }
 }
 
+type ProseRange = (Range<usize>, usize, usize);
+
+// A closed quoted segment and how far the text touching its close runs.
+#[derive(Clone, Copy)]
+struct QuotedSegment {
+    inner: usize,
+    end: usize,
+    after: usize,
+    run: usize,
+    value_start: usize,
+    value_end: usize,
+}
+
+enum ProseStep {
+    Done(Option<ProseRange>),
+    // The segment, and whether a quoted segment continues it at `run`.
+    Segment(QuotedSegment, bool),
+}
+
 // Returns the value's source range, the View position where its content
-// starts, and the layer position the disclosure covers up to.
+// starts, and the layer position the disclosure covers up to. A run of
+// contiguous quoted segments is walked with an explicit stack, not
+// recursion, so a long run cannot exhaust the thread's stack.
 fn prose_value(
     view: &View,
     input: &str,
@@ -2014,17 +2035,60 @@ fn prose_value(
     line_end: usize,
     prefix: &str,
     cue: Cue,
-) -> Option<(Range<usize>, usize, usize)> {
+) -> Option<ProseRange> {
+    let mut stack: Vec<QuotedSegment> = Vec::new();
+    let (mut at, mut line_end) = (start, line_end);
+    let mut result = loop {
+        match prose_segment(view, input, layer, at, line_end, prefix, cue) {
+            ProseStep::Segment(segment, true) => {
+                at = segment.run;
+                line_end = line_end.max(segment.run);
+                stack.push(segment);
+            }
+            ProseStep::Segment(segment, false) => {
+                break finish_quoted(view, layer, &segment);
+            }
+            ProseStep::Done(r) => break r,
+        }
+    };
+    // A segment the next one joins spans through the next one's end; one
+    // whose next segment is no value ends on its own.
+    while let Some(segment) = stack.pop() {
+        result = match result {
+            Some((next, _, next_end)) => Some((
+                segment.value_start..next.end.max(segment.value_end),
+                layer.start(segment.inner),
+                next_end,
+            )),
+            None => finish_quoted(view, layer, &segment),
+        };
+    }
+    result
+}
+
+fn prose_segment(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    start: usize,
+    line_end: usize,
+    prefix: &str,
+    cue: Cue,
+) -> ProseStep {
     let enclosed = cue != Cue::Word;
     let text: &str = &layer.text;
-    let open = text[start..].chars().next()?;
+    let Some(open) = text[start..].chars().next() else {
+        return ProseStep::Done(None);
+    };
     let close = match open {
         '\'' | '"' | '`' => open,
         '“' => '”',
         '‘' => '’',
         _ => {
-            let r = unquoted_prose_value(text, start, line_end, prefix, cue)?;
-            return Some((prose_source(view, layer, &r), layer.start(r.start), r.end));
+            return ProseStep::Done(
+                unquoted_prose_value(text, start, line_end, prefix, cue)
+                    .map(|r| (prose_source(view, layer, &r), layer.start(r.start), r.end)),
+            );
         }
     };
     let inner = start + open.len_utf8();
@@ -2079,7 +2143,7 @@ fn prose_value(
             .trim_start()
             .starts_with(REDACTION_TOKEN)
         {
-            return None;
+            return ProseStep::Done(None);
         }
         let probe = if inner < line_end { inner } else { start };
         let from = if enclosed && inner < line_end {
@@ -2087,11 +2151,11 @@ fn prose_value(
         } else {
             start
         };
-        return Some((
+        return ProseStep::Done(Some((
             prose_source(view, layer, &(from..line_end)),
             layer.start(probe),
             line_end,
-        ));
+        )));
     };
     let value_start = view.source_start(layer.start(inner));
     // Text that touches the close with no whitespace (`"abc"defq`, `""abc`)
@@ -2125,24 +2189,47 @@ fn prose_value(
                     .next()
                     .is_some_and(char::is_alphanumeric))
         {
-            if level(run, q) != level(start, open)
-                || level(run, q) == 0 && quotes_opened(prefix, q) % 2 == 1
-            {
-                break;
-            }
-            if let Some((next, _, next_end)) =
-                prose_value(view, input, layer, run, line_end.max(run), prefix, cue)
-            {
-                return Some((
-                    value_start..next.end.max(value_end),
-                    layer.start(inner),
-                    next_end,
-                ));
-            }
-            break;
+            let continues = level(run, q) == level(start, open)
+                && (level(run, q) > 0 || quotes_opened(prefix, q) % 2 == 0);
+            return ProseStep::Segment(
+                QuotedSegment {
+                    inner,
+                    end,
+                    after,
+                    run,
+                    value_start,
+                    value_end,
+                },
+                continues,
+            );
         }
         run += q.len_utf8();
     }
+    ProseStep::Segment(
+        QuotedSegment {
+            inner,
+            end,
+            after,
+            run,
+            value_start,
+            value_end,
+        },
+        false,
+    )
+}
+
+// The value of a closed quoted segment that no further segment joins: the
+// quoted text and any non-punctuation text touching its close.
+fn finish_quoted(view: &View, layer: &Spaced, segment: &QuotedSegment) -> Option<ProseRange> {
+    let text: &str = &layer.text;
+    let QuotedSegment {
+        inner,
+        end,
+        after,
+        run,
+        value_start,
+        value_end,
+    } = *segment;
     let tail = &text[after.min(run)..run];
     if tail
         .chars()
