@@ -1837,6 +1837,8 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         .collect();
     let mut found = Vec::new();
     let mut covered = 0;
+    let mut scan: (usize, usize, Vec<(char, u32)>) = (0, 0, Vec::new());
+    let cap = std::cell::RefCell::new(None);
     for c in r.captures_iter(text) {
         let whole = c.get(0).expect("prose disclosure match");
         let noun = c.get(2).expect("prose disclosure noun");
@@ -1913,14 +1915,23 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         };
         let line_start = prose_line_start(&starts, whole.start());
         let prefix = &text[line_start..whole.start()];
+        // Matches come in order, so the scan of a line's quotes resumes at
+        // the last match on the same line instead of rescanning the line.
+        if scan.0 != line_start || scan.1 > whole.start() {
+            scan = (line_start, line_start, Vec::new());
+        }
+        open_quotes(view, input, &layer, &mut scan.2, scan.1..whole.start());
+        scan.1 = whole.start();
         let context = ProseContext {
             prefix,
-            quotes: open_quotes(view, input, &layer, line_start..whole.start()),
+            quotes: scan.2.clone(),
             cue: match cue {
                 None => Cue::Word,
                 Some(_) if determiner || !prefix.trim().is_empty() => Cue::Prefixed,
                 Some(_) => Cue::Bare,
             },
+            cap: &cap,
+            bracket: std::cell::OnceCell::new(),
         };
         if let Some((source, probe, end)) =
             prose_value(view, input, &layer, start, line_end, &context)
@@ -1981,10 +1992,26 @@ enum Cue {
 
 // What the line holds before the noun: its text, the quotes it opened and
 // left open (each with its escape level, innermost last), and the cue.
+// An enclosing-close search: from where, to which line end, structural or
+// not, against which open quotes, and the close found.
+struct CapSearch {
+    from: usize,
+    line_end: usize,
+    structural: bool,
+    quotes: Vec<(char, u32)>,
+    found: Option<usize>,
+}
+
 struct ProseContext<'a> {
     prefix: &'a str,
     quotes: Vec<(char, u32)>,
     cue: Cue,
+    // The last enclosing-close search on the layer, shared by every match:
+    // segments and later matches search from increasing positions, so a
+    // line of many segments or matches is scanned once, not once each.
+    cap: &'a std::cell::RefCell<Option<CapSearch>>,
+    // The innermost bracket the prefix leaves open, found once per value.
+    bracket: std::cell::OnceCell<Option<char>>,
 }
 
 // The escape level of the quote at layer position `p`: a quote spelled with
@@ -2009,10 +2036,17 @@ fn apostrophe(text: &str, p: usize) -> bool {
 
 // The quotes the layer range opens and leaves open, innermost last: a quote
 // closes the latest open quote of its own mark at its own escape level (a
-// `”` closes the latest `“`), and everything opened inside it.
-fn open_quotes(view: &View, input: &str, layer: &Spaced, range: Range<usize>) -> Vec<(char, u32)> {
+// `”` closes the latest `“`), and everything opened inside it. `open` holds
+// what the text before the range left open, so a scan resumes where the last
+// one stopped.
+fn open_quotes(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    open: &mut Vec<(char, u32)>,
+    range: Range<usize>,
+) {
     let text: &str = &layer.text;
-    let mut open: Vec<(char, u32)> = Vec::new();
     for (i, ch) in text[range.clone()].char_indices() {
         let p = range.start + i;
         if !matches!(ch, '"' | '\'' | '`' | '“' | '”') {
@@ -2037,7 +2071,6 @@ fn open_quotes(view: &View, input: &str, layer: &Spaced, range: Range<usize>) ->
             open.push((ch, level));
         }
     }
-    open
 }
 
 // Text after a quote that closes an enclosing layer is structure, not more
@@ -2198,13 +2231,38 @@ fn prose_segment(
     // `structural`, only one that structure follows (a JSON string's close
     // before `}` or `,"key":`), so a quote touched by more text fails closed.
     let cap = |from: usize, structural: bool| {
-        text[from..line_end.max(from)]
+        if context.quotes.is_empty() {
+            return None;
+        }
+        // A later search on the same line against the same open quotes
+        // reuses the last one when no close lies between: nothing was found
+        // from an earlier position, or what was found lies at or after this
+        // one.
+        if let Some(last) = &*context.cap.borrow() {
+            if last.from <= from
+                && last.line_end == line_end
+                && last.structural == structural
+                && last.quotes == context.quotes
+                && last.found.is_none_or(|p| p >= from)
+            {
+                return last.found;
+            }
+        }
+        let found = text[from..line_end.max(from)]
             .char_indices()
             .map(|(i, q)| (from + i, q))
             .find(|&(p, q)| {
                 encloses(p, q) && (!structural || structural_end(&text[p + q.len_utf8()..line_end]))
             })
-            .map(|(p, _)| p)
+            .map(|(p, _)| p);
+        *context.cap.borrow_mut() = Some(CapSearch {
+            from,
+            line_end,
+            structural,
+            quotes: context.quotes.clone(),
+            found,
+        });
+        found
     };
     let close = match open {
         '\'' | '"' | '`' => open,
@@ -2318,7 +2376,7 @@ fn prose_segment(
     // key-like field (`password="abc",user="bob"`), or the close of a tag
     // the line opened before the noun (`<a password="abc">`).
     let after = end + close.len_utf8();
-    let bracket = enclosing_opener(prefix);
+    let bracket = *context.bracket.get_or_init(|| enclosing_opener(prefix));
     let rest = &text[after.min(text.len())..];
     let field = rest.starts_with([',', ';', '&']) && key_like(&rest[1..])
         || (rest.starts_with('>') || rest.starts_with("/>"))
