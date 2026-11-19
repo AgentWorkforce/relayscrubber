@@ -747,3 +747,303 @@ fn every_disclosure_is_idempotent_and_redacted_output_is_stable() {
     }
     report("redacted stability", NOUNS.len() * 5, &failures);
 }
+
+/// Leads and cues for the quoted-tail matrix: the intent forms (`is`, `was`,
+/// `:`) with and without a determiner, a word cue, and the equals layouts.
+const TAIL_CUES: [(&str, &str); 8] = [
+    ("my ", " is "),
+    ("my ", " was "),
+    ("my ", " was set to "),
+    ("", ": "),
+    ("", "="),
+    ("my ", ": "),
+    ("The new ", " = "),
+    ("", " is "),
+];
+
+/// A quoted segment, empty or not, followed by text with no whitespace in
+/// between: (value, text kept after the redaction).
+const QUOTED_TAILS: [(&str, &str); 22] = [
+    ("\"\"abcq", ""),
+    ("\"\"abc\"", ""),
+    ("''abcq", ""),
+    ("``abcq", ""),
+    ("\"abc\"defq", ""),
+    ("\"abc\"defq\"ghiq\"", ""),
+    ("'abc'defq", ""),
+    ("`abc`defq", ""),
+    ("“abc”defq", ""),
+    ("‘abc’defq", ""),
+    ("\"abc\"-defq", ""),
+    ("\"abc\"(defq)", ""),
+    ("\"abc\".defq", ""),
+    ("\"abc\"d", ""),
+    ("\"abc\"defq.", "."),
+    ("\"abc\"defq, ok", ", ok"),
+    ("\"abc\"defq more", " more"),
+    ("\"abc\"defq\nnext", "\nnext"),
+    ("\"密码\"秘ж", ""),
+    ("“”秘ж", ""),
+    ("'abc'defq'ghiq'", ""),
+    ("\"abc\"defq'ghiq'", ""),
+];
+
+/// Text that continues a quoted value with no whitespace is the same value,
+/// up to the next whitespace; a run of sentence or list punctuation alone
+/// keeps today's boundary.
+#[test]
+fn text_that_touches_a_close_quote_is_part_of_the_value() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for (lead, cue) in TAIL_CUES {
+            let left = format!("{PUBLIC}\n{lead}{noun}{cue}");
+            for (value, kept) in QUOTED_TAILS {
+                let open: String = value.chars().take(1).collect();
+                let input = format!("{left}{value}");
+                // The quote may stay or go (a sensitive assignment fails
+                // closed without it); nothing of the value may.
+                let shapes = [format!("{left}{open}{R}{kept}"), format!("{left}{R}{kept}")];
+                let text = scrub_text(&input);
+                let expected = if shapes.contains(&text) {
+                    text
+                } else {
+                    shapes[0].clone()
+                };
+                cases.push((format!("tail {lead}{noun}{cue:?} {value}"), input, expected));
+            }
+            for (value, expected) in [
+                ("\"abc\".", "\"[REDACTED]\"."),
+                ("\"abc\", ok", "\"[REDACTED]\", ok"),
+                ("\"abc\" \"defq\"", "\"[REDACTED]\" \"defq\""),
+                (
+                    "\"abc\"; the user is bob",
+                    "\"[REDACTED]\"; the user is bob",
+                ),
+                ("\"abc\" and user is bob", "\"[REDACTED]\" and user is bob"),
+                ("\"abc\"\"defq\"", "\"[REDACTED]\""),
+                ("'abc'.", "'[REDACTED]'."),
+                ("`abc`, ok", "`[REDACTED]`, ok"),
+                ("“abc”.", "“[REDACTED]”."),
+                ("\"abc\"!?", "\"[REDACTED]\"!?"),
+                ("\"abc\"...", "\"[REDACTED]\"..."),
+            ] {
+                cases.push((
+                    format!("tail control {lead}{noun}{cue:?} {value}"),
+                    format!("{left}{value}"),
+                    format!("{left}{expected}"),
+                ));
+            }
+        }
+    }
+    // Escaped quotes inside a JSON string, one and two levels deep: the tail
+    // ends at the string's own close quote.
+    for (input, expected) in [
+        (
+            "{\"note\":\"my password is \\\"abc\\\"defq\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]\"}",
+        ),
+        (
+            "{\"note\":\"pw: \\\"abc\\\"defq\"}",
+            "{\"note\":\"pw: \\\"[REDACTED]\"}",
+        ),
+        (
+            "{\"note\":\"my password is \\\"\\\"abcq\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]\"}",
+        ),
+        (
+            "{\"t\":\"{\\\"note\\\":\\\"my pw is \\\\\\\"abc\\\\\\\"defq\\\"}\"}",
+            "{\"t\":\"{\\\"note\\\":\\\"my pw is \\\\\\\"[REDACTED]\\\"}\"}",
+        ),
+        (
+            "{\"note\":\"my password is \\\"abc\\\".\"}",
+            "{\"note\":\"my password is \\\"[REDACTED]\\\".\"}",
+        ),
+        (
+            "echo \"my password is 'abc'defq\"",
+            "echo \"my password is '[REDACTED]\"",
+        ),
+    ] {
+        cases.push((
+            format!("tail named {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            format!("{PUBLIC}\n{expected}"),
+        ));
+    }
+    report("quoted value tails", cases.len(), &run(&cases));
+}
+
+/// A close bracket ends a bare cue's value only when it matches, by type, the
+/// innermost opener still unclosed before the key in the key's own string
+/// layer. A close of another type is part of the value.
+#[test]
+fn only_the_innermost_opener_s_close_ends_the_value() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for cue in [": ", "="] {
+            for (input, expected) in [
+                // Leaks before the fix.
+                (
+                    format!("(note {noun}{cue}x]yq zq"),
+                    format!("(note {noun}{cue}{R}"),
+                ),
+                (
+                    format!("{{a {noun}{cue}x)yq zq"),
+                    format!("{{a {noun}{cue}{R}"),
+                ),
+                (
+                    format!("[a] ({noun}{cue}x]yq zq) end"),
+                    format!("[a] ({noun}{cue}{R}) end"),
+                ),
+                (
+                    format!("log (info: {noun}{cue}x]yq zq"),
+                    format!("log (info: {noun}{cue}{R}"),
+                ),
+                (
+                    format!("{{\"note\":\"{noun}{cue}x]yq zq\"}}"),
+                    format!("{{\"note\":\"{noun}{cue}{R}\"}}"),
+                ),
+                (
+                    format!("{{\"note\":\"{noun}{cue}x}}yq zq\"}}"),
+                    format!("{{\"note\":\"{noun}{cue}{R}\"}}"),
+                ),
+                (
+                    format!("{{\"a\":[\"{noun}{cue}x)yq zq\"]}}"),
+                    format!("{{\"a\":[\"{noun}{cue}{R}\"]}}"),
+                ),
+                (
+                    format!("{{\"note\":\"(info: {noun}{cue}x]yq zq\"}}"),
+                    format!("{{\"note\":\"(info: {noun}{cue}{R}\"}}"),
+                ),
+                (
+                    format!("(say \"{noun}{cue}x)yq zq\""),
+                    format!("(say \"{noun}{cue}{R}\""),
+                ),
+                (
+                    format!("[a {{b}} {noun}{cue}x}}yq zq"),
+                    format!("[a {{b}} {noun}{cue}{R}"),
+                ),
+                (
+                    format!("say \"(a {noun}{cue}x]y) z\""),
+                    format!("say \"(a {noun}{cue}{R}) z\""),
+                ),
+                // Controls.
+                (
+                    format!("[a (b) {noun}{cue}x]yq zq"),
+                    format!("[a (b) {noun}{cue}{R}]yq zq"),
+                ),
+                (
+                    format!("(my {noun}{cue}abc) docs"),
+                    format!("(my {noun}{cue}{R}) docs"),
+                ),
+                (format!("[{noun}{cue}x]yq"), format!("[{noun}{cue}{R}]yq")),
+                (
+                    format!("{{{noun}{cue}x}}yq"),
+                    format!("{{{noun}{cue}{R}}}yq"),
+                ),
+                (format!("{noun}{cue}x]yq zq"), format!("{noun}{cue}{R}")),
+                (format!("{noun}{cue}(x)yq"), format!("{noun}{cue}{R}")),
+                (format!("{noun}{cue}[x]yq"), format!("{noun}{cue}{R}")),
+                (format!("{noun}{cue}x}}yq"), format!("{noun}{cue}{R}")),
+                (
+                    format!("[note] {noun}{cue}x)yq zq"),
+                    format!("[note] {noun}{cue}{R}"),
+                ),
+                (
+                    format!("(see docs) {noun}{cue}x)yq zq"),
+                    format!("(see docs) {noun}{cue}{R}"),
+                ),
+                (
+                    format!("log [info] {noun}{cue}x]yq zq"),
+                    format!("log [info] {noun}{cue}{R}"),
+                ),
+                (
+                    format!("{{\"note\":\"(my {noun}{cue}abc) docs\"}}"),
+                    format!("{{\"note\":\"(my {noun}{cue}{R}) docs\"}}"),
+                ),
+                (
+                    format!("(a {noun}{cue}f(x)y) z"),
+                    format!("(a {noun}{cue}{R}) z"),
+                ),
+            ] {
+                cases.push((
+                    format!("innermost {input:?}"),
+                    format!("{PUBLIC}\n{input}"),
+                    format!("{PUBLIC}\n{expected}"),
+                ));
+            }
+        }
+    }
+    report("innermost opener", cases.len(), &run(&cases));
+}
+
+/// A `;` or `&` ends a bare cue's value only when the line before the key
+/// already holds a key=value item ended by that same separator and the key
+/// starts right after it.
+#[test]
+fn only_a_list_the_line_already_is_ends_the_value_at_its_separator() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for (input, expected) in [
+            // Leaks before the fix.
+            (
+                format!("a;b {noun}: abc;host=y"),
+                format!("a;b {noun}: {R}"),
+            ),
+            (
+                format!("note; my {noun}: abc;host=y"),
+                format!("note; my {noun}: {R}"),
+            ),
+            (
+                format!("R&D {noun}: abc&def=ghi"),
+                format!("R&D {noun}: {R}"),
+            ),
+            (
+                format!("a & b; {noun}: abc;host=y"),
+                format!("a & b; {noun}: {R}"),
+            ),
+            (format!("a=1;{noun}=abc&user=x"), format!("a=1;{noun}={R}")),
+            (
+                format!("a=1& b {noun}: abc&def=ghi"),
+                format!("a=1& b {noun}: {R}"),
+            ),
+            (
+                format!("x=1; note {noun}: abc;host=y"),
+                format!("x=1; note {noun}: {R}"),
+            ),
+            // Controls.
+            (
+                format!("host=db;{noun}=abc;user=x"),
+                format!("host=db;{noun}={R};user=x"),
+            ),
+            (
+                format!("a=1&{noun}=abc&user=x"),
+                format!("a=1&{noun}={R}&user=x"),
+            ),
+            (
+                format!("host=db; {noun}=abc; user=x"),
+                format!("host=db; {noun}={R}; user=x"),
+            ),
+            (
+                format!("?a=1&{noun}=abc&b=2"),
+                format!("?a=1&{noun}={R}&b=2"),
+            ),
+            (
+                format!("x=1 {noun}: abc&def=ghi"),
+                format!("x=1 {noun}: {R}"),
+            ),
+            (
+                format!("url?a=1 says {noun}: abc&def=ghi"),
+                format!("url?a=1 says {noun}: {R}"),
+            ),
+            (format!("{noun}: abc;host=y"), format!("{noun}: {R}")),
+            (format!("{noun}: a&b"), format!("{noun}: {R}")),
+        ] {
+            cases.push((
+                format!("list {input:?}"),
+                format!("{PUBLIC}\n{input}"),
+                format!("{PUBLIC}\n{expected}"),
+            ));
+        }
+    }
+    report("list separator", cases.len(), &run(&cases));
+}

@@ -218,3 +218,73 @@ test('redacted disclosures are stable for every noun and cue',()=>{
   for(const noun of NOUNS) for(const cue of [': ',' = ',' is ','=',':']) cases.push({id:`stable ${noun}${cue}`,input:`${noun}${cue}${R}`,expected:`${noun}${cue}${R}`});
   assert.deepEqual(run(cases),[]);
 });
+
+const TAIL_CUES=[['my ',' is '],['my ',' was '],['my ',' was set to '],['',': '],['','='],['my ',': '],['The new ',' = '],['',' is ']];
+const QUOTED_TAILS=[['""abcq',''],['""abc"',''],["''abcq",''],['``abcq',''],['"abc"defq',''],['"abc"defq"ghiq"',''],["'abc'defq",''],
+  ['`abc`defq',''],['“abc”defq',''],['‘abc’defq',''],['"abc"-defq',''],['"abc"(defq)',''],['"abc".defq',''],['"abc"d',''],
+  ['"abc"defq.','.'],['"abc"defq, ok',', ok'],['"abc"defq more',' more'],['"abc"defq\nnext','\nnext'],['"密码"秘ж',''],['“”秘ж',''],
+  ["'abc'defq'ghiq'",''],['"abc"defq\'ghiq\'','']];
+const TAIL_CONTROLS=[['"abc".','"[REDACTED]".'],['"abc", ok','"[REDACTED]", ok'],['"abc" "defq"','"[REDACTED]" "defq"'],
+  ['"abc"; the user is bob','"[REDACTED]"; the user is bob'],['"abc" and user is bob','"[REDACTED]" and user is bob'],
+  ['"abc""defq"','"[REDACTED]"'],["'abc'.","'[REDACTED]'."],['`abc`, ok','`[REDACTED]`, ok'],['“abc”.','“[REDACTED]”.'],
+  ['"abc"!?','"[REDACTED]"!?'],['"abc"...','"[REDACTED]"...']];
+// One test per noun to stay inside Bun's 5 s limit.
+for(const noun of NOUNS){
+  test(`text that touches a close quote is part of the value: ${noun}`,()=>{
+    const cases=[];
+    for(const [lead,cue] of TAIL_CUES){
+      const left=`${PUBLIC}\n${lead}${noun}${cue}`;
+      for(const [value,kept] of QUOTED_TAILS){
+        // The quote may stay or go (a sensitive assignment fails closed without it); nothing of the value may.
+        const shapes=[`${left}${[...value][0]}${R}${kept}`,`${left}${R}${kept}`], text=scrubber.scrubText(left+value);
+        cases.push({id:`tail ${lead}${noun}${JSON.stringify(cue)} ${value}`,input:left+value,expected:shapes.includes(text)?text:shapes[0]});
+      }
+      for(const [value,expected] of TAIL_CONTROLS) cases.push({id:`tail control ${lead}${noun}${JSON.stringify(cue)} ${value}`,input:left+value,expected:left+expected});
+    }
+    assert.deepEqual(run(cases),[]);
+  });
+}
+test('a quoted value tail inside a JSON string ends at the string',()=>{
+  const cases=[];
+  for(const [input,expected] of [['{"note":"my password is \\"abc\\"defq"}','{"note":"my password is \\"[REDACTED]"}'],
+    ['{"note":"pw: \\"abc\\"defq"}','{"note":"pw: \\"[REDACTED]"}'],
+    ['{"note":"my password is \\"\\"abcq"}','{"note":"my password is \\"[REDACTED]"}'],
+    ['{"t":"{\\"note\\":\\"my pw is \\\\\\"abc\\\\\\"defq\\"}"}','{"t":"{\\"note\\":\\"my pw is \\\\\\"[REDACTED]\\"}"}'],
+    ['{"note":"my password is \\"abc\\"."}','{"note":"my password is \\"[REDACTED]\\"."}'],
+    ['echo "my password is \'abc\'defq"','echo "my password is \'[REDACTED]"']])
+    cases.push({id:`tail named ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  assert.deepEqual(run(cases),[]);
+});
+test('only the innermost opener\'s close ends the value',()=>{
+  const cases=[];
+  for(const noun of NOUNS) for(const cue of [': ','=']){
+    const k=noun+cue;
+    for(const [input,expected] of [
+      [`(note ${k}x]yq zq`,`(note ${k}${R}`],[`{a ${k}x)yq zq`,`{a ${k}${R}`],[`[a] (${k}x]yq zq) end`,`[a] (${k}${R}) end`],
+      [`log (info: ${k}x]yq zq`,`log (info: ${k}${R}`],[`{"note":"${k}x]yq zq"}`,`{"note":"${k}${R}"}`],
+      [`{"note":"${k}x}yq zq"}`,`{"note":"${k}${R}"}`],[`{"a":["${k}x)yq zq"]}`,`{"a":["${k}${R}"]}`],
+      [`{"note":"(info: ${k}x]yq zq"}`,`{"note":"(info: ${k}${R}"}`],[`(say "${k}x)yq zq"`,`(say "${k}${R}"`],
+      [`[a {b} ${k}x}yq zq`,`[a {b} ${k}${R}`],[`say "(a ${k}x]y) z"`,`say "(a ${k}${R}) z"`],
+      // Controls.
+      [`[a (b) ${k}x]yq zq`,`[a (b) ${k}${R}]yq zq`],[`(my ${k}abc) docs`,`(my ${k}${R}) docs`],[`[${k}x]yq`,`[${k}${R}]yq`],
+      [`{${k}x}yq`,`{${k}${R}}yq`],[`${k}x]yq zq`,`${k}${R}`],[`${k}(x)yq`,`${k}${R}`],[`${k}[x]yq`,`${k}${R}`],[`${k}x}yq`,`${k}${R}`],
+      [`[note] ${k}x)yq zq`,`[note] ${k}${R}`],[`(see docs) ${k}x)yq zq`,`(see docs) ${k}${R}`],[`log [info] ${k}x]yq zq`,`log [info] ${k}${R}`],
+      [`{"note":"(my ${k}abc) docs"}`,`{"note":"(my ${k}${R}) docs"}`],[`(a ${k}f(x)y) z`,`(a ${k}${R}) z`]])
+      cases.push({id:`innermost ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  }
+  assert.deepEqual(run(cases),[]);
+});
+test('only a list the line already is ends the value at its separator',()=>{
+  const cases=[];
+  for(const n of NOUNS) for(const [input,expected] of [
+    [`a;b ${n}: abc;host=y`,`a;b ${n}: ${R}`],[`note; my ${n}: abc;host=y`,`note; my ${n}: ${R}`],[`R&D ${n}: abc&def=ghi`,`R&D ${n}: ${R}`],
+    [`a & b; ${n}: abc;host=y`,`a & b; ${n}: ${R}`],[`a=1;${n}=abc&user=x`,`a=1;${n}=${R}`],[`a=1& b ${n}: abc&def=ghi`,`a=1& b ${n}: ${R}`],
+    [`x=1; note ${n}: abc;host=y`,`x=1; note ${n}: ${R}`],
+    // Controls.
+    [`host=db;${n}=abc;user=x`,`host=db;${n}=${R};user=x`],[`a=1&${n}=abc&user=x`,`a=1&${n}=${R}&user=x`],
+    [`host=db; ${n}=abc; user=x`,`host=db; ${n}=${R}; user=x`],[`?a=1&${n}=abc&b=2`,`?a=1&${n}=${R}&b=2`],
+    [`x=1 ${n}: abc&def=ghi`,`x=1 ${n}: ${R}`],[`url?a=1 says ${n}: abc&def=ghi`,`url?a=1 says ${n}: ${R}`],
+    [`${n}: abc;host=y`,`${n}: ${R}`],[`${n}: a&b`,`${n}: ${R}`]])
+    cases.push({id:`list ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  assert.deepEqual(run(cases),[]);
+});
