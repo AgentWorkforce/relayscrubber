@@ -1,8 +1,32 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.8`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.10`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
+
+## Alpha.10 prose disclosure security fixes (candidate)
+
+Three classes reported against the alpha.10 candidate (`643beb8`) are fixed
+before any release; this section records local results only and is not a PASS
+or an adoption claim. The hosted artifact pin in `docs/results/` still names
+the `643beb8` build and has not been refreshed.
+
+- Colon and equals cues for all eight nouns, with or without `my`, redact the
+  whole value; type annotations, references and a lone `None` stay visible.
+- A close quote escaped at the opener's level (`\"`, `\'`, `` \` ``) no longer
+  ends the value; the 1024-byte bound is kept.
+- Every Rust/WHATWG whitespace character, one line break, and encoded
+  spellings (`&#32;`, `&#x20;`, `&nbsp;`, `%20`, `\u0020` and the rest of the
+  matrix) separate the words.
+
+`tests/prose_disclosure_alpha10.rs` and `js/test/prose-disclosure-alpha10.test.mjs`
+run each case through the five text, JSON and record APIs plus idempotence.
+On `643beb8` native Rust fails 188 of 2,912 cue cases, all 576 escape cases,
+3 of 3 escape bounds, 66 of 148 separator cases, 152 of 164 encoded cases and
+23 of 61 named cases; the candidate fails none. Qualification
+(`scripts/qualify-prose-disclosures.mjs`, 7,539 cases) and the 257
+precision-receipt rows are unchanged, and the synthetic evaluation differs only in
+the ruleset source hash and timing.
 
 ## Supplemental residual-row controls
 

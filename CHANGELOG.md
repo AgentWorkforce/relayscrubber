@@ -12,6 +12,26 @@ sentences (`the password is required`), references (`$PASSWORD`,
 `{{password}}`), masks, placeholders and type annotations (`password: string`)
 are unchanged. `passcode` is now a sensitive assignment name.
 
+Security fixes to the alpha.10 candidate, before any release:
+
+- Colon and equals cues: `:` and `=` now disclose for all eight nouns with or
+  without a determiner (`pw: Q`, `pass code: 4711`, `pass phrase = x`), and
+  redact the whole value, conjunctions and documentary first words included
+  (`password = velvet river lantern` no longer keeps `river lantern`). Type
+  annotations (`password: string`, `pw: Vec<u8>`), references, a lone `None`
+  and the operators `==`, `=>`, `::`, `!=` are unchanged. The value ends at
+  an enclosing quote or bracket, or before the next `Key=` of a `;` or `&`
+  list (`Password=x;Encrypt=true`).
+- Escaped quotes: a `"`, `'` or `` ` `` preceded by an odd number of
+  backslashes at the opener's escape level no longer ends a quoted value
+  (`"abc\"def"`), including inside JSON-escaped strings; the 1024-byte bound
+  and the unmatched-quote rule are unchanged.
+- Separators: every Rust/WHATWG whitespace character (including U+1680,
+  U+205F and U+0085) and one line break may separate the words, so `my
+  pass\ncode is x` redacts; HTML character references (`&#32;`, `&#x20;`,
+  `&nbsp;` and the named spaces), percent, `%u` and `\u`/`\x` spellings of
+  whitespace count as separators too.
+
 ## 0.5.0-alpha.9
 
 Preserve an exact `project_key` whose value is a normalized repository identity

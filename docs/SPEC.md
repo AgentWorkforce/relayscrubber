@@ -88,27 +88,47 @@ Prose disclosures of the nouns password, passcode, passphrase, passwd, pwd, pw,
 `pass code` and `pass phrase` (any case, optionally after my/our/your/his/her/
 their/its/the) redact the value after `is`, `was`, `is now`, `set to`, `is set
 to` or `was set to` (optionally followed by `:`), or after `:` or a single `=`
-when a determiner precedes the noun; bare `password: x` and `password = x` stay
-with the assignment rules and `==` is a comparison. Words may be separated by
-spaces with at most one line break, and a value has no minimum length: `my
-password is x` and `the password is #` redact `x` and `#`. A value opened by
+with or without a determiner; `==`, `=>`, `::` and `!=` are operators, not cues.
+Words may be separated by any run of Unicode whitespace (Rust
+`char::is_whitespace`, a superset of WHATWG ASCII whitespace that includes
+U+0085, U+1680, U+2000-U+200A, U+2028, U+2029, U+202F, U+205F and U+3000;
+U+000A-U+000D, U+0085, U+2028 and U+2029 are line breaks) containing at most
+one line break (`\r\n` counts as one), also when the whitespace is spelled as an HTML
+character reference (`&#32;`, `&#x20;`, `&nbsp;`, `&ensp;` and the other named
+spaces), percent or `%u` encoding, or a `\u`/`\x` escape: `my pass\ncode is x`
+and `my&#32;password&#32;is&#32;x` redact `x`. After a bare `:` or `=` the value
+must start on the cue's line, and a value has no minimum length: `my password
+is x`, `pw: Q` and `the password is #` redact `x`, `Q` and `#`. A value opened by
 `'`, `"`, `` ` ``, `“` or `‘` is the content up to its matching close on the
 same line, otherwise within the next 1024 bytes; an unmatched quote redacts from
-the quote through the end of its line. An unquoted value runs to the end of its
+the quote through the end of its line (after a bare `:` or `=` the opening quote
+stays visible, as for an assignment). A straight quote preceded by an odd number
+of backslashes at the opener's escape level is escaped and does not close the
+value (`"abc\"def"` is one value; `"abc\\"` closes after the backslashes,
+which belong to the value); inside a JSON-escaped string the opener's own
+escape sets that level. An unquoted value runs to the end of its
 line and stops before `, `, `; `, `. ` or a following conjunction (and, but, so,
 then, because, which, or, though, although, while, when, if, unless, until,
 since); one trailing `.`, `,` or `;` stays visible, as does a closing bracket
-when the line opened that bracket before the disclosure. Documentary text is not
-a value: an unquoted value whose first word is a predicate or participle
-(required, optional, stored, hashed, wrong, case-sensitive and the reviewed list
+when the line opened that bracket before the disclosure. After a bare `:` or
+`=` the whole rest of the value is redacted, conjunctions included, and it ends
+at an enclosing quote or bracket opened before the noun, or at a `;` or `&`
+that starts the next `Key=` entry of a list (`Password=x;Encrypt=true`).
+Documentary text after a word cue is not a value: an unquoted value whose
+first word is a predicate or participle (required, optional, stored, hashed, wrong, case-sensitive and the reviewed list
 in the engine), an `-able`/`-ible` adjective, an `-ed` participle followed by a
 preposition, a determiner, preposition or adverb followed by more words (`the
 password is at least 8 characters`), or a count followed by a unit (`8
 characters long`). References and placeholders are not values, quoted or not:
 `$PASSWORD`, `${PASSWORD}`, `process.env.PASSWORD`, `{{password}}`,
+`${{ secrets.PASSWORD }}`,
 `<password>`, `%PASSWORD%`, `$env:PASSWORD`, `YOUR_PASSWORD`, `op://` paths,
 masks of three or more `*`/`•`, and `[REDACTED]`, which keeps a second scrub
-byte-identical. Code is not prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
+byte-identical. After a bare `:` or `=` only references, a lone `None`/`null`/
+`nil`/`undefined` and type annotations (`password: string`, `pw: Vec<u8>`,
+`password: Option<String>,`) are not values; documentary words are
+(`pw: required` redacts, as `password: required` always has). Code is not
+prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
 `\`, or directly by if/elif/while/assert/and/or/not/return/lambda (`if password
 is None`), is skipped. These spans merge with assignment spans and stay within
 the five-pass budget. pass, PIN, secret, key and token are not prose-disclosure
