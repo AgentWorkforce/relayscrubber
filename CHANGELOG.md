@@ -20,12 +20,19 @@ Security fixes to the alpha.10 candidate, before any release:
   (`password = velvet river lantern` no longer keeps `river lantern`). Type
   annotations (`password: string`, `pw: Vec<u8>`), references, a lone `None`
   and the operators `==`, `=>`, `::`, `!=` are unchanged. The value ends at
-  an enclosing quote or bracket, or before the next `Key=` of a `;` or `&`
-  list (`Password=x;Encrypt=true`).
+  an enclosing quote or bracket opened before the noun, or before the next
+  `Key=` of a line that was already a `;` or `&` list before the noun
+  (`Server=db;Password=x;Encrypt=true`). Any other close bracket, `;` or `&`
+  is part of the value, so `pw: x]yq zq`, `pw: abc&def=ghi` and `pass phrase:
+  abc;host=y` no longer keep `]yq zq`, `&def=ghi` or `;host=y`.
 - Escaped quotes: a `"`, `'` or `` ` `` preceded by an odd number of
   backslashes at the opener's escape level no longer ends a quoted value
   (`"abc\"def"`), including inside JSON-escaped strings; the 1024-byte bound
   and the unmatched-quote rule are unchanged.
+- Contiguous quoted segments: a quoted segment that starts right at the
+  value's close quote is part of the value, with the same or another quote,
+  so `my password is "abc""defq"` no longer keeps `"defq"`. A quoted string
+  after whitespace still ends the value.
 - Separators: every Rust/WHATWG whitespace character (including U+1680,
   U+205F and U+0085) and one line break may separate the words, so `my
   pass\ncode is x` redacts; HTML character references (`&#32;`, `&#x20;`,

@@ -102,8 +102,12 @@ is x`, `pw: Q` and `the password is #` redact `x`, `Q` and `#`. A value opened b
 `'`, `"`, `` ` ``, `“` or `‘` is the content up to its matching close on the
 same line, otherwise within the next 1024 bytes; an unmatched quote redacts from
 the quote through the end of its line (after a bare `:` or `=` the opening quote
-stays visible, as for an assignment). A straight quote preceded by an odd number
-of backslashes at the opener's escape level is escaped and does not close the
+stays visible, as for an assignment). A quoted segment that starts right at the
+value's close quote continues the value, with the same or another quote
+(`"abc""defq"` and `"abc"'defq'` are one value), so no contiguous quoted
+suffix stays visible; a quoted string after whitespace is not part of it. A
+straight quote preceded by an odd number of backslashes at the opener's escape
+level is escaped and does not close the
 value (`"abc\"def"` is one value; `"abc\\"` closes after the backslashes,
 which belong to the value); inside a JSON-escaped string the opener's own
 escape sets that level. An unquoted value runs to the end of its
@@ -115,8 +119,12 @@ bare or after a determiner, the whole rest of the value is redacted,
 conjunctions and documentary first words included (`my password: correct horse
 battery`, `the password: see vault`), and it ends at an enclosing quote or
 bracket opened before the noun, or at a `;` or `&` that starts the next `Key=`
-entry of a list (`Password=x;Encrypt=true`). Anything before the noun on its
-line never redacts less than the bare cue: an adjective, a verb phrase, a
+entry of a line that was already such a list before the noun
+(`Server=db;Password=x;Encrypt=true`). A close bracket the line did not open
+before the noun, and a `;` or `&` on a line that was not a list before the
+noun, are part of the value, after the bare cue too (`pw: x]yq zq` and `pw:
+abc&def=ghi` redact `x]yq zq` and `abc&def=ghi`). Anything before the noun on
+its line never redacts less than the bare cue: an adjective, a verb phrase, a
 conjunction, a bullet or a label (`The new password: x`, `Please use pw = x`,
 `and my passcode: x`, `- note: the new pass code: x`, `We discussed password:
 x`) redacts the same value, and a close bracket the line did not open before
