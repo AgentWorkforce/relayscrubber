@@ -43,6 +43,10 @@ fn bounded_prose_disclosure_work_at_64_and_256_kib() {
             "\"pw=\"",
             "\\\"password=\\\"",
             "pw: \"a\"\\\"b\\\"",
+            "password=\"$a\"\"b\" ",
+            "pw: \"a\"\"$b\" ",
+            "x \"pw: a\"<b> ",
+            "pw: ${a}b ",
         ] {
             for prefix in ["", "x \"", "{\"note\":\""] {
                 let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));

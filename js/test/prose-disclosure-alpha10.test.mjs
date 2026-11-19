@@ -396,3 +396,112 @@ test('text glued to an enclosing closer is part of the value',()=>{
 test('text after an enclosing closer that is not glued keeps its output',()=>{
   assert.deepEqual(runLeakFree(pinned('not glued',[["He said \"pw: abc\".","He said \"pw: [REDACTED]\"."],["He said \"pw: abc\". Then left","He said \"pw: [REDACTED]\". Then left"],["\"pw: abc\",next","\"pw: [REDACTED]\",next"],["f(\"pw: abc\")","f(\"pw: [REDACTED]\")"],["1,\"pw: abc\",3","1,\"pw: [REDACTED]\",3"],["\"pw: abc\":1","\"pw: [REDACTED]\":1"],["\"pw: abc\"-x","\"pw: [REDACTED]\"-x"],["{\"note\":\"pw: abc\",\"user\":\"bob\"}","{\"note\":\"pw: [REDACTED]\",\"user\":\"bob\"}"],["{\"note\":\"he said \\\"pw: abc\\\".\",\"user\":\"bob\"}","{\"note\":\"he said \\\"pw: [REDACTED]\\\".\",\"user\":\"bob\"}"],["msg='pw: abc' user='bob'","msg='pw: [REDACTED]' user='bob'"],["msg='pw: abc',user='bob'","msg='pw: [REDACTED]',user='bob'"],["<a title=\"pw: abc\">t</a>","<a title=\"pw: [REDACTED]\">t</a>"],["echo \"my password is abc\"","echo \"my password is [REDACTED]\""],["(my pw: abc) docs","(my pw: [REDACTED]) docs"],["host=db;pw=abc;user=x","host=db;pw=[REDACTED];user=x"],["[my password is \"abc\"]defq","[my password is \"[REDACTED]\"]defq"],["(he said \"pw: abc\")defq","(he said \"pw: [REDACTED]\")defq"],["((pw: x)yq zq","((pw: [REDACTED])yq zq"],["x \"pw: abc\" \"defq\"","x \"pw: [REDACTED]\" \"defq\""],["echo \"my password is abc\"; ls","echo \"my password is [REDACTED]; ls"],["\"pw: abc\"; ls","\"pw: [REDACTED]\"; ls"]])),[]);
 });
+// The reference and placeholder exemption covers a whole value only: once any contiguous part is literal, every part
+// is value, whatever its shape. Each input scrubs exactly as its twin, where the reference-shaped part is the literal
+// TWIN, and loses its literal parts and the shape. One test per layout to stay inside Bun's 5 s limit.
+const REFERENCE_SHAPES=['$defq','${defq}','$1','$env:DEFQ','${{ secrets.DEFQ }}','process.env.DEFQ','op://v/defq/p','<defq>','%DEFQ%','{{defq}}','YOUR_DEFQ','changeme','example','xxx','${DEFQ:-x}','***',R];
+const TWIN='zzzq';
+const wrapJson=line=>`{"note":${JSON.stringify(line)},"user":"bob"}`;
+const forbiddenFor=shape=>shape===R?['abcq','ghiq']:['abcq','ghiq',shape];
+function runWholeValue(cases){
+  const failures=[];
+  for(const {id,input,twin,forbidden} of cases){
+    const text=scrubber.scrubText(input);
+    if(!text.startsWith(`${PUBLIC}\n`)||forbidden.some(f=>text.slice(PUBLIC.length+1).includes(f))) failures.push(`${id}/leak: ${JSON.stringify(input)} -> ${JSON.stringify(text)}`);
+    const want=scrubber.scrubText(twin);
+    if(text!==want) failures.push(`${id}/twin: ${JSON.stringify(input)} -> ${JSON.stringify(text)}, its twin -> ${JSON.stringify(want)}`);
+    failures.push(...run([{id,input,expected:text}]),...jsonShapeFailures(id,input,text));
+  }
+  return failures;
+}
+const wholeValueForms=s=>[
+  [`"abcq""${s}"`,true],[`'abcq'"${s}"`,false],[`"abcq"'${s}'`,false],['`abcq`'+`"${s}"`,false],
+  [`"${s}""abcq"`,true],[`'${s}'"abcq"`,false],[`"${s}"'abcq'`,false],
+  [`"abcq""${s}""ghiq"`,true],[`abcq"${s}"`,false],[`"${s}"abcq`,false],
+];
+for(const layout of ['pw: ','pw=','my password = ','password: ','my pass code is ']){
+  test(`a reference-shaped part of a value with a literal part is part of the value: ${JSON.stringify(layout)}`,()=>{
+    const cases=[];
+    for(const shape of REFERENCE_SHAPES) for(const [form,json] of wholeValueForms(shape)){
+      const line=`${layout}${form}`, twin=line.replaceAll(shape,TWIN);
+      const pairs=json?[[line,twin],[wrapJson(line),wrapJson(twin)]]:[[line,twin]];
+      for(const [input,t] of pairs) cases.push({id:`whole value ${input}`,input:`${PUBLIC}\n${input}`,twin:`${PUBLIC}\n${t}`,forbidden:forbiddenFor(shape)});
+    }
+    assert.deepEqual(runWholeValue(cases),[]);
+  });
+  test(`a later segment opening with any punctuation is part of the value: ${JSON.stringify(layout)}`,()=>{
+    const cases=[];
+    for(let c=0x21;c<0x7f;c++){
+      const p=String.fromCharCode(c);
+      if(!/[\p{P}\p{S}]/u.test(p)) continue;
+      for(const quote of ['"',"'"]){
+        const line=`${layout}"abcq"${quote}${p}defq${quote}`;
+        cases.push({id:`punctuation ${line}`,input:`${PUBLIC}\n${line}`});
+        if(quote==='"') cases.push({id:`punctuation json ${line}`,input:`${PUBLIC}\n${wrapJson(line)}`});
+      }
+    }
+    assert.equal(cases.length,32*3);
+    const failures=runLeakFree(cases);
+    for(const {id,input} of cases) if(scrubber.scrubText(input).includes('abcq')) failures.push(`${id}/leak`);
+    assert.deepEqual(failures,[]);
+  });
+  test(`a bare reference glued to a literal is part of the value: ${JSON.stringify(layout)}`,()=>{
+    const cases=[];
+    for(const [form,shape] of [['${defq}abcq','${defq}'],['%defq%abcq','%defq%'],['<defq>abcq','<defq>'],['{{defq}}abcq','{{defq}}'],['$(defq)abcq','$(defq)'],['abcq${defq}','${defq}'],['abcq%defq%','%defq%'],['abcq<defq>','<defq>'],['abcq{{defq}}','{{defq}}'],['abcq$defq','$defq'],[`${R}abcq`,R],['${defq}${ghiq}abcq','${defq}${ghiq}'],['$defq"abcq"','$defq'],['${defq}"abcq"','${defq}'],['<defq>"abcq"','<defq>'],['op://v/defq/p"abcq"','op://v/defq/p']]){
+      // A generic after a colon (`pw: Vec<u8>`, a lead control) is a type annotation.
+      if(form==='abcq<defq>'&&layout.trimEnd().endsWith(':')) continue;
+      const line=`${layout}${form}`, twin=line.replaceAll(shape,TWIN);
+      for(const [input,t] of [[line,twin],[wrapJson(line),wrapJson(twin)]]) cases.push({id:`bare glue ${input}`,input:`${PUBLIC}\n${input}`,twin:`${PUBLIC}\n${t}`,forbidden:['abcq','defq','ghiq']});
+    }
+    assert.deepEqual(runWholeValue(cases),[]);
+  });
+}
+test('a reference-shaped part across an enclosing closer is part of the value',()=>{
+  const forms=['x "pw: {a}""{b}"',`x 'pw: {a}'"{b}"`,`x='pw: {a}'"{b}"`,`msg="pw: {a}"'{b}'`,`he said 'my password is "{a}"'"{b}"`,'x "pw: {a}"{b}','echo "my password is {a}"{b}','1,"pw: {a}""{b}",3'];
+  const cases=[];
+  for(const shape of REFERENCE_SHAPES) for(const form of forms) for(const [a,b] of [['abcq',shape],[shape,'abcq']]){
+    if(shape.includes(' ')&&(a===shape||form.endsWith('{b}'))) continue;
+    const line=form.replace('{a}',a).replace('{b}',b), twin=line.replaceAll(shape,TWIN);
+    for(const [input,t] of [[line,twin],[wrapJson(line),wrapJson(twin)]]) cases.push({id:`enclosing whole value ${input}`,input:`${PUBLIC}\n${input}`,twin:`${PUBLIC}\n${t}`,forbidden:forbiddenFor(shape)});
+  }
+  assert.deepEqual(runWholeValue(cases),[]);
+});
+test('the named whole-value inputs',()=>{
+  assert.deepEqual(runLeakFree(pinned('named whole value',[
+    ['pw: "abc""$defq"','pw: "[REDACTED]"'],[`pw: "abc"'$defq'`,`pw: "[REDACTED]'`],['password="abc""$defq"','password="[REDACTED]"'],
+    [`password='abc'"$defq"`,`password='[REDACTED]`],['my password is "abc""${defq}"','my password is "[REDACTED]"'],
+    ['my password is "abc""<defq>"','my password is "[REDACTED]"'],['my password is "abc""%defq%"','my password is "[REDACTED]"'],
+    ['my password is "abc""{{defq}}"','my password is "[REDACTED]"'],['x "pw: abc""$defq"','x "pw: [REDACTED]"'],
+    [`x 'pw: abc'"$defq"`,`x 'pw: [REDACTED]"`],[`x='pw: abc'"$defq"`,`x='pw: [REDACTED]"`],[`msg="pw: abc"'$defq'`,`msg="pw: [REDACTED]'`],
+    ['x "pw: abc""<defq>"','x "pw: [REDACTED]"'],['x "pw: abc""%defq%"','x "pw: [REDACTED]"'],['x "pw: abc""{{defq}}"','x "pw: [REDACTED]"'],
+    ['x "pw: abc""${defq}"','x "pw: [REDACTED]"'],['x "pw: abc""$1efq"','x "pw: [REDACTED]"'],['pw: "abc""YOUR_PASSWORD"','pw: "[REDACTED]"'],
+    ['pw: "abc""op://v/i"','pw: "[REDACTED]"'],['pw: "abc""process.env.PASSWORD"','pw: "[REDACTED]"'],['pw: "abc""$env:PASSWORD"','pw: "[REDACTED]"'],
+    ['pw: "abc""${{ secrets.PASSWORD }}"','pw: "[REDACTED]"'],['pw: "abc""[REDACTED]"','pw: "[REDACTED]"'],
+    ['password="$defq""abc"','password="[REDACTED]"'],['password="[REDACTED]""abc"','password="[REDACTED]"'],['password="$defq"abc','password="[REDACTED]'],
+    ['pw: ${defq}abc','pw: [REDACTED]'],['pw: [REDACTED]abc','pw: [REDACTED]'],['my password is <defq>abc','my password is [REDACTED]'],
+    ['my password is ${defq}abc','my password is [REDACTED]'],['x "pw: $defq""abc"','x "pw: [REDACTED]"'],
+    [String.raw`{"note":"pw: \"abc\"\"$defq\"","user":"bob"}`,String.raw`{"note":"pw: \"[REDACTED]\"","user":"bob"}`],
+    [String.raw`{"note":"he said \"pw: abc\"\"$defq\"","user":"bob"}`,String.raw`{"note":"he said \"pw: [REDACTED]\"","user":"bob"}`],
+    [String.raw`{"note":"password=\"$defq\"\"abc\"","user":"bob"}`,String.raw`{"note":"password=\"[REDACTED]\"","user":"bob"}`],
+    // Already right before the whole-value rule; kept.
+    ['pw: "abc$defq"','pw: "[REDACTED]"'],['pw: "abc""$defq ghiq"','pw: "[REDACTED]"'],['pw: "abc""$(defq)"','pw: "[REDACTED]"'],
+    ['pw: "abc""$$defq"','pw: "[REDACTED]"'],['pw: "$defq""abc"','pw: "[REDACTED]"'],['pw: "<defq>""abc"','pw: "[REDACTED]"'],
+    ['pw: "{{defq}}abc"','pw: "[REDACTED]"'],['my password is "$defq""abc"','my password is "[REDACTED]"'],['pw: "abc""xxx"','pw: "[REDACTED]"'],
+    ['pw: "abc""changeme"','pw: "[REDACTED]"'],
+  ])),[]);
+});
+// A value that is one pure reference or placeholder, a chain made only of pure references, and a reference separated
+// by whitespace keep their output.
+test('a pure reference value keeps its output',()=>{
+  assert.deepEqual(runLeakFree(pinned('pure reference',[
+    ['pw: "$defq"','pw: "$defq"'],['pw: $defq','pw: $defq'],['my password is $defq','my password is $defq'],['password="$defq"','password="$defq"'],
+    ['password=${defq}','password=${defq}'],['password="${{ secrets.PASSWORD }}"','password="${{ secrets.PASSWORD }}"'],
+    ['password: <password>','password: <password>'],['pw: %PASSWORD%','pw: %PASSWORD%'],['password={{password}}','password=[REDACTED]'],
+    ['pw: <password>.','pw: <password>.'],['my password is {{ password }}','my password is {{ password }}'],['pw: [REDACTED]','pw: [REDACTED]'],
+    ['pw: "[REDACTED]"','pw: "[REDACTED]"'],['(my pw: abc) docs','(my pw: [REDACTED]) docs'],['host=db;pw=abc;user=x','host=db;pw=[REDACTED];user=x'],
+    ['pw: "abc" "$defq"','pw: "[REDACTED]" "$defq"'],['password="abc" "$defq"','password="[REDACTED]" "$defq"'],
+    ['pw: ${X:-default}','pw: ${X:-default}'],['password=${X:-default}','password=${X:-default}'],
+    ['pw: "$A""$B"','pw: "$A""$B"'],['pw: ${A}${B}','pw: ${A}${B}'],['password="$A""$B"','password="$A""$B"'],
+    [`my password is "$A"'\${B}'`,`my password is "$A"'\${B}'`],['x "pw: $A""$B"','x "pw: $A""$B"'],
+  ])),[]);
+});

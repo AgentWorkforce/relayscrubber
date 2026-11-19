@@ -1501,3 +1501,438 @@ fn text_after_an_enclosing_closer_that_is_not_glued_keeps_its_output() {
         &run_leak_free(&cases),
     );
 }
+
+/// Every reference or placeholder shape the engine exempts on its own, each
+/// with the literal that stands in for it in the twin input (see
+/// `run_whole_value`). The marker stands for an already redacted part.
+const REFERENCE_SHAPES: [&str; 17] = [
+    "$defq",
+    "${defq}",
+    "$1",
+    "$env:DEFQ",
+    "${{ secrets.DEFQ }}",
+    "process.env.DEFQ",
+    "op://v/defq/p",
+    "<defq>",
+    "%DEFQ%",
+    "{{defq}}",
+    "YOUR_DEFQ",
+    "changeme",
+    "example",
+    "xxx",
+    "${DEFQ:-x}",
+    "***",
+    "[REDACTED]",
+];
+
+/// The literal a reference-shaped part is replaced with in a twin input.
+const TWIN: &str = "zzzq";
+
+/// Whole-value cases: each input, the twin input with its reference-shaped
+/// part spelled as the literal `TWIN`, and the tokens that must not survive.
+/// A value with a literal part is redacted as a whole, so the input scrubs to
+/// exactly what its twin does; every API agrees, the output is idempotent and
+/// a JSON line keeps its keys.
+fn run_whole_value(cases: &[(String, String, String, Vec<String>)]) -> Vec<String> {
+    let mut failures = Vec::new();
+    for (id, input, twin, forbidden) in cases {
+        let text = scrub_text(input);
+        let body = text.strip_prefix(&format!("{PUBLIC}\n"));
+        if body.is_none_or(|b| forbidden.iter().any(|f| b.contains(f.as_str()))) {
+            failures.push(format!("{id}/leak: {input:?} -> {text:?}"));
+        }
+        let want = scrub_text(twin);
+        if text != want {
+            failures.push(format!(
+                "{id}/twin: {input:?} -> {text:?}, its twin {twin:?} -> {want:?}"
+            ));
+        }
+        failures.extend(check(id, input, &text));
+        failures.extend(json_lines_keep_their_keys(id, input, &text));
+    }
+    failures
+}
+
+/// The tokens of a whole-value case that must not survive: the literal parts
+/// and the reference-shaped part, unless that is the redaction marker.
+fn whole_value_forbidden(shape: &str) -> Vec<String> {
+    let mut forbidden = vec!["abcq".to_owned(), "ghiq".to_owned()];
+    if shape != R {
+        forbidden.push(shape.to_owned());
+    }
+    forbidden
+}
+
+/// The contiguous forms of a value with one reference-shaped part `S`, keyed
+/// by where the part stands: last, first, or middle and bare-glued.
+fn whole_value_forms(position: &str, shape: &str) -> Vec<String> {
+    let s = shape;
+    match position {
+        "last" => vec![
+            format!("\"abcq\"\"{s}\""),
+            format!("'abcq'\"{s}\""),
+            format!("\"abcq\"'{s}'"),
+            format!("`abcq`\"{s}\""),
+        ],
+        "first" => vec![
+            format!("\"{s}\"\"abcq\""),
+            format!("'{s}'\"abcq\""),
+            format!("\"{s}\"'abcq'"),
+        ],
+        _ => vec![
+            format!("\"abcq\"\"{s}\"\"ghiq\""),
+            format!("abcq\"{s}\""),
+            format!("\"{s}\"abcq"),
+        ],
+    }
+}
+
+fn whole_value_cases(position: &str) -> Vec<(String, String, String, Vec<String>)> {
+    let mut cases = Vec::new();
+    for layout in class_e_layouts() {
+        for shape in REFERENCE_SHAPES {
+            for (n, form) in whole_value_forms(position, shape).into_iter().enumerate() {
+                let line = format!("{layout}{form}");
+                let twin = line.replace(shape, TWIN);
+                let mut pairs = vec![(line.clone(), twin.clone())];
+                if n == 0 {
+                    let wrap = |l: &str| {
+                        format!(
+                            "{{\"note\":{},\"user\":\"bob\"}}",
+                            serde_json::to_string(l).unwrap()
+                        )
+                    };
+                    pairs.push((wrap(&line), wrap(&twin)));
+                }
+                for (input, twin) in pairs {
+                    cases.push((
+                        format!("whole value {position} #{}", cases.len()),
+                        format!("{PUBLIC}\n{input}"),
+                        format!("{PUBLIC}\n{twin}"),
+                        whole_value_forbidden(shape),
+                    ));
+                }
+            }
+        }
+    }
+    cases
+}
+
+/// The reference and placeholder exemption covers a whole value only: a
+/// reference-shaped segment after a literal one is redacted with it, for
+/// every noun, cue, quote type and reference shape, on a plain line and in a
+/// JSON string.
+#[test]
+fn a_reference_shaped_last_segment_after_a_literal_is_part_of_the_value() {
+    let cases = whole_value_cases("last");
+    assert_eq!(cases.len(), 110 * 17 * 5);
+    report("whole value, last", cases.len(), &run_whole_value(&cases));
+}
+
+/// A literal segment after a reference-shaped one is redacted with it.
+#[test]
+fn a_literal_segment_after_a_reference_shaped_one_is_part_of_the_value() {
+    let cases = whole_value_cases("first");
+    assert_eq!(cases.len(), 110 * 17 * 4);
+    report("whole value, first", cases.len(), &run_whole_value(&cases));
+}
+
+/// A reference-shaped part between literal ones, and one glued to a bare
+/// literal, is redacted with them.
+#[test]
+fn a_reference_shaped_middle_or_glued_part_is_part_of_the_value() {
+    let cases = whole_value_cases("middle");
+    assert_eq!(cases.len(), 110 * 17 * 4);
+    report("whole value, middle", cases.len(), &run_whole_value(&cases));
+}
+
+/// Every ASCII punctuation character as the first character of a later
+/// contiguous quoted segment: the segment is part of the value.
+#[test]
+fn a_later_segment_opening_with_any_punctuation_is_part_of_the_value() {
+    let mut cases = Vec::new();
+    for layout in class_e_layouts() {
+        for p in (b'!'..=b'~')
+            .filter(u8::is_ascii_punctuation)
+            .map(char::from)
+        {
+            for quote in ['"', '\''] {
+                let line = format!("{layout}\"abcq\"{quote}{p}defq{quote}");
+                let mut inputs = vec![line.clone()];
+                if quote == '"' {
+                    inputs.push(format!(
+                        "{{\"note\":{},\"user\":\"bob\"}}",
+                        serde_json::to_string(&line).unwrap()
+                    ));
+                }
+                for input in inputs {
+                    cases.push((
+                        format!("punctuation #{}", cases.len()),
+                        format!("{PUBLIC}\n{input}"),
+                        None,
+                    ));
+                }
+            }
+        }
+    }
+    assert_eq!(cases.len(), 110 * 32 * 3);
+    let failures: Vec<String> = run_leak_free(&cases)
+        .into_iter()
+        .chain(cases.iter().filter_map(|(id, input, _)| {
+            scrub_text(input)
+                .contains("abcq")
+                .then(|| format!("{id}/leak: {input:?}"))
+        }))
+        .collect();
+    report("later segment punctuation", cases.len(), &failures);
+}
+
+/// A bare value with a reference or placeholder glued to a literal is one
+/// value: `${X}abc`, `%X%abc`, `<x>abc`, `{{x}}abc`, `$(cmd)abc`, `abc${X}`,
+/// `abc%X%`, and a marker or reference glued to a quoted literal.
+#[test]
+fn a_bare_reference_glued_to_a_literal_is_part_of_the_value() {
+    const BARE: [(&str, &str); 16] = [
+        ("${defq}abcq", "${defq}"),
+        ("%defq%abcq", "%defq%"),
+        ("<defq>abcq", "<defq>"),
+        ("{{defq}}abcq", "{{defq}}"),
+        ("$(defq)abcq", "$(defq)"),
+        ("abcq${defq}", "${defq}"),
+        ("abcq%defq%", "%defq%"),
+        ("abcq<defq>", "<defq>"),
+        ("abcq{{defq}}", "{{defq}}"),
+        ("abcq$defq", "$defq"),
+        ("[REDACTED]abcq", "[REDACTED]"),
+        ("${defq}${ghiq}abcq", "${defq}${ghiq}"),
+        ("$defq\"abcq\"", "$defq"),
+        ("${defq}\"abcq\"", "${defq}"),
+        ("<defq>\"abcq\"", "<defq>"),
+        ("op://v/defq/p\"abcq\"", "op://v/defq/p"),
+    ];
+    let mut cases = Vec::new();
+    for layout in class_e_layouts() {
+        for (form, shape) in BARE {
+            // A generic after a colon (`pw: Vec<u8>`, a lead control) is a
+            // type annotation, not a placeholder glued to a literal.
+            if form == "abcq<defq>" && layout.trim_end().ends_with(':') {
+                continue;
+            }
+            let line = format!("{layout}{form}");
+            let twin = line.replace(shape, TWIN);
+            let wrap = |l: &str| {
+                format!(
+                    "{{\"note\":{},\"user\":\"bob\"}}",
+                    serde_json::to_string(l).unwrap()
+                )
+            };
+            for (input, twin) in [(line.clone(), twin.clone()), (wrap(&line), wrap(&twin))] {
+                cases.push((
+                    format!("bare glue #{}", cases.len()),
+                    format!("{PUBLIC}\n{input}"),
+                    format!("{PUBLIC}\n{twin}"),
+                    vec!["abcq".to_owned(), "defq".to_owned(), "ghiq".to_owned()],
+                ));
+            }
+        }
+    }
+    let colon = class_e_layouts()
+        .iter()
+        .filter(|l| l.trim_end().ends_with(':'))
+        .count();
+    assert_eq!(cases.len(), (110 * 16 - colon) * 2);
+    report("bare glue", cases.len(), &run_whole_value(&cases));
+}
+
+/// The enclosing-closer glue forms of the fourth pass with a reference-shaped
+/// part before or after the closer.
+#[test]
+fn a_reference_shaped_part_across_an_enclosing_closer_is_part_of_the_value() {
+    const FORMS: [&str; 8] = [
+        "x \"pw: {a}\"\"{b}\"",
+        "x 'pw: {a}'\"{b}\"",
+        "x='pw: {a}'\"{b}\"",
+        "msg=\"pw: {a}\"'{b}'",
+        "he said 'my password is \"{a}\"'\"{b}\"",
+        "x \"pw: {a}\"{b}",
+        "echo \"my password is {a}\"{b}",
+        "1,\"pw: {a}\"\"{b}\",3",
+    ];
+    let mut cases = Vec::new();
+    for shape in REFERENCE_SHAPES {
+        for form in FORMS {
+            for (a, b) in [("abcq", shape), (shape, "abcq")] {
+                // A bare part with a space is two words, not one value.
+                if shape.contains(' ') && (a == shape || form.ends_with("{b}")) {
+                    continue;
+                }
+                let line = form.replace("{a}", a).replace("{b}", b);
+                let twin = line.replace(shape, TWIN);
+                let wrap = |l: &str| {
+                    format!(
+                        "{{\"note\":{},\"user\":\"bob\"}}",
+                        serde_json::to_string(l).unwrap()
+                    )
+                };
+                for (input, twin) in [(line.clone(), twin.clone()), (wrap(&line), wrap(&twin))] {
+                    cases.push((
+                        format!("enclosing whole value #{}", cases.len()),
+                        format!("{PUBLIC}\n{input}"),
+                        format!("{PUBLIC}\n{twin}"),
+                        whole_value_forbidden(shape),
+                    ));
+                }
+            }
+        }
+    }
+    report(
+        "whole value across an enclosing closer",
+        cases.len(),
+        &run_whole_value(&cases),
+    );
+}
+
+/// The inputs the fifth-pass brief names, each pinned: one marker for the
+/// whole contiguous value.
+#[test]
+fn named_whole_value_inputs() {
+    let cases: Vec<(String, String, Option<String>)> = [
+        ("pw: \"abc\"\"$defq\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"'$defq'", "pw: \"[REDACTED]'"),
+        ("password=\"abc\"\"$defq\"", "password=\"[REDACTED]\""),
+        ("password='abc'\"$defq\"", "password='[REDACTED]"),
+        (
+            "my password is \"abc\"\"${defq}\"",
+            "my password is \"[REDACTED]\"",
+        ),
+        (
+            "my password is \"abc\"\"<defq>\"",
+            "my password is \"[REDACTED]\"",
+        ),
+        (
+            "my password is \"abc\"\"%defq%\"",
+            "my password is \"[REDACTED]\"",
+        ),
+        (
+            "my password is \"abc\"\"{{defq}}\"",
+            "my password is \"[REDACTED]\"",
+        ),
+        ("x \"pw: abc\"\"$defq\"", "x \"pw: [REDACTED]\""),
+        ("x 'pw: abc'\"$defq\"", "x 'pw: [REDACTED]\""),
+        ("x='pw: abc'\"$defq\"", "x='pw: [REDACTED]\""),
+        ("msg=\"pw: abc\"'$defq'", "msg=\"pw: [REDACTED]'"),
+        ("x \"pw: abc\"\"<defq>\"", "x \"pw: [REDACTED]\""),
+        ("x \"pw: abc\"\"%defq%\"", "x \"pw: [REDACTED]\""),
+        ("x \"pw: abc\"\"{{defq}}\"", "x \"pw: [REDACTED]\""),
+        ("x \"pw: abc\"\"${defq}\"", "x \"pw: [REDACTED]\""),
+        ("x \"pw: abc\"\"$1efq\"", "x \"pw: [REDACTED]\""),
+        ("pw: \"abc\"\"YOUR_PASSWORD\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"op://v/i\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"process.env.PASSWORD\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"$env:PASSWORD\"", "pw: \"[REDACTED]\""),
+        (
+            "pw: \"abc\"\"${{ secrets.PASSWORD }}\"",
+            "pw: \"[REDACTED]\"",
+        ),
+        ("pw: \"abc\"\"[REDACTED]\"", "pw: \"[REDACTED]\""),
+        ("password=\"$defq\"\"abc\"", "password=\"[REDACTED]\""),
+        ("password=\"[REDACTED]\"\"abc\"", "password=\"[REDACTED]\""),
+        ("password=\"$defq\"abc", "password=\"[REDACTED]"),
+        ("pw: ${defq}abc", "pw: [REDACTED]"),
+        ("pw: [REDACTED]abc", "pw: [REDACTED]"),
+        ("my password is <defq>abc", "my password is [REDACTED]"),
+        ("my password is ${defq}abc", "my password is [REDACTED]"),
+        ("x \"pw: $defq\"\"abc\"", "x \"pw: [REDACTED]\""),
+        (
+            "{\"note\":\"pw: \\\"abc\\\"\\\"$defq\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"pw: \\\"[REDACTED]\\\"\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"he said \\\"pw: abc\\\"\\\"$defq\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"he said \\\"pw: [REDACTED]\\\"\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"password=\\\"$defq\\\"\\\"abc\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"password=\\\"[REDACTED]\\\"\",\"user\":\"bob\"}",
+        ),
+        // Already right before the whole-value rule; kept.
+        ("pw: \"abc$defq\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"$defq ghiq\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"$(defq)\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"$$defq\"", "pw: \"[REDACTED]\""),
+        ("pw: \"$defq\"\"abc\"", "pw: \"[REDACTED]\""),
+        ("pw: \"<defq>\"\"abc\"", "pw: \"[REDACTED]\""),
+        ("pw: \"{{defq}}abc\"", "pw: \"[REDACTED]\""),
+        (
+            "my password is \"$defq\"\"abc\"",
+            "my password is \"[REDACTED]\"",
+        ),
+        ("pw: \"abc\"\"xxx\"", "pw: \"[REDACTED]\""),
+        ("pw: \"abc\"\"changeme\"", "pw: \"[REDACTED]\""),
+    ]
+    .into_iter()
+    .map(|(input, expected)| {
+        (
+            format!("named whole value {input}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        )
+    })
+    .collect();
+    report("named whole value", cases.len(), &run_leak_free(&cases));
+}
+
+/// A value that is one pure reference or placeholder, a chain made only of
+/// pure references, and a reference separated by whitespace keep their
+/// output.
+#[test]
+fn a_pure_reference_value_keeps_its_output() {
+    let cases: Vec<(String, String, Option<String>)> = [
+        ("pw: \"$defq\"", "pw: \"$defq\""),
+        ("pw: $defq", "pw: $defq"),
+        ("my password is $defq", "my password is $defq"),
+        ("password=\"$defq\"", "password=\"$defq\""),
+        ("password=${defq}", "password=${defq}"),
+        (
+            "password=\"${{ secrets.PASSWORD }}\"",
+            "password=\"${{ secrets.PASSWORD }}\"",
+        ),
+        ("password: <password>", "password: <password>"),
+        ("pw: %PASSWORD%", "pw: %PASSWORD%"),
+        ("password={{password}}", "password=[REDACTED]"),
+        ("pw: <password>.", "pw: <password>."),
+        (
+            "my password is {{ password }}",
+            "my password is {{ password }}",
+        ),
+        ("pw: [REDACTED]", "pw: [REDACTED]"),
+        ("pw: \"[REDACTED]\"", "pw: \"[REDACTED]\""),
+        ("(my pw: abc) docs", "(my pw: [REDACTED]) docs"),
+        ("host=db;pw=abc;user=x", "host=db;pw=[REDACTED];user=x"),
+        // Whitespace-separated text is not contiguous.
+        ("pw: \"abc\" \"$defq\"", "pw: \"[REDACTED]\" \"$defq\""),
+        (
+            "password=\"abc\" \"$defq\"",
+            "password=\"[REDACTED]\" \"$defq\"",
+        ),
+        // `${X:-default}` keeps its ruling.
+        ("pw: ${X:-default}", "pw: ${X:-default}"),
+        ("password=${X:-default}", "password=${X:-default}"),
+        // A chain made only of pure references stays a reference.
+        ("pw: \"$A\"\"$B\"", "pw: \"$A\"\"$B\""),
+        ("pw: ${A}${B}", "pw: ${A}${B}"),
+        ("password=\"$A\"\"$B\"", "password=\"$A\"\"$B\""),
+        ("my password is \"$A\"'${B}'", "my password is \"$A\"'${B}'"),
+        ("x \"pw: $A\"\"$B\"", "x \"pw: $A\"\"$B\""),
+    ]
+    .into_iter()
+    .map(|(input, expected)| {
+        (
+            format!("pure reference {input}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        )
+    })
+    .collect();
+    report("pure reference", cases.len(), &run_leak_free(&cases));
+}
