@@ -384,11 +384,15 @@ test('an unterminated segment stops at the enclosing close',()=>{
     ['my password is "abc""de','my password is "[REDACTED]'],
   ])),[]);
 });
-// Declared residual: a quote opened before the noun closes the clause. These pin today's output; they are known
-// leaks, not endorsed behaviour.
-test('residual: a quote opened before the noun closes the clause',()=>{
-  assert.deepEqual(runLeakFree(pinned('residual',[
-    [`he said 'pw: abc'defq`,`he said 'pw: [REDACTED]'defq`],['x "pw: abc""defq"','x "pw: [REDACTED]""defq"'],
-    [`he said "my password is 'abc'"defq`,`he said "my password is '[REDACTED]'"defq`],
-  ])),[]);
+// Text glued to the closer of a quote opened before the noun is part of the value: a quote of any type, or an
+// alphanumeric, `_` or `$`, right after that closer continues the value to the next whitespace or to the closer of a
+// further enclosing layer. The closer itself falls inside the redaction, as with the `is` form.
+const GLUED=[["x \"pw: abc\"\"defq\"","x \"pw: [REDACTED]\"","defq"],["x 'pw: abc'\"defq\"","x 'pw: [REDACTED]\"","defq"],["he said 'my password is \"abc\"'\"defq\"","he said 'my password is \"[REDACTED]\"","defq"],["he said \"my password is 'abc'\"defq","he said \"my password is '[REDACTED]","defq"],["he said 'pw: abc'defq","he said 'pw: [REDACTED]","defq"],["echo \"pw: abc\"$X","echo \"pw: [REDACTED]","$X"],["echo \"pw: abc\"${SUFFIX} next","echo \"pw: [REDACTED] next","SUFFIX"],["1,\"pw: abc\"\"defq\",3","1,\"pw: [REDACTED]","defq"],["{\"note\":\"he said \\\"pw: abc\\\"\\\"defq\\\"\",\"user\":\"bob\"}","{\"note\":\"he said \\\"pw: [REDACTED]\\\"\",\"user\":\"bob\"}","defq"],["{\"note\":\"he said \\\"pw: abc\\\"defq\",\"user\":\"bob\"}","{\"note\":\"he said \\\"pw: [REDACTED]\",\"user\":\"bob\"}","defq"],["\"pw: abc\"s","\"pw: [REDACTED]","\"s"],["`pw: abc`defq","`pw: [REDACTED]","defq"],["“pw: abc”defq","“pw: [REDACTED]","defq"],["msg=\"pw: abc\"user=\"bob\"","msg=\"pw: [REDACTED]\"","bob"],["<a title=\"pw: abc\"b=\"c\">","<a title=\"pw: [REDACTED]\">","b="]];
+test('text glued to an enclosing closer is part of the value',()=>{
+  for(const [input,expected,glued] of GLUED) assert.ok(!expected.includes(glued),`${JSON.stringify(input)} keeps ${glued}`);
+  assert.deepEqual(runLeakFree(pinned('glued',GLUED.map(([input,expected])=>[input,expected]))),[]);
+});
+// Controls: punctuation, whitespace, a field, or a bracket opened before the noun after the closer keep their output.
+test('text after an enclosing closer that is not glued keeps its output',()=>{
+  assert.deepEqual(runLeakFree(pinned('not glued',[["He said \"pw: abc\".","He said \"pw: [REDACTED]\"."],["He said \"pw: abc\". Then left","He said \"pw: [REDACTED]\". Then left"],["\"pw: abc\",next","\"pw: [REDACTED]\",next"],["f(\"pw: abc\")","f(\"pw: [REDACTED]\")"],["1,\"pw: abc\",3","1,\"pw: [REDACTED]\",3"],["\"pw: abc\":1","\"pw: [REDACTED]\":1"],["\"pw: abc\"-x","\"pw: [REDACTED]\"-x"],["{\"note\":\"pw: abc\",\"user\":\"bob\"}","{\"note\":\"pw: [REDACTED]\",\"user\":\"bob\"}"],["{\"note\":\"he said \\\"pw: abc\\\".\",\"user\":\"bob\"}","{\"note\":\"he said \\\"pw: [REDACTED]\\\".\",\"user\":\"bob\"}"],["msg='pw: abc' user='bob'","msg='pw: [REDACTED]' user='bob'"],["msg='pw: abc',user='bob'","msg='pw: [REDACTED]',user='bob'"],["<a title=\"pw: abc\">t</a>","<a title=\"pw: [REDACTED]\">t</a>"],["echo \"my password is abc\"","echo \"my password is [REDACTED]\""],["(my pw: abc) docs","(my pw: [REDACTED]) docs"],["host=db;pw=abc;user=x","host=db;pw=[REDACTED];user=x"],["[my password is \"abc\"]defq","[my password is \"[REDACTED]\"]defq"],["(he said \"pw: abc\")defq","(he said \"pw: [REDACTED]\")defq"],["((pw: x)yq zq","((pw: [REDACTED])yq zq"],["x \"pw: abc\" \"defq\"","x \"pw: [REDACTED]\" \"defq\""],["echo \"my password is abc\"; ls","echo \"my password is [REDACTED]; ls"],["\"pw: abc\"; ls","\"pw: [REDACTED]\"; ls"]])),[]);
 });

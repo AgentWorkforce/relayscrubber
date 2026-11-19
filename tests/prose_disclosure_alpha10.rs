@@ -1363,30 +1363,140 @@ fn an_unterminated_segment_stops_at_the_enclosing_close() {
     report("enclosing close", cases.len(), &run_leak_free(&cases));
 }
 
-/// Declared residual: a quote opened before the noun closes the clause, so
-/// text touching that close is not part of the value. These pin today's
-/// output; they are known leaks, not endorsed behaviour.
+/// Text glued to the closer of a quote opened before the noun is part of
+/// the value: a quote of any type, or an alphanumeric, `_` or `$`, right
+/// after that closer continues the value to the next whitespace or to the
+/// closer of a further enclosing layer. The closer itself falls inside the
+/// redaction, as with the `is` form. Each case names the glued text that
+/// must not survive.
 #[test]
-fn residual_a_quote_opened_before_the_noun_closes_the_clause() {
-    let cases: Vec<(String, String, Option<String>)> = [
-        ("he said 'pw: abc'defq", "he said 'pw: [REDACTED]'defq"),
-        ("x \"pw: abc\"\"defq\"", "x \"pw: [REDACTED]\"\"defq\""),
+fn text_glued_to_an_enclosing_closer_is_part_of_the_value() {
+    let mut cases = Vec::new();
+    for (input, expected, glued) in [
+        ("x \"pw: abc\"\"defq\"", "x \"pw: [REDACTED]\"", "defq"),
+        ("x 'pw: abc'\"defq\"", "x 'pw: [REDACTED]\"", "defq"),
+        (
+            "he said 'my password is \"abc\"'\"defq\"",
+            "he said 'my password is \"[REDACTED]\"",
+            "defq",
+        ),
         (
             "he said \"my password is 'abc'\"defq",
-            "he said \"my password is '[REDACTED]'\"defq",
+            "he said \"my password is '[REDACTED]",
+            "defq",
         ),
-    ]
-    .into_iter()
-    .map(|(input, expected)| {
+        ("he said 'pw: abc'defq", "he said 'pw: [REDACTED]", "defq"),
+        ("echo \"pw: abc\"$X", "echo \"pw: [REDACTED]", "$X"),
         (
-            format!("residual {input}"),
+            "echo \"pw: abc\"${SUFFIX} next",
+            "echo \"pw: [REDACTED] next",
+            "SUFFIX",
+        ),
+        ("1,\"pw: abc\"\"defq\",3", "1,\"pw: [REDACTED]", "defq"),
+        (
+            "{\"note\":\"he said \\\"pw: abc\\\"\\\"defq\\\"\",\"user\":\"bob\"}",
+            "{\"note\":\"he said \\\"pw: [REDACTED]\\\"\",\"user\":\"bob\"}",
+            "defq",
+        ),
+        (
+            "{\"note\":\"he said \\\"pw: abc\\\"defq\",\"user\":\"bob\"}",
+            "{\"note\":\"he said \\\"pw: [REDACTED]\",\"user\":\"bob\"}",
+            "defq",
+        ),
+        ("\"pw: abc\"s", "\"pw: [REDACTED]", "\"s"),
+        ("`pw: abc`defq", "`pw: [REDACTED]", "defq"),
+        ("“pw: abc”defq", "“pw: [REDACTED]", "defq"),
+        (
+            "msg=\"pw: abc\"user=\"bob\"",
+            "msg=\"pw: [REDACTED]\"",
+            "bob",
+        ),
+        (
+            "<a title=\"pw: abc\"b=\"c\">",
+            "<a title=\"pw: [REDACTED]\">",
+            "b=",
+        ),
+    ] {
+        assert!(!expected.contains(glued), "{input:?} keeps {glued:?}");
+        cases.push((
+            format!("glued {input}"),
             format!("{PUBLIC}\n{input}"),
             Some(format!("{PUBLIC}\n{expected}")),
-        )
-    })
-    .collect();
+        ));
+    }
     report(
-        "residual quote before the noun",
+        "glued to an enclosing closer",
+        cases.len(),
+        &run_leak_free(&cases),
+    );
+}
+
+/// Controls for the glue rule: punctuation, whitespace, a field, or a
+/// bracket opened before the noun after the closer keep today's output.
+#[test]
+fn text_after_an_enclosing_closer_that_is_not_glued_keeps_its_output() {
+    let mut cases = Vec::new();
+    for (input, expected) in [
+        ("He said \"pw: abc\".", "He said \"pw: [REDACTED]\"."),
+        (
+            "He said \"pw: abc\". Then left",
+            "He said \"pw: [REDACTED]\". Then left",
+        ),
+        ("\"pw: abc\",next", "\"pw: [REDACTED]\",next"),
+        ("f(\"pw: abc\")", "f(\"pw: [REDACTED]\")"),
+        ("1,\"pw: abc\",3", "1,\"pw: [REDACTED]\",3"),
+        ("\"pw: abc\":1", "\"pw: [REDACTED]\":1"),
+        ("\"pw: abc\"-x", "\"pw: [REDACTED]\"-x"),
+        (
+            "{\"note\":\"pw: abc\",\"user\":\"bob\"}",
+            "{\"note\":\"pw: [REDACTED]\",\"user\":\"bob\"}",
+        ),
+        (
+            "{\"note\":\"he said \\\"pw: abc\\\".\",\"user\":\"bob\"}",
+            "{\"note\":\"he said \\\"pw: [REDACTED]\\\".\",\"user\":\"bob\"}",
+        ),
+        (
+            "msg='pw: abc' user='bob'",
+            "msg='pw: [REDACTED]' user='bob'",
+        ),
+        (
+            "msg='pw: abc',user='bob'",
+            "msg='pw: [REDACTED]',user='bob'",
+        ),
+        (
+            "<a title=\"pw: abc\">t</a>",
+            "<a title=\"pw: [REDACTED]\">t</a>",
+        ),
+        (
+            "echo \"my password is abc\"",
+            "echo \"my password is [REDACTED]\"",
+        ),
+        ("(my pw: abc) docs", "(my pw: [REDACTED]) docs"),
+        ("host=db;pw=abc;user=x", "host=db;pw=[REDACTED];user=x"),
+        (
+            "[my password is \"abc\"]defq",
+            "[my password is \"[REDACTED]\"]defq",
+        ),
+        (
+            "(he said \"pw: abc\")defq",
+            "(he said \"pw: [REDACTED]\")defq",
+        ),
+        ("((pw: x)yq zq", "((pw: [REDACTED])yq zq"),
+        ("x \"pw: abc\" \"defq\"", "x \"pw: [REDACTED]\" \"defq\""),
+        (
+            "echo \"my password is abc\"; ls",
+            "echo \"my password is [REDACTED]; ls",
+        ),
+        ("\"pw: abc\"; ls", "\"pw: [REDACTED]\"; ls"),
+    ] {
+        cases.push((
+            format!("not glued {input}"),
+            format!("{PUBLIC}\n{input}"),
+            Some(format!("{PUBLIC}\n{expected}")),
+        ));
+    }
+    report(
+        "not glued to an enclosing closer",
         cases.len(),
         &run_leak_free(&cases),
     );

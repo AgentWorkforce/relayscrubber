@@ -29,3 +29,31 @@ fn bounded_adversarial_work_at_64_and_256_kib() {
         }
     }
 }
+
+// Prose disclosure families: the line's quote, bracket and list state is
+// built once per line, so each family stays linear with every prefix.
+#[test]
+fn bounded_prose_disclosure_work_at_64_and_256_kib() {
+    let _ = scrub_text("warmup");
+    for size in [65_536, 262_144] {
+        for unit in [
+            "pw: \"x\" ",
+            "x \"pw: a\" ",
+            "{\"note\":\"pw: \\\"a\\\"'b'",
+            "\"pw=\"",
+            "\\\"password=\\\"",
+            "pw: \"a\"\\\"b\\\"",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\""] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                let input = &input[..size];
+                let start = Instant::now();
+                std::hint::black_box(scrub_text(input));
+                assert!(
+                    start.elapsed() < Duration::from_secs(5),
+                    "prose disclosure family {unit:?} after {prefix:?} exceeded the CI bound"
+                );
+            }
+        }
+    }
+}
