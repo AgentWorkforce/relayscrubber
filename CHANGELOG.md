@@ -31,6 +31,16 @@ Security fixes to the alpha.10 candidate, before any release:
   pass\ncode is x` redacts; HTML character references (`&#32;`, `&#x20;`,
   `&nbsp;` and the named spaces), percent, `%u` and `\u`/`\x` spellings of
   whitespace count as separators too.
+- Prefixed colon and equals cues: words before the noun no longer redact less
+  than the bare cue. `The new password: x`, `Please use pw = x`, `- note: my
+  pass code: x` and `We discussed password: x` were left whole and now redact
+  the value; after a determiner the whole value is redacted, so `my password:
+  correct horse battery` no longer keeps `horse battery` and `the password: see
+  vault` no longer keeps `vault`. With words or a bullet before the noun a
+  close bracket is part of the value unless the line opened it before the
+  noun (`The new password: ab)cd`, `* password: ab)cd`), and so is a `;` or
+  `&` unless the line was already a `;`/`&` list before the noun (`my pw:
+  abc&def=ghi`). `# ` and `// ` comment lines are unchanged.
 
 ## 0.5.0-alpha.9
 

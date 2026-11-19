@@ -28,6 +28,22 @@ On `643beb8` native Rust fails 188 of 2,912 cue cases, all 576 escape cases,
 precision-receipt rows are unchanged, and the synthetic evaluation differs only in
 the ruleset source hash and timing.
 
+A later probe of the candidate (`bcee2b3`) found that words or a bullet before
+the noun could still redact less than the bare cue: a sentence-like prefix
+(`The new password: zq9Secret`) leaked the whole value (F1), and a determiner
+(`my password: correct horse battery`) kept the words after a documentary
+word or conjunction (F2). Both now redact what the bare cue redacts. On
+`bcee2b3` the probe's F1 matrix leaks 21 of 666 rows and its F2 matrix 152 of
+336; the fix leaks none. A wider matrix of 101,760 prefixed lines (eight
+nouns, eight cue spacings, 30 value styles, 53 prefixes) through text, long
+and JSON text drops from 18,564 to 1,200 lines that keep a token the bare cue
+redacts; the rest are prefixes that open a bracket before the noun, whose
+close ends the value by design, and `orchidq, userq: bob`, where the bare
+line-start form redacts the whole line as YAML. The frozen witnesses, the
+qualification run and the 257 precision rows are unchanged; three superseded
+pins (`inherited_assignment-166` and ruling rows 6 and 22) now redact the
+whole value.
+
 ## Supplemental residual-row controls
 
 The delayed authoritative ruling (lead ref `4cd7f0bfa23b`, relayed by fab-pipe

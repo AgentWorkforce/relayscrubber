@@ -110,10 +110,22 @@ escape sets that level. An unquoted value runs to the end of its
 line and stops before `, `, `; `, `. ` or a following conjunction (and, but, so,
 then, because, which, or, though, although, while, when, if, unless, until,
 since); one trailing `.`, `,` or `;` stays visible, as does a closing bracket
-when the line opened that bracket before the disclosure. After a bare `:` or
-`=` the whole rest of the value is redacted, conjunctions included, and it ends
-at an enclosing quote or bracket opened before the noun, or at a `;` or `&`
-that starts the next `Key=` entry of a list (`Password=x;Encrypt=true`).
+when the line opened that bracket before the disclosure. After a `:` or `=`,
+bare or after a determiner, the whole rest of the value is redacted,
+conjunctions and documentary first words included (`my password: correct horse
+battery`, `the password: see vault`), and it ends at an enclosing quote or
+bracket opened before the noun, or at a `;` or `&` that starts the next `Key=`
+entry of a list (`Password=x;Encrypt=true`). Anything before the noun on its
+line never redacts less than the bare cue: an adjective, a verb phrase, a
+conjunction, a bullet or a label (`The new password: x`, `Please use pw = x`,
+`and my passcode: x`, `- note: the new pass code: x`, `We discussed password:
+x`) redacts the same value, and a close bracket the line did not open before
+the noun is part of it (`The new password: ab)cd` and `* password: ab)cd`
+redact `ab)cd`; `(my password: abc) see docs` keeps `)`), as is a `;` or `&`
+unless the line was a `;`/`&` list before the noun (`my pw: abc&def=ghi`
+redacts `abc&def=ghi`; `host=db;my password=abc;user=x` keeps `;user=x`).
+A `#` or `//` comment line before the noun, a `Bearer` value and a `{{ }}`
+template placeholder keep their own rulings.
 Documentary text after a word cue is not a value: an unquoted value whose
 first word is a predicate or participle (required, optional, stored, hashed, wrong, case-sensitive and the reviewed list
 in the engine), an `-able`/`-ible` adjective, an `-ed` participle followed by a
