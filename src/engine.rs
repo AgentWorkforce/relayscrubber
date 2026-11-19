@@ -1437,7 +1437,21 @@ fn assignments(
             let end = end - usize::from(quoted);
             &view.text[start..end]
         });
+        // A quoted reference with text glued after its close
+        // (`password="$defq""abc"`) is no whole reference: a prose
+        // disclosure of the whole value still has the range.
+        let glued_reference = quoted
+            && complete_end.is_some_and(|end| {
+                end > content
+                    && view.text[end..].chars().next().is_some_and(|c| {
+                        !c.is_whitespace() && !matches!(c, ',' | ';' | ')' | ']' | '}')
+                    })
+            });
         if full.is_some_and(expansion_reference) {
+            if glued_reference {
+                wrapped
+                    .push(content..complete_end.map_or(content + 1, |e| (e - 1).max(content + 1)));
+            }
             continue;
         }
         if !quoted && full.is_some_and(environment_command) {
@@ -1455,6 +1469,10 @@ fn assignments(
                 || labeled_toy(view, start, whole)
                 || excerpt_value(view, start, whole)
         }) {
+            if glued_reference {
+                wrapped
+                    .push(content..complete_end.map_or(content + 1, |e| (e - 1).max(content + 1)));
+            }
             continue;
         }
         let sentence = non_assignment_wrapper(view, start)
@@ -1902,7 +1920,16 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
             None => Gate::Always,
             Some(cue) => {
                 let key = layer.start(noun.start());
-                if code_value(view, key, layer.start(start), cue.as_str() == ":", false) {
+                // Code glued to a quote (`x "pw: process.env.X""abc"`) is one
+                // value with what touches it, scanned below.
+                let value = layer.start(start);
+                let glued = candidate_end(view, value).is_some_and(|end| {
+                    view.text[end..].starts_with(['"', '\'', '`'])
+                        && view.text[end + 1..].starts_with(|c: char| {
+                            c.is_alphanumeric() || matches!(c, '_' | '$' | '"' | '\'' | '`' | '\\')
+                        })
+                });
+                if !glued && code_value(view, key, value, cue.as_str() == ":", false) {
                     continue;
                 }
                 if noun.as_str().contains(|ch: char| !ch.is_ascii_alphabetic())
@@ -2161,6 +2188,24 @@ fn closes(opener: Option<u32>, candidate: Option<u32>, open: &str, close: &str) 
 
 type ProseRange = (Range<usize>, usize, usize);
 
+// A part of a prose value: value text, or a reference or placeholder that is
+// exempt only when it is the whole value. Once any contiguous part is value,
+// every part is (`pw: "abc""$defq"`, `pw: ${defq}abc`); a run made only of
+// exempt parts (`"$A""$B"`, `${A}${B}`) stays exempt.
+#[derive(Clone)]
+enum Part {
+    Value(ProseRange),
+    Exempt(ProseRange),
+}
+
+impl Part {
+    fn range(&self) -> &ProseRange {
+        match self {
+            Part::Value(r) | Part::Exempt(r) => r,
+        }
+    }
+}
+
 // A closed quoted segment and how far the text touching its close runs.
 #[derive(Clone, Copy)]
 struct QuotedSegment {
@@ -2175,7 +2220,7 @@ struct QuotedSegment {
 enum ProseStep {
     // A value with no closed quoted segment, and the layer position of the
     // enclosing quote close it was cut at, if any.
-    Done(Option<ProseRange>, Option<usize>),
+    Done(Option<Part>, Option<usize>),
     // The segment, and how the text touching its close ends at `run`.
     Segment(QuotedSegment, RunEnd),
 }
@@ -2236,7 +2281,7 @@ fn prose_value(
     let text: &str = &layer.text;
     // Each segment, and for the close of an enclosing quote that a value
     // runs across, the value up to that close.
-    let mut stack: Vec<(QuotedSegment, Option<ProseRange>)> = Vec::new();
+    let mut stack: Vec<(QuotedSegment, Option<Part>)> = Vec::new();
     let (mut at, mut line_end) = (start, line_end);
     let mut current = context.clone();
     let mut result = 'scan: loop {
@@ -2258,7 +2303,7 @@ fn prose_value(
             let (Some(found), Some(shut)) = (value.clone(), close) else {
                 break 'scan value;
             };
-            let Some((k, after)) = glued(view, input, layer, &current, &found, shut) else {
+            let Some((k, after)) = glued(view, input, layer, &current, found.range(), shut) else {
                 break 'scan value;
             };
             // Outside the closed quote: its layer and everything opened
@@ -2281,8 +2326,8 @@ fn prose_value(
                 end: shut,
                 after,
                 run,
-                value_start: found.0.start,
-                value_end: found.0.end,
+                value_start: found.range().0.start,
+                value_end: found.range().0.end,
             };
             if end == RunEnd::Continues {
                 at = run;
@@ -2293,34 +2338,62 @@ fn prose_value(
             // The text touching the close, less one mark of sentence
             // punctuation, joins the value; it may stop at the close of a
             // further enclosing quote that more text touches.
+            // A reference glued to a reference stays exempt; any literal
+            // part makes the whole run value.
             let tail = &text[after..run];
             let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
             let tail_end = after + kept.len();
-            value = Some((
+            let pure =
+                matches!(found, Part::Exempt(_)) && (kept.is_empty() || whole_reference(kept));
+            let found = found.range();
+            let range = (
                 found.0.start
                     ..prose_source(view, layer, &(after..tail_end))
                         .end
                         .max(found.0.end),
                 found.1,
                 tail_end.max(found.2),
-            ));
+            );
+            value = Some(if pure {
+                Part::Exempt(range)
+            } else {
+                Part::Value(range)
+            });
             close = (end == RunEnd::Encloses).then_some(run);
         }
     };
     // A segment the next one joins spans through the next one's end; one
-    // whose next segment is no value ends on its own.
+    // whose next segment is no value ends on its own. A run is exempt only
+    // when every part of it is a reference with nothing glued between.
     while let Some((segment, own)) = stack.pop() {
         result = match (result, own) {
-            (Some((next, _, next_end)), own) => Some((
-                segment.value_start..next.end.max(segment.value_end),
-                own.map_or_else(|| layer.start(segment.inner), |o| o.1),
-                next_end,
-            )),
+            (Some(next), own) => {
+                let pure = matches!(next, Part::Exempt(_))
+                    && segment.after >= segment.run
+                    && own.as_ref().map_or_else(
+                        || whole_reference(text[segment.inner..segment.end].trim()),
+                        |o| matches!(o, Part::Exempt(_)),
+                    );
+                let (next, _, next_end) = next.range().clone();
+                let range = (
+                    segment.value_start..next.end.max(segment.value_end),
+                    own.map_or_else(|| layer.start(segment.inner), |o| o.range().1),
+                    next_end,
+                );
+                Some(if pure {
+                    Part::Exempt(range)
+                } else {
+                    Part::Value(range)
+                })
+            }
             (None, Some(own)) => Some(own),
             (None, None) => finish_quoted(view, layer, &segment),
         };
     }
-    result
+    match result {
+        Some(Part::Value(range)) => Some(range),
+        _ => None,
+    }
 }
 
 // Whether text glues onto the close `close` of a quote the line opened
@@ -2344,6 +2417,7 @@ fn glued(
         c.is_alphanumeric()
             || matches!(c, '_' | '$' | '"' | '\'' | '`' | '“' | '”' | '‘' | '’')
             || c == '\\' && rest.trim_start_matches('\\').starts_with(['"', '\'', '`'])
+            || reference_prefix(rest)
     });
     let between = text.get(value.2.min(close)..close)?;
     if !touching
@@ -2455,7 +2529,14 @@ fn prose_segment(
                     cue,
                     innermost(context.brackets, false),
                 )
-                .map(|r| (prose_source(view, layer, &r), layer.start(r.start), r.end)),
+                .map(|(r, exempt)| {
+                    let range = (prose_source(view, layer, &r), layer.start(r.start), r.end);
+                    if exempt {
+                        Part::Exempt(range)
+                    } else {
+                        Part::Value(range)
+                    }
+                }),
                 found,
             );
         }
@@ -2532,11 +2613,11 @@ fn prose_segment(
             return ProseStep::Done(None, None);
         }
         return ProseStep::Done(
-            Some((
+            Some(Part::Value((
                 prose_source(view, layer, &(from..line_end)),
                 layer.start(probe),
                 line_end,
-            )),
+            ))),
             bound,
         );
     };
@@ -2589,7 +2670,18 @@ fn touching_run(
         || (rest.starts_with('>') || rest.starts_with("/>"))
             && innermost(context.tagged, true) == Some('<');
     let mut run = after.min(text.len());
+    // A bracket the run opens (`${defq}`) is closed inside it.
+    let mut nested = Vec::new();
     while let Some(q) = text[run..].chars().next().filter(|_| !field) {
+        match q {
+            '(' | '[' | '{' => nested.push(q),
+            ')' | ']' | '}' if nested.last() == Some(&bracket_opener(q)) => {
+                nested.pop();
+                run += 1;
+                continue;
+            }
+            _ => {}
+        }
         if q.is_whitespace() || matches!(q, ')' | ']' | '}') && Some(bracket_opener(q)) == bracket {
             break;
         }
@@ -2610,7 +2702,8 @@ fn touching_run(
 
 // The value of a closed quoted segment that no further segment joins: the
 // quoted text and any non-punctuation text touching its close.
-fn finish_quoted(view: &View, layer: &Spaced, segment: &QuotedSegment) -> Option<ProseRange> {
+// A reference or placeholder is exempt, as a part of the run.
+fn finish_quoted(view: &View, layer: &Spaced, segment: &QuotedSegment) -> Option<Part> {
     let text: &str = &layer.text;
     let QuotedSegment {
         inner,
@@ -2627,21 +2720,24 @@ fn finish_quoted(view: &View, layer: &Spaced, segment: &QuotedSegment) -> Option
     {
         let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
         let tail_end = after + kept.len();
-        return Some((
+        return Some(Part::Value((
             value_start..prose_source(view, layer, &(after..tail_end)).end,
             layer.start(inner),
             tail_end,
-        ));
+        )));
     }
     let value = text[inner..end].trim();
     if value_end <= value_start
         || value.is_empty() && value_end == view.source_start(layer.start(end))
-        || prose_reference(value)
     {
         return None;
     }
-    let source = value_start..value_end;
-    Some((source, layer.start(inner), end))
+    let range = (value_start..value_end, layer.start(inner), end);
+    Some(if whole_reference(value) {
+        Part::Exempt(range)
+    } else {
+        Part::Value(range)
+    })
 }
 
 // A Python-style condition (`if password is None`) compares, not discloses.
@@ -2664,7 +2760,7 @@ fn unquoted_prose_value(
     prefix: &str,
     cue: Cue,
     bracket: Option<char>,
-) -> Option<Range<usize>> {
+) -> Option<(Range<usize>, bool)> {
     let assigned = cue != Cue::Word;
     // The caller ends the value at an enclosing quote's close (an HTML
     // attribute, a shell argument, a JSON string).
@@ -2878,16 +2974,24 @@ fn unquoted_prose_value(
         "and", "but", "so", "then", "because", "which", "or", "though", "although", "while",
         "when", "if", "unless", "until", "since",
     ];
-    // A bracketed placeholder may contain spaces: `{{ password }}`.
+    // A bracketed placeholder may contain spaces: `{{ password }}`. It, or a
+    // run of them (`${A}${B}`), is exempt only when nothing is glued after
+    // it; `${defq}abc` is one value.
     let line = &text[start..line_end];
-    for (open, close) in [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")] {
-        if line.starts_with(open)
-            && line
-                .find(close)
-                .is_some_and(|n| prose_reference(&line[..n + close.len()]))
-        {
-            return None;
-        }
+    let mut placeholders = 0;
+    while let Some(n) = [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")]
+        .iter()
+        .find_map(|(open, close)| {
+            let rest = &line[placeholders..];
+            rest.strip_prefix(open)?;
+            let n = rest.find(close)? + close.len();
+            prose_reference(&rest[..n]).then_some(n)
+        })
+    {
+        placeholders += n;
+    }
+    if placeholders > 0 && separated(&line[placeholders..]) {
+        return Some((start..start + placeholders, true));
     }
     let words = text[start..line_end]
         .split(|c: char| c != '\n' && c.is_whitespace())
@@ -2903,11 +3007,18 @@ fn unquoted_prose_value(
         // required` always has: only references, a lone null and code types
         // (checked by the caller) are exempt, and conjunctions belong to the
         // value.
+        let reference = word.trim_end_matches(['.', ',', ';']);
+        if i == 0 && whole_reference(reference) {
+            let reference = if reference.starts_with(REDACTION_TOKEN) {
+                REDACTION_TOKEN
+            } else {
+                reference
+            };
+            return Some((at..at + reference.len(), true));
+        }
         if i == 0 && assigned {
             let only = text[cursor..line_end].trim().is_empty();
-            if prose_reference(word.trim_end_matches(['.', ',', ';']))
-                || only && matches!(lower.as_str(), "none" | "null" | "nil" | "undefined")
-            {
+            if only && matches!(lower.as_str(), "none" | "null" | "nil" | "undefined") {
                 return None;
             }
         } else if i == 0 {
@@ -2928,7 +3039,6 @@ fn unquoted_prose_value(
                                 .as_str(),
                         )
                     })
-                || prose_reference(word.trim_end_matches(['.', ',', ';']))
             {
                 return None;
             }
@@ -2965,7 +3075,21 @@ fn unquoted_prose_value(
             end -= 1;
         }
     }
-    (end > start).then_some(start..end)
+    (end > start).then_some((start..end, false))
+}
+
+// The text after a placeholder leaves it whole: nothing, a space, or
+// sentence punctuation that ends the value.
+fn separated(rest: &str) -> bool {
+    let mut chars = rest.chars();
+    match chars.next() {
+        None => true,
+        Some(c) if c.is_whitespace() => true,
+        Some('.' | ',' | ';' | ':' | '!' | '?' | ')' | ']' | '}') => {
+            chars.next().is_none_or(char::is_whitespace)
+        }
+        _ => false,
+    }
 }
 
 fn bracket_opener(close: char) -> char {
@@ -3144,6 +3268,58 @@ fn prose_reference(value: &str) -> bool {
             !s.is_empty() && s.bytes().all(|b| b.is_ascii_uppercase() || b == b'_')
         })
         || value.starts_with("op://")
+}
+
+// Whether text starts with a placeholder, mask or marker (`<x>`, `%X%`,
+// `{{x}}`, `***`, `[REDACTED]`), which is part of a value it touches.
+fn reference_prefix(text: &str) -> bool {
+    let token = text.split(char::is_whitespace).next().unwrap_or("");
+    let closed = |open: &str, close: &str| {
+        token.strip_prefix(open).is_some_and(|rest| {
+            rest.find(close)
+                .is_some_and(|n| prose_reference(&token[..open.len() + n + close.len()]))
+        })
+    };
+    token.starts_with(REDACTION_TOKEN)
+        || closed("<", ">")
+        || closed("%", "%")
+        || closed("{{", "}}")
+        || token
+            .chars()
+            .take_while(|c| matches!(c, '*' | '•' | '●'))
+            .count()
+            >= 3
+}
+
+// A reference or placeholder that is the whole value, with nothing literal
+// glued to it: `[REDACTED]abc` and `<a>abc<b>` are values.
+fn whole_reference(value: &str) -> bool {
+    if let Some(rest) = value.strip_prefix(REDACTION_TOKEN) {
+        return rest.starts_with(char::is_whitespace)
+            || rest.chars().all(|c| c.is_ascii_punctuation() && c != '$');
+    }
+    let inner = |open: &str, close: &str| {
+        value
+            .strip_prefix(open)
+            .and_then(|v| v.strip_suffix(close))
+            .is_some_and(|v| !v.contains(close) && !v.contains(open))
+    };
+    if value.starts_with("${{") {
+        return inner("${{", "}}") && prose_reference(value);
+    }
+    if value.starts_with("{{") {
+        return inner("{{", "}}") && prose_reference(value);
+    }
+    if value.starts_with('<') && value.ends_with('>') {
+        return inner("<", ">");
+    }
+    if value.starts_with('%') && value.ends_with('%') && value.len() > 2 {
+        return inner("%", "%");
+    }
+    if value.starts_with("op://") {
+        return !value.contains(['"', '\'', '`', ' ']);
+    }
+    prose_reference(value)
 }
 
 fn comment_variable(value: &str) -> bool {
@@ -4992,6 +5168,16 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         ranges.get(n).is_some_and(|r| r.start <= probe)
     };
     let inside = |probe: usize| within(&context, probe);
+    // Sorted by start with a running maximum end, so the ranges holding a
+    // probe are found without scanning every wrapped value per disclosure.
+    wrapped.sort_unstable_by_key(|r| (r.start, r.end));
+    let reach: Vec<usize> = wrapped
+        .iter()
+        .scan(0, |end, r| {
+            *end = (*end).max(r.end);
+            Some(*end)
+        })
+        .collect();
     let mut disclosed: Vec<Range<usize>> = Vec::new();
     for p in prose {
         let accepted = match p.gate {
@@ -5005,12 +5191,14 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         // Words before the key kept the assignment engine from redacting
         // the value; the disclosure covers what the bare key would have.
         if p.gate == Gate::Assigned {
-            disclosed.extend(
-                wrapped
-                    .iter()
-                    .filter(|r| r.start <= p.probe && p.probe < r.end)
-                    .map(|r| view.source_start(r.start)..view.source_end(r.end - 1)),
-            );
+            let mut i = wrapped.partition_point(|r| r.start <= p.probe);
+            while i > 0 && reach[i - 1] > p.probe {
+                i -= 1;
+                let r = &wrapped[i];
+                if p.probe < r.end {
+                    disclosed.push(view.source_start(r.start)..view.source_end(r.end - 1));
+                }
+            }
         }
         disclosed.push(p.source);
     }
