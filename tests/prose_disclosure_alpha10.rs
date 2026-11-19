@@ -509,6 +509,178 @@ fn a_prefix_redacts_a_value_with_a_close_bracket_or_separator_whole() {
     );
 }
 
+/// Values with an unmatched close bracket, or a `&key=` or `;key=` inside
+/// them: one word, several words and Unicode.
+const DELIMITED_VALUES: [&str; 15] = [
+    "x]yq",
+    "x)yq",
+    "x}yq",
+    "abc&def=ghi",
+    "abc;host=y",
+    "x]yq zq",
+    "x)yq zq",
+    "x}yq zq",
+    "abc&def=ghi jk",
+    "abc;host=y zz",
+    "密]码 秘",
+    "pä)ss ü",
+    "ж}ок",
+    "密码&键=值",
+    "ünï;host=ж",
+];
+
+/// The bare colon or equals cue redacts such a value whole, for every noun
+/// and layout: a close bracket the line did not open before the noun, and a
+/// `;` or `&` on a line that was not a list before the noun, belong to the
+/// value. A determiner or words before the noun redact the same value.
+fn bare_delimiter_matrix(noun: &str) -> Vec<(String, String, String)> {
+    let mut cases = Vec::new();
+    for lead in ["", "my ", "The new "] {
+        for cue in CUES {
+            for value in DELIMITED_VALUES {
+                let left = format!("{PUBLIC}\n{lead}{noun}{cue}");
+                cases.push((
+                    format!("bare delimiter {lead:?} {noun}{cue:?} {value}"),
+                    format!("{left}{value}"),
+                    format!("{left}{R}"),
+                ));
+            }
+        }
+    }
+    cases
+}
+
+#[test]
+fn a_bare_cue_redacts_a_value_with_a_close_bracket_or_separator_whole() {
+    let mut total = 0;
+    let mut failures = Vec::new();
+    for noun in NOUNS {
+        let cases = bare_delimiter_matrix(noun);
+        assert_eq!(cases.len(), 3 * 8 * 15);
+        total += cases.len();
+        failures.extend(run(&cases));
+    }
+    report("bare bracket and separator values", total, &failures);
+}
+
+/// A bracket or a list the line opened before the noun still ends the value,
+/// after a bare cue as after a prefixed one.
+#[test]
+fn a_bracket_or_list_opened_before_a_bare_cue_still_ends_it() {
+    let mut cases = Vec::new();
+    for (input, expected) in [
+        ("(my pw: abc) docs", "(my pw: [REDACTED]) docs"),
+        ("(pw: abc) docs", "(pw: [REDACTED]) docs"),
+        ("[pass code: x] ok", "[pass code: [REDACTED]] ok"),
+        ("{pass phrase=abc} more", "{pass phrase=[REDACTED]} more"),
+        ("host=db;pw=abc;user=x", "host=db;pw=[REDACTED];user=x"),
+        (
+            "host=db;pass code=abc;user=x",
+            "host=db;pass code=[REDACTED];user=x",
+        ),
+        ("?a=1&pw=abc&b=2", "?a=1&pw=[REDACTED]&b=2"),
+        ("a=1&pass phrase=abc&b=2", "a=1&pass phrase=[REDACTED]&b=2"),
+    ] {
+        cases.push((
+            format!("enclosed bare {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            format!("{PUBLIC}\n{expected}"),
+        ));
+    }
+    report("bare enclosed controls", cases.len(), &run(&cases));
+}
+
+/// No quoted segment that touches the value's close quote survives: the
+/// same quote twice, mixed quotes, or more than two segments. A later quoted
+/// string after whitespace keeps today's boundary.
+#[test]
+fn contiguous_quoted_segments_are_one_value() {
+    let segments = [
+        ("\"abc\"\"defq\"", "\""),
+        ("'abc''defq'", "'"),
+        ("`abc``defq`", "`"),
+        ("\"abc\"'defq'", "'"),
+        ("'abc'\"defq\"", "\""),
+        ("\"abc\"`defq`", "`"),
+        ("“abc”“defq”", "”"),
+        ("“abc”‘defq’", "’"),
+        ("‘abc’\"defq\"", "\""),
+        ("\"abc\"\"de\"'fq'", "'"),
+        ("\"密码\"\"秘ж\"", "\""),
+    ];
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for (lead, cue) in [
+            ("my ", " is "),
+            ("my ", " was set to "),
+            ("", ": "),
+            ("", "="),
+            ("my ", ": "),
+            ("The new ", " = "),
+        ] {
+            for (value, close) in segments {
+                let open: String = value.chars().take(1).collect();
+                let left = format!("{PUBLIC}\n{lead}{noun}{cue}");
+                // Everything between the first opener and the last close is
+                // the value. The quotes stay, except where a sensitive
+                // assignment fails closed on mixed quotes through the line
+                // (`password: "[REDACTED]`); every API must agree on it.
+                let input = format!("{left}{value}");
+                let whole = format!("{left}{open}{R}{close}");
+                let text = scrub_text(&input);
+                let expected = if [format!("{left}{open}{R}"), format!("{left}{R}")].contains(&text)
+                {
+                    text
+                } else {
+                    whole
+                };
+                cases.push((
+                    format!("quoted {lead}{noun}{cue:?} {value}"),
+                    input,
+                    expected,
+                ));
+            }
+            let left = format!("{PUBLIC}\n{lead}{noun}{cue}");
+            cases.push((
+                format!("quoted spaced {lead}{noun}{cue:?}"),
+                format!("{left}\"abc\" \"defq\""),
+                format!("{left}\"{R}\" \"defq\""),
+            ));
+        }
+    }
+    // An unmatched contiguous segment fails closed; a quote the line opened
+    // before the noun, or the end of an enclosing JSON string, is not a
+    // segment; an apostrophe is not an opened quote.
+    for (input, expected) in [
+        ("my password is \"abc\"\"de", "my password is \"[REDACTED]"),
+        ("pw: 'abc''de", "pw: '[REDACTED]"),
+        (
+            "echo \"my password is 'abc'\"",
+            "echo \"my password is '[REDACTED]'\"",
+        ),
+        ("title=\"pw: 'abc'\" x", "title=\"pw: '[REDACTED]'\" x"),
+        (
+            "Don't forget, my password is 'abc''defq'",
+            "Don't forget, my password is '[REDACTED]'",
+        ),
+        (
+            "{\"t\":\"my password is \\\"abc\\\"\\\"defq\\\"\"}",
+            "{\"t\":\"my password is \\\"[REDACTED]\\\"\"}",
+        ),
+        (
+            "{\"t\":\"my password is \\\"abc\\\"\"}",
+            "{\"t\":\"my password is \\\"[REDACTED]\\\"\"}",
+        ),
+    ] {
+        cases.push((
+            format!("quoted named {input:?}"),
+            format!("{PUBLIC}\n{input}"),
+            format!("{PUBLIC}\n{expected}"),
+        ));
+    }
+    report("contiguous quoted segments", cases.len(), &run(&cases));
+}
+
 /// A benign control never redacts less after a prefix: what the bare cue
 /// redacts (`password=string`) the prefixed form redacts too, and what the
 /// bare cue keeps (`password: $PASSWORD`) the prefixed form keeps or redacts

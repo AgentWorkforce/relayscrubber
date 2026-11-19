@@ -145,6 +145,51 @@ test('a prefix redacts a value with a close bracket or separator whole',()=>{
     cases.push({id:`enclosed ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
   assert.deepEqual(run(cases),[]);
 });
+const DELIMITED_VALUES=['x]yq','x)yq','x}yq','abc&def=ghi','abc;host=y','x]yq zq','x)yq zq','x}yq zq','abc&def=ghi jk','abc;host=y zz',
+  '密]码 秘','pä)ss ü','ж}ок','密码&键=值','ünï;host=ж'];
+// One test per noun, as for the prefix matrix, to stay inside Bun's 5 s limit.
+for(const noun of NOUNS){
+  test(`a bare cue redacts a value with a close bracket or separator whole: ${noun}`,()=>{
+    const cases=[];
+    for(const lead of ['','my ','The new ']) for(const cue of CUES) for(const value of DELIMITED_VALUES){
+      const left=`${PUBLIC}\n${lead}${noun}${cue}`;
+      cases.push({id:`bare delimiter ${JSON.stringify(lead)} ${noun}${JSON.stringify(cue)} ${value}`,input:left+value,expected:left+R});
+    }
+    assert.equal(cases.length,3*8*15);
+    assert.deepEqual(run(cases),[]);
+  });
+}
+test('a bracket or list opened before a bare cue still ends it',()=>{
+  const cases=[];
+  for(const [input,expected] of [['(my pw: abc) docs','(my pw: [REDACTED]) docs'],['(pw: abc) docs','(pw: [REDACTED]) docs'],
+    ['[pass code: x] ok','[pass code: [REDACTED]] ok'],['{pass phrase=abc} more','{pass phrase=[REDACTED]} more'],
+    ['host=db;pw=abc;user=x','host=db;pw=[REDACTED];user=x'],['host=db;pass code=abc;user=x','host=db;pass code=[REDACTED];user=x'],
+    ['?a=1&pw=abc&b=2','?a=1&pw=[REDACTED]&b=2'],['a=1&pass phrase=abc&b=2','a=1&pass phrase=[REDACTED]&b=2']])
+    cases.push({id:`enclosed bare ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  assert.deepEqual(run(cases),[]);
+});
+test('contiguous quoted segments are one value',()=>{
+  const segments=[['"abc""defq"','"'],["'abc''defq'","'"],['`abc``defq`','`'],['"abc"\'defq\'',"'"],['\'abc\'"defq"','"'],
+    ['"abc"`defq`','`'],['“abc”“defq”','”'],['“abc”‘defq’','’'],['‘abc’"defq"','"'],['"abc""de"\'fq\'',"'"],['"密码""秘ж"','"']];
+  const cases=[];
+  for(const noun of NOUNS) for(const [lead,cue] of [['my ',' is '],['my ',' was set to '],['',': '],['','='],['my ',': '],['The new ',' = ']]){
+    const left=`${PUBLIC}\n${lead}${noun}${cue}`;
+    for(const [value,close] of segments){
+      // A sensitive assignment may fail closed on mixed quotes through the line; every API must agree on it.
+      const open=[...value][0], text=scrubber.scrubText(left+value);
+      const expected=[`${left}${open}${R}`,`${left}${R}`].includes(text)?text:`${left}${open}${R}${close}`;
+      cases.push({id:`quoted ${lead}${noun}${JSON.stringify(cue)} ${value}`,input:left+value,expected});
+    }
+    cases.push({id:`quoted spaced ${lead}${noun}${JSON.stringify(cue)}`,input:`${left}"abc" "defq"`,expected:`${left}"${R}" "defq"`});
+  }
+  for(const [input,expected] of [['my password is "abc""de','my password is "[REDACTED]'],["pw: 'abc''de","pw: '[REDACTED]"],
+    ['echo "my password is \'abc\'"','echo "my password is \'[REDACTED]\'"'],['title="pw: \'abc\'" x','title="pw: \'[REDACTED]\'" x'],
+    ["Don't forget, my password is 'abc''defq'","Don't forget, my password is '[REDACTED]'"],
+    ['{"t":"my password is \\"abc\\"\\"defq\\""}','{"t":"my password is \\"[REDACTED]\\""}'],
+    ['{"t":"my password is \\"abc\\""}','{"t":"my password is \\"[REDACTED]\\""}']])
+    cases.push({id:`quoted named ${JSON.stringify(input)}`,input:`${PUBLIC}\n${input}`,expected:`${PUBLIC}\n${expected}`});
+  assert.deepEqual(run(cases),[]);
+});
 test('a prefix keeps the bare cue outcome for benign controls',()=>{
   const cases=[];
   for(const noun of NOUNS) for(const cue of CUES) for(const value of ['string','$PASSWORD','${{ secrets.PW }}','none','null']){

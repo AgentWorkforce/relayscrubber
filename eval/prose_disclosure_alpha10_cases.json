@@ -424,7 +424,7 @@
     "family": "list",
     "kind": "positive",
     "input": "pass code=velvet river&ssl=true",
-    "expected": "pass code=[REDACTED]&ssl=true"
+    "expected": "pass code=[REDACTED]"
   },
   {
     "id": "prefix-f1-the-new",
@@ -558,5 +558,96 @@
     "kind": "positive",
     "input": "host=db;my password=abc;user=x",
     "expected": "host=db;my password=[REDACTED];user=x"
+  },
+  {
+    "id": "bare-close-bracket-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: x]yq zq",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-close-paren-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: x)yq zq",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-ampersand-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: abc&def=ghi",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-semicolon-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: abc;host=y",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-pass-code-ampersand-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pass code: abc&def=ghi",
+    "expected": "pass code: [REDACTED]"
+  },
+  {
+    "id": "bare-pass-phrase-semicolon-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pass phrase: abc;host=y",
+    "expected": "pass phrase: [REDACTED]"
+  },
+  {
+    "id": "prefix-determiner-close-bracket-multiword",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my pw: x]yq zq",
+    "expected": "my pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-adjective-ampersand-key-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new pw: abc&def=ghi",
+    "expected": "The new pw: [REDACTED]"
+  },
+  {
+    "id": "bare-bracket-opened-before-key",
+    "family": "bare",
+    "kind": "positive",
+    "input": "(my pw: abc) docs",
+    "expected": "(my pw: [REDACTED]) docs"
+  },
+  {
+    "id": "bare-list-before-key",
+    "family": "bare",
+    "kind": "positive",
+    "input": "host=db;pw=abc;user=x",
+    "expected": "host=db;pw=[REDACTED];user=x"
+  },
+  {
+    "id": "quoted-contiguous-same-quote",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\"\"defq\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "quoted-contiguous-mixed-quotes",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\"'defq'",
+    "expected": "my password is \"[REDACTED]'"
+  },
+  {
+    "id": "quoted-whitespace-separated-later-string",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\" \"defq\"",
+    "expected": "my password is \"[REDACTED]\" \"defq\""
   }
 ]
