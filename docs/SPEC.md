@@ -102,10 +102,17 @@ is x`, `pw: Q` and `the password is #` redact `x`, `Q` and `#`. A value opened b
 `'`, `"`, `` ` ``, `“` or `‘` is the content up to its matching close on the
 same line, otherwise within the next 1024 bytes; an unmatched quote redacts from
 the quote through the end of its line (after a bare `:` or `=` the opening quote
-stays visible, as for an assignment). A quoted segment that starts right at the
-value's close quote continues the value, with the same or another quote
-(`"abc""defq"` and `"abc"'defq'` are one value), so no contiguous quoted
-suffix stays visible; a quoted string after whitespace is not part of it. A
+stays visible, as for an assignment). Text that touches the close quote with
+no whitespace continues the value up to the next whitespace (`"abc"defq`,
+`""abcq` and `'abc'-defq` are one value each), unless it is only sentence or
+list punctuation (`"abc".` and `"abc", ok` keep `.` and `, ok`); a quoted
+segment in that text continues it too, with the same or another quote
+(`"abc""defq"` and `"abc"'defq'` are one value), and an unmatched one fails
+closed as above. The run ends at a quote of another escape level (the close of
+an enclosing JSON string), at a quote the line opened before the noun, and at
+the close of the innermost bracket the line opened before it; a quoted string
+after whitespace is not part of it. An empty quoted segment followed by text
+(`password=""abc`) is not an empty assignment. A
 straight quote preceded by an odd number of backslashes at the opener's escape
 level is escaped and does not close the
 value (`"abc\"def"` is one value; `"abc\\"` closes after the backslashes,
@@ -113,24 +120,27 @@ which belong to the value); inside a JSON-escaped string the opener's own
 escape sets that level. An unquoted value runs to the end of its
 line and stops before `, `, `; `, `. ` or a following conjunction (and, but, so,
 then, because, which, or, though, although, while, when, if, unless, until,
-since); one trailing `.`, `,` or `;` stays visible, as does a closing bracket
-when the line opened that bracket before the disclosure. After a `:` or `=`,
+since); one trailing `.`, `,` or `;` stays visible, as does the close of the
+innermost bracket the line left open before the disclosure. After a `:` or `=`,
 bare or after a determiner, the whole rest of the value is redacted,
 conjunctions and documentary first words included (`my password: correct horse
-battery`, `the password: see vault`), and it ends at an enclosing quote or
-bracket opened before the noun, or at a `;` or `&` that starts the next `Key=`
-entry of a line that was already such a list before the noun
-(`Server=db;Password=x;Encrypt=true`). A close bracket the line did not open
-before the noun, and a `;` or `&` on a line that was not a list before the
-noun, are part of the value, after the bare cue too (`pw: x]yq zq` and `pw:
-abc&def=ghi` redact `x]yq zq` and `abc&def=ghi`). Anything before the noun on
+battery`, `the password: see vault`), and it ends at an enclosing quote, at
+the close that matches by type the innermost bracket the line left open before
+the noun in the noun's own string layer (a JSON object's or array's brackets
+outside the string that holds the noun never count), or at a `;` or `&` that
+starts the next `Key=` entry when the noun starts right after a `key=value`
+item ended by that same separator (`Server=db;Password=x;Encrypt=true`). Any
+other close bracket, `;` or `&` is part of the value, after the bare cue too
+(`pw: x]yq zq`, `(note pw: x]yq zq`, `{"note":"pw: x}yq zq"}`, `pw:
+abc&def=ghi`, `R&D pw: abc&def=ghi` and `note; my pw: abc;host=y` redact
+everything after the cue). Anything before the noun on
 its line never redacts less than the bare cue: an adjective, a verb phrase, a
 conjunction, a bullet or a label (`The new password: x`, `Please use pw = x`,
 `and my passcode: x`, `- note: the new pass code: x`, `We discussed password:
 x`) redacts the same value, and a close bracket the line did not open before
 the noun is part of it (`The new password: ab)cd` and `* password: ab)cd`
 redact `ab)cd`; `(my password: abc) see docs` keeps `)`), as is a `;` or `&`
-unless the line was a `;`/`&` list before the noun (`my pw: abc&def=ghi`
+unless the noun follows a `key=value` item and that separator (`my pw: abc&def=ghi`
 redacts `abc&def=ghi`; `host=db;my password=abc;user=x` keeps `;user=x`).
 A `#` or `//` comment line before the noun, a `Bearer` value and a `{{ }}`
 template placeholder keep their own rulings.
