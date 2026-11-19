@@ -1,7 +1,8 @@
 {
   "baseCommit": "5a1afa4428bbc73371ffb07d784821cbf266005c",
   "testOnlyCommit": "258e7d2",
-  "scope": "Invented inputs only; historical repair evidence retained below. Current alpha8 recall repair is scoped in alpha8ReassignmentRepair. No private samples accessed; production precision/adoption remain separate.",
+  "scope": "Invented inputs only; historical repair evidence retained below. The candidate is 0.5.0-alpha.10; its current repair is scoped in alpha10BlockRepair, and the alpha.8 recall repair in alpha8ReassignmentRepair. No private samples accessed; production precision/adoption remain separate.",
+  "alpha8Scope": "Invented inputs only; historical repair evidence retained below. Current alpha8 recall repair is scoped in alpha8ReassignmentRepair. No private samples accessed; production precision/adoption remain separate.",
   "baseNative": {
     "families": [
       {
@@ -534,6 +535,31 @@
     "structuredCases": 3,
     "nativeTextVectors": 235556,
     "nativeStructuredVectors": 235561,
+    "nodeTests": 861,
+    "bunTests": 861,
+    "secondPassParity": true,
+    "frozenWasmAllApiCases": 199,
+    "newSessionBenignCases": 81,
+    "newSessionPositiveControls": 36,
+    "nativeTests": 154,
+    "bearerPositiveCases": 43,
+    "bearerBenignControls": 9,
+    "completeValueCases": 141,
+    "numericCredentialCases": 45,
+    "ruleset10_1InventedCases": 257,
+    "queryRecoveryInventedCases": 371,
+    "querySeparatorPropertyCases": 12512,
+    "htmlAttributePunctuationPropertyCases": 63906,
+    "proseDisclosureQualificationCases": 7539,
+    "countsSource": "nativeTests, nodeTests, bunTests, nativeTextVectors and frozenWasmAllApiCases are read from source run 44628698592; proseDisclosureQualificationCases from alpha10BlockRepair.qualification; the other counts describe corpora this repair did not change and are carried from alpha8Controls."
+  },
+  "alpha8Controls": {
+    "namedBenignFamilies": 14,
+    "inventedBenignVariants": 78,
+    "positiveControls": 25,
+    "structuredCases": 3,
+    "nativeTextVectors": 235556,
+    "nativeStructuredVectors": 235561,
     "nodeTests": 772,
     "bunTests": 772,
     "secondPassParity": true,
@@ -576,11 +602,35 @@
       "call_refusal",
       "instance_poison"
     ],
+    "candidateVersion": "0.5.0-alpha.10",
+    "npmPrivate": false,
+    "published": false
+  },
+  "alpha8Interface": {
+    "schema": 3,
+    "abiVersion": 2,
+    "scrubProfile": "relayhistory-secrets-v10",
+    "errorDispositions": [
+      "call_refusal",
+      "instance_poison"
+    ],
     "candidateVersion": "0.5.0-alpha.8",
     "npmPrivate": false,
     "published": false
   },
   "localChecks": {
+    "source": "hosted source run 44628698592 on b28e3030, unless a line says otherwise",
+    "nativeAllTargetsAllFeatures": "Rust 1.88.0: 154 pass on hosted Linux and Windows",
+    "clippy": "-D warnings pass on hosted Linux and Windows",
+    "fmt": "pass on hosted Linux and Windows",
+    "cargoPackage": "pass on hosted Linux",
+    "resourceBounds": "pass (tests/adversarial.rs on Linux and Windows; js/test/wasm.test.mjs on Node and Bun)",
+    "independentTargetReproducibility": "pass (scripts/check-reproducible.sh)",
+    "workers": "pass on the WASM built by the source run (scripts/test-workers.sh); the replay of the downloaded final artifact is part of hostedArtifact.finalGate",
+    "committedPinCheck": "failed by design against the 639f7f0 pins; see hostedArtifact.sourceRunResult",
+    "publicDiff": "the patterns of scripts/check-public-diff.py over the full diff from the blocked head 639f7f0 to this receipt commit, run locally: zero unexplained credential shapes"
+  },
+  "alpha8LocalChecks": {
     "nativeAllTargetsAllFeatures": "Rust1.88.0:82 pass on hosted Linux and Windows",
     "clippy": "-D warnings pass",
     "fmt": "pass",
@@ -592,6 +642,68 @@
   },
   "independentPrecision": "independent re-audit pending",
   "hostedArtifact": {
+    "sourceHead": "b28e303033951d7bc6da41dc11b5f84b7b2977c9",
+    "sourceRun": 44628698592,
+    "sourceRunUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/44628698592",
+    "sourceRunCheckout": "pull_request merge 63ff69c3d9d6e0aca7eb070d6ca9640911ca3a8c of the source head into main 477bf672147947b3903b3dc9c612209ee36b6312; its tree 2fa8f664c4285251304450c36c40ed90de8b8ec6 equals the source head's tree",
+    "sourceArtifact": {
+      "name": "relayscrubber-wasm-candidate",
+      "id": 14581157486,
+      "sizeBytes": 624197,
+      "apiDigest": "sha256:723ab4038bd7e9b9bf7cbef07f307034bab8f6eb04728fefa90004f128cff1dc",
+      "archiveSha256": "723ab4038bd7e9b9bf7cbef07f307034bab8f6eb04728fefa90004f128cff1dc"
+    },
+    "packageSha256": "4d7627b35b81b94a5c537e0ca355e1fecf0846af7e7c7f58472b6d0d403d96f0",
+    "packageBytes": 627103,
+    "sourceSha256": "12fa2d006dc48aee93338bfd07bca7021cf92f8980f11201a28656419e7d5dbf",
+    "wasmSha256": "3d02892dea43e07bbf06123773c53eb9abcbe6b0d1e3ab62b7c2cf43f345ec26",
+    "wasmBytes": 1876661,
+    "payloadIdentityRecomputed": "Downloaded archive SHA256 equals the API digest; the package's generated/artifact.json equals the loose one; every file and adapterFiles hash below was recomputed from the extracted package; a local Rust 1.88.0 / wasm-bindgen 0.2.104 rebuild of the source head computes the same rulesetSourceSha256, and its npm pack (package files at mode 0644, as a default checkout has them) reproduces the package and every payload byte for byte.",
+    "committedPinsEqual": false,
+    "sourceRunResult": "failure by design at the wasm job's step 15 \"Check hosted artifact against committed pin\" only: the built WASM and rulesetSourceSha256 differed from the pins committed in 639f7f0 for the blocked candidate. rust (ubuntu-latest) and rust (windows-latest) passed (fmt, clippy with warnings denied, 154 Rust tests each; on Linux also frozen witnesses 199 cases with 0 missed secrets and 0 second-pass changes, and cargo package); every other wasm step passed: Node 861/861, Bun 861/861, native parity vectors 0-235556, independent target-directory reproducibility, Workers, npm pack and the artifact upload.",
+    "codeCommit": "9338339b5313dc13607413aa9f9307fab51039db",
+    "codeCommitNote": "last commit that changes production code, version or tests; the source head adds one documentation commit on top of it",
+    "supersededCandidateCodeCommit": "a9c679f5dffe3dd263e60622860f777fde2da8d9",
+    "supersededHostedArtifact": "alpha10BlockedHostedArtifact",
+    "toolchain": "1.88.0",
+    "wasmBindgen": "0.2.104",
+    "manifest": {
+      "schema": 3,
+      "ruleset": "relayhistory-scrub",
+      "rulesetVersion": 10,
+      "rulesetSourceSha256": "12fa2d006dc48aee93338bfd07bca7021cf92f8980f11201a28656419e7d5dbf",
+      "crateVersion": "0.5.0-alpha.10",
+      "abiVersion": 2,
+      "policy": "secrets",
+      "redactionToken": "[REDACTED]",
+      "scrubProfile": "relayhistory-secrets-v10"
+    },
+    "files": {
+      "relayscrubber_bg.wasm": "3d02892dea43e07bbf06123773c53eb9abcbe6b0d1e3ab62b7c2cf43f345ec26",
+      "relayscrubber.js": "55dd6fc6a44ed35f846655ab08bf3161ffe105123cbe11d3e529923d6bdeae5b",
+      "relayscrubber.d.ts": "2c20949933851d1c100f690b0fd35338040616951404a0a1ed8d98c664304441",
+      "relayscrubber_bg.wasm.d.ts": "27183d892b07da18aebd7cf06362ccb64b10019f84ecec926f070687903e84b1"
+    },
+    "adapterFiles": {
+      "index.js": "ff139ab391a958475b455ef483e7119d66215d172647223965dc35348f912490",
+      "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
+    },
+    "finalGate": {
+      "status": "required externally",
+      "conditions": [
+        "The exact-head CI run of the receipt commit that pins this artifact reports committed-pin equality true (its \"Check hosted artifact against committed pin\" step passes).",
+        "That run's package and every payload are byte-identical to sourceRun's: package SHA256 equals packageSha256 and the WASM, glue, declaration and adapter hashes equal files and adapterFiles."
+      ]
+    },
+    "independentEngineReview": "pending; alpha7 PASS withdrawn; the previous alpha.10 receipt head 639f7f0 was blocked"
+  },
+  "alpha10BlockedHostedArtifact": {
+    "status": "blocked: SECURITY BLOCK on the receipt head 639f7f04e09278330d768bc83622c5d46182c8a7 by relayscrubber-lead message 249224373654974464; superseded by hostedArtifact. Do not merge, tag, publish or pin this artifact.",
+    "receiptHead": "639f7f04e09278330d768bc83622c5d46182c8a7",
+    "receiptHeadRun": 44574798433,
+    "receiptHeadRunUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/44574798433",
+    "receiptHeadRunResult": "success on the exact receipt head (pull_request); the block is a review verdict on the engine and the receipts, not a CI failure",
+    "repair": "alpha10BlockRepair",
     "sourceHead": "a9c679f5dffe3dd263e60622860f777fde2da8d9",
     "sourceRun": 44568426111,
     "sourceRunUrl": "https://github.com/AgentWorkforce/relayscrubber/actions/runs/44568426111",
@@ -637,13 +749,13 @@
       "index.d.ts": "c94dd2a4f8596f4f7f8c27a51d0b9bfa7b8594615cf2576a22beb5a697db1980"
     },
     "finalGate": {
-      "status": "required externally",
+      "status": "historical: the exact-head run named in receiptHeadRun passed, then the head was blocked in review",
       "conditions": [
         "The exact-head CI run of the receipt commit that pins this artifact reports committed-pin equality true (its \"Check hosted artifact against committed pin\" step passes).",
         "That run's package and every payload are byte-identical to sourceRun's: package SHA256 equals packageSha256 and the WASM, glue, declaration and adapter hashes equal files and adapterFiles."
       ]
     },
-    "independentEngineReview": "pending; alpha7 PASS withdrawn"
+    "independentEngineReview": "SECURITY BLOCK (relayscrubber-lead message 249224373654974464)"
   },
   "alpha10SupersededHostedArtifact": {
     "head": "d36050c56597b59daff199e669ece22d9b82bb38",
@@ -5941,7 +6053,456 @@
       }
     }
   },
-  "currentRepair": "alpha8ReassignmentRepair",
+  "currentRepair": "alpha10BlockRepair",
+  "alpha8CurrentRepair": "alpha8ReassignmentRepair",
+  "alpha10BlockRepair": {
+    "authority": "relayscrubber-lead message 249224373654974464: SECURITY BLOCK on 639f7f04e09278330d768bc83622c5d46182c8a7",
+    "status": "candidate; independent engine review pending; no merge, tag, publication, pin or adoption is authorized by this receipt",
+    "blockedHead": "639f7f04e09278330d768bc83622c5d46182c8a7",
+    "blockedHostedArtifact": "alpha10BlockedHostedArtifact",
+    "commitRange": "639f7f04..b28e3030 (19 commits; engine, tests, fixtures, SPEC and CHANGELOG)",
+    "sourceHead": "b28e303033951d7bc6da41dc11b5f84b7b2977c9",
+    "codeCommit": "9338339b5313dc13607413aa9f9307fab51039db",
+    "blockingClasses": [
+      {
+        "class": "unmatched closers and list separators after a bare cue",
+        "fix": "A bare cue's value ends only at a bracket or a list that the line itself opened before the noun; an unmatched ) ] } and &key= / ;key= are value.",
+        "examples": [
+          {
+            "input": "pw: abc) tail",
+            "output": "pw: [REDACTED]"
+          },
+          {
+            "input": "pw: abc&key=v",
+            "output": "pw: [REDACTED]"
+          },
+          {
+            "input": "pass code: abc) tail",
+            "output": "pass code: [REDACTED]"
+          },
+          {
+            "input": "pass phrase: abc&key=v",
+            "output": "pass phrase: [REDACTED]"
+          },
+          {
+            "input": "(pw: abc) tail",
+            "output": "(pw: [REDACTED]) tail",
+            "note": "control: the opener precedes the noun, so its closer is structure"
+          }
+        ]
+      },
+      {
+        "class": "contiguous quoted segments",
+        "fix": "A quoted segment that starts right at the previous segment's close, and text glued to the close, belong to the same value; the whole run is one marker. Whitespace still separates.",
+        "examples": [
+          {
+            "input": "my password is \"abc\"\"defq\"",
+            "output": "my password is \"[REDACTED]\""
+          },
+          {
+            "input": "pw: \"abc\"\"defq\"\"ghiq\"",
+            "output": "pw: \"[REDACTED]\""
+          },
+          {
+            "input": "my password is \"abc\" \"defq\"",
+            "output": "my password is \"[REDACTED]\" \"defq\"",
+            "note": "control: whitespace-separated later text keeps the quoted-value boundary, as ruled"
+          }
+        ]
+      },
+      {
+        "class": "stale receipts",
+        "fix": "docs/results/ci.json and the top-level interface, localChecks and controls of this file name the alpha.10 candidate and the source run's counts; the alpha.8 objects are kept under alpha8Receipt (ci.json) and alpha8Interface, alpha8LocalChecks, alpha8Controls and alpha8CurrentRepair (this file)."
+      }
+    ],
+    "wholeValueRule": {
+      "rule": "A value is exempt only when the whole value, all contiguous segments and glued text together, is one reference or placeholder or a run made only of them; any literal part makes the whole run one marker.",
+      "examples": [
+        {
+          "input": "pw: \"abc\"\"$defq\"",
+          "output": "pw: \"[REDACTED]\""
+        },
+        {
+          "input": "pw: ${A}/${B}",
+          "output": "pw: [REDACTED]"
+        },
+        {
+          "input": "pw: \"$A\"\"$B\"",
+          "output": "pw: \"$A\"\"$B\"",
+          "note": "a run made only of references stays visible"
+        },
+        {
+          "input": "pw: ${A}${B}",
+          "output": "pw: ${A}${B}",
+          "note": "a run made only of references stays visible"
+        }
+      ]
+    },
+    "resourceBounds": "Quadratic prose families found during the repair (repeated contiguous quoted segments, repeated quoted or escaped cues on one line, and a repeated reference with glued text) were made linear: a line's quote, bracket and list state is built once per line. tests/adversarial.rs (bounded_prose_disclosure_work_at_64_and_256_kib) and js/test/wasm.test.mjs bound them at 64 KiB and 256 KiB with the existing 5 second limit; no existing bound was raised.",
+    "sourceRunCounts": {
+      "run": 44628698592,
+      "rustTestsLinux": 154,
+      "rustTestsWindows": 154,
+      "nodeTests": 861,
+      "bunTests": 861,
+      "nativeParityVectors": "0-235556",
+      "frozenWitnessCases": 199,
+      "frozenWitnessMissedSecretCases": 0,
+      "frozenWitnessSecondPassChangedCases": 0
+    },
+    "qualification": {
+      "harness": "scripts/qualify-prose-disclosures.mjs",
+      "runOn": "the source head, locally: native Rust 1.88.0 probe and the locally rebuilt WASM, whose SHA256 equals the hosted artifact's wasmSha256",
+      "schema": "relayscrubber.prose-disclosure-qualification/v1",
+      "seed": 24301,
+      "fuzzCount": 1024,
+      "cases": 7539,
+      "generatedCases": 7171,
+      "fixtureCases": 368,
+      "corpusSha256": "11e32f11b54a20e6564643f041329ea8647af25f1df5708cffee710075994287",
+      "forms": [
+        "text",
+        "json",
+        "ndjson"
+      ],
+      "scopeCases": {
+        "pr21_required_short_values": 216,
+        "pr21_intent_subset": 728,
+        "broader_mandatory_nouns": 2230,
+        "optional_nouns_not_required": 3952,
+        "benign_controls": 136,
+        "exact_fixture_positive": 277
+      },
+      "requiredScopes": [
+        "pr21_required_short_values",
+        "pr21_intent_subset",
+        "broader_mandatory_nouns",
+        "benign_controls",
+        "exact_fixture_positive"
+      ],
+      "requiredScopeResult": {
+        "native": {
+          "pr21_required_short_values": {
+            "evaluated": 648,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "pr21_intent_subset": {
+            "evaluated": 2184,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "broader_mandatory_nouns": {
+            "evaluated": 6690,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "benign_controls": {
+            "evaluated": 408,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "exact_fixture_positive": {
+            "evaluated": 831,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          }
+        },
+        "wasm": {
+          "pr21_required_short_values": {
+            "evaluated": 648,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "pr21_intent_subset": {
+            "evaluated": 2184,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "broader_mandatory_nouns": {
+            "evaluated": 6690,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "benign_controls": {
+            "evaluated": 408,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "exact_fixture_positive": {
+            "evaluated": 831,
+            "failedCases": 0,
+            "redactionCoverageFailures": 0,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          }
+        }
+      },
+      "optionalScopeResult": {
+        "native": {
+          "evaluated": 11856,
+          "failedCases": 0,
+          "redactionCoverageFailures": 10041
+        },
+        "wasm": {
+          "evaluated": 11856,
+          "failedCases": 0,
+          "redactionCoverageFailures": 10041
+        }
+      },
+      "optionalScopeNote": "optional_nouns_not_required is outside the required scope: 3347 of its 3952 cases per form keep a value (10041 over the three forms), identically on native and WASM; no case of a required scope does",
+      "byForm": {
+        "native": {
+          "text": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "json": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "ndjson": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          }
+        },
+        "wasm": {
+          "text": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "json": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          },
+          "ndjson": {
+            "evaluated": 7539,
+            "failedCases": 0,
+            "redactionCoverageFailures": 3347,
+            "exactMismatches": 0,
+            "benignChanges": 0,
+            "publicContextLost": 0,
+            "shapeFailures": 0,
+            "idempotenceFailures": 0,
+            "refusals": 0
+          }
+        }
+      },
+      "parity": {
+        "evaluated": 22617,
+        "rawByteDifferences": 0
+      },
+      "wasmSha256": "3d02892dea43e07bbf06123773c53eb9abcbe6b0d1e3ab62b7c2cf43f345ec26"
+    },
+    "residuals": {
+      "scope": "Invented inputs probed natively on the source head. Listed so the independent review can rule on them; none is claimed as accepted.",
+      "keepsLaterText": [
+        {
+          "input": "my password is \"abc\" \"defq\"",
+          "output": "my password is \"[REDACTED]\" \"defq\"",
+          "note": "whitespace-separated later text; kept by the ruling"
+        },
+        {
+          "input": "my password is \"abc\"\t\"defq\"",
+          "output": "my password is \"[REDACTED]\"\t\"defq\"",
+          "note": "a tab separates like a space"
+        },
+        {
+          "input": "password=\"\"+x",
+          "output": "password=\"\"+x",
+          "note": "empty quotes followed by an expression"
+        },
+        {
+          "input": "x \"pw: abc\"\"\" defq",
+          "output": "x \"pw: [REDACTED]\"\"\" defq",
+          "note": "empty quotes, then whitespace"
+        },
+        {
+          "input": "(pw: abc)defq",
+          "output": "(pw: [REDACTED])defq",
+          "note": "text after a bracket the line opened before the noun; the same holds with . - @ or a tab after the closer"
+        },
+        {
+          "input": "[x, pw: abc, def] tail",
+          "output": "[x, pw: [REDACTED], def] tail",
+          "note": "a list the line opened before the noun ends the value at its separator"
+        },
+        {
+          "input": "\"pw: abc\".defq",
+          "output": "\"pw: [REDACTED]\".defq",
+          "note": "punctuation right after an enclosing quote, then text"
+        }
+      ],
+      "readAsReferenceOrType": [
+        {
+          "input": "pw: abcq<defq>",
+          "output": "pw: abcq<defq>",
+          "note": "decision requested: with a colon cue this is read as a type annotation, like the control pw: Vec<u8>; the = and \"is\" forms redact it"
+        },
+        {
+          "input": "pw: $defqabc",
+          "output": "pw: $defqabc",
+          "note": "identifier characters glued to a reference read as one longer reference"
+        },
+        {
+          "input": "pw: process.env.PASSWORDabc",
+          "output": "pw: process.env.PASSWORDabc",
+          "note": "same"
+        },
+        {
+          "input": "pw: op://v/iabc",
+          "output": "pw: op://v/iabc",
+          "note": "same"
+        },
+        {
+          "input": "password=YOUR_PASSWORDabc",
+          "output": "password=YOUR_PASSWORDabc",
+          "note": "same for the equals form; pw: YOUR_PASSWORDabc and my password is YOUR_PASSWORDabc are redacted"
+        }
+      ],
+      "outsideTheProseNouns": [
+        {
+          "input": "token=\"$A\"\"b\"",
+          "output": "token=\"$A\"\"b\"",
+          "note": "the whole-value rule covers the prose disclosure nouns only"
+        },
+        {
+          "input": "DATABASE_URL=\"$A\"\"b\"",
+          "output": "DATABASE_URL=\"$A\"\"b\"",
+          "note": "same"
+        }
+      ],
+      "overRedaction": [
+        {
+          "input": "my password is \"abc\",ok",
+          "output": "my password is \"[REDACTED]",
+          "note": "glued text and the closing quote are lost"
+        },
+        {
+          "input": "1,\"pw: abc\"\"defq\",3",
+          "output": "1,\"pw: [REDACTED]",
+          "note": "a later field glued to the value is lost"
+        },
+        {
+          "input": "echo \"my password is abc\"; ls",
+          "output": "echo \"my password is [REDACTED]; ls",
+          "note": "the closing quote is lost"
+        },
+        {
+          "input": "pw: \"$A\"$B",
+          "output": "pw: \"[REDACTED]",
+          "note": "a quoted reference with a glued bare reference is not a pure run"
+        },
+        {
+          "input": "pw: \"abc\"YOUR_PASSWORD",
+          "output": "pw: \"[REDACTED]",
+          "note": "the closing quote is lost"
+        },
+        {
+          "input": "my password is \"abc\"'defq'",
+          "output": "my password is \"[REDACTED]'",
+          "note": "mixed quote kinds leave the last close"
+        }
+      ]
+    },
+    "decisionsHeld": [
+      "The 5 s Bun bound is unchanged, as instructed.",
+      "One receipt commit follows the source head; its exact-head run and the downloaded-artifact replay are reported in the handoff, not in this file."
+    ]
+  },
   "alpha7WithdrawnHostedArtifact": {
     "head": "df4ea319c0bd4f61d0167e40fe77db47773f5115",
     "run": 42984758558,

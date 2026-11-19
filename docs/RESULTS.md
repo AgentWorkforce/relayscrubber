@@ -7,20 +7,51 @@ tag, publication or consumer adoption is authorized by these results.
 ## Alpha.10 prose disclosure security fixes (candidate)
 
 Three classes reported against the alpha.10 candidate (`643beb8`) are fixed
-before any release; this section records local results only and is not a PASS
-or an adoption claim. The hosted artifact pin in `docs/results/` now names
-the build of the fixed code head `a9c679f5` from CI run `44568426111`
-(artifact `14553292026`, package SHA-256 `77615f5b…`, WASM `f7876d57…`,
-ruleset source `80e36607…`); a local Rust 1.88.0 rebuild reproduces the
-package and every payload byte for byte. That run passed Linux and Windows
-Rust, Node 805/805 and Bun 805/805, and failed only its committed-pin check,
-which still compared against the superseded `643beb8` pins. The earlier pin
-(run `44509387631` on `d36050c5`, code `135c26de`) is kept as
-`alpha10SupersededHostedArtifact` in
-[the receipt](results/review-fixes.json); that run's pin check had also
-failed, against the alpha.9 pins. The exact-head run of the commit carrying
-this pin must report committed-pin equality and reproduce the same package
-and payloads; that gate has not run yet.
+before any release; this section records local and source-run results only
+and is not a PASS or an adoption claim. The first pin of the fixed code
+(receipt head `639f7f0`, code `a9c679f5`, run `44568426111`) passed its
+exact-head run `44574798433` and was then blocked in the independent review;
+it is kept as `alpha10BlockedHostedArtifact` in
+[the receipt](results/review-fixes.json), and the pin before it (run
+`44509387631` on `d36050c5`, code `135c26de`) as
+`alpha10SupersededHostedArtifact`.
+
+The hosted artifact pin in `docs/results/` now names the build of the
+repaired head `b28e3030` (last code commit `9338339b`) from CI run
+`44628698592` (artifact `14581157486`, package SHA-256 `4d7627b3…`, WASM
+`3d02892d…`, ruleset source `12fa2d00…`); a local Rust 1.88.0 rebuild
+reproduces the package and every payload byte for byte. That run passed Linux
+and Windows Rust (154 tests each), the frozen 199 witnesses with no missed
+secret, Node 861/861 and Bun 861/861, and failed only its committed-pin
+check, which still compared against the blocked `639f7f0` pins. The
+exact-head run of the commit carrying this pin must report committed-pin
+equality and reproduce the same package and payloads; that gate has not run
+yet and is reported with the handoff, not here.
+
+The block named three classes, recorded with examples under
+`alpha10BlockRepair` in the receipt:
+
+- A bare cue's value ends only at a bracket or list that the line opened
+  before the noun. An unmatched `)`, `]` or `}` and `&key=` or `;key=` are
+  value: `pw: abc) tail` and `pass phrase: abc&key=v` redact to the end.
+- Contiguous quoted segments and text glued to a close are one value:
+  `my password is "abc""defq"` becomes `my password is "[REDACTED]"`.
+  Whitespace still separates, so `"abc" "defq"` keeps `"defq"`. A value is
+  exempt only when the whole run is references or placeholders; one literal
+  part makes the whole run one marker.
+- `docs/results/ci.json` and the receipt's top-level `interface`,
+  `localChecks` and `controls` now describe alpha.10; the alpha.8 objects are
+  kept under `alpha8Receipt` and the `alpha8…` keys.
+
+Qualification (`scripts/qualify-prose-disclosures.mjs`, 7,539 cases, three
+forms) on the repaired head fails no case of a required scope on native Rust
+or on the WASM with the pinned hash, and the 22,617 native/WASM comparisons
+differ in no byte. The optional-noun scope, which is not required, keeps a
+value in 3,347 of its 3,952 cases per form. Forms the repair leaves visible
+or over-redacts are listed under `alpha10BlockRepair.residuals` for the
+review to rule on.
+
+The three classes fixed before the block:
 
 - Colon and equals cues for all eight nouns, with or without `my`, redact the
   whole value; type annotations, references and a lone `None` stay visible.
