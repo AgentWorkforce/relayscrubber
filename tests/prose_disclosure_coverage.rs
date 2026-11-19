@@ -271,16 +271,17 @@ fn every_positive_case_is_idempotent() {
     }
 }
 
-/// Item 6: `the password: see vault` comes from the alpha.9 assignment scanner,
-/// unchanged by the prose-disclosure pass. The prose pass treats `see vault` as
-/// documentary (a lead word followed by more words) and leaves it; the
-/// assignment scanner then redacts the first word after `password:`. Pinned so
-/// a later change to either pass is a visible decision.
+/// Item 6: `the password: see vault` was `the password: [REDACTED] vault`
+/// through alpha.10 S1-S3: the determiner sent the colon cue through the
+/// word-cue rules, which leave `see vault` as documentary, and the assignment
+/// scanner redacted only the first word. A colon or equals cue now assigns its
+/// whole value with or without a determiner, as the bare `password: see vault`
+/// always did. Pinned so a later change to either pass is a visible decision.
 #[test]
 fn inherited_assignment_output_for_see_vault_is_pinned() {
     assert_cases(&[(
         "inherited/see-vault".to_owned(),
         "the password: see vault".to_owned(),
-        format!("the password: {R} vault"),
+        format!("the password: {R}"),
     )]);
 }

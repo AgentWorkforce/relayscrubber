@@ -117,8 +117,8 @@ test('every positive prose case is idempotent',()=>{
   }
   assert.deepEqual(failures,[]);
 });
-// `the password: see vault` comes from the alpha.9 assignment scanner, unchanged
-// by the prose-disclosure pass (which leaves `see vault` as documentary).
+// `the password: see vault` redacts the whole value, as the bare
+// `password: see vault` does; it kept ` vault` through alpha.10 S1-S3.
 test('inherited assignment output for see vault is pinned',()=>{
-  assert.deepEqual(run([{id:'inherited/see-vault',input:'the password: see vault',expected:`the password: ${R} vault`}]),[]);
+  assert.deepEqual(run([{id:'inherited/see-vault',input:'the password: see vault',expected:`the password: ${R}`}]),[]);
 });

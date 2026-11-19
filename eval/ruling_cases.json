@@ -25,7 +25,7 @@
   ],
   [
     "We discussed password: see security docs\nstatus: preserved",
-    "We discussed password: see security docs\nstatus: preserved"
+    "We discussed password: [REDACTED]\nstatus: preserved"
   ],
   [
     "## password: see security docs\nstatus: preserved",
@@ -89,7 +89,7 @@
   ],
   [
     "We discussed password: the actual secret value\nstatus: preserved",
-    "We discussed password: the actual secret value\nstatus: preserved"
+    "We discussed password: [REDACTED]\nstatus: preserved"
   ],
   [
     "## password: the actual secret value\nstatus: preserved",

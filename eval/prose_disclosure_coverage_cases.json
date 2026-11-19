@@ -1166,8 +1166,8 @@
     "family": "inherited_assignment",
     "kind": "positive",
     "input": "the password: see vault",
-    "expected": "the password: [REDACTED] vault",
-    "note": "Unchanged from alpha.9: the assignment scanner redacts the first word after `password:`/`password =`; the prose pass treats this value as documentary and leaves it."
+    "expected": "the password: [REDACTED]",
+    "note": "Was `the password: [REDACTED] vault` through alpha.10 S1-S3 (the determiner sent the colon cue through the word-cue rules and the assignment scanner redacted only the first word). A colon or equals cue now assigns its whole value with or without a determiner, as the bare `password: see vault` always did."
   },
   {
     "id": "inherited_assignment-167",
