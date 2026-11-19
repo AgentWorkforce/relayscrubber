@@ -2064,6 +2064,14 @@ fn unquoted_prose_value(
                 _ => {}
             }
         }
+        // And one inside a `;` or `&` separated key/value list (a connection
+        // string, a query) at the separator before the next key.
+        let list = &text[start..line_end];
+        if let Some(n) = list.char_indices().find_map(|(i, ch)| {
+            (matches!(ch, ';' | '&') && next_list_key(&list[i + 1..])).then_some(i)
+        }) {
+            line_end = start + n;
+        }
         if line_end <= start {
             return None;
         }
@@ -2321,6 +2329,21 @@ fn unquoted_prose_value(
         }
     }
     (end > start).then_some(start..end)
+}
+
+// `Key=` or `User Id=` (not `==`) starts the next entry of a key/value list.
+fn next_list_key(rest: &str) -> bool {
+    let rest = rest.trim_start_matches(' ');
+    let Some(eq) = rest.find('=') else {
+        return false;
+    };
+    let key = &rest[..eq];
+    eq <= 40
+        && !rest[eq + 1..].starts_with('=')
+        && key.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
+        && key
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'-' | b'.' | b' '))
 }
 
 // Placeholders, masks and variable references name a password, not disclose it.

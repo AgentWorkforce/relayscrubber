@@ -404,5 +404,26 @@
     "kind": "benign",
     "input": "my password is \"$PASSWORD\"",
     "expected": "my password is \"$PASSWORD\""
+  },
+  {
+    "id": "list keeps the next key 1",
+    "family": "list",
+    "kind": "positive",
+    "input": "Server=h;Database=d;User Id=u;Password=velvet river;Encrypt=true",
+    "expected": "Server=h;Database=d;User Id=u;Password=[REDACTED];Encrypt=true"
+  },
+  {
+    "id": "list keeps the next key 2",
+    "family": "list",
+    "kind": "positive",
+    "input": "Password = velvet river; Encrypt = true",
+    "expected": "Password = [REDACTED]; Encrypt = true"
+  },
+  {
+    "id": "list keeps the next key 3",
+    "family": "list",
+    "kind": "positive",
+    "input": "pass code=velvet river&ssl=true",
+    "expected": "pass code=[REDACTED]&ssl=true"
   }
 ]
