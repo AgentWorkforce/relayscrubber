@@ -108,10 +108,26 @@ no whitespace continues the value up to the next whitespace (`"abc"defq`,
 list punctuation (`"abc".` and `"abc", ok` keep `.` and `, ok`); a quoted
 segment in that text continues it too, with the same or another quote
 (`"abc""defq"` and `"abc"'defq'` are one value), and an unmatched one fails
-closed as above. The run ends at a quote of another escape level (the close of
-an enclosing JSON string), at a quote the line opened before the noun, and at
-the close of the innermost bracket the line opened before it; a quoted string
-after whitespace is not part of it. An empty quoted segment followed by text
+closed as above. A segment may open with any quote mark at the opener's escape
+level or another (`"abc"\"defq\"`, and `\"abc\"'defq'` or `\"abc\"\\\"defq\\\"`
+inside a JSON string, are one value each). The run ends only at whitespace, at
+a quote that closes a layer the line opened before the noun (the close of an
+enclosing JSON string, the `"` of `echo "pw is 'x'"`: the same mark at the same
+escape level), and at the close of the innermost bracket the line opened before
+it; a quoted string after whitespace is not part of it. After a quoted value, a
+`,`, `;` or `&` followed by a key-like field (an identifier or quoted key, then
+`=` or `:`, not `==` or `::`) ends the value (`password="abc",user="bob"`,
+`password="abc"&user=bob`), as does a `>` or `/>` when the line opened a tag
+before the noun (`<a password="abc">text</a>`); otherwise the text touching the
+close stays part of the value (`password="abc",defq`). No value, quoted,
+unterminated or bare, runs past the close of a layer the line opened before
+the noun: a bare value after `:` or `=` ends at the first such close, and any
+other value at the first one that structure follows (the end of the line,
+whitespace, a bracket, `:`, or a separator before a key-like field), so an
+unterminated segment in a JSON string redacts up to, never including, the
+string's close. A quote opened before the noun closes the clause, so text that
+touches that close is not part of the value (`he said 'pw: abc'defq` keeps
+`defq`); this is a known residual. An empty quoted segment followed by text
 (`password=""abc`) is not an empty assignment. A
 straight quote preceded by an odd number of backslashes at the opener's escape
 level is escaped and does not close the

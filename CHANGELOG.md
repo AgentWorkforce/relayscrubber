@@ -37,7 +37,20 @@ Security fixes to the alpha.10 candidate, before any release:
   touching the close quote is part of the value too, up to the next
   whitespace, so `"abc"defq`, `""abcq` and `password=""abcq` no longer keep
   `defq` or `abcq`; trailing punctuation alone (`"abc".`) and a quoted string
-  after whitespace still end the value.
+  after whitespace still end the value. A touching segment may open with any
+  quote mark or escape level, so `pw: "abc"\"defq\"`, `my password is
+  "abc"\'defq\'` and `{"note":"my password is \"abc\"'defq'"}` no longer keep
+  `defq`; only the close of a quote or bracket the line opened before the
+  noun ends the run. After a quoted value, a `,`, `;` or `&` before a
+  key-like field, or the close of a tag opened before the noun, ends it, so
+  `password="abc",user="bob"` and `<a password="abc">text</a>` keep the next
+  field.
+- Enclosing closes: a redaction no longer removes the closing quote of the
+  JSON string that holds the disclosure; an unterminated value inside it
+  redacts up to that quote, so the line stays valid JSON with the same keys
+  (`{"note":"password:\"abc\"defq","user":"bob"}` kept `password:\"` and
+  dropped `","user":"bob"}`). A quote opened before the noun still closes
+  the clause: `he said 'pw: abc'defq` keeps `defq` (known residual).
 - Separators: every Rust/WHATWG whitespace character (including U+1680,
   U+205F and U+0085) and one line break may separate the words, so `my
   pass\ncode is x` redacts; HTML character references (`&#32;`, `&#x20;`,
