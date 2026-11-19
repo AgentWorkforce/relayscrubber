@@ -2061,6 +2061,35 @@ fn prose_value(
         ));
     };
     let value_start = view.source_start(layer.start(inner));
+    // A quoted segment that starts right at the close (`"abc""def"`,
+    // `"abc"'def'`) continues the value: the whole run of contiguous
+    // segments is one value, and an unmatched one fails closed as above. A
+    // segment is contiguous only at the opener's escape level: the quote that
+    // ends an enclosing JSON string after `\"abc\"` is not one, and neither is
+    // an unescaped quote the line opened before the noun (`echo "pw is 'x'"`).
+    let after = end + close.len_utf8();
+    let level = |p: usize, quote: char| {
+        quote_escape(view, input, layer.start(p), quote).map_or(0, |(_, n)| n.trailing_ones())
+    };
+    if text[after.min(text.len())..]
+        .chars()
+        .next()
+        .is_some_and(|q| {
+            matches!(q, '\'' | '"' | '`' | '“' | '‘')
+                && level(after, q) == level(start, open)
+                && (level(after, q) > 0 || quotes_opened(prefix, q) % 2 == 0)
+        })
+    {
+        if let Some((next, _, next_end)) =
+            prose_value(view, input, layer, after, line_end.max(after), prefix, cue)
+        {
+            return Some((
+                value_start..next.end.max(value_end),
+                layer.start(inner),
+                next_end,
+            ));
+        }
+    }
     let value = text[inner..end].trim();
     if value_end <= value_start
         || value.is_empty() && value_end == view.source_start(layer.start(end))
@@ -2070,6 +2099,21 @@ fn prose_value(
     }
     let source = value_start..value_end;
     Some((source, layer.start(inner), end))
+}
+
+// How many `quote` marks the text holds, not counting an apostrophe between
+// two letters or digits (`don't`).
+fn quotes_opened(text: &str, quote: char) -> usize {
+    let chars: Vec<char> = text.chars().collect();
+    (0..chars.len())
+        .filter(|&i| {
+            chars[i] == quote
+                && !(quote == '\''
+                    && i > 0
+                    && chars[i - 1].is_alphanumeric()
+                    && chars.get(i + 1).is_some_and(|c| c.is_alphanumeric()))
+        })
+        .count()
 }
 
 // A Python-style condition (`if password is None`) compares, not discloses.
