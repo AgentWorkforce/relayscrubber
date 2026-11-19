@@ -73,6 +73,16 @@ Security fixes to the alpha.10 candidate, before any release:
   noun (`The new password: ab)cd`, `* password: ab)cd`), and so is a `;` or
   `&` unless the line was already a `;`/`&` list before the noun (`my pw:
   abc&def=ghi`). `# ` and `// ` comment lines are unchanged.
+- References and placeholders as parts of a value: the exemption for
+  references, placeholders, masks and `[REDACTED]` now applies only when the
+  whole value, contiguous quoted segments and glued text together, is one of
+  them or a run made only of them (`"$A""$B"`, `${A}${B}`). A value with any
+  literal contiguous part is redacted whole, so `pw: "abc""$defq"`,
+  `my password is "abc""${defq}"`, `password="$defq""abc"`,
+  `pw: ${defq}abc`, `x "pw: abc""<defq>"`, `x "pw: abc"%DEFQ%` and
+  `{"note":"pw: \"abc\"\"$defq\""}` no longer keep either part; JSON lines keep
+  their keys. Pure references (`pw: "$defq"`, `password=${defq}`) and a
+  reference after whitespace (`pw: "abc" "$defq"`) are unchanged.
 
 ## 0.5.0-alpha.9
 

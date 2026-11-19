@@ -176,7 +176,14 @@ characters long`). References and placeholders are not values, quoted or not:
 `${{ secrets.PASSWORD }}`,
 `<password>`, `%PASSWORD%`, `$env:PASSWORD`, `YOUR_PASSWORD`, `op://` paths,
 masks of three or more `*`/`•`, and `[REDACTED]`, which keeps a second scrub
-byte-identical. After a bare `:` or `=` only references, a lone `None`/`null`/
+byte-identical. The exemption applies only when the whole value, all its
+contiguous quoted segments and glued text taken together, is one reference
+or placeholder, or a run made only of them (`"$A""$B"`, `${A}${B}`). When any
+contiguous part is literal, every part is value and the whole run becomes one
+marker, whatever its shape or first character: `pw: "abc""$defq"`,
+`password="$defq""abc"`, `pw: ${defq}abc`, `x "pw: abc""<defq>"`,
+`x "pw: abc"%DEFQ%` and `pw: "[REDACTED]""abc"` keep nothing. Whitespace still
+separates (`pw: "abc" "$defq"` keeps `"$defq"`). After a bare `:` or `=` only references, a lone `None`/`null`/
 `nil`/`undefined` and type annotations (`password: string`, `pw: Vec<u8>`,
 `password: Option<String>,`) are not values; documentary words are
 (`pw: required` redacts, as `password: required` always has). Code is not
