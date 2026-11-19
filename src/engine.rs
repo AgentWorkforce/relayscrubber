@@ -1838,7 +1838,8 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
     let mut found = Vec::new();
     let mut covered = 0;
     let mut scan: (usize, usize, Vec<(char, u32)>) = (0, 0, Vec::new());
-    let cap = std::cell::RefCell::new(None);
+    let cap = std::cell::RefCell::new(Vec::new());
+    let mut openers = (Openers::new(false, 0), Openers::new(true, 0));
     for c in r.captures_iter(text) {
         let whole = c.get(0).expect("prose disclosure match");
         let noun = c.get(2).expect("prose disclosure noun");
@@ -1915,13 +1916,20 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         };
         let line_start = prose_line_start(&starts, whole.start());
         let prefix = &text[line_start..whole.start()];
-        // Matches come in order, so the scan of a line's quotes resumes at
-        // the last match on the same line instead of rescanning the line.
+        // Matches come in order, so the scan of a line's quotes and brackets
+        // resumes at the last match on the same line instead of rescanning
+        // the line.
         if scan.0 != line_start || scan.1 > whole.start() {
             scan = (line_start, line_start, Vec::new());
+            openers = (
+                Openers::new(false, line_start),
+                Openers::new(true, line_start),
+            );
         }
         open_quotes(view, input, &layer, &mut scan.2, scan.1..whole.start());
         scan.1 = whole.start();
+        openers.0.advance(text, whole.start());
+        openers.1.advance(text, whole.start());
         let context = ProseContext {
             prefix,
             quotes: scan.2.clone(),
@@ -1931,7 +1939,9 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
                 Some(_) => Cue::Bare,
             },
             cap: &cap,
-            bracket: std::cell::OnceCell::new(),
+            brackets: &openers.0.stack,
+            tagged: &openers.1.stack,
+            openers: &openers,
         };
         if let Some((source, probe, end)) =
             prose_value(view, input, &layer, start, line_end, &context)
@@ -1992,26 +2002,32 @@ enum Cue {
 
 // What the line holds before the noun: its text, the quotes it opened and
 // left open (each with its escape level, innermost last), and the cue.
-// An enclosing-close search: from where, to which line end, structural or
-// not, against which open quotes, and the close found.
+// The last search for the close of one open quote: which quote (mark and
+// escape level), structural or not, to which line end, from where, and the
+// close found.
 struct CapSearch {
-    from: usize,
-    line_end: usize,
+    quote: (char, u32),
     structural: bool,
-    quotes: Vec<(char, u32)>,
+    line_end: usize,
+    from: usize,
     found: Option<usize>,
 }
 
+#[derive(Clone)]
 struct ProseContext<'a> {
     prefix: &'a str,
     quotes: Vec<(char, u32)>,
     cue: Cue,
-    // The last enclosing-close search on the layer, shared by every match:
-    // segments and later matches search from increasing positions, so a
-    // line of many segments or matches is scanned once, not once each.
-    cap: &'a std::cell::RefCell<Option<CapSearch>>,
-    // The innermost bracket the prefix leaves open, found once per value.
-    bracket: std::cell::OnceCell<Option<char>>,
+    // The last close search for each open quote on the layer, shared by
+    // every match: segments and later matches search from increasing
+    // positions, so a line of many segments or matches is scanned once per
+    // open quote, not once per match, however the open quotes alternate.
+    cap: &'a std::cell::RefCell<Vec<CapSearch>>,
+    // The quotes and brackets the prefix leaves open, without and with tags
+    // (see `Openers`), kept per line rather than rebuilt per match.
+    brackets: &'a [char],
+    tagged: &'a [char],
+    openers: &'a (Openers, Openers),
 }
 
 // The escape level of the quote at layer position `p`: a quote spelled with
@@ -2157,15 +2173,58 @@ struct QuotedSegment {
 }
 
 enum ProseStep {
-    Done(Option<ProseRange>),
-    // The segment, and whether a quoted segment continues it at `run`.
-    Segment(QuotedSegment, bool),
+    // A value with no closed quoted segment, and the layer position of the
+    // enclosing quote close it was cut at, if any.
+    Done(Option<ProseRange>, Option<usize>),
+    // The segment, and how the text touching its close ends at `run`.
+    Segment(QuotedSegment, RunEnd),
+}
+
+// How the text touching a closed value ends: at whitespace, a bracket or
+// field, or the line end; at a quoted segment that continues the value; or
+// at a quote that closes a layer the line opened before the noun.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum RunEnd {
+    Stop,
+    Continues,
+    Encloses,
+}
+
+// The index in `quotes` of the layer the quote `q` at layer position `p`
+// closes: the latest one of the same mark at the same escape level (a `”`
+// closes the latest `“`).
+fn enclosed_layer(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    quotes: &[(char, u32)],
+    p: usize,
+    q: char,
+) -> Option<usize> {
+    if !matches!(q, '”' | '"' | '\'' | '`') || quotes.is_empty() {
+        return None;
+    }
+    let level = if q == '”' {
+        0
+    } else {
+        quote_level(view, input, layer, p, q)
+    };
+    quotes.iter().rposition(|&(c, l)| match q {
+        '”' => c == '“',
+        _ => c == q && l == level,
+    })
 }
 
 // Returns the value's source range, the View position where its content
 // starts, and the layer position the disclosure covers up to. A run of
 // contiguous quoted segments is walked with an explicit stack, not
 // recursion, so a long run cannot exhaust the thread's stack.
+//
+// A value that ends at the close of a quote the line opened before the noun
+// (`x "pw: abc"defq`, `he said 'my password is "abc"'"defq"`) goes on when
+// a quote, a letter or digit, `_` or `$` touches that close: the close is
+// redacted with the value, and the text touching it is scanned as the text
+// touching a value's own close is, in the layer outside the closed quote.
 fn prose_value(
     view: &View,
     input: &str,
@@ -2174,34 +2233,131 @@ fn prose_value(
     line_end: usize,
     context: &ProseContext,
 ) -> Option<ProseRange> {
-    let mut stack: Vec<QuotedSegment> = Vec::new();
+    let text: &str = &layer.text;
+    // Each segment, and for the close of an enclosing quote that a value
+    // runs across, the value up to that close.
+    let mut stack: Vec<(QuotedSegment, Option<ProseRange>)> = Vec::new();
     let (mut at, mut line_end) = (start, line_end);
-    let mut result = loop {
-        match prose_segment(view, input, layer, at, line_end, context) {
-            ProseStep::Segment(segment, true) => {
+    let mut current = context.clone();
+    let mut result = 'scan: loop {
+        let (mut value, mut close) = match prose_segment(view, input, layer, at, line_end, &current)
+        {
+            ProseStep::Segment(segment, RunEnd::Continues) => {
                 at = segment.run;
                 line_end = line_end.max(segment.run);
-                stack.push(segment);
+                stack.push((segment, None));
+                continue;
             }
-            ProseStep::Segment(segment, false) => {
-                break finish_quoted(view, layer, &segment);
+            ProseStep::Segment(segment, end) => (
+                finish_quoted(view, layer, &segment),
+                (end == RunEnd::Encloses).then_some(segment.run),
+            ),
+            ProseStep::Done(value, close) => (value, close),
+        };
+        loop {
+            let (Some(found), Some(shut)) = (value.clone(), close) else {
+                break 'scan value;
+            };
+            let Some((k, after)) = glued(view, input, layer, &current, &found, shut) else {
+                break 'scan value;
+            };
+            // Outside the closed quote: its layer and everything opened
+            // inside it are closed, and so is its entry among the brackets
+            // when the bracket scan saw it (an unescaped quote).
+            let q = text[shut..].chars().next().unwrap_or('"');
+            current.quotes.truncate(k);
+            let opener = if q == '”' { '“' } else { q };
+            if q == '”' || quote_level(view, input, layer, shut, q) == 0 {
+                let (plain, tags) = context.openers;
+                for (stack, scan) in [(&mut current.brackets, plain), (&mut current.tagged, tags)] {
+                    if let Some(at) = scan.quote_at(opener).filter(|&at| at < stack.len()) {
+                        *stack = &stack[..at];
+                    }
+                }
             }
-            ProseStep::Done(r) => break r,
+            let (run, end) = touching_run(view, input, layer, after, &current);
+            let segment = QuotedSegment {
+                inner: shut,
+                end: shut,
+                after,
+                run,
+                value_start: found.0.start,
+                value_end: found.0.end,
+            };
+            if end == RunEnd::Continues {
+                at = run;
+                line_end = line_end.max(run);
+                stack.push((segment, Some(found)));
+                continue 'scan;
+            }
+            // The text touching the close, less one mark of sentence
+            // punctuation, joins the value; it may stop at the close of a
+            // further enclosing quote that more text touches.
+            let tail = &text[after..run];
+            let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
+            let tail_end = after + kept.len();
+            value = Some((
+                found.0.start
+                    ..prose_source(view, layer, &(after..tail_end))
+                        .end
+                        .max(found.0.end),
+                found.1,
+                tail_end.max(found.2),
+            ));
+            close = (end == RunEnd::Encloses).then_some(run);
         }
     };
     // A segment the next one joins spans through the next one's end; one
     // whose next segment is no value ends on its own.
-    while let Some(segment) = stack.pop() {
-        result = match result {
-            Some((next, _, next_end)) => Some((
+    while let Some((segment, own)) = stack.pop() {
+        result = match (result, own) {
+            (Some((next, _, next_end)), own) => Some((
                 segment.value_start..next.end.max(segment.value_end),
-                layer.start(segment.inner),
+                own.map_or_else(|| layer.start(segment.inner), |o| o.1),
                 next_end,
             )),
-            None => finish_quoted(view, layer, &segment),
+            (None, Some(own)) => Some(own),
+            (None, None) => finish_quoted(view, layer, &segment),
         };
     }
     result
+}
+
+// Whether text glues onto the close `close` of a quote the line opened
+// before the noun, at which `value` ends: a quote of any kind or escape
+// level, a letter or digit, `_` or `$` touches the close, and only the
+// value's own closing quotes or sentence punctuation lie between the value
+// and it. Returns the closed layer's index and the position after the close.
+fn glued(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    context: &ProseContext,
+    value: &ProseRange,
+    close: usize,
+) -> Option<(usize, usize)> {
+    let text: &str = &layer.text;
+    let q = text[close..].chars().next()?;
+    let after = close + q.len_utf8();
+    let rest = &text[after..];
+    let touching = rest.chars().next().is_some_and(|c| {
+        c.is_alphanumeric()
+            || matches!(c, '_' | '$' | '"' | '\'' | '`' | '“' | '”' | '‘' | '’')
+            || c == '\\' && rest.trim_start_matches('\\').starts_with(['"', '\'', '`'])
+    });
+    let between = text.get(value.2.min(close)..close)?;
+    if !touching
+        || between.chars().any(|c| {
+            !matches!(
+                c,
+                '"' | '\'' | '`' | '”' | '’' | '\\' | '.' | ',' | ';' | '!' | '?'
+            )
+        })
+    {
+        return None;
+    }
+    let k = enclosed_layer(view, input, layer, &context.quotes, close, q)?;
+    Some((k, after))
 }
 
 fn prose_segment(
@@ -2216,53 +2372,66 @@ fn prose_segment(
     let enclosed = cue != Cue::Word;
     let text: &str = &layer.text;
     let Some(open) = text[start..].chars().next() else {
-        return ProseStep::Done(None);
+        return ProseStep::Done(None, None);
     };
-    // A quote that closes a layer the line opened before the noun: one of
-    // the same mark at the same escape level (a `”` for a `“`).
-    let encloses = |p: usize, q: char| {
-        context.quotes.iter().any(|&(c, l)| match q {
-            '”' => c == '“',
-            '"' | '\'' | '`' => c == q && l == quote_level(view, input, layer, p, q),
-            _ => false,
-        })
-    };
-    // The first such quote at or after `from` on the line; with
+    // The first quote at or after `from` on the line that closes a layer
+    // the line opened before the noun (one of the same mark at the same
+    // escape level, a `”` for a `“`); with
     // `structural`, only one that structure follows (a JSON string's close
     // before `}` or `,"key":`), so a quote touched by more text fails closed.
     let cap = |from: usize, structural: bool| {
-        if context.quotes.is_empty() {
-            return None;
+        let mut searches = context.cap.borrow_mut();
+        let mut first: Option<usize> = None;
+        for &(open, level) in &context.quotes {
+            let close = match open {
+                '“' => '”',
+                '"' | '\'' | '`' => open,
+                _ => continue,
+            };
+            // A later search for the same quote reuses the last one when no
+            // close lies between: nothing was found from an earlier
+            // position, or what was found lies at or after this one.
+            let last = searches.iter().position(|s| {
+                s.quote == (open, level) && s.structural == structural && s.line_end == line_end
+            });
+            let found = match last.map(|n| &searches[n]) {
+                Some(s) if s.from <= from && s.found.is_none_or(|p| p >= from) => s.found,
+                _ => {
+                    let found = text[from..line_end.max(from)]
+                        .match_indices(close)
+                        .map(|(i, _)| from + i)
+                        .find(|&p| {
+                            (close == '”' || quote_level(view, input, layer, p, close) == level)
+                                && (!structural
+                                    || structural_end(&text[p + close.len_utf8()..line_end]))
+                        });
+                    let search = CapSearch {
+                        quote: (open, level),
+                        structural,
+                        line_end,
+                        from,
+                        found,
+                    };
+                    match last {
+                        Some(n) => searches[n] = search,
+                        None => {
+                            // Distinct quotes and line ends are few; bound
+                            // the list anyway.
+                            if searches.len() >= 64 {
+                                searches.clear();
+                            }
+                            searches.push(search);
+                        }
+                    }
+                    found
+                }
+            };
+            first = match (first, found) {
+                (Some(a), Some(b)) => Some(a.min(b)),
+                (a, b) => a.or(b),
+            };
         }
-        // A later search on the same line against the same open quotes
-        // reuses the last one when no close lies between: nothing was found
-        // from an earlier position, or what was found lies at or after this
-        // one.
-        if let Some(last) = &*context.cap.borrow() {
-            if last.from <= from
-                && last.line_end == line_end
-                && last.structural == structural
-                && last.quotes == context.quotes
-                && last.found.is_none_or(|p| p >= from)
-            {
-                return last.found;
-            }
-        }
-        let found = text[from..line_end.max(from)]
-            .char_indices()
-            .map(|(i, q)| (from + i, q))
-            .find(|&(p, q)| {
-                encloses(p, q) && (!structural || structural_end(&text[p + q.len_utf8()..line_end]))
-            })
-            .map(|(p, _)| p);
-        *context.cap.borrow_mut() = Some(CapSearch {
-            from,
-            line_end,
-            structural,
-            quotes: context.quotes.clone(),
-            found,
-        });
-        found
+        first
     };
     let close = match open {
         '\'' | '"' | '`' => open,
@@ -2272,13 +2441,22 @@ fn prose_segment(
             // A bare value never runs over the close of an enclosing quote:
             // after a colon or equals cue the first one ends it; after a word
             // cue only one that structure follows.
-            let end = cap(start, cue == Cue::Word).unwrap_or(line_end);
+            let found = cap(start, cue == Cue::Word);
+            let end = found.unwrap_or(line_end);
             if end <= start {
-                return ProseStep::Done(None);
+                return ProseStep::Done(None, None);
             }
             return ProseStep::Done(
-                unquoted_prose_value(text, start, end, prefix, cue)
-                    .map(|r| (prose_source(view, layer, &r), layer.start(r.start), r.end)),
+                unquoted_prose_value(
+                    text,
+                    start,
+                    end,
+                    prefix,
+                    cue,
+                    innermost(context.brackets, false),
+                )
+                .map(|r| (prose_source(view, layer, &r), layer.start(r.start), r.end)),
+                found,
             );
         }
     };
@@ -2342,7 +2520,7 @@ fn prose_segment(
             .trim_start()
             .starts_with(REDACTION_TOKEN)
         {
-            return ProseStep::Done(None);
+            return ProseStep::Done(None, None);
         }
         let probe = if inner < line_end { inner } else { start };
         let from = if enclosed && inner < line_end {
@@ -2351,13 +2529,16 @@ fn prose_segment(
             start
         };
         if from >= line_end {
-            return ProseStep::Done(None);
+            return ProseStep::Done(None, None);
         }
-        return ProseStep::Done(Some((
-            prose_source(view, layer, &(from..line_end)),
-            layer.start(probe),
-            line_end,
-        )));
+        return ProseStep::Done(
+            Some((
+                prose_source(view, layer, &(from..line_end)),
+                layer.start(probe),
+                line_end,
+            )),
+            bound,
+        );
     };
     let value_start = view.source_start(layer.start(inner));
     // Text that touches the close with no whitespace (`"abc"defq`, `""abc`)
@@ -2376,11 +2557,37 @@ fn prose_segment(
     // key-like field (`password="abc",user="bob"`), or the close of a tag
     // the line opened before the noun (`<a password="abc">`).
     let after = end + close.len_utf8();
-    let bracket = *context.bracket.get_or_init(|| enclosing_opener(prefix));
+    let (run, how) = touching_run(view, input, layer, after, context);
+    ProseStep::Segment(
+        QuotedSegment {
+            inner,
+            end,
+            after,
+            run,
+            value_start,
+            value_end,
+        },
+        how,
+    )
+}
+
+// The run of text touching a close at `after`, and how it ends (see
+// `prose_segment`).
+fn touching_run(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    after: usize,
+    context: &ProseContext,
+) -> (usize, RunEnd) {
+    let text: &str = &layer.text;
+    let encloses =
+        |p: usize, q: char| enclosed_layer(view, input, layer, &context.quotes, p, q).is_some();
+    let bracket = innermost(context.brackets, false);
     let rest = &text[after.min(text.len())..];
     let field = rest.starts_with([',', ';', '&']) && key_like(&rest[1..])
         || (rest.starts_with('>') || rest.starts_with("/>"))
-            && innermost_opener(prefix, true) == Some('<');
+            && innermost(context.tagged, true) == Some('<');
     let mut run = after.min(text.len());
     while let Some(q) = text[run..].chars().next().filter(|_| !field) {
         if q.is_whitespace() || matches!(q, ')' | ']' | '}') && Some(bracket_opener(q)) == bracket {
@@ -2391,32 +2598,14 @@ fn prose_segment(
                 run += q.len_utf8();
                 continue;
             }
-            let continues = !encloses(run, q);
-            return ProseStep::Segment(
-                QuotedSegment {
-                    inner,
-                    end,
-                    after,
-                    run,
-                    value_start,
-                    value_end,
-                },
-                continues,
-            );
+            if encloses(run, q) {
+                return (run, RunEnd::Encloses);
+            }
+            return (run, RunEnd::Continues);
         }
         run += q.len_utf8();
     }
-    ProseStep::Segment(
-        QuotedSegment {
-            inner,
-            end,
-            after,
-            run,
-            value_start,
-            value_end,
-        },
-        false,
-    )
+    (run, RunEnd::Stop)
 }
 
 // The value of a closed quoted segment that no further segment joins: the
@@ -2474,6 +2663,7 @@ fn unquoted_prose_value(
     mut line_end: usize,
     prefix: &str,
     cue: Cue,
+    bracket: Option<char>,
 ) -> Option<Range<usize>> {
     let assigned = cue != Cue::Word;
     // The caller ends the value at an enclosing quote's close (an HTML
@@ -2484,7 +2674,7 @@ fn unquoted_prose_value(
         // string layer: after a bare cue too, `pw: x]yq` and `my password:
         // ab)cd` keep the close, and so do `(note pw: x]yq` and a JSON
         // object's own `}` around the string that holds the key.
-        if let Some(opener) = enclosing_opener(prefix) {
+        if let Some(opener) = bracket {
             let mut nested = Vec::new();
             for (i, ch) in text[start..line_end].char_indices() {
                 match ch {
@@ -2761,7 +2951,7 @@ fn unquoted_prose_value(
             trimmed.len()
         };
     // Only the innermost bracket opened before the disclosure closes after it.
-    if let Some(open) = enclosing_opener(prefix) {
+    if let Some(open) = bracket {
         let close = match open {
             '(' => ')',
             '[' => ']',
@@ -2786,54 +2976,123 @@ fn bracket_opener(close: char) -> char {
     }
 }
 
-// The innermost bracket the text leaves open in its last string layer: a
-// quote the text opens and leaves open hides the brackets before it, and a
-// close only closes a bracket of its own type opened in the same layer.
-fn enclosing_opener(prefix: &str) -> Option<char> {
-    innermost_opener(prefix, false)
-}
-
-// The same, counting with `tags` a tag the text opens (`<a`, `</a`) and
-// leaves open as an opener `<` that a `>` closes.
-fn innermost_opener(prefix: &str, tags: bool) -> Option<char> {
-    let chars: Vec<char> = prefix.chars().collect();
-    let mut stack: Vec<char> = Vec::new();
-    for (i, &ch) in chars.iter().enumerate() {
-        let escaped = chars[..i].iter().rev().take_while(|&&c| c == '\\').count() % 2 == 1;
-        match ch {
-            '"' | '`' | '\'' | '“' | '”' if !escaped => {
-                let open = if ch == '”' { '“' } else { ch };
-                if let Some(at) = stack.iter().rposition(|&c| c == open) {
-                    stack.truncate(at);
-                } else if ch != '”' && !(ch == '\'' && i > 0 && chars[i - 1].is_alphanumeric()) {
-                    stack.push(ch);
-                }
-            }
-            '(' | '[' | '{' => stack.push(ch),
-            '<' if tags
-                && chars
-                    .get(i + 1)
-                    .is_some_and(|c| c.is_ascii_alphabetic() || *c == '/') =>
-            {
-                stack.push(ch);
-            }
-            ')' | ']' | '}' | '>' if ch != '>' || tags => {
-                let floor = stack
-                    .iter()
-                    .rposition(|c| matches!(c, '"' | '`' | '\'' | '“'))
-                    .map_or(0, |q| q + 1);
-                let opener = if ch == '>' { '<' } else { bracket_opener(ch) };
-                if let Some(at) = stack[floor..].iter().rposition(|&c| c == opener) {
-                    stack.truncate(floor + at);
-                }
-            }
-            _ => {}
-        }
-    }
+// The innermost bracket (or, with `tags`, tag: `<a`, `</a`, closed by `>`)
+// a stack of `Openers` leaves open in its last string layer: a quote opened
+// after it hides it, and a close only closes a bracket of its own type
+// opened in the same layer.
+fn innermost(stack: &[char], tags: bool) -> Option<char> {
     stack
         .last()
         .copied()
         .filter(|&c| matches!(c, '(' | '[' | '{') || tags && c == '<')
+}
+
+// The quotes, brackets and (with `tags`) tags a line's text opens and leaves
+// open, innermost last, built left to right from the line start. Matches on a
+// line come in order, so the state advances from one match to the next
+// instead of being rebuilt from the line start for each. The innermost entry
+// of each mark is kept, with a link from each entry to the one below it of
+// the same mark, so finding the entry a quote or bracket closes never scans
+// the stack.
+struct Openers {
+    tags: bool,
+    stack: Vec<char>,
+    below: Vec<Option<usize>>,
+    top: [Option<usize>; 8],
+    // Where the scan stopped, the run of backslashes just before it and the
+    // character before it.
+    done: usize,
+    slashes: usize,
+    prev: Option<char>,
+}
+
+const OPENER_MARKS: [char; 8] = ['"', '`', '\'', '“', '(', '[', '{', '<'];
+
+fn opener_slot(c: char) -> usize {
+    OPENER_MARKS.iter().position(|&m| m == c).unwrap_or(0)
+}
+
+impl Openers {
+    fn new(tags: bool, start: usize) -> Self {
+        Self {
+            tags,
+            stack: Vec::new(),
+            below: Vec::new(),
+            top: [None; 8],
+            done: start,
+            slashes: 0,
+            prev: None,
+        }
+    }
+
+    fn push(&mut self, c: char) {
+        let slot = opener_slot(c);
+        self.below.push(self.top[slot]);
+        self.top[slot] = Some(self.stack.len());
+        self.stack.push(c);
+    }
+
+    fn truncate(&mut self, at: usize) {
+        while self.stack.len() > at {
+            if let (Some(c), Some(below)) = (self.stack.pop(), self.below.pop()) {
+                self.top[opener_slot(c)] = below;
+            }
+        }
+    }
+
+    // Where the open quote mark `q` sits on the stack: each quote mark is
+    // there at most once, since a second one closes the first.
+    fn quote_at(&self, q: char) -> Option<usize> {
+        self.top[opener_slot(q)]
+    }
+
+    // Scans `text[self.done..to]`. A `<` is a tag only when a letter or `/`
+    // follows it inside the scanned text, so a `<` that ends the range is
+    // left for the next advance: alone it opens nothing.
+    fn advance(&mut self, text: &str, to: usize) {
+        let from = self.done;
+        for (i, ch) in text[from..to].char_indices() {
+            let p = from + i;
+            if self.tags && ch == '<' && p + 1 == to {
+                self.done = p;
+                return;
+            }
+            let escaped = self.slashes % 2 == 1;
+            match ch {
+                '"' | '`' | '\'' | '“' | '”' if !escaped => {
+                    let open = if ch == '”' { '“' } else { ch };
+                    if let Some(at) = self.top[opener_slot(open)] {
+                        self.truncate(at);
+                    } else if ch != '”'
+                        && !(ch == '\'' && self.prev.is_some_and(char::is_alphanumeric))
+                    {
+                        self.push(ch);
+                    }
+                }
+                '(' | '[' | '{' => self.push(ch),
+                '<' if self.tags
+                    && text[p + 1..to]
+                        .chars()
+                        .next()
+                        .is_some_and(|c| c.is_ascii_alphabetic() || c == '/') =>
+                {
+                    self.push(ch);
+                }
+                ')' | ']' | '}' | '>' if ch != '>' || self.tags => {
+                    // Only a bracket opened inside the innermost open quote.
+                    let floor = self.top[..4].iter().flatten().max().map_or(0, |q| q + 1);
+                    let opener = if ch == '>' { '<' } else { bracket_opener(ch) };
+                    if let Some(at) = self.top[opener_slot(opener)].filter(|&at| at >= floor) {
+                        self.truncate(at);
+                    }
+                }
+                _ => {}
+            }
+            self.slashes = if ch == '\\' { self.slashes + 1 } else { 0 };
+            self.prev = Some(ch);
+        }
+        self.done = to;
+    }
 }
 
 // The separator of the key/value list the text ends inside: it ends with
