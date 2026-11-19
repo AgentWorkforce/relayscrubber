@@ -995,6 +995,7 @@ fn assignments(
     inherited: bool,
     spans: &mut Vec<Range<usize>>,
     url_values: &[Range<usize>],
+    wrapped: &mut Vec<Range<usize>>,
 ) {
     let b = view.text.as_bytes();
     let mut i = 0;
@@ -1448,7 +1449,10 @@ fn assignments(
             regex_value(view, start, whole)
                 || labeled_toy(view, start, whole)
                 || excerpt_value(view, start, whole)
-        }) || non_assignment_wrapper(view, start)
+        }) {
+            continue;
+        }
+        if non_assignment_wrapper(view, start)
             && bounded_prefix(view, start).split_whitespace().last() != Some("type")
             && full.is_some_and(|s| {
                 b.get(sep) != Some(&b'=')
@@ -1465,6 +1469,19 @@ fn assignments(
                         .is_some_and(|m| m.start() == 0 && m.end() == s.len())
             })
         {
+            // Words before the key make this a sentence, not an assignment.
+            // A prose disclosure of the same value still needs to know the
+            // assignment engine would otherwise have found it. A comment
+            // stays a comment, and a Bearer literal stays delegated to the
+            // Bearer scanner.
+            if !comment_wrapper(view, start)
+                && !full.is_some_and(|s| {
+                    s.split_once([' ', '\t'])
+                        .is_some_and(|(scheme, _)| scheme.eq_ignore_ascii_case("bearer"))
+                })
+            {
+                wrapped.push(content..end.max(content + 1).min(b.len()));
+            }
             continue;
         }
         if name == "Key" && !credential && cloud_tag_key(view, start, value) {
@@ -1527,6 +1544,11 @@ fn assignments(
         }
         if end > content {
             if reference(&view.text[content..end]) || shell_reference(&view.text[content..end]) {
+                // Only the first word is a reference; a prose disclosure
+                // that takes the whole multi-word value still has one.
+                if full.is_some_and(|whole| whole.trim_end().len() > end - content) {
+                    wrapped.push(content..end);
+                }
                 i = end;
                 continue;
             }
@@ -1608,16 +1630,22 @@ fn case_label(view: &View, key: usize) -> bool {
 // Only syntax before a key can establish a non-assignment wrapper. Never
 // inspect the English credential value to decide whether it is documentary.
 fn non_assignment_wrapper(view: &View, position: usize) -> bool {
-    let prefix = bounded_prefix(view, position).trim();
-    if prefix.starts_with('#') || prefix.starts_with("//") {
+    if comment_wrapper(view, position) {
         return true;
     }
+    let prefix = bounded_prefix(view, position).trim();
     let prefix = prefix.trim_end_matches(['"', '\'']).trim_end();
     let sentence = prefix.trim_end_matches(':');
     sentence
         .bytes()
         .all(|b| b.is_ascii_alphabetic() || b.is_ascii_whitespace())
         && sentence.split_whitespace().take(2).count() == 2
+}
+
+// A `#` or `//` comment line before the key.
+fn comment_wrapper(view: &View, position: usize) -> bool {
+    let prefix = bounded_prefix(view, position).trim();
+    prefix.starts_with('#') || prefix.starts_with("//")
 }
 
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
@@ -1809,7 +1837,10 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         let whole = c.get(0).expect("prose disclosure match");
         let noun = c.get(2).expect("prose disclosure noun");
         let determiner = c.get(1).is_some();
-        let bare = c.get(5).filter(|_| !determiner);
+        // A colon or equals cue assigns its whole value with or without a
+        // determiner; only the gate below depends on the bare form.
+        let cue = c.get(5);
+        let bare = cue.filter(|_| !determiner);
         let rest = &text[whole.end()..];
         if whole.start() < covered
             || text[..noun.start()]
@@ -1878,7 +1909,7 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         };
         let prefix = &text[prose_line_start(&starts, whole.start())..whole.start()];
         if let Some((source, probe, end)) =
-            prose_value(view, input, &layer, start, line_end, prefix, bare.is_some())
+            prose_value(view, input, &layer, start, line_end, prefix, cue.is_some())
         {
             covered = end;
             found.push(ProseValue {
@@ -4191,10 +4222,12 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         }
     }
     let assigned = spans.len();
-    assignments(&view, inherited, &mut spans, &context);
+    let mut wrapped = Vec::new();
+    assignments(&view, inherited, &mut spans, &context, &mut wrapped);
     let mut values: Vec<Range<usize>> = Vec::new();
     if prose.iter().any(|p| p.gate == Gate::Assigned) {
         let mut found = spans[assigned..].to_vec();
+        found.extend(wrapped);
         found.sort_unstable_by_key(|r| (r.start, r.end));
         for range in found {
             if let Some(last) = values.last_mut().filter(|last| range.start <= last.end) {
