@@ -1452,7 +1452,7 @@ fn assignments(
         }) {
             continue;
         }
-        if non_assignment_wrapper(view, start)
+        let sentence = non_assignment_wrapper(view, start)
             && bounded_prefix(view, start).split_whitespace().last() != Some("type")
             && full.is_some_and(|s| {
                 b.get(sep) != Some(&b'=')
@@ -1467,24 +1467,8 @@ fn assignments(
                     || bearer_regex()
                         .find(s)
                         .is_some_and(|m| m.start() == 0 && m.end() == s.len())
-            })
-        {
-            // Words before the key make this a sentence, not an assignment.
-            // A prose disclosure of the same value still needs to know the
-            // assignment engine would otherwise have found it. A comment
-            // stays a comment, and a Bearer literal stays delegated to the
-            // Bearer scanner.
-            if !comment_wrapper(view, start)
-                && !full.is_some_and(|s| {
-                    s.split_once([' ', '\t'])
-                        .is_some_and(|(scheme, _)| scheme.eq_ignore_ascii_case("bearer"))
-                })
-            {
-                wrapped.push(content..end.max(content + 1).min(b.len()));
-            }
-            continue;
-        }
-        if name == "Key" && !credential && cloud_tag_key(view, start, value) {
+            });
+        if !sentence && name == "Key" && !credential && cloud_tag_key(view, start, value) {
             continue;
         }
         // Failed structural candidates redact through their complete delimiter,
@@ -1541,6 +1525,21 @@ fn assignments(
             end = indented_end(view, value, key_indent)
                 .min(context.unwrap_or(b.len()))
                 .min(view.enclosing_end(value).min(b.len()));
+        }
+        if sentence {
+            // Words before the key make this a sentence, not an assignment.
+            // A prose disclosure of the same value still needs the range the
+            // bare key would have redacted. A comment stays a comment, and a
+            // Bearer literal stays delegated to the Bearer scanner.
+            if !comment_wrapper(view, start)
+                && !full.is_some_and(|s| {
+                    s.split_once([' ', '\t'])
+                        .is_some_and(|(scheme, _)| scheme.eq_ignore_ascii_case("bearer"))
+                })
+            {
+                wrapped.push(content..end.max(content + 1).min(b.len()));
+            }
+            continue;
         }
         if end > content {
             if reference(&view.text[content..end]) || shell_reference(&view.text[content..end]) {
@@ -1908,9 +1907,19 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
             }
         };
         let prefix = &text[prose_line_start(&starts, whole.start())..whole.start()];
-        if let Some((source, probe, end)) =
-            prose_value(view, input, &layer, start, line_end, prefix, cue.is_some())
-        {
+        if let Some((source, probe, end)) = prose_value(
+            view,
+            input,
+            &layer,
+            start,
+            line_end,
+            prefix,
+            match cue {
+                None => Cue::Word,
+                Some(_) if determiner || !prefix.trim().is_empty() => Cue::Prefixed,
+                Some(_) => Cue::Bare,
+            },
+        ) {
             covered = end;
             found.push(ProseValue {
                 probe,
@@ -1920,6 +1929,16 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         }
     }
     found
+}
+
+// How a prose disclosure's value was cued: by a word (`is`, `set to`), or
+// by a colon or equals sign after the bare noun or after anything before it
+// on the line (a word, a bullet, a quote mark).
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Cue {
+    Word,
+    Bare,
+    Prefixed,
 }
 
 // Source range of a layer range.
@@ -1961,8 +1980,9 @@ fn prose_value(
     start: usize,
     line_end: usize,
     prefix: &str,
-    enclosed: bool,
+    cue: Cue,
 ) -> Option<(Range<usize>, usize, usize)> {
+    let enclosed = cue != Cue::Word;
     let text: &str = &layer.text;
     let open = text[start..].chars().next()?;
     let close = match open {
@@ -1970,7 +1990,7 @@ fn prose_value(
         '“' => '”',
         '‘' => '’',
         _ => {
-            let r = unquoted_prose_value(text, start, line_end, prefix, enclosed)?;
+            let r = unquoted_prose_value(text, start, line_end, prefix, cue)?;
             return Some((prose_source(view, layer, &r), layer.start(r.start), r.end));
         }
     };
@@ -2070,8 +2090,9 @@ fn unquoted_prose_value(
     start: usize,
     mut line_end: usize,
     prefix: &str,
-    assigned: bool,
+    cue: Cue,
 ) -> Option<Range<usize>> {
+    let assigned = cue != Cue::Word;
     // A bare `noun=value` inside a quoted string (an HTML attribute, a
     // shell argument) ends where the enclosing quote closes.
     if assigned {
@@ -2082,9 +2103,22 @@ fn unquoted_prose_value(
                 }
             }
         }
-        // So does one inside brackets, at the first unbalanced close.
+        // So does one inside brackets, at the first unbalanced close. After
+        // words or a bullet before the key (`my password: ab)cd`) only a
+        // bracket the line opened before the key encloses it.
         let mut depth = 0usize;
-        for (i, ch) in text[start..line_end].char_indices() {
+        let bracketed = cue == Cue::Bare || {
+            let mut open = 0usize;
+            for ch in prefix.chars() {
+                match ch {
+                    '(' | '[' | '{' => open += 1,
+                    ')' | ']' | '}' => open = open.saturating_sub(1),
+                    _ => {}
+                }
+            }
+            open > 0
+        };
+        for (i, ch) in text[start..line_end].char_indices().filter(|_| bracketed) {
             match ch {
                 '(' | '[' | '{' => depth += 1,
                 ')' | ']' | '}' if depth == 0 => {
@@ -2096,9 +2130,12 @@ fn unquoted_prose_value(
             }
         }
         // And one inside a `;` or `&` separated key/value list (a connection
-        // string, a query) at the separator before the next key.
+        // string, a query) at the separator before the next key. After words
+        // or a bullet before the key (`my pw: abc&def=ghi`) only a line that
+        // was already such a list before the key is one.
         let list = &text[start..line_end];
-        if let Some(n) = list.char_indices().find_map(|(i, ch)| {
+        let listed = cue == Cue::Bare || prefix.contains([';', '&']);
+        if let Some(n) = list.char_indices().filter(|_| listed).find_map(|(i, ch)| {
             (matches!(ch, ';' | '&') && next_list_key(&list[i + 1..])).then_some(i)
         }) {
             line_end = start + n;
@@ -4227,7 +4264,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
     let mut values: Vec<Range<usize>> = Vec::new();
     if prose.iter().any(|p| p.gate == Gate::Assigned) {
         let mut found = spans[assigned..].to_vec();
-        found.extend(wrapped);
+        found.extend(wrapped.iter().cloned());
         found.sort_unstable_by_key(|r| (r.start, r.end));
         for range in found {
             if let Some(last) = values.last_mut().filter(|last| range.start <= last.end) {
@@ -4242,15 +4279,28 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         ranges.get(n).is_some_and(|r| r.start <= probe)
     };
     let inside = |probe: usize| within(&context, probe);
-    let disclosed: Vec<Range<usize>> = prose
-        .into_iter()
-        .filter(|p| match p.gate {
+    let mut disclosed: Vec<Range<usize>> = Vec::new();
+    for p in prose {
+        let accepted = match p.gate {
             Gate::Always => true,
             Gate::Outside => !inside(p.probe),
             Gate::Assigned => !inside(p.probe) && within(&values, p.probe),
-        })
-        .map(|p| p.source)
-        .collect();
+        };
+        if !accepted {
+            continue;
+        }
+        // Words before the key kept the assignment engine from redacting
+        // the value; the disclosure covers what the bare key would have.
+        if p.gate == Gate::Assigned {
+            disclosed.extend(
+                wrapped
+                    .iter()
+                    .filter(|r| r.start <= p.probe && p.probe < r.end)
+                    .map(|r| view.source_start(r.start)..view.source_end(r.end - 1)),
+            );
+        }
+        disclosed.push(p.source);
+    }
     spans.extend(url_values);
     if policy == Policy::Pii {
         for m in pii_regex().find_iter(&view.text) {
