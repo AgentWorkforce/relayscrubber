@@ -1921,6 +1921,39 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
             },
         ) {
             covered = end;
+            // An empty quoted segment touched by text (`password=""abc`) is
+            // no empty assignment: the assignment engine finds no value to
+            // gate on, so the disclosure stands on its own, unless the text
+            // is an operator (`password=""+x`).
+            let mut quotes = text[start..].chars();
+            let gate = match (quotes.next(), quotes.next(), quotes.next()) {
+                (Some(q), Some(c), Some(next))
+                    if gate != Gate::Always
+                        && matches!(
+                            (q, c),
+                            ('"', '"') | ('\'', '\'') | ('`', '`') | ('“', '”') | ('‘', '’')
+                        )
+                        && end > start + q.len_utf8() + c.len_utf8()
+                        && !matches!(
+                            next,
+                            '+' | '|'
+                                | '&'
+                                | '*'
+                                | '/'
+                                | '%'
+                                | '<'
+                                | '>'
+                                | '='
+                                | '!'
+                                | '?'
+                                | '^'
+                                | '~'
+                        ) =>
+                {
+                    Gate::Always
+                }
+                _ => gate,
+            };
             found.push(ProseValue {
                 probe,
                 source,
@@ -2061,34 +2094,67 @@ fn prose_value(
         ));
     };
     let value_start = view.source_start(layer.start(inner));
-    // A quoted segment that starts right at the close (`"abc""def"`,
-    // `"abc"'def'`) continues the value: the whole run of contiguous
-    // segments is one value, and an unmatched one fails closed as above. A
-    // segment is contiguous only at the opener's escape level: the quote that
-    // ends an enclosing JSON string after `\"abc\"` is not one, and neither is
-    // an unescaped quote the line opened before the noun (`echo "pw is 'x'"`).
+    // Text that touches the close with no whitespace (`"abc"defq`, `""abc`)
+    // is the same value, up to the next whitespace, unless it is only
+    // sentence or list punctuation (`"abc".`, `"abc";`). A quoted segment in
+    // that text (`"abc""def"`, `"abc"'def'`, `"abc"de"f"`) continues the
+    // value: the whole run is one value, and an unmatched segment fails
+    // closed as above. A quote is a segment only at the opener's escape
+    // level: the quote that ends an enclosing JSON string after `\"abc\"` is
+    // not one, and neither is an unescaped quote the line opened before the
+    // noun (`echo "pw is 'x'"`); either ends the run, as does the close of
+    // the innermost bracket the line opened before the noun.
     let after = end + close.len_utf8();
     let level = |p: usize, quote: char| {
         quote_escape(view, input, layer.start(p), quote).map_or(0, |(_, n)| n.trailing_ones())
     };
-    if text[after.min(text.len())..]
-        .chars()
-        .next()
-        .is_some_and(|q| {
-            matches!(q, '\'' | '"' | '`' | '“' | '‘')
-                && level(after, q) == level(start, open)
-                && (level(after, q) > 0 || quotes_opened(prefix, q) % 2 == 0)
-        })
-    {
-        if let Some((next, _, next_end)) =
-            prose_value(view, input, layer, after, line_end.max(after), prefix, cue)
-        {
-            return Some((
-                value_start..next.end.max(value_end),
-                layer.start(inner),
-                next_end,
-            ));
+    let bracket = enclosing_opener(prefix);
+    let mut run = after.min(text.len());
+    while let Some(q) = text[run..].chars().next() {
+        if q.is_whitespace() || matches!(q, ')' | ']' | '}') && Some(bracket_opener(q)) == bracket {
+            break;
         }
+        if matches!(q, '\'' | '"' | '`' | '“' | '‘')
+            && !(q == '\''
+                && text[..run]
+                    .chars()
+                    .next_back()
+                    .is_some_and(char::is_alphanumeric)
+                && text[run + 1..]
+                    .chars()
+                    .next()
+                    .is_some_and(char::is_alphanumeric))
+        {
+            if level(run, q) != level(start, open)
+                || level(run, q) == 0 && quotes_opened(prefix, q) % 2 == 1
+            {
+                break;
+            }
+            if let Some((next, _, next_end)) =
+                prose_value(view, input, layer, run, line_end.max(run), prefix, cue)
+            {
+                return Some((
+                    value_start..next.end.max(value_end),
+                    layer.start(inner),
+                    next_end,
+                ));
+            }
+            break;
+        }
+        run += q.len_utf8();
+    }
+    let tail = &text[after.min(run)..run];
+    if tail
+        .chars()
+        .any(|c| !matches!(c, '.' | ',' | ';' | ':' | '!' | '?' | ')' | ']' | '}' | '>'))
+    {
+        let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
+        let tail_end = after + kept.len();
+        return Some((
+            value_start..prose_source(view, layer, &(after..tail_end)).end,
+            layer.start(inner),
+            tail_end,
+        ));
     }
     let value = text[inner..end].trim();
     if value_end <= value_start
@@ -2147,42 +2213,41 @@ fn unquoted_prose_value(
                 }
             }
         }
-        // So does one inside brackets, at the first unbalanced close, but only
-        // a bracket the line opened before the key encloses it: after a bare
-        // cue too, `pw: x]yq` and `my password: ab)cd` keep the close.
-        let mut depth = 0usize;
-        let bracketed = {
-            let mut open = 0usize;
-            for ch in prefix.chars() {
+        // So does one inside brackets, at the close of the innermost bracket
+        // the line opened before the key and left open, in the key's own
+        // string layer: after a bare cue too, `pw: x]yq` and `my password:
+        // ab)cd` keep the close, and so do `(note pw: x]yq` and a JSON
+        // object's own `}` around the string that holds the key.
+        if let Some(opener) = enclosing_opener(prefix) {
+            let mut nested = Vec::new();
+            for (i, ch) in text[start..line_end].char_indices() {
                 match ch {
-                    '(' | '[' | '{' => open += 1,
-                    ')' | ']' | '}' => open = open.saturating_sub(1),
+                    '(' | '[' | '{' => nested.push(ch),
+                    ')' | ']' | '}' if nested.last() == Some(&bracket_opener(ch)) => {
+                        nested.pop();
+                    }
+                    ')' | ']' | '}' if nested.is_empty() && bracket_opener(ch) == opener => {
+                        line_end = start + i;
+                        break;
+                    }
                     _ => {}
                 }
-            }
-            open > 0
-        };
-        for (i, ch) in text[start..line_end].char_indices().filter(|_| bracketed) {
-            match ch {
-                '(' | '[' | '{' => depth += 1,
-                ')' | ']' | '}' if depth == 0 => {
-                    line_end = start + i;
-                    break;
-                }
-                ')' | ']' | '}' => depth -= 1,
-                _ => {}
             }
         }
         // And one inside a `;` or `&` separated key/value list (a connection
         // string, a query) at the separator before the next key, but only on a
-        // line that was already such a list before the key: `pw: abc&def=ghi`
-        // and `my pw: abc&def=ghi` are one value.
+        // line that was already such a list before the key: the key starts
+        // right after a key=value item ended by that same separator. `pw:
+        // abc&def=ghi`, `R&D pw: abc&def=ghi` and `note; pw: abc;host=y` are
+        // one value.
         let list = &text[start..line_end];
-        let listed = prefix.contains([';', '&']);
-        if let Some(n) = list.char_indices().filter(|_| listed).find_map(|(i, ch)| {
-            (matches!(ch, ';' | '&') && next_list_key(&list[i + 1..])).then_some(i)
-        }) {
-            line_end = start + n;
+        if let Some(sep) = list_separator(prefix) {
+            if let Some(n) = list
+                .char_indices()
+                .find_map(|(i, ch)| (ch == sep && next_list_key(&list[i + 1..])).then_some(i))
+            {
+                line_end = start + n;
+            }
         }
         if line_end <= start {
             return None;
@@ -2429,18 +2494,86 @@ fn unquoted_prose_value(
         } else {
             trimmed.len()
         };
-    for (open, close) in [('(', ')'), ('[', ']'), ('{', '}')] {
-        // Only a bracket opened before the disclosure closes after it.
+    // Only the innermost bracket opened before the disclosure closes after it.
+    if let Some(open) = enclosing_opener(prefix) {
+        let close = match open {
+            '(' => ')',
+            '[' => ']',
+            _ => '}',
+        };
         let value = &text[start..end];
         if value.len() > 1
             && value.ends_with(close)
-            && prefix.matches(open).count() > prefix.matches(close).count()
             && value.matches(open).count() < value.matches(close).count()
         {
             end -= 1;
         }
     }
     (end > start).then_some(start..end)
+}
+
+fn bracket_opener(close: char) -> char {
+    match close {
+        ')' => '(',
+        ']' => '[',
+        _ => '{',
+    }
+}
+
+// The innermost bracket the text leaves open in its last string layer: a
+// quote the text opens and leaves open hides the brackets before it, and a
+// close only closes a bracket of its own type opened in the same layer.
+fn enclosing_opener(prefix: &str) -> Option<char> {
+    let chars: Vec<char> = prefix.chars().collect();
+    let mut stack: Vec<char> = Vec::new();
+    for (i, &ch) in chars.iter().enumerate() {
+        let escaped = chars[..i].iter().rev().take_while(|&&c| c == '\\').count() % 2 == 1;
+        match ch {
+            '"' | '`' | '\'' | '“' | '”' if !escaped => {
+                let open = if ch == '”' { '“' } else { ch };
+                if let Some(at) = stack.iter().rposition(|&c| c == open) {
+                    stack.truncate(at);
+                } else if ch != '”' && !(ch == '\'' && i > 0 && chars[i - 1].is_alphanumeric()) {
+                    stack.push(ch);
+                }
+            }
+            '(' | '[' | '{' => stack.push(ch),
+            ')' | ']' | '}' => {
+                let floor = stack
+                    .iter()
+                    .rposition(|c| matches!(c, '"' | '`' | '\'' | '“'))
+                    .map_or(0, |q| q + 1);
+                if let Some(at) = stack[floor..]
+                    .iter()
+                    .rposition(|&c| c == bracket_opener(ch))
+                {
+                    stack.truncate(floor + at);
+                }
+            }
+            _ => {}
+        }
+    }
+    stack
+        .last()
+        .copied()
+        .filter(|c| matches!(c, '(' | '[' | '{'))
+}
+
+// The separator of the key/value list the text ends inside: it ends with
+// `;` or `&` (and spaces) right after a `key=value` item.
+fn list_separator(prefix: &str) -> Option<char> {
+    let head = prefix.trim_end_matches(' ');
+    let sep = head
+        .chars()
+        .next_back()
+        .filter(|c| matches!(c, ';' | '&'))?;
+    let before = &head[..head.len() - 1];
+    let item = before.rsplit(sep).next().unwrap_or(before).trim();
+    let last = item
+        .rsplit(|c: char| c.is_whitespace() || c == '?')
+        .next()
+        .unwrap_or(item);
+    (item.contains('=') && (next_list_key(item) || next_list_key(last))).then_some(sep)
 }
 
 // `Key=` or `User Id=` (not `==`) starts the next entry of a key/value list.
