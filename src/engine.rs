@@ -1760,13 +1760,24 @@ fn comment_wrapper(view: &View, position: usize) -> bool {
     prefix.starts_with('#') || prefix.starts_with("//")
 }
 
+const REGEX_VALUES: [&str; 7] = ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"];
+
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
+    // Only a few fixed values can qualify, with or without a `/g` or `/`
+    // suffix: reject every other value before scanning the prefix.
+    let stripped = value
+        .strip_suffix("/g")
+        .or_else(|| value.strip_suffix('/'))
+        .unwrap_or(value);
+    if ![value, stripped]
+        .iter()
+        .any(|v| *v == "/" || REGEX_VALUES.contains(v))
+    {
+        return false;
+    }
     let prefix = bounded_prefix(view, position);
     let value = if prefix.contains("= /") {
-        value
-            .strip_suffix("/g")
-            .or_else(|| value.strip_suffix('/'))
-            .unwrap_or(value)
+        stripped
     } else {
         value
     };
@@ -1777,7 +1788,7 @@ fn regex_value(view: &View, position: usize, value: &str) -> bool {
         || prefix.contains("rg ")
         || prefix.contains("grep ")
         || prefix.contains("= /"))
-        && ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"].contains(&value)
+        && REGEX_VALUES.contains(&value)
 }
 
 fn bounded_prefix(view: &View, position: usize) -> &str {
@@ -1789,9 +1800,20 @@ fn bounded_prefix(view: &View, position: usize) -> &str {
 }
 
 fn labeled_toy(view: &View, position: usize, value: &str) -> bool {
-    let prefix = bounded_prefix(view, position);
-    let lower = prefix.to_ascii_lowercase();
-    let labeled = [
+    // The value's own shape is checked first; only a toy-shaped value pays
+    // for the scan of the prefix for a label.
+    if !(value.len() <= 64
+        && ["toy", "fixture", "test"]
+            .iter()
+            .any(|p| value.to_ascii_lowercase().starts_with(p))
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+    {
+        return false;
+    }
+    let lower = bounded_prefix(view, position).to_ascii_lowercase();
+    [
         "synthetic fixture:",
         "toy example:",
         "test fixture:",
@@ -1799,24 +1821,17 @@ fn labeled_toy(view: &View, position: usize, value: &str) -> bool {
         "synthetic_fixture",
     ]
     .iter()
-    .any(|label| lower.contains(label));
-    labeled
-        && value.len() <= 64
-        && ["toy", "fixture", "test"]
-            .iter()
-            .any(|p| value.to_ascii_lowercase().starts_with(p))
-        && value
-            .bytes()
-            .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    .any(|label| lower.contains(label))
 }
 
 fn excerpt_value(view: &View, position: usize, value: &str) -> bool {
-    let prefix = bounded_prefix(view, position);
-    prefix.to_ascii_lowercase().contains("excerpt")
-        && value.len() <= 32
+    value.len() <= 32
         && value
             .bytes()
             .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace())
+        && bounded_prefix(view, position)
+            .to_ascii_lowercase()
+            .contains("excerpt")
 }
 
 fn session_identifier(value: &str) -> bool {
