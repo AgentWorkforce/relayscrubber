@@ -2160,6 +2160,8 @@ struct ValueTables {
     lists: std::cell::OnceCell<ListKeys>,
     // Where the next space and placeholder close lie after a quote close.
     marks: std::cell::OnceCell<ReferenceMarks>,
+    // Where the run of placeholders from a position ends, by line end.
+    runs: std::cell::RefCell<std::collections::HashMap<(usize, usize), usize>>,
 }
 
 // The escape level of the quote at layer position `p`: a quote spelled with
@@ -3075,18 +3077,7 @@ fn unquoted_prose_value(
     // run of them (`${A}${B}`), is exempt only when nothing is glued after
     // it; `${defq}abc` is one value.
     let line = &text[start..line_end];
-    let mut placeholders = 0;
-    while let Some(n) = [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")]
-        .iter()
-        .find_map(|(open, close)| {
-            let rest = &line[placeholders..];
-            rest.strip_prefix(open)?;
-            let n = rest.find(close)? + close.len();
-            prose_reference(&rest[..n]).then_some(n)
-        })
-    {
-        placeholders += n;
-    }
+    let placeholders = placeholder_run(text, start, line_end, tables) - start;
     if placeholders > 0 && separated(&line[placeholders..]) {
         return Some((start..start + placeholders, true));
     }
@@ -3188,6 +3179,53 @@ fn unquoted_prose_value(
         }
     }
     (end > start).then_some((start..end, false))
+}
+
+// Where the run of placeholders at `start` ends, each one ending by `end`
+// at the first close after it that makes it a reference. The closes come
+// from the layer's marks, not a search to the line end, and the run's end is
+// kept for every position on it, so the keys whose values start inside one
+// long run walk it once between them.
+fn placeholder_run(text: &str, start: usize, end: usize, tables: &ValueTables) -> usize {
+    let marks = tables.marks.get_or_init(|| ReferenceMarks::new(text));
+    let step = |at: usize| {
+        let rest = &text[at..end];
+        [
+            ("${{", "}}", ReferenceMarks::BRACES),
+            ("{{", "}}", ReferenceMarks::BRACES),
+            ("<", ">", ReferenceMarks::ANGLE),
+            ("${", "}", ReferenceMarks::BRACE),
+        ]
+        .iter()
+        .find_map(|&(open, close, kind)| {
+            rest.strip_prefix(open)?;
+            let n = marks.next(kind, at)? + close.len() - at;
+            // `<…>` longer than two characters and any `{{…}}` are
+            // references by their shape; the rest need the full check.
+            (n <= rest.len()
+                && (open.ends_with("{{") || open == "<" && n > 2 || prose_reference(&rest[..n])))
+            .then_some(n)
+        })
+    };
+    let mut runs = tables.runs.borrow_mut();
+    let mut walked = Vec::new();
+    let mut at = start;
+    let stop = loop {
+        if let Some(&stop) = runs.get(&(at, end)) {
+            break stop;
+        }
+        match step(at) {
+            Some(n) => {
+                walked.push(at);
+                at += n;
+            }
+            None => break at,
+        }
+    };
+    for at in walked {
+        runs.insert((at, end), stop);
+    }
+    stop
 }
 
 // The text after a placeholder leaves it whole: nothing, a space, or
@@ -3560,10 +3598,10 @@ fn reference_prefix(text: &str, at: usize, marks: &std::cell::OnceCell<Reference
         || closed("{{", ReferenceMarks::BRACES)
 }
 
-// Positions of whitespace, `>`, `%` and `}}` in a layer, so the next one
-// after any position is a binary search.
+// Positions of whitespace, `>`, `%`, `}}` and `}` in a layer, so the next
+// one after any position is a binary search.
 struct ReferenceMarks {
-    at: [Vec<usize>; 4],
+    at: [Vec<usize>; 5],
 }
 
 impl ReferenceMarks {
@@ -3571,14 +3609,20 @@ impl ReferenceMarks {
     const ANGLE: usize = 1;
     const PERCENT: usize = 2;
     const BRACES: usize = 3;
+    const BRACE: usize = 4;
 
     fn new(text: &str) -> Self {
-        let mut at: [Vec<usize>; 4] = Default::default();
+        let mut at: [Vec<usize>; 5] = Default::default();
         for (i, c) in text.char_indices() {
             match c {
                 '>' => at[Self::ANGLE].push(i),
                 '%' => at[Self::PERCENT].push(i),
-                '}' if text[i + 1..].starts_with('}') => at[Self::BRACES].push(i),
+                '}' => {
+                    at[Self::BRACE].push(i);
+                    if text[i + 1..].starts_with('}') {
+                        at[Self::BRACES].push(i);
+                    }
+                }
                 c if c.is_whitespace() => at[Self::SPACE].push(i),
                 _ => {}
             }
@@ -5752,8 +5796,8 @@ mod context_window_tests {
 #[cfg(test)]
 mod prose_scan_tests {
     use super::{
-        bracket_opener, next_list_key, prose_reference, reference_prefix, BracketCloses, ListKeys,
-        REDACTION_TOKEN,
+        bracket_opener, next_list_key, placeholder_run, prose_reference, reference_prefix,
+        BracketCloses, ListKeys, ValueTables, REDACTION_TOKEN,
     };
 
     // Short texts of every token the three tables look at, mixed with
@@ -5904,6 +5948,92 @@ mod prose_scan_tests {
                         );
                     }
                     cases += 1;
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
+    }
+
+    // The placeholder run `unquoted_prose_value` scanned for from each value
+    // start, searching for each close to the line end.
+    fn run_reference(text: &str, start: usize, line_end: usize) -> usize {
+        let line = &text[start..line_end];
+        let mut placeholders = 0;
+        while let Some(n) = [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")]
+            .iter()
+            .find_map(|(open, close)| {
+                let rest = &line[placeholders..];
+                rest.strip_prefix(open)?;
+                let n = rest.find(close)? + close.len();
+                prose_reference(&rest[..n]).then_some(n)
+            })
+        {
+            placeholders += n;
+        }
+        start + placeholders
+    }
+
+    #[test]
+    fn placeholder_runs_match_the_scan() {
+        let tokens = [
+            "<",
+            ">",
+            "<>",
+            "<a>",
+            "</a>",
+            "{",
+            "}",
+            "{{",
+            "}}",
+            "${",
+            "${{",
+            "$",
+            "a",
+            "_b",
+            "a.b",
+            ":-",
+            ":-x",
+            "-",
+            "?",
+            " ",
+            "\t",
+            "\n",
+            "é",
+            "😀",
+            "*",
+            "%",
+            ",",
+            REDACTION_TOKEN,
+        ];
+        let mut seed = 0x0000_9A1C_E401u64;
+        let mut next = |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut cases = 0usize;
+        for _ in 0..2_000 {
+            let mut text = String::new();
+            for _ in 0..next(20) {
+                text.push_str(tokens[next(tokens.len())]);
+            }
+            let at = boundaries(&text);
+            // One table per text, filled in both directions, so runs kept
+            // from earlier starts and other line ends are reused.
+            for order in [false, true] {
+                let tables = ValueTables::default();
+                for n in 0..at.len() {
+                    let n = if order { at.len() - 1 - n } else { n };
+                    let start = at[n];
+                    for &line_end in &at[n..] {
+                        assert_eq!(
+                            placeholder_run(&text, start, line_end, &tables),
+                            run_reference(&text, start, line_end),
+                            "{text:?} {start}..{line_end}"
+                        );
+                        cases += 1;
+                    }
                 }
             }
         }
