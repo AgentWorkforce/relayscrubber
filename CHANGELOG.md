@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0-alpha.11
 
 Security fix: 0.5.0-alpha.10 leaked password disclosures with a descriptor
 between the noun and its cue. `the password for the box is
