@@ -34,9 +34,14 @@ still left unchanged:
   which is new, is x`, `the password for the box that I set is x` and `the
   password, for the box, is x` redact the final value only.
 - New cues for all eight nouns, with or without a descriptor: `is still`,
-  `is now set to`, `has been set to`, `was reset to`, `changed to`, plural
-  nouns with `are` and `were` (`the passwords are x`), and contact clauses
-  (`the password Bob uses is x`, `the password that I use is x`).
+  `is now set to`, `has been set to`, `has now been set to`, `has still
+  been set to`, `has changed to`, `had changed to`, `was reset to`,
+  `changed to`, plural nouns with `are`, `were` and `have changed to` (`the
+  passwords are x`), and contact clauses (`the password Bob uses is x`, `the
+  password that I use is x`). Punctuation right after a contact clause is
+  read as after a relative clause: `the password Bob uses, which is new, is
+  x`, `the password Bob uses: x` and `the password Bob uses=x` redact the
+  final value only.
 
 `is not`, `isn't`, `will be` and `should be`, documentary values and code
 stay unchanged. Accepted over-redactions: with no later cue the glued value

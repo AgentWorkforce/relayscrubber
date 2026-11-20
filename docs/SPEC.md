@@ -235,8 +235,12 @@ with, within), optionally after one participle (`used by`, `assigned to`,
 comma (`the password, for the box, is V`) or, after a determiner, a contact
 clause (`the password Bob uses is V`: a pronoun, a capitalised name or a
 determiner and noun, then a verb ending in `-s` or `-ed` or an irregular past
-such as `set` or `chose`). It is read word by word up to `DESCRIPTOR_TOKENS`
-(16) words. Identifiers, paths, dotted or hyphenated names and digits are
+such as `set` or `chose`). A contact clause's verb is read as the
+descriptor's first word, so punctuation right after it is read as after any
+other word (`the password Bob uses, which is new, is V`, `the password Bob
+uses: V`, `the password Bob uses=V` disclose `V`); the verb is not a cue and
+does not count toward the bound. The descriptor is read word by word up to
+`DESCRIPTOR_TOKENS` (16) words. Identifiers, paths, dotted or hyphenated names and digits are
 words like any other, and so are coordination (`and`, `or`, `&`, `+`, a
 spaced hyphen, en or em dash), commas and relative clauses (`that`, `which`,
 `who`, `whom`). The cue right after a relative pronoun belongs to the
@@ -275,12 +279,15 @@ binding keyword (`for pw in pws`, `const pw of list`) is code and is skipped.
 
 Besides `is`, `was`, `is now`, `set to`, `is set to` and `was set to`, the
 direct and descriptor cues include `is still`, `is now set to`, `has been set
-to`, `had been set to`, `was reset to`, `was changed to`, `was updated to` and
-bare `changed to` and `updated to` (bare `reset to` is not a cue: `the
-password reset to the default flow`). A plural noun (`passwords`, `pws`,
-`pass codes`) discloses after the plural cues (`are`, `were`, `are now`, `have
-been set to`, `changed to`) and never after `:`, `=`, `is` or `has`; a
-singular noun never after `are`, `were` or `have`. Where a longer cue finds no
+to`, `had been set to`, the same with `now` or `still` after `has` or `had`
+(`has now been set to`, `had still been changed to`), `has changed to`, `had
+changed to`, `was reset to`, `was changed to`, `was updated to` and bare
+`changed to` and `updated to` (bare `reset to` is not a cue: `the password
+reset to the default flow`; nor is `has changed` without `to`). A plural noun
+(`passwords`, `pws`, `pass codes`) discloses after the plural cues (`are`,
+`were`, `are now`, `have been set to`, `have now been set to`, `have changed
+to`, `had changed to`, `changed to`) and never after `:`, `=`, `is` or `has`;
+a singular noun never after `are`, `were` or `have`. Where a longer cue finds no
 value the shorter alpha.10 cue is tried (`the password is still` redacts
 `still`, as before), so no alpha.10 disclosure is lost. A negation or modal
 before the value (`is not`, `isn't`, `will be`, `should be`) is not a cue.

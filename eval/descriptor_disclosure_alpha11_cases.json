@@ -796,5 +796,173 @@
     "kind": "benign",
     "input": "the password for the box and vm. It is Q1x",
     "expected": "the password for the box and vm. It is Q1x"
+  },
+  {
+    "id": "alpha11-ruling-contact-which",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password Bob uses, which is new, is Zq9x",
+    "expected": "the password Bob uses, which is new, is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-set-which",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password Alice set, which is new, is Zq9x",
+    "expected": "the password Alice set, which is new, is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-colon",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password Bob uses: Zq9x",
+    "expected": "the password Bob uses: [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-glued",
+    "family": "glued",
+    "kind": "positive",
+    "input": "the password Bob uses=Zq9x",
+    "expected": "the password Bob uses=[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-line-break",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password Bob uses,\nwhich is new, is Zq9x",
+    "expected": "the password Bob uses,\nwhich is new, is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-pronoun-colon",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the pw I set: Zq9x",
+    "expected": "the pw I set: [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-determiner-spaced",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the passcode the admin uses = Zq9x",
+    "expected": "the passcode the admin uses = [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-plural",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the passwords we picked, which are new, are Zq9x",
+    "expected": "the passwords we picked, which are new, are [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-colon-instruction",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "the password Bob uses: see the vault",
+    "expected": "the password Bob uses: [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-contact-documentary",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password Bob uses, which is new, is required",
+    "expected": "the password Bob uses, which is new, is required"
+  },
+  {
+    "id": "alpha11-ruling-contact-no-determiner",
+    "family": "benign",
+    "kind": "benign",
+    "input": "password Bob uses: Zq9x",
+    "expected": "password Bob uses: Zq9x"
+  },
+  {
+    "id": "alpha11-ruling-contact-appositive",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password Bob uses, Zq9x",
+    "expected": "the password Bob uses, Zq9x"
+  },
+  {
+    "id": "alpha11-ruling-contact-semicolon",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password Bob uses; it is Zq9x",
+    "expected": "the password Bob uses; it is Zq9x"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password has changed to Zq9x",
+    "expected": "the password has changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-had-changed-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the pwd had changed to Zq9x",
+    "expected": "the pwd had changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-have-changed-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the passwords have changed to Zq9x",
+    "expected": "the passwords have changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-has-now-been-set-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password has now been set to Zq9x",
+    "expected": "the password has now been set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-has-still-been-set-to",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the passphrase for the box has still been set to Zq9x",
+    "expected": "the passphrase for the box has still been set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-to-relative",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password that I use has changed to Zq9x",
+    "expected": "the password that I use has changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-to-policy",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "the password has changed to meet the policy",
+    "expected": "the password has changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-control",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password has changed",
+    "expected": "the password has changed"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-since",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password has changed since Monday",
+    "expected": "the password has changed since Monday"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-documentary",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password has changed to required",
+    "expected": "the password has changed to required"
+  },
+  {
+    "id": "alpha11-ruling-has-changed-agreement",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the passwords has changed to Zq9x",
+    "expected": "the passwords has changed to Zq9x"
   }
 ]
