@@ -2035,6 +2035,11 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
                 }
             }
             Some(kind) => {
+                // A contact clause needs a determiner on the noun; every bare
+                // noun with no cue reaches this arm, so this exit comes first.
+                if kind == Head::Contact && !determiner {
+                    continue;
+                }
                 if skipped(whole.end())
                     || !determiner
                         && descriptor_code(
@@ -2044,14 +2049,10 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
                     continue;
                 }
                 let from = if kind == Head::Contact {
-                    // A contact clause needs a determiner on the noun.
-                    if !determiner {
-                        continue;
-                    }
-                    let Some(end) = descriptor_contact(text, whole.end()) else {
+                    let Some(verb) = descriptor_contact(text, whole.end()) else {
                         continue;
                     };
-                    end
+                    verb
                 } else {
                     whole.end()
                 };
@@ -2995,13 +2996,14 @@ pub(crate) const DESCRIPTOR_TOKENS: usize = 16;
 // The cue words after a password noun or its descriptor, longest first: a
 // verb with `to` after `is`, `are` (and their past forms), optionally with
 // `now` or `still` (`is now set to`, `were changed to`), the perfect `has
-// been set to`, the bare `set to`, `changed to` and `updated to`, `is now`,
-// `is still` and the copulas. `reset to` counts only after a copula or
-// `been`, since `password reset` is a noun.
+// been set to`, also with `now` or `still` (`has now been set to`), the
+// perfect `has changed to`, the bare `set to`, `changed to` and `updated
+// to`, `is now`, `is still` and the copulas. `reset to` counts only after a
+// copula or `been`, since `password reset` is a noun.
 fn cue_pattern(s: &str) -> String {
     let verb = format!(r"(?:set|changed|reset|updated){s}to");
     format!(
-        r"(?:(?:is|was|are|were){s}(?:(?:now|still){s})?{verb}|(?:has|have|had){s}been{s}{verb}|(?:set|changed|updated){s}to|(?:is|was|are|were){s}(?:now|still)|is|was|are|were)"
+        r"(?:(?:is|was|are|were){s}(?:(?:now|still){s})?{verb}|(?:has|have|had){s}(?:(?:now|still){s})?been{s}{verb}|(?:has|have|had){s}changed{s}to|(?:set|changed|updated){s}to|(?:is|was|are|were){s}(?:now|still)|is|was|are|were)"
     )
 }
 
@@ -3139,7 +3141,10 @@ fn descriptor_code(prefix: &str) -> bool {
 // A contact clause at `at`: a subject (a personal pronoun, a capitalised
 // name, or a determiner and a word) and a verb, `the password Bob uses`,
 // `the password I set`. After a name or a determiner the verb ends in `-s`
-// or `-ed` or is a common irregular past. Returns the verb's end.
+// or `-ed` or is a common irregular past. Returns the verb's start:
+// `descriptor_cue` reads the verb as the descriptor's first word, so
+// punctuation right after it (`Bob uses:`, `Bob uses, which is new, is`) is
+// read as after any other descriptor word.
 fn descriptor_contact(text: &str, at: usize) -> Option<usize> {
     static R: OnceLock<Regex> = OnceLock::new();
     let r = R.get_or_init(|| {
@@ -3188,7 +3193,7 @@ fn descriptor_contact(text: &str, at: usize) -> Option<usize> {
     {
         return None;
     }
-    Some(at + c.get(0).expect("contact clause").end())
+    Some(at + c.name("verb").expect("contact verb").start())
 }
 
 // The whitespace at `at`, with at most one line break: its end, or None at a
@@ -3322,16 +3327,24 @@ fn descriptor_cue(
     let mut words = 0;
     let mut relative = head == Head::Relative;
     let mut fallback: Option<DescriptorCue> = None;
+    // A contact clause starts at its verb: the first word read, which is
+    // neither a cue nor counted toward the bound.
+    let mut contact = head == Head::Contact;
     loop {
+        let verb = contact;
+        contact = false;
         let Some(start) = descriptor_gap(text, at) else {
             return fallback;
         };
-        if start == at || start == text.len() {
+        if start == at && !verb || start == text.len() {
             return fallback;
         }
         let clean = quote.is_none() && brackets.is_empty();
         // Past the bound a cue counts inside brackets and quotes too.
-        if clean && (words > 0 || relative || head == Head::Contact) || words == DESCRIPTOR_TOKENS {
+        if !verb
+            && (clean && (words > 0 || relative || head == Head::Contact)
+                || words == DESCRIPTOR_TOKENS)
+        {
             if let Some(cue) = descriptor_word_cue(text, start) {
                 if !relative {
                     return Some(cue);
@@ -3353,7 +3366,9 @@ fn descriptor_cue(
             .find(char::is_whitespace)
             .map_or(text.len(), |n| start + n);
         let word = &text[start..end];
-        words += 1;
+        if !verb {
+            words += 1;
+        }
         if DESCRIPTOR_OPERATORS.iter().any(|op| word.contains(op)) {
             // A glued word that ends the clause (`box=x;`) still discloses.
             if clean && fallback.is_none() {
