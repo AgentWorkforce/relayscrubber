@@ -8,28 +8,64 @@ tag, publication or consumer adoption is authorized by these results.
 
 Three classes reported against the alpha.10 candidate (`643beb8`) are fixed
 before any release; this section records local and source-run results only
-and is not a PASS or an adoption claim. The first pin of the fixed code
-(receipt head `639f7f0`, code `a9c679f5`, run `44568426111`) passed its
-exact-head run `44574798433` and was then blocked in the independent review;
-it is kept as `alpha10BlockedHostedArtifact` in
-[the receipt](results/review-fixes.json), and the pin before it (run
-`44509387631` on `d36050c5`, code `135c26de`) as
-`alpha10SupersededHostedArtifact`.
+and is not a PASS or an adoption claim. Two pins of the fixed code passed
+their exact-head runs and were then blocked in the independent review. Both
+are kept in [the receipt](results/review-fixes.json): the first (receipt head
+`639f7f0`, code `a9c679f5`, run `44568426111`, exact-head run `44574798433`)
+as `alpha10BlockedHostedArtifact`, the second (receipt head `48f9574`, code
+`9338339b`, run `44628698592`, exact-head run `44633710253`) as
+`alpha10SecondBlockedHostedArtifact`. The pin before them (run `44509387631`
+on `d36050c5`, code `135c26de`) is `alpha10SupersededHostedArtifact`.
 
 The hosted artifact pin in `docs/results/` now names the build of the
-repaired head `b28e3030` (last code commit `9338339b`) from CI run
-`44628698592` (artifact `14581157486`, package SHA-256 `4d7627b3…`, WASM
-`3d02892d…`, ruleset source `12fa2d00…`); a local Rust 1.88.0 rebuild
+repaired head `30e6c348` (last code commit `bab88e75`) from CI run
+`44655994607` (artifact `14594295374`, package SHA-256 `53ad2d6d…`, WASM
+`ec2f44ab…`, ruleset source `2758bc53…`); a local Rust 1.88.0 rebuild
 reproduces the package and every payload byte for byte. That run passed Linux
-and Windows Rust (154 tests each), the frozen 199 witnesses with no missed
-secret, Node 861/861 and Bun 861/861, and failed only its committed-pin
-check, which still compared against the blocked `639f7f0` pins. The
+and Windows Rust (165 tests each), the frozen 199 witnesses with no missed
+secret, Node 917/917 and Bun 917/917, and failed only its committed-pin
+check, which still compared against the blocked `48f9574` pins. The
 exact-head run of the commit carrying this pin must report committed-pin
 equality and reproduce the same package and payloads; that gate has not run
 yet and is reported with the handoff, not here.
 
-The block named three classes, recorded with examples under
-`alpha10BlockRepair` in the receipt:
+The second block named one class, recorded with before and after outputs
+under `alpha10ColonContextRepair` in the receipt:
+
+- After a bare colon, a type-looking value was kept with no evidence that it
+  was a type: `pw: abcq<defq>` stayed visible. A type annotation now needs
+  source context in the engine's view, which is at most 512 bytes before the
+  key in the same string: a fn signature, a struct, interface or type body
+  around the key, or a `let`/`const`/`var` declaration naming it. So
+  `struct X { pw: Vec<u8> }`, `fn f(pw: String)` and `const pw: string` are
+  unchanged, and `pw: abcq<defq>`, `pw: Vec<u8>`, `password: Option<String>,`
+  and `pw: string` redact. The controls that pinned the old output moved to
+  the positive sets, each with a source-context sibling that keeps its output.
+- Code-looking values after a bare colon had the same exemption and follow
+  the same rule, for every credential key: `password: Orchid.River99!`,
+  `pw: abc(def)` and `password: match option {…};` redact, and
+  `const opts = {password: orchid.river};` is unchanged.
+- Accepted precision tradeoff: no context is carried across lines or records.
+  A multi-line body within 512 bytes of its opener keeps its field; a field
+  line alone (`    pw: Vec<u8>,`), a field in its own NDJSON record and a
+  field more than 512 bytes below its opener redact. Struct literals, class
+  members and calls with a space before `(` now redact too, and the frozen
+  witness `switch-case-auth` no longer equals its archived output (163 of 199
+  exact, with no missed secret).
+- Still kept: a code-shaped value in a labelled argument of a call whose `(`
+  directly follows a callee, so `login(password: Orchid.River99!)` and prose
+  shaped like one (`Re(password: orchid.river)`) stay visible. These and the
+  other kept forms are listed under `alpha10ColonContextRepair.residuals`
+  for the review to rule on.
+
+Qualification (`scripts/qualify-prose-disclosures.mjs`, 7,541 cases, three
+forms) on the repaired head fails no case of a required scope on native Rust
+or on the WASM with the pinned hash, and the 22,623 native/WASM comparisons
+differ in no byte. The optional-noun scope, which is not required, keeps a
+value in 3,338 of its 3,952 cases per form.
+
+The first block named three classes, recorded with examples under
+`alpha10BlockRepair` in the receipt; they stay fixed:
 
 - A bare cue's value ends only at a bracket or list that the line opened
   before the noun. An unmatched `)`, `]` or `}` and `&key=` or `;key=` are
@@ -40,18 +76,13 @@ The block named three classes, recorded with examples under
   exempt only when the whole run is references or placeholders; one literal
   part makes the whole run one marker.
 - `docs/results/ci.json` and the receipt's top-level `interface`,
-  `localChecks` and `controls` now describe alpha.10; the alpha.8 objects are
+  `localChecks` and `controls` describe alpha.10; the alpha.8 objects are
   kept under `alpha8Receipt` and the `alpha8…` keys.
 
-Qualification (`scripts/qualify-prose-disclosures.mjs`, 7,539 cases, three
-forms) on the repaired head fails no case of a required scope on native Rust
-or on the WASM with the pinned hash, and the 22,617 native/WASM comparisons
-differ in no byte. The optional-noun scope, which is not required, keeps a
-value in 3,347 of its 3,952 cases per form. Forms the repair leaves visible
-or over-redacts are listed under `alpha10BlockRepair.residuals` for the
-review to rule on.
+Forms the first repair left visible or over-redacts are carried under
+`alpha10ColonContextRepair.residuals`.
 
-The three classes fixed before the block:
+The three classes fixed before the first block:
 
 - Colon and equals cues for all eight nouns, with or without `my`, redact the
   whole value; type annotations, references and a lone `None` stay visible.
