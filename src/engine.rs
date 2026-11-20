@@ -692,6 +692,14 @@ fn code_expression(value: &str) -> bool {
         .is_match(value)
 }
 
+// `let`/`const`/`var` directly before the key on its own line.
+fn keyword_declaration(view: &View, key: usize) -> bool {
+    matches!(
+        bounded_prefix(view, key).split_whitespace().last(),
+        Some("let" | "const" | "var")
+    ) && bounded_prefix(view, key).ends_with(char::is_whitespace)
+}
+
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
     // An isolated opener has no credential bytes. Never exempt a prefix of an
     // unfinished multi-line object: its entire remaining value must be empty.
@@ -753,8 +761,12 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             .bytes()
             .all(|b| b.is_ascii_alphanumeric() || b"_ \t{}(),=>:&|".contains(&b));
     }
-    // Types must also be complete; a balanced generic cannot hide a tail.
-    if colon {
+    // A type-looking value after a bare colon is credential data unless
+    // independently recognised source context surrounds the key: a fn
+    // signature or struct/interface/type body (`type_context`), or a
+    // `let`/`const`/`var` declaration. Types must also be complete; a balanced
+    // generic cannot hide a tail.
+    if colon && (type_context(view, key) || keyword_declaration(view, key)) {
         let mut depth = 0usize;
         let mut type_end = None;
         for (i, b) in rest.bytes().enumerate() {
@@ -2998,9 +3010,19 @@ fn unquoted_prose_value(
         .filter(|w| !w.is_empty());
     let mut end = start;
     let mut cursor = start;
+    // Brackets the value opened and has not closed: a comma or semicolon
+    // inside them (`Map<String, u8>`, `(abc, def)`) does not end the value.
+    let mut open = 0usize;
     for (i, word) in words.enumerate() {
         let at = cursor + text[cursor..].find(word).expect("word in line");
         cursor = at + word.len();
+        for ch in word.chars() {
+            match ch {
+                '<' | '(' | '[' | '{' => open += 1,
+                '>' | ')' | ']' | '}' => open = open.saturating_sub(1),
+                _ => {}
+            }
+        }
         let bare = word.trim_end_matches(['.', ',', ';', ':', '!', '?']);
         let lower = bare.to_ascii_lowercase();
         // A colon or equals cue assigns its whole value, as `password:
@@ -3046,7 +3068,7 @@ fn unquoted_prose_value(
             break;
         }
         end = cursor;
-        if word.ends_with([',', ';', '.']) {
+        if open == 0 && word.ends_with([',', ';', '.']) {
             break;
         }
     }
