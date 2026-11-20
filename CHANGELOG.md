@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+Security fix: 0.5.0-alpha.10 leaked password disclosures with a descriptor
+between the noun and its cue. `the password for the box is
+Tr0ub4dor-Example-91` and `the pw for the box is ab` came out unchanged,
+while `the password is Tr0ub4dor-Example-91` redacted. All eight password
+nouns now disclose through a same-clause relational descriptor that starts
+with a preposition, optionally after a participle (`for the box`, `on
+db-01.example`, `used by the CI runner`, `assigned to ops`, `belonging to
+root`), before `is`, `was`, `is now`, `set to`, `is set to`, `was set to`, a
+colon or `=`: `the password for the box is [REDACTED]`, `the password for the
+box is '[REDACTED]'`. The descriptor bound is `DESCRIPTOR_TOKENS`, 16 words.
+Within it the descriptor ends at a sentence end, a comma, a blank line, code
+operators and words that start a new construction (`and`, `which`, `that`,
+`because` and the like). Past the bound the search fails closed: brackets,
+quotes, commas and those words no longer end it, so a longer descriptor still
+redacts, and only a sentence end, a blank line or code stops it. Documentary
+values keep the alpha.10 policy with no new allowlist (`the password for the
+box is required` is unchanged, as `the password is required` is), and every
+input outside this class scrubs exactly as in alpha.10.
+
 ## 0.5.0-alpha.10
 
 Redact natural-language password disclosures such as `my password is x`, `the

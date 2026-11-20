@@ -225,6 +225,39 @@ is None`), is skipped. These spans merge with assignment spans and stay within
 the five-pass budget. pass, PIN, secret, key and token are not prose-disclosure
 nouns (`the key is pressed`, `a token is a unit of text`).
 
+A relational descriptor may stand between the noun and its cue: `the
+password for the box is V`, `pw on db-01.example is: V`, `the passcode used
+by the CI runner was set to V`, `password for root: V`. The descriptor starts
+with a preposition (about, across, against, at, behind, between, by, for,
+from, in, inside, into, of, on, onto, over, per, through, to, under, via,
+with, within), optionally after one participle (`used by`, `assigned to`,
+`belonging to`), and is read word by word up to `DESCRIPTOR_TOKENS` (16)
+words. Identifiers, paths, dotted or hyphenated names and digits are words
+like any other. Within the bound the descriptor ends, with no disclosure, at
+a blank line or the end of the text, a sentence end (`.`, `!`, `?`) or a
+comma, a word with a code operator (`;`, `==`, `=>`, `!=`, `&&`, `||`, `:=`),
+a word of punctuation only, a conjunction, subordinator, relative pronoun or
+modal that starts a new construction (`and`, `because`, `which`, `that`,
+`should` and the rest of the engine's list), a close bracket it did not open,
+or a stray quote. A cue inside a bracket or quote the descriptor opened does
+not count. The cues are those of the direct form (`is`, `was`, `is now`, `set
+to`, `is set to`, `was set to`, each optionally followed by `:`), a word that
+ends in `:` (not `::`), and a word that ends in `=` (not `==`, `!=`, `<=`,
+`>=`, `:=`). Past the bound the search fails closed: after 16 words have
+been read, commas, soft words, brackets and quotes no longer end the search,
+a cue inside a bracket or quote counts, and the search stops only at a blank
+line, a sentence end, a code operator or a quote inside a word. So a disclosure whose descriptor is
+longer than the bound still redacts, at the cost of redacting some long
+sentences that are not disclosures. The search past the bound is computed
+once per starting position and reused by later nouns, so work stays linear.
+A descriptor value then follows the direct form's value and documentary rules
+exactly: `the password for the box is required`, `... is hashed` and `... is
+stored in the vault` stay visible where `the password is required` does,
+with no allowlist of its own, and every other value redacts. A noun right
+after a loop or binding keyword (`for pw in pws`, `const pw of list`) is code
+and is skipped. Everything else (no preposition after the noun, a relative
+clause such as `the password that CI uses is V`) is outside this rule.
+
 ## Information preserved and PII policy
 
 Default scrubbing preserves email addresses, telephone numbers, home-directory
