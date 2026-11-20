@@ -1944,8 +1944,13 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         let (h, b) = (PROSE_SPACE, PROSE_BREAK);
         let s = format!(r"(?:{h}+(?:{b}{h}*)?|{b}{h}*)");
         let o = format!(r"{h}*(?:{b}{h}*)?");
+        // A cue directly after the noun is tried first, so every match
+        // without a descriptor is the one it always was. Otherwise the noun
+        // may open a relational descriptor (group 6): an optional participle
+        // and a preposition (`for`, `used by`, `belonging to`), read on by
+        // `descriptor_cue`.
         Regex::new(&format!(
-            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{s}code|pass{s}phrase)\b{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
+            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{s}code|pass{s}phrase)\b(?:{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))|{s}((?:[a-z]+(?:ed|ing|en){s})?(?:{DESCRIPTOR_HEADS}))\b)"
         ))
         .expect("fixed prose disclosure regex")
     });
@@ -1964,33 +1969,59 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
     let cap = std::cell::RefCell::new(Vec::new());
     let tables = ValueTables::default();
     let mut openers = (Openers::new(false, 0), Openers::new(true, 0));
+    let mut beyond = None;
     for c in r.captures_iter(text) {
         let whole = c.get(0).expect("prose disclosure match");
         let noun = c.get(2).expect("prose disclosure noun");
         let determiner = c.get(1).is_some();
+        let skipped = |end: usize| {
+            whole.start() < covered
+                || text[..noun.start()]
+                    .chars()
+                    .next_back()
+                    .is_some_and(|ch| matches!(ch, '.' | '$' | '@' | '-' | '/' | '\\'))
+                || !determiner
+                    && code_condition(&text[prose_line_start(&starts, noun.start())..noun.start()])
+                || text[end..].starts_with('=')
+        };
+        // The cue: where it ends, whether it is a word, whether a colon
+        // follows the word, and the colon or equals sign.
+        let (whole_end, word, colon, cue) = match c.get(6) {
+            None => (
+                whole.end(),
+                c.get(3).is_some(),
+                c.get(4).is_some_and(|m| !m.is_empty()),
+                c.get(5).map(|m| m.as_str()),
+            ),
+            Some(head) => {
+                if skipped(whole.end())
+                    || !determiner
+                        && descriptor_code(
+                            &text[prose_line_start(&starts, noun.start())..noun.start()],
+                        )
+                {
+                    continue;
+                }
+                let Some(found) = descriptor_cue(text, head.end(), &mut beyond) else {
+                    continue;
+                };
+                (found.end, found.word, found.colon, found.symbol)
+            }
+        };
         // A colon or equals cue assigns its whole value with or without a
         // determiner; only the gate below depends on the bare form.
-        let cue = c.get(5);
         let bare = cue.filter(|_| !determiner);
-        let rest = &text[whole.end()..];
-        if whole.start() < covered
-            || text[..noun.start()]
-                .chars()
-                .next_back()
-                .is_some_and(|ch| matches!(ch, '.' | '$' | '@' | '-' | '/' | '\\'))
-            || !determiner
-                && code_condition(&text[prose_line_start(&starts, noun.start())..noun.start()])
-            || rest.starts_with('=')
+        let rest = &text[whole_end..];
+        if skipped(whole_end)
             || bare.is_some_and(|m| {
-                m.as_str() == "=" && rest.starts_with('>')
-                    || m.as_str() == ":" && rest.starts_with(':')
+                m == "=" && rest.starts_with('>') || m == ":" && rest.starts_with(':')
             })
         {
             continue;
         }
         // The value follows the cue after separators with at most one line
         // break; after a bare cue it must start on the cue's line.
-        let mut start = whole.end();
+        let mut start = whole_end;
         let mut breaks = 0;
         let allowed = if bare.is_some() { 0 } else { 1 };
         while let Some(ch) = text[start..].chars().next() {
@@ -2009,7 +2040,7 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
         if breaks > allowed {
             continue;
         }
-        if start == whole.end() && c.get(3).is_some() && c.get(4).is_none_or(|m| m.is_empty()) {
+        if start == whole_end && word && !colon {
             continue;
         }
         // The line ends at the break before the next line start.
@@ -2035,10 +2066,13 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
                             c.is_alphanumeric() || matches!(c, '_' | '$' | '"' | '\'' | '`' | '\\')
                         })
                 });
-                if !glued && code_value(view, key, value, cue.as_str() == ":", false) {
+                if !glued && code_value(view, key, value, cue == ":", false) {
                     continue;
                 }
-                if noun.as_str().contains(|ch: char| !ch.is_ascii_alphabetic())
+                // After a descriptor the assignment key is the descriptor's
+                // last word, not the noun, so only the URL gate applies.
+                if c.get(6).is_some()
+                    || noun.as_str().contains(|ch: char| !ch.is_ascii_alphabetic())
                     || !sensitive(noun.as_str())
                 {
                     Gate::Outside
@@ -2874,6 +2908,339 @@ fn code_condition(prefix: &str) -> bool {
         "if", "elif", "while", "assert", "and", "or", "not", "return", "lambda",
     ]
     .contains(&word)
+}
+
+// Relational descriptors between a password noun and its cue: `the password
+// for the box is x`, `the passcode used by the CI runner was x`, `Password
+// for db1.example.com: x`. The descriptor opens with an optional participle
+// and one of these prepositions, then runs word by word to the cue.
+const DESCRIPTOR_HEADS: &str = "about|across|against|at|behind|between|by|for|from|in|inside|into|of|on|onto|over|per|through|to|under|via|with|within";
+
+// The descriptor bound: the number of words after the preposition read with
+// the full descriptor grammar. A descriptor still open after this many words
+// fails closed: the search for its cue goes on to the end of the sentence,
+// ignoring the soft boundaries below (see `descriptor_beyond`).
+pub(crate) const DESCRIPTOR_TOKENS: usize = 16;
+
+// Words that end a descriptor within the bound: a conjunction, relative
+// pronoun or finite verb starts a new construction, so a later cue belongs to
+// another clause (`the password for the box expired and the user is bob`).
+const DESCRIPTOR_BOUNDARIES: [&str; 46] = [
+    "and",
+    "or",
+    "but",
+    "nor",
+    "so",
+    "yet",
+    "because",
+    "since",
+    "while",
+    "when",
+    "whenever",
+    "where",
+    "wherever",
+    "if",
+    "unless",
+    "until",
+    "although",
+    "though",
+    "whereas",
+    "that",
+    "which",
+    "who",
+    "whom",
+    "whose",
+    "then",
+    "than",
+    "however",
+    "therefore",
+    "will",
+    "would",
+    "shall",
+    "should",
+    "can",
+    "could",
+    "may",
+    "might",
+    "must",
+    "does",
+    "do",
+    "did",
+    "has",
+    "have",
+    "had",
+    "are",
+    "were",
+    "be",
+];
+
+// Code operators and separators: a word holding one is not prose.
+const DESCRIPTOR_OPERATORS: [&str; 7] = [";", "==", "=>", "!=", "&&", "||", ":="];
+
+#[derive(Clone, Copy)]
+struct DescriptorCue {
+    end: usize,
+    word: bool,
+    colon: bool,
+    symbol: Option<&'static str>,
+}
+
+// The last result of `descriptor_beyond`: the position it searched from,
+// the first later start it does not answer for, and the cue it found.
+type Beyond = Option<(usize, usize, Option<DescriptorCue>)>;
+
+// A loop or binding keyword right before a bare noun with a descriptor makes
+// it code (`for pw in pws: print(pw)`), as `code_condition` does for cues.
+fn descriptor_code(prefix: &str) -> bool {
+    let word = prefix
+        .trim_end_matches(|c: char| !c.is_ascii_alphabetic())
+        .rsplit(|c: char| !c.is_ascii_alphabetic())
+        .next()
+        .unwrap_or("")
+        .to_ascii_lowercase();
+    code_condition(prefix)
+        || [
+            "for", "foreach", "in", "of", "with", "const", "let", "var", "def", "case", "except",
+            "select", "from", "import", "fn", "func", "function",
+        ]
+        .contains(&word.as_str())
+}
+
+// The whitespace at `at`, with at most one line break: its end, or None at a
+// blank line.
+fn descriptor_gap(text: &str, at: usize) -> Option<usize> {
+    let mut end = at;
+    let mut breaks = 0;
+    for ch in text[at..].chars() {
+        if line_break(ch) {
+            if !(ch == '\n' && text[..end].ends_with('\r')) {
+                breaks += 1;
+            }
+            if breaks > 1 {
+                return None;
+            }
+        } else if !ch.is_whitespace() {
+            break;
+        }
+        end += ch.len_utf8();
+    }
+    Some(end)
+}
+
+// A cue word (`is`, `was set to`, `is:`) or a spaced `:` or `=` at `at`.
+fn descriptor_word_cue(text: &str, at: usize) -> Option<DescriptorCue> {
+    // The first byte of every cue; 0xC5 leads `ſ`, which `(?i)s` matches.
+    if !text.as_bytes().get(at).is_some_and(|b| {
+        matches!(
+            b.to_ascii_lowercase(),
+            b'i' | b'w' | b's' | b':' | b'=' | 0xC5
+        )
+    }) {
+        return None;
+    }
+    static R: OnceLock<Regex> = OnceLock::new();
+    let r = R.get_or_init(|| {
+        let (h, b) = (PROSE_SPACE, PROSE_BREAK);
+        let s = format!(r"(?:{h}+(?:{b}{h}*)?|{b}{h}*)");
+        Regex::new(&format!(
+            r"(?i)^(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
+        ))
+        .expect("fixed descriptor cue regex")
+    });
+    let c = r.captures(&text[at..])?;
+    Some(DescriptorCue {
+        end: at + c.get(0).expect("descriptor cue").end(),
+        word: c.get(1).is_some(),
+        colon: c.get(2).is_some_and(|m| !m.is_empty()),
+        symbol: c.get(3).map(|m| if m.as_str() == ":" { ":" } else { "=" }),
+    })
+}
+
+// A word ending in `:` or `=` (`db1:`, `user=`) is the cue, unless it is an
+// operator (`::`, `==`, `<=`).
+fn descriptor_symbol(word: &str, end: usize) -> Option<DescriptorCue> {
+    let symbol = if word.ends_with(':') && !word.ends_with("::") {
+        ":"
+    } else if word.ends_with('=') && !word[..word.len() - 1].ends_with(['=', '!', '<', '>', ':']) {
+        "="
+    } else {
+        return None;
+    };
+    (word.len() > 1).then_some(DescriptorCue {
+        end,
+        word: false,
+        colon: false,
+        symbol: Some(symbol),
+    })
+}
+
+fn descriptor_quote(c: char) -> bool {
+    matches!(c, '"' | '`' | '\'' | '“' | '”' | '‘' | '’')
+}
+
+// Sentence punctuation at the end of a word, after any closing brackets and
+// quotes, ends the descriptor in both regimes; a comma only within the bound.
+fn descriptor_sentence_end(word: &str, comma: bool) -> bool {
+    let core = word.trim_end_matches(|c: char| matches!(c, ')' | ']' | '}') || descriptor_quote(c));
+    core.ends_with(['.', '!', '?']) || comma && core.ends_with(',')
+}
+
+// Reads the descriptor that starts at `from` (right after its preposition)
+// up to its cue. Within `DESCRIPTOR_TOKENS` words it ends, with no
+// disclosure, at a blank line, a sentence end or comma, a word holding a code
+// operator, a word of punctuation only, a word of `DESCRIPTOR_BOUNDARIES`, a
+// close bracket it did not open or a quote mark that does not open or close
+// one of its own quoted words. A cue counts only outside its own brackets and
+// quotes. Past the bound it fails closed (`descriptor_beyond`).
+fn descriptor_cue(text: &str, from: usize, beyond: &mut Beyond) -> Option<DescriptorCue> {
+    let mut at = from;
+    let mut quote: Option<(char, usize)> = None;
+    let mut brackets: Vec<char> = Vec::new();
+    let mut words = 0;
+    loop {
+        let start = descriptor_gap(text, at)?;
+        if start == at || start == text.len() {
+            return None;
+        }
+        let clean = quote.is_none() && brackets.is_empty();
+        if clean && words > 0 {
+            if let Some(cue) = descriptor_word_cue(text, start) {
+                return Some(cue);
+            }
+        }
+        if words == DESCRIPTOR_TOKENS {
+            // Past the bound a cue counts inside brackets and quotes too.
+            if let Some(cue) = descriptor_word_cue(text, start) {
+                return Some(cue);
+            }
+            return descriptor_beyond(text, start, beyond);
+        }
+        let end = text[start..]
+            .find(char::is_whitespace)
+            .map_or(text.len(), |n| start + n);
+        let word = &text[start..end];
+        words += 1;
+        if DESCRIPTOR_OPERATORS.iter().any(|op| word.contains(op))
+            || !word.chars().any(char::is_alphanumeric)
+            || clean
+                && DESCRIPTOR_BOUNDARIES
+                    .iter()
+                    .any(|soft| soft.eq_ignore_ascii_case(word))
+        {
+            return None;
+        }
+        let mut previous: Option<char> = None;
+        let mut slashes = 0;
+        let mut lead = true;
+        for ch in word.chars() {
+            if ch == '\\' {
+                slashes += 1;
+                previous = Some(ch);
+                continue;
+            }
+            match ch {
+                '(' | '[' | '{' if quote.is_none() => brackets.push(ch),
+                ')' | ']' | '}' if quote.is_none() => {
+                    let open = match ch {
+                        ')' => '(',
+                        ']' => '[',
+                        _ => '{',
+                    };
+                    if brackets.pop() != Some(open) {
+                        return None;
+                    }
+                    lead = false;
+                }
+                _ if descriptor_quote(ch) => {
+                    let apostrophe =
+                        matches!(ch, '\'' | '’') && previous.is_some_and(char::is_alphanumeric);
+                    match quote {
+                        Some((close, level)) if ch == close && slashes == level => quote = None,
+                        _ if apostrophe => {}
+                        None if lead => {
+                            let close = match ch {
+                                '“' => '”',
+                                '‘' => '’',
+                                other => other,
+                            };
+                            quote = Some((close, slashes));
+                        }
+                        _ => return None,
+                    }
+                }
+                _ => lead = false,
+            }
+            slashes = 0;
+            previous = Some(ch);
+        }
+        if quote.is_none() && brackets.is_empty() {
+            if let Some(cue) = descriptor_symbol(word, end) {
+                return Some(cue);
+            }
+        }
+        if descriptor_sentence_end(word, true) {
+            return None;
+        }
+        at = end;
+    }
+}
+
+// Past the bound a descriptor fails closed: its cue is the first cue word,
+// spaced `:` or `=`, or word ending in `:` or `=` before the end of the
+// sentence, brackets, quotes and soft boundaries notwithstanding. The search
+// ends with no disclosure only at a blank line, a sentence end, a word
+// holding a code operator or a quote mark inside a word (the close of an
+// enclosing string). Its result depends only on where it starts, so a later
+// search from inside the last one reuses it and the work stays linear.
+fn descriptor_beyond(text: &str, from: usize, beyond: &mut Beyond) -> Option<DescriptorCue> {
+    if let Some((start, limit, found)) = *beyond {
+        if start <= from && from < limit {
+            return found;
+        }
+    }
+    let mut at = from;
+    let (limit, found) = loop {
+        let end = text[at..]
+            .find(char::is_whitespace)
+            .map_or(text.len(), |n| at + n);
+        let word = &text[at..end];
+        let inner = word
+            .trim_start_matches(|c: char| {
+                matches!(c, '(' | '[' | '{' | '\\') || descriptor_quote(c)
+            })
+            .trim_end_matches(|c: char| {
+                matches!(
+                    c,
+                    ')' | ']' | '}' | '\\' | '.' | ',' | ':' | '!' | '?' | '='
+                ) || descriptor_quote(c)
+            });
+        let mut previous: Option<char> = None;
+        let interior = inner.chars().any(|c| {
+            let quote = descriptor_quote(c)
+                && !(matches!(c, '\'' | '’') && previous.is_some_and(char::is_alphanumeric));
+            previous = Some(c);
+            quote
+        });
+        if word.is_empty()
+            || interior
+            || DESCRIPTOR_OPERATORS.iter().any(|op| word.contains(op))
+            || descriptor_sentence_end(word, false)
+        {
+            break (at + 1, None);
+        }
+        if let Some(cue) = descriptor_symbol(word, end) {
+            break (at + 1, Some(cue));
+        }
+        let Some(next) = descriptor_gap(text, end).filter(|&next| next < text.len()) else {
+            break (end, None);
+        };
+        if let Some(cue) = descriptor_word_cue(text, next) {
+            break (next, Some(cue));
+        }
+        at = next;
+    };
+    *beyond = Some((from, limit, found));
+    found
 }
 
 fn unquoted_prose_value(
