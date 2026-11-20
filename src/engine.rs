@@ -1919,6 +1919,7 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
     let mut covered = 0;
     let mut scan: (usize, usize, Vec<(char, u32)>) = (0, 0, Vec::new());
     let cap = std::cell::RefCell::new(Vec::new());
+    let tables = ValueTables::default();
     let mut openers = (Openers::new(false, 0), Openers::new(true, 0));
     for c in r.captures_iter(text) {
         let whole = c.get(0).expect("prose disclosure match");
@@ -2031,6 +2032,7 @@ fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
             brackets: &openers.0.stack,
             tagged: &openers.1.stack,
             openers: &openers,
+            tables: &tables,
         };
         if let Some((source, probe, end)) =
             prose_value(view, input, &layer, start, line_end, &context)
@@ -2117,6 +2119,19 @@ struct ProseContext<'a> {
     brackets: &'a [char],
     tagged: &'a [char],
     openers: &'a (Openers, Openers),
+    tables: &'a ValueTables,
+}
+
+// Where a value's text ends, looked up instead of scanned for per key: each
+// table is built once per layer, when a value first needs it.
+#[derive(Default)]
+struct ValueTables {
+    // Where a bare value's enclosing bracket closes.
+    closes: std::cell::OnceCell<BracketCloses>,
+    // Where the next key of a `;` or `&` list starts.
+    lists: std::cell::OnceCell<ListKeys>,
+    // Where the next space and placeholder close lie after a quote close.
+    marks: std::cell::OnceCell<ReferenceMarks>,
 }
 
 // The escape level of the quote at layer position `p`: a quote spelled with
@@ -2479,7 +2494,7 @@ fn glued(
         c.is_alphanumeric()
             || matches!(c, '_' | '$' | '"' | '\'' | '`' | '“' | '”' | '‘' | '’')
             || c == '\\' && rest.trim_start_matches('\\').starts_with(['"', '\'', '`'])
-            || reference_prefix(rest)
+            || reference_prefix(text, after, &context.tables.marks)
     });
     let between = text.get(value.2.min(close)..close)?;
     if !touching
@@ -2590,6 +2605,7 @@ fn prose_segment(
                     prefix,
                     cue,
                     innermost(context.brackets, false),
+                    context.tables,
                 )
                 .map(|(r, exempt)| {
                     let range = (prose_source(view, layer, &r), layer.start(r.start), r.end);
@@ -2822,6 +2838,7 @@ fn unquoted_prose_value(
     prefix: &str,
     cue: Cue,
     bracket: Option<char>,
+    tables: &ValueTables,
 ) -> Option<(Range<usize>, bool)> {
     let assigned = cue != Cue::Word;
     // The caller ends the value at an enclosing quote's close (an HTML
@@ -2833,19 +2850,12 @@ fn unquoted_prose_value(
         // ab)cd` keep the close, and so do `(note pw: x]yq` and a JSON
         // object's own `}` around the string that holds the key.
         if let Some(opener) = bracket {
-            let mut nested = Vec::new();
-            for (i, ch) in text[start..line_end].char_indices() {
-                match ch {
-                    '(' | '[' | '{' => nested.push(ch),
-                    ')' | ']' | '}' if nested.last() == Some(&bracket_opener(ch)) => {
-                        nested.pop();
-                    }
-                    ')' | ']' | '}' if nested.is_empty() && bracket_opener(ch) == opener => {
-                        line_end = start + i;
-                        break;
-                    }
-                    _ => {}
-                }
+            let found = tables
+                .closes
+                .get_or_init(|| BracketCloses::new(text))
+                .first(start, opener);
+            if let Some(close) = found.filter(|&p| p < line_end) {
+                line_end = close;
             }
         }
         // And one inside a `;` or `&` separated key/value list (a connection
@@ -2854,13 +2864,10 @@ fn unquoted_prose_value(
         // right after a key=value item ended by that same separator. `pw:
         // abc&def=ghi`, `R&D pw: abc&def=ghi` and `note; pw: abc;host=y` are
         // one value.
-        let list = &text[start..line_end];
         if let Some(sep) = list_separator(prefix) {
-            if let Some(n) = list
-                .char_indices()
-                .find_map(|(i, ch)| (ch == sep && next_list_key(&list[i + 1..])).then_some(i))
-            {
-                line_end = start + n;
+            let keys = tables.lists.get_or_init(|| ListKeys::new(text));
+            if let Some(n) = keys.first(sep, start, line_end) {
+                line_end = n;
             }
         }
         if line_end <= start {
@@ -3177,6 +3184,62 @@ fn bracket_opener(close: char) -> char {
     }
 }
 
+// Where a scan that starts at a position with nothing open first meets a
+// close of a given bracket type: a bracket opened on the way is skipped
+// through its own close (a close of another type closes nothing, inside it or
+// outside), and one never closed ends the scan with no close found. A scan
+// from an opener's next position for its own type finds that opener's close,
+// so the table is built once from the right over the text's brackets, and
+// each bare value's lookup is a binary search instead of a scan to its line
+// end.
+struct BracketCloses {
+    // Positions of the text's brackets, ascending.
+    at: Vec<usize>,
+    // For each bracket index (and one past the last), the index in `at` of
+    // the close a scan from there meets, per type in `bracket_type` order;
+    // `usize::MAX` when there is none.
+    first: Vec<[usize; 3]>,
+}
+
+fn bracket_type(c: u8) -> usize {
+    match c {
+        b'(' | b')' => 0,
+        b'[' | b']' => 1,
+        _ => 2,
+    }
+}
+
+impl BracketCloses {
+    fn new(text: &str) -> Self {
+        let b = text.as_bytes();
+        let at: Vec<usize> = (0..b.len())
+            .filter(|&i| matches!(b[i], b'(' | b'[' | b'{' | b')' | b']' | b'}'))
+            .collect();
+        let mut first = vec![[usize::MAX; 3]; at.len() + 1];
+        for i in (0..at.len()).rev() {
+            let c = b[at[i]];
+            first[i] = if matches!(c, b')' | b']' | b'}') {
+                let mut row = first[i + 1];
+                row[bracket_type(c)] = i;
+                row
+            } else {
+                match first[i + 1][bracket_type(c)] {
+                    usize::MAX => [usize::MAX; 3],
+                    close => first[close + 1],
+                }
+            };
+        }
+        Self { at, first }
+    }
+
+    // The first close of `opener`'s type a scan from `from` meets.
+    fn first(&self, from: usize, opener: char) -> Option<usize> {
+        let i = self.at.partition_point(|&p| p < from);
+        let close = self.first[i][bracket_type(opener as u8)];
+        (close != usize::MAX).then(|| self.at[close])
+    }
+}
+
 // The innermost bracket (or, with `tags`, tag: `<a`, `</a`, closed by `>`)
 // a stack of `Openers` leaves open in its last string layer: a quote opened
 // after it hides it, and a close only closes a bracket of its own type
@@ -3328,6 +3391,84 @@ fn next_list_key(rest: &str) -> bool {
             .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'-' | b'.' | b' '))
 }
 
+// Every `;` and `&` of a text that `next_list_key` could accept, so finding
+// where a bare value's list item ends is a binary search instead of a scan
+// to the line end. For a separator at `i` that the text after it could start
+// a key after, `e` is the key's `=`: the first `=` after `i`, so it never
+// decreases as `i` grows. Cut at a line end `l`, the text after `i` starts a
+// key exactly when `e < l`, and when an `=` follows `e` (`==`) only if the
+// cut falls right after `e`.
+struct ListKeys {
+    // Per separator (`;`, `&`): `(i, e)` with no `=` after `e`, and with one.
+    single: [Vec<(usize, usize)>; 2],
+    double: [Vec<(usize, usize)>; 2],
+}
+
+impl ListKeys {
+    fn new(text: &str) -> Self {
+        let b = text.as_bytes();
+        let mut keys = Self {
+            single: [Vec::new(), Vec::new()],
+            double: [Vec::new(), Vec::new()],
+        };
+        for i in 0..b.len() {
+            let slot = match b[i] {
+                b';' => 0,
+                b'&' => 1,
+                _ => continue,
+            };
+            let mut t = i + 1;
+            while b.get(t) == Some(&b' ') {
+                t += 1;
+            }
+            let window = &b[t..(t + 41).min(b.len())];
+            let Some(eq) = window.iter().position(|&c| c == b'=') else {
+                continue;
+            };
+            let key = &window[..eq];
+            if !key
+                .first()
+                .is_some_and(|&c| c.is_ascii_alphabetic() || c == b'_')
+                || !key
+                    .iter()
+                    .all(|&c| c.is_ascii_alphanumeric() || matches!(c, b'_' | b'-' | b'.' | b' '))
+            {
+                continue;
+            }
+            let e = t + eq;
+            if b.get(e + 1) == Some(&b'=') {
+                keys.double[slot].push((i, e));
+            } else {
+                keys.single[slot].push((i, e));
+            }
+        }
+        keys
+    }
+
+    // The first `sep` in `text[start..line_end]` that `next_list_key` accepts
+    // with the text after it cut at `line_end`.
+    fn first(&self, sep: char, start: usize, line_end: usize) -> Option<usize> {
+        if line_end <= start {
+            return None;
+        }
+        let slot = usize::from(sep != ';');
+        let single = &self.single[slot];
+        let a = single
+            .get(single.partition_point(|&(i, _)| i < start))
+            .filter(|&&(_, e)| e < line_end)
+            .map(|&(i, _)| i);
+        let double = &self.double[slot];
+        let b = double
+            .get(double.partition_point(|&(i, e)| i < start || e + 1 < line_end))
+            .filter(|&&(_, e)| e + 1 == line_end)
+            .map(|&(i, _)| i);
+        match (a, b) {
+            (Some(a), Some(b)) => Some(a.min(b)),
+            (a, b) => a.or(b),
+        }
+    }
+}
+
 // Placeholders, masks and variable references name a password, not disclose it.
 fn prose_reference(value: &str) -> bool {
     value.starts_with(REDACTION_TOKEN)
@@ -3347,25 +3488,80 @@ fn prose_reference(value: &str) -> bool {
         || value.starts_with("op://")
 }
 
-// Whether text starts with a placeholder, mask or marker (`<x>`, `%X%`,
-// `{{x}}`, `***`, `[REDACTED]`), which is part of a value it touches.
-fn reference_prefix(text: &str) -> bool {
-    let token = text.split(char::is_whitespace).next().unwrap_or("");
-    let closed = |open: &str, close: &str| {
-        token.strip_prefix(open).is_some_and(|rest| {
-            rest.find(close)
-                .is_some_and(|n| prose_reference(&token[..open.len() + n + close.len()]))
-        })
-    };
-    token.starts_with(REDACTION_TOKEN)
-        || closed("<", ">")
-        || closed("%", "%")
-        || closed("{{", "}}")
-        || token
+// Whether the layer text at `at` starts with a placeholder, mask or marker
+// (`<x>`, `%X%`, `{{x}}`, `***`, `[REDACTED]`), which is part of a value it
+// touches. Only the text up to the next space counts; `marks` finds that
+// space and a placeholder's close without scanning the rest of the line, so
+// a line of many quoted keys and no spaces stays linear.
+fn reference_prefix(text: &str, at: usize, marks: &std::cell::OnceCell<ReferenceMarks>) -> bool {
+    let rest = &text[at..];
+    // Neither the marker nor a mask holds a space, so the text up to the
+    // next space starts with one exactly when the rest does.
+    if rest.starts_with(REDACTION_TOKEN)
+        || rest
             .chars()
             .take_while(|c| matches!(c, '*' | '•' | '●'))
+            .take(3)
             .count()
             >= 3
+    {
+        return true;
+    }
+    let closed = |open: &str, close: usize| {
+        if !rest.starts_with(open) {
+            return false;
+        }
+        let marks = marks.get_or_init(|| ReferenceMarks::new(text));
+        let Some(found) = marks.next(close, at + open.len()) else {
+            return false;
+        };
+        // A close counts only before the next space; no close spans one.
+        if marks
+            .next(ReferenceMarks::SPACE, at)
+            .is_some_and(|space| space < found)
+        {
+            return false;
+        }
+        let end = found + [0, 1, 1, 2][close];
+        // `<…>` and `%…%` longer than two characters, and any `{{…}}`, are
+        // references; only the short ones need the full check.
+        end - at > 4 || prose_reference(&text[at..end])
+    };
+    closed("<", ReferenceMarks::ANGLE)
+        || closed("%", ReferenceMarks::PERCENT)
+        || closed("{{", ReferenceMarks::BRACES)
+}
+
+// Positions of whitespace, `>`, `%` and `}}` in a layer, so the next one
+// after any position is a binary search.
+struct ReferenceMarks {
+    at: [Vec<usize>; 4],
+}
+
+impl ReferenceMarks {
+    const SPACE: usize = 0;
+    const ANGLE: usize = 1;
+    const PERCENT: usize = 2;
+    const BRACES: usize = 3;
+
+    fn new(text: &str) -> Self {
+        let mut at: [Vec<usize>; 4] = Default::default();
+        for (i, c) in text.char_indices() {
+            match c {
+                '>' => at[Self::ANGLE].push(i),
+                '%' => at[Self::PERCENT].push(i),
+                '}' if text[i + 1..].starts_with('}') => at[Self::BRACES].push(i),
+                c if c.is_whitespace() => at[Self::SPACE].push(i),
+                _ => {}
+            }
+        }
+        Self { at }
+    }
+
+    fn next(&self, kind: usize, from: usize) -> Option<usize> {
+        let list = &self.at[kind];
+        list.get(list.partition_point(|&p| p < from)).copied()
+    }
 }
 
 // A reference or placeholder that is the whole value, with nothing literal
@@ -5453,5 +5649,167 @@ mod context_window_tests {
             }
         }
         assert!(cases > 1_000, "{cases}");
+    }
+}
+
+#[cfg(test)]
+mod prose_scan_tests {
+    use super::{
+        bracket_opener, next_list_key, prose_reference, reference_prefix, BracketCloses, ListKeys,
+        REDACTION_TOKEN,
+    };
+
+    // Short texts of every token the three tables look at, mixed with
+    // multi-byte text, spaces and line breaks.
+    fn texts() -> Vec<String> {
+        let tokens = [
+            "(",
+            ")",
+            "[",
+            "]",
+            "{",
+            "}",
+            "{{",
+            "}}",
+            "<",
+            ">",
+            "%",
+            ";",
+            "&",
+            "=",
+            "==",
+            " ",
+            "  ",
+            "\t",
+            "\n",
+            "\r\n",
+            "\u{a0}",
+            "a",
+            "_k",
+            "key",
+            "a.b-c",
+            "9",
+            "é",
+            "日",
+            "😀",
+            "*",
+            "***",
+            "•",
+            REDACTION_TOKEN,
+            "\"",
+            "'",
+            ",",
+        ];
+        let mut seed = 0x0005_DEEC_E66Du64;
+        let mut next = |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut texts = Vec::new();
+        for _ in 0..3_000 {
+            let mut text = String::new();
+            for _ in 0..next(24) {
+                text.push_str(tokens[next(tokens.len())]);
+            }
+            texts.push(text);
+        }
+        // A key whose `=` lies 40 and 41 bytes after the separator.
+        for n in [39, 40, 41] {
+            for tail in ["", "=", "==", "x"] {
+                texts.push(format!("a; {}={tail}", "k".repeat(n)));
+                texts.push(format!("&{}={tail}", "k".repeat(n)));
+            }
+        }
+        // Several `==` keys, so a cut can fall right after a later one.
+        texts.push("a; k==; j==; i=x".into());
+        texts.push("&k==&j== &i==".into());
+        texts
+    }
+
+    fn boundaries(text: &str) -> Vec<usize> {
+        (0..=text.len())
+            .filter(|&i| text.is_char_boundary(i))
+            .collect()
+    }
+
+    // The scan `unquoted_prose_value` ran from each value start.
+    fn close_reference(text: &str, start: usize, line_end: usize, opener: char) -> Option<usize> {
+        let mut nested = Vec::new();
+        for (i, ch) in text[start..line_end].char_indices() {
+            match ch {
+                '(' | '[' | '{' => nested.push(ch),
+                ')' | ']' | '}' if nested.last() == Some(&bracket_opener(ch)) => {
+                    nested.pop();
+                }
+                ')' | ']' | '}' if nested.is_empty() && bracket_opener(ch) == opener => {
+                    return Some(start + i);
+                }
+                _ => {}
+            }
+        }
+        None
+    }
+
+    fn list_reference(text: &str, start: usize, line_end: usize, sep: char) -> Option<usize> {
+        let list = &text[start..line_end];
+        list.char_indices()
+            .find_map(|(i, ch)| (ch == sep && next_list_key(&list[i + 1..])).then_some(start + i))
+    }
+
+    fn prefix_reference(text: &str) -> bool {
+        let token = text.split(char::is_whitespace).next().unwrap_or("");
+        let closed = |open: &str, close: &str| {
+            token.strip_prefix(open).is_some_and(|rest| {
+                rest.find(close)
+                    .is_some_and(|n| prose_reference(&token[..open.len() + n + close.len()]))
+            })
+        };
+        token.starts_with(REDACTION_TOKEN)
+            || closed("<", ">")
+            || closed("%", "%")
+            || closed("{{", "}}")
+            || token
+                .chars()
+                .take_while(|c| matches!(c, '*' | '•' | '●'))
+                .count()
+                >= 3
+    }
+
+    #[test]
+    fn line_tables_match_reference_scans() {
+        let mut cases = 0usize;
+        for text in texts() {
+            let at = boundaries(&text);
+            let closes = BracketCloses::new(&text);
+            let lists = ListKeys::new(&text);
+            let marks = std::cell::OnceCell::new();
+            for (n, &start) in at.iter().enumerate() {
+                assert_eq!(
+                    reference_prefix(&text, start, &marks),
+                    prefix_reference(&text[start..]),
+                    "{text:?} at {start}"
+                );
+                for &line_end in &at[n..] {
+                    for opener in ['(', '[', '{'] {
+                        assert_eq!(
+                            closes.first(start, opener).filter(|&p| p < line_end),
+                            close_reference(&text, start, line_end, opener),
+                            "{text:?} {opener} {start}..{line_end}"
+                        );
+                    }
+                    for sep in [';', '&'] {
+                        assert_eq!(
+                            lists.first(sep, start, line_end),
+                            list_reference(&text, start, line_end, sep),
+                            "{text:?} {sep} {start}..{line_end}"
+                        );
+                    }
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
     }
 }
