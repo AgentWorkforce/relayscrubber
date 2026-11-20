@@ -7,6 +7,10 @@
 //   bash scripts/build-wasm.sh
 // Usage:
 //   node scripts/qualify-prose-disclosures.mjs [--output .task-tmp/prose-qualification/report.json]
+//     [--descriptor-alpha11]
+// --descriptor-alpha11 adds the 0.5.0-alpha.11 descriptor fixture
+// (eval/descriptor_disclosure_alpha11_cases.json) after the default cases,
+// which stay as they are.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
@@ -29,9 +33,12 @@ const output = path.resolve(option('--output', path.join(root, '.task-tmp/prose-
 const probe = path.resolve(option('--probe', path.join(root, 'target/debug/examples/disclosure_probe')));
 const sha = value => createHash('sha256').update(value).digest('hex');
 
+const descriptor = args.includes('--descriptor-alpha11');
 const generated = disclosureCases(seed, fuzzCount);
 const fixtures = [];
-for (const file of ['eval/alpha9_prose_credential_cases.json', 'eval/prose_disclosure_cases.json', 'eval/prose_disclosure_coverage_cases.json'])
+const fixtureFiles = ['eval/alpha9_prose_credential_cases.json', 'eval/prose_disclosure_cases.json', 'eval/prose_disclosure_coverage_cases.json'];
+if (descriptor) fixtureFiles.push('eval/descriptor_disclosure_alpha11_cases.json');
+for (const file of fixtureFiles)
   for (const f of JSON.parse(await fs.readFile(path.join(root, file), 'utf8')))
     fixtures.push({id: `${path.basename(file, '.json')}/${f.id}`, group: 'exact_fixture', kind: f.kind,
       expected: f.kind === 'positive' ? 'redact' : 'preserve', input: f.input, exact: f.expected});
@@ -129,6 +136,7 @@ for (const c of cases) scopeCases[scope(c)] = (scopeCases[scope(c)] ?? 0) + 1;
 const report = {
   schema: 'relayscrubber.prose-disclosure-qualification/v1', syntheticOnly: true, generatedAt: new Date().toISOString(),
   seed, fuzzCount, cases: cases.length, generatedCases: generated.length, fixtureCases: fixtures.length,
+  ...(descriptor ? {descriptorAlpha11Cases: fixtures.filter(f => f.id.startsWith('descriptor_disclosure_alpha11_cases/')).length} : {}),
   corpusSha256: sha(JSON.stringify(cases)), forms, supportedNouns: [...SUPPORTED], scopeCases,
   engines: Object.fromEntries(Object.entries(engines).map(([name, e]) => [name, {
     identity: e.identity, byForm: e.byForm, byScope: e.byScope, byGroup: e.byGroup,
@@ -141,4 +149,5 @@ await fs.mkdir(path.dirname(output), {recursive: true});
 await fs.writeFile(output, JSON.stringify(report, null, 2) + '\n');
 await fs.writeFile(path.join(path.dirname(output), 'failures.jsonl'), failures.map(x => JSON.stringify(x)).join('\n') + '\n');
 for (const name of Object.keys(engines)) console.log(name, JSON.stringify(report.engines[name].failedCasesByScope));
-console.log(JSON.stringify({cases: cases.length, scopeCases, parity: report.parity.rawByteDifferences, output}));
+console.log(JSON.stringify({cases: cases.length, scopeCases, parity: report.parity.rawByteDifferences, output,
+  ...(descriptor ? {descriptorAlpha11Cases: report.descriptorAlpha11Cases} : {})}));
