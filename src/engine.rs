@@ -5794,6 +5794,189 @@ mod context_window_tests {
 }
 
 #[cfg(test)]
+mod value_shape_tests {
+    use super::{bounded_prefix, excerpt_value, labeled_toy, regex_value, View};
+
+    // The three checks as they were written before the value's shape was
+    // checked first: every prefix scan runs, then the value is looked at.
+    fn regex_reference(view: &View, position: usize, value: &str) -> bool {
+        let prefix = bounded_prefix(view, position);
+        let value = if prefix.contains("= /") {
+            value
+                .strip_suffix("/g")
+                .or_else(|| value.strip_suffix('/'))
+                .unwrap_or(value)
+        } else {
+            value
+        };
+        if prefix.contains("sed ") && prefix.ends_with("/^") && value == "/" {
+            return true;
+        }
+        (prefix.contains("sed ") && prefix.ends_with("/^")
+            || prefix.contains("rg ")
+            || prefix.contains("grep ")
+            || prefix.contains("= /"))
+            && ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"].contains(&value)
+    }
+
+    fn toy_reference(view: &View, position: usize, value: &str) -> bool {
+        let lower = bounded_prefix(view, position).to_ascii_lowercase();
+        let labeled = [
+            "synthetic fixture:",
+            "toy example:",
+            "test fixture:",
+            "test_vector",
+            "synthetic_fixture",
+        ]
+        .iter()
+        .any(|label| lower.contains(label));
+        labeled
+            && value.len() <= 64
+            && ["toy", "fixture", "test"]
+                .iter()
+                .any(|p| value.to_ascii_lowercase().starts_with(p))
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    }
+
+    fn excerpt_reference(view: &View, position: usize, value: &str) -> bool {
+        bounded_prefix(view, position)
+            .to_ascii_lowercase()
+            .contains("excerpt")
+            && value.len() <= 32
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace())
+    }
+
+    // Prefixes built from every cue the checks look for, with multi-byte
+    // text, line breaks and padding that moves cues across the 512-byte
+    // window edge; values of every shape each check accepts or rejects.
+    #[test]
+    fn value_shape_checks_match_reference() {
+        let parts = [
+            "sed ",
+            "sed 's/^",
+            "/^",
+            "rg ",
+            "grep ",
+            "= /",
+            "x = /",
+            "synthetic fixture:",
+            "Toy Example:",
+            "TEST FIXTURE:",
+            "test_vector",
+            "Synthetic_Fixture",
+            "excerpt",
+            "EXCERPT",
+            "pw: ",
+            "password=",
+            " ",
+            "\t",
+            "\n",
+            "\r\n",
+            "x",
+            "é",
+            "日",
+            "😀",
+            "/",
+            "^",
+        ];
+        let regexes = ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"];
+        let mut values: Vec<String> = Vec::new();
+        for r in regexes {
+            for suffix in ["", "/", "/g", "//", "/g/", "x"] {
+                values.push(format!("{r}{suffix}"));
+            }
+        }
+        for v in [
+            "",
+            "/",
+            "//",
+            "//g",
+            "/g",
+            "///",
+            "g",
+            "\\",
+            "toy",
+            "Toy_1",
+            "TOYx",
+            "fixture",
+            "Fixture9",
+            "test",
+            "testing_123",
+            "test-1",
+            "testé",
+            "tes",
+            "x_toy",
+            "toy ",
+            "abc",
+            "a b",
+            "a\tb",
+            "lower words",
+            "ABC",
+            "aé",
+            "a=b",
+            "[REDACTED]",
+        ] {
+            values.push(v.to_string());
+        }
+        values.push(format!("toy{}", "a".repeat(61)));
+        values.push(format!("toy{}", "a".repeat(62)));
+        values.push("a".repeat(32));
+        values.push("a".repeat(33));
+        let mut seed = 0x9E37_79B9_7F4A_7C15_u64;
+        let mut next = move |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut hits = [0usize; 3];
+        let mut cases = 0usize;
+        for round in 0..3_000 {
+            let mut text: String = (0..next(8)).map(|_| parts[next(parts.len())]).collect();
+            if round % 3 == 0 {
+                // Cues near the window edge.
+                let pad = ["x", "é", "日", "😀"][next(4)];
+                while text.len() < 500 + next(24) {
+                    text.insert_str(0, pad);
+                }
+                for _ in 0..next(4) {
+                    text.push_str(parts[next(parts.len())]);
+                }
+            }
+            let view = View::new(&text);
+            let end = view.text.len();
+            let mut keys = vec![end, next(end + 1)];
+            keys.retain(|&key| view.text.is_char_boundary(key));
+            for key in keys {
+                for value in &values {
+                    let got = [
+                        regex_value(&view, key, value),
+                        labeled_toy(&view, key, value),
+                        excerpt_value(&view, key, value),
+                    ];
+                    let want = [
+                        regex_reference(&view, key, value),
+                        toy_reference(&view, key, value),
+                        excerpt_reference(&view, key, value),
+                    ];
+                    assert_eq!(got, want, "{:?} at {key} value {value:?}", view.text);
+                    for (hit, w) in hits.iter_mut().zip(want) {
+                        *hit += usize::from(w);
+                    }
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
+        assert!(hits.iter().all(|&h| h > 100), "{hits:?}");
+    }
+}
+
+#[cfg(test)]
 mod prose_scan_tests {
     use super::{
         bracket_opener, next_list_key, placeholder_run, prose_reference, reference_prefix,
