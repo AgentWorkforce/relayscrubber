@@ -12,14 +12,40 @@ db-01.example`, `used by the CI runner`, `assigned to ops`, `belonging to
 root`), before `is`, `was`, `is now`, `set to`, `is set to`, `was set to`, a
 colon or `=`: `the password for the box is [REDACTED]`, `the password for the
 box is '[REDACTED]'`. The descriptor bound is `DESCRIPTOR_TOKENS`, 16 words.
-Within it the descriptor ends at a sentence end, a comma, a blank line, code
-operators and words that start a new construction (`and`, `which`, `that`,
-`because` and the like). Past the bound the search fails closed: brackets,
-quotes, commas and those words no longer end it, so a longer descriptor still
+Within it the descriptor ends at a sentence end, a blank line, code
+operators and words that start a new construction (`but`, `because`, `whose`,
+`will` and the like). Past the bound the search fails closed: brackets,
+quotes and those words no longer end it, so a longer descriptor still
 redacts, and only a sentence end, a blank line or code stops it. Documentary
 values keep the alpha.10 policy with no new allowlist (`the password for the
 box is required` is unchanged, as `the password is required` is), and every
 input outside this class scrubs exactly as in alpha.10.
+
+The same release widens the class to forms the first alpha.11 candidate
+still left unchanged:
+
+- A cue glued into the descriptor: `pw for box=x`, `Password for root:x` and
+  `the password for the box=x` redact the value. A later cue wins (`the
+  password for db:5432 is x` redacts `x` only); URLs, `::`, `==` and the
+  comparison operators are not glued cues.
+- Coordination and parentheticals: `and`, `or`, `&`, `+`, a spaced hyphen,
+  en and em dashes, commas and relative clauses no longer end a descriptor,
+  so `the password for staging and prod is x`, `the password for the box,
+  which is new, is x`, `the password for the box that I set is x` and `the
+  password, for the box, is x` redact the final value only.
+- New cues for all eight nouns, with or without a descriptor: `is still`,
+  `is now set to`, `has been set to`, `was reset to`, `changed to`, plural
+  nouns with `are` and `were` (`the passwords are x`), and contact clauses
+  (`the password Bob uses is x`, `the password that I use is x`).
+
+`is not`, `isn't`, `will be` and `should be`, documentary values and code
+stay unchanged. Accepted over-redactions: with no later cue the glued value
+or the relative clause's value redacts (`the password for db:5432`, `the
+password with user=admin`, `the password for the box, which is new`), and a
+second clause joined by `and` or a comma is read as the descriptor (`the
+password for the box expired and the user is bob` redacts `bob`). The colon
+over-redactions stay (`Reset the password for your account: click the link`
+redacts `click the link`).
 
 ## 0.5.0-alpha.10
 

@@ -572,5 +572,229 @@
     "kind": "benign",
     "input": "[pw for pw in pws if pw is None]",
     "expected": "[pw for pw in pws if pw is None]"
+  },
+  {
+    "id": "alpha11-ruling-glued-equals",
+    "family": "glued",
+    "kind": "positive",
+    "input": "pw for box=Q1x",
+    "expected": "pw for box=[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-colon",
+    "family": "glued",
+    "kind": "positive",
+    "input": "Password for root:hunter2",
+    "expected": "Password for root:[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-determiner",
+    "family": "glued",
+    "kind": "positive",
+    "input": "the password for the box=Q1x",
+    "expected": "the password for the box=[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-later-cue-wins",
+    "family": "glued",
+    "kind": "positive",
+    "input": "the password for db:5432 is V7x",
+    "expected": "the password for db:5432 is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-cost-port",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "the password for db:5432",
+    "expected": "the password for db:[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-cost-user",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "the password with user=admin",
+    "expected": "the password with user=[REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-glued-url",
+    "family": "code",
+    "kind": "benign",
+    "input": "the password for https://db.example.com:5432/x",
+    "expected": "the password for https://db.example.com:5432/x"
+  },
+  {
+    "id": "alpha11-ruling-glued-operator",
+    "family": "code",
+    "kind": "benign",
+    "input": "the password for a==b",
+    "expected": "the password for a==b"
+  },
+  {
+    "id": "alpha11-ruling-coordination-and",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for staging and prod is Q1x",
+    "expected": "the password for staging and prod is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-coordination-dash",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the pw for the box — the new one — is Q1x",
+    "expected": "the pw for the box — the new one — is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-coordination-documentary",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for staging and prod is required",
+    "expected": "the password for staging and prod is required"
+  },
+  {
+    "id": "alpha11-ruling-relative-which",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for the box, which is new, is Q1x",
+    "expected": "the password for the box, which is new, is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-relative-that",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for the box that is used by CI is Q1x",
+    "expected": "the password for the box that is used by CI is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-relative-that-i-set",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for the box that I set is Q1x",
+    "expected": "the password for the box that I set is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-comma-parenthetical",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password, for the box, is Q1x",
+    "expected": "the password, for the box, is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-relative-documentary",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for the box, which is new, is required",
+    "expected": "the password for the box, which is new, is required"
+  },
+  {
+    "id": "alpha11-ruling-relative-tail",
+    "family": "value",
+    "kind": "positive",
+    "input": "the password for the box is Q1x which is new",
+    "expected": "the password for the box is [REDACTED] which is new"
+  },
+  {
+    "id": "alpha11-ruling-relative-fallback",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "the password for the box, which is new",
+    "expected": "the password for the box, which is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-is-still",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the passcode is still Q1x",
+    "expected": "the passcode is still [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-is-now-set-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the pwd is now set to Q1x",
+    "expected": "the pwd is now set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-has-been-set-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the pass phrase for the box has been set to Q1x",
+    "expected": "the pass phrase for the box has been set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-was-reset-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password was reset to Q1x",
+    "expected": "the password was reset to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-changed-to",
+    "family": "cue",
+    "kind": "positive",
+    "input": "password changed to Q1x",
+    "expected": "password changed to [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-plural",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the passwords are Q1x",
+    "expected": "the passwords are [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-contact",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password Bob uses is Q1x",
+    "expected": "the password Bob uses is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-cue-that-i-use",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password that I use is Q1x",
+    "expected": "the password that I use is [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-control-is-not",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password is not Q1x",
+    "expected": "the password is not Q1x"
+  },
+  {
+    "id": "alpha11-ruling-control-will-be",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the passwords will be Q1x",
+    "expected": "the passwords will be Q1x"
+  },
+  {
+    "id": "alpha11-ruling-documentary-still",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is still required",
+    "expected": "the password is still required"
+  },
+  {
+    "id": "alpha11-ruling-documentary-plural",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the passwords are hashed",
+    "expected": "the passwords are hashed"
+  },
+  {
+    "id": "alpha11-ruling-colon-instruction",
+    "family": "pinned",
+    "kind": "positive",
+    "input": "Reset the password for your account: click the link",
+    "expected": "Reset the password for your account: [REDACTED]"
+  },
+  {
+    "id": "alpha11-ruling-stop-sentence",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password for the box and vm. It is Q1x",
+    "expected": "the password for the box and vm. It is Q1x"
   }
 ]

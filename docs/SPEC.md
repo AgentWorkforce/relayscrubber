@@ -231,32 +231,59 @@ by the CI runner was set to V`, `password for root: V`. The descriptor starts
 with a preposition (about, across, against, at, behind, between, by, for,
 from, in, inside, into, of, on, onto, over, per, through, to, under, via,
 with, within), optionally after one participle (`used by`, `assigned to`,
-`belonging to`), and is read word by word up to `DESCRIPTOR_TOKENS` (16)
-words. Identifiers, paths, dotted or hyphenated names and digits are words
-like any other. Within the bound the descriptor ends, with no disclosure, at
-a blank line or the end of the text, a sentence end (`.`, `!`, `?`) or a
-comma, a word with a code operator (`;`, `==`, `=>`, `!=`, `&&`, `||`, `:=`),
-a word of punctuation only, a conjunction, subordinator, relative pronoun or
-modal that starts a new construction (`and`, `because`, `which`, `that`,
-`should` and the rest of the engine's list), a close bracket it did not open,
-or a stray quote. A cue inside a bracket or quote the descriptor opened does
-not count. The cues are those of the direct form (`is`, `was`, `is now`, `set
-to`, `is set to`, `was set to`, each optionally followed by `:`), a word that
-ends in `:` (not `::`), and a word that ends in `=` (not `==`, `!=`, `<=`,
-`>=`, `:=`). Past the bound the search fails closed: after 16 words have
-been read, commas, soft words, brackets and quotes no longer end the search,
-a cue inside a bracket or quote counts, and the search stops only at a blank
-line, a sentence end, a code operator or a quote inside a word. So a disclosure whose descriptor is
-longer than the bound still redacts, at the cost of redacting some long
-sentences that are not disclosures. The search past the bound is computed
-once per starting position and reused by later nouns, so work stays linear.
-A descriptor value then follows the direct form's value and documentary rules
-exactly: `the password for the box is required`, `... is hashed` and `... is
-stored in the vault` stay visible where `the password is required` does,
-with no allowlist of its own, and every other value redacts. A noun right
-after a loop or binding keyword (`for pw in pws`, `const pw of list`) is code
-and is skipped. Everything else (no preposition after the noun, a relative
-clause such as `the password that CI uses is V`) is outside this rule.
+`belonging to`), with a relative pronoun (`the password that I use is V`), a
+comma (`the password, for the box, is V`) or, after a determiner, a contact
+clause (`the password Bob uses is V`: a pronoun, a capitalised name or a
+determiner and noun, then a verb ending in `-s` or `-ed` or an irregular past
+such as `set` or `chose`). It is read word by word up to `DESCRIPTOR_TOKENS`
+(16) words. Identifiers, paths, dotted or hyphenated names and digits are
+words like any other, and so are coordination (`and`, `or`, `&`, `+`, a
+spaced hyphen, en or em dash), commas and relative clauses (`that`, `which`,
+`who`, `whom`). The cue right after a relative pronoun belongs to the
+relative clause and is passed over (`the password for the box, which is new,
+is V`, `the password that was set to X is V` discloses `V`). Within the bound
+the descriptor ends, with no disclosure, at a blank line or the end of the
+text, a sentence end (`.`, `!`, `?`), a word with a code operator (`;`, `==`,
+`=>`, `!=`, `&&`, `||`, `:=`), another word of punctuation only, a
+subordinator, modal or other word that starts a new construction (`but`,
+`because`, `whose`, `will`, `should` and the rest of the engine's list), a
+close bracket it did not open, or a stray quote. A cue inside a bracket or
+quote the descriptor opened does not count. The cues are those of the direct
+form below, a word that ends in `:` (not `::`), and a word that ends in `=`
+(not `==`, `!=`, `<=`, `>=`, `:=`). A word with a label holding a letter
+glued to a value by `=` or `:` (`pw for box=V`, `Password for root:V`) is a
+glued cue unless it holds `://`, `::`, `==`, `!=`, `<=`, `>=`, `:=` or `=>` or
+the value starts with `/` or `\`. The first glued cue and the cue of a
+relative clause are fallbacks: a later cue wins (`the password for db:5432 is
+V` discloses `V` only), and where the descriptor ends with no later cue the
+first fallback discloses (`the password for db:5432` redacts `5432`, `the
+password for the box, which is new` redacts `new`). Past the bound the search
+fails closed: after 16 words have been read, soft words, brackets and quotes
+no longer end the search, a cue inside a bracket or quote counts, and the
+search stops only at a blank line, a sentence end, a code operator or a quote
+inside a word. So a disclosure whose descriptor is longer than the bound
+still redacts, at the cost of redacting some long sentences that are not
+disclosures, and a second clause joined by `and` or a comma is read as part
+of the descriptor (`the password for the box expired and the user is bob`
+redacts `bob`). The search past the bound is computed once per starting
+position and reused by later nouns, so work stays linear. A descriptor value
+then follows the direct form's value and documentary rules exactly: `the
+password for the box is required`, `... is hashed` and `... is stored in the
+vault` stay visible where `the password is required` does, with no allowlist
+of its own, and every other value redacts. A noun right after a loop or
+binding keyword (`for pw in pws`, `const pw of list`) is code and is skipped.
+
+Besides `is`, `was`, `is now`, `set to`, `is set to` and `was set to`, the
+direct and descriptor cues include `is still`, `is now set to`, `has been set
+to`, `had been set to`, `was reset to`, `was changed to`, `was updated to` and
+bare `changed to` and `updated to` (bare `reset to` is not a cue: `the
+password reset to the default flow`). A plural noun (`passwords`, `pws`,
+`pass codes`) discloses after the plural cues (`are`, `were`, `are now`, `have
+been set to`, `changed to`) and never after `:`, `=`, `is` or `has`; a
+singular noun never after `are`, `were` or `have`. Where a longer cue finds no
+value the shorter alpha.10 cue is tried (`the password is still` redacts
+`still`, as before), so no alpha.10 disclosure is lost. A negation or modal
+before the value (`is not`, `isn't`, `will be`, `should be`) is not a cue.
 
 ## Information preserved and PII policy
 
