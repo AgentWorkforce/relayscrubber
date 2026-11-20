@@ -416,6 +416,21 @@ fn context_window(view: &View, key: usize) -> &str {
     }
     &view.text[start..key]
 }
+// `text.contains(word)`, found by a search for the word's first character,
+// which runs on the optimised byte search even in an unoptimised build.
+fn holds(text: &str, word: &str) -> bool {
+    let Some(first) = word.chars().next() else {
+        return true;
+    };
+    let mut from = 0;
+    while let Some(i) = text[from..].find(first) {
+        if text[from + i..].starts_with(word) {
+            return true;
+        }
+        from += i + first.len_utf8();
+    }
+    false
+}
 fn type_context(view: &View, key: usize) -> bool {
     let prefix = context_window(view, key);
     // Every form ends inside an open `(` (fn signature) or `{` (body); a
@@ -426,7 +441,7 @@ fn type_context(view: &View, key: usize) -> bool {
     }
     if !["fn", "struct", "interface", "type"]
         .iter()
-        .any(|word| prefix.contains(word))
+        .any(|word| holds(prefix, word))
     {
         return false;
     }
@@ -437,7 +452,7 @@ fn type_context(view: &View, key: usize) -> bool {
 fn code_object_context(view: &View, key: usize) -> bool {
     let prefix = context_window(view, key);
     // Both forms end inside an open `{`.
-    if !prefix.as_bytes().contains(&b'{') || !prefix.contains('=') && !prefix.contains("json!") {
+    if !prefix.as_bytes().contains(&b'{') || !prefix.contains('=') && !holds(prefix, "json!") {
         return false;
     }
     static R: OnceLock<Regex> = OnceLock::new();
@@ -716,12 +731,22 @@ fn code_expression(value: &str) -> bool {
         .is_match(value)
 }
 
+// Whether the last whitespace-separated word of `prefix` is one of `words`
+// (none holds whitespace): the same answer as
+// `split_whitespace().last()`, from the end of the text instead of a scan
+// back across a long word.
+fn last_word_is(prefix: &str, words: &[&str]) -> bool {
+    let text = prefix.trim_end();
+    words.iter().any(|word| {
+        text.strip_suffix(word)
+            .is_some_and(|head| head.is_empty() || head.ends_with(char::is_whitespace))
+    })
+}
+
 // `let`/`const`/`var` directly before the key on its own line.
 fn keyword_declaration(view: &View, key: usize) -> bool {
-    matches!(
-        bounded_prefix(view, key).split_whitespace().last(),
-        Some("let" | "const" | "var")
-    ) && bounded_prefix(view, key).ends_with(char::is_whitespace)
+    last_word_is(bounded_prefix(view, key), &["let", "const", "var"])
+        && bounded_prefix(view, key).ends_with(char::is_whitespace)
 }
 
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
@@ -763,13 +788,13 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
         return true;
     }
     if !colon
-        && bounded_prefix(view, key).split_whitespace().last() != Some("type")
+        && !last_word_is(bounded_prefix(view, key), &["type"])
         && declaration
         && crate::syntax::expression(rest)
     {
         return true;
     }
-    if bounded_prefix(view, key).split_whitespace().last() == Some("type") {
+    if last_word_is(bounded_prefix(view, key), &["type"]) {
         static TUPLE: OnceLock<Regex> = OnceLock::new();
         if TUPLE.get_or_init(|| Regex::new(r"^\((?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size))(?:[ \t]*,[ \t]*(?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size)))+[ \t]*,?\)$").expect("complete primitive tuple type")).is_match(rest) {
             return true;
@@ -779,9 +804,12 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     // context either: an expression or `match` keeps its bytes only inside a
     // struct/interface/type body or fn signature, an object expression
     // (`name = {`, `json!({`) or a labelled call argument.
+    // The type context depends only on the key; look it up once.
+    let typed = std::cell::OnceCell::new();
+    let in_type_context = || *typed.get_or_init(|| type_context(view, key));
     let expression_context = declaration
         || colon
-            && (type_context(view, key)
+            && (in_type_context()
                 || code_object_context(view, key)
                 || call_argument_context(view, key));
     if (declaration
@@ -806,7 +834,7 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
     // signature or struct/interface/type body (`type_context`), or a
     // `let`/`const`/`var` declaration. Types must also be complete; a balanced
     // generic cannot hide a tail.
-    if colon && (type_context(view, key) || keyword_declaration(view, key)) {
+    if colon && (in_type_context() || keyword_declaration(view, key)) {
         let mut depth = 0usize;
         let mut type_end = None;
         for (i, b) in rest.bytes().enumerate() {
@@ -832,7 +860,7 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             .strip_prefix('&')
             .map(|r| r.strip_prefix("mut ").unwrap_or(r));
         let simple = ["string", "boolean", "number", "bool", "&str"].contains(&rest)
-            || type_context(view, key)
+            || in_type_context()
                 && (code_expression(rest) || borrowed.is_some_and(code_expression));
         return generic || simple;
     }
@@ -1421,7 +1449,7 @@ fn assignments(
             && start >= public_until
             && (!flag && b.get(sep) == Some(&b'=')
                 || declaration
-                || bounded_prefix(view, start).split_whitespace().last() == Some("type")
+                || last_word_is(bounded_prefix(view, start), &["type"])
                 || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
                 || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
@@ -1534,7 +1562,7 @@ fn assignments(
             continue;
         }
         let sentence = non_assignment_wrapper(view, start)
-            && bounded_prefix(view, start).split_whitespace().last() != Some("type")
+            && !last_word_is(bounded_prefix(view, start), &["type"])
             && full.is_some_and(|s| {
                 b.get(sep) != Some(&b'=')
                     && (!opaque_material(s) || s.starts_with("Bearer "))
@@ -1563,7 +1591,7 @@ fn assignments(
                         && b.get(sep) == Some(&b'=')
                         && view.text[start..value].contains(" = ")
                         && complete_end.is_some_and(|end| b.get(end) == Some(&b';'))
-                    || bounded_prefix(view, start).split_whitespace().last() == Some("type")
+                    || last_word_is(bounded_prefix(view, start), &["type"])
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
                     // After a colon a leading `&` is the value's first byte,
                     // not the query separator `value_end` stops at: an empty
@@ -5649,6 +5677,75 @@ mod context_window_tests {
             }
         }
         assert!(cases > 1_000, "{cases}");
+    }
+
+    // The word checks give the answers of the standard library calls they
+    // replace, with Unicode spaces and multi-byte text next to the words.
+    #[test]
+    fn word_checks_match_std() {
+        use super::{holds, last_word_is};
+        let parts = [
+            "fn",
+            "f",
+            "type",
+            "typ",
+            "let",
+            "const",
+            "var",
+            "json!",
+            "json",
+            "struct",
+            "interface",
+            " ",
+            "\t",
+            "\r\n",
+            "\u{a0}",
+            "\u{2003}",
+            "é",
+            "ﬁ",
+            "x",
+            "_",
+            "(",
+            "{",
+            "=",
+        ];
+        let words = [
+            "fn",
+            "type",
+            "let",
+            "const",
+            "var",
+            "json!",
+            "struct",
+            "interface",
+            "ﬁ",
+        ];
+        let mut seed = 0x5EED_u64;
+        let mut next = |m: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % m as u64) as usize
+        };
+        for _ in 0..20_000 {
+            let text: String = (0..next(7)).map(|_| parts[next(parts.len())]).collect();
+            for word in words {
+                assert_eq!(holds(&text, word), text.contains(word), "{text:?} {word:?}");
+                assert_eq!(
+                    last_word_is(&text, &[word]),
+                    text.split_whitespace().last() == Some(word),
+                    "{text:?} {word:?}"
+                );
+            }
+            assert_eq!(
+                last_word_is(&text, &["let", "const", "var"]),
+                matches!(
+                    text.split_whitespace().last(),
+                    Some("let" | "const" | "var")
+                ),
+                "{text:?}"
+            );
+        }
     }
 }
 
