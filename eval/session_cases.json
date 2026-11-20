@@ -1,7 +1,7 @@
 {
   "benign": {
     "provided": [
-      "password: match option { Some(v) => v, None => return };",
+      "const opts = {password: match option { Some(v) => v, None => return }};",
       "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
       "rg 'auth:\\s+' notes.txt",
       "token=\"[REDACTED] (already removed)\"",
@@ -34,12 +34,12 @@
       "Authorization: Bearer process.env.APP_AUTH"
     ],
     "code_expression": [
-      "password: match candidate { Some(x) => x, None => return };",
+      "const opts = {password: match candidate { Some(x) => x, None => return }};",
       "const opts = {password: match result { Ok(x) => x, Err(_) => return }};",
-      "token: async () => getToken()",
-      "password: options.value ?? fallback",
-      "auth: config.auth || defaultAuth",
-      "auth: function() { return buildAuth(); }"
+      "const cfg = {token: async () => getToken()};",
+      "const cfg = {password: options.value ?? fallback};",
+      "const cfg = {auth: config.auth || defaultAuth};",
+      "const cfg = {auth: function() { return buildAuth(); }};"
     ],
     "regex_pattern": [
       "rg \"password:\\s+\" notes.txt",
@@ -260,6 +260,12 @@
     [
       "token: Namespace.Token<Mode>",
       "Namespace.Token<Mode>"
-    ]
+    ],
+    ["password: match option { Some(v) => v, None => return };", "match option", "password: [REDACTED]"],
+    ["password: match candidate { Some(x) => x, None => return };", "match candidate", "password: [REDACTED]"],
+    ["token: async () => getToken()", "getToken", "token: [REDACTED]"],
+    ["password: options.value ?? fallback", "options.value", "password: [REDACTED]"],
+    ["auth: config.auth || defaultAuth", "defaultAuth", "auth: [REDACTED]"],
+    ["auth: function() { return buildAuth(); }", "buildAuth", "auth: [REDACTED]"]
   ]
 }

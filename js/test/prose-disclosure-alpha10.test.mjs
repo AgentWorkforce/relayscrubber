@@ -589,8 +589,8 @@ test('a multi-line body field keeps its witnessed output',()=>{
   if(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(records)).bytes)!==want) failures.push('per-line NDJSON body');
   assert.deepEqual(failures,[]);
 });
-// Words before the noun never redact less than the bare colon does. `&str` is left out: a value that starts with `&`
-// after some prefixes is a separate, reported gap.
+// Words before the noun never redact less than the bare colon does. Values that start with `&` are covered by the
+// borrow test below.
 for(const noun of NOUNS) test(`a prefix never redacts less than the bare colon for a type-looking value: ${noun}`,()=>{
   const cases=[];
   for(const payload of TYPE_PAYLOADS.filter(p=>!p.startsWith('&'))) for(const prefix of PREFIXES){
@@ -598,5 +598,86 @@ for(const noun of NOUNS) test(`a prefix never redacts less than the bare colon f
     cases.push({id:`prefix type ${JSON.stringify(prefix)} ${noun} ${payload}`,input:`${left}${payload}`,expected:`${left}${R}`});
   }
   assert.equal(cases.length,14*34);
+  assert.deepEqual(run(cases),[]);
+});
+// Code-looking values: dotted paths, calls, optional chains, `??` and `||` expressions, constructors, a leading dot,
+// `match` bodies, closures and function literals, and values that start with a borrow. A source-shaped value does not
+// establish source context: without a body, a signature, an object literal or a labelled call argument around the key
+// it is credential data.
+const CODE_PAYLOADS=['orchid.river','Orchid.River99','correct.horse.battery','Orchid(River)','orchid?.river','orchid.river ?? x',
+  'new Orchid(river)','hunter2.secret','abc(def)','Hunter2(x)','abcq.defq()','.abcq','match abc { d => e }','config.password',
+  'abcdef.ghijkl','&abcq','&Secret1','&mut abcq','options.value ?? fallback','config.auth || defaultAuth','async () => getToken()',
+  'function() { return buildAuth(); }','match candidate { Some(x) => x, None => return }'];
+const CODE_ENDINGS=['',',',';','!','\n','\r\n'];
+const CREDENTIAL_KEYS=[...NOUNS,'token','secret','api_key','auth'];
+const IDENTIFIER_KEYS=CREDENTIAL_KEYS.filter(k=>!k.includes(' '));
+for(const key of CREDENTIAL_KEYS) test(`a code-looking value after a bare colon without source context is redacted: ${key}`,()=>{
+  const cases=[];
+  for(const cased of casings(key)) for(const payload of CODE_PAYLOADS) for(const ending of CODE_ENDINGS)
+    for(const left of [`${PUBLIC}\n`,`${longFiller}\n`]){
+      const next=ending.includes('\n')?PUBLIC:'';
+      cases.push({id:`bare code ${cased}: ${payload} ${JSON.stringify(ending)} ${left.length}`,input:`${left}${cased}: ${payload}${ending}${next}`,expected:bareTypeExpected(left,cased,key,ending)});
+    }
+  assert.equal(cases.length,3*23*6*2);
+  assert.deepEqual(runEvery(cases),[]);
+});
+test('the named context-free code inputs',()=>{
+  const cases=[
+    ['password: Orchid.River99!','password: [REDACTED]'],['password: Orchid.River99','password: [REDACTED]'],
+    ['password: correct.horse.battery','password: [REDACTED]'],['admin password: orchid.river','admin password: [REDACTED]'],
+    ['passcode: orchid.river','passcode: [REDACTED]'],['pass phrase: orchid.river','pass phrase: [REDACTED]'],
+    ['PASSWORD: Orchid.River','PASSWORD: [REDACTED]'],['password: orchid.river,','password: [REDACTED]'],
+    ['password: Orchid(River)','password: [REDACTED]'],['password: orchid?.river','password: [REDACTED]'],
+    ['password: orchid.river ?? x','password: [REDACTED]'],['password: new Orchid(river)','password: [REDACTED]'],
+    ['pw: hunter2.secret','pw: [REDACTED]'],['pw: abc(def)','pw: [REDACTED]'],['password: Hunter2(x)','password: [REDACTED]'],
+    ['pw: abcq.defq()','pw: [REDACTED]'],['pw: .abcq','pw: [REDACTED]'],['pw: match abc { d => e }','pw: [REDACTED]'],
+    ['password: config.password','password: [REDACTED]'],['token: abcdef.ghijkl','token: [REDACTED]'],
+    ['secret: orchid.river','secret: [REDACTED]'],['api_key: orchid.river','api_key: [REDACTED]'],
+    ['admin password: &abcq','admin password: [REDACTED]'],['note: password: &Secret1','note: password: [REDACTED]'],
+    ['pw: match a { b => c, d => e }','pw: [REDACTED]'],['pass code: match a { b => c, d => e }','pass code: [REDACTED]'],
+    ['pw: f(a -> b, c)','pw: [REDACTED]'],['pw: abcq.defq(),','pw: [REDACTED],'],['pass code: orchid.river;','pass code: [REDACTED];'],
+    ['(password: orchid.river)','(password: [REDACTED])'],['say (password: orchid.river)','say (password: [REDACTED])'],
+    ['let x = Foo { pw: orchid.river };','let x = Foo { pw: [REDACTED] };'],['1. pw: &abcq','1. pw: [REDACTED]'],
+    ['FYI: pw: &mut abcq','FYI: pw: [REDACTED]'],['note: the new pw: &abcq','note: the new pw: [REDACTED]'],
+    ['Reset pw: &abcq','Reset pw: [REDACTED]'],
+  ].map(([input,expected])=>({id:`named code ${input}`,input,expected}));
+  assert.equal(cases.length,36);
+  assert.deepEqual(runEvery(cases),[]);
+});
+// Source-context siblings of every code payload stay byte identical. A borrow is a type, so it stays only in a body or
+// a signature.
+const CODE_TYPE_FORMS=['struct X { {n}: {p} }','interface X { {n}: {p}; }','fn f({n}: {p}) {}','struct X {\n    {n}: {p},\n}'];
+const CODE_VALUE_FORMS=['const x = { {n}: {p} };','const x = {{n}: {p}};','json!({ {n}: {p} })','login({n}: {p})','f(a, {n}: {p})',
+  'f(\n    {n}: {p},\n)'];
+for(const key of IDENTIFIER_KEYS) test(`a code value with source context keeps its output: ${key}`,()=>{
+  const cases=[];
+  for(const cased of casings(key)) for(const payload of CODE_PAYLOADS)
+    for(const form of [...CODE_TYPE_FORMS,...(payload.startsWith('&')?[]:CODE_VALUE_FORMS)]){
+      const line=form.replace('{n}',cased).replace('{p}',payload);
+      for(const input of [line,`${longFiller}\n${line}`]) cases.push({id:`code control ${JSON.stringify(input)}`,input,expected:input});
+    }
+  assert.equal(cases.length,3*(23*4+20*6)*2);
+  assert.deepEqual(runEvery(cases),[]);
+});
+test('the named source-context code controls',()=>{
+  const cases=['struct X { pw: hunter2 }','login(password: orchid.river)','fn f(pwd: &str)','fn f(pwd: &mut Secret)',
+    'fn cancel(token: &CancellationToken) {}','const opts = {password: match result { Ok(x) => x, Err(_) => return }};',
+    'const opts = {password: match candidate { Some(x) => x, None => return }};','const cfg = {token: async () => getToken()};',
+    'const cfg = {password: options.value ?? fallback};','const cfg = {auth: config.auth || defaultAuth};',
+    'const cfg = {auth: function() { return buildAuth(); }};','let item = Record(contextKey: .workspaceID)',
+    'Record(contextKey: .accountID)','const apiKey = settings.clientKey;',
+    // A callee glued to the paren is call context, even in prose.
+    'Note(see below, password: orchid.river',
+  ].map(input=>({id:`named code control ${input}`,input,expected:input}));
+  assert.deepEqual(runEvery(cases),[]);
+});
+// After any prefix, a value that starts with a borrow redacts whole.
+for(const noun of NOUNS) test(`a prefix never keeps a value that starts with a borrow: ${noun}`,()=>{
+  const cases=[];
+  for(const payload of ['&str','&abcq','&Secret1','&mut abcq',"&'a str",'&mut Secret']) for(const prefix of [...PREFIXES,'']){
+    const left=`${PUBLIC}\n${prefix}${noun}: `;
+    cases.push({id:`prefix borrow ${JSON.stringify(prefix)} ${noun} ${payload}`,input:`${left}${payload}`,expected:`${left}${R}`});
+  }
+  assert.equal(cases.length,6*35);
   assert.deepEqual(run(cases),[]);
 });

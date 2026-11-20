@@ -2199,8 +2199,8 @@ fn a_multi_line_body_field_keeps_its_witnessed_output() {
 }
 
 /// Words before the noun never redact less than the bare colon does for a
-/// type-looking value. `&str` is left out: a value that starts with `&`
-/// after some prefixes is a separate, reported gap.
+/// type-looking value. Values that start with `&` are covered by
+/// `a_prefix_never_keeps_a_value_that_starts_with_a_borrow`.
 #[test]
 fn a_prefix_never_redacts_less_than_the_bare_colon_for_a_type_looking_value() {
     let mut cases = Vec::new();
@@ -2218,4 +2218,260 @@ fn a_prefix_never_redacts_less_than_the_bare_colon_for_a_type_looking_value() {
     }
     assert_eq!(cases.len(), 8 * 14 * 34);
     report("prefix type values", cases.len(), &run(&cases));
+}
+
+/// Code-looking values: dotted paths, calls, optional chains, `??` and `||`
+/// expressions, constructors, a leading dot, `match` bodies, closures and
+/// function literals, and values that start with a borrow.
+const CODE_PAYLOADS: [&str; 23] = [
+    "orchid.river",
+    "Orchid.River99",
+    "correct.horse.battery",
+    "Orchid(River)",
+    "orchid?.river",
+    "orchid.river ?? x",
+    "new Orchid(river)",
+    "hunter2.secret",
+    "abc(def)",
+    "Hunter2(x)",
+    "abcq.defq()",
+    ".abcq",
+    "match abc { d => e }",
+    "config.password",
+    "abcdef.ghijkl",
+    "&abcq",
+    "&Secret1",
+    "&mut abcq",
+    "options.value ?? fallback",
+    "config.auth || defaultAuth",
+    "async () => getToken()",
+    "function() { return buildAuth(); }",
+    "match candidate { Some(x) => x, None => return }",
+];
+const CODE_ENDINGS: [&str; 6] = ["", ",", ";", "!", "\n", "\r\n"];
+/// The password nouns and the other credential keys.
+const CREDENTIAL_KEYS: [&str; 12] = [
+    "password",
+    "passcode",
+    "passphrase",
+    "passwd",
+    "pwd",
+    "pw",
+    "pass code",
+    "pass phrase",
+    "token",
+    "secret",
+    "api_key",
+    "auth",
+];
+/// The keys that can be identifiers in source.
+const IDENTIFIER_KEYS: [&str; 10] = [
+    "password",
+    "passcode",
+    "passphrase",
+    "passwd",
+    "pwd",
+    "pw",
+    "token",
+    "secret",
+    "api_key",
+    "auth",
+];
+
+/// A source-shaped value does not establish source context: without a
+/// struct, interface or type body, a fn signature, an object literal or a
+/// labelled call argument around the key, a code-looking value after a bare
+/// colon is credential data. Every key, casing, payload and ending, in text,
+/// long text, JSON and NDJSON, on every API, and idempotent. Split in three
+/// so the groups run in parallel.
+fn context_free_code_matrix(keys: &[&str]) {
+    let mut cases = Vec::new();
+    for key in keys {
+        for cased in casings(key) {
+            for payload in CODE_PAYLOADS {
+                for ending in CODE_ENDINGS {
+                    let next = if ending.contains('\n') { PUBLIC } else { "" };
+                    for left in [format!("{PUBLIC}\n"), format!("{}\n", long_filler())] {
+                        cases.push((
+                            format!("bare code {cased}: {payload} {ending:?} {}", left.len()),
+                            format!("{left}{cased}: {payload}{ending}{next}"),
+                            bare_type_expected(&left, &cased, key, ending),
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    assert_eq!(cases.len(), keys.len() * 3 * 23 * 6 * 2);
+    let failures: Vec<String> = cases
+        .iter()
+        .flat_map(|(id, input, expected)| check_every_api(id, input, expected))
+        .collect();
+    report("context-free code values", cases.len(), &failures);
+}
+
+#[test]
+fn a_code_looking_value_after_a_bare_colon_without_source_context_is_redacted() {
+    context_free_code_matrix(&CREDENTIAL_KEYS[..4]);
+}
+
+#[test]
+fn a_code_looking_value_after_a_short_or_spaced_noun_is_redacted() {
+    context_free_code_matrix(&CREDENTIAL_KEYS[4..8]);
+}
+
+#[test]
+fn a_code_looking_value_after_another_credential_key_is_redacted() {
+    context_free_code_matrix(&CREDENTIAL_KEYS[8..]);
+}
+
+/// The reviewer's must-redact list, and a `match` body with several arms,
+/// pinned exactly.
+#[test]
+fn named_context_free_code_inputs() {
+    let cases = [
+        ("password: Orchid.River99!", "password: [REDACTED]"),
+        ("password: Orchid.River99", "password: [REDACTED]"),
+        ("password: correct.horse.battery", "password: [REDACTED]"),
+        ("admin password: orchid.river", "admin password: [REDACTED]"),
+        ("passcode: orchid.river", "passcode: [REDACTED]"),
+        ("pass phrase: orchid.river", "pass phrase: [REDACTED]"),
+        ("PASSWORD: Orchid.River", "PASSWORD: [REDACTED]"),
+        ("password: orchid.river,", "password: [REDACTED]"),
+        ("password: Orchid(River)", "password: [REDACTED]"),
+        ("password: orchid?.river", "password: [REDACTED]"),
+        ("password: orchid.river ?? x", "password: [REDACTED]"),
+        ("password: new Orchid(river)", "password: [REDACTED]"),
+        ("pw: hunter2.secret", "pw: [REDACTED]"),
+        ("pw: abc(def)", "pw: [REDACTED]"),
+        ("password: Hunter2(x)", "password: [REDACTED]"),
+        ("pw: abcq.defq()", "pw: [REDACTED]"),
+        ("pw: .abcq", "pw: [REDACTED]"),
+        ("pw: match abc { d => e }", "pw: [REDACTED]"),
+        ("password: config.password", "password: [REDACTED]"),
+        ("token: abcdef.ghijkl", "token: [REDACTED]"),
+        ("secret: orchid.river", "secret: [REDACTED]"),
+        ("api_key: orchid.river", "api_key: [REDACTED]"),
+        ("admin password: &abcq", "admin password: [REDACTED]"),
+        ("note: password: &Secret1", "note: password: [REDACTED]"),
+        ("pw: match a { b => c, d => e }", "pw: [REDACTED]"),
+        (
+            "pass code: match a { b => c, d => e }",
+            "pass code: [REDACTED]",
+        ),
+        ("pw: f(a -> b, c)", "pw: [REDACTED]"),
+        ("pw: abcq.defq(),", "pw: [REDACTED],"),
+        ("pass code: orchid.river;", "pass code: [REDACTED];"),
+        ("(password: orchid.river)", "(password: [REDACTED])"),
+        ("say (password: orchid.river)", "say (password: [REDACTED])"),
+        (
+            "let x = Foo { pw: orchid.river };",
+            "let x = Foo { pw: [REDACTED] };",
+        ),
+        ("1. pw: &abcq", "1. pw: [REDACTED]"),
+        ("FYI: pw: &mut abcq", "FYI: pw: [REDACTED]"),
+        ("note: the new pw: &abcq", "note: the new pw: [REDACTED]"),
+        ("Reset pw: &abcq", "Reset pw: [REDACTED]"),
+    ];
+    let mut failures = Vec::new();
+    for (input, expected) in cases {
+        failures.extend(check_every_api(input, input, expected));
+    }
+    report("named context-free code inputs", cases.len(), &failures);
+}
+
+/// Source-context siblings of every code payload stay byte identical: a
+/// struct or interface body, a fn signature, an object literal and a
+/// labelled argument directly inside a call. A borrow is a type, so it stays
+/// only where a type can: a body or a signature.
+#[test]
+fn a_code_value_with_source_context_keeps_its_output() {
+    const TYPE_FORMS: [&str; 4] = [
+        "struct X { {n}: {p} }",
+        "interface X { {n}: {p}; }",
+        "fn f({n}: {p}) {}",
+        "struct X {\n    {n}: {p},\n}",
+    ];
+    const VALUE_FORMS: [&str; 6] = [
+        "const x = { {n}: {p} };",
+        "const x = {{n}: {p}};",
+        "json!({ {n}: {p} })",
+        "login({n}: {p})",
+        "f(a, {n}: {p})",
+        "f(\n    {n}: {p},\n)",
+    ];
+    let mut total = 0;
+    let mut failures = Vec::new();
+    for key in IDENTIFIER_KEYS {
+        for cased in casings(key) {
+            for payload in CODE_PAYLOADS {
+                let forms = TYPE_FORMS
+                    .iter()
+                    .chain(VALUE_FORMS.iter().filter(|_| !payload.starts_with('&')));
+                for form in forms {
+                    let line = form.replace("{n}", &cased).replace("{p}", payload);
+                    for input in [line.clone(), format!("{}\n{line}", long_filler())] {
+                        total += 1;
+                        failures.extend(check_every_api(
+                            &format!("code control {input:?}"),
+                            &input,
+                            &input,
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    assert_eq!(total, 10 * 3 * (23 * 4 + 20 * 6) * 2);
+    let mut named = 0;
+    for input in [
+        "struct X { pw: hunter2 }",
+        "login(password: orchid.river)",
+        "fn f(pwd: &str)",
+        "fn f(pwd: &mut Secret)",
+        "fn cancel(token: &CancellationToken) {}",
+        "const opts = {password: match result { Ok(x) => x, Err(_) => return }};",
+        "const opts = {password: match candidate { Some(x) => x, None => return }};",
+        "const cfg = {token: async () => getToken()};",
+        "const cfg = {password: options.value ?? fallback};",
+        "const cfg = {auth: config.auth || defaultAuth};",
+        "const cfg = {auth: function() { return buildAuth(); }};",
+        "let item = Record(contextKey: .workspaceID)",
+        "Record(contextKey: .accountID)",
+        "const apiKey = settings.clientKey;",
+        // A callee glued to the paren is call context, even in prose.
+        "Note(see below, password: orchid.river",
+    ] {
+        named += 1;
+        failures.extend(check_every_api(input, input, input));
+    }
+    report("source-context code controls", total + named, &failures);
+}
+
+/// After any prefix, a value that starts with a borrow redacts whole.
+#[test]
+fn a_prefix_never_keeps_a_value_that_starts_with_a_borrow() {
+    const BORROWS: [&str; 6] = [
+        "&str",
+        "&abcq",
+        "&Secret1",
+        "&mut abcq",
+        "&'a str",
+        "&mut Secret",
+    ];
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for payload in BORROWS {
+            for prefix in PREFIXES.iter().chain([""].iter()) {
+                let left = format!("{PUBLIC}\n{prefix}{noun}: ");
+                cases.push((
+                    format!("prefix borrow {prefix:?} {noun} {payload}"),
+                    format!("{left}{payload}"),
+                    format!("{left}{R}"),
+                ));
+            }
+        }
+    }
+    assert_eq!(cases.len(), 8 * 6 * 35);
+    report("prefix borrow values", cases.len(), &run(&cases));
 }

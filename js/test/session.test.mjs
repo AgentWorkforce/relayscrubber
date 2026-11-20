@@ -14,7 +14,7 @@ for (const [family, inputs] of Object.entries(cases.benign)) test(`session benig
 });
 test('session positives including YAML/config vs free prose distinction', () => {
   const failures=[];
-  cases.positive.forEach(([input,secret],n)=>paths(input).forEach((out,api)=>{if(out.includes(secret)||!out.includes('[REDACTED]')||scrubber.scrubText(out)!==out) failures.push(`${n}/${api}`);}));
+  cases.positive.forEach(([input,secret,expected],n)=>paths(input).forEach((out,api)=>{if(out.includes(secret)||!out.includes('[REDACTED]')||scrubber.scrubText(out)!==out||expected!==undefined&&out!==expected) failures.push(`${n}/${api}`);}));
   assert.deepEqual(failures,[],'case/API mismatches');
 });
 test('config evidence survives comments, blank lines and quoted keys', () => {

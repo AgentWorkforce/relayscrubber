@@ -382,7 +382,7 @@
   {
     "family": "earlier_`assignment`",
     "input": "password: match option { Some(v) => v, None => return };",
-    "expected": "password: match option { Some(v) => v, None => return };"
+    "expected": "password: [REDACTED]"
   },
   {
     "family": "earlier_`assignment`",
@@ -498,5 +498,10 @@
     "family": "bounded_flag_tail",
     "input": "deploy --idempotency-token aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaM8zR4vK7nP2qW6xAq9",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "const opts = {password: match option { Some(v) => v, None => return }};",
+    "expected": "const opts = {password: match option { Some(v) => v, None => return }};"
   }
 ]
