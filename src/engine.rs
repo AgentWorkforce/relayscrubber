@@ -5330,3 +5330,124 @@ fn render(input: &str, mut original: Vec<Range<usize>>) -> crate::ScrubReport {
         redactions: merged,
     }
 }
+
+#[cfg(test)]
+mod context_window_tests {
+    use super::{call_argument_context, code_object_context, type_context, View};
+    use regex::Regex;
+
+    // Straightforward reference: the same 512-byte window rounded up to a
+    // char boundary, matched by the full patterns with no prefilter.
+    fn window(view: &View, key: usize) -> &str {
+        let mut start = key.saturating_sub(512);
+        while !view.text.is_char_boundary(start) {
+            start += 1;
+        }
+        &view.text[start..key]
+    }
+
+    fn reference(patterns: &[Regex; 3], view: &View, key: usize) -> [bool; 3] {
+        let window = window(view, key);
+        [
+            patterns[0].is_match(window),
+            patterns[1].is_match(window),
+            patterns[2].is_match(window),
+        ]
+    }
+
+    #[test]
+    fn source_context_predicates_match_reference_windows() {
+        let patterns = [
+            Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").unwrap(),
+            Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$").unwrap(),
+            Regex::new(r"[A-Za-z_][A-Za-z0-9_]*\((?:[^(){};]*,)?[ \t\r\n]*$").unwrap(),
+        ];
+        let openers = [
+            "fn f(",
+            "fn g<T: Into<u8>>(a: T, ",
+            "struct X {",
+            "struct X { a: u8 } ",
+            "interface X { a: b;",
+            "type X = {",
+            "type X = { a } ",
+            "const x = {",
+            "let y = { z: {",
+            "x={",
+            "json!({",
+            "json!(",
+            "Callee(",
+            "Callee(a, ",
+            "Callee(a); ",
+            "(",
+            "{",
+            "}",
+            ")",
+            "=",
+            "fn",
+            "type",
+            "x \"pw: a\" ",
+            "plain prose, no opener ",
+        ];
+        let fillers = [
+            "x", " ", "a", "\t", "\r\n", "\n", ",", ";", "é", "日", "😀", "(", "{", "}", ")", "=",
+            "fn ", "Callee", "_",
+        ];
+        let mut seed = 0x2545_f491_4f6c_dd1du64;
+        let mut next = move |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut cases = 0usize;
+        for opener in openers {
+            for round in 0..24 {
+                // Pad so the opener sits near the window edge: the key ends
+                // up 505..=520 bytes after the start of the text.
+                let mut text = String::new();
+                let pad = ["x", "é", "日", "😀"][round % 4];
+                while text.len() + opener.len() < 505 + round % 16 - round % 3 {
+                    text.push_str(pad);
+                }
+                let at = next(text.len().max(1));
+                let at = (0..=at).rev().find(|&i| text.is_char_boundary(i)).unwrap();
+                text.insert_str(at, opener);
+                for _ in 0..next(6) {
+                    text.push_str(fillers[next(fillers.len())]);
+                }
+                let view = View::new(&text);
+                let end = view.text.len();
+                // Keys at the end, right after the opener, and where the
+                // window is exactly 511, 512 or 513 bytes before rounding.
+                let mut keys = vec![end, at + opener.len()];
+                for back in 0..4 {
+                    for edge in [511, 512, 513] {
+                        keys.push(back + edge);
+                    }
+                }
+                keys.retain(|&key| key <= end && view.text.is_char_boundary(key));
+                for _ in 0..8 {
+                    let key = next(end + 1);
+                    if view.text.is_char_boundary(key) {
+                        keys.push(key);
+                    }
+                }
+                for key in keys {
+                    let got = [
+                        type_context(&view, key),
+                        code_object_context(&view, key),
+                        call_argument_context(&view, key),
+                    ];
+                    assert_eq!(
+                        got,
+                        reference(&patterns, &view, key),
+                        "{:?} at {key}",
+                        view.text
+                    );
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 1_000, "{cases}");
+    }
+}
