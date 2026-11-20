@@ -80,8 +80,8 @@
     "language_path": [
       "auth::Signed<Mode>",
       "mcp_auth::Token<Mode>>",
-      "auth: module::Signed<Mode>",
-      "token: Namespace.Token<Mode>"
+      "fn f(auth: module::Signed<Mode>)",
+      "interface S { token: Namespace.Token<Mode> }"
     ],
     "username_url": [
       "https://reader@docs.example.invalid/path",
@@ -252,6 +252,14 @@
     [
       "password: the actual secret value",
       "the actual secret value"
+    ],
+    [
+      "auth: module::Signed<Mode>",
+      "module::Signed<Mode>"
+    ],
+    [
+      "token: Namespace.Token<Mode>",
+      "Namespace.Token<Mode>"
     ]
   ]
 }

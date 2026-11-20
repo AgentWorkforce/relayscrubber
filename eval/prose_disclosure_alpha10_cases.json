@@ -175,67 +175,116 @@
     "expected": "my password is [REDACTED]"
   },
   {
-    "id": "control pw: string",
-    "family": "control",
-    "kind": "benign",
+    "id": "context-free type pw: string",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pw: string",
-    "expected": "pw: string"
+    "expected": "pw: [REDACTED]"
   },
   {
-    "id": "control pass code: string",
+    "id": "control struct X { pw: string }",
     "family": "control",
     "kind": "benign",
+    "input": "struct X { pw: string }",
+    "expected": "struct X { pw: string }"
+  },
+  {
+    "id": "context-free type pass code: string",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pass code: string",
-    "expected": "pass code: string"
+    "expected": "pass code: [REDACTED]"
   },
   {
-    "id": "control pass phrase: string",
-    "family": "control",
-    "kind": "benign",
+    "id": "context-free type pass phrase: string",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pass phrase: string",
-    "expected": "pass phrase: string"
+    "expected": "pass phrase: [REDACTED]"
   },
   {
-    "id": "control passcode: boolean",
-    "family": "control",
-    "kind": "benign",
+    "id": "context-free type passcode: boolean",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "passcode: boolean",
-    "expected": "passcode: boolean"
+    "expected": "passcode: [REDACTED]"
   },
   {
-    "id": "control pwd: number",
+    "id": "control struct X { passcode: boolean }",
     "family": "control",
     "kind": "benign",
+    "input": "struct X { passcode: boolean }",
+    "expected": "struct X { passcode: boolean }"
+  },
+  {
+    "id": "context-free type pwd: number",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pwd: number",
-    "expected": "pwd: number"
+    "expected": "pwd: [REDACTED]"
   },
   {
-    "id": "control password: string",
+    "id": "control fn f(pwd: number)",
     "family": "control",
     "kind": "benign",
+    "input": "fn f(pwd: number)",
+    "expected": "fn f(pwd: number)"
+  },
+  {
+    "id": "context-free type password: string",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "password: string",
-    "expected": "password: string"
+    "expected": "password: [REDACTED]"
   },
   {
-    "id": "control pwd: &str",
+    "id": "control interface X { password: string }",
     "family": "control",
     "kind": "benign",
+    "input": "interface X { password: string }",
+    "expected": "interface X { password: string }"
+  },
+  {
+    "id": "context-free type pwd: &str",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pwd: &str",
-    "expected": "pwd: &str"
+    "expected": "pwd: [REDACTED]"
   },
   {
-    "id": "control password: Option<String>,",
+    "id": "control fn f(pwd: &str)",
     "family": "control",
     "kind": "benign",
+    "input": "fn f(pwd: &str)",
+    "expected": "fn f(pwd: &str)"
+  },
+  {
+    "id": "context-free type password: Option<String>,",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "password: Option<String>,",
-    "expected": "password: Option<String>,"
+    "expected": "password: [REDACTED]"
   },
   {
-    "id": "control pw: Vec<u8>",
+    "id": "control struct X { password: Option<String>, }",
     "family": "control",
     "kind": "benign",
+    "input": "struct X { password: Option<String>, }",
+    "expected": "struct X { password: Option<String>, }"
+  },
+  {
+    "id": "context-free type pw: Vec<u8>",
+    "family": "context-free-type",
+    "kind": "positive",
     "input": "pw: Vec<u8>",
-    "expected": "pw: Vec<u8>"
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "control struct X { pw: Vec<u8> }",
+    "family": "control",
+    "kind": "benign",
+    "input": "struct X { pw: Vec<u8> }",
+    "expected": "struct X { pw: Vec<u8> }"
   },
   {
     "id": "control fn f(pw: String)",
@@ -252,11 +301,18 @@
     "expected": "const pw: string"
   },
   {
-    "id": "control   pw: string;",
+    "id": "context-free type   pw: string;",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "  pw: string;",
+    "expected": "  pw: [REDACTED];"
+  },
+  {
+    "id": "control interface X { pw: string; }",
     "family": "control",
     "kind": "benign",
-    "input": "  pw: string;",
-    "expected": "  pw: string;"
+    "input": "interface X { pw: string; }",
+    "expected": "interface X { pw: string; }"
   },
   {
     "id": "control pw == x",

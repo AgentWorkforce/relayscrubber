@@ -42,7 +42,9 @@ function cueMatrix(){
     }
     for(const value of ['x','hunter2',"'x'"]) add(`${det}password == ${value}`,`${det}password == ${value}`);
   }
-  for(const code of ['password == x','if password == x',"assert password == 'x'",'password: string']) add(code,code);
+  for(const code of ['password == x','if password == x',"assert password == 'x'",'struct S { password: string }']) add(code,code);
+  // Without source context a type-looking value is credential data.
+  add('password: string','password: '+R);
   return cases;
 }
 const QUOTES=[["'","'"],['"','"'],['`','`'],['“','”'],['‘','’']];
@@ -82,7 +84,7 @@ function run(cases){
 
 test('every cue against same-position documentary, reference and code controls',()=>{
   const cases=cueMatrix();
-  assert.equal(cases.length,3*12*5+12*4+2*(2*5+3)+4);
+  assert.equal(cases.length,3*12*5+12*4+2*(2*5+3)+5);
   assert.deepEqual(run(cases),[]);
 });
 test('allowlist, extent, quote and inherited fixtures',()=>{
@@ -109,7 +111,7 @@ test('every positive prose case is idempotent',()=>{
   for(const name of ['prose_disclosure_cases.json','alpha9_prose_credential_cases.json','prose_disclosure_coverage_cases.json'])
     inputs.push(...load(name).filter(c=>c.kind==='positive').map(c=>c.input));
   inputs.push(...[...cueMatrix(),...quoteWindowCases()].filter(c=>c.input!==c.expected).map(c=>c.input));
-  assert.equal(inputs.length,431);
+  assert.equal(inputs.length,434);
   const failures=[];
   for(const input of inputs){
     const once=scrubber.scrubText(input);

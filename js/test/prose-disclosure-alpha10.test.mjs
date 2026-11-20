@@ -448,8 +448,6 @@ for(const layout of ['pw: ','pw=','my password = ','password: ','my pass code is
   test(`a bare reference glued to a literal is part of the value: ${JSON.stringify(layout)}`,()=>{
     const cases=[];
     for(const [form,shape] of [['${defq}abcq','${defq}'],['%defq%abcq','%defq%'],['<defq>abcq','<defq>'],['{{defq}}abcq','{{defq}}'],['$(defq)abcq','$(defq)'],['abcq${defq}','${defq}'],['abcq%defq%','%defq%'],['abcq<defq>','<defq>'],['abcq{{defq}}','{{defq}}'],['abcq$defq','$defq'],[`${R}abcq`,R],['${defq}${ghiq}abcq','${defq}${ghiq}'],['$defq"abcq"','$defq'],['${defq}"abcq"','${defq}'],['<defq>"abcq"','<defq>'],['op://v/defq/p"abcq"','op://v/defq/p']]){
-      // A generic after a colon (`pw: Vec<u8>`, a lead control) is a type annotation.
-      if(form==='abcq<defq>'&&layout.trimEnd().endsWith(':')) continue;
       const line=`${layout}${form}`, twin=line.replaceAll(shape,TWIN);
       for(const [input,t] of [[line,twin],[wrapJson(line),wrapJson(twin)]]) cases.push({id:`bare glue ${input}`,input:`${PUBLIC}\n${input}`,twin:`${PUBLIC}\n${t}`,forbidden:['abcq','defq','ghiq']});
     }
@@ -504,4 +502,101 @@ test('a pure reference value keeps its output',()=>{
     ['pw: "$A""$B"','pw: "$A""$B"'],['pw: ${A}${B}','pw: ${A}${B}'],['password="$A""$B"','password="$A""$B"'],
     [`my password is "$A"'\${B}'`,`my password is "$A"'\${B}'`],['x "pw: $A""$B"','x "pw: $A""$B"'],
   ])),[]);
+});
+// Values that look like types: arbitrary lowercase, Pascal, numeric and nested angle payloads, real-looking generics
+// and the simple type names. Without source context such a value after a bare colon is credential data.
+const TYPE_PAYLOADS=['abcq<defq>','hunter2<secret>','orchid<river>','Secret<value>','abc<123>','a<b<c>>','abcq<defq<ghiq>>',
+  'Vec<u8>','Option<String>','Map<String, u8>','string','boolean','number','bool','&str'];
+const TYPE_ENDINGS=['',',',';','\n','\r\n'];
+const IDENTIFIER_NOUNS=['password','passcode','passphrase','passwd','pwd','pw'];
+const casings=noun=>[noun,noun[0].toUpperCase()+noun.slice(1),noun.toUpperCase()];
+// More than the engine's 512-byte look-back of filler before the line.
+const longFiller='lorem ipsum dolor sit amet '.repeat(25);
+// `run` plus the line as a JSON string value beside another key, and two NDJSON records holding it.
+function runEvery(cases){
+  const failures=run(cases);
+  for(const {id,input,expected} of cases){
+    const record=JSON.stringify({note:input,user:'bob'});
+    const want=JSON.stringify({note:expected,user:'bob'});
+    const json=scrubber.scrubJson(record).value;
+    if(JSON.stringify(json)!==want) failures.push(`${id}/json-text: ${JSON.stringify(json)}`);
+    const out=scrubber.scrubRecords(new TextEncoder().encode(`${record}\n${record}\n`)).bytes;
+    const lines=new TextDecoder().decode(out).trimEnd().split('\n');
+    if(lines.length!==2||lines.some(l=>JSON.stringify(JSON.parse(l))!==want)) failures.push(`${id}/ndjson: ${JSON.stringify(lines)}`);
+    if(new TextDecoder().decode(scrubber.scrubRecords(out).bytes)!==new TextDecoder().decode(out)) failures.push(`${id}/ndjson second pass`);
+  }
+  return failures;
+}
+// One marker for the whole value. `pw` and the spaced nouns keep one closing comma or semicolon after it, as they keep
+// sentence punctuation; a line break and the next line are kept.
+function bareTypeExpected(left,cased,noun,ending){
+  const mark=['pw','pass code','pass phrase'].includes(noun)&&[',',';'].includes(ending)?ending:'';
+  return `${left}${cased}: ${R}${mark}${ending.includes('\n')?ending+PUBLIC:''}`;
+}
+for(const noun of NOUNS) test(`a type-looking value after a bare colon without source context is redacted: ${noun}`,()=>{
+  const cases=[];
+  for(const cased of casings(noun)) for(const payload of TYPE_PAYLOADS) for(const ending of TYPE_ENDINGS)
+    for(const left of [`${PUBLIC}\n`,`${longFiller}\n`]){
+      const next=ending.includes('\n')?PUBLIC:'';
+      cases.push({id:`bare type ${cased}: ${payload} ${JSON.stringify(ending)} ${left.length}`,input:`${left}${cased}: ${payload}${ending}${next}`,expected:bareTypeExpected(left,cased,noun,ending)});
+    }
+  assert.equal(cases.length,3*15*5*2);
+  assert.deepEqual(runEvery(cases),[]);
+});
+test('the named context-free type inputs',()=>{
+  const cases=[
+    ['pw: abcq<defq>','pw: [REDACTED]'],['password: abcq<defq>','password: [REDACTED]'],['PASSWORD: abcq<defq>','PASSWORD: [REDACTED]'],
+    ['passcode: hunter2<secret>','passcode: [REDACTED]'],['pass phrase: orchid<river>','pass phrase: [REDACTED]'],
+    ['pw: Secret<value>','pw: [REDACTED]'],['pw: abc<123>','pw: [REDACTED]'],['pw: Vec<u8>','pw: [REDACTED]'],
+    ['password: Option<String>,','password: [REDACTED]'],['pw: string','pw: [REDACTED]'],['pw: Map<String, u8>,','pw: [REDACTED],'],
+    ['pw: abcq<defq, ghiq>;','pw: [REDACTED];'],['pw: (abcq, defq),','pw: [REDACTED],'],['my pw: abcq<defq>','my pw: [REDACTED]'],
+    ['The new password: Secret<value>','The new password: [REDACTED]'],['struct X { pw: Vec<u8> }','struct X { pw: Vec<u8> }'],
+    ['fn f(pw: String)','fn f(pw: String)'],['const pw: string','const pw: string'],
+  ].map(([input,expected])=>({id:`named type ${input}`,input,expected}));
+  assert.equal(cases.length,18);
+  assert.deepEqual(runEvery(cases),[]);
+});
+// Source-context siblings stay byte identical. The spaced nouns cannot be identifiers and have no such sibling.
+const TYPE_CONTEXT_FORMS=['struct X { {n}: {p} }','struct X { {n}: {p}, }','interface X { {n}: {p}; }','type X = { {n}: {p} }',
+  'fn f({n}: {p})','fn f({n}: {p}) {}','const {n}: {p}','let {n}: {p};','struct X {\n    {n}: {p},\n}'];
+for(const noun of IDENTIFIER_NOUNS) test(`a type with source context keeps its output: ${noun}`,()=>{
+  const cases=[];
+  for(const cased of casings(noun)) for(const payload of TYPE_PAYLOADS) for(const form of TYPE_CONTEXT_FORMS){
+    const line=form.replace('{n}',cased).replace('{p}',payload);
+    for(const input of [line,`${longFiller}\n${line}`]) cases.push({id:`type control ${JSON.stringify(input)}`,input,expected:input});
+  }
+  assert.equal(cases.length,3*15*9*2);
+  assert.deepEqual(runEvery(cases),[]);
+});
+// A field on its own line in a multi-line body: the engine looks back at most 512 bytes for the body's opener. With the
+// opener in view the field is kept; with none (alone, its own NDJSON record, or more than 512 bytes below) it fails closed.
+test('a multi-line body field keeps its witnessed output',()=>{
+  const many='    a: u8,\n'.repeat(60);
+  const cases=[
+    ['struct X {\n    pw: Vec<u8>,\n}','struct X {\n    pw: Vec<u8>,\n}'],
+    ['struct X {\r\n    pw: Vec<u8>,\r\n}','struct X {\r\n    pw: Vec<u8>,\r\n}'],
+    ['interface X {\n    password: string;\n}','interface X {\n    password: string;\n}'],
+    ['fn f(\n    pw: Vec<u8>,\n) {}','fn f(\n    pw: Vec<u8>,\n) {}'],
+    ['    pw: Vec<u8>,','    pw: [REDACTED],'],
+    [`struct X {\n${many}    pw: Vec<u8>,\n}`,`struct X {\n${many}    pw: [REDACTED],\n}`],
+    // The same position on one line, with its source context.
+    ['struct X { pw: Vec<u8>, }','struct X { pw: Vec<u8>, }'],['fn f(pw: Vec<u8>,) {}','fn f(pw: Vec<u8>,) {}'],
+    ['fn f(pw: Vec<u8>, b: u8) {}','fn f(pw: Vec<u8>, b: u8) {}'],['const pw: Vec<u8>','const pw: Vec<u8>'],
+  ].map(([input,expected])=>({id:`multi-line ${JSON.stringify(input)}`,input,expected}));
+  const failures=runEvery(cases);
+  const records='{"line":"struct X {"}\n{"line":"    pw: Vec<u8>,"}\n{"line":"}"}\n';
+  const want='{"line":"struct X {"}\n{"line":"    pw: [REDACTED],"}\n{"line":"}"}\n';
+  if(new TextDecoder().decode(scrubber.scrubRecords(new TextEncoder().encode(records)).bytes)!==want) failures.push('per-line NDJSON body');
+  assert.deepEqual(failures,[]);
+});
+// Words before the noun never redact less than the bare colon does. `&str` is left out: a value that starts with `&`
+// after some prefixes is a separate, reported gap.
+for(const noun of NOUNS) test(`a prefix never redacts less than the bare colon for a type-looking value: ${noun}`,()=>{
+  const cases=[];
+  for(const payload of TYPE_PAYLOADS.filter(p=>!p.startsWith('&'))) for(const prefix of PREFIXES){
+    const left=`${PUBLIC}\n${prefix}${noun}: `;
+    cases.push({id:`prefix type ${JSON.stringify(prefix)} ${noun} ${payload}`,input:`${left}${payload}`,expected:`${left}${R}`});
+  }
+  assert.equal(cases.length,14*34);
+  assert.deepEqual(run(cases),[]);
 });

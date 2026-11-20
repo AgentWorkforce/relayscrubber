@@ -1080,16 +1080,30 @@
   {
     "id": "code-154",
     "family": "code",
-    "kind": "benign",
+    "kind": "positive",
     "input": "password: string",
-    "expected": "password: string"
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "code-154-context",
+    "family": "code",
+    "kind": "benign",
+    "input": "struct S { password: string }",
+    "expected": "struct S { password: string }"
   },
   {
     "id": "code-155",
     "family": "code",
-    "kind": "benign",
+    "kind": "positive",
     "input": "  password: string;",
-    "expected": "  password: string;"
+    "expected": "  password: [REDACTED]"
+  },
+  {
+    "id": "code-155-context",
+    "family": "code",
+    "kind": "benign",
+    "input": "interface S { password: string; }",
+    "expected": "interface S { password: string; }"
   },
   {
     "id": "code-156",

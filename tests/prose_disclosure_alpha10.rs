@@ -3,8 +3,10 @@
 //! text, long, JSON and record paths and must be idempotent.
 //!
 //! - Bare colon and equals cues (`pw: x`, `password = velvet river lantern`)
-//!   redact the whole value for every noun, with no minimum length, while type
-//!   annotations and code stay byte identical.
+//!   redact the whole value for every noun, with no minimum length. A
+//!   type-looking value is kept only with source context around the key (a
+//!   struct, interface or type body, a fn signature, a `let`, `const` or `var`
+//!   declaration); code stays byte identical.
 //! - A quoted value ends at the first close quote preceded by an even run of
 //!   backslashes (`"abc\"def"` is one value; `"abc\\"` closes).
 //! - Every `char::is_whitespace` separator, and its encoded spellings, joins
@@ -13,7 +15,10 @@
 //!   phrase, a conjunction, a bullet or a label) never redact less than the
 //!   bare cue does.
 
-use relayscrubber::{scrub_json, scrub_long, scrub_records, scrub_text, scrub_text_checked};
+use relayscrubber::{
+    scrub_json, scrub_json_text, scrub_long, scrub_records, scrub_report, scrub_text,
+    scrub_text_checked, scrub_text_with_policy, Policy,
+};
 use serde::Deserialize;
 use serde_json::json;
 
@@ -1713,11 +1718,6 @@ fn a_bare_reference_glued_to_a_literal_is_part_of_the_value() {
     let mut cases = Vec::new();
     for layout in class_e_layouts() {
         for (form, shape) in BARE {
-            // A generic after a colon (`pw: Vec<u8>`, a lead control) is a
-            // type annotation, not a placeholder glued to a literal.
-            if form == "abcq<defq>" && layout.trim_end().ends_with(':') {
-                continue;
-            }
             let line = format!("{layout}{form}");
             let twin = line.replace(shape, TWIN);
             let wrap = |l: &str| {
@@ -1736,11 +1736,7 @@ fn a_bare_reference_glued_to_a_literal_is_part_of_the_value() {
             }
         }
     }
-    let colon = class_e_layouts()
-        .iter()
-        .filter(|l| l.trim_end().ends_with(':'))
-        .count();
-    assert_eq!(cases.len(), (110 * 16 - colon) * 2);
+    assert_eq!(cases.len(), 110 * 16 * 2);
     report("bare glue", cases.len(), &run_whole_value(&cases));
 }
 
@@ -1935,4 +1931,291 @@ fn a_pure_reference_value_keeps_its_output() {
     })
     .collect();
     report("pure reference", cases.len(), &run_leak_free(&cases));
+}
+
+/// Values that look like types: arbitrary lowercase, Pascal, numeric and
+/// nested angle payloads, real-looking generics and the simple type names.
+const TYPE_PAYLOADS: [&str; 15] = [
+    "abcq<defq>",
+    "hunter2<secret>",
+    "orchid<river>",
+    "Secret<value>",
+    "abc<123>",
+    "a<b<c>>",
+    "abcq<defq<ghiq>>",
+    "Vec<u8>",
+    "Option<String>",
+    "Map<String, u8>",
+    "string",
+    "boolean",
+    "number",
+    "bool",
+    "&str",
+];
+const TYPE_ENDINGS: [&str; 5] = ["", ",", ";", "\n", "\r\n"];
+const IDENTIFIER_NOUNS: [&str; 6] = ["password", "passcode", "passphrase", "passwd", "pwd", "pw"];
+
+fn casings(noun: &str) -> [String; 3] {
+    let mut title = noun.to_owned();
+    title[..1].make_ascii_uppercase();
+    [noun.to_owned(), title, noun.to_ascii_uppercase()]
+}
+
+/// More than the engine's 512-byte look-back of filler before the line.
+fn long_filler() -> String {
+    "lorem ipsum dolor sit amet ".repeat(25)
+}
+
+/// `check` plus the policy and report APIs, the line as a JSON string value
+/// beside another key (parsed JSON text), and two NDJSON records holding it.
+fn check_every_api(id: &str, input: &str, expected: &str) -> Vec<String> {
+    let mut failures = check(id, input, expected);
+    for (api, output) in [
+        ("secrets", scrub_text_with_policy(input, Policy::Secrets)),
+        ("pii", scrub_text_with_policy(input, Policy::Pii)),
+        ("report", scrub_report(input, Policy::Secrets).text),
+    ] {
+        if output != expected {
+            failures.push(format!(
+                "{id}/{api}: {input:?} -> {output:?}, want {expected:?}"
+            ));
+        }
+    }
+    let record = json!({ "note": input, "user": "bob" }).to_string();
+    let want = json!({ "note": expected, "user": "bob" });
+    match scrub_json_text(&record) {
+        Some((value, _)) if value == want => {}
+        other => failures.push(format!("{id}/json-text: {record:?} -> {other:?}")),
+    }
+    let ndjson = format!("{record}\n{record}\n");
+    let out = scrub_records(ndjson.as_bytes()).expect("NDJSON records");
+    let lines: Vec<serde_json::Value> = String::from_utf8(out.bytes.clone())
+        .unwrap()
+        .lines()
+        .map(|l| serde_json::from_str(l).unwrap())
+        .collect();
+    if out.record_count != 2 || lines.iter().any(|l| *l != want) {
+        failures.push(format!("{id}/ndjson: {ndjson:?} -> {lines:?}"));
+    }
+    if scrub_records(&out.bytes).expect("second pass").bytes != out.bytes {
+        failures.push(format!("{id}/ndjson: second pass changed"));
+    }
+    failures
+}
+
+/// The output of a bare-colon disclosure of a type-looking value: one
+/// marker for the whole value. `pw` and the spaced nouns keep one closing
+/// comma or semicolon after it, as they keep sentence punctuation; a line
+/// break and the next line are kept.
+fn bare_type_expected(left: &str, cased: &str, noun: &str, ending: &str) -> String {
+    let mark = if matches!(noun, "pw" | "pass code" | "pass phrase") && matches!(ending, "," | ";")
+    {
+        ending
+    } else {
+        ""
+    };
+    let next = if ending.contains('\n') {
+        format!("{ending}{PUBLIC}")
+    } else {
+        String::new()
+    };
+    format!("{left}{cased}: {R}{mark}{next}")
+}
+
+fn context_free_type_matrix(noun: &str) -> Vec<(String, String, String)> {
+    let mut cases = Vec::new();
+    for cased in casings(noun) {
+        for payload in TYPE_PAYLOADS {
+            for ending in TYPE_ENDINGS {
+                let next = if ending.contains('\n') { PUBLIC } else { "" };
+                for left in [format!("{PUBLIC}\n"), format!("{}\n", long_filler())] {
+                    cases.push((
+                        format!("bare type {cased}: {payload} {ending:?} {}", left.len()),
+                        format!("{left}{cased}: {payload}{ending}{next}"),
+                        bare_type_expected(&left, &cased, noun, ending),
+                    ));
+                }
+            }
+        }
+    }
+    cases
+}
+
+/// Without source context a type-looking value after a bare colon is
+/// credential data: every noun, casing, payload and ending, in text, long
+/// text, JSON and NDJSON, on every API, and idempotent.
+#[test]
+fn a_type_looking_value_after_a_bare_colon_without_source_context_is_redacted() {
+    let mut total = 0;
+    let mut failures = Vec::new();
+    for noun in NOUNS {
+        let cases = context_free_type_matrix(noun);
+        assert_eq!(cases.len(), 3 * 15 * 5 * 2, "{noun}");
+        total += cases.len();
+        failures.extend(
+            cases
+                .iter()
+                .flat_map(|(id, input, expected)| check_every_api(id, input, expected)),
+        );
+    }
+    report("context-free type values", total, &failures);
+}
+
+/// The reviewer's named inputs, pinned exactly.
+#[test]
+fn named_context_free_type_inputs() {
+    let mut failures = Vec::new();
+    for (input, expected) in [
+        ("pw: abcq<defq>", "pw: [REDACTED]"),
+        ("password: abcq<defq>", "password: [REDACTED]"),
+        ("PASSWORD: abcq<defq>", "PASSWORD: [REDACTED]"),
+        ("passcode: hunter2<secret>", "passcode: [REDACTED]"),
+        ("pass phrase: orchid<river>", "pass phrase: [REDACTED]"),
+        ("pw: Secret<value>", "pw: [REDACTED]"),
+        ("pw: abc<123>", "pw: [REDACTED]"),
+        ("pw: Vec<u8>", "pw: [REDACTED]"),
+        ("password: Option<String>,", "password: [REDACTED]"),
+        ("pw: string", "pw: [REDACTED]"),
+        ("pw: Map<String, u8>,", "pw: [REDACTED],"),
+        ("pw: abcq<defq, ghiq>;", "pw: [REDACTED];"),
+        ("pw: (abcq, defq),", "pw: [REDACTED],"),
+        ("my pw: abcq<defq>", "my pw: [REDACTED]"),
+        (
+            "The new password: Secret<value>",
+            "The new password: [REDACTED]",
+        ),
+        ("struct X { pw: Vec<u8> }", "struct X { pw: Vec<u8> }"),
+        ("fn f(pw: String)", "fn f(pw: String)"),
+        ("const pw: string", "const pw: string"),
+    ] {
+        failures.extend(check_every_api(input, input, expected));
+    }
+    report("named context-free type inputs", 18, &failures);
+}
+
+/// Source-context siblings stay byte identical: a struct, interface or type
+/// body, a fn signature, and a `const` or `let` declaration, for every
+/// identifier noun, casing and payload, with and without filler. The spaced
+/// nouns cannot be identifiers and have no source-context sibling.
+#[test]
+fn a_type_with_source_context_keeps_its_output() {
+    const FORMS: [&str; 9] = [
+        "struct X { {n}: {p} }",
+        "struct X { {n}: {p}, }",
+        "interface X { {n}: {p}; }",
+        "type X = { {n}: {p} }",
+        "fn f({n}: {p})",
+        "fn f({n}: {p}) {}",
+        "const {n}: {p}",
+        "let {n}: {p};",
+        "struct X {\n    {n}: {p},\n}",
+    ];
+    let mut total = 0;
+    let mut failures = Vec::new();
+    for noun in IDENTIFIER_NOUNS {
+        for cased in casings(noun) {
+            for payload in TYPE_PAYLOADS {
+                for form in FORMS {
+                    let line = form.replace("{n}", &cased).replace("{p}", payload);
+                    for input in [line.clone(), format!("{}\n{line}", long_filler())] {
+                        total += 1;
+                        failures.extend(check_every_api(
+                            &format!("type control {input:?}"),
+                            &input,
+                            &input,
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    assert_eq!(total, 6 * 3 * 15 * 9 * 2);
+    report("source-context type controls", total, &failures);
+}
+
+/// A field on its own line in a multi-line body. The engine looks back at
+/// most 512 bytes for the body's opener: in one text or JSON string it sees
+/// `struct X {` and keeps the field; a line with no opener in view (alone,
+/// its own NDJSON record, or more than 512 bytes below the opener) fails
+/// closed. This is the accepted precision tradeoff; there is no cross-record
+/// context.
+#[test]
+fn a_multi_line_body_field_keeps_its_witnessed_output() {
+    let many = "    a: u8,\n".repeat(60);
+    let mut failures = Vec::new();
+    for (input, expected) in [
+        (
+            "struct X {\n    pw: Vec<u8>,\n}".to_owned(),
+            "struct X {\n    pw: Vec<u8>,\n}".to_owned(),
+        ),
+        (
+            "struct X {\r\n    pw: Vec<u8>,\r\n}".to_owned(),
+            "struct X {\r\n    pw: Vec<u8>,\r\n}".to_owned(),
+        ),
+        (
+            "interface X {\n    password: string;\n}".to_owned(),
+            "interface X {\n    password: string;\n}".to_owned(),
+        ),
+        (
+            "fn f(\n    pw: Vec<u8>,\n) {}".to_owned(),
+            "fn f(\n    pw: Vec<u8>,\n) {}".to_owned(),
+        ),
+        (
+            "    pw: Vec<u8>,".to_owned(),
+            "    pw: [REDACTED],".to_owned(),
+        ),
+        (
+            format!("struct X {{\n{many}    pw: Vec<u8>,\n}}"),
+            format!("struct X {{\n{many}    pw: [REDACTED],\n}}"),
+        ),
+        // The same position on one line, with its source context.
+        (
+            "struct X { pw: Vec<u8>, }".to_owned(),
+            "struct X { pw: Vec<u8>, }".to_owned(),
+        ),
+        (
+            "fn f(pw: Vec<u8>,) {}".to_owned(),
+            "fn f(pw: Vec<u8>,) {}".to_owned(),
+        ),
+        (
+            "fn f(pw: Vec<u8>, b: u8) {}".to_owned(),
+            "fn f(pw: Vec<u8>, b: u8) {}".to_owned(),
+        ),
+        (
+            "const pw: Vec<u8>".to_owned(),
+            "const pw: Vec<u8>".to_owned(),
+        ),
+    ] {
+        failures.extend(check_every_api(&format!("{input:?}"), &input, &expected));
+    }
+    // Each line of the body as its own NDJSON record.
+    let records = "{\"line\":\"struct X {\"}\n{\"line\":\"    pw: Vec<u8>,\"}\n{\"line\":\"}\"}\n";
+    let out = scrub_records(records.as_bytes()).expect("records");
+    let want = "{\"line\":\"struct X {\"}\n{\"line\":\"    pw: [REDACTED],\"}\n{\"line\":\"}\"}\n";
+    if String::from_utf8(out.bytes).unwrap() != want {
+        failures.push("per-line NDJSON body".into());
+    }
+    report("multi-line body witnesses", 11, &failures);
+}
+
+/// Words before the noun never redact less than the bare colon does for a
+/// type-looking value. `&str` is left out: a value that starts with `&`
+/// after some prefixes is a separate, reported gap.
+#[test]
+fn a_prefix_never_redacts_less_than_the_bare_colon_for_a_type_looking_value() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for payload in TYPE_PAYLOADS.iter().filter(|p| !p.starts_with('&')) {
+            for prefix in PREFIXES {
+                let left = format!("{PUBLIC}\n{prefix}{noun}: ");
+                cases.push((
+                    format!("prefix type {prefix:?} {noun} {payload}"),
+                    format!("{left}{payload}"),
+                    format!("{left}{R}"),
+                ));
+            }
+        }
+    }
+    assert_eq!(cases.len(), 8 * 14 * 34);
+    report("prefix type values", cases.len(), &run(&cases));
 }

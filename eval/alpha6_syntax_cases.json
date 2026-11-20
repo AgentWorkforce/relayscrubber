@@ -12605,9 +12605,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "password: Option<String>,",
-    "expected": "password: Option<String>,"
+    "secret": "Option<String>"
   },
   {
     "family": "type_tail",
@@ -12665,9 +12665,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "token: Option<String>,",
-    "expected": "token: Option<String>,"
+    "secret": "Option<String>"
   },
   {
     "family": "type_tail",
@@ -12725,9 +12725,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "PASSWORD: Option<String>,",
-    "expected": "PASSWORD: Option<String>,"
+    "secret": "Option<String>"
   },
   {
     "family": "type_tail",
@@ -12785,9 +12785,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "password: Vec<Widget>,",
-    "expected": "password: Vec<Widget>,"
+    "secret": "Vec<Widget>"
   },
   {
     "family": "type_tail",
@@ -12845,9 +12845,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "token: Vec<Widget>,",
-    "expected": "token: Vec<Widget>,"
+    "secret": "Vec<Widget>"
   },
   {
     "family": "type_tail",
@@ -12905,9 +12905,9 @@
     "secret": "M8zR4vK7nP2qW6xAq9"
   },
   {
-    "family": "type",
+    "family": "context_free_type",
     "input": "PASSWORD: Vec<Widget>,",
-    "expected": "PASSWORD: Vec<Widget>,"
+    "secret": "Vec<Widget>"
   },
   {
     "family": "type_tail",

@@ -357,7 +357,12 @@
   {
     "family": "earlier_type_declaration_or_syntax",
     "input": "refresh_token: tokio::sync::Mutex<()>",
-    "expected": "refresh_token: tokio::sync::Mutex<()>"
+    "expected": "refresh_token: [REDACTED]"
+  },
+  {
+    "family": "earlier_type_declaration_or_syntax",
+    "input": "struct S { refresh_token: tokio::sync::Mutex<()> }",
+    "expected": "struct S { refresh_token: tokio::sync::Mutex<()> }"
   },
   {
     "family": "earlier_operator_or_regex_syntax",

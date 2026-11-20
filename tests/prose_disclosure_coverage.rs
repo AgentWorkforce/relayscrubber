@@ -142,17 +142,19 @@ fn cue_matrix() -> Vec<(String, String, String)> {
         "password == x",
         "if password == x",
         "assert password == 'x'",
-        "password: string",
+        "struct S { password: string }",
     ] {
         add(code.to_owned(), code.to_owned());
     }
+    // Without source context a type-looking value is credential data.
+    add("password: string".to_owned(), format!("password: {R}"));
     cases
 }
 
 #[test]
 fn every_cue_against_same_position_controls() {
     let cases = cue_matrix();
-    assert_eq!(cases.len(), 3 * 12 * 5 + 12 * 4 + 2 * (2 * 5 + 3) + 4);
+    assert_eq!(cases.len(), 3 * 12 * 5 + 12 * 4 + 2 * (2 * 5 + 3) + 5);
     assert_cases(&cases);
 }
 
@@ -262,7 +264,7 @@ fn every_positive_case_is_idempotent() {
             .filter(|(_, input, expected)| input != expected)
             .map(|(_, input, _)| input),
     );
-    assert_eq!(inputs.len(), 431);
+    assert_eq!(inputs.len(), 434);
     for input in inputs {
         let once = scrub_text(&input);
         assert_ne!(once, input, "{input:?} was not redacted");
