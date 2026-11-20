@@ -441,6 +441,27 @@ fn code_object_context(view: &View, key: usize) -> bool {
     .is_match(&view.text[start..key])
 }
 
+// The key is a labelled argument directly inside an unclosed call whose `(`
+// is glued to a callee identifier: `Record(contextKey: .workspaceID)`. A
+// parenthesis with no callee (`(password: x)`) is prose, not source context.
+// Same fixed lookbehind budget as the other contexts.
+fn call_argument_context(view: &View, key: usize) -> bool {
+    let mut start = key.saturating_sub(512);
+    while !view.text.is_char_boundary(start) {
+        start += 1;
+    }
+    let prefix = &view.text[start..key];
+    if !prefix.contains('(') {
+        return false;
+    }
+    static R: OnceLock<Regex> = OnceLock::new();
+    R.get_or_init(|| {
+        Regex::new(r"[A-Za-z_][A-Za-z0-9_]*\((?:[^(){};]*,)?[ \t\r\n]*$")
+            .expect("fixed call-argument context")
+    })
+    .is_match(prefix)
+}
+
 // A reference must reach its delimiter within this budget. Whitespace and
 // comments are part of the value, not proof that a reference has ended.
 fn candidate_end(view: &View, value: usize) -> Option<usize> {
@@ -751,12 +772,28 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             return true;
         }
     }
-    if (declaration || colon && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
+    // After a bare colon, a source-shaped RHS does not establish source
+    // context either: an expression or `match` keeps its bytes only inside a
+    // struct/interface/type body or fn signature, an object expression
+    // (`name = {`, `json!({`) or a labelled call argument.
+    let expression_context = declaration
+        || colon
+            && (type_context(view, key)
+                || code_object_context(view, key)
+                || call_argument_context(view, key));
+    if (declaration
+        || expression_context
+            && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
         && code_expression(rest)
     {
         return true;
     }
-    if colon && rest.starts_with("match ") && rest.ends_with('}') && rest.contains("=>") {
+    if colon
+        && expression_context
+        && rest.starts_with("match ")
+        && rest.ends_with('}')
+        && rest.contains("=>")
+    {
         return rest
             .bytes()
             .all(|b| b.is_ascii_alphanumeric() || b"_ \t{}(),=>:&|".contains(&b));
@@ -786,8 +823,14 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             && rest
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b"_.:<>()[], &'".contains(&b));
+        // In a signature or type body a Rust borrow (`&Token`, `&mut Token`)
+        // is a type; the `&` is not a value byte to keep elsewhere.
+        let borrowed = rest
+            .strip_prefix('&')
+            .map(|r| r.strip_prefix("mut ").unwrap_or(r));
         let simple = ["string", "boolean", "number", "bool", "&str"].contains(&rest)
-            || type_context(view, key) && code_expression(rest);
+            || type_context(view, key)
+                && (code_expression(rest) || borrowed.is_some_and(code_expression));
         return generic || simple;
     }
     false
@@ -1519,6 +1562,10 @@ fn assignments(
                         && complete_end.is_some_and(|end| b.get(end) == Some(&b';'))
                     || bounded_prefix(view, start).split_whitespace().last() == Some("type")
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
+                    // After a colon a leading `&` is the value's first byte,
+                    // not the query separator `value_end` stops at: an empty
+                    // `raw` must not keep `admin password: &abcq`.
+                    || b[value] == b'&' && b.get(sep) == Some(&b':')
                     || raw.contains(['(', '.', '/'])
                     || raw
                         .as_bytes()
@@ -3016,12 +3063,17 @@ fn unquoted_prose_value(
     for (i, word) in words.enumerate() {
         let at = cursor + text[cursor..].find(word).expect("word in line");
         cursor = at + word.len();
+        // An arrow's `>` (`=>`, `->`) closes nothing: `pw: match a { b => c,
+        // d => e }` is one value.
+        let mut previous = None;
         for ch in word.chars() {
             match ch {
                 '<' | '(' | '[' | '{' => open += 1,
+                '>' if matches!(previous, Some('=' | '-')) => {}
                 '>' | ')' | ']' | '}' => open = open.saturating_sub(1),
                 _ => {}
             }
+            previous = Some(ch);
         }
         let bare = word.trim_end_matches(['.', ',', ';', ':', '!', '?']);
         let lower = bare.to_ascii_lowercase();
