@@ -5405,8 +5405,9 @@ mod context_window_tests {
         let mut cases = 0usize;
         for opener in openers {
             for round in 0..24 {
-                // Pad so the opener sits near the window edge: the key ends
-                // up 505..=520 bytes after the start of the text.
+                // Pad so the opener sits near the window edge: padding stops
+                // once the text and the opener reach the target
+                // 505 + round % 16 - round % 3 bytes (within 503..=520).
                 let mut text = String::new();
                 let pad = ["x", "é", "日", "😀"][round % 4];
                 while text.len() + opener.len() < 505 + round % 16 - round % 3 {
