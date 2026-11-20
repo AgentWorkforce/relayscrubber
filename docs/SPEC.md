@@ -184,9 +184,20 @@ marker, whatever its shape or first character: `pw: "abc""$defq"`,
 `password="$defq""abc"`, `pw: ${defq}abc`, `x "pw: abc""<defq>"`,
 `x "pw: abc"%DEFQ%` and `pw: "[REDACTED]""abc"` keep nothing. Whitespace still
 separates (`pw: "abc" "$defq"` keeps `"$defq"`). After a bare `:` or `=` only references, a lone `None`/`null`/
-`nil`/`undefined` and type annotations (`password: string`, `pw: Vec<u8>`,
-`password: Option<String>,`) are not values; documentary words are
-(`pw: required` redacts, as `password: required` always has). Code is not
+`nil`/`undefined` and type annotations in source context are not values;
+documentary words are (`pw: required` redacts, as `password: required` always
+has). A type annotation needs independently recognisable source context: a fn
+signature or a struct, interface or type body around the key, or a
+`let`/`const`/`var` declaration naming it (`struct X { pw: Vec<u8> }`,
+`fn f(pw: String)`, `const pw: string`). Without it a type-looking value is
+credential data and fails closed, so `pw: abcq<defq>`, `pw: Vec<u8>`,
+`password: Option<String>,` and `pw: string` redact, and a comma or semicolon
+does not make a value a type. This is an accepted precision tradeoff: without
+source context in the engine's bounded view (at most 512 bytes back in the
+same string), a type-looking value fails closed, so a body field on its own
+line (`    pw: Vec<u8>,`), in its own NDJSON record or more than 512 bytes
+below its opener redacts. A comma or semicolon inside a bracket the value
+opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`). Code is not
 prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
 `\`, or directly by if/elif/while/assert/and/or/not/return/lambda (`if password
 is None`), is skipped. These spans merge with assignment spans and stay within
@@ -286,8 +297,8 @@ with a digit in it is token material. An unquoted identity followed by another
 assignment on the same line is judged with it and redacted (fail closed); quoted and
 structured values keep the identity.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
-resource names, language literals, code expressions and type annotations are
-preserved. Placeholder URL passwords are preserved only on reserved example or
+resource names, language literals, code expressions and type annotations with
+source context are preserved. Placeholder URL passwords are preserved only on reserved example or
 local hosts; ordinary credentials on those hosts remain sensitive.
 
 The crate owns manifest schema 3, JS ABI 2 and `scrubProfile`. Error disposition

@@ -1841,8 +1841,8 @@ fn prose_line_start(starts: &[usize], position: usize) -> usize {
 // Natural-language password disclosures: `my password is x`, `the passcode
 // was '#'`, `pw: !`, `password = velvet river lantern`. There is no minimum
 // value length; documentary predicates (`the password is required`),
-// references (`$PASSWORD`), type annotations (`pw: string`) and code
-// (`if password is None`) are excluded. See docs/SPEC.md.
+// references (`$PASSWORD`), type annotations with source context
+// (`struct X { pw: string }`) and code (`if password is None`) are excluded. See docs/SPEC.md.
 fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
     static R: OnceLock<Regex> = OnceLock::new();
     let r = R.get_or_init(|| {

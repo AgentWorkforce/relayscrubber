@@ -9,8 +9,8 @@ passcode, passphrase, passwd, pwd, pw, `pass code` and `pass phrase` after
 determiner (`my pw = x`). Quoted values keep their
 quotes and an unmatched quote is redacted through its line. Documentary
 sentences (`the password is required`), references (`$PASSWORD`,
-`{{password}}`), masks, placeholders and type annotations (`password: string`)
-are unchanged. `passcode` is now a sensitive assignment name.
+`{{password}}`), masks, placeholders and type annotations in source context (`struct X {
+pw: Vec<u8> }`, `fn f(pw: String)`, `const pw: string`) are unchanged. `passcode` is now a sensitive assignment name.
 
 Security fixes to the alpha.10 candidate, before any release:
 
@@ -18,7 +18,7 @@ Security fixes to the alpha.10 candidate, before any release:
   without a determiner (`pw: Q`, `pass code: 4711`, `pass phrase = x`), and
   redact the whole value, conjunctions and documentary first words included
   (`password = velvet river lantern` no longer keeps `river lantern`). Type
-  annotations (`password: string`, `pw: Vec<u8>`), references, a lone `None`
+  annotations in source context, references, a lone `None`
   and the operators `==`, `=>`, `::`, `!=` are unchanged. The value ends at
   an enclosing quote, at the close matching by type the innermost bracket
   left open before the noun in the noun's own string layer, or before the
@@ -27,6 +27,18 @@ Security fixes to the alpha.10 candidate, before any release:
   `&` is part of the value, so `pw: x]yq zq`, `(note pw: x]yq zq`,
   `{"note":"pw: x}yq zq"}`, `pw: abc&def=ghi`, `R&D pw: abc&def=ghi` and
   `note; my pw: abc;host=y` no longer keep any of the value.
+- Type-looking values: after a bare colon a type annotation is kept only
+  with source context, a fn signature, a struct, interface or type body
+  around the key, or a `let`/`const`/`var` declaration naming it (`struct X
+  { pw: Vec<u8> }`, `fn f(pw: String)`, `const pw: string`). Without it a
+  type-looking value is credential data, so `pw: abcq<defq>`, `passcode:
+  hunter2<secret>`, `pw: Vec<u8>`, `password: Option<String>,` and `pw:
+  string` now redact, as they already did after `=` and `is`. This is an
+  accepted precision tradeoff: the engine looks back at most 512 bytes in
+  the same string, so a field line alone (`    pw: Vec<u8>,`), in its own
+  NDJSON record, or more than 512 bytes below its `struct X {` opener
+  redacts. A comma or semicolon inside brackets the value opened no longer
+  ends it, so `pw: Map<String, u8>,` keeps no `u8>`.
 - Escaped quotes: a `"`, `'` or `` ` `` preceded by an odd number of
   backslashes at the opener's escape level no longer ends a quoted value
   (`"abc\"def"`), including inside JSON-escaped strings; the 1024-byte bound
