@@ -1,0 +1,576 @@
+[
+  {
+    "id": "alpha11-f3-password",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the password for the box is Tr0ub4dor-Example-91",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-password",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the password for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the password for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-password",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the password for the box is ab",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-passcode",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passcode for the box is Tr0ub4dor-Example-91",
+    "expected": "the passcode for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-passcode",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passcode for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the passcode for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-passcode",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passcode for the box is ab",
+    "expected": "the passcode for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-passphrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passphrase for the box is Tr0ub4dor-Example-91",
+    "expected": "the passphrase for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-passphrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passphrase for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the passphrase for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-passphrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passphrase for the box is ab",
+    "expected": "the passphrase for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-passwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passwd for the box is Tr0ub4dor-Example-91",
+    "expected": "the passwd for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-passwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passwd for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the passwd for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-passwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the passwd for the box is ab",
+    "expected": "the passwd for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-pwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pwd for the box is Tr0ub4dor-Example-91",
+    "expected": "the pwd for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-pwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pwd for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the pwd for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-pwd",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pwd for the box is ab",
+    "expected": "the pwd for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-pw",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pw for the box is Tr0ub4dor-Example-91",
+    "expected": "the pw for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-pw",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pw for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the pw for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-pw",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pw for the box is ab",
+    "expected": "the pw for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-pass-code",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass code for the box is Tr0ub4dor-Example-91",
+    "expected": "the pass code for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-pass-code",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass code for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the pass code for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-pass-code",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass code for the box is ab",
+    "expected": "the pass code for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3-pass-phrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass phrase for the box is Tr0ub4dor-Example-91",
+    "expected": "the pass phrase for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-f3q-pass-phrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass phrase for the box is 'Tr0ub4dor-Example-91'",
+    "expected": "the pass phrase for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-f3s-pass-phrase",
+    "family": "f3",
+    "kind": "positive",
+    "input": "the pass phrase for the box is ab",
+    "expected": "the pass phrase for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-host",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for db1.example.com is Q1x",
+    "expected": "the password for db1.example.com is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-used-by",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "The passcode used by the CI runner was Q1x",
+    "expected": "The passcode used by the CI runner was [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-assigned-to",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the passphrase assigned to svc-account_2 is set to Q1x",
+    "expected": "the passphrase assigned to svc-account_2 is set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-belonging-to",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password belonging to Bob's account is now Q1x",
+    "expected": "the password belonging to Bob's account is now [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-root-colon",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "Password for root: Q1x",
+    "expected": "Password for root: [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-path-equals",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "password for /srv/app/config.yml = Q1x",
+    "expected": "password for /srv/app/config.yml = [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-ip",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the pw on 10.0.0.12 was set to Q1x",
+    "expected": "the pw on 10.0.0.12 was set to [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-url",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the pwd at https://db.example.com:5432/x is Q1x",
+    "expected": "the pwd at https://db.example.com:5432/x is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-backtick",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password of the `deploy` user is Q1x",
+    "expected": "the password of the `deploy` user is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-double-quote",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password to the \"prod\" box is Q1x",
+    "expected": "the password to the \"prod\" box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-with",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password with user=admin is Q1x",
+    "expected": "the password with user=admin is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-bracket",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password in [eu-west-1] is Q1x",
+    "expected": "the password in [eu-west-1] is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-paren",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for (prod) is Q1x",
+    "expected": "the password for (prod) is [REDACTED]"
+  },
+  {
+    "id": "alpha11-descriptor-single-quote",
+    "family": "descriptor",
+    "kind": "positive",
+    "input": "the password for 'staging db' is Q1x",
+    "expected": "the password for 'staging db' is [REDACTED]"
+  },
+  {
+    "id": "alpha11-cue-is-colon",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password for v1.2.3 is: Q1x",
+    "expected": "the password for v1.2.3 is: [REDACTED]"
+  },
+  {
+    "id": "alpha11-cue-was-colon",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password for the box was: Q1x",
+    "expected": "the password for the box was: [REDACTED]"
+  },
+  {
+    "id": "alpha11-cue-spaced-colon",
+    "family": "cue",
+    "kind": "positive",
+    "input": "the password for the box : Q1x",
+    "expected": "the password for the box : [REDACTED]"
+  },
+  {
+    "id": "alpha11-cue-my",
+    "family": "cue",
+    "kind": "positive",
+    "input": "my password for the box is Q1x",
+    "expected": "my password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-cue-your-was-colon",
+    "family": "cue",
+    "kind": "positive",
+    "input": "Your passcode for the VPN was: Q1x",
+    "expected": "Your passcode for the VPN was: [REDACTED]"
+  },
+  {
+    "id": "alpha11-value-upper",
+    "family": "value",
+    "kind": "positive",
+    "input": "THE PASSWORD FOR THE BOX IS Q1X",
+    "expected": "THE PASSWORD FOR THE BOX IS [REDACTED]"
+  },
+  {
+    "id": "alpha11-value-symbol",
+    "family": "value",
+    "kind": "positive",
+    "input": "the password for the box is #",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-value-multiword",
+    "family": "value",
+    "kind": "positive",
+    "input": "the password for the box is velvet river lantern",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-value-one-char",
+    "family": "value",
+    "kind": "positive",
+    "input": "the password for the box is Q",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-value-double-quoted",
+    "family": "value",
+    "kind": "positive",
+    "input": "the password for the box is \"orchid lamp\"",
+    "expected": "the password for the box is \"[REDACTED]\""
+  },
+  {
+    "id": "alpha11-layout-break-after-cue",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box is\nQ1x",
+    "expected": "the password for the box is\n[REDACTED]"
+  },
+  {
+    "id": "alpha11-layout-break-in-descriptor",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the\nbox is Q1x",
+    "expected": "the password for the\nbox is [REDACTED]"
+  },
+  {
+    "id": "alpha11-layout-crlf",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box\r\nis Q1x",
+    "expected": "the password for the box\r\nis [REDACTED]"
+  },
+  {
+    "id": "alpha11-layout-two-per-line",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box is Q1x and the passcode for the vm is Z9y",
+    "expected": "the password for the box is [REDACTED] and the passcode for the vm is [REDACTED]"
+  },
+  {
+    "id": "alpha11-layout-semicolon-tail",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box is Q1x; user is bob",
+    "expected": "the password for the box is [REDACTED]; user is bob"
+  },
+  {
+    "id": "alpha11-layout-sentence-tail",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box is Q1x. Then restart.",
+    "expected": "the password for the box is [REDACTED]. Then restart."
+  },
+  {
+    "id": "alpha11-layout-f4-tail",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the password for the box is Q1x for the staging box.",
+    "expected": "the password for the box is [REDACTED]."
+  },
+  {
+    "id": "alpha11-layout-json",
+    "family": "layout",
+    "kind": "positive",
+    "input": "{\"note\":\"the password for the box is Q1x\"}",
+    "expected": "{\"note\":\"the password for the box is [REDACTED]\"}"
+  },
+  {
+    "id": "alpha11-layout-html-space",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the&#32;password&#32;for&#32;the&#32;box&#32;is&#32;Q1x",
+    "expected": "the&#32;password&#32;for&#32;the&#32;box&#32;is&#32;[REDACTED]"
+  },
+  {
+    "id": "alpha11-layout-url-space",
+    "family": "layout",
+    "kind": "positive",
+    "input": "the%20password%20for%20the%20box%20is%20Q1x",
+    "expected": "the%20password%20for%20the%20box%20is%20[REDACTED]"
+  },
+  {
+    "id": "alpha11-attack-required123",
+    "family": "attack",
+    "kind": "positive",
+    "input": "the password for the box is required123",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-attack-quoted-required",
+    "family": "attack",
+    "kind": "positive",
+    "input": "the password for the box is 'required'",
+    "expected": "the password for the box is '[REDACTED]'"
+  },
+  {
+    "id": "alpha11-attack-encoded-required",
+    "family": "attack",
+    "kind": "positive",
+    "input": "the password for the box is req&#117;ired",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-attack-hashed123",
+    "family": "attack",
+    "kind": "positive",
+    "input": "the password for the box is hashed123",
+    "expected": "the password for the box is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-limit-minus-1",
+    "family": "bound",
+    "kind": "positive",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-limit",
+    "family": "bound",
+    "kind": "positive",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-limit-plus-1",
+    "family": "bound",
+    "kind": "positive",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-stop-soft-at-limit",
+    "family": "bound-stop",
+    "kind": "benign",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 and is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 and is Q1x"
+  },
+  {
+    "id": "alpha11-bound-soft-past-limit",
+    "family": "bound",
+    "kind": "positive",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 and is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 and is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-comma-past-limit",
+    "family": "bound",
+    "kind": "positive",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17, b is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17, b is [REDACTED]"
+  },
+  {
+    "id": "alpha11-bound-stop-sentence-past-limit",
+    "family": "bound-stop",
+    "kind": "benign",
+    "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17. b is Q1x",
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17. b is Q1x"
+  },
+  {
+    "id": "alpha11-documentary-required",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for the box is required",
+    "expected": "the password for the box is required"
+  },
+  {
+    "id": "alpha11-documentary-hashed",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for the box is hashed",
+    "expected": "the password for the box is hashed"
+  },
+  {
+    "id": "alpha11-documentary-vault",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for the box is stored in the vault",
+    "expected": "the password for the box is stored in the vault"
+  },
+  {
+    "id": "alpha11-documentary-required-bang",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password for the box is REQUIRED!",
+    "expected": "the password for the box is REQUIRED!"
+  },
+  {
+    "id": "alpha11-benign-policy",
+    "family": "benign",
+    "kind": "benign",
+    "input": "password policy for the box is strict",
+    "expected": "password policy for the box is strict"
+  },
+  {
+    "id": "alpha11-benign-reset",
+    "family": "benign",
+    "kind": "benign",
+    "input": "reset your password for the box",
+    "expected": "reset your password for the box"
+  },
+  {
+    "id": "alpha11-benign-field",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password field for the box is empty",
+    "expected": "the password field for the box is empty"
+  },
+  {
+    "id": "alpha11-benign-conjunction",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password for the box expired and the user is bob",
+    "expected": "the password for the box expired and the user is bob"
+  },
+  {
+    "id": "alpha11-benign-sentence",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password for the box. It is Q1x",
+    "expected": "the password for the box. It is Q1x"
+  },
+  {
+    "id": "alpha11-benign-blank-line",
+    "family": "benign",
+    "kind": "benign",
+    "input": "the password for the box\n\nis Q1x",
+    "expected": "the password for the box\n\nis Q1x"
+  },
+  {
+    "id": "alpha11-code-for-in",
+    "family": "code",
+    "kind": "benign",
+    "input": "for pw in pws: print(pw)",
+    "expected": "for pw in pws: print(pw)"
+  },
+  {
+    "id": "alpha11-code-if-in",
+    "family": "code",
+    "kind": "benign",
+    "input": "if password in data: return x",
+    "expected": "if password in data: return x"
+  },
+  {
+    "id": "alpha11-code-comprehension",
+    "family": "code",
+    "kind": "benign",
+    "input": "[pw for pw in pws if pw is None]",
+    "expected": "[pw for pw in pws if pw is None]"
+  }
+]
