@@ -214,6 +214,194 @@ fn html_decoded(b: &[u8], start: usize, percent_layer: bool) -> (u8, usize, u8) 
     }
 }
 
+// Every whitespace code point (`char::is_whitespace`, a superset of the WHATWG
+// ASCII whitespace set) has these encoded spellings in prose: decimal and hex
+// numeric references with or without leading zeros or `;`, the WHATWG named
+// whitespace references, percent-encoded UTF-8, `%uXXXX`, `\uXXXX`, `\u{X}`,
+// `\UXXXXXXXX` and `\xXX`. View already decodes the ASCII percent and
+// backslash spellings; this layer adds the rest for prose recognition only.
+const NAMED_SPACES: &[(&str, &str)] = &[
+    ("Tab;", "\t"),
+    ("NewLine;", "\n"),
+    ("nbsp;", "\u{a0}"),
+    ("nbsp", "\u{a0}"),
+    ("NonBreakingSpace;", "\u{a0}"),
+    ("ensp;", "\u{2002}"),
+    ("emsp;", "\u{2003}"),
+    ("emsp13;", "\u{2004}"),
+    ("emsp14;", "\u{2005}"),
+    ("numsp;", "\u{2007}"),
+    ("puncsp;", "\u{2008}"),
+    ("thinsp;", "\u{2009}"),
+    ("ThinSpace;", "\u{2009}"),
+    ("hairsp;", "\u{200a}"),
+    ("VeryThinSpace;", "\u{200a}"),
+    ("MediumSpace;", "\u{205f}"),
+    ("ThickSpace;", "\u{205f}\u{200a}"),
+];
+
+fn hex_value(digits: &[u8]) -> Option<u32> {
+    let mut value = 0u32;
+    for &d in digits {
+        value = value.checked_mul(16)? + u32::from(hex(d)?);
+    }
+    Some(value)
+}
+
+fn space_char(value: u32) -> Option<char> {
+    char::from_u32(value).filter(|c| c.is_whitespace())
+}
+
+fn encoded_space(b: &[u8], start: usize) -> Option<(Cow<'static, str>, usize)> {
+    let one = |c: char, end: usize| Some((Cow::Owned(c.to_string()), end));
+    match b[start] {
+        b'&' if b.get(start + 1) == Some(&b'#') => {
+            let mut p = start + 2;
+            let hexadecimal = b.get(p).is_some_and(|c| c.eq_ignore_ascii_case(&b'x'));
+            p += usize::from(hexadecimal);
+            let first = p;
+            let mut value = 0u32;
+            while let Some(digit) = b
+                .get(p)
+                .and_then(|c| char::from(*c).to_digit(if hexadecimal { 16 } else { 10 }))
+            {
+                value = value
+                    .saturating_mul(if hexadecimal { 16 } else { 10 })
+                    .saturating_add(digit);
+                p += 1;
+            }
+            if p == first {
+                return None;
+            }
+            one(space_char(value)?, p + usize::from(b.get(p) == Some(&b';')))
+        }
+        b'&' => NAMED_SPACES.iter().find_map(|(name, decoded)| {
+            b.get(start + 1..start + 1 + name.len())
+                .is_some_and(|s| s == name.as_bytes())
+                .then(|| (Cow::Borrowed(*decoded), start + 1 + name.len()))
+        }),
+        b'%' if b
+            .get(start + 1)
+            .is_some_and(|c| c.eq_ignore_ascii_case(&b'u')) =>
+        {
+            one(
+                space_char(hex_value(b.get(start + 2..start + 6)?)?)?,
+                start + 6,
+            )
+        }
+        b'%' => {
+            // Percent-encoded UTF-8 of one non-ASCII code point.
+            let lead = pair(b, start + 1)?;
+            let len = match lead {
+                0xc2..=0xdf => 2,
+                0xe0..=0xef => 3,
+                0xf0..=0xf4 => 4,
+                _ => return None,
+            };
+            let mut bytes = Vec::with_capacity(len);
+            for n in 0..len {
+                let at = start + 3 * n;
+                if b.get(at) != Some(&b'%') {
+                    return None;
+                }
+                bytes.push(pair(b, at + 1)?);
+            }
+            let s = std::str::from_utf8(&bytes).ok()?;
+            one(space_char(u32::from(s.chars().next()?))?, start + 3 * len)
+        }
+        b'\\' => {
+            let mut p = start;
+            while b.get(p) == Some(&b'\\') {
+                p += 1;
+            }
+            match *b.get(p)? {
+                b'u' if b.get(p + 1) == Some(&b'{') => {
+                    let close = p + 2 + b.get(p + 2..)?.iter().take(7).position(|&c| c == b'}')?;
+                    one(
+                        space_char(hex_value(&b[p + 2..close]).filter(|_| close > p + 2)?)?,
+                        close + 1,
+                    )
+                }
+                b'u' => one(space_char(hex_value(b.get(p + 1..p + 5)?)?)?, p + 5),
+                b'U' => one(space_char(hex_value(b.get(p + 1..p + 9)?)?)?, p + 9),
+                b'x' | b'X' => one(space_char(hex_value(b.get(p + 1..p + 3)?)?)?, p + 3),
+                _ => None,
+            }
+        }
+        _ => None,
+    }
+}
+
+/// Prose-only layer over a View's text that decodes encoded whitespace, with
+/// offsets back to the View. Quotes and other bytes are never decoded here.
+pub(crate) struct Spaced<'a> {
+    pub text: Cow<'a, str>,
+    // (position, decoded length, view start, view end)
+    changes: Vec<(usize, usize, usize, usize)>,
+}
+
+impl<'a> Spaced<'a> {
+    pub fn new(text: &'a str) -> Self {
+        let b = text.as_bytes();
+        let mut out = String::new();
+        let mut changes = Vec::new();
+        let mut copied = 0;
+        let mut i = 0;
+        while i < b.len() {
+            if !matches!(b[i], b'&' | b'%' | b'\\') {
+                i += 1;
+                continue;
+            }
+            match encoded_space(b, i) {
+                Some((decoded, end)) => {
+                    out.push_str(&text[copied..i]);
+                    changes.push((out.len(), decoded.len(), i, end));
+                    out.push_str(&decoded);
+                    copied = end;
+                    i = end;
+                }
+                // A backslash run is decided once, from its first backslash.
+                None if b[i] == b'\\' => {
+                    while b.get(i) == Some(&b'\\') {
+                        i += 1;
+                    }
+                }
+                None => i += 1,
+            }
+        }
+        if changes.is_empty() {
+            return Self {
+                text: Cow::Borrowed(text),
+                changes,
+            };
+        }
+        out.push_str(&text[copied..]);
+        Self {
+            text: Cow::Owned(out),
+            changes,
+        }
+    }
+
+    // The View position where the byte at `position` starts.
+    pub fn start(&self, position: usize) -> usize {
+        let n = self.changes.partition_point(|c| c.0 <= position);
+        match n.checked_sub(1).map(|n| self.changes[n]) {
+            None => position,
+            Some((at, len, start, _)) if position < at + len => start,
+            Some((at, len, _, end)) => end + position - at - len,
+        }
+    }
+
+    // The View position just after the byte at `position`.
+    pub fn end(&self, position: usize) -> usize {
+        let n = self.changes.partition_point(|c| c.0 <= position);
+        match n.checked_sub(1).map(|n| self.changes[n]) {
+            Some((at, len, _, end)) if position < at + len => end,
+            _ => self.start(position) + 1,
+        }
+    }
+}
+
 impl View {
     pub fn line_start(&self, position: usize) -> usize {
         let n = self.line_ends.partition_point(|&end| end < position);

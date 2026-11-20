@@ -102,6 +102,9 @@ for expression in ["String", "Option<String>", "Vec<Widget>", "WidgetCredentials
         for wrapper in ["{}", "struct Widget {{ {} }}", "interface Widget {{ {} }}"]:
             if wrapper == "{}" and expression in ["String", "WidgetCredentials"]:
                 hide("review_ambiguous_type_scalar", wrapper.format(f"{key}: {expression},"), expression)
+            elif wrapper == "{}":
+                # A bare brace is not source context: a type-looking value fails closed.
+                hide("context_free_type", wrapper.format(f"{key}: {expression},"), expression)
             else:
                 keep("type", wrapper.format(f"{key}: {expression},"))
             hide("type_tail", wrapper.format(f"{key}: {expression} {secret},"))

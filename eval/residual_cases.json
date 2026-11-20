@@ -1,7 +1,7 @@
 {
   "benign": [
     "curl -H \"Authorization: Bearer $DEMO_AUTH\" https://service.example.invalid/path",
-    "password: match option { Some(v) => v, None => return };",
+    "const opts = {password: match option { Some(v) => v, None => return }};",
     "mcp_auth::Signed<Mode>>",
     "rg 'auth:\\s+' notes.txt",
     "Synthetic fixture: api_key=\"toyvalue\"",
@@ -91,6 +91,7 @@
     {
       "shape": "explicit_assignment_16",
       "input": "auth: see the section below"
-    }
+    },
+    {"shape": "context-free code expression after a bare colon", "input": "password: match option { Some(v) => v, None => return };", "expected": "password: [REDACTED]"}
   ]
 }

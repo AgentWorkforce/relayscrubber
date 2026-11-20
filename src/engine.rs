@@ -1,6 +1,9 @@
 //! Fixed automata and a monotone contextual scanner; no backtracking regex.
 
-use crate::{normalize::View, Policy, REDACTION_TOKEN};
+use crate::{
+    normalize::{Spaced, View},
+    Policy, REDACTION_TOKEN,
+};
 use aho_corasick::AhoCorasick;
 use base64::Engine;
 use regex::Regex;
@@ -158,6 +161,7 @@ pub(crate) fn sensitive(name: &str) -> bool {
         "pwd",
         "pin",
         "passphrase",
+        "passcode",
         "secret",
         "clientsecret",
         "apikey",
@@ -282,7 +286,12 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
         return start;
     }
     if matches!(b[start], b'"' | b'\'' | b'`') {
-        return view.quote_end(start).min(context_end.unwrap_or(b.len()));
+        // An unterminated quote fails closed, but never past the close of
+        // the layer that encloses it (a JSON string's own close).
+        return view
+            .quote_end(start)
+            .min(view.enclosing_end(start))
+            .min(context_end.unwrap_or(b.len()));
     }
     if matches!(b[start], b'{' | b'[') && !view.text[start..].starts_with(REDACTION_TOKEN) {
         return view
@@ -398,30 +407,52 @@ pub(crate) fn uuid(value: &str) -> bool {
             }
         })
 }
-fn type_context(view: &View, key: usize) -> bool {
-    // Fixed lookbehind budget: repeated fields cannot rescan a growing prefix.
+// Fixed lookbehind budget shared by the source contexts: repeated fields
+// cannot rescan a growing prefix.
+fn context_window(view: &View, key: usize) -> &str {
     let mut start = key.saturating_sub(512);
     while !view.text.is_char_boundary(start) {
         start += 1;
     }
-    let prefix = &view.text[start..key];
+    &view.text[start..key]
+}
+// `text.contains(word)`, found by a search for the word's first character,
+// which runs on the optimised byte search even in an unoptimised build.
+fn holds(text: &str, word: &str) -> bool {
+    let Some(first) = word.chars().next() else {
+        return true;
+    };
+    let mut from = 0;
+    while let Some(i) = text[from..].find(first) {
+        if text[from + i..].starts_with(word) {
+            return true;
+        }
+        from += i + first.len_utf8();
+    }
+    false
+}
+fn type_context(view: &View, key: usize) -> bool {
+    let prefix = context_window(view, key);
+    // Every form ends inside an open `(` (fn signature) or `{` (body); a
+    // window with neither is rejected by two byte searches.
+    let bytes = prefix.as_bytes();
+    if !bytes.contains(&b'(') && !bytes.contains(&b'{') {
+        return false;
+    }
     if !["fn", "struct", "interface", "type"]
         .iter()
-        .any(|word| prefix.contains(word))
+        .any(|word| holds(prefix, word))
     {
         return false;
     }
     static TYPE: OnceLock<Regex> = OnceLock::new();
     TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").expect("fixed type-context regex"))
-        .is_match(&view.text[start..key])
+        .is_match(prefix)
 }
 fn code_object_context(view: &View, key: usize) -> bool {
-    let mut start = key.saturating_sub(512);
-    while !view.text.is_char_boundary(start) {
-        start += 1;
-    }
-    let prefix = &view.text[start..key];
-    if !prefix.contains('=') && !prefix.contains("json!") {
+    let prefix = context_window(view, key);
+    // Both forms end inside an open `{`.
+    if !prefix.as_bytes().contains(&b'{') || !prefix.contains('=') && !holds(prefix, "json!") {
         return false;
     }
     static R: OnceLock<Regex> = OnceLock::new();
@@ -429,7 +460,24 @@ fn code_object_context(view: &View, key: usize) -> bool {
         Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$")
             .expect("fixed object expression context")
     })
-    .is_match(&view.text[start..key])
+    .is_match(prefix)
+}
+
+// The key is a labelled argument directly inside an unclosed call whose `(`
+// is glued to a callee identifier: `Record(contextKey: .workspaceID)`. A
+// parenthesis with no callee (`(password: x)`) is prose, not source context.
+// Same fixed lookbehind budget as the other contexts.
+fn call_argument_context(view: &View, key: usize) -> bool {
+    let prefix = context_window(view, key);
+    if !prefix.contains('(') {
+        return false;
+    }
+    static R: OnceLock<Regex> = OnceLock::new();
+    R.get_or_init(|| {
+        Regex::new(r"[A-Za-z_][A-Za-z0-9_]*\((?:[^(){};]*,)?[ \t\r\n]*$")
+            .expect("fixed call-argument context")
+    })
+    .is_match(prefix)
 }
 
 // A reference must reach its delimiter within this budget. Whitespace and
@@ -683,6 +731,24 @@ fn code_expression(value: &str) -> bool {
         .is_match(value)
 }
 
+// Whether the last whitespace-separated word of `prefix` is one of `words`
+// (none holds whitespace): the same answer as
+// `split_whitespace().last()`, from the end of the text instead of a scan
+// back across a long word.
+fn last_word_is(prefix: &str, words: &[&str]) -> bool {
+    let text = prefix.trim_end();
+    words.iter().any(|word| {
+        text.strip_suffix(word)
+            .is_some_and(|head| head.is_empty() || head.ends_with(char::is_whitespace))
+    })
+}
+
+// `let`/`const`/`var` directly before the key on its own line.
+fn keyword_declaration(view: &View, key: usize) -> bool {
+    last_word_is(bounded_prefix(view, key), &["let", "const", "var"])
+        && bounded_prefix(view, key).ends_with(char::is_whitespace)
+}
+
 fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: bool) -> bool {
     // An isolated opener has no credential bytes. Never exempt a prefix of an
     // unfinished multi-line object: its entire remaining value must be empty.
@@ -722,30 +788,53 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
         return true;
     }
     if !colon
-        && bounded_prefix(view, key).split_whitespace().last() != Some("type")
+        && !last_word_is(bounded_prefix(view, key), &["type"])
         && declaration
         && crate::syntax::expression(rest)
     {
         return true;
     }
-    if bounded_prefix(view, key).split_whitespace().last() == Some("type") {
+    if last_word_is(bounded_prefix(view, key), &["type"]) {
         static TUPLE: OnceLock<Regex> = OnceLock::new();
         if TUPLE.get_or_init(|| Regex::new(r"^\((?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size))(?:[ \t]*,[ \t]*(?:String|bool|u(?:8|16|32|64|128|size)|i(?:8|16|32|64|128|size)))+[ \t]*,?\)$").expect("complete primitive tuple type")).is_match(rest) {
             return true;
         }
     }
-    if (declaration || colon && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
+    // After a bare colon, a source-shaped RHS does not establish source
+    // context either: an expression or `match` keeps its bytes only inside a
+    // struct/interface/type body or fn signature, an object expression
+    // (`name = {`, `json!({`) or a labelled call argument.
+    // The type context depends only on the key; look it up once.
+    let typed = std::cell::OnceCell::new();
+    let in_type_context = || *typed.get_or_init(|| type_context(view, key));
+    let expression_context = declaration
+        || colon
+            && (in_type_context()
+                || code_object_context(view, key)
+                || call_argument_context(view, key));
+    if (declaration
+        || expression_context
+            && (rest.contains('.') || rest.contains('(') || rest.starts_with('.')))
         && code_expression(rest)
     {
         return true;
     }
-    if colon && rest.starts_with("match ") && rest.ends_with('}') && rest.contains("=>") {
+    if colon
+        && expression_context
+        && rest.starts_with("match ")
+        && rest.ends_with('}')
+        && rest.contains("=>")
+    {
         return rest
             .bytes()
             .all(|b| b.is_ascii_alphanumeric() || b"_ \t{}(),=>:&|".contains(&b));
     }
-    // Types must also be complete; a balanced generic cannot hide a tail.
-    if colon {
+    // A type-looking value after a bare colon is credential data unless
+    // independently recognised source context surrounds the key: a fn
+    // signature or struct/interface/type body (`type_context`), or a
+    // `let`/`const`/`var` declaration. Types must also be complete; a balanced
+    // generic cannot hide a tail.
+    if colon && (in_type_context() || keyword_declaration(view, key)) {
         let mut depth = 0usize;
         let mut type_end = None;
         for (i, b) in rest.bytes().enumerate() {
@@ -765,8 +854,14 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
             && rest
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b"_.:<>()[], &'".contains(&b));
+        // In a signature or type body a Rust borrow (`&Token`, `&mut Token`)
+        // is a type; the `&` is not a value byte to keep elsewhere.
+        let borrowed = rest
+            .strip_prefix('&')
+            .map(|r| r.strip_prefix("mut ").unwrap_or(r));
         let simple = ["string", "boolean", "number", "bool", "&str"].contains(&rest)
-            || type_context(view, key) && code_expression(rest);
+            || in_type_context()
+                && (code_expression(rest) || borrowed.is_some_and(code_expression));
         return generic || simple;
     }
     false
@@ -991,6 +1086,7 @@ fn assignments(
     inherited: bool,
     spans: &mut Vec<Range<usize>>,
     url_values: &[Range<usize>],
+    wrapped: &mut Vec<Range<usize>>,
 ) {
     let b = view.text.as_bytes();
     let mut i = 0;
@@ -1353,7 +1449,7 @@ fn assignments(
             && start >= public_until
             && (!flag && b.get(sep) == Some(&b'=')
                 || declaration
-                || bounded_prefix(view, start).split_whitespace().last() == Some("type")
+                || last_word_is(bounded_prefix(view, start), &["type"])
                 || b.get(sep) == Some(&b':')
                 || before > 0 && matches!(b[before - 1], b'{' | b',' | b'(')
                 || b.get(sep) == Some(&b':') && (quoted_key || type_context(view, start)))
@@ -1427,7 +1523,21 @@ fn assignments(
             let end = end - usize::from(quoted);
             &view.text[start..end]
         });
+        // A quoted reference with text glued after its close
+        // (`password="$defq""abc"`) is no whole reference: a prose
+        // disclosure of the whole value still has the range.
+        let glued_reference = quoted
+            && complete_end.is_some_and(|end| {
+                end > content
+                    && view.text[end..].chars().next().is_some_and(|c| {
+                        !c.is_whitespace() && !matches!(c, ',' | ';' | ')' | ']' | '}')
+                    })
+            });
         if full.is_some_and(expansion_reference) {
+            if glued_reference {
+                wrapped
+                    .push(content..complete_end.map_or(content + 1, |e| (e - 1).max(content + 1)));
+            }
             continue;
         }
         if !quoted && full.is_some_and(environment_command) {
@@ -1444,8 +1554,15 @@ fn assignments(
             regex_value(view, start, whole)
                 || labeled_toy(view, start, whole)
                 || excerpt_value(view, start, whole)
-        }) || non_assignment_wrapper(view, start)
-            && bounded_prefix(view, start).split_whitespace().last() != Some("type")
+        }) {
+            if glued_reference {
+                wrapped
+                    .push(content..complete_end.map_or(content + 1, |e| (e - 1).max(content + 1)));
+            }
+            continue;
+        }
+        let sentence = non_assignment_wrapper(view, start)
+            && !last_word_is(bounded_prefix(view, start), &["type"])
             && full.is_some_and(|s| {
                 b.get(sep) != Some(&b'=')
                     && (!opaque_material(s) || s.starts_with("Bearer "))
@@ -1459,11 +1576,8 @@ fn assignments(
                     || bearer_regex()
                         .find(s)
                         .is_some_and(|m| m.start() == 0 && m.end() == s.len())
-            })
-        {
-            continue;
-        }
-        if name == "Key" && !credential && cloud_tag_key(view, start, value) {
+            });
+        if !sentence && name == "Key" && !credential && cloud_tag_key(view, start, value) {
             continue;
         }
         // Failed structural candidates redact through their complete delimiter,
@@ -1477,8 +1591,12 @@ fn assignments(
                         && b.get(sep) == Some(&b'=')
                         && view.text[start..value].contains(" = ")
                         && complete_end.is_some_and(|end| b.get(end) == Some(&b';'))
-                    || bounded_prefix(view, start).split_whitespace().last() == Some("type")
+                    || last_word_is(bounded_prefix(view, start), &["type"])
                     || matches!(b[value], b'$' | b'{' | b'[' | b'<' | b'*')
+                    // After a colon a leading `&` is the value's first byte,
+                    // not the query separator `value_end` stops at: an empty
+                    // `raw` must not keep `admin password: &abcq`.
+                    || b[value] == b'&' && b.get(sep) == Some(&b':')
                     || raw.contains(['(', '.', '/'])
                     || raw
                         .as_bytes()
@@ -1521,8 +1639,28 @@ fn assignments(
                 .min(context.unwrap_or(b.len()))
                 .min(view.enclosing_end(value).min(b.len()));
         }
+        if sentence {
+            // Words before the key make this a sentence, not an assignment.
+            // A prose disclosure of the same value still needs the range the
+            // bare key would have redacted. A comment stays a comment, and a
+            // Bearer literal stays delegated to the Bearer scanner.
+            if !comment_wrapper(view, start)
+                && !full.is_some_and(|s| {
+                    s.split_once([' ', '\t'])
+                        .is_some_and(|(scheme, _)| scheme.eq_ignore_ascii_case("bearer"))
+                })
+            {
+                wrapped.push(content..end.max(content + 1).min(b.len()));
+            }
+            continue;
+        }
         if end > content {
             if reference(&view.text[content..end]) || shell_reference(&view.text[content..end]) {
+                // Only the first word is a reference; a prose disclosure
+                // that takes the whole multi-word value still has one.
+                if full.is_some_and(|whole| whole.trim_end().len() > end - content) {
+                    wrapped.push(content..end);
+                }
                 i = end;
                 continue;
             }
@@ -1604,10 +1742,10 @@ fn case_label(view: &View, key: usize) -> bool {
 // Only syntax before a key can establish a non-assignment wrapper. Never
 // inspect the English credential value to decide whether it is documentary.
 fn non_assignment_wrapper(view: &View, position: usize) -> bool {
-    let prefix = bounded_prefix(view, position).trim();
-    if prefix.starts_with('#') || prefix.starts_with("//") {
+    if comment_wrapper(view, position) {
         return true;
     }
+    let prefix = bounded_prefix(view, position).trim();
     let prefix = prefix.trim_end_matches(['"', '\'']).trim_end();
     let sentence = prefix.trim_end_matches(':');
     sentence
@@ -1616,13 +1754,30 @@ fn non_assignment_wrapper(view: &View, position: usize) -> bool {
         && sentence.split_whitespace().take(2).count() == 2
 }
 
+// A `#` or `//` comment line before the key.
+fn comment_wrapper(view: &View, position: usize) -> bool {
+    let prefix = bounded_prefix(view, position).trim();
+    prefix.starts_with('#') || prefix.starts_with("//")
+}
+
+const REGEX_VALUES: [&str; 7] = ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"];
+
 fn regex_value(view: &View, position: usize, value: &str) -> bool {
+    // Only a few fixed values can qualify, with or without a `/g` or `/`
+    // suffix: reject every other value before scanning the prefix.
+    let stripped = value
+        .strip_suffix("/g")
+        .or_else(|| value.strip_suffix('/'))
+        .unwrap_or(value);
+    if ![value, stripped]
+        .iter()
+        .any(|v| *v == "/" || REGEX_VALUES.contains(v))
+    {
+        return false;
+    }
     let prefix = bounded_prefix(view, position);
     let value = if prefix.contains("= /") {
-        value
-            .strip_suffix("/g")
-            .or_else(|| value.strip_suffix('/'))
-            .unwrap_or(value)
+        stripped
     } else {
         value
     };
@@ -1633,7 +1788,7 @@ fn regex_value(view: &View, position: usize, value: &str) -> bool {
         || prefix.contains("rg ")
         || prefix.contains("grep ")
         || prefix.contains("= /"))
-        && ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"].contains(&value)
+        && REGEX_VALUES.contains(&value)
 }
 
 fn bounded_prefix(view: &View, position: usize) -> &str {
@@ -1645,9 +1800,20 @@ fn bounded_prefix(view: &View, position: usize) -> &str {
 }
 
 fn labeled_toy(view: &View, position: usize, value: &str) -> bool {
-    let prefix = bounded_prefix(view, position);
-    let lower = prefix.to_ascii_lowercase();
-    let labeled = [
+    // The value's own shape is checked first; only a toy-shaped value pays
+    // for the scan of the prefix for a label.
+    if !(value.len() <= 64
+        && ["toy", "fixture", "test"]
+            .iter()
+            .any(|p| value.to_ascii_lowercase().starts_with(p))
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+    {
+        return false;
+    }
+    let lower = bounded_prefix(view, position).to_ascii_lowercase();
+    [
         "synthetic fixture:",
         "toy example:",
         "test fixture:",
@@ -1655,24 +1821,17 @@ fn labeled_toy(view: &View, position: usize, value: &str) -> bool {
         "synthetic_fixture",
     ]
     .iter()
-    .any(|label| lower.contains(label));
-    labeled
-        && value.len() <= 64
-        && ["toy", "fixture", "test"]
-            .iter()
-            .any(|p| value.to_ascii_lowercase().starts_with(p))
-        && value
-            .bytes()
-            .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    .any(|label| lower.contains(label))
 }
 
 fn excerpt_value(view: &View, position: usize, value: &str) -> bool {
-    let prefix = bounded_prefix(view, position);
-    prefix.to_ascii_lowercase().contains("excerpt")
-        && value.len() <= 32
+    value.len() <= 32
         && value
             .bytes()
             .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace())
+        && bounded_prefix(view, position)
+            .to_ascii_lowercase()
+            .contains("excerpt")
 }
 
 fn session_identifier(value: &str) -> bool {
@@ -1724,7 +1883,7 @@ fn authorization_reference(value: &str) -> bool {
         || environment_reference(rest)
 }
 
-fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
+fn credential_prose(view: &View, input: &str, spans: &mut Vec<Range<usize>>) -> Vec<ProseValue> {
     static R: OnceLock<Regex> = OnceLock::new();
     let r = R.get_or_init(|| {
         Regex::new(r"(?i)\bAPI[ \t]+key[ \t]+([A-Za-z0-9_+/=-]{24,})")
@@ -1733,6 +1892,1794 @@ fn credential_prose(view: &View, spans: &mut Vec<Range<usize>>) {
     for c in r.captures_iter(&view.text) {
         spans.push(c.get(1).expect("credential capture").range());
     }
+    prose_disclosures(view, input)
+}
+
+// A prose disclosure's value in source coordinates. Word cues and determiner
+// forms always disclose. A bare `noun: value` or `noun = value` discloses
+// only where the assignment engine also finds a credential value (sensitive
+// nouns) or, for the short nouns it does not know, outside URL components;
+// either way the prose rule then decides the whole extent of the value.
+pub(crate) struct ProseValue {
+    probe: usize,
+    source: Range<usize>,
+    gate: Gate,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum Gate {
+    Always,
+    Assigned,
+    Outside,
+}
+
+// Every `char::is_whitespace` code point is a separator: these horizontal
+// ones and the line breaks below. Encoded spellings are decoded first by
+// `Spaced`. A CRLF pair counts as one line break.
+const PROSE_SPACE: &str = r"[\t \u{a0}\u{1680}\u{2000}-\u{200a}\u{202f}\u{205f}\u{3000}]";
+const PROSE_BREAK: &str = r"(?:\r\n|[\n\x0B\x0C\r\u{85}\u{2028}\u{2029}])";
+
+fn line_break(c: char) -> bool {
+    matches!(
+        c,
+        '\n' | '\r' | '\u{b}' | '\u{c}' | '\u{85}' | '\u{2028}' | '\u{2029}'
+    )
+}
+
+// Start of the line holding `position`, given every line start of the text.
+fn prose_line_start(starts: &[usize], position: usize) -> usize {
+    starts[starts.partition_point(|&s| s <= position) - 1]
+}
+
+// Natural-language password disclosures: `my password is x`, `the passcode
+// was '#'`, `pw: !`, `password = velvet river lantern`. There is no minimum
+// value length; documentary predicates (`the password is required`),
+// references (`$PASSWORD`), type annotations with source context
+// (`struct X { pw: string }`) and code (`if password is None`) are excluded. See docs/SPEC.md.
+fn prose_disclosures(view: &View, input: &str) -> Vec<ProseValue> {
+    static R: OnceLock<Regex> = OnceLock::new();
+    let r = R.get_or_init(|| {
+        // S: one or more separators with at most one line break; O: like S
+        // but possibly empty.
+        let (h, b) = (PROSE_SPACE, PROSE_BREAK);
+        let s = format!(r"(?:{h}+(?:{b}{h}*)?|{b}{h}*)");
+        let o = format!(r"{h}*(?:{b}{h}*)?");
+        Regex::new(&format!(
+            r"(?i)(?:\b(my|our|your|his|her|their|its|the){s})?\b(password|passcode|passphrase|passwd|pwd|pw|pass{s}code|pass{s}phrase)\b{o}(?:((?:is|was){s}set{s}to|is{s}now|set{s}to|is|was)\b(:?)|(:|=))"
+        ))
+        .expect("fixed prose disclosure regex")
+    });
+    let layer = Spaced::new(&view.text);
+    let text: &str = &layer.text;
+    let starts: Vec<usize> = std::iter::once(0)
+        .chain(
+            text.char_indices()
+                .filter(|(_, c)| line_break(*c))
+                .map(|(i, c)| i + c.len_utf8()),
+        )
+        .collect();
+    let mut found = Vec::new();
+    let mut covered = 0;
+    let mut scan: (usize, usize, Vec<(char, u32)>) = (0, 0, Vec::new());
+    let cap = std::cell::RefCell::new(Vec::new());
+    let tables = ValueTables::default();
+    let mut openers = (Openers::new(false, 0), Openers::new(true, 0));
+    for c in r.captures_iter(text) {
+        let whole = c.get(0).expect("prose disclosure match");
+        let noun = c.get(2).expect("prose disclosure noun");
+        let determiner = c.get(1).is_some();
+        // A colon or equals cue assigns its whole value with or without a
+        // determiner; only the gate below depends on the bare form.
+        let cue = c.get(5);
+        let bare = cue.filter(|_| !determiner);
+        let rest = &text[whole.end()..];
+        if whole.start() < covered
+            || text[..noun.start()]
+                .chars()
+                .next_back()
+                .is_some_and(|ch| matches!(ch, '.' | '$' | '@' | '-' | '/' | '\\'))
+            || !determiner
+                && code_condition(&text[prose_line_start(&starts, noun.start())..noun.start()])
+            || rest.starts_with('=')
+            || bare.is_some_and(|m| {
+                m.as_str() == "=" && rest.starts_with('>')
+                    || m.as_str() == ":" && rest.starts_with(':')
+            })
+        {
+            continue;
+        }
+        // The value follows the cue after separators with at most one line
+        // break; after a bare cue it must start on the cue's line.
+        let mut start = whole.end();
+        let mut breaks = 0;
+        let allowed = if bare.is_some() { 0 } else { 1 };
+        while let Some(ch) = text[start..].chars().next() {
+            if line_break(ch) {
+                if !(ch == '\n' && text[..start].ends_with('\r')) {
+                    breaks += 1;
+                }
+                if breaks > allowed {
+                    break;
+                }
+            } else if !ch.is_whitespace() {
+                break;
+            }
+            start += ch.len_utf8();
+        }
+        if breaks > allowed {
+            continue;
+        }
+        if start == whole.end() && c.get(3).is_some() && c.get(4).is_none_or(|m| m.is_empty()) {
+            continue;
+        }
+        // The line ends at the break before the next line start.
+        let line_end = starts
+            .get(starts.partition_point(|&s| s <= start))
+            .map_or(text.len(), |&next| {
+                next - text[..next].chars().next_back().map_or(0, char::len_utf8)
+            });
+        let line_end = start + text[start..line_end].trim_end().len();
+        if start >= line_end {
+            continue;
+        }
+        let gate = match bare {
+            None => Gate::Always,
+            Some(cue) => {
+                let key = layer.start(noun.start());
+                // Code glued to a quote (`x "pw: process.env.X""abc"`) is one
+                // value with what touches it, scanned below.
+                let value = layer.start(start);
+                let glued = candidate_end(view, value).is_some_and(|end| {
+                    view.text[end..].starts_with(['"', '\'', '`'])
+                        && view.text[end + 1..].starts_with(|c: char| {
+                            c.is_alphanumeric() || matches!(c, '_' | '$' | '"' | '\'' | '`' | '\\')
+                        })
+                });
+                if !glued && code_value(view, key, value, cue.as_str() == ":", false) {
+                    continue;
+                }
+                if noun.as_str().contains(|ch: char| !ch.is_ascii_alphabetic())
+                    || !sensitive(noun.as_str())
+                {
+                    Gate::Outside
+                } else {
+                    Gate::Assigned
+                }
+            }
+        };
+        let line_start = prose_line_start(&starts, whole.start());
+        let prefix = &text[line_start..whole.start()];
+        // Matches come in order, so the scan of a line's quotes and brackets
+        // resumes at the last match on the same line instead of rescanning
+        // the line.
+        if scan.0 != line_start || scan.1 > whole.start() {
+            scan = (line_start, line_start, Vec::new());
+            openers = (
+                Openers::new(false, line_start),
+                Openers::new(true, line_start),
+            );
+        }
+        open_quotes(view, input, &layer, &mut scan.2, scan.1..whole.start());
+        scan.1 = whole.start();
+        openers.0.advance(text, whole.start());
+        openers.1.advance(text, whole.start());
+        let context = ProseContext {
+            prefix,
+            quotes: scan.2.clone(),
+            cue: match cue {
+                None => Cue::Word,
+                Some(_) if determiner || !prefix.trim().is_empty() => Cue::Prefixed,
+                Some(_) => Cue::Bare,
+            },
+            cap: &cap,
+            brackets: &openers.0.stack,
+            tagged: &openers.1.stack,
+            openers: &openers,
+            tables: &tables,
+        };
+        if let Some((source, probe, end)) =
+            prose_value(view, input, &layer, start, line_end, &context)
+        {
+            covered = end;
+            // An empty quoted segment touched by text (`password=""abc`) is
+            // no empty assignment: the assignment engine finds no value to
+            // gate on, so the disclosure stands on its own, unless the text
+            // is an operator (`password=""+x`).
+            let mut quotes = text[start..].chars();
+            let gate = match (quotes.next(), quotes.next(), quotes.next()) {
+                (Some(q), Some(c), Some(next))
+                    if gate != Gate::Always
+                        && matches!(
+                            (q, c),
+                            ('"', '"') | ('\'', '\'') | ('`', '`') | ('“', '”') | ('‘', '’')
+                        )
+                        && end > start + q.len_utf8() + c.len_utf8()
+                        && !matches!(
+                            next,
+                            '+' | '|'
+                                | '&'
+                                | '*'
+                                | '/'
+                                | '%'
+                                | '<'
+                                | '>'
+                                | '='
+                                | '!'
+                                | '?'
+                                | '^'
+                                | '~'
+                        ) =>
+                {
+                    Gate::Always
+                }
+                _ => gate,
+            };
+            found.push(ProseValue {
+                probe,
+                source,
+                gate,
+            });
+        }
+    }
+    found
+}
+
+// How a prose disclosure's value was cued: by a word (`is`, `set to`), or
+// by a colon or equals sign after the bare noun or after anything before it
+// on the line (a word, a bullet, a quote mark).
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Cue {
+    Word,
+    Bare,
+    Prefixed,
+}
+
+// What the line holds before the noun: its text, the quotes it opened and
+// left open (each with its escape level, innermost last), and the cue.
+// The last search for the close of one open quote: which quote (mark and
+// escape level), structural or not, to which line end, from where, and the
+// close found.
+struct CapSearch {
+    quote: (char, u32),
+    structural: bool,
+    line_end: usize,
+    from: usize,
+    found: Option<usize>,
+}
+
+#[derive(Clone)]
+struct ProseContext<'a> {
+    prefix: &'a str,
+    quotes: Vec<(char, u32)>,
+    cue: Cue,
+    // The last close search for each open quote on the layer, shared by
+    // every match: segments and later matches search from increasing
+    // positions, so a line of many segments or matches is scanned once per
+    // open quote, not once per match, however the open quotes alternate.
+    cap: &'a std::cell::RefCell<Vec<CapSearch>>,
+    // The quotes and brackets the prefix leaves open, without and with tags
+    // (see `Openers`), kept per line rather than rebuilt per match.
+    brackets: &'a [char],
+    tagged: &'a [char],
+    openers: &'a (Openers, Openers),
+    tables: &'a ValueTables,
+}
+
+// Where a value's text ends, looked up instead of scanned for per key: each
+// table is built once per layer, when a value first needs it.
+#[derive(Default)]
+struct ValueTables {
+    // Where a bare value's enclosing bracket closes.
+    closes: std::cell::OnceCell<BracketCloses>,
+    // Where the next key of a `;` or `&` list starts.
+    lists: std::cell::OnceCell<ListKeys>,
+    // Where the next space and placeholder close lie after a quote close.
+    marks: std::cell::OnceCell<ReferenceMarks>,
+    // Where the run of placeholders from a position ends, by line end.
+    runs: std::cell::RefCell<std::collections::HashMap<(usize, usize), usize>>,
+}
+
+// The escape level of the quote at layer position `p`: a quote spelled with
+// n backslashes is at level n.trailing_ones(); one not spelled literally
+// (a curly quote, an entity) is at level 0.
+fn quote_level(view: &View, input: &str, layer: &Spaced, p: usize, quote: char) -> u32 {
+    quote_escape(view, input, layer.start(p), quote).map_or(0, |(_, n)| n.trailing_ones())
+}
+
+// An apostrophe between two letters or digits (`don't`) is no quote.
+fn apostrophe(text: &str, p: usize) -> bool {
+    text[p..].starts_with('\'')
+        && text[..p]
+            .chars()
+            .next_back()
+            .is_some_and(char::is_alphanumeric)
+        && text[p + 1..]
+            .chars()
+            .next()
+            .is_some_and(char::is_alphanumeric)
+}
+
+// The quotes the layer range opens and leaves open, innermost last: a quote
+// closes the latest open quote of its own mark at its own escape level (a
+// `”` closes the latest `“`), and everything opened inside it. `open` holds
+// what the text before the range left open, so a scan resumes where the last
+// one stopped.
+fn open_quotes(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    open: &mut Vec<(char, u32)>,
+    range: Range<usize>,
+) {
+    let text: &str = &layer.text;
+    for (i, ch) in text[range.clone()].char_indices() {
+        let p = range.start + i;
+        if !matches!(ch, '"' | '\'' | '`' | '“' | '”') {
+            continue;
+        }
+        let level = quote_level(view, input, layer, p, ch);
+        if let Some(at) = open.iter().rposition(|&(c, l)| {
+            if ch == '”' {
+                c == '“'
+            } else {
+                c == ch && l == level
+            }
+        }) {
+            open.truncate(at);
+        } else if ch != '”'
+            && !(ch == '\''
+                && text[..p]
+                    .chars()
+                    .next_back()
+                    .is_some_and(char::is_alphanumeric))
+        {
+            open.push((ch, level));
+        }
+    }
+}
+
+// Text after a quote that closes an enclosing layer is structure, not more
+// of the value, when the line ends there or it is whitespace, a bracket or
+// tag close, a `:`, or a list separator before a key-like field.
+fn structural_end(rest: &str) -> bool {
+    match rest.chars().next() {
+        None => true,
+        Some(c) if c.is_whitespace() => true,
+        Some('}' | ']' | ')' | '>') => true,
+        Some('/') => rest.starts_with("/>"),
+        Some(',' | ';' | '&') => key_like(&rest[1..]),
+        Some(':') => !rest.starts_with("::"),
+        _ => false,
+    }
+}
+
+// A key-like field starts the text: an identifier or a quoted key, then `=`
+// or `:` (not `==` or `::`).
+fn key_like(rest: &str) -> bool {
+    let rest = rest.trim_start_matches([' ', '\t']);
+    let after = match rest.chars().next() {
+        Some(q @ ('"' | '\'')) => {
+            let body = &rest[1..];
+            match body.find(q) {
+                Some(n) if n > 0 && n <= 64 => &body[n + 1..],
+                _ => return false,
+            }
+        }
+        Some(c) if c.is_ascii_alphabetic() || c == '_' => {
+            let n = rest
+                .find(|c: char| !(c.is_ascii_alphanumeric() || matches!(c, '_' | '.' | '-')))
+                .unwrap_or(rest.len());
+            &rest[n..]
+        }
+        _ => return false,
+    };
+    let after = after.trim_start_matches([' ', '\t']);
+    after.starts_with('=') && !after.starts_with("==")
+        || after.starts_with(':') && !after.starts_with("::")
+}
+
+// Source range of a layer range.
+fn prose_source(view: &View, layer: &Spaced, r: &Range<usize>) -> Range<usize> {
+    let start = layer.start(r.start);
+    let end = layer.end(r.end - 1);
+    view.source_start(start)..view.source_end(end - 1)
+}
+
+// The source position of a quote spelled literally (possibly after an
+// escape that View decoded) and the run of backslashes before it.
+fn quote_escape(view: &View, input: &str, position: usize, quote: char) -> Option<(usize, u32)> {
+    let b = input.as_bytes();
+    let at = view.source_end(position).checked_sub(1)?;
+    (u32::from(b[at]) == u32::from(quote)).then(|| {
+        let n = b[..at].iter().rev().take_while(|&&c| c == b'\\').count();
+        (at, u32::try_from(n).unwrap_or(u32::MAX))
+    })
+}
+
+// A close quote ends the value when it is at the opener's escape level: an
+// even run of backslashes before a literal quote is part of the value and
+// leaves the quote closing (`"abc\\"`); an odd run escapes it (`"abc\"def"`).
+// At escape level L (a JSON-encoded `\"` opener is level 1) a quote spelled
+// with n backslashes closes exactly when n has L trailing one bits.
+fn closes(opener: Option<u32>, candidate: Option<u32>, open: &str, close: &str) -> bool {
+    match (opener, candidate) {
+        (Some(a), Some(b)) => a.trailing_ones() == b.trailing_ones(),
+        _ => open.eq_ignore_ascii_case(close),
+    }
+}
+
+type ProseRange = (Range<usize>, usize, usize);
+
+// A part of a prose value: value text, or a reference or placeholder that is
+// exempt only when it is the whole value. Once any contiguous part is value,
+// every part is (`pw: "abc""$defq"`, `pw: ${defq}abc`); a run made only of
+// exempt parts (`"$A""$B"`, `${A}${B}`) stays exempt.
+#[derive(Clone)]
+enum Part {
+    Value(ProseRange),
+    Exempt(ProseRange),
+}
+
+impl Part {
+    fn range(&self) -> &ProseRange {
+        match self {
+            Part::Value(r) | Part::Exempt(r) => r,
+        }
+    }
+}
+
+// A closed quoted segment and how far the text touching its close runs.
+#[derive(Clone, Copy)]
+struct QuotedSegment {
+    inner: usize,
+    end: usize,
+    after: usize,
+    run: usize,
+    value_start: usize,
+    value_end: usize,
+}
+
+enum ProseStep {
+    // A value with no closed quoted segment, and the layer position of the
+    // enclosing quote close it was cut at, if any.
+    Done(Option<Part>, Option<usize>),
+    // The segment, and how the text touching its close ends at `run`.
+    Segment(QuotedSegment, RunEnd),
+}
+
+// How the text touching a closed value ends: at whitespace, a bracket or
+// field, or the line end; at a quoted segment that continues the value; or
+// at a quote that closes a layer the line opened before the noun.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum RunEnd {
+    Stop,
+    Continues,
+    Encloses,
+}
+
+// The index in `quotes` of the layer the quote `q` at layer position `p`
+// closes: the latest one of the same mark at the same escape level (a `”`
+// closes the latest `“`).
+fn enclosed_layer(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    quotes: &[(char, u32)],
+    p: usize,
+    q: char,
+) -> Option<usize> {
+    if !matches!(q, '”' | '"' | '\'' | '`') || quotes.is_empty() {
+        return None;
+    }
+    let level = if q == '”' {
+        0
+    } else {
+        quote_level(view, input, layer, p, q)
+    };
+    quotes.iter().rposition(|&(c, l)| match q {
+        '”' => c == '“',
+        _ => c == q && l == level,
+    })
+}
+
+// Returns the value's source range, the View position where its content
+// starts, and the layer position the disclosure covers up to. A run of
+// contiguous quoted segments is walked with an explicit stack, not
+// recursion, so a long run cannot exhaust the thread's stack.
+//
+// A value that ends at the close of a quote the line opened before the noun
+// (`x "pw: abc"defq`, `he said 'my password is "abc"'"defq"`) goes on when
+// a quote, a letter or digit, `_` or `$` touches that close: the close is
+// redacted with the value, and the text touching it is scanned as the text
+// touching a value's own close is, in the layer outside the closed quote.
+fn prose_value(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    start: usize,
+    line_end: usize,
+    context: &ProseContext,
+) -> Option<ProseRange> {
+    let text: &str = &layer.text;
+    // Each segment, and for the close of an enclosing quote that a value
+    // runs across, the value up to that close.
+    let mut stack: Vec<(QuotedSegment, Option<Part>)> = Vec::new();
+    let (mut at, mut line_end) = (start, line_end);
+    let mut current = context.clone();
+    let mut result = 'scan: loop {
+        let (mut value, mut close) = match prose_segment(view, input, layer, at, line_end, &current)
+        {
+            ProseStep::Segment(segment, RunEnd::Continues) => {
+                at = segment.run;
+                line_end = line_end.max(segment.run);
+                stack.push((segment, None));
+                continue;
+            }
+            ProseStep::Segment(segment, end) => (
+                finish_quoted(view, layer, &segment),
+                (end == RunEnd::Encloses).then_some(segment.run),
+            ),
+            ProseStep::Done(value, close) => (value, close),
+        };
+        loop {
+            let (Some(found), Some(shut)) = (value.clone(), close) else {
+                break 'scan value;
+            };
+            let Some((k, after)) = glued(view, input, layer, &current, found.range(), shut) else {
+                break 'scan value;
+            };
+            // Outside the closed quote: its layer and everything opened
+            // inside it are closed, and so is its entry among the brackets
+            // when the bracket scan saw it (an unescaped quote).
+            let q = text[shut..].chars().next().unwrap_or('"');
+            current.quotes.truncate(k);
+            let opener = if q == '”' { '“' } else { q };
+            if q == '”' || quote_level(view, input, layer, shut, q) == 0 {
+                let (plain, tags) = context.openers;
+                for (stack, scan) in [(&mut current.brackets, plain), (&mut current.tagged, tags)] {
+                    if let Some(at) = scan.quote_at(opener).filter(|&at| at < stack.len()) {
+                        *stack = &stack[..at];
+                    }
+                }
+            }
+            let (run, end) = touching_run(view, input, layer, after, &current);
+            let segment = QuotedSegment {
+                inner: shut,
+                end: shut,
+                after,
+                run,
+                value_start: found.range().0.start,
+                value_end: found.range().0.end,
+            };
+            if end == RunEnd::Continues {
+                at = run;
+                line_end = line_end.max(run);
+                stack.push((segment, Some(found)));
+                continue 'scan;
+            }
+            // The text touching the close, less one mark of sentence
+            // punctuation, joins the value; it may stop at the close of a
+            // further enclosing quote that more text touches.
+            // A reference glued to a reference stays exempt; any literal
+            // part makes the whole run value.
+            let tail = &text[after..run];
+            let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
+            let tail_end = after + kept.len();
+            let pure =
+                matches!(found, Part::Exempt(_)) && (kept.is_empty() || whole_reference(kept));
+            let found = found.range();
+            let range = (
+                found.0.start
+                    ..prose_source(view, layer, &(after..tail_end))
+                        .end
+                        .max(found.0.end),
+                found.1,
+                tail_end.max(found.2),
+            );
+            value = Some(if pure {
+                Part::Exempt(range)
+            } else {
+                Part::Value(range)
+            });
+            close = (end == RunEnd::Encloses).then_some(run);
+        }
+    };
+    // A segment the next one joins spans through the next one's end; one
+    // whose next segment is no value ends on its own. A run is exempt only
+    // when every part of it is a reference with nothing glued between.
+    while let Some((segment, own)) = stack.pop() {
+        result = match (result, own) {
+            (Some(next), own) => {
+                let pure = matches!(next, Part::Exempt(_))
+                    && segment.after >= segment.run
+                    && own.as_ref().map_or_else(
+                        || whole_reference(text[segment.inner..segment.end].trim()),
+                        |o| matches!(o, Part::Exempt(_)),
+                    );
+                let (next, _, next_end) = next.range().clone();
+                let range = (
+                    segment.value_start..next.end.max(segment.value_end),
+                    own.map_or_else(|| layer.start(segment.inner), |o| o.range().1),
+                    next_end,
+                );
+                Some(if pure {
+                    Part::Exempt(range)
+                } else {
+                    Part::Value(range)
+                })
+            }
+            (None, Some(own)) => Some(own),
+            (None, None) => finish_quoted(view, layer, &segment),
+        };
+    }
+    match result {
+        Some(Part::Value(range)) => Some(range),
+        _ => None,
+    }
+}
+
+// Whether text glues onto the close `close` of a quote the line opened
+// before the noun, at which `value` ends: a quote of any kind or escape
+// level, a letter or digit, `_` or `$` touches the close, and only the
+// value's own closing quotes or sentence punctuation lie between the value
+// and it. Returns the closed layer's index and the position after the close.
+fn glued(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    context: &ProseContext,
+    value: &ProseRange,
+    close: usize,
+) -> Option<(usize, usize)> {
+    let text: &str = &layer.text;
+    let q = text[close..].chars().next()?;
+    let after = close + q.len_utf8();
+    let rest = &text[after..];
+    let touching = rest.chars().next().is_some_and(|c| {
+        c.is_alphanumeric()
+            || matches!(c, '_' | '$' | '"' | '\'' | '`' | '“' | '”' | '‘' | '’')
+            || c == '\\' && rest.trim_start_matches('\\').starts_with(['"', '\'', '`'])
+            || reference_prefix(text, after, &context.tables.marks)
+    });
+    let between = text.get(value.2.min(close)..close)?;
+    if !touching
+        || between.chars().any(|c| {
+            !matches!(
+                c,
+                '"' | '\'' | '`' | '”' | '’' | '\\' | '.' | ',' | ';' | '!' | '?'
+            )
+        })
+    {
+        return None;
+    }
+    let k = enclosed_layer(view, input, layer, &context.quotes, close, q)?;
+    Some((k, after))
+}
+
+fn prose_segment(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    start: usize,
+    line_end: usize,
+    context: &ProseContext,
+) -> ProseStep {
+    let ProseContext { prefix, cue, .. } = *context;
+    let enclosed = cue != Cue::Word;
+    let text: &str = &layer.text;
+    let Some(open) = text[start..].chars().next() else {
+        return ProseStep::Done(None, None);
+    };
+    // The first quote at or after `from` on the line that closes a layer
+    // the line opened before the noun (one of the same mark at the same
+    // escape level, a `”` for a `“`); with
+    // `structural`, only one that structure follows (a JSON string's close
+    // before `}` or `,"key":`), so a quote touched by more text fails closed.
+    let cap = |from: usize, structural: bool| {
+        let mut searches = context.cap.borrow_mut();
+        let mut first: Option<usize> = None;
+        for &(open, level) in &context.quotes {
+            let close = match open {
+                '“' => '”',
+                '"' | '\'' | '`' => open,
+                _ => continue,
+            };
+            // A later search for the same quote reuses the last one when no
+            // close lies between: nothing was found from an earlier
+            // position, or what was found lies at or after this one.
+            let last = searches.iter().position(|s| {
+                s.quote == (open, level) && s.structural == structural && s.line_end == line_end
+            });
+            let found = match last.map(|n| &searches[n]) {
+                Some(s) if s.from <= from && s.found.is_none_or(|p| p >= from) => s.found,
+                _ => {
+                    let found = text[from..line_end.max(from)]
+                        .match_indices(close)
+                        .map(|(i, _)| from + i)
+                        .find(|&p| {
+                            (close == '”' || quote_level(view, input, layer, p, close) == level)
+                                && (!structural
+                                    || structural_end(&text[p + close.len_utf8()..line_end]))
+                        });
+                    let search = CapSearch {
+                        quote: (open, level),
+                        structural,
+                        line_end,
+                        from,
+                        found,
+                    };
+                    match last {
+                        Some(n) => searches[n] = search,
+                        None => {
+                            // Distinct quotes and line ends are few; bound
+                            // the list anyway.
+                            if searches.len() >= 64 {
+                                searches.clear();
+                            }
+                            searches.push(search);
+                        }
+                    }
+                    found
+                }
+            };
+            first = match (first, found) {
+                (Some(a), Some(b)) => Some(a.min(b)),
+                (a, b) => a.or(b),
+            };
+        }
+        first
+    };
+    let close = match open {
+        '\'' | '"' | '`' => open,
+        '“' => '”',
+        '‘' => '’',
+        _ => {
+            // A bare value never runs over the close of an enclosing quote:
+            // after a colon or equals cue the first one ends it; after a word
+            // cue only one that structure follows.
+            let found = cap(start, cue == Cue::Word);
+            let end = found.unwrap_or(line_end);
+            if end <= start {
+                return ProseStep::Done(None, None);
+            }
+            return ProseStep::Done(
+                unquoted_prose_value(
+                    text,
+                    start,
+                    end,
+                    prefix,
+                    cue,
+                    innermost(context.brackets, false),
+                    context.tables,
+                )
+                .map(|(r, exempt)| {
+                    let range = (prose_source(view, layer, &r), layer.start(r.start), r.end);
+                    if exempt {
+                        Part::Exempt(range)
+                    } else {
+                        Part::Value(range)
+                    }
+                }),
+                found,
+            );
+        }
+    };
+    let inner = start + open.len_utf8();
+    let mut limit = (inner + 1024).min(text.len());
+    while !text.is_char_boundary(limit) {
+        limit -= 1;
+    }
+    let spelling = |p: usize| {
+        let v = layer.start(p);
+        &input[view.source_start(v)..view.source_end(v)]
+    };
+    // Prefer a close on the same line; a quoted value may span lines up to
+    // the bound. An unmatched quote fails closed through the end of the line.
+    // `end` is the close's layer position, `value_end` the source end of the
+    // value: backslashes before the close's own escape are value bytes.
+    // The value never runs past the close of an enclosing layer: no close
+    // beyond it is this value's, and an unterminated value ends before it.
+    let bound = cap(inner, true);
+    let found = if open == close {
+        let opener = quote_escape(view, input, layer.start(start), open);
+        text[inner..bound.unwrap_or(line_end.max(limit))]
+            .match_indices(close)
+            .map(|(n, _)| inner + n)
+            // After a colon or equals cue, a quote that opens a later line's
+            // own assignment (`note="`) is not this value's close.
+            .filter(|&p| !enclosed || p < line_end || !text[..p].trim_end().ends_with(['=', ':']))
+            .find_map(|p| {
+                let candidate = quote_escape(view, input, layer.start(p), close);
+                closes(
+                    opener.map(|o| o.1),
+                    candidate.map(|c| c.1),
+                    spelling(start),
+                    spelling(p),
+                )
+                .then(|| {
+                    let value_end = match (opener, candidate) {
+                        (Some((_, l)), Some((at, _))) => {
+                            at - ((1usize << l.trailing_ones().min(31)) - 1)
+                        }
+                        _ => view.source_start(layer.start(p)),
+                    };
+                    (p, value_end)
+                })
+            })
+    } else if let Some(bound) = bound {
+        text[inner..bound]
+            .find(close)
+            .map(|n| (inner + n, view.source_start(layer.start(inner + n))))
+    } else {
+        text[inner..line_end.max(inner)]
+            .find(close)
+            .or_else(|| text[inner..limit].find(close))
+            .map(|n| (inner + n, view.source_start(layer.start(inner + n))))
+    };
+    let Some((end, value_end)) = found else {
+        let line_end = bound.unwrap_or(line_end);
+        // A redacted value is already scrubbed. After a colon or equals cue
+        // the opening quote stays, as it does for a sensitive assignment.
+        if text[inner..line_end.max(inner)]
+            .trim_start()
+            .starts_with(REDACTION_TOKEN)
+        {
+            return ProseStep::Done(None, None);
+        }
+        let probe = if inner < line_end { inner } else { start };
+        let from = if enclosed && inner < line_end {
+            inner
+        } else {
+            start
+        };
+        if from >= line_end {
+            return ProseStep::Done(None, None);
+        }
+        return ProseStep::Done(
+            Some(Part::Value((
+                prose_source(view, layer, &(from..line_end)),
+                layer.start(probe),
+                line_end,
+            ))),
+            bound,
+        );
+    };
+    let value_start = view.source_start(layer.start(inner));
+    // Text that touches the close with no whitespace (`"abc"defq`, `""abc`)
+    // is the same value, up to the next whitespace, unless it is only
+    // sentence or list punctuation (`"abc".`, `"abc";`). A quoted segment in
+    // that text (`"abc""def"`, `"abc"'def'`, `"abc"de"f"`) continues the
+    // value: the whole run is one value, and an unmatched segment fails
+    // closed as above. A segment may open with any quote mark at any escape
+    // level (`"abc"'def'`, `"abc"\"def\"`, `\"abc\"'def'` in a JSON string);
+    // only a quote that closes a layer the line opened before the noun (the
+    // JSON string's own close, the `"` of `echo "pw is 'x'"`) ends the run,
+    // as does the close of the innermost bracket the line opened before the
+    // noun.
+    //
+    // A field after the quoted value ends it too: a `,` `;` or `&` before a
+    // key-like field (`password="abc",user="bob"`), or the close of a tag
+    // the line opened before the noun (`<a password="abc">`).
+    let after = end + close.len_utf8();
+    let (run, how) = touching_run(view, input, layer, after, context);
+    ProseStep::Segment(
+        QuotedSegment {
+            inner,
+            end,
+            after,
+            run,
+            value_start,
+            value_end,
+        },
+        how,
+    )
+}
+
+// The run of text touching a close at `after`, and how it ends (see
+// `prose_segment`).
+fn touching_run(
+    view: &View,
+    input: &str,
+    layer: &Spaced,
+    after: usize,
+    context: &ProseContext,
+) -> (usize, RunEnd) {
+    let text: &str = &layer.text;
+    let encloses =
+        |p: usize, q: char| enclosed_layer(view, input, layer, &context.quotes, p, q).is_some();
+    let bracket = innermost(context.brackets, false);
+    let rest = &text[after.min(text.len())..];
+    let field = rest.starts_with([',', ';', '&']) && key_like(&rest[1..])
+        || (rest.starts_with('>') || rest.starts_with("/>"))
+            && innermost(context.tagged, true) == Some('<');
+    let mut run = after.min(text.len());
+    // A bracket the run opens (`${defq}`) is closed inside it.
+    let mut nested = Vec::new();
+    while let Some(q) = text[run..].chars().next().filter(|_| !field) {
+        match q {
+            '(' | '[' | '{' => nested.push(q),
+            ')' | ']' | '}' if nested.last() == Some(&bracket_opener(q)) => {
+                nested.pop();
+                run += 1;
+                continue;
+            }
+            _ => {}
+        }
+        if q.is_whitespace() || matches!(q, ')' | ']' | '}') && Some(bracket_opener(q)) == bracket {
+            break;
+        }
+        if matches!(q, '\'' | '"' | '`' | '“' | '‘' | '”') && !apostrophe(text, run) {
+            if q == '”' && !encloses(run, q) {
+                run += q.len_utf8();
+                continue;
+            }
+            if encloses(run, q) {
+                return (run, RunEnd::Encloses);
+            }
+            return (run, RunEnd::Continues);
+        }
+        run += q.len_utf8();
+    }
+    (run, RunEnd::Stop)
+}
+
+// The value of a closed quoted segment that no further segment joins: the
+// quoted text and any non-punctuation text touching its close.
+// A reference or placeholder is exempt, as a part of the run.
+fn finish_quoted(view: &View, layer: &Spaced, segment: &QuotedSegment) -> Option<Part> {
+    let text: &str = &layer.text;
+    let QuotedSegment {
+        inner,
+        end,
+        after,
+        run,
+        value_start,
+        value_end,
+    } = *segment;
+    let tail = &text[after.min(run)..run];
+    if tail
+        .chars()
+        .any(|c| !matches!(c, '.' | ',' | ';' | ':' | '!' | '?' | ')' | ']' | '}' | '>'))
+    {
+        let kept = tail.strip_suffix(['.', ',', ';']).unwrap_or(tail);
+        let tail_end = after + kept.len();
+        return Some(Part::Value((
+            value_start..prose_source(view, layer, &(after..tail_end)).end,
+            layer.start(inner),
+            tail_end,
+        )));
+    }
+    let value = text[inner..end].trim();
+    if value_end <= value_start
+        || value.is_empty() && value_end == view.source_start(layer.start(end))
+    {
+        return None;
+    }
+    let range = (value_start..value_end, layer.start(inner), end);
+    Some(if whole_reference(value) {
+        Part::Exempt(range)
+    } else {
+        Part::Value(range)
+    })
+}
+
+// A Python-style condition (`if password is None`) compares, not discloses.
+fn code_condition(prefix: &str) -> bool {
+    let word = prefix
+        .trim_end()
+        .rsplit(|c: char| !c.is_ascii_alphabetic())
+        .next()
+        .unwrap_or("");
+    [
+        "if", "elif", "while", "assert", "and", "or", "not", "return", "lambda",
+    ]
+    .contains(&word)
+}
+
+fn unquoted_prose_value(
+    text: &str,
+    start: usize,
+    mut line_end: usize,
+    prefix: &str,
+    cue: Cue,
+    bracket: Option<char>,
+    tables: &ValueTables,
+) -> Option<(Range<usize>, bool)> {
+    let assigned = cue != Cue::Word;
+    // The caller ends the value at an enclosing quote's close (an HTML
+    // attribute, a shell argument, a JSON string).
+    if assigned {
+        // A bare value inside brackets ends at the close of the innermost bracket
+        // the line opened before the key and left open, in the key's own
+        // string layer: after a bare cue too, `pw: x]yq` and `my password:
+        // ab)cd` keep the close, and so do `(note pw: x]yq` and a JSON
+        // object's own `}` around the string that holds the key.
+        if let Some(opener) = bracket {
+            let found = tables
+                .closes
+                .get_or_init(|| BracketCloses::new(text))
+                .first(start, opener);
+            if let Some(close) = found.filter(|&p| p < line_end) {
+                line_end = close;
+            }
+        }
+        // And one inside a `;` or `&` separated key/value list (a connection
+        // string, a query) at the separator before the next key, but only on a
+        // line that was already such a list before the key: the key starts
+        // right after a key=value item ended by that same separator. `pw:
+        // abc&def=ghi`, `R&D pw: abc&def=ghi` and `note; pw: abc;host=y` are
+        // one value.
+        if let Some(sep) = list_separator(prefix) {
+            let keys = tables.lists.get_or_init(|| ListKeys::new(text));
+            if let Some(n) = keys.first(sep, start, line_end) {
+                line_end = n;
+            }
+        }
+        if line_end <= start {
+            return None;
+        }
+    }
+    // Documentary predicates are decided by the first word or two.
+    const PREDICATES: &[&str] = &[
+        "required",
+        "optional",
+        "mandatory",
+        "missing",
+        "unset",
+        "set",
+        "stored",
+        "saved",
+        "configured",
+        "invalid",
+        "incorrect",
+        "wrong",
+        "correct",
+        "valid",
+        "strong",
+        "weak",
+        "changed",
+        "reset",
+        "expired",
+        "expire",
+        "expires",
+        "expiring",
+        "rotated",
+        "updated",
+        "redacted",
+        "hidden",
+        "masked",
+        "empty",
+        "blank",
+        "null",
+        "nil",
+        "none",
+        "undefined",
+        "unknown",
+        "secure",
+        "insecure",
+        "compromised",
+        "protected",
+        "encrypted",
+        "hashed",
+        "salted",
+        "generated",
+        "needed",
+        "used",
+        "sensitive",
+        "case-sensitive",
+        "case-insensitive",
+        "leaked",
+        "exposed",
+        "stolen",
+        "cracked",
+        "guessed",
+        "shared",
+        "sent",
+        "accepted",
+        "rejected",
+        "revoked",
+        "disabled",
+        "enabled",
+        "locked",
+        "unlocked",
+        "deleted",
+        "removed",
+        "cleared",
+        "entered",
+        "typed",
+        "provided",
+        "supplied",
+        "given",
+        "accepted",
+        "verified",
+        "checked",
+        "validated",
+        "displayed",
+        "shown",
+        "logged",
+        "printed",
+        "visible",
+        "known",
+        "forgotten",
+        "lost",
+        "too",
+        "long",
+        "short",
+        "longer",
+        "shorter",
+        "ok",
+        "okay",
+        "fine",
+        "good",
+        "bad",
+        "same",
+        "different",
+        "it",
+        "this",
+        "that",
+        "here",
+        "there",
+        "below",
+        "above",
+        "following",
+        "what",
+        "which",
+        "who",
+        "mine",
+        "yours",
+        "ours",
+        "theirs",
+        "default",
+        "unchanged",
+        "incomplete",
+        "complete",
+        "ready",
+        "pending",
+        "available",
+        "unavailable",
+        "random",
+        "temporary",
+        "permanent",
+        "unique",
+        "personal",
+        "private",
+        "reused",
+        "recycled",
+        "persisted",
+        "expected",
+        "based",
+        "outdated",
+        "obsolete",
+        "deprecated",
+    ];
+    // Determiners, prepositions and adverbs lead a documentary phrase when
+    // more words follow; alone they may be the value (`my password is a`).
+    const LEADS: &[&str] = &[
+        "the", "a", "an", "this", "that", "these", "those", "your", "my", "our", "their", "his",
+        "her", "its", "in", "on", "at", "for", "from", "by", "with", "of", "to", "under", "into",
+        "not", "never", "also", "still", "now", "just", "only", "always", "being", "been",
+        "usually", "often", "going", "about", "like", "more", "less", "least", "most", "exactly",
+        "no", "any", "some", "all", "each", "every", "one", "two", "how", "where", "when",
+        "managed", "kept", "sent", "set", "see", "refer", "check", "ask", "use", "contact",
+    ];
+    // `-able` adjectives and `-ed` participles before a preposition are
+    // documentary (`configurable`, `stored in the vault`).
+    const PREPOSITIONS: &[&str] = &[
+        "to", "on", "in", "by", "with", "for", "from", "at", "as", "into", "using", "via",
+    ];
+    const UNITS: &[&str] = &[
+        "character",
+        "characters",
+        "chars",
+        "char",
+        "digit",
+        "digits",
+        "letter",
+        "letters",
+        "byte",
+        "bytes",
+        "symbol",
+        "symbols",
+        "word",
+        "words",
+        "long",
+    ];
+    const CONJUNCTIONS: &[&str] = &[
+        "and", "but", "so", "then", "because", "which", "or", "though", "although", "while",
+        "when", "if", "unless", "until", "since",
+    ];
+    // A bracketed placeholder may contain spaces: `{{ password }}`. It, or a
+    // run of them (`${A}${B}`), is exempt only when nothing is glued after
+    // it; `${defq}abc` is one value.
+    let line = &text[start..line_end];
+    let placeholders = placeholder_run(text, start, line_end, tables) - start;
+    if placeholders > 0 && separated(&line[placeholders..]) {
+        return Some((start..start + placeholders, true));
+    }
+    let words = text[start..line_end]
+        .split(|c: char| c != '\n' && c.is_whitespace())
+        .filter(|w| !w.is_empty());
+    let mut end = start;
+    let mut cursor = start;
+    // Brackets the value opened and has not closed: a comma or semicolon
+    // inside them (`Map<String, u8>`, `(abc, def)`) does not end the value.
+    let mut open = 0usize;
+    for (i, word) in words.enumerate() {
+        let at = cursor + text[cursor..].find(word).expect("word in line");
+        cursor = at + word.len();
+        // An arrow's `>` (`=>`, `->`) closes nothing: `pw: match a { b => c,
+        // d => e }` is one value.
+        let mut previous = None;
+        for ch in word.chars() {
+            match ch {
+                '<' | '(' | '[' | '{' => open += 1,
+                '>' if matches!(previous, Some('=' | '-')) => {}
+                '>' | ')' | ']' | '}' => open = open.saturating_sub(1),
+                _ => {}
+            }
+            previous = Some(ch);
+        }
+        let bare = word.trim_end_matches(['.', ',', ';', ':', '!', '?']);
+        let lower = bare.to_ascii_lowercase();
+        // A colon or equals cue assigns its whole value, as `password:
+        // required` always has: only references, a lone null and code types
+        // (checked by the caller) are exempt, and conjunctions belong to the
+        // value.
+        let reference = word.trim_end_matches(['.', ',', ';']);
+        if i == 0 && whole_reference(reference) {
+            let reference = if reference.starts_with(REDACTION_TOKEN) {
+                REDACTION_TOKEN
+            } else {
+                reference
+            };
+            return Some((at..at + reference.len(), true));
+        }
+        if i == 0 && assigned {
+            let only = text[cursor..line_end].trim().is_empty();
+            if only && matches!(lower.as_str(), "none" | "null" | "nil" | "undefined") {
+                return None;
+            }
+        } else if i == 0 {
+            let more = text[cursor..line_end].split_whitespace().next();
+            let lexical = lower.len() >= 5 && lower.bytes().all(|b| b.is_ascii_lowercase());
+            if PREDICATES.contains(&lower.as_str())
+                || lexical && (lower.ends_with("able") || lower.ends_with("ible"))
+                || lexical
+                    && lower.ends_with("ed")
+                    && more.is_some_and(|m| PREPOSITIONS.contains(&m.to_ascii_lowercase().as_str()))
+                || more.is_some() && LEADS.contains(&lower.as_str())
+                || !bare.is_empty()
+                    && bare.bytes().all(|b| b.is_ascii_digit())
+                    && more.is_some_and(|m| {
+                        UNITS.contains(
+                            &m.trim_end_matches(['.', ',', ';'])
+                                .to_ascii_lowercase()
+                                .as_str(),
+                        )
+                    })
+            {
+                return None;
+            }
+        } else if !assigned && CONJUNCTIONS.contains(&lower.as_str()) {
+            break;
+        }
+        end = cursor;
+        if open == 0 && word.ends_with([',', ';', '.']) {
+            break;
+        }
+    }
+    // One mark of sentence punctuation after the value is kept, unless the
+    // value is only punctuation; any further marks belong to the value.
+    let value = &text[start..end];
+    let trimmed = value.strip_suffix(['.', ',', ';']).unwrap_or(value);
+    let mut end = start
+        + if trimmed.trim_end_matches(['.', ',', ';']).is_empty() {
+            value.len()
+        } else {
+            trimmed.len()
+        };
+    // Only the innermost bracket opened before the disclosure closes after it.
+    if let Some(open) = bracket {
+        let close = match open {
+            '(' => ')',
+            '[' => ']',
+            _ => '}',
+        };
+        let value = &text[start..end];
+        if value.len() > 1
+            && value.ends_with(close)
+            && value.matches(open).count() < value.matches(close).count()
+        {
+            end -= 1;
+        }
+    }
+    (end > start).then_some((start..end, false))
+}
+
+// Where the run of placeholders at `start` ends, each one ending by `end`
+// at the first close after it that makes it a reference. The closes come
+// from the layer's marks, not a search to the line end, and the run's end is
+// kept for every position on it, so the keys whose values start inside one
+// long run walk it once between them.
+fn placeholder_run(text: &str, start: usize, end: usize, tables: &ValueTables) -> usize {
+    let marks = tables.marks.get_or_init(|| ReferenceMarks::new(text));
+    let step = |at: usize| {
+        let rest = &text[at..end];
+        [
+            ("${{", "}}", ReferenceMarks::BRACES),
+            ("{{", "}}", ReferenceMarks::BRACES),
+            ("<", ">", ReferenceMarks::ANGLE),
+            ("${", "}", ReferenceMarks::BRACE),
+        ]
+        .iter()
+        .find_map(|&(open, close, kind)| {
+            rest.strip_prefix(open)?;
+            let n = marks.next(kind, at)? + close.len() - at;
+            // `<…>` longer than two characters and any `{{…}}` are
+            // references by their shape; the rest need the full check.
+            (n <= rest.len()
+                && (open.ends_with("{{") || open == "<" && n > 2 || prose_reference(&rest[..n])))
+            .then_some(n)
+        })
+    };
+    let mut runs = tables.runs.borrow_mut();
+    let mut walked = Vec::new();
+    let mut at = start;
+    let stop = loop {
+        if let Some(&stop) = runs.get(&(at, end)) {
+            break stop;
+        }
+        match step(at) {
+            Some(n) => {
+                walked.push(at);
+                at += n;
+            }
+            None => break at,
+        }
+    };
+    for at in walked {
+        runs.insert((at, end), stop);
+    }
+    stop
+}
+
+// The text after a placeholder leaves it whole: nothing, a space, or
+// sentence punctuation that ends the value.
+fn separated(rest: &str) -> bool {
+    let mut chars = rest.chars();
+    match chars.next() {
+        None => true,
+        Some(c) if c.is_whitespace() => true,
+        Some('.' | ',' | ';' | ':' | '!' | '?' | ')' | ']' | '}') => {
+            chars.next().is_none_or(char::is_whitespace)
+        }
+        _ => false,
+    }
+}
+
+fn bracket_opener(close: char) -> char {
+    match close {
+        ')' => '(',
+        ']' => '[',
+        _ => '{',
+    }
+}
+
+// Where a scan that starts at a position with nothing open first meets a
+// close of a given bracket type: a bracket opened on the way is skipped
+// through its own close (a close of another type closes nothing, inside it or
+// outside), and one never closed ends the scan with no close found. A scan
+// from an opener's next position for its own type finds that opener's close,
+// so the table is built once from the right over the text's brackets, and
+// each bare value's lookup is a binary search instead of a scan to its line
+// end.
+struct BracketCloses {
+    // Positions of the text's brackets, ascending.
+    at: Vec<usize>,
+    // For each bracket index (and one past the last), the index in `at` of
+    // the close a scan from there meets, per type in `bracket_type` order;
+    // `usize::MAX` when there is none.
+    first: Vec<[usize; 3]>,
+}
+
+fn bracket_type(c: u8) -> usize {
+    match c {
+        b'(' | b')' => 0,
+        b'[' | b']' => 1,
+        _ => 2,
+    }
+}
+
+impl BracketCloses {
+    fn new(text: &str) -> Self {
+        let b = text.as_bytes();
+        let at: Vec<usize> = (0..b.len())
+            .filter(|&i| matches!(b[i], b'(' | b'[' | b'{' | b')' | b']' | b'}'))
+            .collect();
+        let mut first = vec![[usize::MAX; 3]; at.len() + 1];
+        for i in (0..at.len()).rev() {
+            let c = b[at[i]];
+            first[i] = if matches!(c, b')' | b']' | b'}') {
+                let mut row = first[i + 1];
+                row[bracket_type(c)] = i;
+                row
+            } else {
+                match first[i + 1][bracket_type(c)] {
+                    usize::MAX => [usize::MAX; 3],
+                    close => first[close + 1],
+                }
+            };
+        }
+        Self { at, first }
+    }
+
+    // The first close of `opener`'s type a scan from `from` meets.
+    fn first(&self, from: usize, opener: char) -> Option<usize> {
+        let i = self.at.partition_point(|&p| p < from);
+        let close = self.first[i][bracket_type(opener as u8)];
+        (close != usize::MAX).then(|| self.at[close])
+    }
+}
+
+// The innermost bracket (or, with `tags`, tag: `<a`, `</a`, closed by `>`)
+// a stack of `Openers` leaves open in its last string layer: a quote opened
+// after it hides it, and a close only closes a bracket of its own type
+// opened in the same layer.
+fn innermost(stack: &[char], tags: bool) -> Option<char> {
+    stack
+        .last()
+        .copied()
+        .filter(|&c| matches!(c, '(' | '[' | '{') || tags && c == '<')
+}
+
+// The quotes, brackets and (with `tags`) tags a line's text opens and leaves
+// open, innermost last, built left to right from the line start. Matches on a
+// line come in order, so the state advances from one match to the next
+// instead of being rebuilt from the line start for each. The innermost entry
+// of each mark is kept, with a link from each entry to the one below it of
+// the same mark, so finding the entry a quote or bracket closes never scans
+// the stack.
+struct Openers {
+    tags: bool,
+    stack: Vec<char>,
+    below: Vec<Option<usize>>,
+    top: [Option<usize>; 8],
+    // Where the scan stopped, the run of backslashes just before it and the
+    // character before it.
+    done: usize,
+    slashes: usize,
+    prev: Option<char>,
+}
+
+const OPENER_MARKS: [char; 8] = ['"', '`', '\'', '“', '(', '[', '{', '<'];
+
+fn opener_slot(c: char) -> usize {
+    OPENER_MARKS.iter().position(|&m| m == c).unwrap_or(0)
+}
+
+impl Openers {
+    fn new(tags: bool, start: usize) -> Self {
+        Self {
+            tags,
+            stack: Vec::new(),
+            below: Vec::new(),
+            top: [None; 8],
+            done: start,
+            slashes: 0,
+            prev: None,
+        }
+    }
+
+    fn push(&mut self, c: char) {
+        let slot = opener_slot(c);
+        self.below.push(self.top[slot]);
+        self.top[slot] = Some(self.stack.len());
+        self.stack.push(c);
+    }
+
+    fn truncate(&mut self, at: usize) {
+        while self.stack.len() > at {
+            if let (Some(c), Some(below)) = (self.stack.pop(), self.below.pop()) {
+                self.top[opener_slot(c)] = below;
+            }
+        }
+    }
+
+    // Where the open quote mark `q` sits on the stack: each quote mark is
+    // there at most once, since a second one closes the first.
+    fn quote_at(&self, q: char) -> Option<usize> {
+        self.top[opener_slot(q)]
+    }
+
+    // Scans `text[self.done..to]`. A `<` is a tag only when a letter or `/`
+    // follows it inside the scanned text, so a `<` that ends the range is
+    // left for the next advance: alone it opens nothing.
+    fn advance(&mut self, text: &str, to: usize) {
+        let from = self.done;
+        for (i, ch) in text[from..to].char_indices() {
+            let p = from + i;
+            if self.tags && ch == '<' && p + 1 == to {
+                self.done = p;
+                return;
+            }
+            let escaped = self.slashes % 2 == 1;
+            match ch {
+                '"' | '`' | '\'' | '“' | '”' if !escaped => {
+                    let open = if ch == '”' { '“' } else { ch };
+                    if let Some(at) = self.top[opener_slot(open)] {
+                        self.truncate(at);
+                    } else if ch != '”'
+                        && !(ch == '\'' && self.prev.is_some_and(char::is_alphanumeric))
+                    {
+                        self.push(ch);
+                    }
+                }
+                '(' | '[' | '{' => self.push(ch),
+                '<' if self.tags
+                    && text[p + 1..to]
+                        .chars()
+                        .next()
+                        .is_some_and(|c| c.is_ascii_alphabetic() || c == '/') =>
+                {
+                    self.push(ch);
+                }
+                ')' | ']' | '}' | '>' if ch != '>' || self.tags => {
+                    // Only a bracket opened inside the innermost open quote.
+                    let floor = self.top[..4].iter().flatten().max().map_or(0, |q| q + 1);
+                    let opener = if ch == '>' { '<' } else { bracket_opener(ch) };
+                    if let Some(at) = self.top[opener_slot(opener)].filter(|&at| at >= floor) {
+                        self.truncate(at);
+                    }
+                }
+                _ => {}
+            }
+            self.slashes = if ch == '\\' { self.slashes + 1 } else { 0 };
+            self.prev = Some(ch);
+        }
+        self.done = to;
+    }
+}
+
+// The separator of the key/value list the text ends inside: it ends with
+// `;` or `&` (and spaces) right after a `key=value` item.
+fn list_separator(prefix: &str) -> Option<char> {
+    let head = prefix.trim_end_matches(' ');
+    let sep = head
+        .chars()
+        .next_back()
+        .filter(|c| matches!(c, ';' | '&'))?;
+    let before = &head[..head.len() - 1];
+    let item = before.rsplit(sep).next().unwrap_or(before).trim();
+    let last = item
+        .rsplit(|c: char| c.is_whitespace() || c == '?')
+        .next()
+        .unwrap_or(item);
+    (item.contains('=') && (next_list_key(item) || next_list_key(last))).then_some(sep)
+}
+
+// `Key=` or `User Id=` (not `==`) starts the next entry of a key/value list.
+fn next_list_key(rest: &str) -> bool {
+    let rest = rest.trim_start_matches(' ');
+    let Some(eq) = rest.find('=') else {
+        return false;
+    };
+    let key = &rest[..eq];
+    eq <= 40
+        && !rest[eq + 1..].starts_with('=')
+        && key.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_')
+        && key
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'-' | b'.' | b' '))
+}
+
+// Every `;` and `&` of a text that `next_list_key` could accept, so finding
+// where a bare value's list item ends is a binary search instead of a scan
+// to the line end. For a separator at `i` that the text after it could start
+// a key after, `e` is the key's `=`: the first `=` after `i`, so it never
+// decreases as `i` grows. Cut at a line end `l`, the text after `i` starts a
+// key exactly when `e < l`, and when an `=` follows `e` (`==`) only if the
+// cut falls right after `e`.
+struct ListKeys {
+    // Per separator (`;`, `&`): `(i, e)` with no `=` after `e`, and with one.
+    single: [Vec<(usize, usize)>; 2],
+    double: [Vec<(usize, usize)>; 2],
+}
+
+impl ListKeys {
+    fn new(text: &str) -> Self {
+        let b = text.as_bytes();
+        let mut keys = Self {
+            single: [Vec::new(), Vec::new()],
+            double: [Vec::new(), Vec::new()],
+        };
+        for i in 0..b.len() {
+            let slot = match b[i] {
+                b';' => 0,
+                b'&' => 1,
+                _ => continue,
+            };
+            let mut t = i + 1;
+            while b.get(t) == Some(&b' ') {
+                t += 1;
+            }
+            let window = &b[t..(t + 41).min(b.len())];
+            let Some(eq) = window.iter().position(|&c| c == b'=') else {
+                continue;
+            };
+            let key = &window[..eq];
+            if !key
+                .first()
+                .is_some_and(|&c| c.is_ascii_alphabetic() || c == b'_')
+                || !key
+                    .iter()
+                    .all(|&c| c.is_ascii_alphanumeric() || matches!(c, b'_' | b'-' | b'.' | b' '))
+            {
+                continue;
+            }
+            let e = t + eq;
+            if b.get(e + 1) == Some(&b'=') {
+                keys.double[slot].push((i, e));
+            } else {
+                keys.single[slot].push((i, e));
+            }
+        }
+        keys
+    }
+
+    // The first `sep` in `text[start..line_end]` that `next_list_key` accepts
+    // with the text after it cut at `line_end`.
+    fn first(&self, sep: char, start: usize, line_end: usize) -> Option<usize> {
+        if line_end <= start {
+            return None;
+        }
+        let slot = usize::from(sep != ';');
+        let single = &self.single[slot];
+        let a = single
+            .get(single.partition_point(|&(i, _)| i < start))
+            .filter(|&&(_, e)| e < line_end)
+            .map(|&(i, _)| i);
+        let double = &self.double[slot];
+        let b = double
+            .get(double.partition_point(|&(i, e)| i < start || e + 1 < line_end))
+            .filter(|&&(_, e)| e + 1 == line_end)
+            .map(|&(i, _)| i);
+        match (a, b) {
+            (Some(a), Some(b)) => Some(a.min(b)),
+            (a, b) => a.or(b),
+        }
+    }
+}
+
+// Placeholders, masks and variable references name a password, not disclose it.
+fn prose_reference(value: &str) -> bool {
+    value.starts_with(REDACTION_TOKEN)
+        || shell_reference(value)
+        || environment_reference(value)
+        || template_reference(value)
+        || value.chars().count() >= 3 && value.chars().all(|c| matches!(c, '*' | '•' | '●'))
+        || (value.starts_with("{{") || value.starts_with("${{")) && value.ends_with("}}")
+        || value.starts_with('<') && value.ends_with('>') && value.len() > 2
+        || value.len() > 2 && value.starts_with('%') && value.ends_with('%')
+        || value.strip_prefix("$env:").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+        })
+        || value.strip_prefix("YOUR_").is_some_and(|s| {
+            !s.is_empty() && s.bytes().all(|b| b.is_ascii_uppercase() || b == b'_')
+        })
+        || value.starts_with("op://")
+}
+
+// Whether the layer text at `at` starts with a placeholder, mask or marker
+// (`<x>`, `%X%`, `{{x}}`, `***`, `[REDACTED]`), which is part of a value it
+// touches. Only the text up to the next space counts; `marks` finds that
+// space and a placeholder's close without scanning the rest of the line, so
+// a line of many quoted keys and no spaces stays linear.
+fn reference_prefix(text: &str, at: usize, marks: &std::cell::OnceCell<ReferenceMarks>) -> bool {
+    let rest = &text[at..];
+    // Neither the marker nor a mask holds a space, so the text up to the
+    // next space starts with one exactly when the rest does.
+    if rest.starts_with(REDACTION_TOKEN)
+        || rest
+            .chars()
+            .take_while(|c| matches!(c, '*' | '•' | '●'))
+            .take(3)
+            .count()
+            >= 3
+    {
+        return true;
+    }
+    let closed = |open: &str, close: usize| {
+        if !rest.starts_with(open) {
+            return false;
+        }
+        let marks = marks.get_or_init(|| ReferenceMarks::new(text));
+        let Some(found) = marks.next(close, at + open.len()) else {
+            return false;
+        };
+        // A close counts only before the next space; no close spans one.
+        if marks
+            .next(ReferenceMarks::SPACE, at)
+            .is_some_and(|space| space < found)
+        {
+            return false;
+        }
+        let end = found + [0, 1, 1, 2][close];
+        // `<…>` and `%…%` longer than two characters, and any `{{…}}`, are
+        // references; only the short ones need the full check.
+        end - at > 4 || prose_reference(&text[at..end])
+    };
+    closed("<", ReferenceMarks::ANGLE)
+        || closed("%", ReferenceMarks::PERCENT)
+        || closed("{{", ReferenceMarks::BRACES)
+}
+
+// Positions of whitespace, `>`, `%`, `}}` and `}` in a layer, so the next
+// one after any position is a binary search.
+struct ReferenceMarks {
+    at: [Vec<usize>; 5],
+}
+
+impl ReferenceMarks {
+    const SPACE: usize = 0;
+    const ANGLE: usize = 1;
+    const PERCENT: usize = 2;
+    const BRACES: usize = 3;
+    const BRACE: usize = 4;
+
+    fn new(text: &str) -> Self {
+        let mut at: [Vec<usize>; 5] = Default::default();
+        for (i, c) in text.char_indices() {
+            match c {
+                '>' => at[Self::ANGLE].push(i),
+                '%' => at[Self::PERCENT].push(i),
+                '}' => {
+                    at[Self::BRACE].push(i);
+                    if text[i + 1..].starts_with('}') {
+                        at[Self::BRACES].push(i);
+                    }
+                }
+                c if c.is_whitespace() => at[Self::SPACE].push(i),
+                _ => {}
+            }
+        }
+        Self { at }
+    }
+
+    fn next(&self, kind: usize, from: usize) -> Option<usize> {
+        let list = &self.at[kind];
+        list.get(list.partition_point(|&p| p < from)).copied()
+    }
+}
+
+// A reference or placeholder that is the whole value, with nothing literal
+// glued to it: `[REDACTED]abc` and `<a>abc<b>` are values.
+fn whole_reference(value: &str) -> bool {
+    if let Some(rest) = value.strip_prefix(REDACTION_TOKEN) {
+        return rest.starts_with(char::is_whitespace)
+            || rest.chars().all(|c| c.is_ascii_punctuation() && c != '$');
+    }
+    let inner = |open: &str, close: &str| {
+        value
+            .strip_prefix(open)
+            .and_then(|v| v.strip_suffix(close))
+            .is_some_and(|v| !v.contains(close) && !v.contains(open))
+    };
+    if value.starts_with("${{") {
+        return inner("${{", "}}") && prose_reference(value);
+    }
+    if value.starts_with("{{") {
+        return inner("{{", "}}") && prose_reference(value);
+    }
+    if value.starts_with('<') && value.ends_with('>') {
+        return inner("<", ">");
+    }
+    if value.starts_with('%') && value.ends_with('%') && value.len() > 2 {
+        return inner("%", "%");
+    }
+    if value.starts_with("op://") {
+        return !value.contains(['"', '\'', '`', ' ']);
+    }
+    prose_reference(value)
 }
 
 fn comment_variable(value: &str) -> bool {
@@ -3514,7 +5461,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         spans.push(begin.start()..end);
         pos = end;
     }
-    credential_prose(&view, &mut spans);
+    let prose = credential_prose(&view, input, &mut spans);
     let mut url_values = Vec::new();
     urls(&view, &mut url_values);
     relative_userinfo(&view, &mut url_values);
@@ -3560,7 +5507,61 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
             context.push(range);
         }
     }
-    assignments(&view, inherited, &mut spans, &context);
+    let assigned = spans.len();
+    let mut wrapped = Vec::new();
+    assignments(&view, inherited, &mut spans, &context, &mut wrapped);
+    let mut values: Vec<Range<usize>> = Vec::new();
+    if prose.iter().any(|p| p.gate == Gate::Assigned) {
+        let mut found = spans[assigned..].to_vec();
+        found.extend(wrapped.iter().cloned());
+        found.sort_unstable_by_key(|r| (r.start, r.end));
+        for range in found {
+            if let Some(last) = values.last_mut().filter(|last| range.start <= last.end) {
+                last.end = last.end.max(range.end);
+            } else {
+                values.push(range);
+            }
+        }
+    }
+    let within = |ranges: &[Range<usize>], probe: usize| {
+        let n = ranges.partition_point(|r| r.end <= probe);
+        ranges.get(n).is_some_and(|r| r.start <= probe)
+    };
+    let inside = |probe: usize| within(&context, probe);
+    // Sorted by start with a running maximum end, so the ranges holding a
+    // probe are found without scanning every wrapped value per disclosure.
+    wrapped.sort_unstable_by_key(|r| (r.start, r.end));
+    let reach: Vec<usize> = wrapped
+        .iter()
+        .scan(0, |end, r| {
+            *end = (*end).max(r.end);
+            Some(*end)
+        })
+        .collect();
+    let mut disclosed: Vec<Range<usize>> = Vec::new();
+    for p in prose {
+        let accepted = match p.gate {
+            Gate::Always => true,
+            Gate::Outside => !inside(p.probe),
+            Gate::Assigned => !inside(p.probe) && within(&values, p.probe),
+        };
+        if !accepted {
+            continue;
+        }
+        // Words before the key kept the assignment engine from redacting
+        // the value; the disclosure covers what the bare key would have.
+        if p.gate == Gate::Assigned {
+            let mut i = wrapped.partition_point(|r| r.start <= p.probe);
+            while i > 0 && reach[i - 1] > p.probe {
+                i -= 1;
+                let r = &wrapped[i];
+                if p.probe < r.end {
+                    disclosed.push(view.source_start(r.start)..view.source_end(r.end - 1));
+                }
+            }
+        }
+        disclosed.push(p.source);
+    }
     spans.extend(url_values);
     if policy == Policy::Pii {
         for m in pii_regex().find_iter(&view.text) {
@@ -3571,6 +5572,7 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
         .into_iter()
         .filter(|r| r.start < r.end)
         .map(|r| view.source_start(r.start)..view.source_end(r.end - 1))
+        .chain(disclosed.into_iter().filter(|r| r.start < r.end))
         .collect();
     render(input, original)
 }
@@ -3612,5 +5614,627 @@ fn render(input: &str, mut original: Vec<Range<usize>>) -> crate::ScrubReport {
     crate::ScrubReport {
         text: out,
         redactions: merged,
+    }
+}
+
+#[cfg(test)]
+mod context_window_tests {
+    use super::{call_argument_context, code_object_context, type_context, View};
+    use regex::Regex;
+
+    // Straightforward reference: the same 512-byte window rounded up to a
+    // char boundary, matched by the full patterns with no prefilter.
+    fn window(view: &View, key: usize) -> &str {
+        let mut start = key.saturating_sub(512);
+        while !view.text.is_char_boundary(start) {
+            start += 1;
+        }
+        &view.text[start..key]
+    }
+
+    fn reference(patterns: &[Regex; 3], view: &View, key: usize) -> [bool; 3] {
+        let window = window(view, key);
+        [
+            patterns[0].is_match(window),
+            patterns[1].is_match(window),
+            patterns[2].is_match(window),
+        ]
+    }
+
+    #[test]
+    fn source_context_predicates_match_reference_windows() {
+        let patterns = [
+            Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").unwrap(),
+            Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$").unwrap(),
+            Regex::new(r"[A-Za-z_][A-Za-z0-9_]*\((?:[^(){};]*,)?[ \t\r\n]*$").unwrap(),
+        ];
+        let openers = [
+            "fn f(",
+            "fn g<T: Into<u8>>(a: T, ",
+            "struct X {",
+            "struct X { a: u8 } ",
+            "interface X { a: b;",
+            "type X = {",
+            "type X = { a } ",
+            "const x = {",
+            "let y = { z: {",
+            "x={",
+            "json!({",
+            "json!(",
+            "Callee(",
+            "Callee(a, ",
+            "Callee(a); ",
+            "(",
+            "{",
+            "}",
+            ")",
+            "=",
+            "fn",
+            "type",
+            "x \"pw: a\" ",
+            "plain prose, no opener ",
+        ];
+        let fillers = [
+            "x", " ", "a", "\t", "\r\n", "\n", ",", ";", "é", "日", "😀", "(", "{", "}", ")", "=",
+            "fn ", "Callee", "_",
+        ];
+        let mut seed = 0x2545_f491_4f6c_dd1du64;
+        let mut next = move |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut cases = 0usize;
+        for opener in openers {
+            for round in 0..24 {
+                // Pad so the opener sits near the window edge: padding stops
+                // once the text and the opener reach the target
+                // 505 + round % 16 - round % 3 bytes (within 503..=520).
+                let mut text = String::new();
+                let pad = ["x", "é", "日", "😀"][round % 4];
+                while text.len() + opener.len() < 505 + round % 16 - round % 3 {
+                    text.push_str(pad);
+                }
+                let at = next(text.len().max(1));
+                let at = (0..=at).rev().find(|&i| text.is_char_boundary(i)).unwrap();
+                text.insert_str(at, opener);
+                for _ in 0..next(6) {
+                    text.push_str(fillers[next(fillers.len())]);
+                }
+                let view = View::new(&text);
+                let end = view.text.len();
+                // Keys at the end, right after the opener, and where the
+                // window is exactly 511, 512 or 513 bytes before rounding.
+                let mut keys = vec![end, at + opener.len()];
+                for back in 0..4 {
+                    for edge in [511, 512, 513] {
+                        keys.push(back + edge);
+                    }
+                }
+                keys.retain(|&key| key <= end && view.text.is_char_boundary(key));
+                for _ in 0..8 {
+                    let key = next(end + 1);
+                    if view.text.is_char_boundary(key) {
+                        keys.push(key);
+                    }
+                }
+                for key in keys {
+                    let got = [
+                        type_context(&view, key),
+                        code_object_context(&view, key),
+                        call_argument_context(&view, key),
+                    ];
+                    assert_eq!(
+                        got,
+                        reference(&patterns, &view, key),
+                        "{:?} at {key}",
+                        view.text
+                    );
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 1_000, "{cases}");
+    }
+
+    // The word checks give the answers of the standard library calls they
+    // replace, with Unicode spaces and multi-byte text next to the words.
+    #[test]
+    fn word_checks_match_std() {
+        use super::{holds, last_word_is};
+        let parts = [
+            "fn",
+            "f",
+            "type",
+            "typ",
+            "let",
+            "const",
+            "var",
+            "json!",
+            "json",
+            "struct",
+            "interface",
+            " ",
+            "\t",
+            "\r\n",
+            "\u{a0}",
+            "\u{2003}",
+            "é",
+            "ﬁ",
+            "x",
+            "_",
+            "(",
+            "{",
+            "=",
+        ];
+        let words = [
+            "fn",
+            "type",
+            "let",
+            "const",
+            "var",
+            "json!",
+            "struct",
+            "interface",
+            "ﬁ",
+        ];
+        let mut seed = 0x5EED_u64;
+        let mut next = |m: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % m as u64) as usize
+        };
+        for _ in 0..20_000 {
+            let text: String = (0..next(7)).map(|_| parts[next(parts.len())]).collect();
+            for word in words {
+                assert_eq!(holds(&text, word), text.contains(word), "{text:?} {word:?}");
+                assert_eq!(
+                    last_word_is(&text, &[word]),
+                    text.split_whitespace().last() == Some(word),
+                    "{text:?} {word:?}"
+                );
+            }
+            assert_eq!(
+                last_word_is(&text, &["let", "const", "var"]),
+                matches!(
+                    text.split_whitespace().last(),
+                    Some("let" | "const" | "var")
+                ),
+                "{text:?}"
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod value_shape_tests {
+    use super::{bounded_prefix, excerpt_value, labeled_toy, regex_value, View};
+
+    // The three checks as they were written before the value's shape was
+    // checked first: every prefix scan runs, then the value is looked at.
+    fn regex_reference(view: &View, position: usize, value: &str) -> bool {
+        let prefix = bounded_prefix(view, position);
+        let value = if prefix.contains("= /") {
+            value
+                .strip_suffix("/g")
+                .or_else(|| value.strip_suffix('/'))
+                .unwrap_or(value)
+        } else {
+            value
+        };
+        if prefix.contains("sed ") && prefix.ends_with("/^") && value == "/" {
+            return true;
+        }
+        (prefix.contains("sed ") && prefix.ends_with("/^")
+            || prefix.contains("rg ")
+            || prefix.contains("grep ")
+            || prefix.contains("= /"))
+            && ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"].contains(&value)
+    }
+
+    fn toy_reference(view: &View, position: usize, value: &str) -> bool {
+        let lower = bounded_prefix(view, position).to_ascii_lowercase();
+        let labeled = [
+            "synthetic fixture:",
+            "toy example:",
+            "test fixture:",
+            "test_vector",
+            "synthetic_fixture",
+        ]
+        .iter()
+        .any(|label| lower.contains(label));
+        labeled
+            && value.len() <= 64
+            && ["toy", "fixture", "test"]
+                .iter()
+                .any(|p| value.to_ascii_lowercase().starts_with(p))
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    }
+
+    fn excerpt_reference(view: &View, position: usize, value: &str) -> bool {
+        bounded_prefix(view, position)
+            .to_ascii_lowercase()
+            .contains("excerpt")
+            && value.len() <= 32
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b.is_ascii_whitespace())
+    }
+
+    // Prefixes built from every cue the checks look for, with multi-byte
+    // text, line breaks and padding that moves cues across the 512-byte
+    // window edge; values of every shape each check accepts or rejects.
+    #[test]
+    fn value_shape_checks_match_reference() {
+        let parts = [
+            "sed ",
+            "sed 's/^",
+            "/^",
+            "rg ",
+            "grep ",
+            "= /",
+            "x = /",
+            "synthetic fixture:",
+            "Toy Example:",
+            "TEST FIXTURE:",
+            "test_vector",
+            "Synthetic_Fixture",
+            "excerpt",
+            "EXCERPT",
+            "pw: ",
+            "password=",
+            " ",
+            "\t",
+            "\n",
+            "\r\n",
+            "x",
+            "é",
+            "日",
+            "😀",
+            "/",
+            "^",
+        ];
+        let regexes = ["\\s", "\\s+", "\\s*", ".*", "[A-Z]", "[A-Z]+", "[A-Z]*"];
+        let mut values: Vec<String> = Vec::new();
+        for r in regexes {
+            for suffix in ["", "/", "/g", "//", "/g/", "x"] {
+                values.push(format!("{r}{suffix}"));
+            }
+        }
+        for v in [
+            "",
+            "/",
+            "//",
+            "//g",
+            "/g",
+            "///",
+            "g",
+            "\\",
+            "toy",
+            "Toy_1",
+            "TOYx",
+            "fixture",
+            "Fixture9",
+            "test",
+            "testing_123",
+            "test-1",
+            "testé",
+            "tes",
+            "x_toy",
+            "toy ",
+            "abc",
+            "a b",
+            "a\tb",
+            "lower words",
+            "ABC",
+            "aé",
+            "a=b",
+            "[REDACTED]",
+        ] {
+            values.push(v.to_string());
+        }
+        values.push(format!("toy{}", "a".repeat(61)));
+        values.push(format!("toy{}", "a".repeat(62)));
+        values.push("a".repeat(32));
+        values.push("a".repeat(33));
+        let mut seed = 0x9E37_79B9_7F4A_7C15_u64;
+        let mut next = move |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut hits = [0usize; 3];
+        let mut cases = 0usize;
+        for round in 0..3_000 {
+            let mut text: String = (0..next(8)).map(|_| parts[next(parts.len())]).collect();
+            if round % 3 == 0 {
+                // Cues near the window edge.
+                let pad = ["x", "é", "日", "😀"][next(4)];
+                while text.len() < 500 + next(24) {
+                    text.insert_str(0, pad);
+                }
+                for _ in 0..next(4) {
+                    text.push_str(parts[next(parts.len())]);
+                }
+            }
+            let view = View::new(&text);
+            let end = view.text.len();
+            let mut keys = vec![end, next(end + 1)];
+            keys.retain(|&key| view.text.is_char_boundary(key));
+            for key in keys {
+                for value in &values {
+                    let got = [
+                        regex_value(&view, key, value),
+                        labeled_toy(&view, key, value),
+                        excerpt_value(&view, key, value),
+                    ];
+                    let want = [
+                        regex_reference(&view, key, value),
+                        toy_reference(&view, key, value),
+                        excerpt_reference(&view, key, value),
+                    ];
+                    assert_eq!(got, want, "{:?} at {key} value {value:?}", view.text);
+                    for (hit, w) in hits.iter_mut().zip(want) {
+                        *hit += usize::from(w);
+                    }
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
+        assert!(hits.iter().all(|&h| h > 100), "{hits:?}");
+    }
+}
+
+#[cfg(test)]
+mod prose_scan_tests {
+    use super::{
+        bracket_opener, next_list_key, placeholder_run, prose_reference, reference_prefix,
+        BracketCloses, ListKeys, ValueTables, REDACTION_TOKEN,
+    };
+
+    // Short texts of every token the three tables look at, mixed with
+    // multi-byte text, spaces and line breaks.
+    fn texts() -> Vec<String> {
+        let tokens = [
+            "(",
+            ")",
+            "[",
+            "]",
+            "{",
+            "}",
+            "{{",
+            "}}",
+            "<",
+            ">",
+            "%",
+            ";",
+            "&",
+            "=",
+            "==",
+            " ",
+            "  ",
+            "\t",
+            "\n",
+            "\r\n",
+            "\u{a0}",
+            "a",
+            "_k",
+            "key",
+            "a.b-c",
+            "9",
+            "é",
+            "日",
+            "😀",
+            "*",
+            "***",
+            "•",
+            REDACTION_TOKEN,
+            "\"",
+            "'",
+            ",",
+        ];
+        let mut seed = 0x0005_DEEC_E66Du64;
+        let mut next = |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut texts = Vec::new();
+        for _ in 0..3_000 {
+            let mut text = String::new();
+            for _ in 0..next(24) {
+                text.push_str(tokens[next(tokens.len())]);
+            }
+            texts.push(text);
+        }
+        // A key whose `=` lies 40 and 41 bytes after the separator.
+        for n in [39, 40, 41] {
+            for tail in ["", "=", "==", "x"] {
+                texts.push(format!("a; {}={tail}", "k".repeat(n)));
+                texts.push(format!("&{}={tail}", "k".repeat(n)));
+            }
+        }
+        // Several `==` keys, so a cut can fall right after a later one.
+        texts.push("a; k==; j==; i=x".into());
+        texts.push("&k==&j== &i==".into());
+        texts
+    }
+
+    fn boundaries(text: &str) -> Vec<usize> {
+        (0..=text.len())
+            .filter(|&i| text.is_char_boundary(i))
+            .collect()
+    }
+
+    // The scan `unquoted_prose_value` ran from each value start.
+    fn close_reference(text: &str, start: usize, line_end: usize, opener: char) -> Option<usize> {
+        let mut nested = Vec::new();
+        for (i, ch) in text[start..line_end].char_indices() {
+            match ch {
+                '(' | '[' | '{' => nested.push(ch),
+                ')' | ']' | '}' if nested.last() == Some(&bracket_opener(ch)) => {
+                    nested.pop();
+                }
+                ')' | ']' | '}' if nested.is_empty() && bracket_opener(ch) == opener => {
+                    return Some(start + i);
+                }
+                _ => {}
+            }
+        }
+        None
+    }
+
+    fn list_reference(text: &str, start: usize, line_end: usize, sep: char) -> Option<usize> {
+        let list = &text[start..line_end];
+        list.char_indices()
+            .find_map(|(i, ch)| (ch == sep && next_list_key(&list[i + 1..])).then_some(start + i))
+    }
+
+    fn prefix_reference(text: &str) -> bool {
+        let token = text.split(char::is_whitespace).next().unwrap_or("");
+        let closed = |open: &str, close: &str| {
+            token.strip_prefix(open).is_some_and(|rest| {
+                rest.find(close)
+                    .is_some_and(|n| prose_reference(&token[..open.len() + n + close.len()]))
+            })
+        };
+        token.starts_with(REDACTION_TOKEN)
+            || closed("<", ">")
+            || closed("%", "%")
+            || closed("{{", "}}")
+            || token
+                .chars()
+                .take_while(|c| matches!(c, '*' | '•' | '●'))
+                .count()
+                >= 3
+    }
+
+    #[test]
+    fn line_tables_match_reference_scans() {
+        let mut cases = 0usize;
+        for text in texts() {
+            let at = boundaries(&text);
+            let closes = BracketCloses::new(&text);
+            let lists = ListKeys::new(&text);
+            let marks = std::cell::OnceCell::new();
+            for (n, &start) in at.iter().enumerate() {
+                assert_eq!(
+                    reference_prefix(&text, start, &marks),
+                    prefix_reference(&text[start..]),
+                    "{text:?} at {start}"
+                );
+                for &line_end in &at[n..] {
+                    for opener in ['(', '[', '{'] {
+                        assert_eq!(
+                            closes.first(start, opener).filter(|&p| p < line_end),
+                            close_reference(&text, start, line_end, opener),
+                            "{text:?} {opener} {start}..{line_end}"
+                        );
+                    }
+                    for sep in [';', '&'] {
+                        assert_eq!(
+                            lists.first(sep, start, line_end),
+                            list_reference(&text, start, line_end, sep),
+                            "{text:?} {sep} {start}..{line_end}"
+                        );
+                    }
+                    cases += 1;
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
+    }
+
+    // The placeholder run `unquoted_prose_value` scanned for from each value
+    // start, searching for each close to the line end.
+    fn run_reference(text: &str, start: usize, line_end: usize) -> usize {
+        let line = &text[start..line_end];
+        let mut placeholders = 0;
+        while let Some(n) = [("${{", "}}"), ("{{", "}}"), ("<", ">"), ("${", "}")]
+            .iter()
+            .find_map(|(open, close)| {
+                let rest = &line[placeholders..];
+                rest.strip_prefix(open)?;
+                let n = rest.find(close)? + close.len();
+                prose_reference(&rest[..n]).then_some(n)
+            })
+        {
+            placeholders += n;
+        }
+        start + placeholders
+    }
+
+    #[test]
+    fn placeholder_runs_match_the_scan() {
+        let tokens = [
+            "<",
+            ">",
+            "<>",
+            "<a>",
+            "</a>",
+            "{",
+            "}",
+            "{{",
+            "}}",
+            "${",
+            "${{",
+            "$",
+            "a",
+            "_b",
+            "a.b",
+            ":-",
+            ":-x",
+            "-",
+            "?",
+            " ",
+            "\t",
+            "\n",
+            "é",
+            "😀",
+            "*",
+            "%",
+            ",",
+            REDACTION_TOKEN,
+        ];
+        let mut seed = 0x0000_9A1C_E401u64;
+        let mut next = |n: usize| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed % n as u64) as usize
+        };
+        let mut cases = 0usize;
+        for _ in 0..2_000 {
+            let mut text = String::new();
+            for _ in 0..next(20) {
+                text.push_str(tokens[next(tokens.len())]);
+            }
+            let at = boundaries(&text);
+            // One table per text, filled in both directions, so runs kept
+            // from earlier starts and other line ends are reused.
+            for order in [false, true] {
+                let tables = ValueTables::default();
+                for n in 0..at.len() {
+                    let n = if order { at.len() - 1 - n } else { n };
+                    let start = at[n];
+                    for &line_end in &at[n..] {
+                        assert_eq!(
+                            placeholder_run(&text, start, line_end, &tables),
+                            run_reference(&text, start, line_end),
+                            "{text:?} {start}..{line_end}"
+                        );
+                        cases += 1;
+                    }
+                }
+            }
+        }
+        assert!(cases > 100_000, "{cases}");
     }
 }

@@ -1,0 +1,1143 @@
+[
+  {
+    "id": "reviewer-000",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "my password is ABC#*$(",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "reviewer-001",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "my password is x",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "reviewer-002",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "the password is #",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "reviewer-003",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "my password is 'hunter2'",
+    "expected": "my password is '[REDACTED]'"
+  },
+  {
+    "id": "reviewer-004",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "my passphrase is x",
+    "expected": "my passphrase is [REDACTED]"
+  },
+  {
+    "id": "reviewer-005",
+    "family": "reviewer",
+    "kind": "positive",
+    "input": "my pwd is x",
+    "expected": "my pwd is [REDACTED]"
+  },
+  {
+    "id": "mandatory-006",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password is x",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "mandatory-007",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password is 'x'",
+    "expected": "my password is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-008",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password is \"x\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-009",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the password was #",
+    "expected": "the password was [REDACTED]"
+  },
+  {
+    "id": "mandatory-010",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the password was '#'",
+    "expected": "the password was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-011",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the password was \"#\"",
+    "expected": "the password was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-012",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password: !",
+    "expected": "my password: [REDACTED]"
+  },
+  {
+    "id": "mandatory-013",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password: '!'",
+    "expected": "my password: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-014",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password: \"!\"",
+    "expected": "my password: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-015",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "password is q",
+    "expected": "password is [REDACTED]"
+  },
+  {
+    "id": "mandatory-016",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "password is 'q'",
+    "expected": "password is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-017",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "password is \"q\"",
+    "expected": "password is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-018",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode is x",
+    "expected": "my passcode is [REDACTED]"
+  },
+  {
+    "id": "mandatory-019",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode is 'x'",
+    "expected": "my passcode is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-020",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode is \"x\"",
+    "expected": "my passcode is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-021",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passcode was #",
+    "expected": "the passcode was [REDACTED]"
+  },
+  {
+    "id": "mandatory-022",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passcode was '#'",
+    "expected": "the passcode was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-023",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passcode was \"#\"",
+    "expected": "the passcode was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-024",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode: !",
+    "expected": "my passcode: [REDACTED]"
+  },
+  {
+    "id": "mandatory-025",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode: '!'",
+    "expected": "my passcode: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-026",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passcode: \"!\"",
+    "expected": "my passcode: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-027",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passcode is q",
+    "expected": "passcode is [REDACTED]"
+  },
+  {
+    "id": "mandatory-028",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passcode is 'q'",
+    "expected": "passcode is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-029",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passcode is \"q\"",
+    "expected": "passcode is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-030",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase is x",
+    "expected": "my passphrase is [REDACTED]"
+  },
+  {
+    "id": "mandatory-031",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase is 'x'",
+    "expected": "my passphrase is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-032",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase is \"x\"",
+    "expected": "my passphrase is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-033",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passphrase was #",
+    "expected": "the passphrase was [REDACTED]"
+  },
+  {
+    "id": "mandatory-034",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passphrase was '#'",
+    "expected": "the passphrase was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-035",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passphrase was \"#\"",
+    "expected": "the passphrase was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-036",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase: !",
+    "expected": "my passphrase: [REDACTED]"
+  },
+  {
+    "id": "mandatory-037",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase: '!'",
+    "expected": "my passphrase: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-038",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passphrase: \"!\"",
+    "expected": "my passphrase: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-039",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passphrase is q",
+    "expected": "passphrase is [REDACTED]"
+  },
+  {
+    "id": "mandatory-040",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passphrase is 'q'",
+    "expected": "passphrase is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-041",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passphrase is \"q\"",
+    "expected": "passphrase is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-042",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd is x",
+    "expected": "my passwd is [REDACTED]"
+  },
+  {
+    "id": "mandatory-043",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd is 'x'",
+    "expected": "my passwd is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-044",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd is \"x\"",
+    "expected": "my passwd is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-045",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passwd was #",
+    "expected": "the passwd was [REDACTED]"
+  },
+  {
+    "id": "mandatory-046",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passwd was '#'",
+    "expected": "the passwd was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-047",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the passwd was \"#\"",
+    "expected": "the passwd was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-048",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd: !",
+    "expected": "my passwd: [REDACTED]"
+  },
+  {
+    "id": "mandatory-049",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd: '!'",
+    "expected": "my passwd: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-050",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my passwd: \"!\"",
+    "expected": "my passwd: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-051",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passwd is q",
+    "expected": "passwd is [REDACTED]"
+  },
+  {
+    "id": "mandatory-052",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passwd is 'q'",
+    "expected": "passwd is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-053",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "passwd is \"q\"",
+    "expected": "passwd is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-054",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd is x",
+    "expected": "my pwd is [REDACTED]"
+  },
+  {
+    "id": "mandatory-055",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd is 'x'",
+    "expected": "my pwd is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-056",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd is \"x\"",
+    "expected": "my pwd is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-057",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pwd was #",
+    "expected": "the pwd was [REDACTED]"
+  },
+  {
+    "id": "mandatory-058",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pwd was '#'",
+    "expected": "the pwd was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-059",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pwd was \"#\"",
+    "expected": "the pwd was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-060",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd: !",
+    "expected": "my pwd: [REDACTED]"
+  },
+  {
+    "id": "mandatory-061",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd: '!'",
+    "expected": "my pwd: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-062",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pwd: \"!\"",
+    "expected": "my pwd: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-063",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pwd is q",
+    "expected": "pwd is [REDACTED]"
+  },
+  {
+    "id": "mandatory-064",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pwd is 'q'",
+    "expected": "pwd is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-065",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pwd is \"q\"",
+    "expected": "pwd is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-066",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw is x",
+    "expected": "my pw is [REDACTED]"
+  },
+  {
+    "id": "mandatory-067",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw is 'x'",
+    "expected": "my pw is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-068",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw is \"x\"",
+    "expected": "my pw is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-069",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pw was #",
+    "expected": "the pw was [REDACTED]"
+  },
+  {
+    "id": "mandatory-070",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pw was '#'",
+    "expected": "the pw was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-071",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pw was \"#\"",
+    "expected": "the pw was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-072",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw: !",
+    "expected": "my pw: [REDACTED]"
+  },
+  {
+    "id": "mandatory-073",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw: '!'",
+    "expected": "my pw: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-074",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pw: \"!\"",
+    "expected": "my pw: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-075",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pw is q",
+    "expected": "pw is [REDACTED]"
+  },
+  {
+    "id": "mandatory-076",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pw is 'q'",
+    "expected": "pw is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-077",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pw is \"q\"",
+    "expected": "pw is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-078",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code is x",
+    "expected": "my pass code is [REDACTED]"
+  },
+  {
+    "id": "mandatory-079",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code is 'x'",
+    "expected": "my pass code is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-080",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code is \"x\"",
+    "expected": "my pass code is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-081",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass code was #",
+    "expected": "the pass code was [REDACTED]"
+  },
+  {
+    "id": "mandatory-082",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass code was '#'",
+    "expected": "the pass code was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-083",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass code was \"#\"",
+    "expected": "the pass code was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-084",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code: !",
+    "expected": "my pass code: [REDACTED]"
+  },
+  {
+    "id": "mandatory-085",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code: '!'",
+    "expected": "my pass code: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-086",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass code: \"!\"",
+    "expected": "my pass code: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-087",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass code is q",
+    "expected": "pass code is [REDACTED]"
+  },
+  {
+    "id": "mandatory-088",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass code is 'q'",
+    "expected": "pass code is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-089",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass code is \"q\"",
+    "expected": "pass code is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-090",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase is x",
+    "expected": "my pass phrase is [REDACTED]"
+  },
+  {
+    "id": "mandatory-091",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase is 'x'",
+    "expected": "my pass phrase is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-092",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase is \"x\"",
+    "expected": "my pass phrase is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-093",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass phrase was #",
+    "expected": "the pass phrase was [REDACTED]"
+  },
+  {
+    "id": "mandatory-094",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass phrase was '#'",
+    "expected": "the pass phrase was '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-095",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "the pass phrase was \"#\"",
+    "expected": "the pass phrase was \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-096",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase: !",
+    "expected": "my pass phrase: [REDACTED]"
+  },
+  {
+    "id": "mandatory-097",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase: '!'",
+    "expected": "my pass phrase: '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-098",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my pass phrase: \"!\"",
+    "expected": "my pass phrase: \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-099",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass phrase is q",
+    "expected": "pass phrase is [REDACTED]"
+  },
+  {
+    "id": "mandatory-100",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass phrase is 'q'",
+    "expected": "pass phrase is '[REDACTED]'"
+  },
+  {
+    "id": "mandatory-101",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "pass phrase is \"q\"",
+    "expected": "pass phrase is \"[REDACTED]\""
+  },
+  {
+    "id": "mandatory-102",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "password: x",
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "mandatory-103",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "Password: #",
+    "expected": "Password: [REDACTED]"
+  },
+  {
+    "id": "mandatory-104",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "my password is hunter2.",
+    "expected": "my password is [REDACTED]."
+  },
+  {
+    "id": "mandatory-105",
+    "family": "mandatory",
+    "kind": "positive",
+    "input": "note: my pwd was \"a b c\" yesterday",
+    "expected": "note: my pwd was \"[REDACTED]\" yesterday"
+  },
+  {
+    "id": "documentary-106",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password field is optional",
+    "expected": "the password field is optional"
+  },
+  {
+    "id": "documentary-107",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "password is required",
+    "expected": "password is required"
+  },
+  {
+    "id": "documentary-108",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "The password is required.",
+    "expected": "The password is required."
+  },
+  {
+    "id": "documentary-109",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is stored hashed",
+    "expected": "the password is stored hashed"
+  },
+  {
+    "id": "documentary-110",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "what is the password?",
+    "expected": "what is the password?"
+  },
+  {
+    "id": "documentary-111",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "password is case-sensitive",
+    "expected": "password is case-sensitive"
+  },
+  {
+    "id": "documentary-112",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "if the password is wrong, try again",
+    "expected": "if the password is wrong, try again"
+  },
+  {
+    "id": "documentary-113",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "Your password is invalid.",
+    "expected": "Your password is invalid."
+  },
+  {
+    "id": "documentary-114",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is incorrect",
+    "expected": "the password is incorrect"
+  },
+  {
+    "id": "documentary-115",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is too short",
+    "expected": "the password is too short"
+  },
+  {
+    "id": "documentary-116",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is not set",
+    "expected": "the password is not set"
+  },
+  {
+    "id": "documentary-117",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "password is not required",
+    "expected": "password is not required"
+  },
+  {
+    "id": "documentary-118",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is the same as before",
+    "expected": "the password is the same as before"
+  },
+  {
+    "id": "documentary-119",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is at least 8 characters",
+    "expected": "the password is at least 8 characters"
+  },
+  {
+    "id": "documentary-120",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "The password is 8 characters long.",
+    "expected": "The password is 8 characters long."
+  },
+  {
+    "id": "documentary-121",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is used to unlock the vault",
+    "expected": "the password is used to unlock the vault"
+  },
+  {
+    "id": "documentary-122",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is in the vault",
+    "expected": "the password is in the vault"
+  },
+  {
+    "id": "documentary-123",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password was changed yesterday",
+    "expected": "the password was changed yesterday"
+  },
+  {
+    "id": "documentary-124",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password was reset",
+    "expected": "the password was reset"
+  },
+  {
+    "id": "documentary-125",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is now required",
+    "expected": "the password is now required"
+  },
+  {
+    "id": "documentary-126",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is set",
+    "expected": "the password is set"
+  },
+  {
+    "id": "documentary-127",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is empty",
+    "expected": "the password is empty"
+  },
+  {
+    "id": "documentary-128",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is optional",
+    "expected": "the password is optional"
+  },
+  {
+    "id": "documentary-129",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the passphrase is case-sensitive",
+    "expected": "the passphrase is case-sensitive"
+  },
+  {
+    "id": "documentary-130",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the passcode is required",
+    "expected": "the passcode is required"
+  },
+  {
+    "id": "documentary-131",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the pin and password are stored",
+    "expected": "the pin and password are stored"
+  },
+  {
+    "id": "documentary-132",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "your password is your email address",
+    "expected": "your password is your email address"
+  },
+  {
+    "id": "documentary-133",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is a credential field",
+    "expected": "the password is a credential field"
+  },
+  {
+    "id": "documentary-134",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "password is valid",
+    "expected": "password is valid"
+  },
+  {
+    "id": "documentary-135",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is being rotated",
+    "expected": "the password is being rotated"
+  },
+  {
+    "id": "documentary-136",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is hashed with bcrypt",
+    "expected": "the password is hashed with bcrypt"
+  },
+  {
+    "id": "documentary-137",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is never logged",
+    "expected": "the password is never logged"
+  },
+  {
+    "id": "documentary-138",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is generated randomly",
+    "expected": "the password is generated randomly"
+  },
+  {
+    "id": "documentary-139",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is expired",
+    "expected": "the password is expired"
+  },
+  {
+    "id": "documentary-140",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is null",
+    "expected": "the password is null"
+  },
+  {
+    "id": "documentary-141",
+    "family": "documentary",
+    "kind": "benign",
+    "input": "the password is unknown",
+    "expected": "the password is unknown"
+  },
+  {
+    "id": "reference-142",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is $PASSWORD",
+    "expected": "the password is $PASSWORD"
+  },
+  {
+    "id": "reference-143",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is ${PASSWORD}",
+    "expected": "the password is ${PASSWORD}"
+  },
+  {
+    "id": "reference-144",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is {{password}}",
+    "expected": "the password is {{password}}"
+  },
+  {
+    "id": "reference-145",
+    "family": "reference",
+    "kind": "benign",
+    "input": "my password is {{ password }}",
+    "expected": "my password is {{ password }}"
+  },
+  {
+    "id": "reference-146",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is process.env.PASSWORD",
+    "expected": "the password is process.env.PASSWORD"
+  },
+  {
+    "id": "reference-147",
+    "family": "reference",
+    "kind": "benign",
+    "input": "my password is ********",
+    "expected": "my password is ********"
+  },
+  {
+    "id": "reference-148",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is <password>",
+    "expected": "the password is <password>"
+  },
+  {
+    "id": "reference-149",
+    "family": "reference",
+    "kind": "benign",
+    "input": "my password is [REDACTED]",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "reference-150",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is YOUR_PASSWORD",
+    "expected": "the password is YOUR_PASSWORD"
+  },
+  {
+    "id": "reference-151",
+    "family": "reference",
+    "kind": "benign",
+    "input": "my password is %PASSWORD%",
+    "expected": "my password is %PASSWORD%"
+  },
+  {
+    "id": "reference-152",
+    "family": "reference",
+    "kind": "benign",
+    "input": "the password is $env:PASSWORD",
+    "expected": "the password is $env:PASSWORD"
+  },
+  {
+    "id": "code-153",
+    "family": "code",
+    "kind": "benign",
+    "input": "const password: string",
+    "expected": "const password: string"
+  },
+  {
+    "id": "code-154",
+    "family": "code",
+    "kind": "positive",
+    "input": "password: string",
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "code-154-context",
+    "family": "code",
+    "kind": "benign",
+    "input": "struct S { password: string }",
+    "expected": "struct S { password: string }"
+  },
+  {
+    "id": "code-155",
+    "family": "code",
+    "kind": "positive",
+    "input": "  password: string;",
+    "expected": "  password: [REDACTED]"
+  },
+  {
+    "id": "code-155-context",
+    "family": "code",
+    "kind": "benign",
+    "input": "interface S { password: string; }",
+    "expected": "interface S { password: string; }"
+  },
+  {
+    "id": "code-156",
+    "family": "code",
+    "kind": "benign",
+    "input": "if password is None:",
+    "expected": "if password is None:"
+  },
+  {
+    "id": "code-157",
+    "family": "code",
+    "kind": "benign",
+    "input": "if password is not None:",
+    "expected": "if password is not None:"
+  },
+  {
+    "id": "code-158",
+    "family": "code",
+    "kind": "benign",
+    "input": "assert user.password is None",
+    "expected": "assert user.password is None"
+  },
+  {
+    "id": "code-159",
+    "family": "code",
+    "kind": "benign",
+    "input": "fn password_is_valid() -> bool { true }",
+    "expected": "fn password_is_valid() -> bool { true }"
+  },
+  {
+    "id": "code-160",
+    "family": "code",
+    "kind": "benign",
+    "input": "self.password is None",
+    "expected": "self.password is None"
+  }
+]

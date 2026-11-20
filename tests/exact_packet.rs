@@ -47,6 +47,9 @@ fn invented_residuals_and_positive_controls() {
         let output = scrub_text(input);
         assert_ne!(input, output, "positive shape {}", item["shape"]);
         assert!(verify(input, &output));
+        if let Some(expected) = item["expected"].as_str() {
+            assert_eq!(output, expected, "positive shape {}", item["shape"]);
+        }
     }
 }
 #[test]

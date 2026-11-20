@@ -33,11 +33,12 @@ Redact these independently of entropy:
   (including unsigned tokens), and JWE compact tokens with five segments;
   signatures are not verified. Private PEM/OpenSSH key blocks, including an
   unterminated block, are removed through their end or end of input.
-* Values assigned to password, passwd, pwd, passphrase, secret, client_secret,
-  api_key/apikey, access_key, secret_key, private_key, access_token, auth_token,
-  refresh_token, id_token, session_token/session_id, credential(s), token,
-  account_key and provider-prefixed equivalents. Connection-string and database
-  URL fields are inspected without removing unauthenticated URLs. Underscore,
+* Values assigned to password, passwd, pwd, passphrase, passcode, secret,
+  client_secret, api_key/apikey, access_key, secret_key, private_key,
+  access_token, auth_token, refresh_token, id_token, session_token/session_id,
+  credential(s), token, account_key and provider-prefixed equivalents.
+  Connection-string and database URL fields are inspected without removing
+  unauthenticated URLs. Underscore,
   hyphen and camel spellings are recognized. Separated key suffixes and credential suffixes such as
   dbPassword/githubToken/stripeSecret are sensitive. Bare `key` requires
   credential structure/context or a reviewed provider value shape. Exact public_key and
@@ -82,6 +83,147 @@ Empty env/header values end at their physical line. Cross-line values require an
 explicit quoted literal, quoted JSON key, inherited public-value context, code
 assignment literal, or indented YAML value. YAML blocks stop at sibling/outer
 indentation. Empty values stay empty. Redaction uses `[REDACTED]`.
+
+Prose disclosures of the nouns password, passcode, passphrase, passwd, pwd, pw,
+`pass code` and `pass phrase` (any case, optionally after my/our/your/his/her/
+their/its/the) redact the value after `is`, `was`, `is now`, `set to`, `is set
+to` or `was set to` (optionally followed by `:`), or after `:` or a single `=`
+with or without a determiner; `==`, `=>`, `::` and `!=` are operators, not cues.
+Words may be separated by any run of Unicode whitespace (Rust
+`char::is_whitespace`, a superset of WHATWG ASCII whitespace that includes
+U+0085, U+1680, U+2000-U+200A, U+2028, U+2029, U+202F, U+205F and U+3000;
+U+000A-U+000D, U+0085, U+2028 and U+2029 are line breaks) containing at most
+one line break (`\r\n` counts as one), also when the whitespace is spelled as an HTML
+character reference (`&#32;`, `&#x20;`, `&nbsp;`, `&ensp;` and the other named
+spaces), percent or `%u` encoding, or a `\u`/`\x` escape: `my pass\ncode is x`
+and `my&#32;password&#32;is&#32;x` redact `x`. After a bare `:` or `=` the value
+must start on the cue's line, and a value has no minimum length: `my password
+is x`, `pw: Q` and `the password is #` redact `x`, `Q` and `#`. A value opened by
+`'`, `"`, `` ` ``, `“` or `‘` is the content up to its matching close on the
+same line, otherwise within the next 1024 bytes; an unmatched quote redacts from
+the quote through the end of its line (after a bare `:` or `=` the opening quote
+stays visible, as for an assignment). Text that touches the close quote with
+no whitespace continues the value up to the next whitespace (`"abc"defq`,
+`""abcq` and `'abc'-defq` are one value each), unless it is only sentence or
+list punctuation (`"abc".` and `"abc", ok` keep `.` and `, ok`); a quoted
+segment in that text continues it too, with the same or another quote
+(`"abc""defq"` and `"abc"'defq'` are one value), and an unmatched one fails
+closed as above. A segment may open with any quote mark at the opener's escape
+level or another (`"abc"\"defq\"`, and `\"abc\"'defq'` or `\"abc\"\\\"defq\\\"`
+inside a JSON string, are one value each). The run ends only at whitespace, at
+a quote that closes a layer the line opened before the noun (the close of an
+enclosing JSON string, the `"` of `echo "pw is 'x'"`: the same mark at the same
+escape level), and at the close of the innermost bracket the line opened before
+it; a quoted string after whitespace is not part of it. After a quoted value, a
+`,`, `;` or `&` followed by a key-like field (an identifier or quoted key, then
+`=` or `:`, not `==` or `::`) ends the value (`password="abc",user="bob"`,
+`password="abc"&user=bob`), as does a `>` or `/>` when the line opened a tag
+before the noun (`<a password="abc">text</a>`); otherwise the text touching the
+close stays part of the value (`password="abc",defq`). No value, quoted,
+unterminated or bare, runs past the close of a layer the line opened before
+the noun: a bare value after `:` or `=` ends at the first such close, and any
+other value at the first one that structure follows (the end of the line,
+whitespace, a bracket, `:`, or a separator before a key-like field), so an
+unterminated segment in a JSON string redacts up to, never including, the
+string's close. When a value ends at the close of a quote the line opened
+before the noun and that close is touched by a quote of any mark or escape
+level, a letter, a digit, `_` or `$`, the touching run is part of the value as
+the text touching the value's own close is: it runs to the next whitespace, or
+up to and never including the close of a further enclosing layer, and the
+close is redacted with it (`he said 'pw: abc'defq` gives `he said 'pw:
+[REDACTED]`, `{"note":"he said \"pw: abc\"defq","user":"bob"}` keeps the
+`user` field). Sentence or list punctuation, whitespace or a field after that
+close ends the value there (`He said "pw: abc".`, `1,"pw: abc",3`). An empty quoted segment followed by text
+(`password=""abc`) is not an empty assignment. A
+straight quote preceded by an odd number of backslashes at the opener's escape
+level is escaped and does not close the
+value (`"abc\"def"` is one value; `"abc\\"` closes after the backslashes,
+which belong to the value); inside a JSON-escaped string the opener's own
+escape sets that level. An unquoted value runs to the end of its
+line and stops before `, `, `; `, `. ` or a following conjunction (and, but, so,
+then, because, which, or, though, although, while, when, if, unless, until,
+since); one trailing `.`, `,` or `;` stays visible, as does the close of the
+innermost bracket the line left open before the disclosure. After a `:` or `=`,
+bare or after a determiner, the whole rest of the value is redacted,
+conjunctions and documentary first words included (`my password: correct horse
+battery`, `the password: see vault`), and it ends at an enclosing quote, at
+the close that matches by type the innermost bracket the line left open before
+the noun in the noun's own string layer (a JSON object's or array's brackets
+outside the string that holds the noun never count), or at a `;` or `&` that
+starts the next `Key=` entry when the noun starts right after a `key=value`
+item ended by that same separator (`Server=db;Password=x;Encrypt=true`). Any
+other close bracket, `;` or `&` is part of the value, after the bare cue too
+(`pw: x]yq zq`, `(note pw: x]yq zq`, `{"note":"pw: x}yq zq"}`, `pw:
+abc&def=ghi`, `R&D pw: abc&def=ghi` and `note; my pw: abc;host=y` redact
+everything after the cue). Anything before the noun on
+its line never redacts less than the bare cue: an adjective, a verb phrase, a
+conjunction, a bullet or a label (`The new password: x`, `Please use pw = x`,
+`and my passcode: x`, `- note: the new pass code: x`, `We discussed password:
+x`) redacts the same value, and a close bracket the line did not open before
+the noun is part of it (`The new password: ab)cd` and `* password: ab)cd`
+redact `ab)cd`; `(my password: abc) see docs` keeps `)`), as is a `;` or `&`
+unless the noun follows a `key=value` item and that separator (`my pw: abc&def=ghi`
+redacts `abc&def=ghi`; `host=db;my password=abc;user=x` keeps `;user=x`).
+A `#` or `//` comment line before the noun, a `Bearer` value and a `{{ }}`
+template placeholder keep their own rulings.
+Documentary text after a word cue is not a value: an unquoted value whose
+first word is a predicate or participle (required, optional, stored, hashed, wrong, case-sensitive and the reviewed list
+in the engine), an `-able`/`-ible` adjective, an `-ed` participle followed by a
+preposition, a determiner, preposition or adverb followed by more words (`the
+password is at least 8 characters`), or a count followed by a unit (`8
+characters long`). References and placeholders are not values, quoted or not:
+`$PASSWORD`, `${PASSWORD}`, `process.env.PASSWORD`, `{{password}}`,
+`${{ secrets.PASSWORD }}`,
+`<password>`, `%PASSWORD%`, `$env:PASSWORD`, `YOUR_PASSWORD`, `op://` paths,
+masks of three or more `*`/`•`, and `[REDACTED]`, which keeps a second scrub
+byte-identical. The exemption applies only when the whole value, all its
+contiguous quoted segments and glued text taken together, is one reference
+or placeholder, or a run made only of them (`"$A""$B"`, `${A}${B}`). When any
+contiguous part is literal, every part is value and the whole run becomes one
+marker, whatever its shape or first character: `pw: "abc""$defq"`,
+`password="$defq""abc"`, `pw: ${defq}abc`, `x "pw: abc""<defq>"`,
+`x "pw: abc"%DEFQ%` and `pw: "[REDACTED]""abc"` keep nothing. Whitespace still
+separates (`pw: "abc" "$defq"` keeps `"$defq"`). After a bare `:` or `=` only references, a lone `None`/`null`/
+`nil`/`undefined` and type annotations in source context are not values;
+documentary words are (`pw: required` redacts, as `password: required` always
+has). A type annotation needs independently recognisable source context: a fn
+signature or a struct, interface or type body around the key, or a
+`let`/`const`/`var` declaration naming it (`struct X { pw: Vec<u8> }`,
+`fn f(pw: String)`, `const pw: string`). Without it a type-looking value is
+credential data and fails closed, so `pw: abcq<defq>`, `pw: Vec<u8>`,
+`password: Option<String>,` and `pw: string` redact, and a comma or semicolon
+does not make a value a type. This is an accepted precision tradeoff: without
+source context in the engine's bounded view (at most 512 bytes back in the
+same string), a type-looking value fails closed, so a body field on its own
+line (`    pw: Vec<u8>,`), in its own NDJSON record or more than 512 bytes
+below its opener redacts. A comma or semicolon inside a bracket the value
+opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`).
+The same rule holds for every credential key (password nouns, token, secret,
+api_key, auth and the other sensitive names) whose value after a bare colon
+looks like code: a `match` expression, a call, a member or call chain, an
+arrow function, `function() {…}`, or `??`/`||` fallbacks. The value is kept only
+with independently recognisable source context, and a source-shaped value does
+not establish it. Three contexts count: a type body or fn signature as above,
+an object literal assigned or passed to `json!` (`const x = {pw: a.b}`), or a
+labelled argument of an unclosed call whose `(` follows a callee directly, with
+no `;`, `{`, `}` or nested parenthesis between the `(` and the key, within the
+same 512-byte view (`login(password: orchid.river)`). Without one of them the
+value redacts: `password: match option {…};`, `token: async () => getToken()`,
+`auth: config.auth || defaultAuth`, `{ pw: orchid.river }`, `(password:
+orchid.river)` and `let x = Foo { pw: orchid.river }` redact. This trades
+precision for recall in both directions. Struct literals, class members
+(`private token: vscode.CancellationToken;`) and calls with a space before `(`
+now redact. Prose shaped like a call (`Note(see below, password: orchid.river`)
+is kept. An `&` or `&mut` value is kept only as a type in a type body or fn
+signature (`fn f(pwd: &str)`). After a word prefix a value that starts with
+`&` redacts too (`admin password: &abcq`). An arrow's `>` (`=>`, `->`) does not close a bracket, so a
+`match` with several arms is one value: `pw: match a { b => c, d => e }`
+redacts to `pw: [REDACTED]`. Code is not
+prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
+`\`, or directly by if/elif/while/assert/and/or/not/return/lambda (`if password
+is None`), is skipped. These spans merge with assignment spans and stay within
+the five-pass budget. pass, PIN, secret, key and token are not prose-disclosure
+nouns (`the key is pressed`, `a token is a unit of text`).
 
 ## Information preserved and PII policy
 
@@ -176,8 +318,8 @@ with a digit in it is token material. An unquoted identity followed by another
 assignment on the same line is judged with it and redacted (fail closed); quoted and
 structured values keep the identity.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
-resource names, language literals, code expressions and type annotations are
-preserved. Placeholder URL passwords are preserved only on reserved example or
+resource names, language literals, code expressions and type annotations with
+source context are preserved. Placeholder URL passwords are preserved only on reserved example or
 local hosts; ordinary credentials on those hosts remain sensitive.
 
 The crate owns manifest schema 3, JS ABI 2 and `scrubProfile`. Error disposition

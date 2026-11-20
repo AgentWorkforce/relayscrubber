@@ -357,7 +357,12 @@
   {
     "family": "earlier_type_declaration_or_syntax",
     "input": "refresh_token: tokio::sync::Mutex<()>",
-    "expected": "refresh_token: tokio::sync::Mutex<()>"
+    "expected": "refresh_token: [REDACTED]"
+  },
+  {
+    "family": "earlier_type_declaration_or_syntax",
+    "input": "struct S { refresh_token: tokio::sync::Mutex<()> }",
+    "expected": "struct S { refresh_token: tokio::sync::Mutex<()> }"
   },
   {
     "family": "earlier_operator_or_regex_syntax",
@@ -377,7 +382,7 @@
   {
     "family": "earlier_`assignment`",
     "input": "password: match option { Some(v) => v, None => return };",
-    "expected": "password: match option { Some(v) => v, None => return };"
+    "expected": "password: [REDACTED]"
   },
   {
     "family": "earlier_`assignment`",
@@ -493,5 +498,10 @@
     "family": "bounded_flag_tail",
     "input": "deploy --idempotency-token aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaM8zR4vK7nP2qW6xAq9",
     "secret": "M8zR4vK7nP2qW6xAq9"
+  },
+  {
+    "family": "earlier_`assignment`",
+    "input": "const opts = {password: match option { Some(v) => v, None => return }};",
+    "expected": "const opts = {password: match option { Some(v) => v, None => return }};"
   }
 ]

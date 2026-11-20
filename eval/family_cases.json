@@ -73,13 +73,13 @@
       "https://demo:password@localhost/db"
     ],
     "type_declaration_or_syntax": [
-      "refresh_token: tokio::sync::Mutex<()>",
-      "token: std::sync::Arc<String>",
-      "password: Option<String>",
+      "struct S { refresh_token: tokio::sync::Mutex<()> }",
+      "fn f(token: std::sync::Arc<String>)",
+      "struct S { password: Option<String> }",
       "interface Config { apiKey: string; token: boolean }",
       "type Config = { password?: string; token: credential_type }",
-      "token: HashMap<String, Credential>",
-      "refresh_token: Custom<Token>"
+      "struct S { token: HashMap<String, Credential> }",
+      "fn f(refresh_token: Custom<Token>) {}"
     ],
     "operator_or_regex_syntax": [
       "ssh --no-reset-password | head -1",
@@ -232,6 +232,31 @@
       "explicit_assignment_4",
       "password: see the configuration guide",
       "see the configuration guide"
+    ],
+    [
+      "context_free_type_1",
+      "refresh_token: tokio::sync::Mutex<()>",
+      "tokio::sync::Mutex<()>"
+    ],
+    [
+      "context_free_type_2",
+      "token: std::sync::Arc<String>",
+      "std::sync::Arc<String>"
+    ],
+    [
+      "context_free_type_3",
+      "password: Option<String>",
+      "Option<String>"
+    ],
+    [
+      "context_free_type_4",
+      "token: HashMap<String, Credential>",
+      "HashMap<String, Credential>"
+    ],
+    [
+      "context_free_type_5",
+      "refresh_token: Custom<Token>",
+      "Custom<Token>"
     ]
   ],
   "structured": [

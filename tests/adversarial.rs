@@ -29,3 +29,100 @@ fn bounded_adversarial_work_at_64_and_256_kib() {
         }
     }
 }
+
+// Prose disclosure families: the line's quote, bracket and list state is
+// built once per line, so each family stays linear with every prefix.
+#[test]
+fn bounded_prose_disclosure_work_at_64_and_256_kib() {
+    let _ = scrub_text("warmup");
+    for size in [65_536, 262_144] {
+        for unit in [
+            "pw: \"x\" ",
+            "x \"pw: a\" ",
+            "{\"note\":\"pw: \\\"a\\\"'b'",
+            "\"pw=\"",
+            "\\\"password=\\\"",
+            "pw: \"a\"\\\"b\\\"",
+            "password=\"$a\"\"b\" ",
+            "pw: \"a\"\"$b\" ",
+            "x \"pw: a\"<b> ",
+            "pw: ${a}b ",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\""] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                let input = &input[..size];
+                let start = Instant::now();
+                std::hint::black_box(scrub_text(input));
+                assert!(
+                    start.elapsed() < Duration::from_secs(5),
+                    "prose disclosure family {unit:?} after {prefix:?} exceeded the CI bound"
+                );
+            }
+        }
+    }
+}
+
+// Where a bare value ends: at the close of the bracket the line opened, at
+// the next key of a `;` or `&` list, or at text glued to a quote close. Each
+// is found from per-line state, not by scanning to the line end per key.
+#[test]
+fn bounded_prose_value_end_work_at_64_and_256_kib() {
+    let _ = scrub_text("warmup");
+    for size in [65_536, 262_144] {
+        for unit in [
+            "pw: a, (",
+            "pw: a, {",
+            "pw: a, f(",
+            "f(pw: a, ",
+            "pw: a, Note(",
+            "pw: a, x = {",
+            "password=a, f(",
+            "pw: asee below, Note(",
+            "; a=b&pw: ",
+            "a=b; pwd:\t",
+            "\\u0022]; a=b&passcode: =",
+            "\\\"&'pw:\\u0022\"x",
+            "\"pw:a\"<b",
+            "\"pw:a\"{{b",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\""] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                let input = &input[..size];
+                let start = Instant::now();
+                std::hint::black_box(scrub_text(input));
+                assert!(
+                    start.elapsed() < Duration::from_secs(5),
+                    "prose value end family {unit:?} after {prefix:?} exceeded the CI bound"
+                );
+            }
+        }
+    }
+}
+
+// A value that starts with a placeholder (`<a>`, `{{a}}`, `${a}`): the close
+// of each one is looked up, not searched for to the line end, and a run of
+// them is walked once per line, not once per key that starts inside it.
+#[test]
+fn bounded_prose_placeholder_work_at_64_and_256_kib() {
+    let _ = scrub_text("warmup");
+    for size in [65_536, 262_144] {
+        for unit in [
+            "<passwd was </a>",
+            "PW was <, and ]",
+            "\"); passphrase was <",
+            "my password is <, but ",
+            "{{ a }}PW was <, and ]",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\""] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                let input = &input[..size];
+                let start = Instant::now();
+                std::hint::black_box(scrub_text(input));
+                assert!(
+                    start.elapsed() < Duration::from_secs(5),
+                    "prose placeholder family {unit:?} after {prefix:?} exceeded the CI bound"
+                );
+            }
+        }
+    }
+}

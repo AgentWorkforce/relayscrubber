@@ -1,0 +1,1196 @@
+[
+  {
+    "id": "allowlist-000",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "my password is required",
+    "expected": "my password is required"
+  },
+  {
+    "id": "allowlist-001",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "my password is Required.",
+    "expected": "my password is Required."
+  },
+  {
+    "id": "allowlist-002",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "my password is REQUIRED",
+    "expected": "my password is REQUIRED"
+  },
+  {
+    "id": "allowlist-003",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is stored",
+    "expected": "the password is stored"
+  },
+  {
+    "id": "allowlist-004",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is stored in the vault",
+    "expected": "the password is stored in the vault"
+  },
+  {
+    "id": "allowlist-005",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is configurable",
+    "expected": "the password is configurable"
+  },
+  {
+    "id": "allowlist-006",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is configurable.",
+    "expected": "the password is configurable."
+  },
+  {
+    "id": "allowlist-007",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is wrong",
+    "expected": "the password is wrong"
+  },
+  {
+    "id": "allowlist-008",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is strong",
+    "expected": "the password is strong"
+  },
+  {
+    "id": "allowlist-009",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is set",
+    "expected": "the password is set"
+  },
+  {
+    "id": "allowlist-010",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is null",
+    "expected": "the password is null"
+  },
+  {
+    "id": "allowlist-011",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is hashed with bcrypt",
+    "expected": "the password is hashed with bcrypt"
+  },
+  {
+    "id": "allowlist-012",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is case-sensitive",
+    "expected": "the password is case-sensitive"
+  },
+  {
+    "id": "allowlist-013",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is 8 chars",
+    "expected": "the password is 8 chars"
+  },
+  {
+    "id": "allowlist-014",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is 8 characters long",
+    "expected": "the password is 8 characters long"
+  },
+  {
+    "id": "allowlist-015",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is not here",
+    "expected": "the password is not here"
+  },
+  {
+    "id": "allowlist-016",
+    "family": "allowlist",
+    "kind": "benign",
+    "input": "the password is see vault",
+    "expected": "the password is see vault"
+  },
+  {
+    "id": "allowlist-017",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is requiredX",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-018",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is require",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-019",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is unrequired",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-020",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is required1",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-021",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is requir",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-022",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is required_",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-023",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "my password is required-ish",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-024",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is storedabc",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-025",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is storedabc in the vault",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-026",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is store in the vault",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-027",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is configurabl",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-028",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is configurableX",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-029",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is able",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-030",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is wrongX",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-031",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is strongest",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-032",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is weakly",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-033",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is setx",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-034",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is nullx",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-035",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is hashedx with bcrypt",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-036",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is case-sensitivex",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-037",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is 8 charsx",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-038",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is 8x characters",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-039",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is 8 apples",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-040",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is 8",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-041",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is see",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-042",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is not",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "allowlist-043",
+    "family": "allowlist",
+    "kind": "positive",
+    "input": "the password is a",
+    "expected": "the password is [REDACTED]"
+  },
+  {
+    "id": "extent_multiword-044",
+    "family": "extent_multiword",
+    "kind": "positive",
+    "input": "my password is blue horse battery staple",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_multiword-045",
+    "family": "extent_multiword",
+    "kind": "positive",
+    "input": "my password is blue horse battery staple.",
+    "expected": "my password is [REDACTED]."
+  },
+  {
+    "id": "extent_multiword-046",
+    "family": "extent_multiword",
+    "kind": "positive",
+    "input": "my password: blue horse battery staple",
+    "expected": "my password: [REDACTED]"
+  },
+  {
+    "id": "extent_multiword-047",
+    "family": "extent_multiword",
+    "kind": "positive",
+    "input": "the password = blue horse battery staple",
+    "expected": "the password = [REDACTED]"
+  },
+  {
+    "id": "extent_multiword-048",
+    "family": "extent_multiword",
+    "kind": "positive",
+    "input": "my passphrase was blue horse battery staple",
+    "expected": "my passphrase was [REDACTED]"
+  },
+  {
+    "id": "extent_punctuation-049",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2.",
+    "expected": "my password is [REDACTED]."
+  },
+  {
+    "id": "extent_punctuation-050",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2,",
+    "expected": "my password is [REDACTED],"
+  },
+  {
+    "id": "extent_punctuation-051",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2;",
+    "expected": "my password is [REDACTED];"
+  },
+  {
+    "id": "extent_punctuation-052",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2!",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_punctuation-053",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2?",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_punctuation-054",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2..",
+    "expected": "my password is [REDACTED]."
+  },
+  {
+    "id": "extent_punctuation-055",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2.;",
+    "expected": "my password is [REDACTED];"
+  },
+  {
+    "id": "extent_punctuation-056",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2,.",
+    "expected": "my password is [REDACTED]."
+  },
+  {
+    "id": "extent_punctuation-057",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2. Then log in",
+    "expected": "my password is [REDACTED]. Then log in"
+  },
+  {
+    "id": "extent_punctuation-058",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2, then log in",
+    "expected": "my password is [REDACTED], then log in"
+  },
+  {
+    "id": "extent_punctuation-059",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is hunter2; then log in",
+    "expected": "my password is [REDACTED]; then log in"
+  },
+  {
+    "id": "extent_punctuation-060",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is a.b.c",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_punctuation-061",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is a,b",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_punctuation-062",
+    "family": "extent_punctuation",
+    "kind": "positive",
+    "input": "my password is .",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_brackets-063",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "(my password is hunter2)",
+    "expected": "(my password is [REDACTED])"
+  },
+  {
+    "id": "extent_brackets-064",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "(my password is hunter2).",
+    "expected": "(my password is [REDACTED])."
+  },
+  {
+    "id": "extent_brackets-065",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "[my password is hunter2]",
+    "expected": "[my password is [REDACTED]]"
+  },
+  {
+    "id": "extent_brackets-066",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "{my password is hunter2}",
+    "expected": "{my password is [REDACTED]}"
+  },
+  {
+    "id": "extent_brackets-067",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "(my password is (hunter2))",
+    "expected": "(my password is [REDACTED])"
+  },
+  {
+    "id": "extent_brackets-068",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "(my password is hunter2))",
+    "expected": "(my password is [REDACTED])"
+  },
+  {
+    "id": "extent_brackets-069",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "my password is hunter2)",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_brackets-070",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "my password is (hunter2)",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_brackets-071",
+    "family": "extent_brackets",
+    "kind": "positive",
+    "input": "[my password is hunter2)",
+    "expected": "[my password is [REDACTED]"
+  },
+  {
+    "id": "extent_conjunction-072",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 and more words",
+    "expected": "my password is [REDACTED] and more words"
+  },
+  {
+    "id": "extent_conjunction-073",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 but more words",
+    "expected": "my password is [REDACTED] but more words"
+  },
+  {
+    "id": "extent_conjunction-074",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 so more words",
+    "expected": "my password is [REDACTED] so more words"
+  },
+  {
+    "id": "extent_conjunction-075",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 then more words",
+    "expected": "my password is [REDACTED] then more words"
+  },
+  {
+    "id": "extent_conjunction-076",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 because more words",
+    "expected": "my password is [REDACTED] because more words"
+  },
+  {
+    "id": "extent_conjunction-077",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 which more words",
+    "expected": "my password is [REDACTED] which more words"
+  },
+  {
+    "id": "extent_conjunction-078",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 or more words",
+    "expected": "my password is [REDACTED] or more words"
+  },
+  {
+    "id": "extent_conjunction-079",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 though more words",
+    "expected": "my password is [REDACTED] though more words"
+  },
+  {
+    "id": "extent_conjunction-080",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 although more words",
+    "expected": "my password is [REDACTED] although more words"
+  },
+  {
+    "id": "extent_conjunction-081",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 while more words",
+    "expected": "my password is [REDACTED] while more words"
+  },
+  {
+    "id": "extent_conjunction-082",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 when more words",
+    "expected": "my password is [REDACTED] when more words"
+  },
+  {
+    "id": "extent_conjunction-083",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 if more words",
+    "expected": "my password is [REDACTED] if more words"
+  },
+  {
+    "id": "extent_conjunction-084",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 unless more words",
+    "expected": "my password is [REDACTED] unless more words"
+  },
+  {
+    "id": "extent_conjunction-085",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 until more words",
+    "expected": "my password is [REDACTED] until more words"
+  },
+  {
+    "id": "extent_conjunction-086",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 since more words",
+    "expected": "my password is [REDACTED] since more words"
+  },
+  {
+    "id": "extent_conjunction-087",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is hunter2 AND more words",
+    "expected": "my password is [REDACTED] AND more words"
+  },
+  {
+    "id": "extent_conjunction-088",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is x andy",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_conjunction-089",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is x sandy",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_conjunction-090",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is and",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "extent_conjunction-091",
+    "family": "extent_conjunction",
+    "kind": "positive",
+    "input": "my password is blue horse and more words",
+    "expected": "my password is [REDACTED] and more words"
+  },
+  {
+    "id": "extent_two_disclosures-092",
+    "family": "extent_two_disclosures",
+    "kind": "positive",
+    "input": "my password is x and your password is y",
+    "expected": "my password is [REDACTED] and your password is [REDACTED]"
+  },
+  {
+    "id": "extent_two_disclosures-093",
+    "family": "extent_two_disclosures",
+    "kind": "positive",
+    "input": "my password is x, the passcode is y",
+    "expected": "my password is [REDACTED], the passcode is [REDACTED]"
+  },
+  {
+    "id": "extent_two_disclosures-094",
+    "family": "extent_two_disclosures",
+    "kind": "positive",
+    "input": "my password is x; my pw was y.",
+    "expected": "my password is [REDACTED]; my pw was [REDACTED]."
+  },
+  {
+    "id": "extent_two_disclosures-095",
+    "family": "extent_two_disclosures",
+    "kind": "positive",
+    "input": "my password is 'x' and my pwd is \"y\"",
+    "expected": "my password is '[REDACTED]' and my pwd is \"[REDACTED]\""
+  },
+  {
+    "id": "extent_two_disclosures-096",
+    "family": "extent_two_disclosures",
+    "kind": "positive",
+    "input": "my pass code is x and my pass phrase is y",
+    "expected": "my pass code is [REDACTED] and my pass phrase is [REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-097",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "extent_line_boundary-098",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x y\nz w",
+    "expected": "my password is [REDACTED]\nz w"
+  },
+  {
+    "id": "extent_line_boundary-099",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is hunter2.\nnext",
+    "expected": "my password is [REDACTED].\nnext"
+  },
+  {
+    "id": "extent_line_boundary-100",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x \nnext",
+    "expected": "my password is [REDACTED] \nnext"
+  },
+  {
+    "id": "extent_line_boundary-101",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is\nx",
+    "expected": "my password is\n[REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-102",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is\nx y\nz",
+    "expected": "my password is\n[REDACTED]\nz"
+  },
+  {
+    "id": "extent_line_boundary-103",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password\nis x",
+    "expected": "my password\nis [REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-104",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my\npassword is x",
+    "expected": "my\npassword is [REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-105",
+    "family": "extent_line_boundary",
+    "kind": "benign",
+    "input": "my password is\n\nx",
+    "expected": "my password is\n\nx"
+  },
+  {
+    "id": "extent_line_boundary-106",
+    "family": "extent_line_boundary",
+    "kind": "benign",
+    "input": "my password\n\nis x",
+    "expected": "my password\n\nis x"
+  },
+  {
+    "id": "extent_line_boundary-107",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "extent_line_boundary-108",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x y\r\nz w",
+    "expected": "my password is [REDACTED]\r\nz w"
+  },
+  {
+    "id": "extent_line_boundary-109",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is hunter2.\r\nnext",
+    "expected": "my password is [REDACTED].\r\nnext"
+  },
+  {
+    "id": "extent_line_boundary-110",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is x \r\nnext",
+    "expected": "my password is [REDACTED] \r\nnext"
+  },
+  {
+    "id": "extent_line_boundary-111",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is\r\nx",
+    "expected": "my password is\r\n[REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-112",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is\r\nx y\r\nz",
+    "expected": "my password is\r\n[REDACTED]\r\nz"
+  },
+  {
+    "id": "extent_line_boundary-113",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password\r\nis x",
+    "expected": "my password\r\nis [REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-114",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my\r\npassword is x",
+    "expected": "my\r\npassword is [REDACTED]"
+  },
+  {
+    "id": "extent_line_boundary-115",
+    "family": "extent_line_boundary",
+    "kind": "benign",
+    "input": "my password is\r\n\r\nx",
+    "expected": "my password is\r\n\r\nx"
+  },
+  {
+    "id": "extent_line_boundary-116",
+    "family": "extent_line_boundary",
+    "kind": "benign",
+    "input": "my password\r\n\r\nis x",
+    "expected": "my password\r\n\r\nis x"
+  },
+  {
+    "id": "extent_line_boundary-117",
+    "family": "extent_line_boundary",
+    "kind": "positive",
+    "input": "my password is \n x y\nz",
+    "expected": "my password is \n [REDACTED]\nz"
+  },
+  {
+    "id": "extent_no_suffix-118",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x trailing words here",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "extent_no_suffix-119",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x (note)",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "extent_no_suffix-120",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x -- see docs",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "extent_no_suffix-121",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x # comment",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "extent_no_suffix-122",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x now",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "extent_no_suffix-123",
+    "family": "extent_no_suffix",
+    "kind": "positive",
+    "input": "note: my password is x yesterday at noon",
+    "expected": "note: my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-124",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'a b c'",
+    "expected": "my password is '[REDACTED]'"
+  },
+  {
+    "id": "quoted-125",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'a b c' tail, and more",
+    "expected": "my password is '[REDACTED]' tail, and more"
+  },
+  {
+    "id": "quoted-126",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'a b c'.",
+    "expected": "my password is '[REDACTED]'."
+  },
+  {
+    "id": "quoted-127",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'abc\ndef' tail",
+    "expected": "my password is '[REDACTED]' tail"
+  },
+  {
+    "id": "quoted-128",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'abc\r\ndef' tail",
+    "expected": "my password is '[REDACTED]' tail"
+  },
+  {
+    "id": "quoted-129",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'abc def",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-130",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'abc def\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "quoted-131",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'abc def\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "quoted-132",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"a b c\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "quoted-133",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"a b c\" tail, and more",
+    "expected": "my password is \"[REDACTED]\" tail, and more"
+  },
+  {
+    "id": "quoted-134",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"a b c\".",
+    "expected": "my password is \"[REDACTED]\"."
+  },
+  {
+    "id": "quoted-135",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\ndef\" tail",
+    "expected": "my password is \"[REDACTED]\" tail"
+  },
+  {
+    "id": "quoted-136",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\r\ndef\" tail",
+    "expected": "my password is \"[REDACTED]\" tail"
+  },
+  {
+    "id": "quoted-137",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc def",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-138",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc def\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "quoted-139",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc def\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "quoted-140",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `a b c`",
+    "expected": "my password is `[REDACTED]`"
+  },
+  {
+    "id": "quoted-141",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `a b c` tail, and more",
+    "expected": "my password is `[REDACTED]` tail, and more"
+  },
+  {
+    "id": "quoted-142",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `a b c`.",
+    "expected": "my password is `[REDACTED]`."
+  },
+  {
+    "id": "quoted-143",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `abc\ndef` tail",
+    "expected": "my password is `[REDACTED]` tail"
+  },
+  {
+    "id": "quoted-144",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `abc\r\ndef` tail",
+    "expected": "my password is `[REDACTED]` tail"
+  },
+  {
+    "id": "quoted-145",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `abc def",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-146",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `abc def\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "quoted-147",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is `abc def\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "quoted-148",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “a b c”",
+    "expected": "my password is “[REDACTED]”"
+  },
+  {
+    "id": "quoted-149",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “a b c” tail, and more",
+    "expected": "my password is “[REDACTED]” tail, and more"
+  },
+  {
+    "id": "quoted-150",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “a b c”.",
+    "expected": "my password is “[REDACTED]”."
+  },
+  {
+    "id": "quoted-151",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “abc\ndef” tail",
+    "expected": "my password is “[REDACTED]” tail"
+  },
+  {
+    "id": "quoted-152",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “abc\r\ndef” tail",
+    "expected": "my password is “[REDACTED]” tail"
+  },
+  {
+    "id": "quoted-153",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “abc def",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-154",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “abc def\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "quoted-155",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “abc def\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "quoted-156",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘a b c’",
+    "expected": "my password is ‘[REDACTED]’"
+  },
+  {
+    "id": "quoted-157",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘a b c’ tail, and more",
+    "expected": "my password is ‘[REDACTED]’ tail, and more"
+  },
+  {
+    "id": "quoted-158",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘a b c’.",
+    "expected": "my password is ‘[REDACTED]’."
+  },
+  {
+    "id": "quoted-159",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘abc\ndef’ tail",
+    "expected": "my password is ‘[REDACTED]’ tail"
+  },
+  {
+    "id": "quoted-160",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘abc\r\ndef’ tail",
+    "expected": "my password is ‘[REDACTED]’ tail"
+  },
+  {
+    "id": "quoted-161",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘abc def",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-162",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘abc def\nnext line",
+    "expected": "my password is [REDACTED]\nnext line"
+  },
+  {
+    "id": "quoted-163",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is ‘abc def\r\nnext line",
+    "expected": "my password is [REDACTED]\r\nnext line"
+  },
+  {
+    "id": "quoted-164",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is “x\"",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "quoted-165",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is 'x’",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "inherited_assignment-166",
+    "family": "inherited_assignment",
+    "kind": "positive",
+    "input": "the password: see vault",
+    "expected": "the password: [REDACTED]",
+    "note": "Was `the password: [REDACTED] vault` through alpha.10 S1-S3 (the determiner sent the colon cue through the word-cue rules and the assignment scanner redacted only the first word). A colon or equals cue now assigns its whole value with or without a determiner, as the bare `password: see vault` always did."
+  },
+  {
+    "id": "inherited_assignment-167",
+    "family": "inherited_assignment",
+    "kind": "positive",
+    "input": "my password: required",
+    "expected": "my password: [REDACTED]",
+    "note": "Unchanged from alpha.9: the assignment scanner redacts the first word after `password:`/`password =`; the prose pass treats this value as documentary and leaves it."
+  },
+  {
+    "id": "inherited_assignment-168",
+    "family": "inherited_assignment",
+    "kind": "positive",
+    "input": "my password = required",
+    "expected": "my password = [REDACTED]",
+    "note": "Unchanged from alpha.9: the assignment scanner redacts the first word after `password:`/`password =`; the prose pass treats this value as documentary and leaves it."
+  },
+  {
+    "id": "inherited_assignment-169",
+    "family": "inherited_assignment",
+    "kind": "positive",
+    "input": "the password: required",
+    "expected": "the password: [REDACTED]",
+    "note": "Unchanged from alpha.9: the assignment scanner redacts the first word after `password:`/`password =`; the prose pass treats this value as documentary and leaves it."
+  }
+]

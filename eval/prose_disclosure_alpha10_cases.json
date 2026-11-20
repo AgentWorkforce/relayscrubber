@@ -1,0 +1,716 @@
+[
+  {
+    "id": "lead-s1-pw-colon",
+    "family": "lead",
+    "kind": "positive",
+    "input": "pw: hunter2",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "lead-s1-pass-code-colon",
+    "family": "lead",
+    "kind": "positive",
+    "input": "pass code: 4711",
+    "expected": "pass code: [REDACTED]"
+  },
+  {
+    "id": "lead-s1-pass-phrase-colon",
+    "family": "lead",
+    "kind": "positive",
+    "input": "pass phrase: correct horse battery staple",
+    "expected": "pass phrase: [REDACTED]"
+  },
+  {
+    "id": "s1 equals documentary first word",
+    "family": "s1",
+    "kind": "positive",
+    "input": "password = correct horse",
+    "expected": "password = [REDACTED]"
+  },
+  {
+    "id": "s1 colon conjunction in value",
+    "family": "s1",
+    "kind": "positive",
+    "input": "pass code: salt and pepper",
+    "expected": "pass code: [REDACTED]"
+  },
+  {
+    "id": "lead-s1-password-equals-multiword",
+    "family": "lead",
+    "kind": "positive",
+    "input": "password = velvet river lantern",
+    "expected": "password = [REDACTED]"
+  },
+  {
+    "id": "lead-s1-password-colon-multiword",
+    "family": "lead",
+    "kind": "positive",
+    "input": "password: velvet river lantern",
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "lead-s1-pw-equals-one-char",
+    "family": "lead",
+    "kind": "positive",
+    "input": "pw=Q",
+    "expected": "pw=[REDACTED]"
+  },
+  {
+    "id": "lead-s1-passcode-colon-symbol",
+    "family": "lead",
+    "kind": "positive",
+    "input": "Passcode: !",
+    "expected": "Passcode: [REDACTED]"
+  },
+  {
+    "id": "lead-s2-double",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is \"abc\\\"def\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "lead-s2-single",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is 'abc\\'def'",
+    "expected": "my password is '[REDACTED]'"
+  },
+  {
+    "id": "lead-s2-backtick",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is `abc\\`def`",
+    "expected": "my password is `[REDACTED]`"
+  },
+  {
+    "id": "lead-s2-even-closes",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is \"abc\\\\\" and more",
+    "expected": "my password is \"[REDACTED]\" and more"
+  },
+  {
+    "id": "lead-s2-three-escapes",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is \"abc\\\\\\\"def\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "lead-s2-json-level-one-odd",
+    "family": "lead",
+    "kind": "positive",
+    "input": "{\"note\": \"my password is \\\"abc\\\\\\\"def\\\"\"}",
+    "expected": "{\"note\": \"my password is \\\"[REDACTED]\\\"\"}"
+  },
+  {
+    "id": "lead-s2-json-level-one-five",
+    "family": "lead",
+    "kind": "positive",
+    "input": "{\"note\": \"my password is \\\"abc\\\\\\\\\\\"def\\\"\"}",
+    "expected": "{\"note\": \"my password is \\\"[REDACTED]\"}"
+  },
+  {
+    "id": "lead-s2-json-level-one-five-spaced",
+    "family": "lead",
+    "kind": "positive",
+    "input": "{\"note\": \"my password is \\\"abc\\\\\\\\\\\" def\\\"\"}",
+    "expected": "{\"note\": \"my password is \\\"[REDACTED]\\\" def\\\"\"}"
+  },
+  {
+    "id": "lead-s3-ogham",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is orchid",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "lead-s3-medium-math-space",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my passcode is orchid",
+    "expected": "my passcode is [REDACTED]"
+  },
+  {
+    "id": "lead-s3-next-line",
+    "family": "lead",
+    "kind": "positive",
+    "input": "mypassword is orchid",
+    "expected": "mypassword is [REDACTED]"
+  },
+  {
+    "id": "lead-s3-pass-newline-code",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my pass\ncode is 4711",
+    "expected": "my pass\ncode is [REDACTED]"
+  },
+  {
+    "id": "lead-s3-pass-newline-phrase",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my pass\nphrase is velvet river",
+    "expected": "my pass\nphrase is [REDACTED]"
+  },
+  {
+    "id": "lead-s3-decimal-entity",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my&#32;password&#32;is&#32;orchid",
+    "expected": "my&#32;password&#32;is&#32;[REDACTED]"
+  },
+  {
+    "id": "lead-s3-hex-entity",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my&#x20;password&#x20;is&#x20;orchid",
+    "expected": "my&#x20;password&#x20;is&#x20;[REDACTED]"
+  },
+  {
+    "id": "lead-s3-entity-in-value",
+    "family": "lead",
+    "kind": "positive",
+    "input": "my password is velvet&#32;river",
+    "expected": "my password is [REDACTED]"
+  },
+  {
+    "id": "context-free type pw: string",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pw: string",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "control struct X { pw: string }",
+    "family": "control",
+    "kind": "benign",
+    "input": "struct X { pw: string }",
+    "expected": "struct X { pw: string }"
+  },
+  {
+    "id": "context-free type pass code: string",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pass code: string",
+    "expected": "pass code: [REDACTED]"
+  },
+  {
+    "id": "context-free type pass phrase: string",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pass phrase: string",
+    "expected": "pass phrase: [REDACTED]"
+  },
+  {
+    "id": "context-free type passcode: boolean",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "passcode: boolean",
+    "expected": "passcode: [REDACTED]"
+  },
+  {
+    "id": "control struct X { passcode: boolean }",
+    "family": "control",
+    "kind": "benign",
+    "input": "struct X { passcode: boolean }",
+    "expected": "struct X { passcode: boolean }"
+  },
+  {
+    "id": "context-free type pwd: number",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pwd: number",
+    "expected": "pwd: [REDACTED]"
+  },
+  {
+    "id": "control fn f(pwd: number)",
+    "family": "control",
+    "kind": "benign",
+    "input": "fn f(pwd: number)",
+    "expected": "fn f(pwd: number)"
+  },
+  {
+    "id": "context-free type password: string",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "password: string",
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "control interface X { password: string }",
+    "family": "control",
+    "kind": "benign",
+    "input": "interface X { password: string }",
+    "expected": "interface X { password: string }"
+  },
+  {
+    "id": "context-free type pwd: &str",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pwd: &str",
+    "expected": "pwd: [REDACTED]"
+  },
+  {
+    "id": "control fn f(pwd: &str)",
+    "family": "control",
+    "kind": "benign",
+    "input": "fn f(pwd: &str)",
+    "expected": "fn f(pwd: &str)"
+  },
+  {
+    "id": "context-free type password: Option<String>,",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "password: Option<String>,",
+    "expected": "password: [REDACTED]"
+  },
+  {
+    "id": "control struct X { password: Option<String>, }",
+    "family": "control",
+    "kind": "benign",
+    "input": "struct X { password: Option<String>, }",
+    "expected": "struct X { password: Option<String>, }"
+  },
+  {
+    "id": "context-free type pw: Vec<u8>",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "pw: Vec<u8>",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "control struct X { pw: Vec<u8> }",
+    "family": "control",
+    "kind": "benign",
+    "input": "struct X { pw: Vec<u8> }",
+    "expected": "struct X { pw: Vec<u8> }"
+  },
+  {
+    "id": "control fn f(pw: String)",
+    "family": "control",
+    "kind": "benign",
+    "input": "fn f(pw: String)",
+    "expected": "fn f(pw: String)"
+  },
+  {
+    "id": "control const pw: string",
+    "family": "control",
+    "kind": "benign",
+    "input": "const pw: string",
+    "expected": "const pw: string"
+  },
+  {
+    "id": "context-free type   pw: string;",
+    "family": "context-free-type",
+    "kind": "positive",
+    "input": "  pw: string;",
+    "expected": "  pw: [REDACTED];"
+  },
+  {
+    "id": "control interface X { pw: string; }",
+    "family": "control",
+    "kind": "benign",
+    "input": "interface X { pw: string; }",
+    "expected": "interface X { pw: string; }"
+  },
+  {
+    "id": "control pw == x",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw == x",
+    "expected": "pw == x"
+  },
+  {
+    "id": "control if pw == x:",
+    "family": "control",
+    "kind": "benign",
+    "input": "if pw == x:",
+    "expected": "if pw == x:"
+  },
+  {
+    "id": "control pw => x",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw => x",
+    "expected": "pw => x"
+  },
+  {
+    "id": "control pw != x",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw != x",
+    "expected": "pw != x"
+  },
+  {
+    "id": "control pw::new()",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw::new()",
+    "expected": "pw::new()"
+  },
+  {
+    "id": "control pw := x",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw := x",
+    "expected": "pw := x"
+  },
+  {
+    "id": "control pw: $PW",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw: $PW",
+    "expected": "pw: $PW"
+  },
+  {
+    "id": "control pw = ${PW}",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw = ${PW}",
+    "expected": "pw = ${PW}"
+  },
+  {
+    "id": "control pw: ${{ secrets.PW }}",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw: ${{ secrets.PW }}",
+    "expected": "pw: ${{ secrets.PW }}"
+  },
+  {
+    "id": "control pass code: <your code>",
+    "family": "control",
+    "kind": "benign",
+    "input": "pass code: <your code>",
+    "expected": "pass code: <your code>"
+  },
+  {
+    "id": "control pw: [REDACTED]",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw: [REDACTED]",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "control pw = None",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw = None",
+    "expected": "pw = None"
+  },
+  {
+    "id": "control pw = \"\"",
+    "family": "control",
+    "kind": "benign",
+    "input": "pw = \"\"",
+    "expected": "pw = \"\""
+  },
+  {
+    "id": "control pass phrase:",
+    "family": "control",
+    "kind": "benign",
+    "input": "pass phrase:",
+    "expected": "pass phrase:"
+  },
+  {
+    "id": "colon pw: required",
+    "family": "s1",
+    "kind": "positive",
+    "input": "pw: required",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "control pass code is optional",
+    "family": "control",
+    "kind": "benign",
+    "input": "pass code is optional",
+    "expected": "pass code is optional"
+  },
+  {
+    "id": "control my pass phrase is configurable",
+    "family": "control",
+    "kind": "benign",
+    "input": "my pass phrase is configurable",
+    "expected": "my pass phrase is configurable"
+  },
+  {
+    "id": "control my&#32;password&#32;is&#32;required",
+    "family": "control",
+    "kind": "benign",
+    "input": "my&#32;password&#32;is&#32;required",
+    "expected": "my&#32;password&#32;is&#32;required"
+  },
+  {
+    "id": "control pass&#32;code&#32;is&#32;optional",
+    "family": "control",
+    "kind": "benign",
+    "input": "pass&#32;code&#32;is&#32;optional",
+    "expected": "pass&#32;code&#32;is&#32;optional"
+  },
+  {
+    "id": "control the&nbsp;password&nbsp;is&nbsp;stored&nbsp;in&nbsp;the&nbsp;vault",
+    "family": "control",
+    "kind": "benign",
+    "input": "the&nbsp;password&nbsp;is&nbsp;stored&nbsp;in&nbsp;the&nbsp;vault",
+    "expected": "the&nbsp;password&nbsp;is&nbsp;stored&nbsp;in&nbsp;the&nbsp;vault"
+  },
+  {
+    "id": "control password == x",
+    "family": "control",
+    "kind": "benign",
+    "input": "password == x",
+    "expected": "password == x"
+  },
+  {
+    "id": "control my password is \"$PASSWORD\"",
+    "family": "control",
+    "kind": "benign",
+    "input": "my password is \"$PASSWORD\"",
+    "expected": "my password is \"$PASSWORD\""
+  },
+  {
+    "id": "list keeps the next key 1",
+    "family": "list",
+    "kind": "positive",
+    "input": "Server=h;Database=d;User Id=u;Password=velvet river;Encrypt=true",
+    "expected": "Server=h;Database=d;User Id=u;Password=[REDACTED];Encrypt=true"
+  },
+  {
+    "id": "list keeps the next key 2",
+    "family": "list",
+    "kind": "positive",
+    "input": "Password = velvet river; Encrypt = true",
+    "expected": "Password = [REDACTED]; Encrypt = true"
+  },
+  {
+    "id": "list keeps the next key 3",
+    "family": "list",
+    "kind": "positive",
+    "input": "pass code=velvet river&ssl=true",
+    "expected": "pass code=[REDACTED]"
+  },
+  {
+    "id": "prefix-f1-the-new",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new password: zq9Secret",
+    "expected": "The new password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-please-use",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Please use password=zq9Secret",
+    "expected": "Please use password=[REDACTED]"
+  },
+  {
+    "id": "prefix-f1-enter-your",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Enter your pass phrase : velvet river lantern",
+    "expected": "Enter your pass phrase : [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-label",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "note: the new pw: hunter2",
+    "expected": "note: the new pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-bullet",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "- The new passcode = 4711",
+    "expected": "- The new passcode = [REDACTED]"
+  },
+  {
+    "id": "prefix-f1-first-word-reference",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "We use the password: example and then some",
+    "expected": "We use the password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-determiner-multiword",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my password: correct horseq batteryq",
+    "expected": "my password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-conjunction-determiner",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "and my password: correct horseq batteryq",
+    "expected": "and my password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-documentary-word",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "the password: see vault later",
+    "expected": "the password: [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-conjunction-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "our passwd = orchid7 and tulip",
+    "expected": "our passwd = [REDACTED]"
+  },
+  {
+    "id": "prefix-f2-quoted",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "your pwd: \"velvet river\"",
+    "expected": "your pwd: \"[REDACTED]\""
+  },
+  {
+    "id": "prefix-benign-expression",
+    "family": "prefix",
+    "kind": "benign",
+    "input": "Use the password: ${{ secrets.PW }}",
+    "expected": "Use the password: ${{ secrets.PW }}"
+  },
+  {
+    "id": "prefix-benign-variable",
+    "family": "prefix",
+    "kind": "benign",
+    "input": "and my password = $PASSWORD",
+    "expected": "and my password = $PASSWORD"
+  },
+  {
+    "id": "prefix-close-bracket-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new password: ab)cd",
+    "expected": "The new password: [REDACTED]"
+  },
+  {
+    "id": "prefix-bullet-close-bracket-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "* password: ab)cd",
+    "expected": "* password: [REDACTED]"
+  },
+  {
+    "id": "prefix-determiner-separator-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my pw: abc&def=ghi",
+    "expected": "my pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-semicolon-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "Use this passcode = k;host=y",
+    "expected": "Use this passcode = [REDACTED]"
+  },
+  {
+    "id": "prefix-bracket-opened-before-key",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "(my password: abc) see docs",
+    "expected": "(my password: [REDACTED]) see docs"
+  },
+  {
+    "id": "prefix-list-before-key",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "host=db;my password=abc;user=x",
+    "expected": "host=db;my password=[REDACTED];user=x"
+  },
+  {
+    "id": "bare-close-bracket-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: x]yq zq",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-close-paren-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: x)yq zq",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-ampersand-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: abc&def=ghi",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-semicolon-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pw: abc;host=y",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "bare-pass-code-ampersand-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pass code: abc&def=ghi",
+    "expected": "pass code: [REDACTED]"
+  },
+  {
+    "id": "bare-pass-phrase-semicolon-key-in-value",
+    "family": "bare",
+    "kind": "positive",
+    "input": "pass phrase: abc;host=y",
+    "expected": "pass phrase: [REDACTED]"
+  },
+  {
+    "id": "prefix-determiner-close-bracket-multiword",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "my pw: x]yq zq",
+    "expected": "my pw: [REDACTED]"
+  },
+  {
+    "id": "prefix-adjective-ampersand-key-in-value",
+    "family": "prefix",
+    "kind": "positive",
+    "input": "The new pw: abc&def=ghi",
+    "expected": "The new pw: [REDACTED]"
+  },
+  {
+    "id": "bare-bracket-opened-before-key",
+    "family": "bare",
+    "kind": "positive",
+    "input": "(my pw: abc) docs",
+    "expected": "(my pw: [REDACTED]) docs"
+  },
+  {
+    "id": "bare-list-before-key",
+    "family": "bare",
+    "kind": "positive",
+    "input": "host=db;pw=abc;user=x",
+    "expected": "host=db;pw=[REDACTED];user=x"
+  },
+  {
+    "id": "quoted-contiguous-same-quote",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\"\"defq\"",
+    "expected": "my password is \"[REDACTED]\""
+  },
+  {
+    "id": "quoted-contiguous-mixed-quotes",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\"'defq'",
+    "expected": "my password is \"[REDACTED]'"
+  },
+  {
+    "id": "quoted-whitespace-separated-later-string",
+    "family": "quoted",
+    "kind": "positive",
+    "input": "my password is \"abc\" \"defq\"",
+    "expected": "my password is \"[REDACTED]\" \"defq\""
+  }
+]

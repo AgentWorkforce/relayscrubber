@@ -52,6 +52,17 @@ test('64 KiB and 256 KiB adversarial inputs stay bounded', () => {
   }
 });
 
+// Prose disclosure families, one test each so Bun's per-test watchdog is untouched.
+for (const unit of ['pw: "x" ', 'x "pw: a" ', '{"note":"pw: \\"a\\"\'b\'', '"pw="', '\\"password=\\"', 'pw: "a"\\"b\\"']) test(`64 KiB and 256 KiB prose disclosure family ${JSON.stringify(unit)} stays bounded`, () => {
+  for (const size of [65536, 262144]) {
+    for (const prefix of ['', 'x "', '{"note":"']) {
+      const input = (prefix + unit.repeat(Math.ceil(size / unit.length))).slice(0, size);
+      const start = performance.now(); scrubber.scrubText(input);
+      assert.ok(performance.now() - start < 5000, 'adversarial operation exceeded 5 seconds');
+    }
+  }
+});
+
 const reviewCases = [
   ['direct_intervening_quote', 'password="SYNTH_ALPHA\nnote="SYNTH_BETA"', 'password="[REDACTED]'],
   ['public_property_intervening_quote', 'idempotency_key="password=SYNTH_ALPHA\nnote="SYNTH_BETA"', 'idempotency_key="password=[REDACTED]'],

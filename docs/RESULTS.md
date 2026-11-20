@@ -1,8 +1,149 @@
 # Candidate validation results
 
-Candidate version is `0.5.0-alpha.8`. Only invented inputs were used; no
+Candidate version is `0.5.0-alpha.10`. Only invented inputs were used; no
 sampled data, labels or private re-audit directories were accessed. No merge,
 tag, publication or consumer adoption is authorized by these results.
+
+## Alpha.10 prose disclosure security fixes (candidate)
+
+Three classes reported against the alpha.10 candidate (`643beb8`) are fixed
+before any release; this section records local and source-run results only
+and is not a PASS or an adoption claim. Two pins of the fixed code passed
+their exact-head runs and were then blocked in the independent review. Both
+are kept in [the receipt](results/review-fixes.json): the first (receipt head
+`639f7f0`, code `a9c679f5`, run `44568426111`, exact-head run `44574798433`)
+as `alpha10BlockedHostedArtifact`, the second (receipt head `48f9574`, code
+`9338339b`, run `44628698592`, exact-head run `44633710253`) as
+`alpha10SecondBlockedHostedArtifact`. The pin before them (run `44509387631`
+on `d36050c5`, code `135c26de`) is `alpha10SupersededHostedArtifact`. A third
+pin (receipt head `c20ad4e`, code `bab88e75`, run `44655994607`) failed its
+exact-head run `44660512336` on Windows in a bounded-work test and was
+withdrawn by the author before review; it is kept as
+`alpha10WithdrawnHostedArtifact`.
+
+The hosted artifact pin in `docs/results/` now names the build of the head
+`ffcefdef`, which is also the last code commit, from CI run
+`44691317618` (artifact `14608633834`, package SHA-256 `a6a30eb5…`, WASM
+`491fc18e…`, ruleset source `658c54d8…`); a local Rust 1.88.0 rebuild
+reproduces the package and every payload byte for byte. That run passed Linux
+and Windows Rust (172 tests each), the frozen 199 witnesses with no missed
+secret, Node 917/917 and Bun 917/917, and failed only its committed-pin
+check, which still compared against the withdrawn `c20ad4e` pins. The
+exact-head run of the commit carrying this pin must report committed-pin
+equality and reproduce the same package and payloads; that gate has not run
+yet and is reported with the handoff, not here.
+
+The withdrawn head failed on time, not on output, and its successor changes
+no output. The work is recorded under `alpha10BoundedWorkRepair` in the
+receipt:
+
+- The failing input was `x "pw: a" ` repeated to 256 KiB: the source-context
+  checks of the colon rule ran over the 512-byte view for every key. In a
+  local debug build it took 2,650 ms on the withdrawn head and takes
+  998 ms now.
+- Measuring it found two input classes that the bounded-work tests did not
+  contain and where work grew with the square of the line length: finding
+  where a bare value ends (`pw: a, (`, `a=b; pwd:` and similar), and a value
+  that starts with a placeholder (`<passwd was </a>`). The first was present
+  on the blocked head `48f9574` as well; `main` is linear on the measured
+  units. Both are now looked up from tables built once per line.
+- Two bounded-work tests pin 19 new units at 64 KiB and 256 KiB with the
+  same 5 s bound, and five tests compare each rewritten check with a direct
+  form of the same rule. The existing units and the bound are unchanged.
+- No output changed in 360,873 differential comparisons against the
+  build of the withdrawn head, in the recorded witnesses, or in the
+  qualification below.
+- Residual: the bound is wall-clock time on shared runners. The slowest
+  tested input takes 1,394 ms in the local debug build, so a runner about
+  3.6 times slower on that input would fail again.
+
+The second block named one class, recorded with before and after outputs
+under `alpha10ColonContextRepair` in the receipt:
+
+- After a bare colon, a type-looking value was kept with no evidence that it
+  was a type: `pw: abcq<defq>` stayed visible. A type annotation now needs
+  source context in the engine's view, which is at most 512 bytes before the
+  key in the same string: a fn signature, a struct, interface or type body
+  around the key, or a `let`/`const`/`var` declaration naming it. So
+  `struct X { pw: Vec<u8> }`, `fn f(pw: String)` and `const pw: string` are
+  unchanged, and `pw: abcq<defq>`, `pw: Vec<u8>`, `password: Option<String>,`
+  and `pw: string` redact. The controls that pinned the old output moved to
+  the positive sets, each with a source-context sibling that keeps its output.
+- Code-looking values after a bare colon had the same exemption and follow
+  the same rule, for every credential key: `password: Orchid.River99!`,
+  `pw: abc(def)` and `password: match option {…};` redact, and
+  `const opts = {password: orchid.river};` is unchanged.
+- Accepted precision tradeoff: no context is carried across lines or records.
+  A multi-line body within 512 bytes of its opener keeps its field; a field
+  line alone (`    pw: Vec<u8>,`), a field in its own NDJSON record and a
+  field more than 512 bytes below its opener redact. Struct literals, class
+  members and calls with a space before `(` now redact too, and the frozen
+  witness `switch-case-auth` no longer equals its archived output (163 of 199
+  exact, with no missed secret).
+- Still kept: a code-shaped value in a labelled argument of a call whose `(`
+  directly follows a callee, so `login(password: Orchid.River99!)` and prose
+  shaped like one (`Re(password: orchid.river)`) stay visible. These and the
+  other kept forms are listed under `alpha10ColonContextRepair.residuals`
+  for the review to rule on.
+
+Qualification (`scripts/qualify-prose-disclosures.mjs`, 7,541 cases, three
+forms) on the repaired head fails no case of a required scope on native Rust
+or on the WASM with the pinned hash, and the 22,623 native/WASM comparisons
+differ in no byte. The optional-noun scope, which is not required, keeps a
+value in 3,338 of its 3,952 cases per form.
+
+The first block named three classes, recorded with examples under
+`alpha10BlockRepair` in the receipt; they stay fixed:
+
+- A bare cue's value ends only at a bracket or list that the line opened
+  before the noun. An unmatched `)`, `]` or `}` and `&key=` or `;key=` are
+  value: `pw: abc) tail` and `pass phrase: abc&key=v` redact to the end.
+- Contiguous quoted segments and text glued to a close are one value:
+  `my password is "abc""defq"` becomes `my password is "[REDACTED]"`.
+  Whitespace still separates, so `"abc" "defq"` keeps `"defq"`. A value is
+  exempt only when the whole run is references or placeholders; one literal
+  part makes the whole run one marker.
+- `docs/results/ci.json` and the receipt's top-level `interface`,
+  `localChecks` and `controls` describe alpha.10; the alpha.8 objects are
+  kept under `alpha8Receipt` and the `alpha8…` keys.
+
+Forms the first repair left visible or over-redacts are carried under
+`alpha10ColonContextRepair.residuals`.
+
+The three classes fixed before the first block:
+
+- Colon and equals cues for all eight nouns, with or without `my`, redact the
+  whole value; type annotations, references and a lone `None` stay visible.
+- A close quote escaped at the opener's level (`\"`, `\'`, `` \` ``) no longer
+  ends the value; the 1024-byte bound is kept.
+- Every Rust/WHATWG whitespace character, one line break, and encoded
+  spellings (`&#32;`, `&#x20;`, `&nbsp;`, `%20`, `\u0020` and the rest of the
+  matrix) separate the words.
+
+`tests/prose_disclosure_alpha10.rs` and `js/test/prose-disclosure-alpha10.test.mjs`
+run each case through the five text, JSON and record APIs plus idempotence.
+On `643beb8` native Rust fails 188 of 2,912 cue cases, all 576 escape cases,
+3 of 3 escape bounds, 66 of 148 separator cases, 152 of 164 encoded cases and
+23 of 61 named cases; the candidate fails none. Qualification
+(`scripts/qualify-prose-disclosures.mjs`, 7,539 cases) and the 257
+precision-receipt rows are unchanged, and the synthetic evaluation differs only in
+the ruleset source hash and timing.
+
+A later probe of the candidate (`bcee2b3`) found that words or a bullet before
+the noun could still redact less than the bare cue: a sentence-like prefix
+(`The new password: zq9Secret`) leaked the whole value (F1), and a determiner
+(`my password: correct horse battery`) kept the words after a documentary
+word or conjunction (F2). Both now redact what the bare cue redacts. On
+`bcee2b3` the probe's F1 matrix leaks 21 of 666 rows and its F2 matrix 152 of
+336; the fix leaks none. A wider matrix of 101,760 prefixed lines (eight
+nouns, eight cue spacings, 30 value styles, 53 prefixes) through text, long
+and JSON text drops from 18,564 to 1,200 lines that keep a token the bare cue
+redacts; the rest are prefixes that open a bracket before the noun, whose
+close ends the value by design, and `orchidq, userq: bob`, where the bare
+line-start form redacts the whole line as YAML. The frozen witnesses, the
+qualification run and the 257 precision rows are unchanged; three superseded
+pins (`inherited_assignment-166` and ruling rows 6 and 22) now redact the
+whole value.
 
 ## Supplemental residual-row controls
 

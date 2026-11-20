@@ -32,10 +32,13 @@ fn invented_session_families_all_apis() {
     for (n, case) in cases["positive"].as_array().unwrap().iter().enumerate() {
         let input = case[0].as_str().unwrap();
         let secret = case[1].as_str().unwrap();
+        // A third element, where present, is the exact expected output.
+        let expected = case.get(2).and_then(Value::as_str);
         for (api, output) in paths(input).iter().enumerate() {
             if output.contains(secret)
                 || !output.contains(REDACTION_TOKEN)
                 || scrub_text(output) != *output
+                || expected.is_some_and(|e| output != e)
             {
                 failures.push(format!("positive/{n}/{api}"));
             }
