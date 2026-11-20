@@ -407,13 +407,23 @@ pub(crate) fn uuid(value: &str) -> bool {
             }
         })
 }
-fn type_context(view: &View, key: usize) -> bool {
-    // Fixed lookbehind budget: repeated fields cannot rescan a growing prefix.
+// Fixed lookbehind budget shared by the source contexts: repeated fields
+// cannot rescan a growing prefix.
+fn context_window(view: &View, key: usize) -> &str {
     let mut start = key.saturating_sub(512);
     while !view.text.is_char_boundary(start) {
         start += 1;
     }
-    let prefix = &view.text[start..key];
+    &view.text[start..key]
+}
+fn type_context(view: &View, key: usize) -> bool {
+    let prefix = context_window(view, key);
+    // Every form ends inside an open `(` (fn signature) or `{` (body); a
+    // window with neither is rejected by two byte searches.
+    let bytes = prefix.as_bytes();
+    if !bytes.contains(&b'(') && !bytes.contains(&b'{') {
+        return false;
+    }
     if !["fn", "struct", "interface", "type"]
         .iter()
         .any(|word| prefix.contains(word))
@@ -422,15 +432,12 @@ fn type_context(view: &View, key: usize) -> bool {
     }
     static TYPE: OnceLock<Regex> = OnceLock::new();
     TYPE.get_or_init(|| Regex::new(r"(?s)(?:\bfn\s+[A-Za-z_][A-Za-z0-9_]*(?:<[^;{}()]*>)?\s*\([^);{}=]*|\b(?:struct|interface)\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*\{[^}]*|\btype\s+[A-Za-z_][A-Za-z0-9_]*[^;{}]*=\s*\{[^}]*)(?:$)").expect("fixed type-context regex"))
-        .is_match(&view.text[start..key])
+        .is_match(prefix)
 }
 fn code_object_context(view: &View, key: usize) -> bool {
-    let mut start = key.saturating_sub(512);
-    while !view.text.is_char_boundary(start) {
-        start += 1;
-    }
-    let prefix = &view.text[start..key];
-    if !prefix.contains('=') && !prefix.contains("json!") {
+    let prefix = context_window(view, key);
+    // Both forms end inside an open `{`.
+    if !prefix.as_bytes().contains(&b'{') || !prefix.contains('=') && !prefix.contains("json!") {
         return false;
     }
     static R: OnceLock<Regex> = OnceLock::new();
@@ -438,7 +445,7 @@ fn code_object_context(view: &View, key: usize) -> bool {
         Regex::new(r"(?s)(?:\b(?:(?:let|const|var)\s+)?[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{|\bjson!\(\{)[^{}]*$")
             .expect("fixed object expression context")
     })
-    .is_match(&view.text[start..key])
+    .is_match(prefix)
 }
 
 // The key is a labelled argument directly inside an unclosed call whose `(`
@@ -446,11 +453,7 @@ fn code_object_context(view: &View, key: usize) -> bool {
 // parenthesis with no callee (`(password: x)`) is prose, not source context.
 // Same fixed lookbehind budget as the other contexts.
 fn call_argument_context(view: &View, key: usize) -> bool {
-    let mut start = key.saturating_sub(512);
-    while !view.text.is_char_boundary(start) {
-        start += 1;
-    }
-    let prefix = &view.text[start..key];
+    let prefix = context_window(view, key);
     if !prefix.contains('(') {
         return false;
     }
