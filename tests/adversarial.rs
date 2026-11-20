@@ -98,3 +98,31 @@ fn bounded_prose_value_end_work_at_64_and_256_kib() {
         }
     }
 }
+
+// A value that starts with a placeholder (`<a>`, `{{a}}`, `${a}`): the close
+// of each one is looked up, not searched for to the line end, and a run of
+// them is walked once per line, not once per key that starts inside it.
+#[test]
+fn bounded_prose_placeholder_work_at_64_and_256_kib() {
+    let _ = scrub_text("warmup");
+    for size in [65_536, 262_144] {
+        for unit in [
+            "<passwd was </a>",
+            "PW was <, and ]",
+            "\"); passphrase was <",
+            "my password is <, but ",
+            "{{ a }}PW was <, and ]",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\""] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                let input = &input[..size];
+                let start = Instant::now();
+                std::hint::black_box(scrub_text(input));
+                assert!(
+                    start.elapsed() < Duration::from_secs(5),
+                    "prose placeholder family {unit:?} after {prefix:?} exceeded the CI bound"
+                );
+            }
+        }
+    }
+}
