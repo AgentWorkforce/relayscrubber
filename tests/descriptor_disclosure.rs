@@ -8,7 +8,9 @@
 //!   eight nouns and a cue (`is`, `was`, `is now`, `set to`, `is set to`,
 //!   `was set to`, `is:`, `was:`, `:`, `=`). Identifiers inside it (hosts,
 //!   paths, dotted, hyphenated, quoted or bracketed names, digits) do not end
-//!   it; a clause or sentence boundary does.
+//!   it, nor (after the alpha.11 ruling, see `descriptor_ruling.rs`) do
+//!   coordination, commas or relative clauses; a sentence end, a blank line,
+//!   a code operator or a soft boundary such as `will` does.
 //! - Past the bound the descriptor fails closed: the next cue before the end
 //!   of the sentence discloses, soft boundaries notwithstanding.
 //! - A complement after a descriptor is judged exactly as the same complement
@@ -488,19 +490,15 @@ fn benign_controls_code_and_clause_boundaries_stay_unchanged() {
         "password policy for the box is strict",
         "reset your password for the box",
         "the password field for the box is empty",
-        "the password for the box expired and the user is bob",
-        // A comma or relative pronoun within the bound ends the descriptor,
-        // so a cue after a relative clause is not reached. These are known
-        // gaps of the bounded grammar, pinned so a change is visible.
-        "the password for the box, which is new, is Q1x",
-        "the password for the box that is used by CI is Q1x",
+        // Coordination, commas and relative clauses no longer end the
+        // descriptor (alpha.11 ruling); those rows are pinned in
+        // `pinned_outcomes_near_the_class`.
         "the password for the box. It is Q1x",
         "the password for the box! It is Q1x",
         "the password for the box will be rotated; it is Q1x",
         "the password for the box should rotate: weekly is fine",
         "the password for the box && x is Q1x",
         "the password for the box == x is Q1x",
-        "the password for the box - x is Q1x",
         "the password for (the box)) is Q1x",
         "for pw in pws: print(pw)",
         "if password in data: return x",
@@ -509,7 +507,6 @@ fn benign_controls_code_and_clause_boundaries_stay_unchanged() {
         "const pw of list: x",
         "while password in cache: pass",
         "assert pw is not None",
-        "the password for the box=Q1x",
         "use password for the box",
     ] {
         cases.push(case(&format!("benign {input:?}"), input, input));
@@ -542,14 +539,17 @@ fn the_descriptor_bound_is_explicit_and_fails_closed() {
             }
         }
         // A soft boundary at word limit-1 or limit ends the descriptor; at
-        // limit+1 the fail-closed regime no longer reads it.
-        for (at, redacts) in [(LIMIT - 1, false), (LIMIT, false), (LIMIT + 1, true)] {
+        // limit+1 the fail-closed regime no longer reads it. Coordination, a
+        // relative pronoun and a comma no longer end it (alpha.11 ruling), so
+        // they disclose at every position.
+        for (at, stops) in [(LIMIT - 1, true), (LIMIT, true), (LIMIT + 1, false)] {
             for soft in ["and", "which", "will", ","] {
                 let text = if soft == "," {
                     format!("the {noun} for {}, b is Q1x", words(at))
                 } else {
                     format!("the {noun} for {} {soft} is Q1x", words(at - 1))
                 };
+                let redacts = !stops || soft != "will";
                 let expected = if redacts {
                     text.replace("Q1x", R)
                 } else {
@@ -605,6 +605,34 @@ fn pinned_outcomes_near_the_class() {
             "past bound comma",
             &format!("the password for {}, which b is Q1x", words(LIMIT + 1)),
             &format!("the password for {}, which b is {R}", words(LIMIT + 1)),
+        ),
+        // alpha.11 ruling: coordination, commas, relative clauses and glued
+        // cues no longer end the descriptor. Pinned over-redaction: a second
+        // clause joined by `and` is read as the descriptor.
+        case(
+            "conjunction over-redaction",
+            "the password for the box expired and the user is bob",
+            &format!("the password for the box expired and the user is {R}"),
+        ),
+        case(
+            "relative which",
+            "the password for the box, which is new, is Q1x",
+            &format!("the password for the box, which is new, is {R}"),
+        ),
+        case(
+            "relative that",
+            "the password for the box that is used by CI is Q1x",
+            &format!("the password for the box that is used by CI is {R}"),
+        ),
+        case(
+            "spaced hyphen",
+            "the password for the box - x is Q1x",
+            &format!("the password for the box - x is {R}"),
+        ),
+        case(
+            "glued",
+            "the password for the box=Q1x",
+            &format!("the password for the box={R}"),
         ),
     ];
     report("pinned", cases.len(), &run(&cases));

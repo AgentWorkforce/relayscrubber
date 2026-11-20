@@ -455,11 +455,11 @@
     "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 is [REDACTED]"
   },
   {
-    "id": "alpha11-bound-stop-soft-at-limit",
-    "family": "bound-stop",
-    "kind": "benign",
+    "id": "alpha11-bound-coordination-at-limit",
+    "family": "bound",
+    "kind": "positive",
     "input": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 and is Q1x",
-    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 and is Q1x"
+    "expected": "the password for a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 and is [REDACTED]"
   },
   {
     "id": "alpha11-bound-soft-past-limit",
@@ -532,11 +532,11 @@
     "expected": "the password field for the box is empty"
   },
   {
-    "id": "alpha11-benign-conjunction",
-    "family": "benign",
-    "kind": "benign",
+    "id": "alpha11-pinned-conjunction-over-redaction",
+    "family": "pinned",
+    "kind": "positive",
     "input": "the password for the box expired and the user is bob",
-    "expected": "the password for the box expired and the user is bob"
+    "expected": "the password for the box expired and the user is [REDACTED]"
   },
   {
     "id": "alpha11-benign-sentence",
