@@ -39,6 +39,29 @@ Security fixes to the alpha.10 candidate, before any release:
   NDJSON record, or more than 512 bytes below its `struct X {` opener
   redacts. A comma or semicolon inside brackets the value opened no longer
   ends it, so `pw: Map<String, u8>,` keeps no `u8>`.
+- Code-looking values after a bare colon: for every credential key, a `match`
+  expression, call, member chain, arrow function, `function() {…}` or
+  `??`/`||` fallback is kept only with source context: a type body or fn
+  signature, an object literal assigned or passed to `json!`, or a labelled
+  argument of an unclosed call whose `(` directly follows a callee
+  (`login(password: orchid.river)`). A source-shaped value no longer counts
+  as context, so `password: match option {…};`, `token: async () =>
+  getToken()`, `password: options.value ?? fallback`, `auth: config.auth ||
+  defaultAuth`, `auth: function() { return buildAuth(); }`, `{ pw:
+  orchid.river }` and `(password: orchid.river)` now redact. Precision
+  tradeoffs: struct literals (`let x = Foo { pw: orchid.river }`), class
+  members (`private token: vscode.CancellationToken;`) and calls with a space
+  before `(` now redact. Prose shaped like a call (`Note(see below, password:
+  orchid.river`) is still kept. The evaluation fixtures that pinned the old
+  output moved to the positive sets, and each one has a sibling with source
+  context that keeps its output.
+- Borrows: after a word prefix (`admin password: &abcq`, `note: password:
+  &Secret1`), a value starting with `&` is no longer kept by the assignment
+  engine's reference exemption; it redacts whole, as the bare form did. After a bare colon it is
+  kept only as a type in a type body or fn signature (`fn f(pwd: &str)`,
+  `fn cancel(token: &CancellationToken) {}`).
+- Match arms: an arrow's `>` no longer closes a bracket, so `pw: match a { b
+  => c, d => e }` no longer keeps `d => e }`.
 - Escaped quotes: a `"`, `'` or `` ` `` preceded by an odd number of
   backslashes at the opener's escape level no longer ends a quoted value
   (`"abc\"def"`), including inside JSON-escaped strings; the 1024-byte bound

@@ -197,7 +197,28 @@ source context in the engine's bounded view (at most 512 bytes back in the
 same string), a type-looking value fails closed, so a body field on its own
 line (`    pw: Vec<u8>,`), in its own NDJSON record or more than 512 bytes
 below its opener redacts. A comma or semicolon inside a bracket the value
-opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`). Code is not
+opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`).
+The same rule holds for every credential key (password nouns, token, secret,
+api_key, auth and the other sensitive names) whose value after a bare colon
+looks like code: a `match` expression, a call, a member or call chain, an
+arrow function, `function() {…}`, or `??`/`||` fallbacks. The value is kept only
+with independently recognisable source context, and a source-shaped value does
+not establish it. Three contexts count: a type body or fn signature as above,
+an object literal assigned or passed to `json!` (`const x = {pw: a.b}`), or a
+labelled argument of an unclosed call whose `(` follows a callee directly, with
+no `;`, `{`, `}` or nested parenthesis between the `(` and the key, within the
+same 512-byte view (`login(password: orchid.river)`). Without one of them the
+value redacts: `password: match option {…};`, `token: async () => getToken()`,
+`auth: config.auth || defaultAuth`, `{ pw: orchid.river }`, `(password:
+orchid.river)` and `let x = Foo { pw: orchid.river }` redact. This trades
+precision for recall in both directions. Struct literals, class members
+(`private token: vscode.CancellationToken;`) and calls with a space before `(`
+now redact. Prose shaped like a call (`Note(see below, password: orchid.river`)
+is kept. An `&` or `&mut` value is kept only as a type in a type body or fn
+signature (`fn f(pwd: &str)`). After a word prefix a value that starts with
+`&` redacts too (`admin password: &abcq`). An arrow's `>` (`=>`, `->`) does not close a bracket, so a
+`match` with several arms is one value: `pw: match a { b => c, d => e }`
+redacts to `pw: [REDACTED]`. Code is not
 prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
 `\`, or directly by if/elif/while/assert/and/or/not/return/lambda (`if password
 is None`), is skipped. These spans merge with assignment spans and stay within
