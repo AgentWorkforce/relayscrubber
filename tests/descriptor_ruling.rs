@@ -998,3 +998,480 @@ fn bounded_work_for_the_new_grammar_at_64_and_256_kib() {
         }
     }
 }
+
+// ------------------------------- contact clause followed by punctuation
+
+// Subjects a contact clause accepts: a capitalised name, a personal pronoun,
+// a determiner and a word; with a verb in `-s`, `-ed`, `set` or an irregular
+// past.
+const CONTACT_SUBJECTS: [&str; 6] = [
+    " Bob uses",
+    " Alice set",
+    " I set",
+    " you chose",
+    " the admin uses",
+    " we picked",
+];
+
+// Punctuation right after the contact verb: a comma parenthetical or
+// relative clause (with a line break inside), a colon or equals sign, spaced
+// or glued.
+const CONTACT_TAILS: [&str; 8] = [
+    ", which is new, is ",
+    ", which was new, was ",
+    ",\nwhich is new, is ",
+    ": ",
+    " : ",
+    " = ",
+    "=",
+    ":",
+];
+
+/// A contact clause behaves like a relative clause with its own subject
+/// (`the password that I use`) when punctuation follows its verb directly:
+/// the final value discloses.
+#[test]
+fn e_contact_clause_followed_by_punctuation_discloses() {
+    let mut cases = Vec::new();
+    for (noun, plural) in NOUNS.into_iter().zip(PLURALS) {
+        for determiner in ["the ", "My "] {
+            for subject in CONTACT_SUBJECTS {
+                for tail in CONTACT_TAILS {
+                    let left = format!("{determiner}{noun}{subject}{tail}");
+                    cases.push((
+                        format!("contact {left:?}"),
+                        format!("{left}Q1x"),
+                        format!("{left}{R}"),
+                    ));
+                }
+                for tail in [", which is new, is ", ": "] {
+                    for (open, value, close) in VALUES {
+                        let left = format!("{determiner}{noun}{subject}{tail}{open}");
+                        cases.push((
+                            format!("contact value {left:?}{value}"),
+                            format!("{left}{value}{close}"),
+                            format!("{left}{R}{close}"),
+                        ));
+                    }
+                }
+                let left = format!("{determiner}{plural}{subject}, which are new, are ");
+                cases.push((
+                    format!("contact plural {left:?}"),
+                    format!("{left}Q1x"),
+                    format!("{left}{R}"),
+                ));
+            }
+        }
+    }
+    report("contact punctuation", cases.len(), &run(&cases));
+}
+
+#[test]
+fn e_contact_clause_punctuation_rows_and_controls() {
+    let cases = [
+        case(
+            "which",
+            "the password Bob uses, which is new, is Zq9x",
+            &format!("the password Bob uses, which is new, is {R}"),
+        ),
+        case(
+            "set which",
+            "the password Alice set, which is new, is Zq9x",
+            &format!("the password Alice set, which is new, is {R}"),
+        ),
+        case(
+            "colon",
+            "the password Bob uses: Zq9x",
+            &format!("the password Bob uses: {R}"),
+        ),
+        case(
+            "glued",
+            "the password Bob uses=Zq9x",
+            &format!("the password Bob uses={R}"),
+        ),
+        case(
+            "line break",
+            "the password Bob uses,\nwhich is new, is Zq9x",
+            &format!("the password Bob uses,\nwhich is new, is {R}"),
+        ),
+        case(
+            "sentence tail",
+            "the password Bob uses: Zq9x. Then restart.",
+            &format!("the password Bob uses: {R}. Then restart."),
+        ),
+        // Forms that already disclosed stay as they are.
+        case(
+            "relative which",
+            "the password that I set, which is new, is Zq9x",
+            &format!("the password that I set, which is new, is {R}"),
+        ),
+        case(
+            "relative colon",
+            "the password that I use: Zq9x",
+            &format!("the password that I use: {R}"),
+        ),
+        case(
+            "bracket",
+            "the password Bob uses (daily) is Zq9x",
+            &format!("the password Bob uses (daily) is {R}"),
+        ),
+        case(
+            "colon after cue",
+            "the password Bob uses is: Zq9x",
+            &format!("the password Bob uses is: {R}"),
+        ),
+        case(
+            "descriptor which",
+            "the password Bob uses for staging, which is new, is Zq9x",
+            &format!("the password Bob uses for staging, which is new, is {R}"),
+        ),
+        // A contact clause still needs a determiner on the noun.
+        case(
+            "no determiner colon",
+            "password Bob uses: Zq9x",
+            "password Bob uses: Zq9x",
+        ),
+        case(
+            "no determiner glued",
+            "password Bob uses=Zq9x",
+            "password Bob uses=Zq9x",
+        ),
+        case(
+            "no determiner which",
+            "password Bob uses, which is new, is Zq9x",
+            "password Bob uses, which is new, is Zq9x",
+        ),
+        // No cue, or a cue in another clause or sentence.
+        case(
+            "appositive",
+            "the password Bob uses, Zq9x",
+            "the password Bob uses, Zq9x",
+        ),
+        case(
+            "semicolon",
+            "the password Bob uses; it is Zq9x",
+            "the password Bob uses; it is Zq9x",
+        ),
+        case(
+            "sentence",
+            "the password Bob uses. It is Zq9x",
+            "the password Bob uses. It is Zq9x",
+        ),
+        case(
+            "boundary",
+            "the password Bob uses, but the user is Zq9x",
+            "the password Bob uses, but the user is Zq9x",
+        ),
+        case(
+            "documentary which",
+            "the password Bob uses, which is new, is required",
+            "the password Bob uses, which is new, is required",
+        ),
+        case(
+            "documentary contact",
+            "the password you entered is incorrect",
+            "the password you entered is incorrect",
+        ),
+    ];
+    report("contact punctuation pins", cases.len(), &run(&cases));
+}
+
+/// After `, which is new, is` a complement is judged as alpha.10 judges it
+/// after `the <noun> is`; after `:` exactly as after the relative clause
+/// `the <noun> that I use:`.
+#[test]
+fn e_contact_clause_punctuation_siblings_and_their_attacks() {
+    let mut failures = Vec::new();
+    let mut count = 0;
+    for noun in NOUNS {
+        for subject in CONTACT_SUBJECTS {
+            for complement in DOCUMENTARY.iter().chain(ATTACKS.iter()) {
+                let left = format!("the {noun}{subject}, which is new, is ");
+                let input = format!("{left}{complement}");
+                let expected = alpha10_verdict(noun, &left, complement);
+                count += 1;
+                failures.extend(check(&format!("sibling {input:?}"), &input, &expected));
+
+                let relative = format!("the {noun} that I use: ");
+                let reference = scrub_text(&format!("{relative}{complement}"));
+                assert!(reference.starts_with(&relative), "{reference:?}");
+                let left = format!("the {noun}{subject}: ");
+                let input = format!("{left}{complement}");
+                let expected = format!("{left}{}", &reference[relative.len()..]);
+                count += 1;
+                failures.extend(check(&format!("sibling {input:?}"), &input, &expected));
+            }
+        }
+    }
+    report("contact punctuation siblings", count, &failures);
+}
+
+/// The contact clause's verb does not count toward the descriptor bound.
+#[test]
+fn e_contact_clause_punctuation_at_the_descriptor_bound() {
+    let mut cases = Vec::new();
+    for noun in NOUNS {
+        for at in [LIMIT - 1, LIMIT, LIMIT + 1] {
+            let text = format!("the {noun} Bob uses, {}, is Q1x", words(at));
+            cases.push((
+                format!("bound comma {noun} {at}"),
+                text.clone(),
+                text.replace("Q1x", R),
+            ));
+            let text = format!("the {noun} Bob uses, which is {} is Q1x", words(at - 2));
+            cases.push((
+                format!("bound which {noun} {at}"),
+                text.clone(),
+                text.replace("Q1x", R),
+            ));
+        }
+    }
+    report("contact punctuation bound", cases.len(), &run(&cases));
+}
+
+// ---------------------------------------- has changed to, has now been to
+
+const HAS_CHANGED_SINGULAR: [&str; 8] = [
+    " has changed to ",
+    " had changed to ",
+    " has now been set to ",
+    " has still been set to ",
+    " has now been changed to ",
+    " had now been reset to ",
+    " has still been updated to ",
+    " had still been set to ",
+];
+
+const HAS_CHANGED_PLURAL: [&str; 5] = [
+    " have changed to ",
+    " had changed to ",
+    " have now been set to ",
+    " have still been changed to ",
+    " had now been updated to ",
+];
+
+#[test]
+fn e_has_changed_to_and_has_now_been_set_to_disclose() {
+    let mut cases = Vec::new();
+    for (nouns, cues) in [
+        (NOUNS, &HAS_CHANGED_SINGULAR[..]),
+        (PLURALS, &HAS_CHANGED_PLURAL[..]),
+    ] {
+        for noun in nouns {
+            for determiner in ["the ", "", "My "] {
+                for descriptor in [
+                    "",
+                    " for the box",
+                    " that I use",
+                    " used by db1.example.com",
+                ] {
+                    for cue in cues {
+                        let left = format!("{determiner}{noun}{descriptor}{cue}");
+                        cases.push((
+                            format!("cue {left:?}"),
+                            format!("{left}Q1x"),
+                            format!("{left}{R}"),
+                        ));
+                    }
+                }
+                for (open, value, close) in VALUES {
+                    let left = format!("{determiner}{noun}{}{open}", cues[0]);
+                    cases.push((
+                        format!("cue value {left:?}{value}"),
+                        format!("{left}{value}{close}"),
+                        format!("{left}{R}{close}"),
+                    ));
+                }
+            }
+        }
+    }
+    for noun in NOUNS {
+        for at in [LIMIT - 1, LIMIT, LIMIT + 1] {
+            for cue in [" has changed to ", " has now been set to "] {
+                let left = format!("the {noun} for {}{cue}", words(at));
+                cases.push((
+                    format!("bound {noun} {at} {cue:?}"),
+                    format!("{left}Q1x"),
+                    format!("{left}{R}"),
+                ));
+            }
+        }
+    }
+    report("has changed to", cases.len(), &run(&cases));
+}
+
+#[test]
+fn e_has_changed_to_rows_and_controls() {
+    let cases = [
+        case(
+            "has changed to",
+            "the password has changed to Zq9x",
+            &format!("the password has changed to {R}"),
+        ),
+        case(
+            "has now been set to",
+            "the password has now been set to Zq9x",
+            &format!("the password has now been set to {R}"),
+        ),
+        case(
+            "plural",
+            "the passwords have changed to Zq9x",
+            &format!("the passwords have changed to {R}"),
+        ),
+        case(
+            "F4 tail",
+            "The password has changed to Zq9x for the staging box.",
+            &format!("The password has changed to {R}."),
+        ),
+        // No `to`, or no value after it.
+        case(
+            "no to",
+            "the password has changed",
+            "the password has changed",
+        ),
+        case(
+            "since",
+            "the password has changed since Monday",
+            "the password has changed since Monday",
+        ),
+        // Number agreement as for the other cues.
+        case(
+            "plural has",
+            "the passwords has changed to Zq9x",
+            "the passwords has changed to Zq9x",
+        ),
+        case(
+            "singular have",
+            "the password have changed to Zq9x",
+            "the password have changed to Zq9x",
+        ),
+        case(
+            "plural has now",
+            "the passwords has now been set to Zq9x",
+            "the passwords has now been set to Zq9x",
+        ),
+        // Exactly the two forms: no other adverb, no adverb before `changed`.
+        case(
+            "has now changed",
+            "the password has now changed to Zq9x",
+            "the password has now changed to Zq9x",
+        ),
+        case(
+            "has recently been",
+            "the password has recently been set to Zq9x",
+            "the password has recently been set to Zq9x",
+        ),
+        case(
+            "has been now",
+            "the password has been now set to Zq9x",
+            "the password has been now set to Zq9x",
+        ),
+        case(
+            "has not changed",
+            "the password has not changed to Zq9x",
+            "the password has not changed to Zq9x",
+        ),
+        case(
+            "has not been",
+            "the password has not been set to Zq9x",
+            "the password has not been set to Zq9x",
+        ),
+    ];
+    report("has changed to pins", cases.len(), &run(&cases));
+}
+
+/// `has changed to` judges its complement exactly as `changed to` does, and
+/// `has now been set to` exactly as `has been set to` does.
+#[test]
+fn e_has_changed_to_siblings_and_their_attacks() {
+    let mut failures = Vec::new();
+    let mut count = 0;
+    for (noun, plural) in NOUNS.into_iter().zip(PLURALS) {
+        for (reference, left) in [
+            (
+                format!("the {noun} changed to "),
+                format!("the {noun} has changed to "),
+            ),
+            (
+                format!("the {noun} changed to "),
+                format!("the {noun} had changed to "),
+            ),
+            (
+                format!("the {plural} changed to "),
+                format!("the {plural} have changed to "),
+            ),
+            (
+                format!("the {noun} has been set to "),
+                format!("the {noun} has now been set to "),
+            ),
+            (
+                format!("the {noun} has been set to "),
+                format!("the {noun} has still been set to "),
+            ),
+        ] {
+            for complement in DOCUMENTARY
+                .iter()
+                .chain(ATTACKS.iter())
+                .chain(["meet the policy"].iter())
+            {
+                let output = scrub_text(&format!("{reference}{complement}"));
+                assert!(output.starts_with(&reference), "{output:?}");
+                let input = format!("{left}{complement}");
+                let expected = format!("{left}{}", &output[reference.len()..]);
+                count += 1;
+                failures.extend(check(&format!("sibling {input:?}"), &input, &expected));
+            }
+        }
+    }
+    report("has changed to siblings", count, &failures);
+}
+
+// ---------------------------------------------------------- bounded work
+
+/// Contact clauses followed by punctuation and the new `has` cues stay
+/// linear, and so do runs of bare and determined nouns.
+#[test]
+fn bounded_work_for_contact_punctuation_and_has_changed_at_64_and_256_kib() {
+    use std::time::{Duration, Instant};
+    let _ = scrub_text("warmup");
+    let timed = |label: String, input: &str| {
+        let start = Instant::now();
+        std::hint::black_box(scrub_text(input));
+        let elapsed = start.elapsed();
+        eprintln!("{label} {elapsed:?}");
+        assert!(
+            elapsed < Duration::from_secs(5),
+            "{label} exceeded the CI bound"
+        );
+    };
+    for size in [65_536, 262_144] {
+        for unit in [
+            "pw ",
+            "the pw ",
+            "the pw Bob uses, ",
+            "the pw Bob uses: ",
+            "the pw Bob uses=a ",
+            "the pw Bob uses, which is ",
+            "the pw I set,\n",
+            "pw has changed to ",
+            "pw has now been set to ",
+            "the pws have still been ",
+        ] {
+            for prefix in ["", "x \"", "{\"note\":\"", "the password for "] {
+                let input = format!("{prefix}{}", unit.repeat(size / unit.len() + 1));
+                timed(format!("unit {size} {unit:?} {prefix:?}"), &input[..size]);
+            }
+        }
+        for (head, unit, tail) in [
+            ("the password Bob uses, ", "a ", " is x"),
+            ("the password Bob uses, which ", "a ", " is x"),
+            ("the password has ", "now ", " been set to x"),
+        ] {
+            let body = unit.repeat((size - head.len() - tail.len()) / unit.len());
+            timed(
+                format!("long {size} {head:?} {unit:?}"),
+                &format!("{head}{body}{tail}"),
+            );
+        }
+    }
+}
