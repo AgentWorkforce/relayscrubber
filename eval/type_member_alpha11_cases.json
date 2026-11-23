@@ -1,0 +1,534 @@
+[
+  {
+    "id": "alpha11-type-member/reproducer interface",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface CacheOptions { cacheKey: string; maxAttempts: number }",
+    "expected": "interface CacheOptions { cacheKey: string; maxAttempts: number }"
+  },
+  {
+    "id": "alpha11-type-member/reproducer inline",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string; targetSize: number }",
+    "expected": "context: { poolKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline type string",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string; targetSize: number }",
+    "expected": "context: { poolKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member string",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: string }",
+    "expected": "context: { targetSize: number; poolKey: string }"
+  },
+  {
+    "id": "alpha11-type-member/inline type number",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: number; targetSize: number }",
+    "expected": "context: { poolKey: number; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member number",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: number }",
+    "expected": "context: { targetSize: number; poolKey: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline type boolean",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: boolean; targetSize: number }",
+    "expected": "context: { poolKey: boolean; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member boolean",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: boolean }",
+    "expected": "context: { targetSize: number; poolKey: boolean }"
+  },
+  {
+    "id": "alpha11-type-member/inline type string | null",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string | null; targetSize: number }",
+    "expected": "context: { poolKey: string | null; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member string | null",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: string | null }",
+    "expected": "context: { targetSize: number; poolKey: string | null }"
+  },
+  {
+    "id": "alpha11-type-member/inline type string | undefined",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string | undefined; targetSize: number }",
+    "expected": "context: { poolKey: string | undefined; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member string | undefined",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: string | undefined }",
+    "expected": "context: { targetSize: number; poolKey: string | undefined }"
+  },
+  {
+    "id": "alpha11-type-member/inline type string[]",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string[]; targetSize: number }",
+    "expected": "context: { poolKey: string[]; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member string[]",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: string[] }",
+    "expected": "context: { targetSize: number; poolKey: string[] }"
+  },
+  {
+    "id": "alpha11-type-member/inline type Array<string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: Array<string>; targetSize: number }",
+    "expected": "context: { poolKey: Array<string>; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member Array<string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: Array<string> }",
+    "expected": "context: { targetSize: number; poolKey: Array<string> }"
+  },
+  {
+    "id": "alpha11-type-member/inline type Promise<string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: Promise<string>; targetSize: number }",
+    "expected": "context: { poolKey: Promise<string>; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member Promise<string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: Promise<string> }",
+    "expected": "context: { targetSize: number; poolKey: Promise<string> }"
+  },
+  {
+    "id": "alpha11-type-member/inline type Record<string, string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: Record<string, string>; targetSize: number }",
+    "expected": "context: { poolKey: Record<string, string>; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline last member Record<string, string>",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { targetSize: number; poolKey: Record<string, string> }",
+    "expected": "context: { targetSize: number; poolKey: Record<string, string> }"
+  },
+  {
+    "id": "alpha11-type-member/optional member",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey?: string; targetSize: number }",
+    "expected": "context: { poolKey?: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/optional union",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey?: string | undefined; targetSize: number }",
+    "expected": "context: { poolKey?: string | undefined; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/comma separator",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string, targetSize: number }",
+    "expected": "context: { poolKey: string, targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/comma union",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string | null, targetSize: number }",
+    "expected": "context: { poolKey: string | null, targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/trailing separator",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string; }",
+    "expected": "context: { poolKey: string; }"
+  },
+  {
+    "id": "alpha11-type-member/multi-line semicolons",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: {\n  poolKey: string;\n  targetSize: number;\n}",
+    "expected": "context: {\n  poolKey: string;\n  targetSize: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/multi-line commas",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: {\n  poolKey: string,\n  targetSize: number,\n}",
+    "expected": "context: {\n  poolKey: string,\n  targetSize: number,\n}"
+  },
+  {
+    "id": "alpha11-type-member/multi-line bare",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: {\n  poolKey: string\n  targetSize: number\n}",
+    "expected": "context: {\n  poolKey: string\n  targetSize: number\n}"
+  },
+  {
+    "id": "alpha11-type-member/multi-line union",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: {\n  poolKey?: string | null;\n  targetSize: number;\n}",
+    "expected": "context: {\n  poolKey?: string | null;\n  targetSize: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/multi-line interface",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface CacheOptions {\n  cacheKey: string;\n  maxAttempts: number;\n}",
+    "expected": "interface CacheOptions {\n  cacheKey: string;\n  maxAttempts: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key apiKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { apiKey: string; targetSize: number }",
+    "expected": "context: { apiKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key apiKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  apiKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  apiKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key secretKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { secretKey: string; targetSize: number }",
+    "expected": "context: { secretKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key secretKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  secretKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  secretKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key publicKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { publicKey: string; targetSize: number }",
+    "expected": "context: { publicKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key publicKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  publicKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  publicKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key primaryKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { primaryKey: string; targetSize: number }",
+    "expected": "context: { primaryKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key primaryKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  primaryKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  primaryKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key sortKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { sortKey: string; targetSize: number }",
+    "expected": "context: { sortKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key sortKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  sortKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  sortKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key cacheKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { cacheKey: string; targetSize: number }",
+    "expected": "context: { cacheKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key cacheKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  cacheKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  cacheKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/key poolKey",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { poolKey: string; targetSize: number }",
+    "expected": "context: { poolKey: string; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/key poolKey multi-line",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  poolKey: string;\n  retries: number;\n}",
+    "expected": "options: {\n  poolKey: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/fenced inline",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "```ts\ncontext: { poolKey: string; targetSize: number }\n```",
+    "expected": "```ts\ncontext: { poolKey: string; targetSize: number }\n```"
+  },
+  {
+    "id": "alpha11-type-member/fenced interface",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "```ts\ninterface CacheOptions { cacheKey: string; maxAttempts: number }\n```",
+    "expected": "```ts\ninterface CacheOptions { cacheKey: string; maxAttempts: number }\n```"
+  },
+  {
+    "id": "alpha11-type-member/prose inline",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "The worker takes context: { poolKey: string; targetSize: number } as input.",
+    "expected": "The worker takes context: { poolKey: string; targetSize: number } as input."
+  },
+  {
+    "id": "alpha11-type-member/nested in interface",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface Job { context: { poolKey: string | null; targetSize: number } }",
+    "expected": "interface Job { context: { poolKey: string | null; targetSize: number } }"
+  },
+  {
+    "id": "alpha11-type-member/function parameter",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "function f(opts: { apiKey: string }): void",
+    "expected": "function f(opts: { apiKey: string }): void"
+  },
+  {
+    "id": "alpha11-type-member/arrow parameter",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "const f = (opts: { apiKey: string }) => opts;",
+    "expected": "const f = (opts: { apiKey: string }) => opts;"
+  },
+  {
+    "id": "alpha11-type-member/class property",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "class Pool { context: { poolKey: string; targetSize: number }; }",
+    "expected": "class Pool { context: { poolKey: string; targetSize: number }; }"
+  },
+  {
+    "id": "alpha11-type-member/control type alias",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "type Context = { poolKey: string; targetSize: number };",
+    "expected": "type Context = { poolKey: string; targetSize: number };"
+  },
+  {
+    "id": "alpha11-type-member/control object literal reference",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "const context = { poolKey: value, targetSize: 1 };",
+    "expected": "const context = { poolKey: value, targetSize: 1 };"
+  },
+  {
+    "id": "alpha11-type-member/control rust struct",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "struct Pool { pool_key: String, target_size: usize }",
+    "expected": "struct Pool { pool_key: String, target_size: usize }"
+  },
+  {
+    "id": "alpha11-type-member/source reference object literal",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "const context = { poolKey: process.env.POOL_KEY };",
+    "expected": "const context = { poolKey: process.env.POOL_KEY };"
+  },
+  {
+    "id": "alpha11-type-member/key-agnostic pw member",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "context: { pw: string; size: number }",
+    "expected": "context: { pw: string; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/key-agnostic password member",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "options: {\n  password?: string;\n  retries: number;\n}",
+    "expected": "options: {\n  password?: string;\n  retries: number;\n}"
+  },
+  {
+    "id": "alpha11-type-member/quoted literal in object literal",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "const context = { poolKey: \"M8zR4vK7nP2qW6xAq9\" };",
+    "expected": "const context = { poolKey: \"[REDACTED]\" };"
+  },
+  {
+    "id": "alpha11-type-member/quoted literal in inline braces",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: \"M8zR4vK7nP2qW6xAq9\" }",
+    "expected": "context: { poolKey: \"[REDACTED]\" }"
+  },
+  {
+    "id": "alpha11-type-member/opaque value in inline braces",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: M8zR4vK7nP2qW6xAq9 }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/opaque value no context",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "poolKey: M8zR4vK7nP2qW6xAq9",
+    "expected": "poolKey: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/opaque value after type",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: string M8zR4vK7nP2qW6xAq9 }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/opaque union member",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: string | M8zR4vK7nP2qW6xAq9 }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/opaque generic argument",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: Array<M8zR4vK7nP2qW6xAq9> }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/capitalised type word",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: String }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/type word prefix",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: stringy }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/type word with digits",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: string1 }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/symbol-heavy value",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: abc$def!ghi }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/unclosed member at end",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: string",
+    "expected": "context: { poolKey: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/bare member",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "poolKey: string",
+    "expected": "poolKey: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/bare braced member",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "{ poolKey: string }",
+    "expected": "{ poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/bare pw",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "pw: string",
+    "expected": "pw: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/bare braced pw",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "{ pw: string }",
+    "expected": "{ pw: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/source reference identifier in inline braces",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: poolKeyFromEnv }",
+    "expected": "context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/source reference dotted in inline braces",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "context: { poolKey: config.poolKey; targetSize: number }",
+    "expected": "context: { poolKey: [REDACTED]; targetSize: number }"
+  },
+  {
+    "id": "alpha11-type-member/aws control",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+    "expected": "aws_secret_access_key = [REDACTED]"
+  }
+]
