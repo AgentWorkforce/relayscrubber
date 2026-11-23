@@ -463,6 +463,52 @@ fn code_object_context(view: &View, key: usize) -> bool {
     .is_match(prefix)
 }
 
+// A member of an inline TypeScript object type: the key follows an unquoted
+// `name: {` or `name?: {` opener and only complete members (each ended by
+// `;`, `,` or a line break) stand between them. Only a closed type vocabulary
+// counts as the value there, and the body must close: anything else in that
+// position is a value. Same fixed lookbehind and lookahead budget as the
+// other contexts.
+fn inline_member_type(view: &View, key: usize, value: usize) -> bool {
+    let prefix = context_window(view, key);
+    if !prefix.as_bytes().contains(&b'{') {
+        return false;
+    }
+    let mut end = view.text.len().min(value.saturating_add(512));
+    while !view.text.is_char_boundary(end) {
+        end -= 1;
+    }
+    let rest = &view.text[value..end];
+    static TYPE: OnceLock<Regex> = OnceLock::new();
+    let Some(member) = TYPE
+        .get_or_init(|| {
+            let primitive = r"(?:string|number|boolean|bigint|null|undefined)(?:\[\])*";
+            let generic = format!(
+                r"(?:Array|ReadonlyArray|Promise|Set|Map|Record)<[ \t]*{primitive}(?:[ \t]*,[ \t]*{primitive})?[ \t]*>(?:\[\])*"
+            );
+            let single = format!("(?:{primitive}|{generic})");
+            Regex::new(&format!(
+                r"^[ \t]*{single}(?:[ \t]*\|[ \t]*{single})*[ \t]*(?:[;,}}]|\r?\n)"
+            ))
+            .expect("closed inline member type")
+        })
+        .find(rest)
+    else {
+        return false;
+    };
+    // The terminator is the last matched byte; a `}` must close the body.
+    if !rest[member.end() - 1..].contains('}') {
+        return false;
+    }
+    static OPENER: OnceLock<Regex> = OnceLock::new();
+    OPENER
+        .get_or_init(|| {
+            Regex::new(r"(?:^|[^A-Za-z0-9_$.:\-])[A-Za-z_$][A-Za-z0-9_$]*\??[ \t]*:[ \t\r\n]*\{(?:[^{}]*[;,\n])?[ \t\r\n]*$")
+                .expect("inline object type opener")
+        })
+        .is_match(prefix)
+}
+
 // The key is a labelled argument directly inside an unclosed call whose `(`
 // is glued to a callee identifier: `Record(contextKey: .workspaceID)`. A
 // parenthesis with no callee (`(password: x)`) is prose, not source context.
@@ -775,6 +821,9 @@ fn code_value(view: &View, key: usize, value: usize, colon: bool, declaration: b
                 return true;
             }
         }
+    }
+    if colon && inline_member_type(view, key, value) {
+        return true;
     }
     let Some(rest) = candidate(view, value) else {
         return false;
