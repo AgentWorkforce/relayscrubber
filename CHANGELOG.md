@@ -52,6 +52,16 @@ password for the box expired and the user is bob` redacts `bob`). The colon
 over-redactions stay (`Reset the password for your account: click the link`
 redacts `click the link`).
 
+Precision fix: a credential-named member of an inline TypeScript object type
+keeps its type. `context: { poolKey: string; targetSize: number }` came out
+as `context: { poolKey: [REDACTED]; targetSize: number }`, while the same
+member in an `interface` or `type X = {` body was kept. An unquoted `name: {`
+or `name?: {` opener is now source context for a closed type vocabulary
+(primitives, their arrays, `Array`/`ReadonlyArray`/`Promise`/`Set`/`Map`/
+`Record` over them and `|` unions), terminated and inside a closed body.
+Quoted and opaque values, references and context-free forms (`{ poolKey:
+string }`, `poolKey: string`, `pw: string`) still redact.
+
 ## 0.5.0-alpha.10
 
 Redact natural-language password disclosures such as `my password is x`, `the

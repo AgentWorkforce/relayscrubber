@@ -198,6 +198,18 @@ same string), a type-looking value fails closed, so a body field on its own
 line (`    pw: Vec<u8>,`), in its own NDJSON record or more than 512 bytes
 below its opener redacts. A comma or semicolon inside a bracket the value
 opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`).
+A member of an inline TypeScript object type is in a type body too: the key
+follows an unquoted `name: {` or `name?: {` opener with only complete members
+(each ended by `;`, `,` or a line break) between them, in the same 512-byte
+view. There only a closed type vocabulary counts as the type: `string`,
+`number`, `boolean`, `bigint`, `null` and `undefined`, each with optional
+`[]`, the generics `Array`, `ReadonlyArray`, `Promise`, `Set`, `Map` and
+`Record` over them, and `|` unions of these. The type must be followed by
+`;`, `,`, `}` or a line break, and a `}` must close the body within 512
+bytes: `context: { poolKey: string; targetSize: number }` is unchanged.
+Anything else there is a value (`context: { poolKey: String }`, `context: {
+poolKey: config.poolKey }`, a quoted literal, a quoted key), and without the
+opener `{ poolKey: string }` and `poolKey: string` still redact.
 The same rule holds for every credential key (password nouns, token, secret,
 api_key, auth and the other sensitive names) whose value after a bare colon
 looks like code: a `match` expression, a call, a member or call chain, an
