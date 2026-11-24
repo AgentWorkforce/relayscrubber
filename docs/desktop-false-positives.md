@@ -100,9 +100,16 @@ them finds is redacted:
 
 No reading can then leave a later value open: after `echo f'x'`, `it's` or
 `the dogs' bowl`, `login --password 'correct horse ...'` is still redacted.
-Such an input costs up to four scans per pass. An unquoted value also runs
-through an apostrophe, so `echo 'token=I've got ...'` redacts the whole
-value.
+Merging one pass's readings can still hide a later re-scan of alpha.10: in
+`token= we'll; x`, alpha.10 first redacts `we`, then reads the left-over
+`'ll; x` as an open quote and fails closed to the end. So such an input is
+also run through its own passes with every `'` read as a quote, as in
+alpha.10, and whatever either run redacts is redacted and re-scanned once
+more. Nothing after such a `'` is then shown that alpha.10 hid, and an
+unquoted value holding an apostrophe still fails closed to the end
+(`token= [REDACTED]`). Such an input costs up to four scans per pass in the
+first run, one per pass in the second, and up to four per pass again in the
+re-scan of both.
 
 The example above now gives `Summary: the deploy worked. I didn't touch the
 PASSWORD='[REDACTED]`: the cue's unmatched quote still fails closed to the end

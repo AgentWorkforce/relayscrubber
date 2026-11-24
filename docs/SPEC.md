@@ -70,15 +70,19 @@ the input has a `'` after a letter or digit, the scanner also reads it three
 other ways (a `'` before a blank or the end is a possessive while no quote is
 open; every `'` is a quote, paired as in alpha.10; a `'` between letters or
 digits is an apostrophe unless a string prefix such as `b`, `f`, `rb`, `E`, `N`
-or a flag is glued before it) and redacts every value any reading finds. An
-unquoted value runs through an apostrophe. A fixed budget
-of at most seven scanner passes closes over lexical changes caused by
+or a flag is glued before it) and redacts every value any reading finds. A fixed
+budget of at most seven scanner passes closes over lexical changes caused by
 redaction. If the output still changes after one pass and five re-scans,
 everything before the earliest byte the last re-scan changed is kept, a redacted
 range touching that point joins it, and one `[REDACTED]` replaces the rest
 through the end of input, provided that result is itself stable; otherwise the
-result is exactly `[REDACTED]`. Reports map every removed range back to original
-UTF-8 bytes.
+result is exactly `[REDACTED]`. Such an input is also run, within its own budget,
+with every `'` read as a quote in every pass (the alpha.10 pairing). The ranges
+either run redacts are merged in original bytes and re-scanned within a third
+budget, so the result is a fixed point and shows nothing after such a `'` that
+the alpha.10 pairing hid: an unquoted value that holds an apostrophe
+(`token= we'll; x`) fails closed through the end of input. Reports map every
+removed range back to original UTF-8 bytes.
 
 A quoted credential includes whitespace and newlines through the matching
 delimiter. If the quote is malformed, remove through the enclosing value's end

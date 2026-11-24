@@ -89,8 +89,12 @@ through its last quote. Because a `'` after a letter or digit can be an
 apostrophe, a possessive (`dogs'`) or a quote, an input that has one is also
 scanned under the other readings, and every value any of them finds is
 redacted. A later quoted value (`login --password '...'` after `echo f'x'`,
-`it's` or `the dogs' bowl`) therefore stays redacted, and an unquoted value
-runs through an apostrophe (`token=I've got ...`).
+`it's` or `the dogs' bowl`) therefore stays redacted. Such an input is also
+run through its own passes under the 0.5.0-alpha.10 reading (every `'` a
+quote), and whatever either result redacts is redacted and re-scanned once
+more, so nothing after such a `'` is shown that 0.5.0-alpha.10 hid. An
+unquoted value that holds an apostrophe still fails closed through the end
+(`token= we'll; x` gives `token= [REDACTED]`), as in 0.5.0-alpha.10.
 
 Session-shaped JSON: an exact `session_id` now keeps `ses_` and `cse_` IDs
 with a body of 1 to 48 ASCII letters and digits, and an exact `project_key`
