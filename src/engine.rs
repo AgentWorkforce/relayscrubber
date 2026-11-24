@@ -463,12 +463,16 @@ fn code_object_context(view: &View, key: usize) -> bool {
     .is_match(prefix)
 }
 
-// A member of an inline TypeScript object type: the key follows an unquoted
-// `name: {` or `name?: {` opener and only complete members (each ended by
-// `;`, `,` or a line break) stand between them. Only a closed type vocabulary
-// counts as the value there, and the body must close: anything else in that
-// position is a value. Same fixed lookbehind and lookahead budget as the
-// other contexts.
+// A member of a TypeScript object type body: the key follows an
+// independently recognized object-type opener and only complete members
+// (each ended by `;`, `,` or a line break) stand between them. The openers
+// are an unquoted `name: {` or `name?: {` annotation (object, parameter or
+// property type), an `interface Name ... {`, `type Name = {` or
+// `class Name ... {` body, a `): {` return type, and a `{` that opens a type
+// argument of a closed generic (`Array<{`, `Map<string, {`). Only a closed
+// type vocabulary counts as the value there, ended like a member, and the body
+// must close: anything else in that position is a value. Same fixed lookbehind
+// and lookahead budget as the other contexts.
 fn inline_member_type(view: &View, key: usize, value: usize) -> bool {
     let prefix = context_window(view, key);
     if !prefix.as_bytes().contains(&b'{') {
@@ -482,11 +486,16 @@ fn inline_member_type(view: &View, key: usize, value: usize) -> bool {
     static TYPE: OnceLock<Regex> = OnceLock::new();
     let Some(member) = TYPE
         .get_or_init(|| {
-            let primitive = r"(?:string|number|boolean|bigint|null|undefined)(?:\[\])*";
-            let generic = format!(
-                r"(?:Array|ReadonlyArray|Promise|Set|Map|Record)<[ \t]*{primitive}(?:[ \t]*,[ \t]*{primitive})?[ \t]*>(?:\[\])*"
-            );
-            let single = format!("(?:{primitive}|{generic})");
+            let primitive = r"(?:string|number|boolean|bigint|null|undefined|unknown)(?:\[\])*";
+            let readonly = r"readonly[ \t]+(?:string|number|boolean|bigint)(?:\[\])+";
+            let generic = |argument: &str| {
+                format!(
+                    r"(?:Array|ReadonlyArray|Promise|Set|Map|Record)<[ \t]*{argument}(?:[ \t]*,[ \t]*{argument})?[ \t]*>(?:\[\])*"
+                )
+            };
+            let inner = generic(primitive);
+            let outer = generic(&format!("(?:{primitive}|{inner})"));
+            let single = format!("(?:{primitive}|{readonly}|{outer})");
             Regex::new(&format!(
                 r"^[ \t]*{single}(?:[ \t]*\|[ \t]*{single})*[ \t]*(?:[;,}}]|\r?\n)"
             ))
@@ -503,8 +512,11 @@ fn inline_member_type(view: &View, key: usize, value: usize) -> bool {
     static OPENER: OnceLock<Regex> = OnceLock::new();
     OPENER
         .get_or_init(|| {
-            Regex::new(r"(?:^|[^A-Za-z0-9_$.:\-])[A-Za-z_$][A-Za-z0-9_$]*\??[ \t]*:[ \t\r\n]*\{(?:[^{}]*[;,\n])?[ \t\r\n]*$")
-                .expect("inline object type opener")
+            let primitive = r"(?:string|number|boolean|bigint)";
+            Regex::new(&format!(
+                r"(?:(?:^|[^A-Za-z0-9_$.:\-])[A-Za-z_$][A-Za-z0-9_$]*\??[ \t]*:|\)[ \t]*:|(?:^|[^A-Za-z0-9_$.])(?:interface|class)[ \t]+[A-Za-z_$][A-Za-z0-9_$]*[^{{}};=()]*|(?:^|[^A-Za-z0-9_$.])type[ \t]+[A-Za-z_$][A-Za-z0-9_$]*(?:<[^{{}};=()]*>)?[ \t]*=|(?:^|[^A-Za-z0-9_$.])(?:Array|ReadonlyArray|Promise|Set|Map|Record)<(?:[ \t]*{primitive}[ \t]*,)?)[ \t\r\n]*\{{(?:[^{{}}]*[;,\n])?[ \t\r\n]*$"
+            ))
+            .expect("object type opener")
         })
         .is_match(prefix)
 }
