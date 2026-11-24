@@ -1,7 +1,7 @@
 //! Fixed automata and a monotone contextual scanner; no backtracking regex.
 
 use crate::{
-    normalize::{Spaced, View},
+    normalize::{Reading, Spaced, View},
     Policy, REDACTION_TOKEN,
 };
 use aho_corasick::AhoCorasick;
@@ -306,13 +306,14 @@ fn value_end(view: &View, start: usize, context_end: Option<usize>) -> usize {
     if view.text[start..].starts_with(REDACTION_TOKEN) {
         end += REDACTION_TOKEN.len();
     }
+    // An apostrophe (`I've`) is part of the value, not its end.
     while end < limit
         && !(view.literal(end)
             && (space_width(b, end) > 0
                 || matches!(
                     b[end],
                     b'"' | b'\'' | b'`' | b',' | b';' | b'&' | b'}' | b']' | b')'
-                )))
+                ) && !(b[end] == b'\'' && view.quote_end(end) == end)))
     {
         end += 1;
     }
@@ -6190,7 +6191,33 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
             redactions: Vec::new(),
         };
     }
-    let view = View::new(input);
+    // A `'` after a letter or digit can be an apostrophe (`it's`, `dogs'`)
+    // or a quote that opens or closes a literal (`f'x'`, `'abc'`), and either
+    // reading shifts the role of every later single quote. When the input has
+    // one, keep what any reading redacts: none can then leave a value open.
+    let ambiguous = input.char_indices().any(|(p, c)| {
+        c == '\''
+            && input[..p]
+                .chars()
+                .next_back()
+                .is_some_and(char::is_alphanumeric)
+    });
+    let mut original = spans_in(input, View::new(input), inherited, policy);
+    if ambiguous {
+        for reading in [Reading::Possessive, Reading::Quote, Reading::Apostrophe] {
+            original.extend(spans_in(
+                input,
+                View::read(input, reading),
+                inherited,
+                policy,
+            ));
+        }
+    }
+    render(input, original)
+}
+
+// Every redaction one reading of the input finds, in input offsets.
+fn spans_in(input: &str, view: View, inherited: bool, policy: Policy) -> Vec<Range<usize>> {
     let mut spans = Vec::new();
     for m in provider_matches(&view.text) {
         let value = &view.text[m.clone()];
@@ -6353,13 +6380,12 @@ fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubRep
             spans.push(m.range());
         }
     }
-    let original: Vec<Range<usize>> = spans
+    spans
         .into_iter()
         .filter(|r| r.start < r.end)
         .map(|r| view.source_start(r.start)..view.source_end(r.end - 1))
         .chain(disclosed.into_iter().filter(|r| r.start < r.end))
-        .collect();
-    render(input, original)
+        .collect()
 }
 fn replacement<'a>(input: &str, span: &Range<usize>) -> &'a str {
     if input

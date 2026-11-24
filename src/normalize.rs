@@ -10,6 +10,22 @@ enum Decode {
     Percent,
 }
 
+/// How a literal `'` after a letter or digit is read. Such a `'` is either an
+/// apostrophe (`it's`, `dogs'`) or a quote of a literal glued to a prefix
+/// (`f'x'`); each reading shifts the role of every later single quote.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(crate) enum Reading {
+    /// Apostrophe, unless it opens a glued literal (see `build`).
+    Shaped,
+    /// As `Shaped`, and a `'` after a letter or digit and before a blank or
+    /// the end (`dogs' bowl`) is an apostrophe while no quote is open.
+    Possessive,
+    /// Always a quote, paired as in 0.5.0-alpha.10.
+    Quote,
+    /// An apostrophe, unless a string prefix or a flag is glued before it.
+    Apostrophe,
+}
+
 struct Change {
     position: usize,
     start: usize,
@@ -471,21 +487,25 @@ impl View {
     }
 
     pub fn new(input: &str) -> Self {
-        Self::build(input, Decode::Escapes)
+        Self::build(input, Decode::Escapes, Reading::Shaped)
+    }
+
+    pub fn read(input: &str, reading: Reading) -> Self {
+        Self::build(input, Decode::Escapes, reading)
     }
 
     pub fn html_url(input: &str) -> Self {
-        Self::build(input, Decode::Html)
+        Self::build(input, Decode::Html, Reading::Shaped)
     }
 
     pub fn html_components(input: &str) -> Self {
-        Self::build(input, Decode::Components)
+        Self::build(input, Decode::Components, Reading::Shaped)
     }
 
     // Decode exactly one URL component encoding layer. A resulting percent
     // sign is data until a public value explicitly opens another nested layer.
     pub fn percent_layer(input: &str) -> Self {
-        Self::build(input, Decode::Percent)
+        Self::build(input, Decode::Percent, Reading::Shaped)
     }
 
     // Inverse mapping for ranges discovered in an entity-only source view.
@@ -502,7 +522,7 @@ impl View {
         }
     }
 
-    fn build(input: &str, mode: Decode) -> Self {
+    fn build(input: &str, mode: Decode, reading: Reading) -> Self {
         let source = input.as_bytes();
         let mut bytes = Vec::new();
         let mut changes = Vec::new();
@@ -609,21 +629,93 @@ impl View {
         // literal `'` that is no apostrophe, or runs to the end. Otherwise
         // every re-scan of the output would reopen the value at the next
         // apostrophe word.
-        let apostrophe = |p: usize| {
+        //
+        // Such a `'` still opens a literal glued to a prefix (`f'x'`,
+        // `b'abc'`, `-m'wip'`) when no single quote is open before it and
+        // the next literal `'` has a closing shape: a non-blank byte before
+        // it that cannot start a value (`=`, `:`, an opening bracket or a
+        // separator) and no letter or digit after it. Only that reading lets
+        // the next quote close anything; dropping the opener would shift the
+        // role of every later quote and could leave a later value open.
+        let alphanumeric_before = |p: usize| {
             text[..p]
                 .chars()
                 .next_back()
                 .is_some_and(char::is_alphanumeric)
-                && text[p + 1..]
+        };
+        let alphanumeric_after = |p: usize| {
+            text[p + 1..]
+                .chars()
+                .next()
+                .is_some_and(char::is_alphanumeric)
+        };
+        let closing_shape = |q: usize| {
+            text[..q].chars().next_back().is_some_and(|c| {
+                !c.is_whitespace()
+                    && !matches!(c, '=' | ':' | '(' | '[' | '{' | ',' | ';' | '|' | '&' | '<')
+            }) && !alphanumeric_after(q)
+        };
+        // A string prefix (`b`, `f`, `r`, `u`, `rb`, `E`, `N`, `x` and the
+        // like) or a command-line flag (`-m`, `-H`) right before the `'`.
+        let literal_prefix = |p: usize| {
+            let word = text[..p]
+                .rfind(|c: char| !c.is_alphanumeric())
+                .map_or(0, |n| {
+                    n + text[n..].chars().next().map_or(1, char::len_utf8)
+                });
+            let flag = text[..word].ends_with('-');
+            let prefix = text[..word]
+                .chars()
+                .next_back()
+                .is_none_or(|c| !c.is_alphanumeric() && c != '\'');
+            flag || prefix
+                && matches!(
+                    text[word..p].to_ascii_lowercase().as_str(),
+                    "b" | "f" | "r" | "u" | "e" | "n" | "x" | "rb" | "br" | "fr" | "rf"
+                )
+        };
+        let literal: Vec<bool> = tags.iter().map(|(_, tag)| **tag == b"'"[..]).collect();
+        let mut apostrophes = vec![false; tags.len()];
+        let mut following_literal = vec![None; tags.len()];
+        let mut later = None;
+        for n in (0..tags.len()).rev() {
+            following_literal[n] = later;
+            if literal[n] {
+                later = Some(tags[n].0);
+            }
+        }
+        let mut open = false;
+        for (n, &(position, _)) in tags.iter().enumerate() {
+            if !literal[n] {
+                continue;
+            }
+            let between = alphanumeric_before(position) && alphanumeric_after(position);
+            // `dogs' bowl` with no quote open: a possessive closes nothing.
+            let possessive = reading == Reading::Possessive
+                && !open
+                && alphanumeric_before(position)
+                && text[position + 1..]
                     .chars()
                     .next()
-                    .is_some_and(char::is_alphanumeric)
-        };
+                    .is_none_or(char::is_whitespace);
+            if match reading {
+                Reading::Shaped | Reading::Possessive => {
+                    possessive
+                        || between && (open || !following_literal[n].is_some_and(closing_shape))
+                }
+                Reading::Quote => false,
+                Reading::Apostrophe => between && !literal_prefix(position),
+            } {
+                apostrophes[n] = true;
+            } else {
+                open = !open;
+            }
+        }
         let mut next_literal = None;
         for (n, (position, tag)) in tags.into_iter().enumerate().rev() {
             let following = if *tag != b"'"[..] {
                 next.insert(tag, position)
-            } else if apostrophe(position) {
+            } else if apostrophes[n] {
                 quotes[n].1 = position;
                 continue;
             } else {
@@ -639,7 +731,8 @@ impl View {
                 let mut before = end;
                 while before > line_start
                     && (b[before - 1].is_ascii_whitespace()
-                        || matches!(b[before - 1], b'"' | b'\'' | b'`'))
+                        || reading != Reading::Quote
+                            && matches!(b[before - 1], b'"' | b'\'' | b'`'))
                 {
                     before -= 1;
                 }
@@ -654,6 +747,9 @@ impl View {
                     && matches!(b[before - 1], b'=' | b':')
                     && b.get(end + 1)
                         .is_some_and(|c| !c.is_ascii_whitespace() && !b")]},;>".contains(c));
+                // Read as a quote, every `'` keeps the plain pairing too: a
+                // same-line quote closes, whatever follows it.
+                let opens_value = opens_value && reading != Reading::Quote;
                 if !assignment || (line_start <= position && !opens_value) {
                     quotes[n].1 = end;
                 }
