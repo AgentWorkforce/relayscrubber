@@ -1910,6 +1910,12 @@ fn session_identifier(value: &str) -> bool {
                     && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
             })
         })
+        // Session and cloud-session ids: letters and digits only.
+        || ["ses_", "cse_"].iter().any(|p| {
+            value.strip_prefix(p).is_some_and(|s| {
+                !s.is_empty() && s.len() <= 48 && s.bytes().all(|b| b.is_ascii_alphanumeric())
+            })
+        })
 }
 
 fn environment_reference(value: &str) -> bool {
@@ -4579,7 +4585,8 @@ pub(crate) fn field_reference(name: &str, value: &str) -> bool {
 
 /// A normalized repository identity as session capture records it under an exact
 /// `project_key`: `host.tld/owner/repo`, optionally with up to six more group
-/// segments (`gitlab.com/group/sub/repo`). The host is dotted DNS labels with an
+/// segments (`gitlab.com/group/sub/repo`), or a bare `owner/repo` whose owner has
+/// no `.` (so a lone `host.tld/owner` is not one). The host is dotted DNS labels with an
 /// alphabetic top-level label; each path segment is ASCII letters, digits, `.`, `_`
 /// or `-`, never `.` or `..`. A scheme, userinfo, port, query, percent or other
 /// encoding, a local path, a single opaque token (a vendor "project key" such as
@@ -4596,6 +4603,25 @@ fn repository_identity(value: &str) -> bool {
     }
     let mut parts = value.split('/');
     let host = parts.next().unwrap_or("");
+    let segment = |s: &str| {
+        !s.is_empty()
+            && s.len() <= 100
+            && s != "."
+            && s != ".."
+            && s.bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'))
+            // A long lowercase hex run is digest or token material, not a name.
+            && !(s.len() >= 20 && s.bytes().all(|b| b.is_ascii_hexdigit()))
+            // So is a long piece mixing letters and digits (`abc12def34ghi56jkl78`):
+            // repository names split long words with `-`, `_` or `.`.
+            && !s
+                .split(['.', '_', '-'])
+                .any(|piece| piece.len() >= 16 && piece.bytes().any(|b| b.is_ascii_digit()))
+    };
+    let segments: Vec<&str> = parts.collect();
+    if segments.len() == 1 && !host.contains('.') {
+        return segment(host) && segment(segments[0]);
+    }
     let labels: Vec<&str> = host.split('.').collect();
     let host_ok = host.len() <= 253
         && labels.len() >= 2
@@ -4609,24 +4635,7 @@ fn repository_identity(value: &str) -> bool {
         && labels
             .last()
             .is_some_and(|tld| tld.bytes().all(|b| b.is_ascii_alphabetic()));
-    let segments: Vec<&str> = parts.collect();
-    host_ok
-        && (2..=8).contains(&segments.len())
-        && segments.iter().all(|s| {
-            !s.is_empty()
-                && s.len() <= 100
-                && *s != "."
-                && *s != ".."
-                && s.bytes()
-                    .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'))
-                // A long lowercase hex run is digest or token material, not a name.
-                && !(s.len() >= 20 && s.bytes().all(|b| b.is_ascii_hexdigit()))
-                // So is a long piece mixing letters and digits (`abc12def34ghi56jkl78`):
-                // repository names split long words with `-`, `_` or `.`.
-                && !s
-                    .split(['.', '_', '-'])
-                    .any(|piece| piece.len() >= 16 && piece.bytes().any(|b| b.is_ascii_digit()))
-        })
+    host_ok && (2..=8).contains(&segments.len()) && segments.iter().all(|s| segment(s))
 }
 
 fn documentation_url(password: &str, host: &str) -> bool {
