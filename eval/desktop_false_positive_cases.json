@@ -1,0 +1,260 @@
+{
+  "about": "Agent Relay Desktop over-redaction evidence for 0.5.0-alpha.11 (invented inputs only; no session bodies). precision: desired output is byte-identical input; alpha10 records observed 0.5.0-alpha.10 output. recall: `secret` must not survive on any API. whole_body: output must not be the single marker and must keep `prefix`; alpha10 records the observed fixed-point pass-budget exhaustion.",
+  "precision": [
+    {
+      "id": "anon-desktop-witness",
+      "input": "  context: { poolKey: string; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-apikey-string",
+      "input": "  context: { apiKey: string; targetSize: number }",
+      "alpha10": "  context: { apiKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-number",
+      "input": "  context: { poolKey: number; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-boolean",
+      "input": "  context: { poolKey: boolean; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-unknown",
+      "input": "  context: { poolKey: unknown; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-union-null",
+      "input": "  context: { poolKey: string | null; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-optional",
+      "input": "  context: { poolKey?: string; targetSize: number }",
+      "alpha10": "  context: { poolKey?: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-array",
+      "input": "  context: { poolKey: string[]; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]]; targetSize: number }"
+    },
+    {
+      "id": "anon-generic",
+      "input": "  context: { poolKey: Array<string>; targetSize: number }",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "fn-param-object-type",
+      "input": "function connect(opts: { poolKey: string; targetSize: number }): void {}",
+      "alpha10": "function connect(opts: { poolKey: [REDACTED]; targetSize: number }): void {}"
+    },
+    {
+      "id": "interface-union-null-witness",
+      "input": "interface X { privateKey: string | null }",
+      "alpha10": "interface X { privateKey: [REDACTED] }"
+    },
+    {
+      "id": "interface-apikey-union-null",
+      "input": "interface X { apiKey: string | null }",
+      "alpha10": "interface X { apiKey: [REDACTED] }"
+    },
+    {
+      "id": "interface-union-undefined",
+      "input": "interface Pool { poolKey?: string | undefined; members: Array<{ apiKey: string }>; }",
+      "alpha10": "interface Pool { poolKey?: [REDACTED]; members: Array<{ apiKey: string }>; }"
+    },
+    {
+      "id": "interface-array",
+      "input": "interface X { poolKey: string[] }",
+      "alpha10": "interface X { poolKey: [REDACTED] }"
+    },
+    {
+      "id": "interface-readonly-array",
+      "input": "interface X { secretKey: readonly string[] }",
+      "alpha10": "interface X { secretKey: [REDACTED] }"
+    },
+    {
+      "id": "interface-multiline-union",
+      "input": "interface X {\n  poolKey: string | undefined;\n  other: number;\n}",
+      "alpha10": "interface X {\n  poolKey: [REDACTED]\n  other: number;\n}"
+    },
+    {
+      "id": "type-multiline-members",
+      "input": "type Pool = {\n  poolKey: string;\n  privateKey: string | null;\n  tags: string[];\n};",
+      "alpha10": "type Pool = {\n  poolKey: string;\n  privateKey: [REDACTED]\n  tags: string[];\n};"
+    },
+    {
+      "id": "control-interface-string",
+      "input": "interface X { apiKey: string; secretKey?: SecretType; key: unknown }",
+      "alpha10": "interface X { apiKey: string; secretKey?: SecretType; key: unknown }"
+    },
+    {
+      "id": "control-type-body",
+      "input": "type A = { accessKey: boolean, sessionKey: Record<string, number> }",
+      "alpha10": "type A = { accessKey: boolean, sessionKey: Record<string, number> }"
+    },
+    {
+      "id": "control-nested-generic",
+      "input": "interface X { cacheKey: Record<string, Map<string, number[]>> }",
+      "alpha10": "interface X { cacheKey: Record<string, Map<string, number[]>> }"
+    },
+    {
+      "id": "control-struct-option",
+      "input": "struct S { pool_key: Option<String> }",
+      "alpha10": "struct S { pool_key: Option<String> }"
+    },
+    {
+      "id": "control-fn-str",
+      "input": "fn f(pool_key: &str) {}",
+      "alpha10": "fn f(pool_key: &str) {}"
+    },
+    {
+      "id": "control-env-reference",
+      "input": "const cfg = { apiKey: process.env.API_KEY }",
+      "alpha10": "const cfg = { apiKey: process.env.API_KEY }"
+    },
+    {
+      "id": "python-lambda-key",
+      "input": "sorted(ln, key=lambda e: e.get(\"timestamp\"))",
+      "alpha10": "sorted(ln, key=lambda e: e.get(\"timestamp\"))"
+    },
+    {
+      "id": "python-lambda-key-reverse",
+      "input": "rows.sort(key=lambda row: row[\"created_at\"], reverse=True)",
+      "alpha10": "rows.sort(key=lambda row: row[\"created_at\"], reverse=True)"
+    }
+  ],
+  "recall": [
+    {
+      "id": "aws-secret-access-key",
+      "input": "aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "secret": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "alpha10": "aws_secret_access_key = [REDACTED]"
+    },
+    {
+      "id": "anon-double-quoted",
+      "input": "  context: { poolKey: \"pk_live_abcdef123456\"; targetSize: number }",
+      "secret": "pk_live_abcdef123456",
+      "alpha10": "  context: { poolKey: \"[REDACTED]\"; targetSize: number }"
+    },
+    {
+      "id": "anon-single-quoted-symbols",
+      "input": "  context: { poolKey: 'Zx9!q#Lm2$vR7&tB'; targetSize: number }",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "  context: { poolKey: '[REDACTED]'; targetSize: number }"
+    },
+    {
+      "id": "anon-bare-opaque",
+      "input": "  context: { poolKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY; targetSize: number }",
+      "secret": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-keyword-glued",
+      "input": "  context: { poolKey: string1234567890abcdef; targetSize: number }",
+      "secret": "string1234567890abcdef",
+      "alpha10": "  context: { poolKey: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "anon-second-member",
+      "input": "  context: { poolKey: string; apiKey: sk-abcdefghijklmnop1234567890ABCD }",
+      "secret": "sk-abcdefghijklmnop1234567890ABCD",
+      "alpha10": "  context: { poolKey: [REDACTED]; apiKey: [REDACTED] }"
+    },
+    {
+      "id": "anon-union-opaque-tail",
+      "input": "  context: { poolKey: string | Zx9qLm2vR7tBk4Hs }",
+      "secret": "Zx9qLm2vR7tBk4Hs",
+      "alpha10": "  context: { poolKey: [REDACTED] }"
+    },
+    {
+      "id": "anon-password-bare",
+      "input": "  context: { password: hunter2; targetSize: number }",
+      "secret": "hunter2",
+      "alpha10": "  context: { password: [REDACTED]; targetSize: number }"
+    },
+    {
+      "id": "interface-after-union",
+      "input": "interface X { privateKey: string | null; secretKey: \"Zx9!q#Lm2$vR7&tB\" }",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "interface X { privateKey: [REDACTED]; secretKey: \"[REDACTED]\" }"
+    },
+    {
+      "id": "interface-union-bare-word",
+      "input": "interface X { privateKey: string | hunter2 }",
+      "secret": "hunter2",
+      "alpha10": "interface X { privateKey: [REDACTED] }"
+    },
+    {
+      "id": "interface-quoted-provider",
+      "input": "interface X { apiKey: \"sk-abcdefghijklmnop1234567890ABCD\" }",
+      "secret": "sk-abcdefghijklmnop1234567890ABCD",
+      "alpha10": "interface X { apiKey: \"[REDACTED]\" }"
+    },
+    {
+      "id": "type-backtick",
+      "input": "type T = { secretKey: `Zx9!q#Lm2$vR7&tB` }",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "type T = { secretKey: `[REDACTED]` }"
+    },
+    {
+      "id": "class-field-initializer",
+      "input": "class P { poolKey: string = \"Zx9!q#Lm2$vR7&tB\" }",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "class P { poolKey: [REDACTED] }"
+    },
+    {
+      "id": "fn-default-literal",
+      "input": "function f(opts: { poolKey: string } = { poolKey: \"Zx9!q#Lm2$vR7&tB\" }) {}",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "function f(opts: { poolKey: [REDACTED] } = { poolKey: \"[REDACTED]\" }) {}"
+    },
+    {
+      "id": "object-literal-quoted",
+      "input": "const opts = { poolKey: \"Zx9!q#Lm2$vR7&tB\", targetSize: 4 }",
+      "secret": "Zx9!q#Lm2$vR7&tB",
+      "alpha10": "const opts = { poolKey: \"[REDACTED]\", targetSize: 4 }"
+    },
+    {
+      "id": "python-lambda-neighbour-secret",
+      "input": "sorted(ln, key=lambda e: e.get(\"timestamp\")); api_key = \"Zx9qLm2vR7tBk4HsWp8n\"",
+      "secret": "Zx9qLm2vR7tBk4HsWp8n",
+      "alpha10": "sorted(ln, key=lambda e: e.get(\"timestamp\")); api_key = \"[REDACTED]\""
+    }
+  ],
+  "whole_body": [
+    {
+      "id": "prose-placeholder-apostrophes",
+      "input": "Here's what I found. The login form's pwd: ' placeholder isn't rendered, so it's blank. I'll fix that; we're close and you're unblocked.",
+      "prefix": "Here's what I found. The login form's pwd: ",
+      "alpha10": "[REDACTED]"
+    },
+    {
+      "id": "prose-summary-env-line",
+      "input": "Summary: the deploy worked. I didn't touch the PASSWORD=' line because it's generated, and that's fine; we'll revisit it once you're back and I've rotated the key.",
+      "prefix": "Summary: the deploy worked. I didn't touch the PASSWORD=",
+      "alpha10": "[REDACTED]"
+    },
+    {
+      "id": "prose-password-colon-apostrophes",
+      "input": "The password: ' it's in 1Password, I'll share it, don't worry, we're fine, you're set",
+      "prefix": "The password: ",
+      "alpha10": "[REDACTED]"
+    },
+    {
+      "id": "minimal-five-apostrophes",
+      "input": "pwd: ' let's I'll you're won't here",
+      "prefix": "pwd: ",
+      "alpha10": "[REDACTED]"
+    },
+    {
+      "id": "prefixed-empty-quotes",
+      "input": "Note: the deploy finished and tests pass.\npassword=\"\"D\"\"\n=\n\"= ",
+      "prefix": "Note: the deploy finished and tests pass.\npassword=",
+      "alpha10": "[REDACTED]"
+    }
+  ]
+}

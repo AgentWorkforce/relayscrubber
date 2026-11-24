@@ -530,5 +530,348 @@
     "kind": "positive",
     "input": "aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
     "expected": "aws_secret_access_key = [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/interface kept 00",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface X { privateKey: string | null }",
+    "expected": "interface X { privateKey: string | null }"
+  },
+  {
+    "id": "alpha11-type-member/interface kept 01",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface X { privateKey: string | null | undefined; other: number }",
+    "expected": "interface X { privateKey: string | null | undefined; other: number }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 02",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { privateKey: \"SYNTHzQ7vLm2Rt9Kp4Xw\" | null }",
+    "expected": "interface X { privateKey: \"[REDACTED]\" | null }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 03",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { privateKey: string | \"SYNTHzQ7vLm2Rt9Kp4Xw\" }",
+    "expected": "interface X { privateKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 04",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { privateKey: null | hunter2 }",
+    "expected": "interface X { privateKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 05",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { privateKey: string | null = \"SYNTHzQ7vLm2Rt9Kp4Xw\" }",
+    "expected": "interface X { privateKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface kept 06",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface X { poolKey: string[] }",
+    "expected": "interface X { poolKey: string[] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 07",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { poolKey: string[] = [\"SYNTHzQ7vLm2Rt9Kp4Xw\"] }",
+    "expected": "interface X { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 08",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { poolKey: [\"SYNTHzQ7vLm2Rt9Kp4Xw\"] }",
+    "expected": "interface X { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface kept 09",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "interface X { secretKey: readonly string[] }",
+    "expected": "interface X { secretKey: readonly string[] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 10",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { secretKey: readonly hunter2[] }",
+    "expected": "interface X { secretKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 11",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { secretKey: readonly SYNTHzQ7vLm2Rt9Kp4Xw }",
+    "expected": "interface X { secretKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/interface attack 12",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "interface X { secretKey: readonly string }",
+    "expected": "interface X { secretKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/type body kept 13",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "type T = { secretKey: readonly number[]; tags: string[] }",
+    "expected": "type T = { secretKey: readonly number[]; tags: string[] }"
+  },
+  {
+    "id": "alpha11-type-member/type body attack 14",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "type T = { secretKey: 'SYNTHzQ7vLm2Rt9Kp4Xw'; tags: string[] }",
+    "expected": "type T = { secretKey: '[REDACTED]'; tags: string[] }"
+  },
+  {
+    "id": "alpha11-type-member/parameter kept 15",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "function connect(opts: { poolKey: string | null }): void {}",
+    "expected": "function connect(opts: { poolKey: string | null }): void {}"
+  },
+  {
+    "id": "alpha11-type-member/parameter attack 16",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "function connect(opts: { poolKey: 'SYNTHzQ7vLm2Rt9Kp4Xw' }): void {}",
+    "expected": "function connect(opts: { poolKey: '[REDACTED]' }): void {}"
+  },
+  {
+    "id": "alpha11-type-member/parameter attack 17",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "function connect(opts: { poolKey: SYNTHzQ7vLm2Rt9Kp4Xw }): void {}",
+    "expected": "function connect(opts: { poolKey: [REDACTED] }): void {}"
+  },
+  {
+    "id": "alpha11-type-member/return type kept 18",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "function load(): { poolKey: string; size: number } { return cfg }",
+    "expected": "function load(): { poolKey: string; size: number } { return cfg }"
+  },
+  {
+    "id": "alpha11-type-member/return type kept 19",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "const load = (): { poolKey: string | null } => cfg",
+    "expected": "const load = (): { poolKey: string | null } => cfg"
+  },
+  {
+    "id": "alpha11-type-member/return type attack 20",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "function load(): { poolKey: \"SYNTHzQ7vLm2Rt9Kp4Xw\" } { return cfg }",
+    "expected": "function load(): { poolKey: \"[REDACTED]\" } { return cfg }"
+  },
+  {
+    "id": "alpha11-type-member/return type attack 21",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "function load(): { poolKey: hunter2 } { return cfg }",
+    "expected": "function load(): { poolKey: [REDACTED] } { return cfg }"
+  },
+  {
+    "id": "alpha11-type-member/return type attack 22",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "function load(): { poolKey: string = \"SYNTHzQ7vLm2Rt9Kp4Xw\" } { return cfg }",
+    "expected": "function load(): { poolKey: [REDACTED] } { return cfg }"
+  },
+  {
+    "id": "alpha11-type-member/class property kept 23",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "class Pool { poolKey: string; size: number }",
+    "expected": "class Pool { poolKey: string; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/class property kept 24",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "class Pool {\n  poolKey?: string | null;\n  privateKey: readonly string[];\n}",
+    "expected": "class Pool {\n  poolKey?: string | null;\n  privateKey: readonly string[];\n}"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 25",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { poolKey: string = \"SYNTHzQ7vLm2Rt9Kp4Xw\" }",
+    "expected": "class Pool { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 26",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { poolKey: string = 'SYNTHzQ7vLm2Rt9Kp4Xw'; size: number }",
+    "expected": "class Pool { poolKey: [REDACTED]; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 27",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { poolKey: 'SYNTHzQ7vLm2Rt9Kp4Xw'; size: number }",
+    "expected": "class Pool { poolKey: '[REDACTED]'; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 28",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { poolKey: hunter2; size: number }",
+    "expected": "class Pool { poolKey: [REDACTED]; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/class property kept 29",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "class Pool extends Base { poolKey: string | undefined }",
+    "expected": "class Pool extends Base { poolKey: string | undefined }"
+  },
+  {
+    "id": "alpha11-type-member/generic argument kept 30",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "const pools: Map<string, { poolKey: string; size: number }> = new Map()",
+    "expected": "const pools: Map<string, { poolKey: string; size: number }> = new Map()"
+  },
+  {
+    "id": "alpha11-type-member/generic argument kept 31",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "type Pools = Record<string, { apiKey: string | null }>",
+    "expected": "type Pools = Record<string, { apiKey: string | null }>"
+  },
+  {
+    "id": "alpha11-type-member/generic argument kept 32",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "type Pools = Array<{ apiKey: string }>",
+    "expected": "type Pools = Array<{ apiKey: string }>"
+  },
+  {
+    "id": "alpha11-type-member/generic argument attack 33",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "type Pools = Map<string, { apiKey: \"SYNTHzQ7vLm2Rt9Kp4Xw\" }>",
+    "expected": "type Pools = Map<string, { apiKey: \"[REDACTED]\" }>"
+  },
+  {
+    "id": "alpha11-type-member/generic argument attack 34",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "type Pools = Array<{ apiKey: hunter2 }>",
+    "expected": "type Pools = Array<{ apiKey: [REDACTED] }>"
+  },
+  {
+    "id": "alpha11-type-member/generic argument attack 35",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "type Pools = Record<string, { apiKey: string = \"SYNTHzQ7vLm2Rt9Kp4Xw\" }>",
+    "expected": "type Pools = Record<string, { apiKey: [REDACTED] }>"
+  },
+  {
+    "id": "alpha11-type-member/generic argument attack 36",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "const pools: Map<string, { poolKey: SYNTHzQ7vLm2Rt9Kp4Xw }> = new Map()",
+    "expected": "const pools: Map<string, { poolKey: [REDACTED] }> = new Map()"
+  },
+  {
+    "id": "alpha11-type-member/inline kept 37",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "  context: { poolKey: Record<string, Array<string>>; size: number }",
+    "expected": "  context: { poolKey: Record<string, Array<string>>; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline attack 38",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "  context: { poolKey: Record<string, Array<SYNTHzQ7vLm2Rt9Kp4Xw>>; size: number }",
+    "expected": "  context: { poolKey: [REDACTED]; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline attack 39",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "  context: { poolKey: PoolKey; size: number }",
+    "expected": "  context: { poolKey: [REDACTED]; size: number }"
+  },
+  {
+    "id": "alpha11-type-member/inline attack 40",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "  context: { poolKey: PoolKeyType }",
+    "expected": "  context: { poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/context-free attack 41",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "{ poolKey: string | null }",
+    "expected": "{ poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/context-free attack 42",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "poolKey: string | null",
+    "expected": "poolKey: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/context-free attack 43",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "{ poolKey: readonly string[] }",
+    "expected": "{ poolKey: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/context-free attack 44",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "poolKey: string[]",
+    "expected": "poolKey: [REDACTED]"
+  },
+  {
+    "id": "alpha11-type-member/return-shaped opener kept 45",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "if (ready): { password: string }",
+    "expected": "if (ready): { password: string }"
+  },
+  {
+    "id": "alpha11-type-member/class property kept 46",
+    "family": "type-member",
+    "kind": "benign",
+    "input": "class Pool { password: string }",
+    "expected": "class Pool { password: string }"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 47",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { password: Tr0ub4dorExample91 }",
+    "expected": "class Pool { password: [REDACTED] }"
+  },
+  {
+    "id": "alpha11-type-member/class property attack 48",
+    "family": "type-member",
+    "kind": "positive",
+    "input": "class Pool { password: string } and the password: hunter2",
+    "expected": "class Pool { password: string } and the password: [REDACTED]"
   }
 ]
