@@ -603,8 +603,33 @@ impl View {
             .map(|(position, _)| (*position, b.len()))
             .collect();
         let mut next = std::collections::BTreeMap::new();
+        // A literal `'` between two letters or digits (`it's`) is an
+        // apostrophe, not a quote: it neither opens nor closes one, and its
+        // extent is itself. A quote opened elsewhere pairs with the next
+        // literal `'` that is no apostrophe, or runs to the end. Otherwise
+        // every re-scan of the output would reopen the value at the next
+        // apostrophe word.
+        let apostrophe = |p: usize| {
+            text[..p]
+                .chars()
+                .next_back()
+                .is_some_and(char::is_alphanumeric)
+                && text[p + 1..]
+                    .chars()
+                    .next()
+                    .is_some_and(char::is_alphanumeric)
+        };
+        let mut next_literal = None;
         for (n, (position, tag)) in tags.into_iter().enumerate().rev() {
-            if let Some(end) = next.insert(tag, position) {
+            let following = if *tag != b"'"[..] {
+                next.insert(tag, position)
+            } else if apostrophe(position) {
+                quotes[n].1 = position;
+                continue;
+            } else {
+                next_literal.replace(position)
+            };
+            if let Some(end) = following {
                 let line = line_ends.partition_point(|&p| p < end);
                 let line_start = if line == 0 {
                     0
@@ -612,15 +637,21 @@ impl View {
                     line_ends[line - 1] + 1
                 };
                 let mut before = end;
-                while before > line_start && b[before - 1].is_ascii_whitespace() {
+                while before > line_start
+                    && (b[before - 1].is_ascii_whitespace()
+                        || matches!(b[before - 1], b'"' | b'\'' | b'`'))
+                {
                     before -= 1;
                 }
                 // A quote opening a later line's assignment is not a trustworthy
-                // close for an earlier credential. Fail closed through EOF.
-                if line_start <= position
-                    || before == line_start
-                    || !matches!(b[before - 1], b'=' | b':' | b'>')
-                {
+                // close for an earlier credential, nor is one on the same line
+                // that directly opens a value (`key='value`). Fail closed
+                // through EOF.
+                let assignment = before > line_start && matches!(b[before - 1], b'=' | b':' | b'>');
+                let opens_value = b
+                    .get(end + 1)
+                    .is_some_and(|c| !c.is_ascii_whitespace() && !b")]},;>".contains(c));
+                if !assignment || (line_start <= position && !opens_value) {
                     quotes[n].1 = end;
                 }
             }
@@ -647,7 +678,8 @@ impl View {
                 stack.pop();
             }
             let outer = stack.last().copied().unwrap_or(usize::MAX);
-            if !closing && end <= outer.min(b.len()) {
+            // An apostrophe (extent `position`) opens no scope.
+            if !closing && end > position && end <= outer.min(b.len()) {
                 stack.push(end);
             }
             scopes.push((position + 1, stack.last().copied().unwrap_or(usize::MAX)));

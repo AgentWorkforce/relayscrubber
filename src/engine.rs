@@ -6067,7 +6067,11 @@ pub(crate) fn scrub(input: &str, inherited: bool, policy: Policy) -> String {
 
 // Removing malformed delimiters can change lexical scopes. Close over those
 // changes with a fixed pass budget, retaining ranges in ORIGINAL input bytes.
-// Exhaustion fails closed; no unbounded fixed-point loop is permitted.
+// No unbounded fixed-point loop is permitted: at most seven passes run. If
+// the output still changes after the budget, everything before the earliest
+// byte the last pass changed was stable; keep it and fail closed from the
+// start of that span to the end, and only if that result is itself a fixed
+// point. Otherwise the whole input becomes one marker.
 pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
     let mut report = analyze_once(input, inherited, policy);
     // With no replacement, the next pass sees exactly the same bytes and
@@ -6075,55 +6079,93 @@ pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::Sc
     if report.redactions.is_empty() {
         return report;
     }
-    for _ in 0..4 {
+    for pass in 0..5 {
         let next = analyze_once(&report.text, inherited, policy);
         if next.text == report.text {
             return report;
         }
-        let mut delta = 0isize;
-        let replacements: Vec<_> = report
-            .redactions
-            .iter()
-            .map(|r| {
-                let start = r
-                    .start
-                    .checked_add_signed(delta)
-                    .expect("mapped output offset");
-                let length = replacement(input, r).len();
-                let end = start + length;
-                delta += length as isize - r.len() as isize;
-                (start, end, r.start, r.end)
-            })
-            .collect();
-        let original = |position: usize, is_end: bool| {
-            let n = replacements.partition_point(|r| r.0 <= position);
-            if n == 0 {
-                return position;
+        let replacements = output_ranges(input, &report.redactions);
+        if pass == 4 {
+            let mut changed = report
+                .text
+                .bytes()
+                .zip(next.text.bytes())
+                .position(|(a, b)| a != b)
+                .unwrap_or(report.text.len().min(next.text.len()));
+            while !report.text.is_char_boundary(changed) {
+                changed -= 1;
             }
-            let &(start, end, source_start, source_end) = &replacements[n - 1];
-            if position == start {
-                source_start
-            } else if position < end {
-                if is_end {
-                    source_end
-                } else {
-                    source_start
-                }
-            } else {
-                position - end + source_end
+            let mut stable = original_offset(&replacements, changed, false);
+            let mut spans: Vec<_> = report
+                .redactions
+                .into_iter()
+                .filter(|r| r.start < stable)
+                .collect();
+            // A kept span touching the unstable tail joins it: one marker.
+            while let Some(last) = spans.pop_if(|r| r.end >= stable) {
+                stable = last.start;
             }
-        };
+            spans.push(stable..input.len());
+            let tail = render(input, spans);
+            if analyze_once(&tail.text, inherited, policy).text == tail.text {
+                return tail;
+            }
+            break;
+        }
         let mut spans = report.redactions;
-        spans.extend(
-            next.redactions
-                .iter()
-                .map(|r| original(r.start, false)..original(r.end, true)),
-        );
+        spans.extend(next.redactions.iter().map(|r| {
+            original_offset(&replacements, r.start, false)
+                ..original_offset(&replacements, r.end, true)
+        }));
         report = render(input, spans);
     }
     crate::ScrubReport {
         text: REDACTION_TOKEN.into(),
         redactions: std::iter::once(0..input.len()).collect(),
+    }
+}
+
+// Each rendered redaction as (output start, output end, input start, input
+// end), in order.
+fn output_ranges(input: &str, redactions: &[Range<usize>]) -> Vec<(usize, usize, usize, usize)> {
+    let mut delta = 0isize;
+    redactions
+        .iter()
+        .map(|r| {
+            let start = r
+                .start
+                .checked_add_signed(delta)
+                .expect("mapped output offset");
+            let length = replacement(input, r).len();
+            let end = start + length;
+            delta += length as isize - r.len() as isize;
+            (start, end, r.start, r.end)
+        })
+        .collect()
+}
+
+// An offset in rendered output, as an offset in the input. Inside a
+// replacement it maps to the replaced range's start, or its end for an end.
+fn original_offset(
+    replacements: &[(usize, usize, usize, usize)],
+    position: usize,
+    is_end: bool,
+) -> usize {
+    let n = replacements.partition_point(|r| r.0 <= position);
+    if n == 0 {
+        return position;
+    }
+    let &(start, end, source_start, source_end) = &replacements[n - 1];
+    if position == start {
+        source_start
+    } else if position < end {
+        if is_end {
+            source_end
+        } else {
+            source_start
+        }
+    } else {
+        position - end + source_end
     }
 }
 fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
