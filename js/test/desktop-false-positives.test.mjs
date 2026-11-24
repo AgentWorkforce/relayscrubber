@@ -56,3 +56,23 @@ test('prose is never replaced wholesale',()=>{
   finish(fixture.whole_body.flatMap(c=>check(c.id,c.input,o=>
     o===R?'whole body replaced by one marker':!o.startsWith(c.prefix)?'benign prefix lost':o.includes(R)?null:'credential cue no longer redacts')));
 });
+
+// Exact outputs, mirrored from tests/pass_budget_alpha11.rs.
+const exact=[
+  ["pwd: ' let's I'll you're won't here","pwd: '[REDACTED]"],
+  ["Summary: the deploy worked. I didn't touch the PASSWORD=' line because it's generated, and that's fine; we'll revisit it once you're back and I've rotated the key.","Summary: the deploy worked. I didn't touch the PASSWORD='[REDACTED]"],
+  ["Here's what I found. The login form's pwd: ' placeholder isn't rendered, so it's blank. I'll fix that; we're close and you're unblocked.","Here's what I found. The login form's pwd: '[REDACTED]"],
+  ["The password: ' it's in 1Password, I'll share it, don't worry, we're fine, you're set","The password: '[REDACTED]"],
+  ['Note: the deploy finished and tests pass.\npassword=""D""\n=\n"= ','Note: the deploy finished and tests pass.\npassword="[REDACTED]'],
+  ["password='ab'cd' and more","password='[REDACTED]"],
+  ["The password: 'Zx9q's7Lm' ok","The password: '[REDACTED]"],
+  ["token: 'pass key we and placeholder PASSWORD='SYNTHq8Zr4TfX2wLm key form the back","token: '[REDACTED]"],
+  ["We're done. password: 'SYNTHq8Zr4TfX2wLm' and that's it","We're done. password: '[REDACTED]' and that's it"],
+  ["I said 'don't' here","I said 'don't' here"],
+  ["sep = ':'\nname = 'it's'","sep = ':'\nname = 'it's'"],
+];
+
+test('pass-budget witnesses have exact outputs on every API',()=>{
+  finish(exact.flatMap(([input,expected])=>check(input.slice(0,24),input,o=>
+    o===expected?null:`expected ${JSON.stringify(expected)}`)));
+});

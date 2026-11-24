@@ -6,7 +6,10 @@
 //!    (`scrub_text`, `scrub_long`, `scrub_text_with_policy`, `scrub_report`).
 //!    The checked text API refuses it with `text_too_large` instead.
 //! 2. The post-redaction fixed point not settling within its pass budget
-//!    (one pass plus four re-scans of the redacted text).
+//!    (one pass plus five re-scans of the redacted text) when the fallback
+//!    is not a fixed point either, or when the earliest unstable byte has no
+//!    stable prefix before it. The fallback keeps every byte before the
+//!    earliest unstable span and replaces the rest with one marker.
 //! 3. A recognizer whose credential extent is the whole input.
 //!
 //! The unchecked JSON API has the JSON counterpart of path 1: a value deeper
