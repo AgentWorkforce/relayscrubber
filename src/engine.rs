@@ -6077,20 +6077,94 @@ pub(crate) fn scrub(input: &str, inherited: bool, policy: Policy) -> String {
 
 // Removing malformed delimiters can change lexical scopes. Close over those
 // changes with a fixed pass budget, retaining ranges in ORIGINAL input bytes.
-// No unbounded fixed-point loop is permitted: at most seven passes run. If
-// the output still changes after the budget, everything before the earliest
-// byte the last pass changed was stable; keep it and fail closed from the
-// start of that span to the end, and only if that result is itself a fixed
-// point. Otherwise the whole input becomes one marker.
+// No unbounded fixed-point loop is permitted: at most seven passes run per
+// trajectory. If the output still changes after the budget, everything before
+// the earliest byte the last pass changed was stable; keep it and fail closed
+// from the start of that span to the end, and only if that result is itself a
+// fixed point. Otherwise the whole input becomes one marker. An input with a
+// `'` after a letter or digit runs up to three trajectories (the union, the
+// alpha.10 reading, and the re-scan of both results), each within that budget.
 pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
-    let mut report = analyze_once(input, inherited, policy);
+    let (first, quote) = analyze_first(input, inherited, policy, Member::Union);
+    let report = settle(input, inherited, policy, Member::Union, first);
+    let Some(quote) = quote else {
+        return report;
+    };
+    // Every pass of the union already keeps what each reading redacts, but
+    // merging one pass's spans can swallow a short span whose re-scan would
+    // have failed closed: `token= we'll; x` first redacts `we`, and the next
+    // pass reads the left-over `'ll; x` as an open quote. Run the
+    // 0.5.0-alpha.10 reading (every `'` a quote) through its own passes and
+    // keep what either result redacts, so no `'` after a letter or digit
+    // shows more than that reading did. The union of both is re-scanned like
+    // any first pass, so the result is a fixed point.
+    let quote = settle(
+        input,
+        inherited,
+        policy,
+        Member::Quote,
+        render(input, quote),
+    );
+    // Nothing to add when every span of that run already lies inside one of
+    // the union's: the union's result is a fixed point.
+    let mut spans = report.redactions.iter().peekable();
+    if quote.redactions.iter().all(|q| {
+        while spans.next_if(|r| r.end < q.end).is_some() {}
+        spans
+            .peek()
+            .is_some_and(|r| r.start <= q.start && q.end <= r.end)
+    }) {
+        return report;
+    }
+    let mut spans = report.redactions;
+    spans.extend(quote.redactions);
+    settle(
+        input,
+        inherited,
+        policy,
+        Member::Union,
+        render(input, spans),
+    )
+}
+
+// Which readings of the input one pass keeps.
+#[derive(Clone, Copy)]
+enum Member {
+    // Every reading of a `'` after a letter or digit, merged per pass.
+    Union,
+    // Only `Reading::Quote`, the pairing 0.5.0-alpha.10 used, in every pass.
+    Quote,
+}
+
+// A `'` after a letter or digit can be an apostrophe (`it's`, `dogs'`) or a
+// quote that opens or closes a literal (`f'x'`, `'abc'`), and either reading
+// shifts the role of every later single quote.
+fn ambiguous(input: &str) -> bool {
+    input.char_indices().any(|(p, c)| {
+        c == '\''
+            && input[..p]
+                .chars()
+                .next_back()
+                .is_some_and(char::is_alphanumeric)
+    })
+}
+
+// Re-scan a first pass's result until it is a fixed point, within the pass
+// budget described above `analyze`.
+fn settle(
+    input: &str,
+    inherited: bool,
+    policy: Policy,
+    member: Member,
+    mut report: crate::ScrubReport,
+) -> crate::ScrubReport {
     // With no replacement, the next pass sees exactly the same bytes and
     // deterministic scope. Repeating it cannot discover a new span.
     if report.redactions.is_empty() {
         return report;
     }
     for pass in 0..5 {
-        let next = analyze_once(&report.text, inherited, policy);
+        let next = analyze_once(&report.text, inherited, policy, member);
         if next.text == report.text {
             return report;
         }
@@ -6117,7 +6191,14 @@ pub(crate) fn analyze(input: &str, inherited: bool, policy: Policy) -> crate::Sc
             }
             spans.push(stable..input.len());
             let tail = render(input, spans);
-            if analyze_once(&tail.text, inherited, policy).text == tail.text {
+            // The alpha.10 reading's run only adds spans to the union's, and
+            // `analyze` re-scans that sum to a fixed point, so its stable
+            // prefix and tail marker need not be a fixed point of their own.
+            // Where alpha.10 gave the whole-input marker, that keeps the
+            // prefix that settled.
+            if matches!(member, Member::Quote)
+                || analyze_once(&tail.text, inherited, policy, member).text == tail.text
+            {
                 return tail;
             }
             break;
@@ -6178,42 +6259,55 @@ fn original_offset(
         position - end + source_end
     }
 }
-fn analyze_once(input: &str, inherited: bool, policy: Policy) -> crate::ScrubReport {
+fn analyze_once(
+    input: &str,
+    inherited: bool,
+    policy: Policy,
+    member: Member,
+) -> crate::ScrubReport {
+    analyze_first(input, inherited, policy, member).0
+}
+
+// One pass, and for the union of an ambiguous input also the spans of its
+// `Reading::Quote`, which start the alpha.10 reading's own run.
+fn analyze_first(
+    input: &str,
+    inherited: bool,
+    policy: Policy,
+    member: Member,
+) -> (crate::ScrubReport, Option<Vec<Range<usize>>>) {
     if input.len() > crate::MAX_RECORD_BYTES {
-        return crate::ScrubReport {
+        let report = crate::ScrubReport {
             text: REDACTION_TOKEN.into(),
             redactions: std::iter::once(0..input.len()).collect(),
         };
+        return (report, None);
     }
     if input.is_empty() {
-        return crate::ScrubReport {
+        let report = crate::ScrubReport {
             text: String::new(),
             redactions: Vec::new(),
         };
+        return (report, None);
     }
-    // A `'` after a letter or digit can be an apostrophe (`it's`, `dogs'`)
-    // or a quote that opens or closes a literal (`f'x'`, `'abc'`), and either
-    // reading shifts the role of every later single quote. When the input has
-    // one, keep what any reading redacts: none can then leave a value open.
-    let ambiguous = input.char_indices().any(|(p, c)| {
-        c == '\''
-            && input[..p]
-                .chars()
-                .next_back()
-                .is_some_and(char::is_alphanumeric)
-    });
+    if let Member::Quote = member {
+        let spans = spans_in(input, View::read(input, Reading::Quote), inherited, policy);
+        return (render(input, spans), None);
+    }
+    // When the input has a `'` after a letter or digit, keep what any
+    // reading redacts: none can then leave a value open.
     let mut original = spans_in(input, View::new(input), inherited, policy);
-    if ambiguous {
+    let mut quote = None;
+    if ambiguous(input) {
         for reading in [Reading::Possessive, Reading::Quote, Reading::Apostrophe] {
-            original.extend(spans_in(
-                input,
-                View::read(input, reading),
-                inherited,
-                policy,
-            ));
+            let spans = spans_in(input, View::read(input, reading), inherited, policy);
+            original.extend(spans.iter().cloned());
+            if let Reading::Quote = reading {
+                quote = Some(spans);
+            }
         }
     }
-    render(input, original)
+    (render(input, original), quote)
 }
 
 // Every redaction one reading of the input finds, in input offsets.
