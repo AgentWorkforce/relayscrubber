@@ -277,6 +277,67 @@ fn possessives_and_quoted_contractions_never_leave_a_value() {
     }
 }
 
+/// An unquoted value holding a `'` (`we'll`, `O'Brien`, `abc'def`) can be a
+/// word with an apostrophe or a value with a quote opened inside it that is
+/// never closed. Ambiguous means redact: as in 0.5.0-alpha.10, the value
+/// fails closed through the open quote, so the text after its terminator
+/// (`;`, `)`, `,`, a blank, a newline in a backtick) stays hidden.
+#[test]
+fn unquoted_values_with_an_apostrophe_fail_closed_past_their_end() {
+    for (input, expected) in [
+        ("token= we'll;1 SYNTHPsJzLYjnYFyv", "token= [REDACTED]"),
+        ("secret=it'sok) SYNTHq8Zr4TfX2wLm", "secret=[REDACTED]"),
+        ("api_key=O'Brien, SYNTHq8Zr4TfX2wLm", "api_key=[REDACTED]"),
+        ("token=abc'def; echo SYNTHq8Zr4TfX2wLm", "token=[REDACTED]"),
+        (
+            "--password I've)SYNTHq8Zr4TfX2wLm(",
+            "--password [REDACTED]",
+        ),
+        ("token=it's form) SYNTHRfgFvArVWSR5", "token=[REDACTED]"),
+        (
+            "f'x', token= don't, \"; SYNTHMtHmcJt5a8TZ",
+            "f'x', token= [REDACTED]",
+        ),
+        (
+            "secret=we'll, `SYNTHPPCGxJuAUuif\nI've",
+            "secret=[REDACTED]\nI've",
+        ),
+        (
+            "ok and;secret= y's)PASSWORD= it's; SYNTHYpzXs96bXwbu",
+            "ok and;secret= [REDACTED]",
+        ),
+    ] {
+        assert_exact(input, expected);
+    }
+}
+
+/// Doubled and tripled quotes after a quoted contraction: read with every
+/// `'` as a quote, the empty-looking `""` opens a value that runs on, as in
+/// 0.5.0-alpha.10, so the credential after it stays hidden.
+#[test]
+fn doubled_quotes_after_a_contraction_keep_every_quote_reading() {
+    for (input, expected) in [
+        (
+            "api_key='I've password=\"\"we'll '''form SYNTHq8Zr4TfX2wLm",
+            "api_key='[REDACTED]",
+        ),
+        (
+            "api_key='I've password=\"\"we'll ''form SYNTHq8Zr4TfX2wLm",
+            "api_key='[REDACTED]",
+        ),
+        (
+            "api_key='I've token=\"we'll '''form SYNTHq8Zr4TfX2wLm\"",
+            "api_key='[REDACTED]",
+        ),
+        (
+            "note='it's' secret=\"\"don't '''SYNTHq8Zr4TfX2wLm",
+            "note='it's' secret=\"[REDACTED]",
+        ),
+    ] {
+        assert_exact(input, expected);
+    }
+}
+
 #[test]
 fn apostrophes_and_closed_quotes_stay_unchanged() {
     for input in [

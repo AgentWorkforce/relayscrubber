@@ -331,6 +331,54 @@
       "input": "curl -H 'X-Api-Key: I've got SYNTHYcyRiBDEwjsYZa' https://example.test",
       "secret": "SYNTHYcyRiBDEwjsYZa",
       "alpha10": "curl -H 'X-Api-Key: [REDACTED]'ve got SYNTHYcyRiBDEwjsYZa' https://example.test"
+    },
+    {
+      "id": "unquoted-apostrophe-value-then-semicolon",
+      "input": "token= we'll;1 SYNTHPsJzLYjnYFyv",
+      "secret": "SYNTHPsJzLYjnYFyv",
+      "alpha10": "token= [REDACTED]"
+    },
+    {
+      "id": "unquoted-apostrophe-value-then-paren",
+      "input": "secret=it'sok) SYNTHq8Zr4TfX2wLm",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "secret=[REDACTED]"
+    },
+    {
+      "id": "unquoted-name-value-then-comma",
+      "input": "api_key=O'Brien, SYNTHq8Zr4TfX2wLm",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "api_key=[REDACTED]"
+    },
+    {
+      "id": "unquoted-open-quote-value-then-command",
+      "input": "token=abc'def; echo SYNTHq8Zr4TfX2wLm",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "token=[REDACTED]"
+    },
+    {
+      "id": "flag-contraction-value-then-glued-paren",
+      "input": "--password I've)SYNTHq8Zr4TfX2wLm(",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "--password [REDACTED]"
+    },
+    {
+      "id": "glued-literal-then-contraction-value",
+      "input": "f'x', token= don't, \"; SYNTHMtHmcJt5a8TZ",
+      "secret": "SYNTHMtHmcJt5a8TZ",
+      "alpha10": "f'x', token= [REDACTED]"
+    },
+    {
+      "id": "doubled-quotes-after-quoted-contraction",
+      "input": "api_key='I've password=\"\"we'll '''form SYNTHq8Zr4TfX2wLm",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "api_key='[REDACTED]'ve password=\"[REDACTED]"
+    },
+    {
+      "id": "doubled-quotes-after-closed-contraction",
+      "input": "note='it's' secret=\"\"don't '''SYNTHq8Zr4TfX2wLm",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "note='it's' secret=\"\"don't '''SYNTHq8Zr4TfX2wLm"
     }
   ],
   "whole_body": [

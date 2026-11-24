@@ -104,6 +104,20 @@ const exact=[
   ["SELECT N'nchar'\n\nthe dogs' bowl && login --token 'SYNTHq8Zr4TfX2wLm' 'x' trailing","SELECT N'nchar'\n\nthe dogs' bowl && login --token '[REDACTED]' 'x' trailing"],
   ["y = f'd'\nthe users' list tool --secret 'SYNTHq8Zr4TfX2wLm' and it's fine","y = f'd'\nthe users' list tool --secret '[REDACTED]' and it's fine"],
   ["you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token 'SYNTHq8Zr4TfX2wLm'","you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token '[REDACTED]'"],
+  // Unquoted values with an apostrophe, and doubled quotes after a contraction.
+  ["token= we'll;1 SYNTHPsJzLYjnYFyv","token= [REDACTED]"],
+  ["secret=it'sok) SYNTHq8Zr4TfX2wLm","secret=[REDACTED]"],
+  ["api_key=O'Brien, SYNTHq8Zr4TfX2wLm","api_key=[REDACTED]"],
+  ["token=abc'def; echo SYNTHq8Zr4TfX2wLm","token=[REDACTED]"],
+  ["--password I've)SYNTHq8Zr4TfX2wLm(","--password [REDACTED]"],
+  ["token=it's form) SYNTHRfgFvArVWSR5","token=[REDACTED]"],
+  ["f'x', token= don't, \"; SYNTHMtHmcJt5a8TZ","f'x', token= [REDACTED]"],
+  ["secret=we'll, `SYNTHPPCGxJuAUuif\nI've","secret=[REDACTED]\nI've"],
+  ["ok and;secret= y's)PASSWORD= it's; SYNTHYpzXs96bXwbu","ok and;secret= [REDACTED]"],
+  ["api_key='I've password=\"\"we'll '''form SYNTHq8Zr4TfX2wLm","api_key='[REDACTED]"],
+  ["api_key='I've password=\"\"we'll ''form SYNTHq8Zr4TfX2wLm","api_key='[REDACTED]"],
+  ["api_key='I've token=\"we'll '''form SYNTHq8Zr4TfX2wLm\"","api_key='[REDACTED]"],
+  ["note='it's' secret=\"\"don't '''SYNTHq8Zr4TfX2wLm","note='it's' secret=\"[REDACTED]"],
 ];
 
 test('pass-budget witnesses have exact outputs on every API',()=>{
