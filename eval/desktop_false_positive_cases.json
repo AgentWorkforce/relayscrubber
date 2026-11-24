@@ -160,8 +160,8 @@
     },
     {
       "id": "anon-second-member",
-      "input": "  context: { poolKey: string; apiKey: sk-abcdefghijklmnop1234567890ABCD }",
-      "secret": "sk-abcdefghijklmnop1234567890ABCD",
+      "input": "  context: { poolKey: string; apiKey: sk-SYNTHabcdefghijklmnop1234567890 }",
+      "secret": "sk-SYNTHabcdefghijklmnop1234567890",
       "alpha10": "  context: { poolKey: [REDACTED]; apiKey: [REDACTED] }"
     },
     {
@@ -190,8 +190,8 @@
     },
     {
       "id": "interface-quoted-provider",
-      "input": "interface X { apiKey: \"sk-abcdefghijklmnop1234567890ABCD\" }",
-      "secret": "sk-abcdefghijklmnop1234567890ABCD",
+      "input": "interface X { apiKey: \"sk-SYNTHabcdefghijklmnop1234567890\" }",
+      "secret": "sk-SYNTHabcdefghijklmnop1234567890",
       "alpha10": "interface X { apiKey: \"[REDACTED]\" }"
     },
     {
