@@ -75,16 +75,22 @@ Precision fix: prose with contractions no longer comes back as a single
 `[REDACTED]`. A credential cue followed by a stray quote and contractions
 (`Summary: the deploy worked. I didn't touch the PASSWORD=' line because
 it's generated`) used to exhaust the fixed-point pass budget, and the whole
-input became the marker. A `'` between two letters or digits is now an
-apostrophe and never pairs as a quote, and a quote that directly opens a
-value on the same line (`key='value`) no longer closes an earlier quote, so
-such inputs settle in one pass: `Summary: the deploy worked. I didn't touch
+input became the marker. A `'` between two Unicode letters or digits is now
+an apostrophe and never pairs as a quote, unless it opens a literal glued to
+a prefix (`f'x'`, `b'abc'`, `-H'Accept: text/plain'`). A quote that directly
+opens a value after `=` or `:` on the same line (`key='value`) no longer
+closes an earlier quote. Such inputs settle in one pass: `Summary: the deploy worked. I didn't touch
 the PASSWORD='[REDACTED]`. If an input still does not settle within the
 budget (now one pass and five re-scans), every byte before the earliest
 unstable span is kept and one marker replaces the rest through the end of
 the input; only if that is not stable either is the whole input the marker.
 A quoted value containing an apostrophe (`password='ab'cd'`) still redacts
-through its last quote.
+through its last quote. Because a `'` after a letter or digit can be an
+apostrophe, a possessive (`dogs'`) or a quote, an input that has one is also
+scanned under the other readings, and every value any of them finds is
+redacted. A later quoted value (`login --password '...'` after `echo f'x'`,
+`it's` or `the dogs' bowl`) therefore stays redacted, and an unquoted value
+runs through an apostrophe (`token=I've got ...`).
 
 Session-shaped JSON: an exact `session_id` now keeps `ses_` and `cse_` IDs
 with a body of 1 to 48 ASCII letters and digits, and an exact `project_key`

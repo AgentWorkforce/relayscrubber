@@ -58,10 +58,20 @@ Redact these independently of entropy:
 
 A quote opening a later line's assignment is not accepted as a credential closer;
 that malformed extent fails closed through EOF. Nor is a quote on the same line
-that directly opens a value after `=`, `:` or `>` (`PASSWORD='x`): an earlier
-quote stays open through it. A `'` between two ASCII letters or digits is an
-apostrophe (`it's`, `I'll`): it neither opens nor closes a quote, and a quoted
-value containing one (`'ab'cd'`) still extends to its last quote. A fixed budget
+that directly opens a value after `=` or `:` (`PASSWORD='x`): an earlier quote
+stays open through it; `>` counts only for a later line's assignment. A `'`
+between two Unicode letters or digits is an apostrophe (`it's`, `I'll`): it
+neither opens nor closes a quote, and a quoted value containing one (`'ab'cd'`)
+still extends to its last quote. It opens a quote instead when no single quote
+is open and the next `'` has a closing shape (a non-blank character before it
+other than `=`, `:`, `(`, `[`, `{`, `,`, `;`, `|`, `&` or `<`, and no letter or
+digit after it), as in a literal glued to a prefix (`f'x'`, `-H'a: b'`). When
+the input has a `'` after a letter or digit, the scanner also reads it three
+other ways (a `'` before a blank or the end is a possessive while no quote is
+open; every `'` is a quote, paired as in alpha.10; a `'` between letters or
+digits is an apostrophe unless a string prefix such as `b`, `f`, `rb`, `E`, `N`
+or a flag is glued before it) and redacts every value any reading finds. An
+unquoted value runs through an apostrophe. A fixed budget
 of at most seven scanner passes closes over lexical changes caused by
 redaction. If the output still changes after one pass and five re-scans,
 everything before the earliest byte the last re-scan changed is kept, a redacted

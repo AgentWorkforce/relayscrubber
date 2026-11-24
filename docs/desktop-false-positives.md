@@ -74,12 +74,35 @@ rotated the key.
 
 Two quote-pairing rules now settle such text in one pass:
 
-- A `'` between two ASCII letters or digits is an apostrophe. It neither opens
-  nor closes a quote. A quoted value that contains one (`password='ab'cd'`)
-  still runs to its last quote.
-- A quote on the same line that directly opens a value after `=`, `:` or `>`
+- A `'` between two Unicode letters or digits is an apostrophe. It neither
+  opens nor closes a quote. A quoted value that contains one
+  (`password='ab'cd'`) still runs to its last quote. The exception is a
+  literal glued to a prefix (`f'x'`, `b'abc'`, `-m'wip'`,
+  `-H'Accept: text/plain'`): when no single quote is open and the next `'` has
+  a closing shape, the `'` opens a quote. A closing shape is a non-blank
+  character before it other than `=`, `:`, `(`, `[`, `{`, `,`, `;`, `|`, `&`
+  or `<`, and no letter or digit after it.
+- A quote on the same line that directly opens a value after `=` or `:`
   (`PASSWORD='x`) does not close an earlier quote. A quote opening a later
-  line's assignment already did not.
+  line's assignment, after `=`, `:` or `>`, already did not.
+
+A `'` after a letter or digit can still be read more than one way, and each
+reading shifts the role of every later single quote. An input that has one is
+therefore also scanned under three other readings, and every value any of
+them finds is redacted:
+
+- a `'` after a letter or digit and before a blank or the end (`dogs' bowl`)
+  is a possessive while no quote is open;
+- every `'` is a quote, paired as in alpha.10;
+- a `'` between two letters or digits is an apostrophe unless a string prefix
+  (`b`, `f`, `r`, `u`, `e`, `n`, `x`, `rb`, `br`, `fr`, `rf`, in either case)
+  or a flag (`-m`) is glued before it.
+
+No reading can then leave a later value open: after `echo f'x'`, `it's` or
+`the dogs' bowl`, `login --password 'correct horse ...'` is still redacted.
+Such an input costs up to four scans per pass. An unquoted value also runs
+through an apostrophe, so `echo 'token=I've got ...'` redacts the whole
+value.
 
 The example above now gives `Summary: the deploy worked. I didn't touch the
 PASSWORD='[REDACTED]`: the cue's unmatched quote still fails closed to the end
