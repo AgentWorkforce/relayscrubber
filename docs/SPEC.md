@@ -57,10 +57,18 @@ Redact these independently of entropy:
   remain sensitive regardless of their label.
 
 A quote opening a later line's assignment is not accepted as a credential closer;
-that malformed extent fails closed through EOF. A fixed budget of at most five
-scanner passes closes over lexical changes caused by redaction; failure to
-stabilize returns exactly `[REDACTED]`. Reports map every removed range back to
-original UTF-8 bytes.
+that malformed extent fails closed through EOF. Nor is a quote on the same line
+that directly opens a value after `=`, `:` or `>` (`PASSWORD='x`): an earlier
+quote stays open through it. A `'` between two ASCII letters or digits is an
+apostrophe (`it's`, `I'll`): it neither opens nor closes a quote, and a quoted
+value containing one (`'ab'cd'`) still extends to its last quote. A fixed budget
+of at most seven scanner passes closes over lexical changes caused by
+redaction. If the output still changes after one pass and five re-scans,
+everything before the earliest byte the last re-scan changed is kept, a redacted
+range touching that point joins it, and one `[REDACTED]` replaces the rest
+through the end of input, provided that result is itself stable; otherwise the
+result is exactly `[REDACTED]`. Reports map every removed range back to original
+UTF-8 bytes.
 
 A quoted credential includes whitespace and newlines through the matching
 delimiter. If the quote is malformed, remove through the enclosing value's end
@@ -210,6 +218,17 @@ bytes: `context: { poolKey: string; targetSize: number }` is unchanged.
 Anything else there is a value (`context: { poolKey: String }`, `context: {
 poolKey: config.poolKey }`, a quoted literal, a quoted key), and without the
 opener `{ poolKey: string }` and `poolKey: string` still redact.
+The same closed vocabulary, plus `unknown` and `readonly` arrays of the
+primitives, applies to a member of an `interface`, `class` or `type Name = {`
+body, of an object type returned by a function (`): {`) and of an object type
+that is a type argument of `Array`, `ReadonlyArray`, `Promise`, `Set`, `Map` or
+`Record`, on one line or several: `interface X { privateKey: string | null }`,
+`function f(): { poolKey: readonly string[] }` and `Promise<{ apiKey: string
+}>` are unchanged. The key name does not matter, only the context. The rule adds no
+new kept values: PascalCase names, literals, unions with a bare word
+(`string | hunter2`) and initializers (`= "x"`) redact unless the struct,
+interface or type body rule above already kept them, and members after `{`
+with no such context still redact.
 The same rule holds for every credential key (password nouns, token, secret,
 api_key, auth and the other sensitive names) whose value after a bare colon
 looks like code: a `match` expression, a call, a member or call chain, an
@@ -396,6 +415,15 @@ a composite value, any other spelling (`project__key`) and every prefixed name
 with a digit in it is token material. An unquoted identity followed by another
 assignment on the same line is judged with it and redacted (fail closed); quoted and
 structured values keep the identity.
+Under an exact `session_id` name (underscore, hyphen, camel or case spelling), a
+session ID is preserved: a UUID, a lowercase, digit and dash ID of at most 32
+characters, `exec-`, `call_` or `toolu_` with a body of 1 to 48 letters, digits
+or underscores, or `ses_` or `cse_` with a body of 1 to 48 ASCII letters and
+digits. Any other value under it remains sensitive. An exact `project_key` also
+preserves a bare `owner/repo` whose owner contains no `.` and whose two segments
+pass the same segment rules as the hosted form; one segment, three bare segments,
+a dotted owner (`github.com/only-owner`), `.` or `..`, an overlong, digest-like
+or token-like segment and opaque material remain sensitive.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
 resource names, language literals, code expressions and type annotations with
 source context are preserved. Placeholder URL passwords are preserved only on reserved example or

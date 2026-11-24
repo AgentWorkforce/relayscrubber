@@ -62,6 +62,36 @@ or `name?: {` opener is now source context for a closed type vocabulary
 Quoted and opaque values, references and context-free forms (`{ poolKey:
 string }`, `poolKey: string`, `pw: string`) still redact.
 
+The same closed member-type check now covers `interface`, `class` and `type
+Name = {` bodies on one line or several, object types returned by a function
+(`): {`) and object types passed as a type argument to `Array`,
+`ReadonlyArray`, `Promise`, `Set`, `Map` or `Record`. Its vocabulary gains
+`unknown` and `readonly` arrays of primitives, so `interface X { privateKey:
+string | null }` and `function f(): { poolKey: readonly string[] }` are
+unchanged. The context decides, not the key name. No PascalCase name,
+literal or initializer is newly kept, and context-free members still redact.
+
+Precision fix: prose with contractions no longer comes back as a single
+`[REDACTED]`. A credential cue followed by a stray quote and contractions
+(`Summary: the deploy worked. I didn't touch the PASSWORD=' line because
+it's generated`) used to exhaust the fixed-point pass budget, and the whole
+input became the marker. A `'` between two letters or digits is now an
+apostrophe and never pairs as a quote, and a quote that directly opens a
+value on the same line (`key='value`) no longer closes an earlier quote, so
+such inputs settle in one pass: `Summary: the deploy worked. I didn't touch
+the PASSWORD='[REDACTED]`. If an input still does not settle within the
+budget (now one pass and five re-scans), every byte before the earliest
+unstable span is kept and one marker replaces the rest through the end of
+the input; only if that is not stable either is the whole input the marker.
+A quoted value containing an apostrophe (`password='ab'cd'`) still redacts
+through its last quote.
+
+Session-shaped JSON: an exact `session_id` now keeps `ses_` and `cse_` IDs
+with a body of 1 to 48 ASCII letters and digits, and an exact `project_key`
+keeps a bare `owner/repo` whose owner has no dot and whose segments pass the
+existing repository segment rules. Other values under these keys, every
+other sensitive key and prose under `text` are scrubbed as before.
+
 ## 0.5.0-alpha.10
 
 Redact natural-language password disclosures such as `my password is x`, `the
