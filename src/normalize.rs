@@ -648,9 +648,12 @@ impl View {
                 // that directly opens a value (`key='value`). Fail closed
                 // through EOF.
                 let assignment = before > line_start && matches!(b[before - 1], b'=' | b':' | b'>');
-                let opens_value = b
-                    .get(end + 1)
-                    .is_some_and(|c| !c.is_ascii_whitespace() && !b")]},;>".contains(c));
+                // On the same line only `=` and `:` open a value: a quote
+                // after `>` closes a tag-shaped value (`"<name>"`).
+                let opens_value = assignment
+                    && matches!(b[before - 1], b'=' | b':')
+                    && b.get(end + 1)
+                        .is_some_and(|c| !c.is_ascii_whitespace() && !b")]},;>".contains(c));
                 if !assignment || (line_start <= position && !opens_value) {
                     quotes[n].1 = end;
                 }
