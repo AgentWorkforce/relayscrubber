@@ -120,6 +120,121 @@ fn credentials_in_apostrophe_and_reused_quote_extents_redact() {
     }
 }
 
+/// A quote glued to a letter or digit that opens a literal (`f'x'`, `b'abc'`,
+/// `-m'wip'`) still opens it, so every later single quote keeps its role and
+/// a later space-separated cue's quoted value still redacts, with the output
+/// 0.5.0-alpha.10 gave.
+#[test]
+fn glued_quote_openers_keep_later_quotes_paired() {
+    for (input, expected) in [
+        (
+            "echo f'x'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "echo f'x'\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "echo f'x'\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm'",
+            "echo f'x'\nlogin --password '[REDACTED]'",
+        ),
+        (
+            "x = b'abc'\ny = 2\n\nlogin --token 'correct horse SYNTHq8Zr4TfX2wLm' end",
+            "x = b'abc'\ny = 2\n\nlogin --token '[REDACTED]' end",
+        ),
+        (
+            "git commit -m'wip'\nmysql -u root --password 'SYNTHq8Zr4TfX2wLm' -e 'select 1' db",
+            "git commit -m'wip'\nmysql -u root --password '[REDACTED]' -e 'select 1' db",
+        ),
+        (
+            "print(f'hi')\nAuthorization: Bearer 'SYNTHq8Zr4TfX2wLm' 'x' trailing",
+            "print(f'hi')\nAuthorization: [REDACTED]",
+        ),
+        (
+            "echo f'x' && login --password 'correct horse SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "echo f'x' && login --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "sed -i's/a/b/' f\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm' 'second' 'third' end",
+            "sed -i's/a/b/' f\nlogin --password '[REDACTED]' 'second' 'third' end",
+        ),
+        (
+            "x = b's'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "x = b's'\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "y = f'd'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "y = f'd'\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "git commit -m'wip\n\nmore'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "git commit -m'wip\n\nmore'\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "it's the dogs' bowl\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "it's the dogs' bowl\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "curl -H'Accept: text/plain' -H 'Authorization: Bearer SYNTHq8Zr4TfX2wLm' https://example.test/a\necho done",
+            "curl -H'Accept: text/plain' -H 'Authorization: [REDACTED]' https://example.test/a\necho done",
+        ),
+        (
+            "x = b'abc'\nrun('password=SYNTHq8Zr4TfX2wLm', 1)\nprint('ok')",
+            "x = b'abc'\nrun('password=[REDACTED]', 1)\nprint('ok')",
+        ),
+    ] {
+        assert_exact(input, expected);
+    }
+}
+
+/// Contractions, possessives and names keep reading as apostrophes, so a
+/// later quoted value still redacts.
+#[test]
+fn contractions_before_quoted_values_still_redact() {
+    for (input, expected) in [
+        (
+            "it's\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "it's\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "I can't\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "I can't\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "I'm sure. I'd say I've\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm' --note 'hello'",
+            "I'm sure. I'd say I've\nlogin --password '[REDACTED]' --note 'hello'",
+        ),
+        (
+            "{'user':'o'neil','password':'a b SYNTHq8Zr4TfX2wLm','x':1}",
+            "{'user':'o'neil','password':'[REDACTED]','x':1}",
+        ),
+        (
+            "I can't log in, password: 'a b SYNTHq8Zr4TfX2wLm' doesn't work",
+            "I can't log in, password: '[REDACTED]' doesn't work",
+        ),
+        (
+            "api_key='I've got SYNTHq8Zr4TfX2wLm",
+            "api_key='[REDACTED]",
+        ),
+        (
+            "token: 'abc'def'SYNTHq8Zr4TfX2wLm'",
+            "token: '[REDACTED]'",
+        ),
+        ("db_password='3'SYNTHq8Zr4TfX2wLm", "db_password='[REDACTED]"),
+        (
+            "the 90's were fine. password='SYNTHq8Zr4TfX2wLm' and more text here",
+            "the 90's were fine. password='[REDACTED]' and more text here",
+        ),
+        (
+            "the dogs' bowl. password='SYNTHq8Zr4TfX2wLm' and more text here",
+            "the dogs' bowl. password='[REDACTED]' and more text here",
+        ),
+        (
+            "He said 'it's fine' and password='SYNTHq8Zr4TfX2wLm' and more text here",
+            "He said 'it's fine' and password='[REDACTED]' and more text here",
+        ),
+    ] {
+        assert_exact(input, expected);
+    }
+}
+
 #[test]
 fn apostrophes_and_closed_quotes_stay_unchanged() {
     for input in [

@@ -223,6 +223,66 @@
       "input": "sorted(ln, key=lambda e: e.get(\"timestamp\")); api_key = \"Zx9qLm2vR7tBk4HsWp8n\"",
       "secret": "Zx9qLm2vR7tBk4HsWp8n",
       "alpha10": "sorted(ln, key=lambda e: e.get(\"timestamp\")); api_key = \"[REDACTED]\""
+    },
+    {
+      "id": "glued-fstring-then-flag-value",
+      "input": "echo f'x'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "echo f'x'\nlogin --password '[REDACTED]' --note 'hello'"
+    },
+    {
+      "id": "glued-fstring-then-multiword-value",
+      "input": "echo f'x'\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "echo f'x'\nlogin --password '[REDACTED]'"
+    },
+    {
+      "id": "glued-bytes-lines-above-token",
+      "input": "x = b'abc'\ny = 2\n\nlogin --token 'correct horse SYNTHq8Zr4TfX2wLm' end",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "x = b'abc'\ny = 2\n\nlogin --token '[REDACTED]' end"
+    },
+    {
+      "id": "glued-commit-flag-then-mysql",
+      "input": "git commit -m'wip'\nmysql -u root --password 'SYNTHq8Zr4TfX2wLm' -e 'select 1' db",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "git commit -m'wip'\nmysql -u root --password '[REDACTED]' -e 'select 1' db"
+    },
+    {
+      "id": "glued-print-fstring-then-bearer",
+      "input": "print(f'hi')\nAuthorization: Bearer 'SYNTHq8Zr4TfX2wLm' 'x' trailing",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "print(f'hi')\nAuthorization: [REDACTED]"
+    },
+    {
+      "id": "glued-fstring-same-line",
+      "input": "echo f'x' && login --password 'correct horse SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "echo f'x' && login --password '[REDACTED]' --note 'hello'"
+    },
+    {
+      "id": "glued-sed-flag-then-value",
+      "input": "sed -i's/a/b/' f\nlogin --password 'correct horse SYNTHq8Zr4TfX2wLm' 'second' 'third' end",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "sed -i's/a/b/' f\nlogin --password '[REDACTED]' 'second' 'third' end"
+    },
+    {
+      "id": "glued-contraction-shaped-literal",
+      "input": "x = b's'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "x = b's'\nlogin --password '[REDACTED]' --note 'hello'"
+    },
+    {
+      "id": "glued-multiline-commit-message",
+      "input": "git commit -m'wip\n\nmore'\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "git commit -m'wip\n\nmore'\nlogin --password '[REDACTED]' --note 'hello'"
+    },
+    {
+      "id": "contraction-before-possessive",
+      "input": "it's the dogs' bowl\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "it's the dogs' bowl\nlogin --password '[REDACTED]' --note 'hello'"
     }
   ],
   "whole_body": [
