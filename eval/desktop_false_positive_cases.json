@@ -283,6 +283,54 @@
       "input": "it's the dogs' bowl\nlogin --password 'SYNTHq8Zr4TfX2wLm' --note 'hello'",
       "secret": "SYNTHq8Zr4TfX2wLm",
       "alpha10": "it's the dogs' bowl\nlogin --password '[REDACTED]' --note 'hello'"
+    },
+    {
+      "id": "contraction-inside-quoted-argument",
+      "input": "echo 'token=I've got SYNTHq8Zr4TfX2wLm'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "echo 'token=[REDACTED]'ve got SYNTHq8Zr4TfX2wLm'"
+    },
+    {
+      "id": "contraction-inside-quoted-argument-then-flag",
+      "input": "echo 'token=I've got SYNTHq8Zr4TfX2wLm' --note 'hello'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "echo 'token=[REDACTED]'ve got SYNTHq8Zr4TfX2wLm' --note 'hello'"
+    },
+    {
+      "id": "contraction-inside-quoted-header",
+      "input": "curl -H 'X-Api-Key: I've got SYNTHq8Zr4TfX2wLm' https://example.test/a\necho done",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "curl -H 'X-Api-Key: [REDACTED]'ve got SYNTHq8Zr4TfX2wLm' https://example.test/a\necho done"
+    },
+    {
+      "id": "glued-literal-then-possessive",
+      "input": "SELECT N'nchar'\n\nthe dogs' bowl && login --token 'SYNTHq8Zr4TfX2wLm' 'x' trailing",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "SELECT N'nchar'\n\nthe dogs' bowl && login --token 'SYNTHq8Zr4TfX2wLm' 'x' trailing"
+    },
+    {
+      "id": "glued-literal-then-possessive-same-line",
+      "input": "y = f'd'\nthe users' list tool --secret 'SYNTHq8Zr4TfX2wLm' and it's fine",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "y = f'd'\nthe users' list tool --secret 'SYNTHq8Zr4TfX2wLm' and it's fine"
+    },
+    {
+      "id": "contraction-quotes-then-possessive",
+      "input": "you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token 'SYNTHq8Zr4TfX2wLm'",
+      "secret": "SYNTHq8Zr4TfX2wLm",
+      "alpha10": "you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token '[REDACTED]'"
+    },
+    {
+      "id": "contraction-inside-quoted-argument-long-token",
+      "input": "echo 'token=I've got SYNTHYcyRiBDEwjsYZa'",
+      "secret": "SYNTHYcyRiBDEwjsYZa",
+      "alpha10": "echo 'token=[REDACTED]'ve got SYNTHYcyRiBDEwjsYZa'"
+    },
+    {
+      "id": "contraction-inside-quoted-header-long-token",
+      "input": "curl -H 'X-Api-Key: I've got SYNTHYcyRiBDEwjsYZa' https://example.test",
+      "secret": "SYNTHYcyRiBDEwjsYZa",
+      "alpha10": "curl -H 'X-Api-Key: [REDACTED]'ve got SYNTHYcyRiBDEwjsYZa' https://example.test"
     }
   ],
   "whole_body": [

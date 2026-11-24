@@ -95,6 +95,15 @@ const exact=[
   ["the 90's were fine. password='SYNTHq8Zr4TfX2wLm' and more text here","the 90's were fine. password='[REDACTED]' and more text here"],
   ["the dogs' bowl. password='SYNTHq8Zr4TfX2wLm' and more text here","the dogs' bowl. password='[REDACTED]' and more text here"],
   ["He said 'it's fine' and password='SYNTHq8Zr4TfX2wLm' and more text here","He said 'it's fine' and password='[REDACTED]' and more text here"],
+  // Possessives and contractions inside quoted arguments.
+  ["echo 'token=I've got SYNTHYcyRiBDEwjsYZa'","echo 'token=[REDACTED]'"],
+  ["curl -H 'X-Api-Key: I've got SYNTHYcyRiBDEwjsYZa' https://example.test","curl -H 'X-Api-Key: [REDACTED]' https://example.test"],
+  ["echo 'token=I've got SYNTHq8Zr4TfX2wLm'","echo 'token=[REDACTED]'"],
+  ["echo 'token=I've got SYNTHq8Zr4TfX2wLm' --note 'hello'","echo 'token=[REDACTED]' --note 'hello'"],
+  ["curl -H 'X-Api-Key: I've got SYNTHq8Zr4TfX2wLm' https://example.test/a\necho done","curl -H 'X-Api-Key: [REDACTED]' https://example.test/a\necho done"],
+  ["SELECT N'nchar'\n\nthe dogs' bowl && login --token 'SYNTHq8Zr4TfX2wLm' 'x' trailing","SELECT N'nchar'\n\nthe dogs' bowl && login --token '[REDACTED]' 'x' trailing"],
+  ["y = f'd'\nthe users' list tool --secret 'SYNTHq8Zr4TfX2wLm' and it's fine","y = f'd'\nthe users' list tool --secret '[REDACTED]' and it's fine"],
+  ["you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token 'SYNTHq8Zr4TfX2wLm'","you'll see; x = 'a' + 'b'; the dogs' bowl\nlogin --token '[REDACTED]'"],
 ];
 
 test('pass-budget witnesses have exact outputs on every API',()=>{
