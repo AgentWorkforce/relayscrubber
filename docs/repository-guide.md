@@ -2,7 +2,7 @@
 
 The canonical offline Rust secret scrubber for Agent Relay, compiled unchanged
 for native clients and WASM hosts. JavaScript contains transport and identity
-checks only. This branch is **0.5.0-alpha.10 / candidate ruleset 10**. It is not
+checks only. This branch is **0.5.0-alpha.11 / candidate ruleset 10**. It is not
 approved for adoption or publishing. See [SPEC](SPEC.md),
 [MIGRATION](../MIGRATION.md), [performance](PERFORMANCE.md) and
 [evaluation](RESULTS.md).

@@ -57,10 +57,32 @@ Redact these independently of entropy:
   remain sensitive regardless of their label.
 
 A quote opening a later line's assignment is not accepted as a credential closer;
-that malformed extent fails closed through EOF. A fixed budget of at most five
-scanner passes closes over lexical changes caused by redaction; failure to
-stabilize returns exactly `[REDACTED]`. Reports map every removed range back to
-original UTF-8 bytes.
+that malformed extent fails closed through EOF. Nor is a quote on the same line
+that directly opens a value after `=` or `:` (`PASSWORD='x`): an earlier quote
+stays open through it; `>` counts only for a later line's assignment. A `'`
+between two Unicode letters or digits is an apostrophe (`it's`, `I'll`): it
+neither opens nor closes a quote, and a quoted value containing one (`'ab'cd'`)
+still extends to its last quote. It opens a quote instead when no single quote
+is open and the next `'` has a closing shape (a non-blank character before it
+other than `=`, `:`, `(`, `[`, `{`, `,`, `;`, `|`, `&` or `<`, and no letter or
+digit after it), as in a literal glued to a prefix (`f'x'`, `-H'a: b'`). When
+the input has a `'` after a letter or digit, the scanner also reads it three
+other ways (a `'` before a blank or the end is a possessive while no quote is
+open; every `'` is a quote, paired as in alpha.10; a `'` between letters or
+digits is an apostrophe unless a string prefix such as `b`, `f`, `rb`, `E`, `N`
+or a flag is glued before it) and redacts every value any reading finds. A fixed
+budget of at most seven scanner passes closes over lexical changes caused by
+redaction. If the output still changes after one pass and five re-scans,
+everything before the earliest byte the last re-scan changed is kept, a redacted
+range touching that point joins it, and one `[REDACTED]` replaces the rest
+through the end of input, provided that result is itself stable; otherwise the
+result is exactly `[REDACTED]`. Such an input is also run, within its own budget,
+with every `'` read as a quote in every pass (the alpha.10 pairing). The ranges
+either run redacts are merged in original bytes and re-scanned within a third
+budget, so the result is a fixed point and shows nothing after such a `'` that
+the alpha.10 pairing hid: an unquoted value that holds an apostrophe
+(`token= we'll; x`) fails closed through the end of input. Reports map every
+removed range back to original UTF-8 bytes.
 
 A quoted credential includes whitespace and newlines through the matching
 delimiter. If the quote is malformed, remove through the enclosing value's end
@@ -198,6 +220,29 @@ same string), a type-looking value fails closed, so a body field on its own
 line (`    pw: Vec<u8>,`), in its own NDJSON record or more than 512 bytes
 below its opener redacts. A comma or semicolon inside a bracket the value
 opened does not end it (`pw: Map<String, u8>,` redacts to `pw: [REDACTED],`).
+A member of an inline TypeScript object type is in a type body too: the key
+follows an unquoted `name: {` or `name?: {` opener with only complete members
+(each ended by `;`, `,` or a line break) between them, in the same 512-byte
+view. There only a closed type vocabulary counts as the type: `string`,
+`number`, `boolean`, `bigint`, `null` and `undefined`, each with optional
+`[]`, the generics `Array`, `ReadonlyArray`, `Promise`, `Set`, `Map` and
+`Record` over them, and `|` unions of these. The type must be followed by
+`;`, `,`, `}` or a line break, and a `}` must close the body within 512
+bytes: `context: { poolKey: string; targetSize: number }` is unchanged.
+Anything else there is a value (`context: { poolKey: String }`, `context: {
+poolKey: config.poolKey }`, a quoted literal, a quoted key), and without the
+opener `{ poolKey: string }` and `poolKey: string` still redact.
+The same closed vocabulary, plus `unknown` and `readonly` arrays of the
+primitives, applies to a member of an `interface`, `class` or `type Name = {`
+body, of an object type returned by a function (`): {`) and of an object type
+that is a type argument of `Array`, `ReadonlyArray`, `Promise`, `Set`, `Map` or
+`Record`, on one line or several: `interface X { privateKey: string | null }`,
+`function f(): { poolKey: readonly string[] }` and `Promise<{ apiKey: string
+}>` are unchanged. The key name does not matter, only the context. The rule adds no
+new kept values: PascalCase names, literals, unions with a bare word
+(`string | hunter2`) and initializers (`= "x"`) redact unless the struct,
+interface or type body rule above already kept them, and members after `{`
+with no such context still redact.
 The same rule holds for every credential key (password nouns, token, secret,
 api_key, auth and the other sensitive names) whose value after a bare colon
 looks like code: a `match` expression, a call, a member or call chain, an
@@ -224,6 +269,73 @@ prose: a noun preceded by `.`, `$`, `@`, `-`, `/` or
 is None`), is skipped. These spans merge with assignment spans and stay within
 the five-pass budget. pass, PIN, secret, key and token are not prose-disclosure
 nouns (`the key is pressed`, `a token is a unit of text`).
+
+A relational descriptor may stand between the noun and its cue: `the
+password for the box is V`, `pw on db-01.example is: V`, `the passcode used
+by the CI runner was set to V`, `password for root: V`. The descriptor starts
+with a preposition (about, across, against, at, behind, between, by, for,
+from, in, inside, into, of, on, onto, over, per, through, to, under, via,
+with, within), optionally after one participle (`used by`, `assigned to`,
+`belonging to`), with a relative pronoun (`the password that I use is V`), a
+comma (`the password, for the box, is V`) or, after a determiner, a contact
+clause (`the password Bob uses is V`: a pronoun, a capitalised name or a
+determiner and noun, then a verb ending in `-s` or `-ed` or an irregular past
+such as `set` or `chose`). A contact clause's verb is read as the
+descriptor's first word, so punctuation right after it is read as after any
+other word (`the password Bob uses, which is new, is V`, `the password Bob
+uses: V`, `the password Bob uses=V` disclose `V`); the verb is not a cue and
+does not count toward the bound. The descriptor is read word by word up to
+`DESCRIPTOR_TOKENS` (16) words. Identifiers, paths, dotted or hyphenated names and digits are
+words like any other, and so are coordination (`and`, `or`, `&`, `+`, a
+spaced hyphen, en or em dash), commas and relative clauses (`that`, `which`,
+`who`, `whom`). The cue right after a relative pronoun belongs to the
+relative clause and is passed over (`the password for the box, which is new,
+is V`, `the password that was set to X is V` discloses `V`). Within the bound
+the descriptor ends, with no disclosure, at a blank line or the end of the
+text, a sentence end (`.`, `!`, `?`), a word with a code operator (`;`, `==`,
+`=>`, `!=`, `&&`, `||`, `:=`), another word of punctuation only, a
+subordinator, modal or other word that starts a new construction (`but`,
+`because`, `whose`, `will`, `should` and the rest of the engine's list), a
+close bracket it did not open, or a stray quote. A cue inside a bracket or
+quote the descriptor opened does not count. The cues are those of the direct
+form below, a word that ends in `:` (not `::`), and a word that ends in `=`
+(not `==`, `!=`, `<=`, `>=`, `:=`). A word with a label holding a letter
+glued to a value by `=` or `:` (`pw for box=V`, `Password for root:V`) is a
+glued cue unless it holds `://`, `::`, `==`, `!=`, `<=`, `>=`, `:=` or `=>` or
+the value starts with `/` or `\`. The first glued cue and the cue of a
+relative clause are fallbacks: a later cue wins (`the password for db:5432 is
+V` discloses `V` only), and where the descriptor ends with no later cue the
+first fallback discloses (`the password for db:5432` redacts `5432`, `the
+password for the box, which is new` redacts `new`). Past the bound the search
+fails closed: after 16 words have been read, soft words, brackets and quotes
+no longer end the search, a cue inside a bracket or quote counts, and the
+search stops only at a blank line, a sentence end, a code operator or a quote
+inside a word. So a disclosure whose descriptor is longer than the bound
+still redacts, at the cost of redacting some long sentences that are not
+disclosures, and a second clause joined by `and` or a comma is read as part
+of the descriptor (`the password for the box expired and the user is bob`
+redacts `bob`). The search past the bound is computed once per starting
+position and reused by later nouns, so work stays linear. A descriptor value
+then follows the direct form's value and documentary rules exactly: `the
+password for the box is required`, `... is hashed` and `... is stored in the
+vault` stay visible where `the password is required` does, with no allowlist
+of its own, and every other value redacts. A noun right after a loop or
+binding keyword (`for pw in pws`, `const pw of list`) is code and is skipped.
+
+Besides `is`, `was`, `is now`, `set to`, `is set to` and `was set to`, the
+direct and descriptor cues include `is still`, `is now set to`, `has been set
+to`, `had been set to`, the same with `now` or `still` after `has` or `had`
+(`has now been set to`, `had still been changed to`), `has changed to`, `had
+changed to`, `was reset to`, `was changed to`, `was updated to` and bare
+`changed to` and `updated to` (bare `reset to` is not a cue: `the password
+reset to the default flow`; nor is `has changed` without `to`). A plural noun
+(`passwords`, `pws`, `pass codes`) discloses after the plural cues (`are`,
+`were`, `are now`, `have been set to`, `have now been set to`, `have changed
+to`, `had changed to`, `changed to`) and never after `:`, `=`, `is` or `has`;
+a singular noun never after `are`, `were` or `have`. Where a longer cue finds no
+value the shorter alpha.10 cue is tried (`the password is still` redacts
+`still`, as before), so no alpha.10 disclosure is lost. A negation or modal
+before the value (`is not`, `isn't`, `will be`, `should be`) is not a cue.
 
 ## Information preserved and PII policy
 
@@ -317,6 +429,15 @@ a composite value, any other spelling (`project__key`) and every prefixed name
 with a digit in it is token material. An unquoted identity followed by another
 assignment on the same line is judged with it and redacted (fail closed); quoted and
 structured values keep the identity.
+Under an exact `session_id` name (underscore, hyphen, camel or case spelling), a
+session ID is preserved: a UUID, a lowercase, digit and dash ID of at most 32
+characters, `exec-`, `call_` or `toolu_` with a body of 1 to 48 letters, digits
+or underscores, or `ses_` or `cse_` with a body of 1 to 48 ASCII letters and
+digits. Any other value under it remains sensitive. An exact `project_key` also
+preserves a bare `owner/repo` whose owner contains no `.` and whose two segments
+pass the same segment rules as the hosted form; one segment, three bare segments,
+a dotted owner (`github.com/only-owner`), `.` or `..`, an overlong, digest-like
+or token-like segment and opaque material remain sensitive.
 UUID-shaped session IDs, symbolic placeholders, configuration references,
 resource names, language literals, code expressions and type annotations with
 source context are preserved. Placeholder URL passwords are preserved only on reserved example or

@@ -1,0 +1,9 @@
+{
+  "padding": "The garden map shows violet, sage and mint.\n",
+  "repeats": 345,
+  "expected": "前\npassword='[REDACTED]'\npassword=$GARDEN_LABEL\n後",
+  "cases": [
+    "前\npassword='[REDACTED]'\npassword=$GARDEN_LABEL\n後",
+    "前\npassword='fixture-violet'\npassword=$GARDEN_LABEL\n後"
+  ]
+}

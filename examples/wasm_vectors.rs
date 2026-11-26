@@ -82,6 +82,7 @@ fn main() {
         include_str!("../eval/query_recovery_cases.json"),
         include_str!("../eval/entity_query_cases.json"),
         include_str!("../eval/percent_query_cases.json"),
+        include_str!("../eval/type_member_alpha11_cases.json"),
     ] {
         let structural: serde_json::Value = serde_json::from_str(
             &source
@@ -101,6 +102,25 @@ fn main() {
             }
             text.push(serde_json::json!({"input":input,"output":output}));
         }
+    }
+    let desktop: serde_json::Value =
+        serde_json::from_str(include_str!("../eval/desktop_false_positive_cases.json")).unwrap();
+    for case in desktop["precision"].as_array().unwrap() {
+        let input = case["input"].as_str().unwrap();
+        assert_eq!(relayscrubber::scrub_text(input), input);
+        text.push(serde_json::json!({"input":input,"output":input}));
+    }
+    for case in desktop["recall"].as_array().unwrap() {
+        let input = case["input"].as_str().unwrap();
+        let output = relayscrubber::scrub_text(input);
+        assert!(!output.contains(case["secret"].as_str().unwrap()));
+        text.push(serde_json::json!({"input":input,"output":output}));
+    }
+    for case in desktop["whole_body"].as_array().unwrap() {
+        let input = case["input"].as_str().unwrap();
+        let output = relayscrubber::scrub_text(input);
+        assert!(output.starts_with(case["prefix"].as_str().unwrap()));
+        text.push(serde_json::json!({"input":input,"output":output}));
     }
     let bearer: serde_json::Value =
         serde_json::from_str(include_str!("../eval/bearer_cases.json")).unwrap();

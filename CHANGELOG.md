@@ -1,5 +1,107 @@
 # Changelog
 
+## 0.5.0-alpha.11
+
+Security fix: 0.5.0-alpha.10 leaked password disclosures with a descriptor
+between the noun and its cue. `the password for the box is
+Tr0ub4dor-Example-91` and `the pw for the box is ab` came out unchanged,
+while `the password is Tr0ub4dor-Example-91` redacted. All eight password
+nouns now disclose through a same-clause relational descriptor that starts
+with a preposition, optionally after a participle (`for the box`, `on
+db-01.example`, `used by the CI runner`, `assigned to ops`, `belonging to
+root`), before `is`, `was`, `is now`, `set to`, `is set to`, `was set to`, a
+colon or `=`: `the password for the box is [REDACTED]`, `the password for the
+box is '[REDACTED]'`. The descriptor bound is `DESCRIPTOR_TOKENS`, 16 words.
+Within it the descriptor ends at a sentence end, a blank line, code
+operators and words that start a new construction (`but`, `because`, `whose`,
+`will` and the like). Past the bound the search fails closed: brackets,
+quotes and those words no longer end it, so a longer descriptor still
+redacts, and only a sentence end, a blank line or code stops it. Documentary
+values keep the alpha.10 policy with no new allowlist (`the password for the
+box is required` is unchanged, as `the password is required` is), and every
+input outside this class scrubs exactly as in alpha.10.
+
+The same release widens the class to forms the first alpha.11 candidate
+still left unchanged:
+
+- A cue glued into the descriptor: `pw for box=x`, `Password for root:x` and
+  `the password for the box=x` redact the value. A later cue wins (`the
+  password for db:5432 is x` redacts `x` only); URLs, `::`, `==` and the
+  comparison operators are not glued cues.
+- Coordination and parentheticals: `and`, `or`, `&`, `+`, a spaced hyphen,
+  en and em dashes, commas and relative clauses no longer end a descriptor,
+  so `the password for staging and prod is x`, `the password for the box,
+  which is new, is x`, `the password for the box that I set is x` and `the
+  password, for the box, is x` redact the final value only.
+- New cues for all eight nouns, with or without a descriptor: `is still`,
+  `is now set to`, `has been set to`, `has now been set to`, `has still
+  been set to`, `has changed to`, `had changed to`, `was reset to`,
+  `changed to`, plural nouns with `are`, `were` and `have changed to` (`the
+  passwords are x`), and contact clauses (`the password Bob uses is x`, `the
+  password that I use is x`). Punctuation right after a contact clause is
+  read as after a relative clause: `the password Bob uses, which is new, is
+  x`, `the password Bob uses: x` and `the password Bob uses=x` redact the
+  final value only.
+
+`is not`, `isn't`, `will be` and `should be`, documentary values and code
+stay unchanged. Accepted over-redactions: with no later cue the glued value
+or the relative clause's value redacts (`the password for db:5432`, `the
+password with user=admin`, `the password for the box, which is new`), and a
+second clause joined by `and` or a comma is read as the descriptor (`the
+password for the box expired and the user is bob` redacts `bob`). The colon
+over-redactions stay (`Reset the password for your account: click the link`
+redacts `click the link`).
+
+Precision fix: a credential-named member of an inline TypeScript object type
+keeps its type. `context: { poolKey: string; targetSize: number }` came out
+as `context: { poolKey: [REDACTED]; targetSize: number }`, while the same
+member in an `interface` or `type X = {` body was kept. An unquoted `name: {`
+or `name?: {` opener is now source context for a closed type vocabulary
+(primitives, their arrays, `Array`/`ReadonlyArray`/`Promise`/`Set`/`Map`/
+`Record` over them and `|` unions), terminated and inside a closed body.
+Quoted and opaque values, references and context-free forms (`{ poolKey:
+string }`, `poolKey: string`, `pw: string`) still redact.
+
+The same closed member-type check now covers `interface`, `class` and `type
+Name = {` bodies on one line or several, object types returned by a function
+(`): {`) and object types passed as a type argument to `Array`,
+`ReadonlyArray`, `Promise`, `Set`, `Map` or `Record`. Its vocabulary gains
+`unknown` and `readonly` arrays of primitives, so `interface X { privateKey:
+string | null }` and `function f(): { poolKey: readonly string[] }` are
+unchanged. The context decides, not the key name. No PascalCase name,
+literal or initializer is newly kept, and context-free members still redact.
+
+Precision fix: prose with contractions no longer comes back as a single
+`[REDACTED]`. A credential cue followed by a stray quote and contractions
+(`Summary: the deploy worked. I didn't touch the PASSWORD=' line because
+it's generated`) used to exhaust the fixed-point pass budget, and the whole
+input became the marker. A `'` between two Unicode letters or digits is now
+an apostrophe and never pairs as a quote, unless it opens a literal glued to
+a prefix (`f'x'`, `b'abc'`, `-H'Accept: text/plain'`). A quote that directly
+opens a value after `=` or `:` on the same line (`key='value`) no longer
+closes an earlier quote. Such inputs settle in one pass: `Summary: the deploy worked. I didn't touch
+the PASSWORD='[REDACTED]`. If an input still does not settle within the
+budget (now one pass and five re-scans), every byte before the earliest
+unstable span is kept and one marker replaces the rest through the end of
+the input; only if that is not stable either is the whole input the marker.
+A quoted value containing an apostrophe (`password='ab'cd'`) still redacts
+through its last quote. Because a `'` after a letter or digit can be an
+apostrophe, a possessive (`dogs'`) or a quote, an input that has one is also
+scanned under the other readings, and every value any of them finds is
+redacted. A later quoted value (`login --password '...'` after `echo f'x'`,
+`it's` or `the dogs' bowl`) therefore stays redacted. Such an input is also
+run through its own passes under the 0.5.0-alpha.10 reading (every `'` a
+quote), and whatever either result redacts is redacted and re-scanned once
+more, so nothing after such a `'` is shown that 0.5.0-alpha.10 hid. An
+unquoted value that holds an apostrophe still fails closed through the end
+(`token= we'll; x` gives `token= [REDACTED]`), as in 0.5.0-alpha.10.
+
+Session-shaped JSON: an exact `session_id` now keeps `ses_` and `cse_` IDs
+with a body of 1 to 48 ASCII letters and digits, and an exact `project_key`
+keeps a bare `owner/repo` whose owner has no dot and whose segments pass the
+existing repository segment rules. Other values under these keys, every
+other sensitive key and prose under `text` are scrubbed as before.
+
 ## 0.5.0-alpha.10
 
 Redact natural-language password disclosures such as `my password is x`, `the
