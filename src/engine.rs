@@ -1143,6 +1143,39 @@ fn match_arm_body(value: &str) -> bool {
         && code_expression(rhs.trim())
 }
 
+// A context can end before the scanner reaches the body of an assignment.
+// Such a range cannot establish a reference or any other exemption. Use the
+// independent delimiter index to cover the value without swallowing the
+// next field when the quote has a known close.
+fn ambiguous_assignment(view: &View, value: usize, quoted: bool) -> Range<usize> {
+    let content = value + usize::from(quoted);
+    let end = if quoted {
+        view.quote_end(value)
+    } else {
+        view.line_end(value)
+    };
+    // A self-paired quote is not a usable close. If both readings failed,
+    // mask the rest of this line, preserving the next independent line.
+    let end = if end < content {
+        view.line_end(value)
+    } else {
+        end
+    };
+    content..end
+}
+
+fn complete_assignment_body(text: &str, value: usize, end: usize, quoted: bool) -> Option<&str> {
+    let literal = text.get(value..end)?;
+    if !quoted {
+        return Some(literal);
+    }
+    let quote = literal.as_bytes().first().copied()?;
+    if !matches!(quote, b'"' | b'\'' | b'`') {
+        return None;
+    }
+    literal.get(1..)?.strip_suffix(char::from(quote))
+}
+
 fn assignments(
     view: &View,
     inherited: bool,
@@ -1554,7 +1587,12 @@ fn assignments(
             value_end(view, value, context)
         };
         let content = value + usize::from(quoted);
-        let raw = &view.text[content..end];
+        let Some(raw) = view.text.get(content..end) else {
+            let span = ambiguous_assignment(view, value, quoted);
+            i = span.end;
+            spans.push(span);
+            continue;
+        };
         let bullet = !quoted && !flag && has_sep && bullet_assignment(view, start);
         if name == "Key" && bounded_prefix(view, start).contains("--tags ") {
             let tail = &view.text[value..view.line_end(value)];
@@ -1580,11 +1618,18 @@ fn assignments(
             continue;
         }
         let complete_end = candidate_end(view, value);
-        let full = complete_end.map(|end| {
-            let start = value + usize::from(quoted);
-            let end = end - usize::from(quoted);
-            &view.text[start..end]
-        });
+        let full = match complete_end {
+            Some(end) => match complete_assignment_body(&view.text, value, end, quoted) {
+                Some(body) => Some(body),
+                None => {
+                    let span = ambiguous_assignment(view, value, quoted);
+                    i = span.end;
+                    spans.push(span);
+                    continue;
+                }
+            },
+            None => None,
+        };
         // A quoted reference with text glued after its close
         // (`password="$defq""abc"`) is no whole reference: a prose
         // disclosure of the whole value still has the range.
@@ -7141,5 +7186,50 @@ mod prose_scan_tests {
             }
         }
         assert!(cases > 100_000, "{cases}");
+    }
+}
+
+#[cfg(test)]
+mod assignment_bounds_tests {
+    use super::{ambiguous_assignment, complete_assignment_body, View};
+
+    #[test]
+    fn candidate_bounds_only_admit_complete_utf8_bodies() {
+        let text = "前 '色' 後";
+        let value = text.find('\'').unwrap();
+        let close = text.rfind('\'').unwrap();
+        for end in 0..=text.len() + 1 {
+            assert_eq!(
+                complete_assignment_body(text, value, end, true),
+                (end == close + 1).then_some("色")
+            );
+        }
+        assert_eq!(complete_assignment_body("''", 0, 2, true), Some(""));
+        assert_eq!(complete_assignment_body("色", 0, 2, false), None);
+        assert_eq!(complete_assignment_body("色", 0, 3, false), Some("色"));
+    }
+
+    #[test]
+    fn self_paired_quote_fallback_stops_at_the_line_boundary() {
+        let text = "isn't lavender\nnext ordinary line";
+        let view = View::new(text);
+        let value = text.find('\'').unwrap();
+        assert_eq!(view.quote_end(value), value);
+        let mut masked = text.to_owned();
+        masked.replace_range(
+            ambiguous_assignment(&view, value, true),
+            crate::REDACTION_TOKEN,
+        );
+        assert_eq!(masked, "isn'[REDACTED]\nnext ordinary line");
+    }
+
+    #[test]
+    fn fallback_masks_the_indexed_value_and_preserves_adjacent_text() {
+        let text = "前 '色' 後";
+        let view = View::new(text);
+        let span = ambiguous_assignment(&view, text.find('\'').unwrap(), true);
+        let mut masked = text.to_owned();
+        masked.replace_range(span, crate::REDACTION_TOKEN);
+        assert_eq!(masked, "前 '[REDACTED]' 後");
     }
 }
